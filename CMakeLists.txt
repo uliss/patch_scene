@@ -68,7 +68,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         # patch_scene_ru.ts
         undo_commands.h undo_commands.cpp
         device_common.h device_common.cpp
-        macos_deploy.cmake
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET patch_scene APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
