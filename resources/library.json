@@ -961,6 +961,81 @@
                         "name": "DMX in/out"
                     }
                 ]
+            },
+            {
+                "vendor": "",
+                "model": "DiBox",
+                "width": 40,
+                "height": 40,
+                "inputs": [
+                    {
+                        "model": "jack_ts",
+                        "name": "Unbalanced input"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Balanced output"
+                    }
+                ]
+            },
+            {
+                "vendor": "",
+                "model": "Stereo DiBox",
+                "width": 60,
+                "height": 40,
+                "inputs": [
+                    {
+                        "model": "jack_ts",
+                        "name": "Unbalanced input"
+                    },
+                    {
+                        "model": "jack_ts",
+                        "name": "Unbalanced input"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Balanced output"
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Balanced output"
+                    }
+                ]
+            },
+            {
+                "vendor": "Behringer",
+                "model": "Ultra-DI DI20",
+                "width": 60,
+                "height": 40,
+                "inputs": [
+                    {
+                        "model": "jack_trs",
+                        "name": "CH1 IN (BAL/UNBAL)"
+                    },
+                    {
+                        "model": "jack_trs",
+                        "name": "CH2 IN (BAL/UNBAL)"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "CH 1 OUT"
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "CH 2 OUT"
+                    }
+                ]
             }
         ],
         "instruments": [
@@ -969,7 +1044,6 @@
                 "model": "Violin",
                 "width": 100,
                 "height": 20,
-                "category": "orchestra",
                 "image": "violin_1"
             },
             {
@@ -977,7 +1051,6 @@
                 "model": "Viola",
                 "width": 100,
                 "height": 20,
-                "category": "orchestra",
                 "image": "violin_1"
             },
             {
@@ -985,7 +1058,6 @@
                 "model": "Cello",
                 "width": 100,
                 "height": 20,
-                "category": "orchestra",
                 "image": "cello_1"
             }
         ],
