@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="16"
+   height="16"
+   viewBox="0 0 16 16"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+   sodipodi:docname="usb_b_socket.svg"
+   xml:space="preserve"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="16.470214"
+     inkscape:cx="9.6234328"
+     inkscape:cy="10.473452"
+     inkscape:window-width="1536"
+     inkscape:window-height="842"
+     inkscape:window-x="178"
+     inkscape:window-y="71"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg1" /><defs
+     id="defs1" /><g
+     id="g3"
+     transform="matrix(0.14472226,0,0,0.14462077,-2.7818084,-4.1481447)"
+     style="stroke-width:3.45610558;stroke-dasharray:none"><path
+       d="m 30.5,59.5 16,-16 h 56 l 16,16 v 65 h -88 z"
+       id="path2"
+       style="fill:#bfbfbf;stroke:#000000;stroke-width:3.45610558;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-dasharray:none" /><rect
+       width="62"
+       height="35"
+       x="43.515198"
+       y="69.476784"
+       id="rect2"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:3.45610558;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" /><path
+       id="path3"
+       style="fill:#000000;stroke:#000000;stroke-width:3.45610558;stroke-linecap:square;stroke-dasharray:none"
+       d="m 55.5,102.5 h 11 v 6 h -11 z m 27,0 h 11 v 6 h -11 z m 0,-37 h 11 v 6 h -11 z m -27,0 h 11 v 6 h -11 z" /></g></svg>

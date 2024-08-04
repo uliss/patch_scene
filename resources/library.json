@@ -1,0 +1,1248 @@
+{
+    "library": {
+        "devices": [
+            {
+                "vendor": "Focuswrite",
+                "model": "Scarlett 18i20",
+                "width": 280,
+                "height": 40,
+                "category": "audio",
+                "inputs": [
+                    {
+                        "model": "xlr_jack",
+                        "socket": "female",
+                        "name": "1",
+                        "phantom": true
+                    },
+                    {
+                        "model": "xlr_jack",
+                        "socket": "female",
+                        "name": "2",
+                        "phantom": true
+                    },
+                    {
+                        "model": "xlr_jack",
+                        "socket": "female",
+                        "name": "3",
+                        "phantom": true
+                    },
+                    {
+                        "model": "xlr_jack",
+                        "socket": "female",
+                        "name": "4",
+                        "phantom": true
+                    },
+                    {
+                        "model": "xlr_jack",
+                        "socket": "female",
+                        "name": "5",
+                        "phantom": true
+                    },
+                    {
+                        "model": "xlr_jack",
+                        "socket": "female",
+                        "name": "6",
+                        "phantom": true
+                    },
+                    {
+                        "model": "xlr_jack",
+                        "socket": "female",
+                        "name": "7",
+                        "phantom": true
+                    },
+                    {
+                        "model": "xlr_jack",
+                        "socket": "female",
+                        "name": "8",
+                        "phantom": true
+                    },
+                    {
+                        "model": "midi",
+                        "socket": "female",
+                        "name": "MIDI in"
+                    },
+                    {
+                        "model": "usb_b",
+                        "socket": "female"
+                    },
+                    {
+                        "model": "spdif",
+                        "socket": "female",
+                        "name": "SPDIF in"
+                    },
+                    {
+                        "model": "toslink",
+                        "socket": "female",
+                        "name": "Optical 1-16"
+                    },
+                    {
+                        "model": "toslink",
+                        "socket": "female",
+                        "name": "Optical 17-32"
+                    },
+                    {
+                        "model": "power_iec_c_13_14",
+                        "socket": "male",
+                        "name": "Power plug 220V"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "jack_trs",
+                        "socket": "female",
+                        "name": "Line out 1"
+                    },
+                    {
+                        "model": "jack_trs",
+                        "socket": "female",
+                        "name": "Line out 2"
+                    },
+                    {
+                        "model": "jack_trs",
+                        "socket": "female",
+                        "name": "Line out 3"
+                    },
+                    {
+                        "model": "jack_trs",
+                        "socket": "female",
+                        "name": "Line out 4"
+                    },
+                    {
+                        "model": "jack_trs",
+                        "socket": "female",
+                        "name": "Line out 5"
+                    },
+                    {
+                        "model": "jack_trs",
+                        "socket": "female",
+                        "name": "Line out 6"
+                    },
+                    {
+                        "model": "jack_trs",
+                        "socket": "female",
+                        "name": "Line out 7"
+                    },
+                    {
+                        "model": "jack_trs",
+                        "socket": "female",
+                        "name": "Line out 8"
+                    },
+                    {
+                        "model": "jack_trs",
+                        "socket": "female",
+                        "name": "Line out 9"
+                    },
+                    {
+                        "model": "jack_trs",
+                        "socket": "female",
+                        "name": "Line out 10"
+                    },
+                    {
+                        "model": "jack_trs",
+                        "socket": "female",
+                        "name": "Phones 1"
+                    },
+                    {
+                        "model": "jack_trs",
+                        "socket": "female",
+                        "name": "Phones 2"
+                    },
+                    {
+                        "model": "midi",
+                        "socket": "female",
+                        "name": "MIDI out"
+                    },
+                    {
+                        "model": "spdif",
+                        "socket": "female",
+                        "name": "SPDIF out"
+                    },
+                    {
+                        "model": "toslink",
+                        "socket": "female",
+                        "name": "Optical 1-16"
+                    },
+                    {
+                        "model": "toslink",
+                        "socket": "female",
+                        "name": "Optical 17-32"
+                    },
+                    {
+                        "model": "bnc",
+                        "socket": "female",
+                        "name": "World clock"
+                    }
+                ]
+            },
+            {
+                "vendor": "Yamaha",
+                "model": "MG10XU",
+                "title": "Yamaha Mixing console MG10XU",
+                "width": 260,
+                "height": 40,
+                "image": "mixer_2",
+                "category": "audio",
+                "inputs": [
+                    {
+                        "model": "xlr",
+                        "socket": "female",
+                        "name": "Mic/Line 1",
+                        "phantom": true
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "female",
+                        "name": "Mic/Line 2",
+                        "phantom": true
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "female",
+                        "name": "Mic/Line 3",
+                        "phantom": true
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "female",
+                        "name": "Mic/Line 4",
+                        "phantom": true
+                    },
+                    {
+                        "model": "jack_ts",
+                        "socket": "female",
+                        "name": "Line 5",
+                        "level": "-10dBu"
+                    },
+                    {
+                        "model": "jack_ts",
+                        "socket": "female",
+                        "name": "Line 6",
+                        "level": "-10dBu"
+                    },
+                    {
+                        "model": "rca",
+                        "socket": "female",
+                        "name": "Line 5",
+                        "color": "#FF0000"
+                    },
+                    {
+                        "model": "rca",
+                        "socket": "female",
+                        "color": "#0000FF",
+                        "name": "Line 6"
+                    },
+                    {
+                        "model": "jack_ts",
+                        "socket": "female",
+                        "name": "Line 7",
+                        "level": "-10dBu"
+                    },
+                    {
+                        "model": "jack_ts",
+                        "socket": "female",
+                        "name": "Line 8",
+                        "level": "-10dBu"
+                    },
+                    {
+                        "model": "rca",
+                        "socket": "female",
+                        "name": "Line 7"
+                    },
+                    {
+                        "model": "rca",
+                        "socket": "female",
+                        "name": "Line 8"
+                    },
+                    {
+                        "model": "jack_ts",
+                        "socket": "female",
+                        "name": "Line 9",
+                        "level": "-10dBu"
+                    },
+                    {
+                        "model": "jack_ts",
+                        "socket": "female",
+                        "name": "Line 10",
+                        "level": "-10dBu"
+                    },
+                    {
+                        "model": "jack_ts",
+                        "socket": "female",
+                        "name": "Foot Switch FX"
+                    },
+                    {
+                        "model": "usb_b",
+                        "socket": "female",
+                        "name": "USB in 24-bit/192kHz"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "jack_ts",
+                        "socket": "female",
+                        "name": "Monitor out L",
+                        "level": "+4dBu"
+                    },
+                    {
+                        "model": "jack_ts",
+                        "socket": "female",
+                        "name": "Monitor out R",
+                        "level": "+4dBu"
+                    },
+                    {
+                        "model": "jack_trs",
+                        "socket": "female",
+                        "name": "Fx send",
+                        "level": "+4dBu"
+                    },
+                    {
+                        "model": "jack_ts",
+                        "socket": "female",
+                        "name": "Stereo out L",
+                        "level": "+4dBu"
+                    },
+                    {
+                        "model": "jack_ts",
+                        "socket": "female",
+                        "name": "Stereo out R",
+                        "level": "+4dBu"
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Stereo out L",
+                        "level": "+4dBu"
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Stereo out R",
+                        "level": "+4dBu"
+                    },
+                    {
+                        "model": "jack_trs",
+                        "socket": "female",
+                        "name": "Phones"
+                    }
+                ]
+            },
+            {
+                "vendor": "Raspberry Pi Foundation",
+                "model": "Raspberry Pi 3",
+                "title": "Raspberry Pi 3",
+                "image": "raspberry_pi_bw",
+                "width": 120,
+                "height": 40,
+                "category": "computer",
+                "inputs": [
+                    {
+                        "model": "usb_a",
+                        "socket": "female",
+                        "name": "USB 1"
+                    },
+                    {
+                        "model": "usb_a",
+                        "socket": "female",
+                        "name": "USB 2"
+                    },
+                    {
+                        "model": "usb3_a",
+                        "socket": "female",
+                        "name": "USB 3"
+                    },
+                    {
+                        "model": "usb3_a",
+                        "socket": "female",
+                        "name": "USB 4"
+                    },
+                    {
+                        "model": "ethernet",
+                        "socket": "female",
+                        "name": "Ethernet"
+                    },
+                    {
+                        "model": "usb_type_c",
+                        "socket": "female",
+                        "name": "Power"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "hdmi_micro",
+                        "socket": "female",
+                        "name": "HDMI 1"
+                    },
+                    {
+                        "model": "hdmi_micro",
+                        "socket": "female",
+                        "name": "HDMI 2"
+                    },
+                    {
+                        "model": "jack_mini_trs",
+                        "socket": "female",
+                        "name": "Audio out"
+                    }
+                ]
+            },
+            {
+                "vendor": "Raspberry Pi Foundation",
+                "model": "Raspberry Pi 4",
+                "title": "Raspberry Pi 4",
+                "image": "raspberry_pi_color",
+                "width": 120,
+                "height": 40,
+                "category": "computer",
+                "inputs": [
+                    {
+                        "model": "usb_a",
+                        "socket": "female",
+                        "name": "USB 1"
+                    },
+                    {
+                        "model": "usb_a",
+                        "socket": "female",
+                        "name": "USB 2"
+                    },
+                    {
+                        "model": "usb3_a",
+                        "socket": "female",
+                        "name": "USB 3"
+                    },
+                    {
+                        "model": "usb3_a",
+                        "socket": "female",
+                        "name": "USB 4"
+                    },
+                    {
+                        "model": "ethernet",
+                        "socket": "female",
+                        "name": "Ethernet"
+                    },
+                    {
+                        "model": "usb_type_c",
+                        "socket": "female",
+                        "name": "Power"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "hdmi_micro",
+                        "socket": "female",
+                        "name": "HDMI 1"
+                    },
+                    {
+                        "model": "hdmi_micro",
+                        "socket": "female",
+                        "name": "HDMI 2"
+                    }
+                ]
+            },
+            {
+                "vendor": "Apple",
+                "model": "",
+                "title": "Macbook Air M1",
+                "width": 110,
+                "height": 30,
+                "category": "computer",
+                "image": "laptop_1",
+                "inputs": [
+                    {
+                        "model": "usb_type_c",
+                        "socket": "female",
+                        "name": "USB/Thunderbolt 1"
+                    },
+                    {
+                        "model": "usb_type_c",
+                        "socket": "female",
+                        "name": "USB/Thunderbolt 2"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "jack_mini_trs",
+                        "socket": "female",
+                        "name": "Audio out"
+                    }
+                ]
+            },
+            {
+                "vendor": "Novation",
+                "model": "LaunchPad mini",
+                "title": "LaunchPad mini",
+                "width": 100,
+                "height": 20,
+                "category": "midi",
+                "image": "novation_launchpad_mini",
+                "inputs": [
+                    {
+                        "model": "usb_type_c"
+                    }
+                ]
+            },
+            {
+                "vendor": "Midas",
+                "model": "Air MR18",
+                "width": 320,
+                "height": 45,
+                "category": "audio",
+                "inputs": [
+                    {
+                        "model": "xlr_jack",
+                        "socket": "female",
+                        "name": "1",
+                        "phantom": true
+                    },
+                    {
+                        "model": "xlr_jack",
+                        "socket": "female",
+                        "name": "2",
+                        "phantom": true
+                    },
+                    {
+                        "model": "xlr_jack",
+                        "socket": "female",
+                        "name": "3",
+                        "phantom": true
+                    },
+                    {
+                        "model": "xlr_jack",
+                        "socket": "female",
+                        "name": "4",
+                        "phantom": true
+                    },
+                    {
+                        "model": "xlr_jack",
+                        "socket": "female",
+                        "name": "5",
+                        "phantom": true
+                    },
+                    {
+                        "model": "xlr_jack",
+                        "socket": "female",
+                        "name": "6",
+                        "phantom": true
+                    },
+                    {
+                        "model": "xlr_jack",
+                        "socket": "female",
+                        "name": "7",
+                        "phantom": true
+                    },
+                    {
+                        "model": "xlr_jack",
+                        "socket": "female",
+                        "name": "8",
+                        "phantom": true
+                    },
+                    {
+                        "model": "xlr_jack",
+                        "socket": "female",
+                        "name": "9",
+                        "phantom": true
+                    },
+                    {
+                        "model": "xlr_jack",
+                        "socket": "female",
+                        "name": "10",
+                        "phantom": true
+                    },
+                    {
+                        "model": "xlr_jack",
+                        "socket": "female",
+                        "name": "11",
+                        "phantom": true
+                    },
+                    {
+                        "model": "xlr_jack",
+                        "socket": "female",
+                        "name": "12",
+                        "phantom": true
+                    },
+                    {
+                        "model": "xlr_jack",
+                        "socket": "female",
+                        "name": "13",
+                        "phantom": true
+                    },
+                    {
+                        "model": "xlr_jack",
+                        "socket": "female",
+                        "name": "14",
+                        "phantom": true
+                    },
+                    {
+                        "model": "xlr_jack",
+                        "socket": "female",
+                        "name": "15",
+                        "phantom": true
+                    },
+                    {
+                        "model": "xlr_jack",
+                        "socket": "female",
+                        "name": "16",
+                        "phantom": true
+                    },
+                    {
+                        "model": "ethernet",
+                        "socket": "female",
+                        "name": "Remote control"
+                    },
+                    {
+                        "model": "usb_b",
+                        "socket": "female"
+                    },
+                    {
+                        "model": "power_iec_c_13_14",
+                        "socket": "male",
+                        "name": "Power plug 220V"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Main L"
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Main R"
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Aux 1"
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Aux 2"
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Aux 3"
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Aux 4"
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Aux 5"
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Aux 6"
+                    },
+                    {
+                        "model": "ethernet",
+                        "socket": "female",
+                        "name": "Ultranet out"
+                    },
+                    {
+                        "model": "jack_trs",
+                        "socket": "female",
+                        "name": "Phones"
+                    }
+                ]
+            },
+            {
+                "vendor": "Korg",
+                "model": "Nanokontrol 2",
+                "width": 100,
+                "height": 20,
+                "category": "midi",
+                "image": "midi_controller_mixer_1",
+                "inputs": [
+                    {
+                        "model": "usb_mini_b"
+                    }
+                ]
+            },
+            {
+                "vendor": "Casio",
+                "model": "Privia PX-160",
+                "width": 100,
+                "height": 40,
+                "category": "midi",
+                "image": "piano_keyboard_1",
+                "inputs": [
+                    {
+                        "model": "usb_b"
+                    },
+                    {
+                        "model": "jack_ts",
+                        "name": "Sustain pedal"
+                    },
+                    {
+                        "model": "unknown",
+                        "name": "Power +12V"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "jack_mini_trs",
+                        "socket": "female",
+                        "name": "Phones 1"
+                    },
+                    {
+                        "model": "jack_mini_trs",
+                        "socket": "female",
+                        "name": "Phones 2"
+                    },
+                    {
+                        "model": "jack_ts",
+                        "socket": "female",
+                        "name": "Line out L"
+                    },
+                    {
+                        "model": "jack_ts",
+                        "socket": "female",
+                        "name": "Line out R"
+                    }
+                ]
+            },
+            {
+                "vendor": "Akai",
+                "model": "4000-DS",
+                "width": 100,
+                "height": 40,
+                "category": "audio",
+                "image": "magnetophone_1",
+                "outputs": [
+                    {
+                        "model": "din_5",
+                        "socket": "female",
+                        "name": "Phones 1"
+                    }
+                ]
+            },
+            {
+                "vendor": "Arduino",
+                "model": "Uno",
+                "width": 100,
+                "height": 20,
+                "category": "computer",
+                "image": "arduino_uno",
+                "inputs": [
+                    {
+                        "model": "usb_b"
+                    },
+                    {
+                        "model": "power_5_2mm",
+                        "name": "DC: +13V"
+                    }
+                ]
+            },
+            {
+                "vendor": "",
+                "model": "Power extender 220V (5-socket)",
+                "width": 100,
+                "height": 20,
+                "category": "misc",
+                "outputs": [
+                    {
+                        "model": "power_schuko",
+                        "name": "220V"
+                    },
+                    {
+                        "model": "power_schuko",
+                        "name": "220V"
+                    },
+                    {
+                        "model": "power_schuko",
+                        "name": "220V"
+                    },
+                    {
+                        "model": "power_schuko",
+                        "name": "220V"
+                    },
+                    {
+                        "model": "power_schuko",
+                        "name": "220V"
+                    }
+                ]
+            },
+            {
+                "vendor": "",
+                "model": "Power extender 220V (3-socket)",
+                "width": 70,
+                "height": 20,
+                "category": "misc",
+                "outputs": [
+                    {
+                        "model": "power_schuko",
+                        "name": "220V"
+                    },
+                    {
+                        "model": "power_schuko",
+                        "name": "220V"
+                    },
+                    {
+                        "model": "power_schuko",
+                        "name": "220V"
+                    }
+                ]
+            },
+            {
+                "vendor": "",
+                "model": "Floor speaker R",
+                "width": 120,
+                "height": 20,
+                "category": "audio",
+                "image": "speaker_floor_1",
+                "inputs": [
+                    {
+                        "model": "xlr"
+                    }
+                ]
+            },
+            {
+                "vendor": "",
+                "model": "Floor speaker L",
+                "width": 120,
+                "height": 20,
+                "category": "audio",
+                "image": "speaker_floor_2",
+                "inputs": [
+                    {
+                        "model": "xlr"
+                    }
+                ]
+            },
+            {
+                "vendor": "UGreen",
+                "model": "USB-C Adapter",
+                "width": 120,
+                "height": 40,
+                "category": "computer",
+                "inputs": [
+                    {
+                        "model": "usb_type_c"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "ethernet",
+                        "name": "1000Mbit Ethernet"
+                    },
+                    {
+                        "model": "vga"
+                    },
+                    {
+                        "model": "hdmi",
+                        "name": "Video output"
+                    },
+                    {
+                        "model": "usb3_a",
+                        "name": "USB 1"
+                    },
+                    {
+                        "model": "usb3_a",
+                        "name": "USB 2"
+                    },
+                    {
+                        "model": "usb3_a",
+                        "name": "USB 3"
+                    },
+                    {
+                        "model": "jack_mini_trs",
+                        "name": "Audio output"
+                    }
+                ]
+            },
+            {
+                "vendor": "Korg",
+                "model": "Volca Bass",
+                "width": 80,
+                "height": 40,
+                "category": "computer",
+                "image": "synth_2",
+                "inputs": [
+                    {
+                        "model": "midi",
+                        "name": "MIDI in"
+                    },
+                    {
+                        "model": "jack_mini_trs",
+                        "name": "MIDI sync in"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "jack_mini_trs",
+                        "name": "MIDI sync out"
+                    },
+                    {
+                        "model": "jack_mini_trs",
+                        "name": "Phones out"
+                    }
+                ]
+            },
+            {
+                "vendor": "Korg",
+                "model": "Volca Keys",
+                "width": 80,
+                "height": 40,
+                "image": "synth_2",
+                "category": "computer",
+                "inputs": [
+                    {
+                        "model": "midi",
+                        "name": "MIDI in"
+                    },
+                    {
+                        "model": "jack_mini_trs",
+                        "name": "MIDI sync in"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "jack_mini_trs",
+                        "name": "MIDI sync out"
+                    },
+                    {
+                        "model": "jack_mini_trs",
+                        "name": "Phones out"
+                    }
+                ]
+            },
+            {
+                "vendor": "Korg",
+                "model": "Volca FM",
+                "width": 80,
+                "height": 40,
+                "image": "synth_2",
+                "category": "computer",
+                "inputs": [
+                    {
+                        "model": "midi",
+                        "name": "MIDI in"
+                    },
+                    {
+                        "model": "jack_mini_trs",
+                        "name": "MIDI sync in"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "jack_mini_trs",
+                        "name": "MIDI sync out"
+                    },
+                    {
+                        "model": "jack_mini_trs",
+                        "name": "Phones out"
+                    }
+                ]
+            },
+            {
+                "vendor": "Pnkight",
+                "model": "Artnet DMX CR011R",
+                "width": 80,
+                "height": 40,
+                "category": "light",
+                "inputs": [
+                    {
+                        "model": "usb_type_c",
+                        "name": "Power 5V"
+                    },
+                    {
+                        "model": "ethernet",
+                        "name": "Artnet in/out"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "xlr",
+                        "name": "DMX in/out"
+                    }
+                ]
+            }
+        ],
+        "instruments": [
+            {
+                "vendor": "",
+                "model": "Violin",
+                "width": 100,
+                "height": 20,
+                "category": "orchestra",
+                "image": "violin_1"
+            },
+            {
+                "vendor": "",
+                "model": "Viola",
+                "width": 100,
+                "height": 20,
+                "category": "orchestra",
+                "image": "violin_1"
+            },
+            {
+                "vendor": "",
+                "model": "Cello",
+                "width": 100,
+                "height": 20,
+                "category": "orchestra",
+                "image": "cello_1"
+            }
+        ],
+        "sends": [
+            {
+                "title": "Send stereo",
+                "width": 60,
+                "height": 20,
+                "inputs": [
+                    {
+                        "model": "xlr",
+                        "name": "Send #1"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "Send #2"
+                    }
+                ]
+            },
+            {
+                "title": "Send 4-ch",
+                "width": 100,
+                "height": 20,
+                "inputs": [
+                    {
+                        "model": "xlr",
+                        "name": "Send #1"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "Send #2"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "Send #3"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "Send #4"
+                    }
+                ]
+            },
+            {
+                "title": "Send 8-ch",
+                "width": 140,
+                "height": 20,
+                "inputs": [
+                    {
+                        "model": "xlr",
+                        "name": "Send #1"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "Send #2"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "Send #3"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "Send #4"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "Send #5"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "Send #6"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "Send #7"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "Send #8"
+                    }
+                ]
+            },
+            {
+                "title": "Send 16-ch",
+                "width": 280,
+                "height": 20,
+                "inputs": [
+                    {
+                        "model": "xlr",
+                        "name": "Send #1"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "Send #2"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "Send #3"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "Send #4"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "Send #5"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "Send #6"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "Send #7"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "Send #8"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "Send #9"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "Send #10"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "Send #11"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "Send #12"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "Send #13"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "Send #14"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "Send #15"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "Send #16"
+                    }
+                ]
+            }
+        ],
+        "returns": [
+            {
+                "title": "Return mono",
+                "width": 60,
+                "height": 20,
+                "outputs": [
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Return #1"
+                    }
+                ]
+            },
+            {
+                "title": "Return stereo",
+                "width": 60,
+                "height": 20,
+                "outputs": [
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Return #1"
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Return #2"
+                    }
+                ]
+            },
+            {
+                "title": "Return 4-ch",
+                "width": 100,
+                "height": 20,
+                "outputs": [
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Return #1"
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Return #2"
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Return #3"
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Return #4"
+                    }
+                ]
+            },
+            {
+                "title": "Return 8-ch",
+                "width": 140,
+                "height": 20,
+                "outputs": [
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Return #1"
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Return #2"
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Return #3"
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Return #4"
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Return #5"
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Return #6"
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Return #7"
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "Return #8"
+                    }
+                ]
+            }
+        ]
+    }
+}

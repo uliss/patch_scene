@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   id="svg10008"
+   sodipodi:docname="power_iec_c_13_14_socket_male.svg"
+   viewBox="0 0 16 16"
+   version="1.1"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+   width="16"
+   height="16"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="base"
+     bordercolor="#666666"
+     inkscape:pageshadow="2"
+     inkscape:window-y="25"
+     pagecolor="#ffffff"
+     inkscape:window-height="779"
+     inkscape:window-maximized="0"
+     inkscape:zoom="15.393966"
+     inkscape:window-x="0"
+     showgrid="false"
+     borderopacity="1.0"
+     inkscape:current-layer="layer1"
+     inkscape:cx="-1.1692893"
+     inkscape:cy="10.523604"
+     inkscape:window-width="1680"
+     inkscape:pageopacity="0.0"
+     inkscape:document-units="px"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1" />
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     transform="translate(-315.29,-526.3)">
+    <rect
+       id="rect6079"
+       style="fill:#bfbfbf;fill-opacity:1;stroke:none;stroke-width:0.205633;stroke-linecap:round;stroke-linejoin:round"
+       transform="rotate(90)"
+       height="16"
+       width="16"
+       y="-331.29001"
+       x="526.29999" />
+    <g
+       id="g6068"
+       transform="matrix(-1.059456,0,0,-1.059456,660.03743,1122.7142)">
+      <g
+         id="path5861-2-4"
+         inkscape:transform-center-x="-7.1833908"
+         inkscape:transform-center-y="0.79815454"
+         style="fill:#404040;stroke:#060606;stroke-opacity:1;stroke-width:0.47194032;stroke-dasharray:none;stroke-linejoin:round">
+        <path
+           style="color:#000000;fill:#404040;stroke-linecap:round;stroke-linejoin:round;stroke:#060606;stroke-opacity:1;stroke-width:0.47194032;stroke-dasharray:none"
+           d="m 311.94992,553.59667 1.40043,-2.42562 z m 1.44207,-2.35739 h 8.8858 v 3.931 h -8.8858 z m 10.32879,2.35739 h -2.80086 l 1.40043,-2.42562 z m -11.69878,0.0926 h 11.629 v 5.8605 h -11.629 z"
+           id="path2" />
+        <path
+           style="color:#000000;fill:#404040;stroke-linecap:round;stroke-linejoin:round;stroke:#060606;stroke-opacity:1;stroke-width:0.47194032;stroke-dasharray:none"
+           d="m 322.32031,550.99609 -8.9707,0.002 c -0.0618,1.2e-4 -0.11891,0.0328 -0.15039,0.0859 -0.53148,0.99082 -1.35159,2.60547 -1.35159,2.60547 v 5.85938 c -3.3e-4,0.0965 0.0774,0.17503 0.17382,0.17578 h 11.62891 c 0.0972,3.3e-4 0.21991,-0.0786 0.21958,-0.17578 l 0.003,-6.03906 -1.40039,-2.42579 c -0.0313,-0.0545 -0.0895,-0.0881 -0.15235,-0.0879 z"
+           id="path3"
+           sodipodi:nodetypes="cccccccccccc" />
+      </g>
+      <g
+         id="g5982"
+         transform="translate(0.091229,0.17103)"
+         style="display:inline;fill:#ffffff"
+         inkscape:label="pins">
+        <path
+           id="rect5949"
+           style="fill:#ffffff"
+           d="m 317.22,552.06 h 1.0489 v 3.0558 H 317.22 Z" />
+        <path
+           id="rect5949-3"
+           style="fill:#ffffff"
+           d="m 320.60001,555.32001 h 1.0489 v 3.0558 h -1.0489 z" />
+        <path
+           id="rect5949-6"
+           style="fill:#ffffff"
+           d="m 313.85001,555.32001 h 1.0489 v 3.0558 h -1.0489 z" />
+      </g>
+    </g>
+  </g>
+  <metadata
+     id="metadata1">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:date>2010-04-02T03:05:11</dc:date>
+        <dc:description />
+        <dc:source>https://openclipart.org/detail/35773/apc-netbotz-201-by-ninjix</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Ninjix</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>APC</rdf:li>
+            <rdf:li>environmental</rdf:li>
+            <rdf:li>monitoring</rdf:li>
+            <rdf:li>netbotz</rdf:li>
+            <rdf:li>rack</rdf:li>
+            <rdf:li>sensor</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>

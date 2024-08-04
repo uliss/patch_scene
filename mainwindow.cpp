@@ -1,0 +1,602 @@
+/*****************************************************************************
+ * Copyright 2024 Serge Poltavski. All rights reserved.
+ *
+ * This file may be distributed under the terms of GNU Public License version
+ * 3 (GPL v3) as defined by the Free Software Foundation (FSF). A copy of the
+ * license should have been included with this file, or the project in which
+ * this file belongs to. You may also find the details of GPL v3 at:
+ * http://www.gnu.org/licenses/gpl-3.0.txt
+ *
+ * If you have any questions regarding the use of this file, feel free to
+ * contact the author of this file, or the owner of the project in which
+ * this file belongs to.
+ *****************************************************************************/
+#include "mainwindow.h"
+#include "about_window.h"
+#include "device_library.h"
+#include "preferences_dialog.h"
+#include "ui_mainwindow.h"
+
+#include <QCloseEvent>
+#include <QComboBox>
+#include <QFileDialog>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QMessageBox>
+#include <QMimeData>
+#include <QSettings>
+#include <QStandardItemModel>
+#include <QStandardPaths>
+#include <QStatusBar>
+
+constexpr const char* SETTINGS_ORG = "space.ceam";
+constexpr const char* SETTINGS_APP = "PatchScene";
+
+constexpr const char* SKEY_MAINWINDOW = "mainwindow";
+constexpr const char* SKEY_GEOMETRY = "geometry";
+constexpr const char* SKEY_SAVESTATE = "savestate";
+constexpr const char* SKEY_MAXIMIZED = "maximized";
+constexpr const char* SKEY_POS = "pos";
+constexpr const char* SKEY_SIZE = "size";
+
+class DeviceItemModel : public QStandardItemModel {
+public:
+    DeviceItemModel(QObject* parent = nullptr)
+        : QStandardItemModel(parent)
+    {
+    }
+
+    QMimeData* mimeData(const QModelIndexList& indexes) const override
+    {
+        QMimeData* data = new QMimeData();
+
+        for (auto& idx : indexes) {
+            if (idx.column() == 0)
+                data->setText(idx.data(Qt::UserRole + 1).toString());
+        }
+
+        return data;
+    }
+};
+
+MainWindow::MainWindow(QWidget* parent)
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    setStatusBar(new QStatusBar);
+    // createToolbarScaleView();
+
+#ifdef Q_OS_DARWIN
+    // mac_app_hide_ = new QAction(tr("Hide"), this);
+    // mac_app_show_ = new QAction(tr("Show"), this);
+#endif
+
+    setupDockTitle(ui->libraryDock);
+    setupDockTitle(ui->tableDock);
+
+    device_model_ = new QStandardItemModel(0, 1, this);
+    device_model_->setHorizontalHeaderLabels({ tr("Name"), tr("Vendor"), tr("Model") });
+    setupEquipmentTableView(ui->deviceList, device_model_);
+    ui->deviceList->resizeColumnsToContents();
+
+    conn_model_ = new QStandardItemModel(0, 6, this);
+    conn_model_->setHorizontalHeaderLabels({ tr("Source"), tr("Model"), tr("Plug"), tr("Destination"), tr("Model"), tr("Plug") });
+    setupEquipmentTableView(ui->connectionList, conn_model_);
+    ui->connectionList->resizeColumnsToContents();
+
+    send_model_ = new QStandardItemModel(0, 2, this);
+    send_model_->setHorizontalHeaderLabels({ tr("Send"), tr("Input"), tr("Device"), tr("Output") });
+    setupEquipmentTableView(ui->inputList, send_model_);
+    ui->inputList->resizeColumnsToContents();
+
+    return_model_ = new QStandardItemModel(0, 2, this);
+    return_model_->setHorizontalHeaderLabels({ tr("Return"), tr("Output"), tr("Device"), tr("Input") });
+    setupEquipmentTableView(ui->outputList, return_model_);
+    ui->outputList->resizeColumnsToContents();
+
+    setupExpandButton(ui->deviceListBtn, ui->deviceList, ui->deviceListLine);
+    setupExpandButton(ui->connectionListBtn, ui->connectionList, ui->connectionListLine);
+    setupExpandButton(ui->inputListBtn, ui->inputList, ui->inputListLine);
+    setupExpandButton(ui->outputListBtn, ui->outputList, ui->inputListLine);
+
+    diagram = new Diagram();
+    ui->gridLayout->addWidget(diagram, 1, 1);
+    connect(diagram, SIGNAL(sceneChanged()), this, SLOT(onSceneChange()));
+    connect(diagram, SIGNAL(deviceAdded(SharedDeviceData)), this, SLOT(onDeviceAdd(SharedDeviceData)));
+    connect(diagram, SIGNAL(deviceRemoved(SharedDeviceData)), this, SLOT(onDeviceRemove(SharedDeviceData)));
+    connect(diagram, SIGNAL(deviceUpdated(SharedDeviceData)), this, SLOT(onDeviceUpdate(SharedDeviceData)));
+    connect(diagram, SIGNAL(connectionAdded(ConnectionData)), this, SLOT(onConnectionAdd(ConnectionData)));
+    connect(diagram, SIGNAL(connectionRemoved(ConnectionData)), this, SLOT(onConnectionRemove(ConnectionData)));
+
+    connect(diagram, &Diagram::canRedoChanged, this, [this](bool value) { ui->actionRedo->setEnabled(value); });
+    connect(diagram, &Diagram::canUndoChanged, this, [this](bool value) { ui->actionUndo->setEnabled(value); });
+
+    connect(ui->actionAboutApp, SIGNAL(triggered(bool)), this, SLOT(showAbout()));
+    connect(ui->actionCopy, SIGNAL(triggered()), diagram, SLOT(copySelected()));
+    connect(ui->actionCut, SIGNAL(triggered()), diagram, SLOT(cutSelected()));
+    connect(ui->actionPaste, SIGNAL(triggered()), diagram, SLOT(paste()));
+    connect(ui->actionDuplicate, SIGNAL(triggered()), this, SLOT(duplicateSelection()));
+    connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(openDocument()));
+    connect(ui->actionPreferences, SIGNAL(triggered(bool)), this, SLOT(showPreferences()));
+    connect(ui->actionPrint, SIGNAL(triggered()), this, SLOT(printScheme()));
+    connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
+    connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(saveDocument()));
+    connect(ui->actionSelect_All, SIGNAL(triggered()), this, SLOT(selectAll()));
+
+    // zoom
+    connect(ui->actionZoomIn, SIGNAL(triggered()), diagram, SLOT(zoomIn()));
+    connect(ui->actionZoomNormal, SIGNAL(triggered()), diagram, SLOT(zoomNormal()));
+    connect(ui->actionZoomOut, SIGNAL(triggered()), diagram, SLOT(zoomOut()));
+    connect(diagram, &Diagram::zoomChanged, this, [this](qreal z) {
+        statusBar()->showMessage(tr("Zoom %1%").arg(qRound(z * 100)), 1000);
+    });
+
+    connect(ui->librarySearch, &QLineEdit::textChanged, this, [this](const QString& txt) {
+        library_proxy_->setFilterRegularExpression(txt);
+
+        if (!txt.isEmpty())
+            ui->libraryTree->expandAll();
+    });
+
+    connect(ui->actionRedo, SIGNAL(triggered()), diagram, SLOT(redo()));
+    connect(ui->actionUndo, SIGNAL(triggered()), diagram, SLOT(undo()));
+
+    ui->librarySearch->setStatusTip(tr("search in library"));
+    ui->librarySearch->setClearButtonEnabled(true);
+    ui->librarySearch->addAction(QIcon(":/ceam/cables/resources/search_02.svg"), QLineEdit::LeadingPosition);
+    ui->librarySearch->setStyleSheet("QLineEdit {border-width: 1px;}");
+
+#ifndef Q_OS_DARWIN
+    ui->actionZoomIn->setIconVisibleInMenu(true);
+    ui->actionZoomOut->setIconVisibleInMenu(true);
+#else
+    setUnifiedTitleAndToolBarOnMac(true);
+
+    {
+        auto font = ui->librarySearch->font();
+        font.setPointSize(font.pointSize() - 2);
+        ui->librarySearch->setFont(font);
+        ui->librarySearch->setMaximumHeight(16);
+    }
+#endif
+
+    resizePanels();
+
+    updateTitle();
+
+    loadLibraryDevices();
+
+    readPositionSettings();
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::updateTitle()
+{
+    if (project_name_.isEmpty()) {
+        setWindowTitle(tr("New Project - PatchScene"));
+        setWindowModified(true);
+    } else {
+        setWindowTitle(tr("%1 - PatchScene").arg(project_name_));
+    }
+}
+
+void MainWindow::showAbout()
+{
+    auto about = new AboutWindow(this);
+    about->show();
+}
+
+void MainWindow::showPreferences()
+{
+    auto prefs = new PreferencesDialog(this);
+    prefs->show();
+}
+
+void MainWindow::closeEvent(QCloseEvent* event)
+{
+    if (isWindowModified()) {
+        // auto x = new MacWarningDialog(tr("Warning"),
+        //     tr("Document is not saved!\n"
+        //        "Do you wan't to save it before closing?"), this);
+        // x->execNativeDialogLater();
+
+        auto btn = QMessageBox::question(this,
+            tr("Warning"),
+            tr("Document is not saved!\n"
+               "Do you wan't to save it before closing?"),
+            QMessageBox::StandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel));
+
+        switch (btn) {
+        case QMessageBox::Yes:
+            if (!saveDocument())
+                return event->ignore();
+
+            break;
+        case QMessageBox::No:
+            break;
+        default:
+            event->ignore();
+            return;
+        }
+        event->ignore();
+    }
+
+    writePositionSettings();
+
+    QMainWindow::closeEvent(event);
+}
+
+void MainWindow::onDeviceAdd(SharedDeviceData data)
+{
+    if (data->category != ItemCategory::Device)
+        return;
+
+    auto item = new QStandardItem(data->name);
+    item->setData(data->id);
+    item->setToolTip(QString("#%1").arg(data->id));
+    item->setEditable(false);
+    device_model_->appendRow(item);
+    ui->deviceList->resizeColumnToContents(0);
+}
+
+void MainWindow::onDeviceRemove(SharedDeviceData data)
+{
+    if (data->category != ItemCategory::Device)
+        return;
+
+    for (int i = 0; i < device_model_->rowCount(); i++) {
+        auto item = device_model_->item(i, 0);
+        if (item && item->data() == data->id) {
+            device_model_->removeRow(i);
+            break;
+        }
+    }
+}
+
+void MainWindow::onDeviceUpdate(SharedDeviceData data)
+{
+    for (int i = 0; i < device_model_->rowCount(); i++) {
+        auto item = device_model_->item(i, 0);
+        if (item && item->data() == data->id) {
+            if (data->category != ItemCategory::Device) {
+                device_model_->removeRow(i);
+            } else {
+                item->setText(data->name);
+            }
+            return;
+        }
+    }
+
+    // not found in model
+    if (data->category == ItemCategory::Device)
+        onDeviceAdd(data);
+}
+
+void MainWindow::onConnectionAdd(ConnectionData data)
+{
+    auto conn2str = [](ConnectorType t) {
+        switch (t) {
+        case ConnectorType::Socket_Male:
+            return tr("female");
+        case ConnectorType::Socket_Female:
+            return tr("male");
+        default:
+            return QString {};
+        }
+    };
+
+    XletData src, dest;
+    Device *src_dev = nullptr, *dest_dev = nullptr;
+    if (diagram->findConnectionXletData(data, src, dest, &src_dev, &dest_dev)) {
+        auto src_name = new QStandardItem(src_dev->deviceData()->name);
+        src_name->setData(QVariant::fromValue(data));
+        auto src_model = new QStandardItem(src.modelString());
+        auto src_plug = new QStandardItem(conn2str(src.type));
+        auto dest_name = new QStandardItem(dest_dev->deviceData()->name);
+        auto dest_model = new QStandardItem(dest.modelString());
+        auto dest_plug = new QStandardItem(conn2str(dest.type));
+
+        conn_model_->appendRow({ src_name, src_model, src_plug, dest_name, dest_model, dest_plug });
+        ui->connectionList->resizeColumnsToContents();
+
+        if (dest_dev->deviceData()->category == ItemCategory::Send) {
+            auto src_idx = new QStandardItem(QString("%1").arg((int)data.out + 1));
+            auto dest_idx = new QStandardItem(QString("%1").arg((int)data.in + 1));
+            send_model_->appendRow({ dest_name->clone(), dest_idx, src_name->clone(), src_idx });
+            ui->inputList->resizeColumnsToContents();
+        }
+
+        if (src_dev->deviceData()->category == ItemCategory::Return) {
+            auto src_idx = new QStandardItem(QString("%1").arg((int)data.out + 1));
+            auto dest_idx = new QStandardItem(QString("%1").arg((int)data.in + 1));
+            return_model_->appendRow({ src_name->clone(), src_idx, dest_name->clone(), dest_idx });
+            ui->outputList->resizeColumnsToContents();
+        }
+    }
+}
+
+void MainWindow::onConnectionRemove(ConnectionData data)
+{
+    for (int i = 0; i < conn_model_->rowCount(); i++) {
+        auto item = conn_model_->item(i, 0);
+        if (item && item->data() == QVariant::fromValue(data)) {
+            conn_model_->removeRow(i);
+        }
+    }
+
+    for (int i = 0; i < send_model_->rowCount(); i++) {
+        auto item = send_model_->item(i, 0);
+        if (item && item->data() == QVariant::fromValue(data)) {
+            send_model_->removeRow(i);
+        }
+    }
+
+    for (int i = 0; i < return_model_->rowCount(); i++) {
+        auto item = return_model_->item(i, 0);
+        if (item && item->data() == QVariant::fromValue(data)) {
+            return_model_->removeRow(i);
+        }
+    }
+}
+
+void MainWindow::onSceneChange()
+{
+    setWindowModified(true);
+}
+
+void MainWindow::setProjectName(const QString& fileName)
+{
+    project_name_ = QFileInfo(fileName).baseName();
+    file_name_ = fileName;
+}
+
+bool MainWindow::doSave()
+{
+    QFile file(file_name_);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qWarning() << "can't open" << file_name_;
+        return false;
+    }
+
+    QJsonDocument doc(diagram->toJson());
+    file.write(doc.toJson());
+
+    setProjectName(file.fileName());
+    updateTitle();
+    setWindowModified(false);
+
+    auto log_msg = QString("Save to '%1'").arg(file_name_);
+    qDebug() << log_msg;
+    statusBar()->showMessage(log_msg, 1000);
+    return true;
+}
+
+void MainWindow::loadLibraryDevices()
+{
+    auto model = new DeviceItemModel(this);
+    auto parentItem = model->invisibleRootItem();
+
+    ui->libraryTree->setDragEnabled(true);
+    ui->libraryTree->setDragDropMode(QAbstractItemView::DragOnly);
+    ui->libraryTree->setSortingEnabled(true);
+    ui->libraryTree->sortByColumn(0, Qt::AscendingOrder);
+
+    auto devices = new QStandardItem(tr("devices"));
+    devices->setEditable(false);
+    parentItem->appendRow(devices);
+
+    DeviceLibrary dev_lib;
+    if (dev_lib.readFile("://ceam/cables/resources/library.json")) {
+        for (auto& dev : dev_lib.devices()) {
+            auto item = new QStandardItem(dev.title());
+            item->setEditable(false);
+
+            QJsonDocument doc(dev.toJson());
+            item->setData(doc.toJson(QJsonDocument::Compact), Qt::UserRole + 1);
+            item->setDropEnabled(false);
+            devices->appendRow(item);
+        }
+    }
+
+    library_proxy_ = new QSortFilterProxyModel(this);
+    library_proxy_->setSourceModel(model);
+    library_proxy_->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    library_proxy_->setAutoAcceptChildRows(true);
+    library_proxy_->setRecursiveFilteringEnabled(true);
+    library_proxy_->setSortLocaleAware(true);
+    ui->libraryTree->setModel(library_proxy_);
+
+    auto instr = new QStandardItem({ tr("instruments") });
+    instr->setEditable(false);
+    parentItem->appendRow(instr);
+
+    for (auto& ins : dev_lib.instruments()) {
+        auto item = new QStandardItem(ins.title());
+        item->setEditable(false);
+
+        QJsonDocument doc(ins.toJson());
+        item->setData(doc.toJson(QJsonDocument::Compact), Qt::UserRole + 1);
+        item->setDropEnabled(false);
+        instr->appendRow(item);
+    }
+
+    auto sends = new QStandardItem({ tr("sends") });
+    sends->setEditable(false);
+    parentItem->appendRow(sends);
+
+    for (auto& send : dev_lib.sends()) {
+        qDebug() << send.title();
+        auto item = new QStandardItem(send.title());
+        item->setEditable(false);
+
+        QJsonDocument doc(send.toJson());
+        item->setData(doc.toJson(QJsonDocument::Compact), Qt::UserRole + 1);
+        item->setDropEnabled(false);
+        sends->appendRow(item);
+    }
+
+    auto returns = new QStandardItem({ tr("returns") });
+    returns->setEditable(false);
+    parentItem->appendRow(returns);
+
+    for (auto& rtn : dev_lib.returns()) {
+        auto item = new QStandardItem(rtn.title());
+        item->setEditable(false);
+
+        QJsonDocument doc(rtn.toJson());
+        item->setData(doc.toJson(QJsonDocument::Compact), Qt::UserRole + 1);
+        item->setDropEnabled(false);
+        returns->appendRow(item);
+    }
+
+    auto misc = new QStandardItem({ tr("misc") });
+    misc->setEditable(false);
+    parentItem->appendRow(misc);
+}
+
+void MainWindow::createToolbarScaleView()
+{
+    auto w = new QComboBox(this);
+    w->addItem("25%", 0.25);
+    w->addItem("50%", 0.5);
+    w->addItem("75%", 0.75);
+    w->addItem("100%", 1.0);
+    w->addItem("150%", 1.5);
+    w->addItem("200%", 2.0);
+    w->addItem("400%", 4.0);
+
+    w->setCurrentText("100%");
+    ui->toolBar->addWidget(w);
+}
+
+void MainWindow::resizePanels()
+{
+    float windowWidth = width();
+    int dockWidthA = 0.25 * windowWidth;
+    int dockWidthB = 0.25 * windowWidth;
+
+    QList<int> dockSizes = { dockWidthA, dockWidthB };
+    resizeDocks({ ui->libraryDock, ui->tableDock }, dockSizes, Qt::Horizontal);
+}
+
+void MainWindow::setupExpandButton(QToolButton* btn, QTableView* tab, QFrame* line)
+{
+    line->setHidden(true);
+    tab->setHidden(false);
+    btn->setArrowType(Qt::DownArrow);
+    btn->setIconSize(QSize(6, 6));
+
+    btn->setStyleSheet("QToolButton { "
+                       "border-width: 0;"
+                       "margin: 0; "
+                       "padding: 0 0 0 2px; "
+                       "background-color: transparent;"
+                       " }");
+    connect(btn, &QToolButton::clicked, this, [btn, tab, line]() {
+        bool vis = tab->isVisible();
+        btn->setArrowType(vis ? Qt::RightArrow : Qt::DownArrow);
+        tab->setHidden(vis);
+        line->setHidden(!vis);
+    });
+}
+
+void MainWindow::setupEquipmentTableView(QTableView* tab, QStandardItemModel* model)
+{
+    tab->setModel(model);
+    // tab->horizontalHeader()->setVisible(false);
+    tab->setStyleSheet("QTableView::item {padding: 0px}");
+    tab->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+}
+
+void MainWindow::setupDockTitle(QDockWidget* dock)
+{
+    dock->setStyleSheet("QDockWidget::title { text-align: left; margin: 0 0 0 5px; }");
+
+    // auto btn = new QToolButton(this);
+    // btn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    // btn->setText(dock->windowTitle());
+    // btn->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    // btn->setIcon(QIcon(":/ceam/cables/resources/zoom_normal_02.svg"));
+    // btn->setStyleSheet("QToolButton { border-width: 0; background-color: transparent; margin: 2px 0 0 4px; }");
+    // dock->setTitleBarWidget(btn);
+}
+
+void MainWindow::writePositionSettings()
+{
+    QSettings qs(SETTINGS_ORG, SETTINGS_APP);
+
+    qs.beginGroup(SKEY_MAINWINDOW);
+
+    qs.setValue(SKEY_GEOMETRY, saveGeometry());
+    qs.setValue(SKEY_SAVESTATE, saveState());
+    qs.setValue(SKEY_MAXIMIZED, isMaximized());
+    if (!isMaximized()) {
+        qs.setValue(SKEY_POS, pos());
+        qs.setValue(SKEY_MAXIMIZED, size());
+    }
+
+    qs.endGroup();
+}
+
+void MainWindow::readPositionSettings()
+{
+    QSettings qs(SETTINGS_ORG, SETTINGS_APP);
+
+    qs.beginGroup(SKEY_MAINWINDOW);
+
+    restoreGeometry(qs.value(SKEY_GEOMETRY, saveGeometry()).toByteArray());
+    restoreState(qs.value(SKEY_SAVESTATE, saveState()).toByteArray());
+    move(qs.value(SKEY_POS, pos()).toPoint());
+    resize(qs.value(SKEY_SIZE, size()).toSize());
+    if (qs.value(SKEY_MAXIMIZED, isMaximized()).toBool())
+        showMaximized();
+
+    qs.endGroup();
+}
+
+void MainWindow::printScheme()
+{
+    diagram->printScheme();
+}
+
+void MainWindow::selectAll()
+{
+    diagram->cmdSelectAll();
+}
+
+bool MainWindow::saveDocument()
+{
+    if (file_name_.isEmpty())
+        return saveDocumentAs();
+    else
+        return doSave();
+}
+
+bool MainWindow::saveDocumentAs()
+{
+    auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, "", QStandardPaths::LocateDirectory);
+    file_name_ = QFileDialog::getSaveFileName(this, tr("Save project"), path, tr("PatchScene projects (*.psc *.json)"));
+    return doSave();
+}
+
+void MainWindow::duplicateSelection()
+{
+    diagram->cmdDuplicateSelection();
+}
+
+void MainWindow::openDocument()
+{
+    auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, "", QStandardPaths::LocateDirectory);
+    auto file_name = QFileDialog::getOpenFileName(this, tr("Open project"), path, tr("PatchScene projects (*.psc *.json)"));
+    if (diagram->loadJson(file_name)) {
+        setProjectName(file_name);
+        updateTitle();
+        setWindowModified(false);
+        statusBar()->showMessage(tr("Load '%1'").arg(file_name_), 2000);
+    }
+}

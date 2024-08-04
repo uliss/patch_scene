@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="16"
+   height="16"
+   id="svg11071"
+   version="1.2"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+   sodipodi:docname="bnc_socket.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="25.167148"
+     inkscape:cx="9.4965071"
+     inkscape:cy="7.9270007"
+     inkscape:document-units="px"
+     inkscape:current-layer="svg11071"
+     showgrid="false"
+     fit-margin-top="1"
+     fit-margin-left="1"
+     fit-margin-bottom="1"
+     fit-margin-right="1"
+     inkscape:window-width="1536"
+     inkscape:window-height="842"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1" />
+  <rect
+     y="1.0143002"
+     x="-8.9137239"
+     height="13.971364"
+     width="1.7980026"
+     id="rect11034"
+     style="fill:#c0c0c0;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.33391"
+     transform="rotate(-90)" />
+  <path
+     inkscape:connector-curvature="0"
+     id="path60302"
+     style="display:inline;fill:#c0c0c0;fill-opacity:1;stroke:#000000;stroke-width:0.418513;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="m 8.0000803,1.9432293 c -3.3447711,0 -6.0559365,2.7128328 -6.0559365,6.0559365 0,3.3464382 2.7111654,6.0576042 6.0559365,6.0576042 3.3447707,0 6.0559367,-2.711166 6.0559367,-6.0576042 0,-3.3431037 -2.711166,-6.0559365 -6.0559367,-6.0559365 z" />
+  <path
+     id="path60326"
+     style="display:inline;fill:none;stroke:#000000;stroke-width:0.418513;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="m 0.79598367,6.8918631 v 1.10881 m 0,-6.67e-4 v 1.10881 m 14.40801933,-1e-7 v -1.10881 m 0,10e-8 v -1.10881 M 8.0000803,2.9494885 c -2.7895324,0 -5.0505043,2.2609719 -5.0505043,5.0505043 0,2.7895322 2.2609719,5.0521722 5.0505043,5.0521722 2.7895327,0 5.0505047,-2.26264 5.0505047,-5.0521722 0,-2.7895324 -2.260972,-5.0505043 -5.0505047,-5.0505043 z M 13.956467,9.108816 h 1.247203 m 3.33e-4,-2.2169529 H 13.9568 M 0.79598367,9.108816 H 2.0431865 M 2.0435199,6.8918631 H 0.79631712" />
+  <path
+     inkscape:connector-curvature="0"
+     id="path60338"
+     style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.358493;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="m 8.0000675,5.1863202 c -1.5539471,0 -2.8136726,1.2597255 -2.8136726,2.8136726 0,1.5553753 1.2597255,2.8136722 2.8136726,2.8136722 1.5539471,0 2.8136725,-1.2582969 2.8136725,-2.8136722 0,-1.5539471 -1.2597254,-2.8136726 -2.8136725,-2.8136726 z"
+     clip-path="url(#clipPath5)" />
+  <path
+     inkscape:connector-curvature="0"
+     id="path60450"
+     style="fill:#030000;fill-opacity:1;stroke:#f3af3f;stroke-width:0.418513;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="m 8.0000803,6.9535429 c -0.578582,0 -1.0471168,0.4685347 -1.0471168,1.0471168 0,0.578582 0.4685348,1.0471168 1.0471168,1.0471168 0.578582,0 1.0471168,-0.4685348 1.0471168,-1.0471168 0,-0.5785821 -0.4685348,-1.0471168 -1.0471168,-1.0471168 z"
+     inkscape:label="gold ring" />
+  <metadata
+     id="metadata1">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title>BNC female axis view</dc:title>
+        <dc:date>2014-04-07T04:06:50</dc:date>
+        <dc:description>A BNC female at axis view.</dc:description>
+        <dc:source>https://openclipart.org/detail/192558/bnc-female-axis-view-by-boudinpg-192558</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>boudinpg</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>BNC</rdf:li>
+            <rdf:li>computer</rdf:li>
+            <rdf:li>connector</rdf:li>
+            <rdf:li>digital</rdf:li>
+            <rdf:li>electric</rdf:li>
+            <rdf:li>electronic</rdf:li>
+            <rdf:li>female</rdf:li>
+            <rdf:li>plug</rdf:li>
+            <rdf:li>television</rdf:li>
+            <rdf:li>tv</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>
