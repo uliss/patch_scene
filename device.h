@@ -20,6 +20,13 @@
 
 #include <QGraphicsItem>
 
+enum class BatteryType {
+    None,
+    AA,
+    AAA,
+    Crona
+};
+
 class DeviceData : public QSharedData {
 public:
     QList<XletData> inlets;
@@ -32,6 +39,7 @@ public:
     int height = { 40 };
     qreal zvalue = { 1 };
     ItemCategory category { ItemCategory::Device };
+    BatteryType battery_ { BatteryType::None };
 
     size_t visInletCount() const;
     size_t visOutletCount() const;
