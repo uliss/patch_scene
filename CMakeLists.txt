@@ -127,6 +127,8 @@ if(APPLE)
     set(MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION})
     set(MACOSX_BUNDLE_LONG_VERSION_STRING ${PROJECT_VERSION})
 
+    configure_file(scripts/bundle_fix.sh ${PROJECT_BINARY_DIR}/bundle_fix.sh @ONLY)
+
     # MACOSX_BUNDLE_ICON_FILE
     #     Sets CFBundleIconFile.
     # MACOSX_BUNDLE_INFO_STRING
