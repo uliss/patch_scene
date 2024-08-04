@@ -2,46 +2,6 @@
     <qresource prefix="/ceam/cables">
         <file>resources/zoom-out.svg</file>
         <file>resources/zoom-in.svg</file>
-        <file>resources/cursors/cross_000.png</file>
-        <file>resources/cursors/cross_001.png</file>
-        <file>resources/cursors/cross_002.png</file>
-        <file>resources/cursors/cross_003.png</file>
-        <file>resources/cursors/dnd-copy_000.png</file>
-        <file>resources/cursors/dnd-copy_001.png</file>
-        <file>resources/cursors/dnd-copy_002.png</file>
-        <file>resources/cursors/dnd-copy_003.png</file>
-        <file>resources/cursors/fleur_000.png</file>
-        <file>resources/cursors/fleur_001.png</file>
-        <file>resources/cursors/fleur_002.png</file>
-        <file>resources/cursors/fleur_003.png</file>
-        <file>resources/cursors/forbidden_000.png</file>
-        <file>resources/cursors/forbidden_001.png</file>
-        <file>resources/cursors/forbidden_002.png</file>
-        <file>resources/cursors/forbidden_003.png</file>
-        <file>resources/cursors/link_000.png</file>
-        <file>resources/cursors/link_001.png</file>
-        <file>resources/cursors/link_002.png</file>
-        <file>resources/cursors/link_003.png</file>
-        <file>resources/cursors/move_000.png</file>
-        <file>resources/cursors/move_001.png</file>
-        <file>resources/cursors/move_002.png</file>
-        <file>resources/cursors/move_003.png</file>
-        <file>resources/cursors/no-drop_000.png</file>
-        <file>resources/cursors/no-drop_001.png</file>
-        <file>resources/cursors/no-drop_002.png</file>
-        <file>resources/cursors/no-drop_003.png</file>
-        <file>resources/cursors/pencil_000.png</file>
-        <file>resources/cursors/pencil_001.png</file>
-        <file>resources/cursors/pencil_002.png</file>
-        <file>resources/cursors/pencil_003.png</file>
-        <file>resources/cursors/plus_000.png</file>
-        <file>resources/cursors/plus_001.png</file>
-        <file>resources/cursors/plus_002.png</file>
-        <file>resources/cursors/plus_003.png</file>
-        <file>resources/cursors/question_arrow_000.png</file>
-        <file>resources/cursors/question_arrow_001.png</file>
-        <file>resources/cursors/question_arrow_002.png</file>
-        <file>resources/cursors/question_arrow_003.png</file>
         <file>resources/connectors/ethernet_socket.svg</file>
         <file>resources/connectors/xlr_socket.svg</file>
         <file>resources/connectors/xlr_jack_socket.svg</file>
