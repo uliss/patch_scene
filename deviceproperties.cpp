@@ -24,6 +24,7 @@ enum {
     COL_MODEL,
     COL_VISIBLE,
     COL_NAME,
+    COL_SOCKET,
     COL_PHANTOM,
 };
 
@@ -163,10 +164,11 @@ void DeviceProperties::setupXletTable(QTableWidget* tab, size_t rows)
 {
     tab->setRowCount(rows);
     tab->setSelectionMode(QTableWidget::NoSelection);
-    tab->setHorizontalHeaderLabels({ tr("Type"), tr("Show"), tr("Name"), tr("Phantom") });
+    tab->setHorizontalHeaderLabels({ tr("Type"), tr("Show"), tr("Name"), tr("Socket female"), tr("Phantom") });
     tab->setColumnWidth(COL_NAME, 100);
     tab->setColumnWidth(COL_VISIBLE, 50);
     tab->setColumnWidth(COL_MODEL, 80);
+    tab->setColumnWidth(COL_SOCKET, 60);
     tab->setColumnWidth(COL_PHANTOM, 40);
     // adjust minimal height
     if (rows < 6)
@@ -207,6 +209,10 @@ void DeviceProperties::insertXlet(QTableWidget* tab, int row, const XletData& da
     // show/hide
     auto show = new TableCellCheckBox(data.visible);
     tab->setCellWidget(row, COL_VISIBLE, show);
+
+    // socket
+    auto socket = new TableCellCheckBox(data.type == ConnectorType::Socket_Female);
+    tab->setCellWidget(row, COL_SOCKET, socket);
 
     // phantom power
     auto phantom = new TableCellCheckBox(data.phantom_power);
@@ -290,6 +296,10 @@ bool DeviceProperties::getXletData(const QTableWidget* table, int row, XletData&
     auto phantom = qobject_cast<TableCellCheckBox*>(table->cellWidget(row, COL_PHANTOM));
     if (phantom && connectSupportsPhantomPower(data.model))
         data.phantom_power = phantom->isChecked();
+
+    auto socket_type = qobject_cast<TableCellCheckBox*>(table->cellWidget(row, COL_SOCKET));
+    if (socket_type)
+        data.type = socket_type->isChecked() ? ConnectorType::Socket_Female : ConnectorType::Socket_Male;
 
     return true;
 }
