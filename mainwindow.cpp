@@ -39,6 +39,20 @@ constexpr const char* SKEY_MAXIMIZED = "maximized";
 constexpr const char* SKEY_POS = "pos";
 constexpr const char* SKEY_SIZE = "size";
 
+constexpr int DATA_DEVICE_DATA = Qt::UserRole + 1;
+constexpr int DATA_DEVICE_ID = Qt::UserRole + 2;
+constexpr int DATA_CONNECTION = Qt::UserRole + 3;
+
+constexpr int COL_CONN_SRC_NAME = 0;
+constexpr int COL_CONN_DEST_NAME = 3;
+constexpr int COL_SEND_DEV_NAME = 2;
+constexpr int DATA_CONN_NCOLS = 6;
+
+constexpr int COL_DEV_NAME = 0;
+constexpr int COL_DEV_VENDOR = 1;
+constexpr int COL_DEV_MODEL = 2;
+constexpr int DATA_DEV_NCOLS = 3;
+
 class DeviceItemModel : public QStandardItemModel {
 public:
     DeviceItemModel(QObject* parent = nullptr)
@@ -52,7 +66,7 @@ public:
 
         for (auto& idx : indexes) {
             if (idx.column() == 0)
-                data->setText(idx.data(Qt::UserRole + 1).toString());
+                data->setText(idx.data(DATA_DEVICE_DATA).toString());
         }
 
         return data;
@@ -75,30 +89,46 @@ MainWindow::MainWindow(QWidget* parent)
     setupDockTitle(ui->libraryDock);
     setupDockTitle(ui->tableDock);
 
-    device_model_ = new QStandardItemModel(0, 1, this);
+    device_model_ = new QStandardItemModel(0, DATA_DEV_NCOLS, this);
     device_model_->setHorizontalHeaderLabels({ tr("Name"), tr("Vendor"), tr("Model") });
     setupEquipmentTableView(ui->deviceList, device_model_);
+    connect(ui->deviceList, &QTableView::clicked, this, [this](const QModelIndex& index) {
+        if (index.column() == COL_DEV_NAME) {
+            bool ok = false;
+            auto id = index.data(DATA_DEVICE_ID).toInt(&ok);
+            if (ok)
+                diagram->cmdSelectUnique(id);
+        }
+    });
     ui->deviceList->resizeColumnsToContents();
 
-    conn_model_ = new QStandardItemModel(0, 6, this);
+    conn_model_ = new QStandardItemModel(0, DATA_CONN_NCOLS, this);
     conn_model_->setHorizontalHeaderLabels({ tr("Source"), tr("Model"), tr("Plug"), tr("Destination"), tr("Model"), tr("Plug") });
     setupEquipmentTableView(ui->connectionList, conn_model_);
+    connect(ui->connectionList, &QTableView::clicked, this, [this](const QModelIndex& index) {
+        if (index.column() == COL_CONN_SRC_NAME || index.column() == COL_CONN_DEST_NAME) {
+            bool ok = false;
+            auto id = index.data(DATA_DEVICE_ID).toInt(&ok);
+            if (ok)
+                diagram->cmdSelectUnique(id);
+        }
+    });
     ui->connectionList->resizeColumnsToContents();
 
     send_model_ = new QStandardItemModel(0, 2, this);
     send_model_->setHorizontalHeaderLabels({ tr("Send"), tr("Input"), tr("Device"), tr("Output") });
-    setupEquipmentTableView(ui->inputList, send_model_);
-    ui->inputList->resizeColumnsToContents();
+    setupEquipmentTableView(ui->returnList, send_model_);
+    ui->returnList->resizeColumnsToContents();
 
     return_model_ = new QStandardItemModel(0, 2, this);
     return_model_->setHorizontalHeaderLabels({ tr("Return"), tr("Output"), tr("Device"), tr("Input") });
-    setupEquipmentTableView(ui->outputList, return_model_);
-    ui->outputList->resizeColumnsToContents();
+    setupEquipmentTableView(ui->sendList, return_model_);
+    ui->sendList->resizeColumnsToContents();
 
     setupExpandButton(ui->deviceListBtn, ui->deviceList, ui->deviceListLine);
     setupExpandButton(ui->connectionListBtn, ui->connectionList, ui->connectionListLine);
-    setupExpandButton(ui->inputListBtn, ui->inputList, ui->inputListLine);
-    setupExpandButton(ui->outputListBtn, ui->outputList, ui->inputListLine);
+    setupExpandButton(ui->sendListBtn, ui->sendList, ui->sendListLine);
+    setupExpandButton(ui->returnListBtn, ui->returnList, ui->returnListLine);
 
     diagram = new Diagram();
     ui->gridLayout->addWidget(diagram, 1, 1);
@@ -123,6 +153,10 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
     connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(saveDocument()));
     connect(ui->actionSelect_All, SIGNAL(triggered()), this, SLOT(selectAll()));
+
+    connect(ui->actionShowCables, &QAction::triggered, diagram, [this](bool value) {
+        diagram->setShowCables(value);
+    });
 
     // zoom
     connect(ui->actionZoomIn, SIGNAL(triggered()), diagram, SLOT(zoomIn()));
@@ -237,7 +271,7 @@ void MainWindow::onDeviceAdd(SharedDeviceData data)
         return;
 
     auto item = new QStandardItem(data->name);
-    item->setData(data->id);
+    item->setData(data->id, DATA_DEVICE_ID);
     item->setToolTip(QString("#%1").arg(data->id));
     item->setEditable(false);
     device_model_->appendRow(item);
@@ -250,31 +284,68 @@ void MainWindow::onDeviceRemove(SharedDeviceData data)
         return;
 
     for (int i = 0; i < device_model_->rowCount(); i++) {
-        auto item = device_model_->item(i, 0);
-        if (item && item->data() == data->id) {
+        auto item = device_model_->item(i, COL_DEV_NAME);
+        if (item && item->data(DATA_DEVICE_ID) == data->id) {
             device_model_->removeRow(i);
             break;
         }
     }
 }
 
+static bool updateItemDeviceName(QStandardItem* item, const SharedDeviceData& data)
+{
+    if (!item)
+        return false;
+
+    bool ok = false;
+    auto dev_id = item->data(DATA_DEVICE_ID).toInt(&ok);
+    if (dev_id && dev_id == data->id) {
+        if (data->name != item->text())
+            item->setText(data->name);
+
+        return true;
+    } else
+        return false;
+}
+
 void MainWindow::onDeviceUpdate(SharedDeviceData data)
 {
+    bool found = false;
+    bool name_update = false;
     for (int i = 0; i < device_model_->rowCount(); i++) {
-        auto item = device_model_->item(i, 0);
-        if (item && item->data() == data->id) {
+        auto item = device_model_->item(i, COL_DEV_NAME);
+        if (item && item->data(DATA_DEVICE_ID) == data->id) {
             if (data->category != ItemCategory::Device) {
                 device_model_->removeRow(i);
             } else {
-                item->setText(data->name);
+                name_update = (item->text() != data->name);
+                if (name_update)
+                    item->setText(data->name);
+
+                found = true;
             }
-            return;
+
+            break;
         }
     }
 
     // not found in model
-    if (data->category == ItemCategory::Device)
+    if (!found && data->category == ItemCategory::Device) {
         onDeviceAdd(data);
+    } else if (name_update) {
+        // update connection device name change
+        for (int i = 0; i < conn_model_->rowCount(); i++) {
+            if (updateItemDeviceName(conn_model_->item(i, COL_CONN_SRC_NAME), data))
+                continue;
+
+            if (updateItemDeviceName(conn_model_->item(i, COL_CONN_DEST_NAME), data))
+                continue;
+        }
+
+        // update connection device name change
+        for (int i = 0; i < send_model_->rowCount(); i++)
+            updateItemDeviceName(send_model_->item(i, COL_SEND_DEV_NAME), data);
+    }
 }
 
 void MainWindow::onConnectionAdd(ConnectionData data)
@@ -294,12 +365,20 @@ void MainWindow::onConnectionAdd(ConnectionData data)
     Device *src_dev = nullptr, *dest_dev = nullptr;
     if (diagram->findConnectionXletData(data, src, dest, &src_dev, &dest_dev)) {
         auto src_name = new QStandardItem(src_dev->deviceData()->name);
-        src_name->setData(QVariant::fromValue(data));
+        src_name->setData(QVariant::fromValue(data), DATA_CONNECTION);
+        src_name->setData(data.src, DATA_DEVICE_ID);
+        src_name->setEditable(false);
         auto src_model = new QStandardItem(src.modelString());
+        src_model->setEditable(false);
         auto src_plug = new QStandardItem(conn2str(src.type));
+        src_plug->setEditable(false);
         auto dest_name = new QStandardItem(dest_dev->deviceData()->name);
+        dest_name->setData(data.dest, DATA_DEVICE_ID);
+        dest_name->setEditable(false);
         auto dest_model = new QStandardItem(dest.modelString());
+        dest_model->setEditable(false);
         auto dest_plug = new QStandardItem(conn2str(dest.type));
+        dest_plug->setEditable(false);
 
         conn_model_->appendRow({ src_name, src_model, src_plug, dest_name, dest_model, dest_plug });
         ui->connectionList->resizeColumnsToContents();
@@ -308,14 +387,14 @@ void MainWindow::onConnectionAdd(ConnectionData data)
             auto src_idx = new QStandardItem(QString("%1").arg((int)data.out + 1));
             auto dest_idx = new QStandardItem(QString("%1").arg((int)data.in + 1));
             send_model_->appendRow({ dest_name->clone(), dest_idx, src_name->clone(), src_idx });
-            ui->inputList->resizeColumnsToContents();
+            ui->returnList->resizeColumnsToContents();
         }
 
         if (src_dev->deviceData()->category == ItemCategory::Return) {
             auto src_idx = new QStandardItem(QString("%1").arg((int)data.out + 1));
             auto dest_idx = new QStandardItem(QString("%1").arg((int)data.in + 1));
             return_model_->appendRow({ src_name->clone(), src_idx, dest_name->clone(), dest_idx });
-            ui->outputList->resizeColumnsToContents();
+            ui->sendList->resizeColumnsToContents();
         }
     }
 }
@@ -323,22 +402,22 @@ void MainWindow::onConnectionAdd(ConnectionData data)
 void MainWindow::onConnectionRemove(ConnectionData data)
 {
     for (int i = 0; i < conn_model_->rowCount(); i++) {
-        auto item = conn_model_->item(i, 0);
-        if (item && item->data() == QVariant::fromValue(data)) {
+        auto item = conn_model_->item(i, COL_CONN_SRC_NAME);
+        if (item && item->data(DATA_CONNECTION) == QVariant::fromValue(data)) {
             conn_model_->removeRow(i);
         }
     }
 
     for (int i = 0; i < send_model_->rowCount(); i++) {
-        auto item = send_model_->item(i, 0);
-        if (item && item->data() == QVariant::fromValue(data)) {
+        auto item = send_model_->item(i, COL_SEND_DEV_NAME);
+        if (item && item->data(DATA_CONNECTION) == QVariant::fromValue(data)) {
             send_model_->removeRow(i);
         }
     }
 
     for (int i = 0; i < return_model_->rowCount(); i++) {
         auto item = return_model_->item(i, 0);
-        if (item && item->data() == QVariant::fromValue(data)) {
+        if (item && item->data(DATA_CONNECTION) == QVariant::fromValue(data)) {
             return_model_->removeRow(i);
         }
     }
@@ -397,7 +476,7 @@ void MainWindow::loadLibraryDevices()
             item->setEditable(false);
 
             QJsonDocument doc(dev.toJson());
-            item->setData(doc.toJson(QJsonDocument::Compact), Qt::UserRole + 1);
+            item->setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
             item->setDropEnabled(false);
             devices->appendRow(item);
         }
@@ -420,7 +499,7 @@ void MainWindow::loadLibraryDevices()
         item->setEditable(false);
 
         QJsonDocument doc(ins.toJson());
-        item->setData(doc.toJson(QJsonDocument::Compact), Qt::UserRole + 1);
+        item->setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
         item->setDropEnabled(false);
         instr->appendRow(item);
     }
@@ -435,7 +514,7 @@ void MainWindow::loadLibraryDevices()
         item->setEditable(false);
 
         QJsonDocument doc(send.toJson());
-        item->setData(doc.toJson(QJsonDocument::Compact), Qt::UserRole + 1);
+        item->setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
         item->setDropEnabled(false);
         sends->appendRow(item);
     }
@@ -449,7 +528,7 @@ void MainWindow::loadLibraryDevices()
         item->setEditable(false);
 
         QJsonDocument doc(rtn.toJson());
-        item->setData(doc.toJson(QJsonDocument::Compact), Qt::UserRole + 1);
+        item->setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
         item->setDropEnabled(false);
         returns->appendRow(item);
     }
@@ -510,6 +589,8 @@ void MainWindow::setupEquipmentTableView(QTableView* tab, QStandardItemModel* mo
     tab->setModel(model);
     // tab->horizontalHeader()->setVisible(false);
     tab->setStyleSheet("QTableView::item {padding: 0px}");
+    tab->setSelectionBehavior(QAbstractItemView::SelectItems);
+    tab->setSelectionMode(QAbstractItemView::SingleSelection);
     tab->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 }
 

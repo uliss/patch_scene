@@ -71,6 +71,8 @@
    <addaction name="separator"/>
    <addaction name="actionUndo"/>
    <addaction name="actionRedo"/>
+   <addaction name="separator"/>
+   <addaction name="actionShowCables"/>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -99,6 +101,8 @@
     <addaction name="actionZoomIn"/>
     <addaction name="actionZoomOut"/>
     <addaction name="actionZoomNormal"/>
+    <addaction name="separator"/>
+    <addaction name="actionShowCables"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -310,7 +314,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="inputListBtn">
+      <widget class="QToolButton" name="returnListBtn">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -329,10 +333,10 @@
       </widget>
      </item>
      <item>
-      <widget class="QTableView" name="inputList"/>
+      <widget class="QTableView" name="returnList"/>
      </item>
      <item>
-      <widget class="Line" name="inputListLine">
+      <widget class="Line" name="returnListLine">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -345,7 +349,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="outputListBtn">
+      <widget class="QToolButton" name="sendListBtn">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -364,10 +368,10 @@
       </widget>
      </item>
      <item>
-      <widget class="QTableView" name="outputList"/>
+      <widget class="QTableView" name="sendList"/>
      </item>
      <item>
-      <widget class="Line" name="outputListLine">
+      <widget class="Line" name="sendListLine">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -578,6 +582,27 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actionShowCables">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="cables_resources.qrc">
+     <normaloff>:/ceam/cables/resources/cable.svg</normaloff>:/ceam/cables/resources/cable.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Cables</string>
+   </property>
+   <property name="toolTip">
+    <string>Show/Hide cables</string>
+   </property>
+   <property name="statusTip">
+    <string>show/hide cables</string>
    </property>
   </action>
  </widget>
