@@ -34,6 +34,10 @@ enum class DiagramState {
 
 class Diagram : public QGraphicsView {
     Q_OBJECT
+
+public:
+    Q_PROPERTY(bool showCables READ showCables WRITE setShowCables NOTIFY showCablesChanged)
+
 public:
     explicit Diagram(QWidget* parent = nullptr);
 
@@ -81,6 +85,9 @@ public:
      * @return true on success, false on error
      */
     bool setDeviceData(DeviceId id, const SharedDeviceData& data);
+
+    bool showCables() const { return show_cables_; }
+    void setShowCables(bool value);
 
     // undo/redo commands
     void cmdCreateDevice(const QPointF& pos);
@@ -134,6 +141,7 @@ signals:
     void sceneChanged(); // for document changes
     void canRedoChanged(bool);
     void canUndoChanged(bool);
+    void showCablesChanged(bool);
     void zoomChanged(qreal);
     void deviceAdded(SharedDeviceData data);
     void deviceRemoved(SharedDeviceData data);
@@ -192,6 +200,7 @@ private:
     DiagramState state_ { DiagramState::None };
     XletInfo conn_start_;
     qreal zoom_ { 1 };
+    bool show_cables_ { true };
 
     QList<SharedDeviceData> clip_buffer_;
 };

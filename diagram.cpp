@@ -356,6 +356,15 @@ bool Diagram::setDeviceData(DeviceId id, const SharedDeviceData& data)
     return true;
 }
 
+void Diagram::setShowCables(bool value)
+{
+    show_cables_ = value;
+    for (auto c : connections())
+        c->setVisible(value);
+
+    emit showCablesChanged(value);
+}
+
 bool Diagram::loadJson(const QString& path)
 {
     qDebug() << __FUNCTION__ << path;
