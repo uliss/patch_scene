@@ -164,7 +164,7 @@ void DeviceProperties::setupXletTable(QTableWidget* tab, size_t rows)
 {
     tab->setRowCount(rows);
     tab->setSelectionMode(QTableWidget::NoSelection);
-    tab->setHorizontalHeaderLabels({ tr("Type"), tr("Show"), tr("Name"), tr("Socket female"), tr("Phantom") });
+    tab->setHorizontalHeaderLabels({ tr("Type"), tr("Show"), tr("Name"), tr("Socket"), tr("Phantom") });
     tab->setColumnWidth(COL_NAME, 100);
     tab->setColumnWidth(COL_VISIBLE, 50);
     tab->setColumnWidth(COL_MODEL, 80);
@@ -211,7 +211,10 @@ void DeviceProperties::insertXlet(QTableWidget* tab, int row, const XletData& da
     tab->setCellWidget(row, COL_VISIBLE, show);
 
     // socket
-    auto socket = new TableCellCheckBox(data.type == ConnectorType::Socket_Female);
+    auto socket = new QComboBox();
+    socket->addItem(tr("Female"), static_cast<int>(ConnectorType::Socket_Female));
+    socket->addItem(tr("Male"), static_cast<int>(ConnectorType::Socket_Male));
+    socket->setCurrentIndex(data.type != ConnectorType::Socket_Female);
     tab->setCellWidget(row, COL_SOCKET, socket);
 
     // phantom power
@@ -297,9 +300,8 @@ bool DeviceProperties::getXletData(const QTableWidget* table, int row, XletData&
     if (phantom && connectSupportsPhantomPower(data.model))
         data.phantom_power = phantom->isChecked();
 
-    auto socket_type = qobject_cast<TableCellCheckBox*>(table->cellWidget(row, COL_SOCKET));
+    auto socket_type = qobject_cast<QComboBox*>(table->cellWidget(row, COL_SOCKET));
     if (socket_type)
-        data.type = socket_type->isChecked() ? ConnectorType::Socket_Female : ConnectorType::Socket_Male;
-
+        data.type = static_cast<ConnectorType>(socket_type->currentData().toInt());
     return true;
 }
