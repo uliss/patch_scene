@@ -15,22 +15,27 @@
 
 #include <QDebug>
 
+constexpr const char* STR_DEVICE = "device";
+constexpr const char* STR_SEND = "send";
+constexpr const char* STR_RETURN = "return";
+constexpr const char* STR_INSTRUMENT = "instrument";
+
 const char* toString(ItemCategory cat)
 {
     switch (cat) {
     case ItemCategory::Instrument:
-        return "instrument";
+        return STR_INSTRUMENT;
     case ItemCategory::Human:
         return "human";
     case ItemCategory::Furniture:
         return "furniture";
     case ItemCategory::Send:
-        return "send";
+        return STR_SEND;
     case ItemCategory::Return:
-        return "return";
+        return STR_RETURN;
     case ItemCategory::Device:
     default:
-        return "device";
+        return STR_DEVICE;
     }
 }
 
@@ -42,13 +47,13 @@ bool fromQString(const QString& str, ItemCategory& cat)
     }
 
     auto icat = str.toLower();
-    if (icat == "device") {
+    if (icat == STR_DEVICE) {
         cat = ItemCategory::Device;
         return true;
-    } else if (icat == "return") {
+    } else if (icat == STR_RETURN) {
         cat = ItemCategory::Return;
         return true;
-    } else if (icat == "send") {
+    } else if (icat == STR_SEND) {
         cat = ItemCategory::Send;
         return true;
     } else if (icat == "furniture") {
@@ -57,7 +62,7 @@ bool fromQString(const QString& str, ItemCategory& cat)
     } else if (icat == "human") {
         cat = ItemCategory::Human;
         return true;
-    } else if (icat == "instruments") {
+    } else if (icat == STR_INSTRUMENT) {
         cat = ItemCategory::Instrument;
         return true;
     } else {
