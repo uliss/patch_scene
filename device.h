@@ -35,11 +35,10 @@ public:
     QString image;
     QPointF pos;
     DeviceId id { 0 };
-    int width = { 100 };
-    int height = { 40 };
     qreal zvalue = { 1 };
     ItemCategory category { ItemCategory::Device };
     BatteryType battery_ { BatteryType::None };
+    qreal zoom = { 1 };
 
     size_t visInletCount() const;
     size_t visOutletCount() const;
@@ -73,7 +72,6 @@ public:
 
     SharedDeviceData deviceData() const;
     void setDeviceData(const SharedDeviceData& data);
-    void updateLayout();
 
     static constexpr DeviceId NullID { 0 };
 
@@ -90,6 +88,7 @@ private:
 
     size_t inletCount() const;
     size_t outletCount() const;
+    bool noXlets() const;
 
     QJsonArray xletToJson(const QList<XletData>& xlets) const;
 
@@ -100,19 +99,21 @@ private:
     void clearImage();
 
     void createXlets();
-    void createTitle();
-    void createImage();
+    void createTitle(qreal wd);
+    void createImage(qreal wd);
 
     void syncRect();
-    void syncTitle();
 
     void updateTitlePos();
     void updateImagePos();
     void updateXletsPos();
 
     QRectF titleRect() const;
+    QRectF xletRect() const;
 
     qreal centerXOff() const;
+    int calcWidth() const;
+    int calcHeight() const;
 
     QGraphicsTextItem* title_;
     QGraphicsSvgItem* image_;

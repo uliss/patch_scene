@@ -39,87 +39,17 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="widthLabel">
+     <item row="1" column="0">
+      <widget class="QLabel" name="categoryLabel">
        <property name="text">
-        <string>Size</string>
-       </property>
-       <property name="buddy">
-        <cstring>width</cstring>
+        <string>Category</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
-      <widget class="QFrame" name="size">
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <widget class="QSpinBox" name="width">
-          <property name="minimumSize">
-           <size>
-            <width>60</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="minimum">
-           <number>16</number>
-          </property>
-          <property name="maximum">
-           <number>500</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="delim">
-          <property name="text">
-           <string>x</string>
-          </property>
-          <property name="buddy">
-           <cstring>height</cstring>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="height">
-          <property name="minimumSize">
-           <size>
-            <width>60</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="minimum">
-           <number>16</number>
-          </property>
-          <property name="maximum">
-           <number>500</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="spacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </widget>
+     <item row="1" column="1">
+      <widget class="QComboBox" name="category"/>
      </item>
-     <item row="3" column="0">
+     <item row="2" column="0">
       <widget class="QLabel" name="inletsLabel">
        <property name="text">
         <string>Inputs</string>
@@ -129,7 +59,7 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
+     <item row="2" column="1">
       <widget class="QTableWidget" name="inlets">
        <property name="minimumSize">
         <size>
@@ -159,102 +89,7 @@
        <column/>
       </widget>
      </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="outletsLabel">
-       <property name="text">
-        <string>Outputs</string>
-       </property>
-       <property name="buddy">
-        <cstring>outlets</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1">
-      <widget class="QTableWidget" name="outlets">
-       <property name="minimumSize">
-        <size>
-         <width>350</width>
-         <height>40</height>
-        </size>
-       </property>
-       <property name="sizeAdjustPolicy">
-        <enum>QAbstractScrollArea::AdjustToContents</enum>
-       </property>
-       <property name="columnCount">
-        <number>5</number>
-       </property>
-       <attribute name="horizontalHeaderDefaultSectionSize">
-        <number>70</number>
-       </attribute>
-       <attribute name="horizontalHeaderHighlightSections">
-        <bool>true</bool>
-       </attribute>
-       <attribute name="horizontalHeaderStretchLastSection">
-        <bool>true</bool>
-       </attribute>
-       <column/>
-       <column/>
-       <column/>
-       <column/>
-       <column/>
-      </widget>
-     </item>
-     <item row="7" column="0">
-      <widget class="QLabel" name="imageLabel">
-       <property name="text">
-        <string>Image</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="1">
-      <widget class="QWidget" name="widget" native="true">
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <widget class="QLabel" name="currentImage">
-          <property name="text">
-           <string>...</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QToolButton" name="imageChooseButton">
-          <property name="toolTip">
-           <string>choose device image</string>
-          </property>
-          <property name="text">
-           <string>Choose</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item row="4" column="1">
+     <item row="3" column="1">
       <widget class="QWidget" name="inletContainer" native="true">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
@@ -323,7 +158,47 @@
        </layout>
       </widget>
      </item>
-     <item row="6" column="1">
+     <item row="4" column="0">
+      <widget class="QLabel" name="outletsLabel">
+       <property name="text">
+        <string>Outputs</string>
+       </property>
+       <property name="buddy">
+        <cstring>outlets</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QTableWidget" name="outlets">
+       <property name="minimumSize">
+        <size>
+         <width>350</width>
+         <height>40</height>
+        </size>
+       </property>
+       <property name="sizeAdjustPolicy">
+        <enum>QAbstractScrollArea::AdjustToContents</enum>
+       </property>
+       <property name="columnCount">
+        <number>5</number>
+       </property>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>70</number>
+       </attribute>
+       <attribute name="horizontalHeaderHighlightSections">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="horizontalHeaderStretchLastSection">
+        <bool>true</bool>
+       </attribute>
+       <column/>
+       <column/>
+       <column/>
+       <column/>
+       <column/>
+      </widget>
+     </item>
+     <item row="5" column="1">
       <widget class="QWidget" name="outletContainer" native="true">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -392,15 +267,89 @@
        </layout>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="categoryLabel">
+     <item row="6" column="0">
+      <widget class="QLabel" name="imageLabel">
        <property name="text">
-        <string>Category</string>
+        <string>Image</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QComboBox" name="category"/>
+     <item row="6" column="1">
+      <widget class="QWidget" name="widget" native="true">
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="currentImage">
+          <property name="text">
+           <string>...</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="imageChooseButton">
+          <property name="toolTip">
+           <string>choose device image</string>
+          </property>
+          <property name="text">
+           <string>Choose</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="zoomLabel">
+       <property name="text">
+        <string>Scale</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="QDoubleSpinBox" name="zoom">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimum">
+        <double>0.500000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>2.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.250000000000000</double>
+       </property>
+       <property name="value">
+        <double>1.000000000000000</double>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -418,8 +367,6 @@
  </widget>
  <tabstops>
   <tabstop>deviceName</tabstop>
-  <tabstop>width</tabstop>
-  <tabstop>height</tabstop>
   <tabstop>inlets</tabstop>
   <tabstop>outlets</tabstop>
  </tabstops>

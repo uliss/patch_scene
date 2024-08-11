@@ -46,11 +46,9 @@ DeviceProperties::DeviceProperties(QWidget* parent, DeviceId id, const QSharedDa
     ui->currentImage->setFixedSize(IMG_PREVIEW_SIZE, IMG_PREVIEW_SIZE);
     ui->currentImage->setAlignment(Qt::AlignCenter);
 
-    ui->width->setValue(data->width);
-    connect(ui->width, &QSpinBox::valueChanged, this, [this](int v) { data_->width = v; });
+    ui->zoom->setValue(data->zoom);
+    connect(ui->zoom, &QDoubleSpinBox::valueChanged, this, [this](qreal v) { data_->zoom = v; });
 
-    ui->height->setValue(data->height);
-    connect(ui->height, &QSpinBox::valueChanged, this, [this](int v) { data_->height = v; });
 
     ui->deviceName->setText(data->name);
     connect(ui->deviceName, &QLineEdit::textChanged, this, [this](const QString& txt) { data_->name = txt; });

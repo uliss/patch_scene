@@ -26,8 +26,8 @@
 
 #include <unordered_map>
 
-constexpr qreal XLET_W = 16;
-constexpr qreal XLET_H = 18;
+constexpr qreal XLET_W = 22;
+constexpr qreal XLET_H = 20;
 constexpr qreal XLET_BOX_W = 8;
 constexpr qreal XLET_BOX_H = 2;
 
@@ -154,12 +154,6 @@ Device::Device(const SharedDeviceData& data)
     setFlag(QGraphicsItem::ItemIsSelectable);
 
     syncRect();
-
-    createTitle();
-    createImage();
-    updateLayout();
-
-    createXlets();
 }
 
 Device::~Device()
@@ -173,9 +167,12 @@ QPointF Device::inletPos(int i, bool map) const
     if (n == 0)
         return {};
 
-    auto bbox = boundingRect();
+    auto bbox = xletRect();
     qreal xstep = bbox.width() / n;
-    auto pos = QPointF((i + 0.5) * xstep + bbox.left(), bbox.top());
+    int nxlet = 1;
+    nxlet += (!data_->outlets.empty());
+
+    auto pos = QPointF((i + 0.5) * xstep + bbox.left(), bbox.bottom() - (nxlet * XLET_H));
 
     return map ? mapToScene(pos) : pos;
 }
@@ -186,7 +183,7 @@ QPointF Device::outletPos(int i, bool map) const
     if (n == 0)
         return {};
 
-    auto bbox = boundingRect();
+    auto bbox = xletRect();
     qreal xstep = bbox.width() / n;
     auto pos = QPointF((i + 0.5) * xstep + bbox.left(), bbox.bottom());
 
@@ -211,15 +208,25 @@ void Device::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
     paintTitleBox(painter);
 
     QPen pen(Qt::SolidPattern, 0);
+
     if (option->state & QStyle::State_Selected) {
         pen.setColor(Qt::blue);
-    } else {
-        pen.setColor(Qt::black);
-    }
 
-    painter->setPen(pen);
-    painter->setBrush(Qt::NoBrush);
-    painter->drawRect(boundingRect());
+        painter->setPen(pen);
+        painter->setBrush(Qt::NoBrush);
+
+        if (!noXlets())
+            painter->drawRect(xletRect());
+
+        pen.setStyle(Qt::DotLine);
+        painter->setPen(pen);
+        painter->drawRect(boundingRect());
+    } else if (!noXlets()) {
+        pen.setColor(Qt::black);
+        painter->setPen(pen);
+        painter->setBrush(Qt::NoBrush);
+        painter->drawRect(xletRect());
+    }
 
     Q_UNUSED(option);
     Q_UNUSED(widget);
@@ -302,6 +309,7 @@ void Device::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 {
+    qDebug() << __FUNCTION__;
     Q_UNUSED(event);
 }
 
@@ -313,6 +321,11 @@ size_t Device::inletCount() const
 size_t Device::outletCount() const
 {
     return data_->visOutletCount();
+}
+
+bool Device::noXlets() const
+{
+    return data_->inlets.empty() && data_->outlets.empty();
 }
 
 QJsonArray Device::xletToJson(const QList<XletData>& xlets) const
@@ -388,29 +401,37 @@ void Device::createXlets()
     }
 }
 
-void Device::createTitle()
+void Device::createTitle(qreal wd)
 {
     clearTitle();
     title_ = new QGraphicsTextItem(data_->name, this);
+    title_->setTextWidth(wd);
 }
 
-void Device::createImage()
+void Device::createImage(qreal wd)
 {
     clearImage();
 
-    if (!data_->image.isEmpty())
+    if (!data_->image.isEmpty()) {
         image_ = new QGraphicsSvgItem(data_->image, this);
+        image_->setScale(data_->zoom);
+    }
 }
 
 void Device::syncRect()
 {
-    setRect(-data_->width / 2, 0, data_->width, data_->height);
-}
+    // should be called first
+    auto calc_wd = calcWidth();
+    createTitle(calc_wd - 10);
+    createImage(calc_wd);
 
-void Device::syncTitle()
-{
-    if (title_)
-        title_->setPlainText(data_->name);
+    auto calc_ht = calcHeight();
+    setRect(-calc_wd * 0.5, 0, calc_wd, calc_ht);
+
+    updateTitlePos();
+    updateImagePos();
+
+    createXlets();
 }
 
 void Device::updateTitlePos()
@@ -418,13 +439,11 @@ void Device::updateTitlePos()
     if (!title_)
         return;
 
-    title_->setTextWidth(data_->width);
     auto opts = title_->document()->defaultTextOption();
     opts.setAlignment(Qt::AlignHCenter);
     title_->document()->setDefaultTextOption(opts);
-
-    auto yoff = title_->boundingRect().height();
-    title_->setPos(centerXOff(), -yoff);
+    auto title_bbox = titleRect();
+    title_->setPos(title_bbox.left(), 0);
 }
 
 void Device::updateImagePos()
@@ -432,12 +451,13 @@ void Device::updateImagePos()
     if (!image_)
         return;
 
-    auto image_bbox = image_->boundingRect();
-    auto yoff = image_bbox.height();
+    auto yoff = 0;
     if (title_)
         yoff += title_->boundingRect().height();
 
-    image_->setPos(-image_bbox.width() / 2, -yoff);
+    auto bbox = boundingRect();
+    auto image_wd = image_->boundingRect().width() * image_->scale();
+    image_->setPos(bbox.left() + (bbox.width() - image_wd) * 0.5, yoff);
 }
 
 void Device::updateXletsPos()
@@ -461,21 +481,58 @@ void Device::updateXletsPos()
     }
 }
 
-void Device::updateLayout()
-{
-    updateTitlePos();
-    updateImagePos();
-}
-
 QRectF Device::titleRect() const
 {
-    auto title_h = title_->boundingRect().height();
-    return QRectF(centerXOff(), -title_h, data_->width, title_h);
+    auto bbox = boundingRect();
+    auto title_box = title_->boundingRect();
+    return QRectF(bbox.left() + (bbox.width() - title_box.width()) * 0.5, 0, title_box.width(), title_box.height());
+}
+
+QRectF Device::xletRect() const
+{
+    int h = 0;
+    h += (!data_->inlets.empty() * XLET_H);
+    h += (!data_->outlets.empty() * XLET_H);
+    int w = qMax(data_->outlets.size(), data_->inlets.size()) * XLET_W;
+    auto bbox = boundingRect();
+    return QRectF(bbox.left() + (bbox.width() - w) * 0.5, bbox.bottom() - h, w, h);
 }
 
 qreal Device::centerXOff() const
 {
-    return -(data_->width / 2.0);
+    return -boundingRect().width() * 0.5;
+}
+
+int Device::calcWidth() const
+{
+    int w = qMax(data_->outlets.size(), data_->inlets.size()) * XLET_W;
+
+    if (!data_->name.isEmpty()) {
+        constexpr int MIN_CHARS = 5;
+        constexpr int MAX_CHARS = 18;
+        auto txt_wd = qBound<int>(MIN_CHARS, data_->name.size(), MAX_CHARS);
+        w = qMax<int>(w, txt_wd * 10);
+    }
+
+    if (!data_->image.isEmpty())
+        w = qMax<int>(w, 100 * data_->zoom);
+
+    return w;
+}
+
+int Device::calcHeight() const
+{
+    int h = 0;
+    if (title_)
+        h += title_->boundingRect().height();
+
+    if (image_)
+        h += image_->boundingRect().height() * image_->scale();
+
+    h += (!data_->inlets.empty() * 20);
+    h += (!data_->outlets.empty() * 20);
+
+    return h;
 }
 
 void Device::incrementName()
@@ -494,8 +551,7 @@ void Device::incrementName()
         data_->name += " 1";
     }
 
-    syncTitle();
-    updateLayout();
+    syncRect();
 }
 
 QJsonObject Device::toJson() const
@@ -507,8 +563,7 @@ QJsonObject Device::toJson() const
     json["z"] = zValue();
     json["id"] = static_cast<qint32>(id());
     json["name"] = data_->name;
-    json["width"] = data_->width;
-    json["height"] = data_->height;
+    json["zoom"] = data_->zoom;
     json["zvalue"] = data_->zvalue;
     json["image"] = data_->image;
     json["inlets"] = xletToJson(data_->inlets);
@@ -527,8 +582,6 @@ bool Device::fromJson(const QJsonValue& j, Device& dev)
 
     auto obj = j.toObject();
     dev.data_->name = obj.value("name").toString();
-    dev.syncTitle();
-    dev.updateTitlePos();
 
     dev.setPos(obj.value("x").toInt(), obj.value("y").toInt());
     // @TODO check values
@@ -545,13 +598,12 @@ bool Device::fromJson(const QJsonValue& j, Device& dev)
     dev.data_->zvalue = obj.value("zvalue").toDouble();
     dev.setZValue(obj.value("z").toDouble());
 
-    dev.data_->width = obj.value("width").toInteger(DEF_WIDTH);
-    dev.data_->height = obj.value("height").toInteger(DEF_HEIGHT);
-    dev.syncRect();
+    // dev.data_->width = obj.value("width").toInteger(DEF_WIDTH);
+    // dev.data_->height = obj.value("height").toInteger(DEF_HEIGHT);
+    // dev.syncRect();
 
     dev.data_->image = obj.value("image").toString();
-    dev.createImage();
-    dev.updateImagePos();
+    dev.data_->zoom = qBound<qreal>(0.25, obj.value("zoom").toDouble(1), 4);
 
     ItemCategory cat;
     if (fromQString(obj.value("category").toString(), cat))
@@ -586,7 +638,7 @@ bool Device::fromJson(const QJsonValue& j, Device& dev)
         }
     }
 
-    dev.createXlets();
+    dev.syncRect();
     return true;
 }
 
@@ -624,29 +676,8 @@ SharedDeviceData Device::deviceData() const
 
 void Device::setDeviceData(const SharedDeviceData& data)
 {
-    bool img_change = (data_->image != data->image);
-
     data_ = data;
     syncRect();
-    syncTitle();
-    updateTitlePos();
-
-    if (img_change) {
-        if (image_) {
-
-            delete image_;
-            image_ = nullptr;
-        }
-
-        if (!data_->image.isEmpty()) {
-            image_ = new QGraphicsSvgItem(data_->image, this);
-        }
-    }
-
-    updateImagePos();
-
-    clearXlets();
-    createXlets();
 }
 
 size_t DeviceData::visInletCount() const

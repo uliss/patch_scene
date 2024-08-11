@@ -22,34 +22,25 @@
 constexpr const char* KEY_MODEL = "model";
 constexpr const char* KEY_VENDOR = "vendor";
 constexpr const char* KEY_TITLE = "title";
+constexpr const char* KEY_ZOOM = "zoom";
 constexpr const char* KEY_IMAGE = "image";
-constexpr const char* KEY_HEIGHT = "height";
-constexpr const char* KEY_WIDTH = "width";
 constexpr const char* KEY_INPUTS = "inputs";
 constexpr const char* KEY_OUTPUTS = "outputs";
 constexpr const char* KEY_CATEGORY = "category";
 
-constexpr int DEVICE_WIDTH_DEF = 100;
-constexpr int DEVICE_HEIGHT_DEF = 40;
-
-constexpr int DEVICE_WIDTH_MIN = 20;
-constexpr int DEVICE_HEIGHT_MIN = 20;
+constexpr qreal MIN_ZOOM = 0.25;
+constexpr qreal MAX_ZOOM = 4;
+constexpr qreal DEF_ZOOM = 1;
 
 DeviceInfo::DeviceInfo()
-    : width_(DEVICE_WIDTH_DEF)
-    , height_(DEVICE_HEIGHT_DEF)
-    , category_(ItemCategory::Device)
+    : category_(ItemCategory::Device)
+    , zoom_(DEF_ZOOM)
 {
 }
 
-void DeviceInfo::setWidth(int w)
+void DeviceInfo::setZoom(qreal z)
 {
-    width_ = std::max(DEVICE_WIDTH_MIN, w);
-}
-
-void DeviceInfo::setHeight(int h)
-{
-    height_ = std::max(DEVICE_WIDTH_MIN, h);
+    zoom_ = qBound(MIN_ZOOM, z, MAX_ZOOM);
 }
 
 QString DeviceInfo::title() const
@@ -82,11 +73,10 @@ bool DeviceInfo::setJson(const QJsonObject& obj)
     setVendor(obj.value(KEY_VENDOR).toString());
     setTitle(obj.value(KEY_TITLE).toString());
     setImage(obj.value(KEY_IMAGE).toString());
-    setWidth(obj.value(KEY_WIDTH).toInt(DEVICE_WIDTH_DEF));
-    setHeight(obj.value(KEY_HEIGHT).toInt(DEVICE_HEIGHT_DEF));
+    setZoom(obj.value(KEY_ZOOM).toDouble(DEF_ZOOM));
 
     ItemCategory cat = ItemCategory::Device;
-    if(fromQString(obj.value(KEY_CATEGORY).toString(), cat))
+    if (fromQString(obj.value(KEY_CATEGORY).toString(), cat))
         setCategory(cat);
 
     auto ins = obj.value(KEY_INPUTS).toArray();
@@ -113,8 +103,7 @@ QJsonObject DeviceInfo::toJson() const
     res[KEY_VENDOR] = vendor_;
     res[KEY_TITLE] = title_;
     res[KEY_IMAGE] = image_;
-    res[KEY_WIDTH] = width_;
-    res[KEY_HEIGHT] = height_;
+    res[KEY_ZOOM] = zoom_;
     res[KEY_CATEGORY] = toString(category_);
 
     QJsonArray inputs;

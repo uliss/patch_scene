@@ -23,18 +23,15 @@
 class DeviceInfo {
     QString vendor_, model_, title_, image_;
     QList<XletData> inputs_, outputs_;
-    int width_, height_;
+    qreal zoom_;
     ItemCategory category_;
     QColor bg_color_ { Qt::white };
 
 public:
     DeviceInfo();
 
-    int width() const { return width_; }
-    int height() const { return height_; }
-
-    void setWidth(int w);
-    void setHeight(int h);
+    qreal zoom() const { return zoom_; }
+    void setZoom(qreal z);
 
     QString title() const;
     void setTitle(const QString& title) { title_ = title; }

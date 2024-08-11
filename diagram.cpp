@@ -844,9 +844,8 @@ void Diagram::dropEvent(QDropEvent* event)
     SharedDeviceData dev_data(new DeviceData);
     dev_data->pos = mapToScene(event->position().toPoint());
     dev_data->name = info.title();
-    dev_data->width = info.width();
-    dev_data->height = info.height();
     dev_data->category = info.category();
+    dev_data->zoom = info.zoom();
 
     dev_data->image = QString(":/ceam/cables/resources/devices/%1.svg").arg(info.image());
     dev_data->inlets = info.inputs();
