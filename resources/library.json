@@ -666,8 +666,7 @@
             {
                 "vendor": "Casio",
                 "model": "Privia PX-160",
-                "width": 100,
-                "height": 40,
+                "zoom": 2,
                 "category": "midi",
                 "image": "piano_keyboard_1",
                 "inputs": [
@@ -1042,23 +1041,51 @@
             {
                 "vendor": "",
                 "model": "Violin",
-                "width": 100,
-                "height": 20,
                 "image": "violin_1"
             },
             {
                 "vendor": "",
                 "model": "Viola",
-                "width": 100,
-                "height": 20,
-                "image": "violin_1"
+                "image": "violin_1",
+                "zoom": 1.25
             },
             {
                 "vendor": "",
                 "model": "Cello",
-                "width": 100,
-                "height": 20,
                 "image": "cello_1"
+            },
+            {
+                "vendor": "",
+                "model": "Piano",
+                "image": "piano_1",
+                "zoom": 2
+            },
+            {
+                "vendor": "",
+                "model": "Balalaika",
+                "image": "balalaika_1",
+                "zoom": 0.75
+            },
+            {
+                "vendor": "",
+                "model": "Harp",
+                "image": "harp_1",
+                "zoom": 1.5
+            },
+            {
+                "vendor": "",
+                "model": "French Horn",
+                "image": "french_horn_1"
+            },
+            {
+                "vendor": "",
+                "model": "Trumpet",
+                "image": "trumpet_1"
+            },
+            {
+                "vendor": "",
+                "model": "Accordion",
+                "image": "accordion_1"
             }
         ],
         "sends": [
