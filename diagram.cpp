@@ -715,15 +715,8 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
 
         auto xlet = hoverDeviceXlet(items(event->pos()), event->pos());
         if (xlet != XletInfo::none()) {
-            if (xlet.id == conn_start_.id) {
-                qWarning() << "self connection attempt";
+            if (!isValidConnection(conn_start_, xlet))
                 return;
-            }
-
-            if (xlet.type == conn_start_.type) {
-                qWarning() << "same xlet type connection attempt";
-                return;
-            }
 
             if (xlet.type == XletType::Out)
                 cmdConnectDevices(ConnectionData(xlet.id, xlet.index, conn_start_.id, conn_start_.index));
@@ -1008,10 +1001,15 @@ bool Diagram::connectDevices(const ConnectionData& data)
         }
     }
 
-    addConnection(new Connection(data));
-    // @TODO??? need update all??
-    updateConnectionsPos();
-    return true;
+    auto conn = new Connection(data);
+    if (addConnection(conn)) {
+        // @TODO??? need update all??
+        updateConnectionsPos();
+        return true;
+    } else {
+        delete conn;
+        return false;
+    }
 }
 
 bool Diagram::disconnectDevices(const ConnectionData& data)
@@ -1085,6 +1083,36 @@ void Diagram::updateZoom(qreal zoom)
     zoom_ = zoom;
     setTransform(QTransform::fromScale(zoom_, zoom_));
     emit zoomChanged(zoom_);
+}
+
+bool Diagram::isValidConnection(const XletInfo& src, const XletInfo& dest) const
+{
+    if (src.id == dest.id) {
+        qWarning() << "self connection attempt";
+        return false;
+    }
+
+    if (src.type == dest.type) {
+        qWarning() << "same xlet type connection attempt";
+        return false;
+    }
+
+    auto data = (src.type == XletType::Out)
+        ? ConnectionData(src.id, src.index, dest.id, dest.index)
+        : ConnectionData(dest.id, dest.index, src.id, src.index);
+
+    for (auto x : scene->items()) {
+        auto conn = qgraphicsitem_cast<Connection*>(x);
+        if (conn) {
+            auto item_data = conn->connectionData();
+            if (data.isSameDestimation(item_data) || data.isSameSource(item_data)) {
+                qWarning() << "already connected";
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 
 Device* Diagram::findDeviceById(DeviceId id) const

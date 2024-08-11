@@ -46,6 +46,16 @@ struct ConnectionData {
         return src != dest;
     }
 
+    bool isSameSource(const ConnectionData& conn) const
+    {
+        return src == conn.src && out == conn.out;
+    }
+
+    bool isSameDestimation(const ConnectionData& conn) const
+    {
+        return dest == conn.dest && in == conn.in;
+    }
+
     QJsonObject toJson() const;
 
     static bool fromJson(const QJsonValue& j, ConnectionData& data);

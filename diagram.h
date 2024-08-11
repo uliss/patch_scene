@@ -190,6 +190,8 @@ private:
     XletInfo hoverDeviceXlet(const QList<QGraphicsItem*>& devs, const QPoint& pt) const;
     void updateZoom(qreal zoom);
 
+    bool isValidConnection(const XletInfo& src, const XletInfo& dest) const;
+
 private:
     QGraphicsRectItem* selection_ { nullptr };
     QGraphicsLineItem* connection_ { nullptr };
