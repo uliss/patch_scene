@@ -365,6 +365,42 @@ void Diagram::setShowCables(bool value)
     emit showCablesChanged(value);
 }
 
+void Diagram::setShowImages(bool value)
+{
+    show_images_ = value;
+    for (auto c : images())
+        c->setVisible(value);
+
+    emit showImagesChanged(value);
+}
+
+bool Diagram::addImage(DiagramImage* img)
+{
+    if (!img)
+        return false;
+
+    scene->addItem(img);
+    img->setZValue(-100);
+    return true;
+}
+
+bool Diagram::addImage(const QString& path)
+{
+    QPixmap pixmap(path);
+    auto img = new DiagramImage();
+    // img->setS
+    img->setPixmap(pixmap);
+
+    auto bbox = img->boundingRect();
+    img->setPos(-bbox.width() / 2, -bbox.height() / 2);
+    if (!addImage(img)) {
+        delete img;
+        return false;
+    } else {
+        return true;
+    }
+}
+
 bool Diagram::loadJson(const QString& path)
 {
     qDebug() << __FUNCTION__ << path;
@@ -934,6 +970,18 @@ QList<Device*> Diagram::selectedDevices() const
 
     for (auto x : sel_devs) {
         auto dev = qgraphicsitem_cast<Device*>(x);
+        if (dev)
+            res.push_back(dev);
+    }
+
+    return res;
+}
+
+QList<DiagramImage*> Diagram::images() const
+{
+    QList<DiagramImage*> res;
+    for (auto x : scene->items()) {
+        auto dev = qgraphicsitem_cast<DiagramImage*>(x);
         if (dev)
             res.push_back(dev);
     }

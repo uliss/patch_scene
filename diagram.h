@@ -16,6 +16,7 @@
 
 #include "connection.h"
 #include "device.h"
+#include "diagram_image.h"
 
 #include <QGraphicsItemGroup>
 #include <QGraphicsScene>
@@ -37,6 +38,7 @@ class Diagram : public QGraphicsView {
 
 public:
     Q_PROPERTY(bool showCables READ showCables WRITE setShowCables NOTIFY showCablesChanged)
+    Q_PROPERTY(bool showImages READ showImages WRITE setShowImages NOTIFY showImagesChanged)
 
 public:
     explicit Diagram(QWidget* parent = nullptr);
@@ -88,6 +90,11 @@ public:
 
     bool showCables() const { return show_cables_; }
     void setShowCables(bool value);
+    bool showImages() const { return show_images_; }
+    void setShowImages(bool value);
+
+    bool addImage(DiagramImage* img);
+    bool addImage(const QString& path);
 
     // undo/redo commands
     void cmdCreateDevice(const QPointF& pos);
@@ -128,6 +135,7 @@ public:
     QList<Connection*> connections() const;
     QList<Device*> devices() const;
     QList<Device*> selectedDevices() const;
+    QList<DiagramImage*> images() const;
 
     void selectDevices(const QList<DeviceId>& ids, bool value = true);
     void toggleDevices(const QList<DeviceId>& ids);
@@ -142,6 +150,7 @@ signals:
     void canRedoChanged(bool);
     void canUndoChanged(bool);
     void showCablesChanged(bool);
+    void showImagesChanged(bool);
     void zoomChanged(qreal);
     void deviceAdded(SharedDeviceData data);
     void deviceRemoved(SharedDeviceData data);
@@ -203,6 +212,7 @@ private:
     XletInfo conn_start_;
     qreal zoom_ { 1 };
     bool show_cables_ { true };
+    bool show_images_ { true };
 
     QList<SharedDeviceData> clip_buffer_;
 };

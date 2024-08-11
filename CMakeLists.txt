@@ -69,6 +69,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         undo_commands.h undo_commands.cpp
         device_common.h device_common.cpp
         export_document.h export_document.cpp
+        diagram_image.h diagram_image.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET patch_scene APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
