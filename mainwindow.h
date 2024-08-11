@@ -62,7 +62,6 @@ private slots:
 private:
     void setProjectName(const QString& fileName);
     bool doSave();
-    bool doExportDocument(const QString& fileName);
     void loadLibraryDevices();
     void createToolbarScaleView();
     void resizePanels();

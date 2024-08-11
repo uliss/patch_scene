@@ -459,10 +459,6 @@ bool MainWindow::doSave()
     return true;
 }
 
-bool MainWindow::doExportDocument(const QString& fileName)
-{
-}
-
 void MainWindow::loadLibraryDevices()
 {
     auto model = new DeviceItemModel(this);
