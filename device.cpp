@@ -211,20 +211,21 @@ void Device::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
 
     if (option->state & QStyle::State_Selected) {
         pen.setColor(Qt::blue);
-
         painter->setPen(pen);
-        painter->setBrush(Qt::NoBrush);
 
-        if (!noXlets())
+        if (!noXlets()) {
+            painter->setBrush(QColor(255, 255, 255, 200));
             painter->drawRect(xletRect());
+        }
 
         pen.setStyle(Qt::DotLine);
+        painter->setBrush(Qt::NoBrush);
         painter->setPen(pen);
         painter->drawRect(boundingRect());
-    } else if (!noXlets()) {
+    } else if (!noXlets()) { // draw xlet box
         pen.setColor(Qt::black);
         painter->setPen(pen);
-        painter->setBrush(Qt::NoBrush);
+        painter->setBrush(QColor(255, 255, 255, 200));
         painter->drawRect(xletRect());
     }
 
