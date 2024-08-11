@@ -70,5 +70,6 @@
         <file>resources/undo.svg</file>
         <file>resources/cable.svg</file>
         <file>resources/devices/accordion_1.svg</file>
+        <file>resources/image.svg</file>
     </qresource>
 </RCC>
