@@ -214,7 +214,7 @@ void Device::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
         painter->setPen(pen);
 
         if (!noXlets()) {
-            painter->setBrush(QColor(255, 255, 255, 200));
+            painter->setBrush(QColor(255, 255, 255));
             painter->drawRect(xletRect());
         }
 
@@ -225,7 +225,7 @@ void Device::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
     } else if (!noXlets()) { // draw xlet box
         pen.setColor(Qt::black);
         painter->setPen(pen);
-        painter->setBrush(QColor(255, 255, 255, 200));
+        painter->setBrush(QColor(255, 255, 255));
         painter->drawRect(xletRect());
     }
 
