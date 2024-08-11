@@ -47,6 +47,7 @@ public slots:
     void showAbout();
     void showPreferences();
     void updateTitle();
+    void addImage();
 
 protected:
     void closeEvent(QCloseEvent* event) override;

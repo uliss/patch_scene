@@ -73,6 +73,7 @@
    <addaction name="actionRedo"/>
    <addaction name="separator"/>
    <addaction name="actionShowCables"/>
+   <addaction name="actionShowImages"/>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -104,6 +105,7 @@
     <addaction name="actionZoomNormal"/>
     <addaction name="separator"/>
     <addaction name="actionShowCables"/>
+    <addaction name="actionShowImages"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -134,8 +136,16 @@
     <addaction name="actionMinimize"/>
     <addaction name="actionShow"/>
    </widget>
+   <widget class="QMenu" name="menuObjects">
+    <property name="title">
+     <string>Objects</string>
+    </property>
+    <addaction name="actionAddDevice"/>
+    <addaction name="actionAddImage"/>
+   </widget>
    <addaction name="menu_File"/>
    <addaction name="menuEdit"/>
+   <addaction name="menuObjects"/>
    <addaction name="menu_View"/>
    <addaction name="menuWindow"/>
    <addaction name="menuHelp"/>
@@ -612,6 +622,37 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+E</string>
+   </property>
+  </action>
+  <action name="actionAddDevice">
+   <property name="text">
+    <string>Add device</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+1</string>
+   </property>
+  </action>
+  <action name="actionAddImage">
+   <property name="text">
+    <string>Add image</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+2</string>
+   </property>
+  </action>
+  <action name="actionShowImages">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="cables_resources.qrc">
+     <normaloff>:/ceam/cables/resources/image.svg</normaloff>:/ceam/cables/resources/image.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Images</string>
    </property>
   </action>
  </widget>

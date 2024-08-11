@@ -156,9 +156,13 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
     connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(saveDocument()));
     connect(ui->actionSelect_All, SIGNAL(triggered()), this, SLOT(selectAll()));
+    connect(ui->actionAddImage, SIGNAL(triggered(bool)), this, SLOT(addImage()));
 
     connect(ui->actionShowCables, &QAction::triggered, diagram, [this](bool value) {
         diagram->setShowCables(value);
+    });
+    connect(ui->actionShowImages, &QAction::triggered, diagram, [this](bool value) {
+        diagram->setShowImages(value);
     });
     connect(ui->actionExport, SIGNAL(triggered()), this, SLOT(exportDocument()));
 
@@ -221,6 +225,13 @@ void MainWindow::updateTitle()
     } else {
         setWindowTitle(tr("%1 - PatchScene").arg(project_name_));
     }
+}
+
+void MainWindow::addImage()
+{
+    auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, "", QStandardPaths::LocateDirectory);
+    auto filename = QFileDialog::getOpenFileName(this, tr("Open image"), path, tr("Image files (*.JPG *.jpg *.jpeg *.PNG *.png)"));
+    diagram->addImage(filename);
 }
 
 void MainWindow::showAbout()
