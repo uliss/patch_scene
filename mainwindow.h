@@ -38,10 +38,11 @@ public:
 
 public slots:
     void duplicateSelection();
+    void exportDocument();
     void openDocument();
-    void printScheme();
     bool saveDocument();
     bool saveDocumentAs();
+    void printScheme();
     void selectAll();
     void showAbout();
     void showPreferences();
@@ -61,6 +62,7 @@ private slots:
 private:
     void setProjectName(const QString& fileName);
     bool doSave();
+    bool doExportDocument(const QString& fileName);
     void loadLibraryDevices();
     void createToolbarScaleView();
     void resizePanels();

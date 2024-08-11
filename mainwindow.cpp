@@ -14,6 +14,7 @@
 #include "mainwindow.h"
 #include "about_window.h"
 #include "device_library.h"
+#include "export_document.h"
 #include "preferences_dialog.h"
 #include "ui_mainwindow.h"
 
@@ -28,6 +29,8 @@
 #include <QStandardItemModel>
 #include <QStandardPaths>
 #include <QStatusBar>
+#include <QTextDocumentWriter>
+#include <QTextTable>
 
 constexpr const char* SETTINGS_ORG = "space.ceam";
 constexpr const char* SETTINGS_APP = "PatchScene";
@@ -157,6 +160,7 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->actionShowCables, &QAction::triggered, diagram, [this](bool value) {
         diagram->setShowCables(value);
     });
+    connect(ui->actionExport, SIGNAL(triggered()), this, SLOT(exportDocument()));
 
     // zoom
     connect(ui->actionZoomIn, SIGNAL(triggered()), diagram, SLOT(zoomIn()));
@@ -455,6 +459,10 @@ bool MainWindow::doSave()
     return true;
 }
 
+bool MainWindow::doExportDocument(const QString& fileName)
+{
+}
+
 void MainWindow::loadLibraryDevices()
 {
     auto model = new DeviceItemModel(this);
@@ -668,6 +676,37 @@ bool MainWindow::saveDocumentAs()
 void MainWindow::duplicateSelection()
 {
     diagram->cmdDuplicateSelection();
+}
+
+void MainWindow::exportDocument()
+{
+    auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, "", QStandardPaths::LocateDirectory);
+    auto odt_file = QFileDialog::getSaveFileName(this, tr("Save project"), path, tr("OpenDocument format (*.odt)"));
+    if (odt_file.isEmpty())
+        return;
+
+    QTextDocument doc;
+    QTextCursor cursor(&doc);
+
+    ceam::doc::insert_section(cursor, tr("Devices"));
+    ceam::doc::insert_table(cursor, device_model_, { 40, 20, 20 });
+
+    ceam::doc::insert_section(cursor, tr("Connections"));
+    ceam::doc::insert_table(cursor, conn_model_);
+
+    ceam::doc::insert_section(cursor, tr("Sends"));
+    ceam::doc::insert_table(cursor, send_model_);
+
+    ceam::doc::insert_section(cursor, tr("Returns"));
+    ceam::doc::insert_table(cursor, return_model_);
+
+    QTextDocumentWriter writer(odt_file, "ODF");
+
+    if (writer.write(&doc)) {
+        qDebug() << "exported to" << odt_file;
+    } else {
+        qWarning() << "can't save to" << odt_file;
+    }
 }
 
 void MainWindow::openDocument()
