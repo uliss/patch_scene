@@ -196,13 +196,13 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
     connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(saveDocument()));
     connect(ui->actionSelect_All, SIGNAL(triggered()), this, SLOT(selectAll()));
-    connect(ui->actionAddImage, SIGNAL(triggered(bool)), this, SLOT(addImage()));
+    connect(ui->actionSetBackground, SIGNAL(triggered(bool)), this, SLOT(setBackground()));
 
     connect(ui->actionShowCables, &QAction::triggered, diagram_, [this](bool value) {
         diagram_->setShowCables(value);
     });
-    connect(ui->actionShowImages, &QAction::triggered, diagram_, [this](bool value) {
-        diagram_->setShowImages(value);
+    connect(ui->actionShowBackground, &QAction::triggered, diagram_, [this](bool value) {
+        diagram_->setShowBackground(value);
     });
     connect(ui->actionExport, SIGNAL(triggered()), this, SLOT(exportDocument()));
 
@@ -267,11 +267,14 @@ void MainWindow::updateTitle()
     }
 }
 
-void MainWindow::addImage()
+void MainWindow::setBackground()
 {
     auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, "", QStandardPaths::LocateDirectory);
-    auto filename = QFileDialog::getOpenFileName(this, tr("Open image"), path, tr("Image files (*.JPG *.jpg *.jpeg *.PNG *.png)"));
-    diagram_->addImage(filename);
+    auto filename = QFileDialog::getOpenFileName(this,
+        tr("Open image"),
+        path,
+        tr("Image files (*.JPG *.jpg *.jpeg *.PNG *.png *.SVG *.svg)"));
+    diagram_->setBackground(filename);
 }
 
 void MainWindow::showAbout()

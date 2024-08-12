@@ -37,7 +37,8 @@ public:
     void incrementName();
 
     QJsonObject toJson() const;
-    static bool fromJson(const QJsonValue& j, Device& dev);
+
+    static std::unique_ptr<Device> fromJson(const QJsonValue& j);
 
     int inletAt(const QPointF& pt) const;
     int outletAt(const QPointF& pt) const;

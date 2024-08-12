@@ -563,7 +563,8 @@ void Device::incrementName()
             data_->setTitle(QString("%1 %2").arg(prefix).arg(num + 1));
         }
     } else {
-        data_->setTitle(QString("%1 1").arg(data_->title()));
+        auto title = QString("%1 1").arg(data_->title());
+        data_->setTitle(title);
     }
 
     syncRect();
@@ -571,42 +572,39 @@ void Device::incrementName()
 
 QJsonObject Device::toJson() const
 {
-    QJsonObject json;
-
     auto data_json = data_->toJson();
 
     data_json["x"] = x();
     data_json["y"] = y();
     data_json["z"] = zValue();
 
-    return json;
+    return data_json;
 }
 
-bool Device::fromJson(const QJsonValue& j, Device& dev)
+std::unique_ptr<Device> Device::fromJson(const QJsonValue& j)
 {
     if (!j.isObject()) {
         qWarning() << "not a object" << j;
-        return false;
+        return {};
     }
 
-    if (!dev.data_->setJson(j)) {
-        return false;
+    SharedDeviceData data(new DeviceData(DEV_NULL_ID));
+    if (!data->setJson(j))
+        return {};
+
+    if (data->isNull()) {
+        data->setId(DeviceIdFactory::instance().request());
+    } else if (DeviceIdFactory::instance().isUsed(data->id())) {
+        qWarning() << "device id is already used:" << data->id();
+        data->setId(DeviceIdFactory::instance().request());
     }
 
+    std::unique_ptr<Device> dev(new Device(data));
     auto obj = j.toObject();
 
-    dev.setPos(obj.value("x").toInt(), obj.value("y").toInt());
-    dev.setZValue(obj.value("z").toDouble());
-
-    if (dev.data_->isNull()) {
-        dev.data_->setId(DeviceIdFactory::instance().request());
-    } else if (DeviceIdFactory::instance().isUsed(dev.data_->id())) {
-        qWarning() << "device id is already used:" << dev.data_->id();
-        dev.data_->setId(DeviceIdFactory::instance().request());
-    }
-
-    dev.syncRect();
-    return true;
+    dev->setPos(obj.value("x").toInt(), obj.value("y").toInt());
+    dev->setZValue(obj.value("z").toDouble());
+    return dev;
 }
 
 int Device::inletAt(const QPointF& pt) const

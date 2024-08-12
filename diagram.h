@@ -33,12 +33,15 @@ enum class DiagramState {
     SelectionRect,
 };
 
+QJsonValue jsonFromPixmap(const QPixmap& p);
+QPixmap pixmapFromJson(const QJsonValue& v);
+
 class Diagram : public QGraphicsView {
     Q_OBJECT
 
 public:
     Q_PROPERTY(bool showCables READ showCables WRITE setShowCables NOTIFY showCablesChanged)
-    Q_PROPERTY(bool showImages READ showImages WRITE setShowImages NOTIFY showImagesChanged)
+    Q_PROPERTY(bool showBackground READ showBackground WRITE setShowBackground NOTIFY showBackgroundChanged)
 
 public:
     explicit Diagram(QWidget* parent = nullptr);
@@ -89,11 +92,10 @@ public:
 
     bool showCables() const { return show_cables_; }
     void setShowCables(bool value);
-    bool showImages() const { return show_images_; }
-    void setShowImages(bool value);
+    bool showBackground() const { return show_background_; }
+    void setShowBackground(bool value);
 
-    bool addImage(DiagramImage* img);
-    bool addImage(const QString& path);
+    bool setBackground(const QString& path);
 
     // undo/redo commands
     void cmdCreateDevice(const QPointF& pos);
@@ -150,7 +152,7 @@ signals:
     void canRedoChanged(bool);
     void canUndoChanged(bool);
     void showCablesChanged(bool);
-    void showImagesChanged(bool);
+    void showBackgroundChanged(bool);
     void zoomChanged(qreal);
     void deviceAdded(SharedDeviceData data);
     void deviceRemoved(SharedDeviceData data);
@@ -204,17 +206,25 @@ private:
 private:
     QGraphicsRectItem* selection_ { nullptr };
     QGraphicsLineItem* connection_ { nullptr };
+    DiagramImage* background_ { nullptr };
+    QUndoStack* undo_stack_ { nullptr };
     QPoint selection_origin_;
     QPointF prev_event_pos_;
     QPointF prev_click_pos_;
-    QUndoStack* undo_stack_ = nullptr;
+
     DiagramState state_ { DiagramState::None };
     XletInfo conn_start_;
     qreal zoom_ { 1 };
     bool show_cables_ { true };
-    bool show_images_ { true };
+    bool show_background_ { true };
 
     QList<SharedDeviceData> clip_buffer_;
+
+private:
+    void initUndoStack();
+    void initSelectionRect();
+    void initLiveConnection();
+    void initScene();
 };
 
 #endif // DIAGRAM_H

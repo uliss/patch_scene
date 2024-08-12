@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include "diagram.h"
 
+#include <QBuffer>
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -52,48 +53,58 @@ public:
     operator bool() const { return changed_; }
 };
 
-Diagram::Diagram(QWidget* parent)
-    : QGraphicsView { parent }
+void Diagram::initUndoStack()
 {
-    /* Немного поднастроим отображение виджета и его содержимого */
-    this->setHorizontalScrollBarPolicy(
-        Qt::ScrollBarAlwaysOff); // Отключим скроллбар по горизонтали
-    this->setVerticalScrollBarPolicy(
-        Qt::ScrollBarAlwaysOff); // Отключим скроллбар по вертикали
-    this->setAlignment(Qt::AlignCenter); // Делаем привязку содержимого к центру
-    this->setSizePolicy(
-        QSizePolicy::Expanding,
-        QSizePolicy::Expanding); // Растягиваем содержимое по виджету
+    undo_stack_ = new QUndoStack(this);
+    connect(undo_stack_, SIGNAL(canRedoChanged(bool)), this, SIGNAL(canRedoChanged(bool)));
+    connect(undo_stack_, SIGNAL(canUndoChanged(bool)), this, SIGNAL(canUndoChanged(bool)));
+}
 
-    setMinimumHeight(100);
-    setMinimumWidth(100);
-
-    scene = new QGraphicsScene(); // Инициализируем сцену для отрисовки
-    scene->setItemIndexMethod(QGraphicsScene::NoIndex);
-
-    setScene(scene);
-    setRenderHint(QPainter::Antialiasing);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    scene->setSceneRect(-250, -250, 1000, 1000); // Устанавливаем область графической сцены
-
-    connection_ = new QGraphicsLineItem();
-    connection_->setZValue(16000);
-    connection_->setVisible(false);
-    scene->addItem(connection_);
-
+void Diagram::initSelectionRect()
+{
     selection_ = new QGraphicsRectItem();
     auto pen = QPen(Qt::blue);
     pen.setDashPattern({ 2, 2 });
     selection_->setPen(pen);
     selection_->setVisible(false);
     scene->addItem(selection_);
+}
 
-    undo_stack_ = new QUndoStack(this);
-    connect(undo_stack_, SIGNAL(canRedoChanged(bool)), this, SIGNAL(canRedoChanged(bool)));
-    connect(undo_stack_, SIGNAL(canUndoChanged(bool)), this, SIGNAL(canUndoChanged(bool)));
+void Diagram::initLiveConnection()
+{
+    connection_ = new QGraphicsLineItem();
+    connection_->setZValue(16000);
+    connection_->setVisible(false);
+    scene->addItem(connection_);
+}
 
+void Diagram::initScene()
+{
+    scene = new QGraphicsScene();
+    scene->setItemIndexMethod(QGraphicsScene::NoIndex);
+    scene->setSceneRect(-250, -250, 1000, 1000); // Устанавливаем область графической сцены
+    setScene(scene);
+}
+
+Diagram::Diagram(QWidget* parent)
+    : QGraphicsView { parent }
+{
+    setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    setAlignment(Qt::AlignCenter);
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+    setMinimumHeight(100);
+    setMinimumWidth(100);
     setAcceptDrops(true);
+
+    setRenderHint(QPainter::Antialiasing);
+
+    initScene();
+
+    initLiveConnection();
+    initSelectionRect();
+    initUndoStack();
 }
 
 bool Diagram::removeDevice(DeviceId id)
@@ -370,40 +381,25 @@ void Diagram::setShowCables(bool value)
     emit showCablesChanged(value);
 }
 
-void Diagram::setShowImages(bool value)
+void Diagram::setShowBackground(bool value)
 {
-    show_images_ = value;
-    for (auto c : images())
-        c->setVisible(value);
+    show_background_ = value;
+    if (background_)
+        background_->setVisible(value);
 
-    emit showImagesChanged(value);
+    emit showBackgroundChanged(value);
 }
 
-bool Diagram::addImage(DiagramImage* img)
+bool Diagram::setBackground(const QString& path)
 {
-    if (!img)
-        return false;
-
-    scene->addItem(img);
-    img->setZValue(-100);
-    return true;
-}
-
-bool Diagram::addImage(const QString& path)
-{
-    QPixmap pixmap(path);
-    auto img = new DiagramImage();
-    // img->setS
-    img->setPixmap(pixmap);
-
-    auto bbox = img->boundingRect();
-    img->setPos(-bbox.width() / 2, -bbox.height() / 2);
-    if (!addImage(img)) {
-        delete img;
-        return false;
-    } else {
-        return true;
-    }
+    if (!background_) {
+        background_ = new DiagramImage(path);
+        background_->setZValue(-100);
+        scene->addItem(background_);
+        background_->setPos(0, 0);
+        return !background_->isEmpty();
+    } else
+        return background_->setImagePath(path);
 }
 
 bool Diagram::loadJson(const QString& path)
@@ -441,9 +437,9 @@ bool Diagram::loadJson(const QString& path)
     if (devs.isArray()) {
         auto arr = devs.toArray();
         for (const auto& j : arr) {
-            auto dev = new Device();
-            if (Device::fromJson(j, *dev))
-                addDevice(dev);
+            auto dev = Device::fromJson(j);
+            if (dev)
+                addDevice(dev.release());
         }
     }
 
@@ -830,7 +826,6 @@ void Diagram::contextMenuEvent(QContextMenuEvent* event)
             menu.exec(mapToGlobal(pos));
         }
     } else {
-
         auto addAct = new QAction(tr("&Add device"), this);
         connect(addAct, &QAction::triggered, this,
             [this, pos]() { cmdCreateDevice(mapToScene(pos)); });
@@ -1179,4 +1174,21 @@ Connection* Diagram::findConnectionByXlet(const XletInfo& xi) const
     }
 
     return nullptr;
+}
+
+QPixmap pixmapFromJson(const QJsonValue& v)
+{
+    const auto encoded = v.toString().toLatin1();
+    QPixmap p;
+    p.loadFromData(QByteArray::fromBase64(encoded), "PNG");
+    return p;
+}
+
+QJsonValue jsonFromPixmap(const QPixmap& p)
+{
+    QBuffer buffer;
+    buffer.open(QIODevice::WriteOnly);
+    p.save(&buffer, "PNG");
+    const auto encoded = buffer.data().toBase64();
+    return { QLatin1String(encoded) };
 }

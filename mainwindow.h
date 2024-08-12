@@ -37,17 +37,17 @@ public:
     ~MainWindow();
 
 public slots:
+    bool saveDocument();
+    bool saveDocumentAs();
     void duplicateSelection();
     void exportDocument();
     void openDocument();
-    bool saveDocument();
-    bool saveDocumentAs();
     void printScheme();
     void selectAll();
+    void setBackground();
     void showAbout();
     void showPreferences();
     void updateTitle();
-    void addImage();
 
 protected:
     void closeEvent(QCloseEvent* event) override;

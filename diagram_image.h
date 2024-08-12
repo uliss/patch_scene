@@ -15,13 +15,27 @@
 #define DIAGRAM_IMAGE_H
 
 #include <QGraphicsPixmapItem>
+#include <QGraphicsSvgItem>
 
-class DiagramImage : public QGraphicsPixmapItem {
+class DiagramImage : public QGraphicsItem {
 public:
-    DiagramImage(QGraphicsItem* parent = nullptr);
+    DiagramImage(const QString& path, QGraphicsItem* parent = nullptr);
 
     enum { Type = QGraphicsItem::UserType + 4 };
     int type() const override { return Type; }
+
+    QRectF boundingRect() const final;
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) final;
+
+    void clearImage();
+    bool setImagePath(const QString& path);
+
+    bool isEmpty() const { return empty_; }
+
+private:
+    QGraphicsPixmapItem* pixmap_ { nullptr };
+    QGraphicsSvgItem* svg_ { nullptr };
+    bool empty_ { true };
 };
 
 #endif // DIAGRAM_IMAGE_H
