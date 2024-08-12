@@ -389,3 +389,26 @@ void CopySelected::redo()
     if (!data.isEmpty())
         doc_->setClipBuffer(data);
 }
+
+UpdateDeviceData::UpdateDeviceData(Diagram* doc, const SharedDeviceData& data)
+    : doc_(doc)
+    , new_data_(data)
+{
+    if (doc_) {
+        auto dev = doc_->findDeviceById(data->id());
+        if (dev)
+            old_data_ = dev->deviceData();
+    }
+}
+
+void UpdateDeviceData::undo()
+{
+    if (doc_)
+        doc_->setDeviceData(old_data_);
+}
+
+void UpdateDeviceData::redo()
+{
+    if (doc_)
+        doc_->setDeviceData(new_data_);
+}

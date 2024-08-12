@@ -207,4 +207,16 @@ private:
     QList<DeviceId> added_;
 };
 
+class UpdateDeviceData : public QUndoCommand {
+public:
+    UpdateDeviceData(Diagram* doc, const SharedDeviceData& data);
+
+    void undo() final;
+    void redo() final;
+
+private:
+    Diagram* doc_;
+    SharedDeviceData old_data_, new_data_;
+};
+
 #endif // UNDO_COMMANDS_H
