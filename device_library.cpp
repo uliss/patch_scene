@@ -15,111 +15,14 @@
 
 #include <QDebug>
 #include <QFile>
-#include <QJsonArray>
 #include <QJsonDocument>
-#include <QJsonObject>
 
-constexpr const char* KEY_MODEL = "model";
-constexpr const char* KEY_VENDOR = "vendor";
-constexpr const char* KEY_TITLE = "title";
-constexpr const char* KEY_ZOOM = "zoom";
-constexpr const char* KEY_IMAGE = "image";
-constexpr const char* KEY_INPUTS = "inputs";
-constexpr const char* KEY_OUTPUTS = "outputs";
-constexpr const char* KEY_CATEGORY = "category";
-
-constexpr qreal MIN_ZOOM = 0.25;
-constexpr qreal MAX_ZOOM = 4;
-constexpr qreal DEF_ZOOM = 1;
-
-DeviceInfo::DeviceInfo()
-    : category_(ItemCategory::Device)
-    , zoom_(DEF_ZOOM)
-{
-}
-
-void DeviceInfo::setZoom(qreal z)
-{
-    zoom_ = qBound(MIN_ZOOM, z, MAX_ZOOM);
-}
-
-QString DeviceInfo::title() const
-{
-    if (title_.isEmpty()) {
-        QString res;
-        if (!vendor_.isEmpty()) {
-            res += vendor_;
-            res += ' ';
-        }
-        res += model_;
-        return res;
-    } else
-        return title_;
-}
-
-bool DeviceInfo::setCategory(const QString& cat)
-{
-    return fromQString(cat, category_);
-}
-
-QString DeviceInfo::categoryName() const
-{
-    return toString(category_);
-}
-
-bool DeviceInfo::setJson(const QJsonObject& obj)
-{
-    setModel(obj.value(KEY_MODEL).toString());
-    setVendor(obj.value(KEY_VENDOR).toString());
-    setTitle(obj.value(KEY_TITLE).toString());
-    setImage(obj.value(KEY_IMAGE).toString());
-    setZoom(obj.value(KEY_ZOOM).toDouble(DEF_ZOOM));
-
-    ItemCategory cat = ItemCategory::Device;
-    if (fromQString(obj.value(KEY_CATEGORY).toString(), cat))
-        setCategory(cat);
-
-    auto ins = obj.value(KEY_INPUTS).toArray();
-    for (const auto& x : ins) {
-        XletData xlet;
-        if (XletData::fromJson(x.toObject(), xlet))
-            inputs_.push_back(xlet);
-    }
-
-    auto outs = obj.value(KEY_OUTPUTS).toArray();
-    for (const auto& x : outs) {
-        XletData xlet;
-        if (XletData::fromJson(x.toObject(), xlet))
-            outputs_.push_back(xlet);
-    }
-
-    return true;
-}
-
-QJsonObject DeviceInfo::toJson() const
-{
-    QJsonObject res;
-    res[KEY_MODEL] = model_;
-    res[KEY_VENDOR] = vendor_;
-    res[KEY_TITLE] = title_;
-    res[KEY_IMAGE] = image_;
-    res[KEY_ZOOM] = zoom_;
-    res[KEY_CATEGORY] = toString(category_);
-
-    QJsonArray inputs;
-    for (auto& x : inputs_) {
-        inputs.append(x.toJson());
-    }
-    res[KEY_INPUTS] = inputs;
-
-    QJsonArray outputs;
-    for (auto& x : outputs_) {
-        outputs.append(x.toJson());
-    }
-    res[KEY_OUTPUTS] = outputs;
-
-    return res;
-}
+constexpr const char* JSON_KEY_DEVICES = "devices";
+constexpr const char* JSON_KEY_INSTRUMENTS = "instruments";
+constexpr const char* JSON_KEY_SENDS = "sends";
+constexpr const char* JSON_KEY_RETURNS = "returns";
+constexpr const char* JSON_KEY_HUMANS = "humans";
+constexpr const char* JSON_KEY_FURNITURE = "furniture";
 
 DeviceLibrary::DeviceLibrary() { }
 
@@ -158,94 +61,34 @@ bool DeviceLibrary::readFile(const QString& filename)
         return false;
     }
 
-    readDevices(lib.toObject().value("devices"));
-    readInstruments(lib.toObject().value("instruments"));
-    readSends(lib.toObject().value("sends"));
-    readReturns(lib.toObject().value("returns"));
+    readItems(lib.toObject().value(JSON_KEY_DEVICES), devices_, ItemCategory::Device);
+    readItems(lib.toObject().value(JSON_KEY_INSTRUMENTS), instruments_, ItemCategory::Instrument);
+    readItems(lib.toObject().value(JSON_KEY_SENDS), sends_, ItemCategory::Send);
+    readItems(lib.toObject().value(JSON_KEY_RETURNS), returns_, ItemCategory::Return);
+    readItems(lib.toObject().value(JSON_KEY_FURNITURE), furniture_, ItemCategory::Furniture);
+    readItems(lib.toObject().value(JSON_KEY_DEVICES), humans_, ItemCategory::Human);
 
     return true;
 }
 
-bool DeviceLibrary::readDevices(const QJsonValue& devs)
+bool DeviceLibrary::readItems(const QJsonValue& value, QList<SharedDeviceData>& items, ItemCategory cat)
 {
-    if (devs.isArray()) {
-        auto arr = devs.toArray();
-        for (const auto& obj : arr) {
-            if (obj.isObject()) {
-                auto dev = obj.toObject();
+    if (value.isNull())
+        return false;
 
-                DeviceInfo dev_info;
-                dev_info.setJson(dev);
-                dev_info.setCategory(ItemCategory::Device);
-                devices_.push_back(dev_info);
-            }
-        }
-
-        return true;
-    } else {
+    if (!value.isArray()) {
+        qWarning() << __FILE_NAME__ << __FUNCTION__ << "json array expected, got:" << value;
         return false;
     }
-}
 
-bool DeviceLibrary::readInstruments(const QJsonValue& instr)
-{
-    if (instr.isArray()) {
-        auto arr = instr.toArray();
-        for (const auto& obj : arr) {
-            if (obj.isObject()) {
-                auto item = obj.toObject();
-
-                DeviceInfo dev_info;
-                dev_info.setJson(item);
-                dev_info.setCategory(ItemCategory::Instrument);
-                instruments_.push_back(dev_info);
-            }
+    auto arr = value.toArray();
+    for (const auto& v : arr) {
+        SharedDeviceData data(new DeviceData(DEV_NULL_ID));
+        if (data->setJson(v)) {
+            data->setCategory(cat);
+            items.append(data);
         }
-
-        return true;
-    } else {
-        return false;
     }
-}
 
-bool DeviceLibrary::readSends(const QJsonValue& sends)
-{
-    if (sends.isArray()) {
-        auto arr = sends.toArray();
-        for (const auto& obj : arr) {
-            if (obj.isObject()) {
-                auto item = obj.toObject();
-
-                DeviceInfo dev_info;
-                dev_info.setJson(item);
-                dev_info.setCategory(ItemCategory::Send);
-                sends_.push_back(dev_info);
-            }
-        }
-
-        return true;
-    } else {
-        return false;
-    }
-}
-
-bool DeviceLibrary::readReturns(const QJsonValue& returns)
-{
-    if (returns.isArray()) {
-        auto arr = returns.toArray();
-        for (const auto& obj : arr) {
-            if (obj.isObject()) {
-                auto item = obj.toObject();
-
-                DeviceInfo dev_info;
-                dev_info.setJson(item);
-                dev_info.setCategory(ItemCategory::Return);
-                returns_.push_back(dev_info);
-            }
-        }
-
-        return true;
-    } else {
-        return false;
-    }
+    return true;
 }

@@ -16,4 +16,9 @@
 DiagramImage::DiagramImage(QGraphicsItem* parent)
     : QGraphicsPixmapItem(parent)
 {
+    setAcceptDrops(false);
+    setAcceptHoverEvents(false);
+    setFlag(QGraphicsItem::ItemIsSelectable, false);
+    setFlag(QGraphicsItem::ItemIsMovable, false);
+    setFlag(QGraphicsItem::ItemIsFocusable, false);
 }

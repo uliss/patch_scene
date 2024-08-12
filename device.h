@@ -14,37 +14,9 @@
 #ifndef DEVICE_H
 #define DEVICE_H
 
-#include "connection.h"
 #include "device_common.h"
-#include "device_xlet.h"
 
 #include <QGraphicsItem>
-
-enum class BatteryType {
-    None,
-    AA,
-    AAA,
-    Crona
-};
-
-class DeviceData : public QSharedData {
-public:
-    QList<XletData> inlets;
-    QList<XletData> outlets;
-    QString name;
-    QString image;
-    QPointF pos;
-    DeviceId id { 0 };
-    qreal zvalue = { 1 };
-    ItemCategory category { ItemCategory::Device };
-    BatteryType battery_ { BatteryType::None };
-    qreal zoom = { 1 };
-
-    size_t visInletCount() const;
-    size_t visOutletCount() const;
-};
-
-using SharedDeviceData = QSharedDataPointer<DeviceData>;
 
 class Device : public QGraphicsRectItem {
 public:
@@ -57,7 +29,7 @@ public:
     QRect inletRect(int i) const;
     QRect outletRect(int i) const;
 
-    DeviceId id() const { return data_->id; }
+    DeviceId id() const { return data_->id(); }
 
     enum { Type = QGraphicsItem::UserType + 1 };
     int type() const override { return Type; }
@@ -72,8 +44,6 @@ public:
 
     SharedDeviceData deviceData() const;
     void setDeviceData(const SharedDeviceData& data);
-
-    static constexpr DeviceId NullID { 0 };
 
 private:
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;

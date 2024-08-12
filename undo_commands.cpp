@@ -109,7 +109,7 @@ void RemoveDevice::undo()
 void RemoveDevice::redo()
 {
     if (doc_)
-        doc_->removeDevice(data_->id);
+        doc_->removeDevice(data_->id());
 }
 
 RemoveSelected::RemoveSelected(Diagram* doc)
@@ -138,7 +138,7 @@ void RemoveSelected::redo()
         return;
 
     for (const auto& data : data_)
-        doc_->removeDevice(data->id);
+        doc_->removeDevice(data->id());
 }
 
 DuplicateSelected::DuplicateSelected(Diagram* doc)
@@ -155,7 +155,7 @@ void DuplicateSelected::undo()
         return;
 
     for (const auto& data : data_)
-        doc_->removeDevice(data->id);
+        doc_->removeDevice(data->id());
 }
 
 void DuplicateSelected::redo()
@@ -174,17 +174,17 @@ void DuplicateSelected::redo()
 DuplicateDevice::DuplicateDevice(Diagram* doc, const SharedDeviceData& data)
     : doc_(doc)
     , src_data_(data)
-    , new_id_(Device::NullID)
+    , new_id_(DEV_NULL_ID)
 {
 }
 
 void DuplicateDevice::undo()
 {
-    if (!doc_ || new_id_ == Device::NullID)
+    if (!doc_ || new_id_ == DEV_NULL_ID)
         return;
 
     doc_->removeDevice(new_id_);
-    new_id_ = Device::NullID;
+    new_id_ = DEV_NULL_ID;
 }
 
 void DuplicateDevice::redo()
@@ -329,7 +329,7 @@ void CutSelected::redo()
 
     // remove selected
     for (const auto& data : data_)
-        doc_->removeDevice(data->id);
+        doc_->removeDevice(data->id());
 }
 
 PasteFromClipBuffer::PasteFromClipBuffer(Diagram* doc)

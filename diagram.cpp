@@ -24,7 +24,6 @@
 #include <QPrinter>
 
 #include "device.h"
-#include "device_library.h"
 #include "deviceproperties.h"
 #include "undo_commands.h"
 
@@ -472,8 +471,8 @@ bool Diagram::findConnectionXletData(const ConnectionData& data, XletData& src, 
 
         if (dev->id() == data.src) {
             auto dev_data = dev->deviceData();
-            if (data.out < dev_data->outlets.size()) {
-                src = dev_data->outlets[data.out];
+            if (data.out < dev_data->outputs().size()) {
+                src = dev_data->outputAt(data.out);
                 if (src_dev)
                     *src_dev = dev;
                 count++;
@@ -482,8 +481,8 @@ bool Diagram::findConnectionXletData(const ConnectionData& data, XletData& src, 
             }
         } else if (dev->id() == data.dest) {
             auto dev_data = dev->deviceData();
-            if (data.in < dev_data->inlets.size()) {
-                dest = dev_data->inlets[data.in];
+            if (data.in < dev_data->inputs().size()) {
+                dest = dev_data->inputAt(data.in);
                 if (dest_dev)
                     *dest_dev = dev;
                 count++;
@@ -851,36 +850,28 @@ void Diagram::dragMoveEvent(QDragMoveEvent* event)
 
 void Diagram::dropEvent(QDropEvent* event)
 {
-    auto data = event->mimeData()->data("text/plain");
-    if (data.isEmpty()) {
+    auto json_data = event->mimeData()->data("text/plain");
+    if (json_data.isEmpty()) {
         qDebug() << "empty data";
         return;
     }
 
     QJsonParseError err;
-    auto doc = QJsonDocument::fromJson(data, &err);
+    auto doc = QJsonDocument::fromJson(json_data, &err);
     if (doc.isNull()) {
         qWarning() << doc << err.errorString();
         return;
     }
 
-    DeviceInfo info;
-    if (!info.setJson(doc.object())) {
+    SharedDeviceData data(new DeviceData(DEV_NULL_ID));
+    if (!data->setJson(doc.object())) {
         qWarning() << "can't set JSON";
         return;
     }
 
-    SharedDeviceData dev_data(new DeviceData);
-    dev_data->pos = mapToScene(event->position().toPoint());
-    dev_data->name = info.title();
-    dev_data->category = info.category();
-    dev_data->zoom = info.zoom();
+    data->setPos(mapToScene(event->position().toPoint()));
 
-    dev_data->image = QString(":/ceam/cables/resources/devices/%1.svg").arg(info.image());
-    dev_data->inlets = info.inputs();
-    dev_data->outlets = info.outputs();
-
-    cmdDuplicateDevice(dev_data);
+    cmdDuplicateDevice(data);
 
     event->acceptProposedAction();
 }

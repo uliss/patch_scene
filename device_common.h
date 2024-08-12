@@ -14,9 +14,14 @@
 #ifndef DEVICE_COMMON_H
 #define DEVICE_COMMON_H
 
+#include <QJsonArray>
+#include <QSharedData>
 #include <QString>
 
 #include <functional>
+
+#include "connection.h"
+#include "device_xlet.h"
 
 enum class ItemCategory {
     Device,
@@ -25,8 +30,98 @@ enum class ItemCategory {
     Furniture,
     Send,
     Return,
+    MaxCategory,
     // when add new value - update toQString, fromQString, foreachItemCategory functions!
 };
+
+enum class BatteryType {
+    None,
+    AA,
+    AAA,
+    Crona
+};
+
+QString toQString(BatteryType type);
+
+class DeviceData : public QSharedData {
+public:
+    constexpr static const qreal MIN_ZOOM = 0.25;
+    constexpr static const qreal MAX_ZOOM = 4;
+
+public:
+    explicit DeviceData(DeviceId id);
+
+    bool isNull() const { return id_ == DEV_NULL_ID; }
+    DeviceId id() const { return id_; }
+    void setId(DeviceId id) { id_ = id; }
+
+    size_t visInputCount() const;
+    size_t visOutputCount() const;
+    bool noVisInputs() const;
+    bool noVisOutputs() const;
+    bool hasVisInputs() const;
+    bool hasVisOutputs() const;
+
+    qreal zoom() const { return zoom_; }
+    void setZoom(qreal z);
+
+    QString title() const;
+    void setTitle(const QString& title) { title_ = title; }
+
+    QString vendor() const { return vendor_; }
+    void setVendor(const QString& vendor) { vendor_ = vendor; }
+
+    QString model() const { return model_; }
+    void setModel(const QString& model) { model_ = model; }
+
+    QString image() const { return image_; }
+    void setImage(const QString& image) { image_ = image; }
+    QString imageIconPath() const;
+
+    ItemCategory category() const { return category_; }
+    void setCategory(ItemCategory cat) { category_ = cat; }
+
+    int categoryIndex() const { return static_cast<int>(category_); }
+    bool setCategoryIndex(int idx);
+
+    bool setJson(const QJsonValue& v);
+    QJsonObject toJson() const;
+
+    QList<XletData>& inputs() { return inputs_; }
+    const QList<XletData>& inputs() const { return inputs_; }
+    const XletData& inputAt(XletIndex n) const;
+    void appendInput(const XletData& x) { inputs_.append(x); }
+
+    QList<XletData>& outputs() { return outputs_; }
+    const QList<XletData>& outputs() const { return outputs_; }
+    const XletData& outputAt(XletIndex n) const { return outputs_.at(n); }
+    void appendOutput(const XletData& x) { outputs_.append(x); }
+
+    const QPointF& pos() const { return pos_; }
+    void setPos(const QPointF& pos) { pos_ = pos; }
+
+    int batteryCount() const { return battery_count_; }
+    BatteryType batteryType() const { return battery_; }
+
+private:
+    static QJsonArray xletToJson(const QList<XletData>& xlets);
+    static bool setXletJson(const QJsonValue& v, QList<XletData>& xlets);
+
+private:
+    QList<XletData> inputs_;
+    QList<XletData> outputs_;
+    QString model_, vendor_, title_;
+    QString image_;
+    QPointF pos_;
+    DeviceId id_ { 0 };
+    qreal zvalue_ = { 1 };
+    ItemCategory category_ { ItemCategory::Device };
+    BatteryType battery_ { BatteryType::None };
+    int battery_count_ { 0 };
+    qreal zoom_ = { 1 };
+};
+
+using SharedDeviceData = QSharedDataPointer<DeviceData>;
 
 const char* toString(ItemCategory cat);
 bool fromQString(const QString& str, ItemCategory& cat);

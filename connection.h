@@ -21,6 +21,8 @@
 using DeviceId = std::uint32_t;
 using XletIndex = std::uint8_t;
 
+constexpr DeviceId DEV_NULL_ID = 0;
+
 struct ConnectionData {
     DeviceId src { 0 }, dest { 0 };
     XletIndex out { 0 }, in { 0 };

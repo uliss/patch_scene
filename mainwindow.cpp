@@ -282,12 +282,12 @@ void MainWindow::closeEvent(QCloseEvent* event)
 
 void MainWindow::onDeviceAdd(SharedDeviceData data)
 {
-    if (data->category != ItemCategory::Device)
+    if (data->category() != ItemCategory::Device)
         return;
 
-    auto item = new QStandardItem(data->name);
-    item->setData(data->id, DATA_DEVICE_ID);
-    item->setToolTip(QString("#%1").arg(data->id));
+    auto item = new QStandardItem(data->title());
+    item->setData(data->id(), DATA_DEVICE_ID);
+    item->setToolTip(QString("#%1").arg(data->id()));
     item->setEditable(false);
     device_model_->appendRow(item);
     ui->deviceList->resizeColumnToContents(0);
@@ -295,12 +295,12 @@ void MainWindow::onDeviceAdd(SharedDeviceData data)
 
 void MainWindow::onDeviceRemove(SharedDeviceData data)
 {
-    if (data->category != ItemCategory::Device)
+    if (data->category() != ItemCategory::Device)
         return;
 
     for (int i = 0; i < device_model_->rowCount(); i++) {
         auto item = device_model_->item(i, COL_DEV_NAME);
-        if (item && item->data(DATA_DEVICE_ID) == data->id) {
+        if (item && item->data(DATA_DEVICE_ID) == data->id()) {
             device_model_->removeRow(i);
             break;
         }
@@ -314,9 +314,9 @@ static bool updateItemDeviceName(QStandardItem* item, const SharedDeviceData& da
 
     bool ok = false;
     auto dev_id = item->data(DATA_DEVICE_ID).toInt(&ok);
-    if (dev_id && dev_id == data->id) {
-        if (data->name != item->text())
-            item->setText(data->name);
+    if (dev_id && dev_id == data->id()) {
+        if (data->title() != item->text())
+            item->setText(data->title());
 
         return true;
     } else
@@ -329,13 +329,13 @@ void MainWindow::onDeviceUpdate(SharedDeviceData data)
     bool name_update = false;
     for (int i = 0; i < device_model_->rowCount(); i++) {
         auto item = device_model_->item(i, COL_DEV_NAME);
-        if (item && item->data(DATA_DEVICE_ID) == data->id) {
-            if (data->category != ItemCategory::Device) {
+        if (item && item->data(DATA_DEVICE_ID) == data->id()) {
+            if (data->category() != ItemCategory::Device) {
                 device_model_->removeRow(i);
             } else {
-                name_update = (item->text() != data->name);
+                name_update = (item->text() != data->title());
                 if (name_update)
-                    item->setText(data->name);
+                    item->setText(data->title());
 
                 found = true;
             }
@@ -345,7 +345,7 @@ void MainWindow::onDeviceUpdate(SharedDeviceData data)
     }
 
     // not found in model
-    if (!found && data->category == ItemCategory::Device) {
+    if (!found && data->category() == ItemCategory::Device) {
         onDeviceAdd(data);
     } else if (name_update) {
         // update connection device name change
@@ -379,7 +379,7 @@ void MainWindow::onConnectionAdd(ConnectionData data)
     XletData src, dest;
     Device *src_dev = nullptr, *dest_dev = nullptr;
     if (diagram->findConnectionXletData(data, src, dest, &src_dev, &dest_dev)) {
-        auto src_name = new QStandardItem(src_dev->deviceData()->name);
+        auto src_name = new QStandardItem(src_dev->deviceData()->title());
         src_name->setData(QVariant::fromValue(data), DATA_CONNECTION);
         src_name->setData(data.src, DATA_DEVICE_ID);
         src_name->setEditable(false);
@@ -387,7 +387,7 @@ void MainWindow::onConnectionAdd(ConnectionData data)
         src_model->setEditable(false);
         auto src_plug = new QStandardItem(conn2str(src.type));
         src_plug->setEditable(false);
-        auto dest_name = new QStandardItem(dest_dev->deviceData()->name);
+        auto dest_name = new QStandardItem(dest_dev->deviceData()->title());
         dest_name->setData(data.dest, DATA_DEVICE_ID);
         dest_name->setEditable(false);
         auto dest_model = new QStandardItem(dest.modelString());
@@ -398,14 +398,14 @@ void MainWindow::onConnectionAdd(ConnectionData data)
         conn_model_->appendRow({ src_name, src_model, src_plug, dest_name, dest_model, dest_plug });
         ui->connectionList->resizeColumnsToContents();
 
-        if (dest_dev->deviceData()->category == ItemCategory::Send) {
+        if (dest_dev->deviceData()->category() == ItemCategory::Send) {
             auto src_idx = new QStandardItem(QString("%1").arg((int)data.out + 1));
             auto dest_idx = new QStandardItem(QString("%1").arg((int)data.in + 1));
             send_model_->appendRow({ dest_name->clone(), dest_idx, src_name->clone(), src_idx });
             ui->returnList->resizeColumnsToContents();
         }
 
-        if (src_dev->deviceData()->category == ItemCategory::Return) {
+        if (src_dev->deviceData()->category() == ItemCategory::Return) {
             auto src_idx = new QStandardItem(QString("%1").arg((int)data.out + 1));
             auto dest_idx = new QStandardItem(QString("%1").arg((int)data.in + 1));
             return_model_->appendRow({ src_name->clone(), src_idx, dest_name->clone(), dest_idx });
@@ -487,10 +487,10 @@ void MainWindow::loadLibraryDevices()
     DeviceLibrary dev_lib;
     if (dev_lib.readFile("://ceam/cables/resources/library.json")) {
         for (auto& dev : dev_lib.devices()) {
-            auto item = new QStandardItem(dev.title());
+            auto item = new QStandardItem(dev->title());
             item->setEditable(false);
 
-            QJsonDocument doc(dev.toJson());
+            QJsonDocument doc(dev->toJson());
             item->setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
             item->setDropEnabled(false);
             devices->appendRow(item);
@@ -510,10 +510,10 @@ void MainWindow::loadLibraryDevices()
     parentItem->appendRow(instr);
 
     for (auto& ins : dev_lib.instruments()) {
-        auto item = new QStandardItem(ins.title());
+        auto item = new QStandardItem(ins->title());
         item->setEditable(false);
 
-        QJsonDocument doc(ins.toJson());
+        QJsonDocument doc(ins->toJson());
         item->setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
         item->setDropEnabled(false);
         instr->appendRow(item);
@@ -524,11 +524,10 @@ void MainWindow::loadLibraryDevices()
     parentItem->appendRow(sends);
 
     for (auto& send : dev_lib.sends()) {
-        qDebug() << send.title();
-        auto item = new QStandardItem(send.title());
+        auto item = new QStandardItem(send->title());
         item->setEditable(false);
 
-        QJsonDocument doc(send.toJson());
+        QJsonDocument doc(send->toJson());
         item->setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
         item->setDropEnabled(false);
         sends->appendRow(item);
@@ -539,18 +538,18 @@ void MainWindow::loadLibraryDevices()
     parentItem->appendRow(returns);
 
     for (auto& rtn : dev_lib.returns()) {
-        auto item = new QStandardItem(rtn.title());
+        auto item = new QStandardItem(rtn->title());
         item->setEditable(false);
 
-        QJsonDocument doc(rtn.toJson());
+        QJsonDocument doc(rtn->toJson());
         item->setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
         item->setDropEnabled(false);
         returns->appendRow(item);
     }
 
-    auto misc = new QStandardItem({ tr("misc") });
-    misc->setEditable(false);
-    parentItem->appendRow(misc);
+    // auto misc = new QStandardItem({ tr("misc") });
+    // misc->setEditable(false);
+    // parentItem->appendRow(misc);
 }
 
 void MainWindow::createToolbarScaleView()

@@ -32,7 +32,7 @@ struct XletData {
 
     QJsonObject toJson() const;
 
-    static bool fromJson(const QJsonObject& j, XletData& data);
+    static bool fromJson(const QJsonValue& j, XletData& data);
 };
 
 class DeviceXlet : public QGraphicsSvgItem {

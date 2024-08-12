@@ -38,7 +38,7 @@ DeviceProperties::DeviceProperties(QWidget* parent, DeviceId id, const QSharedDa
 {
     data_.detach();
 
-    setWindowTitle(tr("'%1' properties").arg(data->name));
+    setWindowTitle(tr("'%1' properties").arg(data->title()));
     ui->setupUi(this);
 
     ui->currentImage->setStyleSheet("background-color: white;");
@@ -46,15 +46,14 @@ DeviceProperties::DeviceProperties(QWidget* parent, DeviceId id, const QSharedDa
     ui->currentImage->setFixedSize(IMG_PREVIEW_SIZE, IMG_PREVIEW_SIZE);
     ui->currentImage->setAlignment(Qt::AlignCenter);
 
-    ui->zoom->setValue(data->zoom);
-    connect(ui->zoom, &QDoubleSpinBox::valueChanged, this, [this](qreal v) { data_->zoom = v; });
+    ui->zoom->setValue(data->zoom());
+    connect(ui->zoom, &QDoubleSpinBox::valueChanged, this, [this](qreal v) { data_->setZoom(v); });
 
+    ui->deviceName->setText(data->title());
+    connect(ui->deviceName, &QLineEdit::textChanged, this, [this](const QString& txt) { data_->setTitle(txt); });
 
-    ui->deviceName->setText(data->name);
-    connect(ui->deviceName, &QLineEdit::textChanged, this, [this](const QString& txt) { data_->name = txt; });
-
-    setupXletTable(ui->inlets, data->inlets.size());
-    setupXletTable(ui->outlets, data->outlets.size());
+    setupXletTable(ui->inlets, data->inputs().size());
+    setupXletTable(ui->outlets, data->outputs().size());
     setupCategories();
 
     connect(ui->imageChooseButton, SIGNAL(clicked()), this, SLOT(chooseImageDialog()));
@@ -110,15 +109,15 @@ DeviceProperties::DeviceProperties(QWidget* parent, DeviceId id, const QSharedDa
         }
     });
 
-    setImagePreview(data->image);
+    setImagePreview(data->imageIconPath());
 
     int in_idx = 0;
-    for (auto& in : data->inlets) {
+    for (auto& in : data->inputs()) {
         insertXlet(ui->inlets, in_idx++, in);
     }
 
     int out_idx = 0;
-    for (auto& out : data->outlets) {
+    for (auto& out : data->outputs()) {
         insertXlet(ui->outlets, out_idx++, out);
     }
 
@@ -135,8 +134,8 @@ void DeviceProperties::accept()
 {
     auto dia = qobject_cast<Diagram*>(parent());
 
-    syncXlets(ui->inlets, data_->inlets);
-    syncXlets(ui->outlets, data_->outlets);
+    syncXlets(ui->inlets, data_->inputs());
+    syncXlets(ui->outlets, data_->outputs());
 
     if (dia) {
         dia->setDeviceData(id_, data_);
@@ -148,12 +147,12 @@ void DeviceProperties::accept()
 void DeviceProperties::chooseImageDialog()
 {
     auto dev_pix = new DevicePixmap(this);
-    dev_pix->setCurrent(data_->image);
+    dev_pix->setCurrent(data_->imageIconPath());
     connect(dev_pix, &DevicePixmap::choosePixmap, this,
         [this](const QString& filename) {
-            data_->image = filename;
-            qDebug() << filename;
-            setImagePreview(filename);
+            // data_->image = filename;
+            qDebug() << filename << "TODO";
+            // setImagePreview(filename);
         });
     dev_pix->show();
 }
@@ -179,16 +178,14 @@ void DeviceProperties::setupCategories()
         ui->category->addItem(tr(name), i);
     });
 
-    ui->category->setCurrentIndex(static_cast<int>(data_->category));
+    ui->category->setCurrentIndex(data_->categoryIndex());
     connect(ui->category, &QComboBox::currentIndexChanged, this, [this](int) {
         bool ok = false;
         auto idx = ui->category->currentData().toInt(&ok);
-        if (ok) {
-            data_->category = static_cast<ItemCategory>(idx);
-            qDebug() << idx;
-        } else {
+        if (ok)
+            data_->setCategoryIndex(idx);
+        else
             qWarning() << __FUNCTION__ << "can't get category index";
-        }
     });
 }
 
@@ -226,14 +223,12 @@ void DeviceProperties::insertXlet(QTableWidget* tab, int row, const XletData& da
             phantom->setEnabled(connectSupportsPhantomPower(model->model()));
     });
 
-    // tab->setColumnWidth(COL_NAME, 100);
-    // tab->setColumnWidth(COL_VISIBLE, 50);
-    // tab->setColumnWidth(COL_MODEL, 80);
-
-    auto rows = std::max<int>(2, tab->rowCount());
+    auto nrows = std::max<int>(2, tab->rowCount());
     // adjust minimal height
-    if (rows < 6)
-        tab->setMinimumHeight((rows + 1) * 30);
+    if (nrows < 6)
+        tab->setMinimumHeight((nrows + 1) * 30);
+
+    tab->resizeColumnsToContents();
 }
 
 bool DeviceProperties::duplicateXlet(QTableWidget* tab, int row)

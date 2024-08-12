@@ -81,9 +81,6 @@ private:
     QString file_name_;
     QSortFilterProxyModel* library_proxy_;
     QStandardItemModel *device_model_, *conn_model_, *send_model_, *return_model_;
-
-    // QAction* mac_app_show_;
-    // QAction* mac_app_hide_;
 };
 
 #endif // MAINWINDOW_H

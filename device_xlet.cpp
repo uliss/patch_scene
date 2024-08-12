@@ -87,15 +87,22 @@ QJsonObject XletData::toJson() const
     return j;
 }
 
-bool XletData::fromJson(const QJsonObject& j, XletData& data)
+bool XletData::fromJson(const QJsonValue& j, XletData& data)
 {
-    data.name = j.value(KEY_NAME).toString();
-    data.visible = j.value(KEY_VISIBLE).toBool(true);
-    data.phantom_power = j.value(KEY_PHANTOM).toBool(false);
-    data.level = j.value(KEY_LEVEL).toString();
-    data.model = findConnectorByJsonName(j.value(KEY_MODEL).toString());
-    data.color_bg = j.value(KEY_BG_COLOR).toString("#FFF");
-    data.type = connector_type(j.value(KEY_SOCKET).toString(""));
+    if (!j.isObject()) {
+        qWarning() << __FILE_NAME__ << __FUNCTION__ << "json object expected, got:" << j;
+        return false;
+    }
+
+    auto obj = j.toObject();
+
+    data.name = obj.value(KEY_NAME).toString();
+    data.visible = obj.value(KEY_VISIBLE).toBool(true);
+    data.phantom_power = obj.value(KEY_PHANTOM).toBool(false);
+    data.level = obj.value(KEY_LEVEL).toString();
+    data.model = findConnectorByJsonName(obj.value(KEY_MODEL).toString());
+    data.color_bg = obj.value(KEY_BG_COLOR).toString("#FFF");
+    data.type = connector_type(obj.value(KEY_SOCKET).toString(""));
 
     return true;
 }
