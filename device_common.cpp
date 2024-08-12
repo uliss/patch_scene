@@ -283,3 +283,10 @@ QString toQString(BatteryType type)
         return {};
     }
 }
+
+QDebug operator<<(QDebug debug, const DeviceData& data)
+{
+    QDebugStateSaver saver(debug);
+    debug.nospace() << data.toJson();
+    return debug;
+}

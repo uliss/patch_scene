@@ -119,6 +119,8 @@ private:
     qreal zoom_ = { 1 };
 };
 
+QDebug operator<<(QDebug debug, const DeviceData& data);
+
 using SharedDeviceData = QSharedDataPointer<DeviceData>;
 
 const char* toString(ItemCategory cat);
