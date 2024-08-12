@@ -345,6 +345,7 @@ void MainWindow::onDeviceRemove(SharedDeviceData data)
         auto item = device_model_->item(i, COL_DEV_NAME);
         if (item && item->data(DATA_DEVICE_ID) == data->id()) {
             device_model_->removeRow(i);
+            ui->deviceList->resizeColumnsToContents();
             break;
         }
     }
@@ -389,6 +390,8 @@ void MainWindow::onDeviceUpdate(SharedDeviceData data)
                 auto model = device_model_->item(i, COL_DEV_MODEL);
                 if (model && model->text() != data->model())
                     model->setText(data->model());
+
+                ui->deviceList->resizeColumnsToContents();
             }
 
             break;
