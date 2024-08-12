@@ -76,7 +76,7 @@ private:
 
 private:
     Ui::MainWindow* ui;
-    Diagram* diagram;
+    Diagram* diagram_;
     QString project_name_;
     QString file_name_;
     QSortFilterProxyModel* library_proxy_;

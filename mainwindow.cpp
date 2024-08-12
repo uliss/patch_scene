@@ -100,7 +100,7 @@ MainWindow::MainWindow(QWidget* parent)
             bool ok = false;
             auto id = index.data(DATA_DEVICE_ID).toInt(&ok);
             if (ok)
-                diagram->cmdSelectUnique(id);
+                diagram_->cmdSelectUnique(id);
         }
     });
     ui->deviceList->resizeColumnsToContents();
@@ -111,7 +111,7 @@ MainWindow::MainWindow(QWidget* parent)
         bool ok = false;
         auto id = item->data(DATA_DEVICE_ID).toInt(&ok);
         if (ok) {
-            auto dev = diagram->findDeviceById(id);
+            auto dev = diagram_->findDeviceById(id);
             if (dev) {
 
                 auto data = dev->deviceData();
@@ -131,7 +131,7 @@ MainWindow::MainWindow(QWidget* parent)
                     return;
                 }
 
-                diagram->setDeviceData(dev, data);
+                diagram_->setDeviceData(dev, data);
             } else {
                 qWarning() << "device not found:" << (int)id;
             }
@@ -148,7 +148,7 @@ MainWindow::MainWindow(QWidget* parent)
             bool ok = false;
             auto id = index.data(DATA_DEVICE_ID).toInt(&ok);
             if (ok)
-                diagram->cmdSelectUnique(id);
+                diagram_->cmdSelectUnique(id);
         }
     });
     ui->connectionList->resizeColumnsToContents();
@@ -168,22 +168,22 @@ MainWindow::MainWindow(QWidget* parent)
     setupExpandButton(ui->sendListBtn, ui->sendList, ui->sendListLine);
     setupExpandButton(ui->returnListBtn, ui->returnList, ui->returnListLine);
 
-    diagram = new Diagram();
-    ui->gridLayout->addWidget(diagram, 1, 1);
-    connect(diagram, SIGNAL(sceneChanged()), this, SLOT(onSceneChange()));
-    connect(diagram, SIGNAL(deviceAdded(SharedDeviceData)), this, SLOT(onDeviceAdd(SharedDeviceData)));
-    connect(diagram, SIGNAL(deviceRemoved(SharedDeviceData)), this, SLOT(onDeviceRemove(SharedDeviceData)));
-    connect(diagram, SIGNAL(deviceUpdated(SharedDeviceData)), this, SLOT(onDeviceUpdate(SharedDeviceData)));
-    connect(diagram, SIGNAL(connectionAdded(ConnectionData)), this, SLOT(onConnectionAdd(ConnectionData)));
-    connect(diagram, SIGNAL(connectionRemoved(ConnectionData)), this, SLOT(onConnectionRemove(ConnectionData)));
+    diagram_ = new Diagram();
+    ui->gridLayout->addWidget(diagram_, 1, 1);
+    connect(diagram_, SIGNAL(sceneChanged()), this, SLOT(onSceneChange()));
+    connect(diagram_, SIGNAL(deviceAdded(SharedDeviceData)), this, SLOT(onDeviceAdd(SharedDeviceData)));
+    connect(diagram_, SIGNAL(deviceRemoved(SharedDeviceData)), this, SLOT(onDeviceRemove(SharedDeviceData)));
+    connect(diagram_, SIGNAL(deviceUpdated(SharedDeviceData)), this, SLOT(onDeviceUpdate(SharedDeviceData)));
+    connect(diagram_, SIGNAL(connectionAdded(ConnectionData)), this, SLOT(onConnectionAdd(ConnectionData)));
+    connect(diagram_, SIGNAL(connectionRemoved(ConnectionData)), this, SLOT(onConnectionRemove(ConnectionData)));
 
-    connect(diagram, &Diagram::canRedoChanged, this, [this](bool value) { ui->actionRedo->setEnabled(value); });
-    connect(diagram, &Diagram::canUndoChanged, this, [this](bool value) { ui->actionUndo->setEnabled(value); });
+    connect(diagram_, &Diagram::canRedoChanged, this, [this](bool value) { ui->actionRedo->setEnabled(value); });
+    connect(diagram_, &Diagram::canUndoChanged, this, [this](bool value) { ui->actionUndo->setEnabled(value); });
 
     connect(ui->actionAboutApp, SIGNAL(triggered(bool)), this, SLOT(showAbout()));
-    connect(ui->actionCopy, SIGNAL(triggered()), diagram, SLOT(copySelected()));
-    connect(ui->actionCut, SIGNAL(triggered()), diagram, SLOT(cutSelected()));
-    connect(ui->actionPaste, SIGNAL(triggered()), diagram, SLOT(paste()));
+    connect(ui->actionCopy, SIGNAL(triggered()), diagram_, SLOT(copySelected()));
+    connect(ui->actionCut, SIGNAL(triggered()), diagram_, SLOT(cutSelected()));
+    connect(ui->actionPaste, SIGNAL(triggered()), diagram_, SLOT(paste()));
     connect(ui->actionDuplicate, SIGNAL(triggered()), this, SLOT(duplicateSelection()));
     connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(openDocument()));
     connect(ui->actionPreferences, SIGNAL(triggered(bool)), this, SLOT(showPreferences()));
@@ -193,19 +193,19 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->actionSelect_All, SIGNAL(triggered()), this, SLOT(selectAll()));
     connect(ui->actionAddImage, SIGNAL(triggered(bool)), this, SLOT(addImage()));
 
-    connect(ui->actionShowCables, &QAction::triggered, diagram, [this](bool value) {
-        diagram->setShowCables(value);
+    connect(ui->actionShowCables, &QAction::triggered, diagram_, [this](bool value) {
+        diagram_->setShowCables(value);
     });
-    connect(ui->actionShowImages, &QAction::triggered, diagram, [this](bool value) {
-        diagram->setShowImages(value);
+    connect(ui->actionShowImages, &QAction::triggered, diagram_, [this](bool value) {
+        diagram_->setShowImages(value);
     });
     connect(ui->actionExport, SIGNAL(triggered()), this, SLOT(exportDocument()));
 
     // zoom
-    connect(ui->actionZoomIn, SIGNAL(triggered()), diagram, SLOT(zoomIn()));
-    connect(ui->actionZoomNormal, SIGNAL(triggered()), diagram, SLOT(zoomNormal()));
-    connect(ui->actionZoomOut, SIGNAL(triggered()), diagram, SLOT(zoomOut()));
-    connect(diagram, &Diagram::zoomChanged, this, [this](qreal z) {
+    connect(ui->actionZoomIn, SIGNAL(triggered()), diagram_, SLOT(zoomIn()));
+    connect(ui->actionZoomNormal, SIGNAL(triggered()), diagram_, SLOT(zoomNormal()));
+    connect(ui->actionZoomOut, SIGNAL(triggered()), diagram_, SLOT(zoomOut()));
+    connect(diagram_, &Diagram::zoomChanged, this, [this](qreal z) {
         statusBar()->showMessage(tr("Zoom %1%").arg(qRound(z * 100)), 1000);
     });
 
@@ -216,8 +216,8 @@ MainWindow::MainWindow(QWidget* parent)
             ui->libraryTree->expandAll();
     });
 
-    connect(ui->actionRedo, SIGNAL(triggered()), diagram, SLOT(redo()));
-    connect(ui->actionUndo, SIGNAL(triggered()), diagram, SLOT(undo()));
+    connect(ui->actionRedo, SIGNAL(triggered()), diagram_, SLOT(redo()));
+    connect(ui->actionUndo, SIGNAL(triggered()), diagram_, SLOT(undo()));
 
     ui->librarySearch->setStatusTip(tr("search in library"));
     ui->librarySearch->setClearButtonEnabled(true);
@@ -266,7 +266,7 @@ void MainWindow::addImage()
 {
     auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, "", QStandardPaths::LocateDirectory);
     auto filename = QFileDialog::getOpenFileName(this, tr("Open image"), path, tr("Image files (*.JPG *.jpg *.jpeg *.PNG *.png)"));
-    diagram->addImage(filename);
+    diagram_->addImage(filename);
 }
 
 void MainWindow::showAbout()
@@ -432,7 +432,7 @@ void MainWindow::onConnectionAdd(ConnectionData data)
 
     XletData src, dest;
     Device *src_dev = nullptr, *dest_dev = nullptr;
-    if (diagram->findConnectionXletData(data, src, dest, &src_dev, &dest_dev)) {
+    if (diagram_->findConnectionXletData(data, src, dest, &src_dev, &dest_dev)) {
         auto src_name = new QStandardItem(src_dev->deviceData()->title());
         src_name->setData(QVariant::fromValue(data), DATA_CONNECTION);
         src_name->setData(data.src, DATA_DEVICE_ID);
@@ -511,7 +511,7 @@ bool MainWindow::doSave()
         return false;
     }
 
-    QJsonDocument doc(diagram->toJson());
+    QJsonDocument doc(diagram_->toJson());
     file.write(doc.toJson());
 
     setProjectName(file.fileName());
@@ -710,12 +710,12 @@ void MainWindow::readPositionSettings()
 
 void MainWindow::printScheme()
 {
-    diagram->printScheme();
+    diagram_->printScheme();
 }
 
 void MainWindow::selectAll()
 {
-    diagram->cmdSelectAll();
+    diagram_->cmdSelectAll();
 }
 
 bool MainWindow::saveDocument()
@@ -735,7 +735,7 @@ bool MainWindow::saveDocumentAs()
 
 void MainWindow::duplicateSelection()
 {
-    diagram->cmdDuplicateSelection();
+    diagram_->cmdDuplicateSelection();
 }
 
 void MainWindow::exportDocument()
@@ -773,7 +773,7 @@ void MainWindow::openDocument()
 {
     auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, "", QStandardPaths::LocateDirectory);
     auto file_name = QFileDialog::getOpenFileName(this, tr("Open project"), path, tr("PatchScene projects (*.psc *.json)"));
-    if (diagram->loadJson(file_name)) {
+    if (diagram_->loadJson(file_name)) {
         setProjectName(file_name);
         updateTitle();
         setWindowModified(false);
