@@ -39,7 +39,50 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="0">
+     <item row="1" column="0">
+      <widget class="QLabel" name="vendorLabel">
+       <property name="text">
+        <string>Vendor</string>
+       </property>
+       <property name="buddy">
+        <cstring>vendor</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="0,0,0,0">
+       <item>
+        <widget class="QLineEdit" name="vendor"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="modelLabel">
+         <property name="text">
+          <string>Model</string>
+         </property>
+         <property name="buddy">
+          <cstring>model</cstring>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="model"/>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item row="2" column="0">
       <widget class="QLabel" name="categoryLabel">
        <property name="text">
         <string>Category</string>
@@ -49,10 +92,10 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
+     <item row="2" column="1">
       <widget class="QComboBox" name="category"/>
      </item>
-     <item row="4" column="0">
+     <item row="3" column="0">
       <widget class="QLabel" name="inletsLabel">
        <property name="text">
         <string>Inputs</string>
@@ -62,7 +105,7 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
+     <item row="3" column="1">
       <widget class="QTableWidget" name="inlets">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -101,7 +144,7 @@
        <column/>
       </widget>
      </item>
-     <item row="5" column="1">
+     <item row="4" column="1">
       <widget class="QWidget" name="inletContainer" native="true">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
@@ -127,10 +170,13 @@
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Maximum</enum>
+          </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>352</width>
-            <height>20</height>
+            <width>100000</width>
+            <height>0</height>
            </size>
           </property>
          </spacer>
@@ -170,7 +216,7 @@
        </layout>
       </widget>
      </item>
-     <item row="6" column="0">
+     <item row="5" column="0">
       <widget class="QLabel" name="outletsLabel">
        <property name="text">
         <string>Outputs</string>
@@ -180,7 +226,7 @@
        </property>
       </widget>
      </item>
-     <item row="6" column="1">
+     <item row="5" column="1">
       <widget class="QTableWidget" name="outlets">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -219,7 +265,7 @@
        <column/>
       </widget>
      </item>
-     <item row="7" column="1">
+     <item row="6" column="1">
       <widget class="QWidget" name="outletContainer" native="true">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -247,8 +293,8 @@
           </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>352</width>
-            <height>20</height>
+            <width>10000</width>
+            <height>0</height>
            </size>
           </property>
          </spacer>
@@ -288,7 +334,7 @@
        </layout>
       </widget>
      </item>
-     <item row="8" column="0">
+     <item row="7" column="0">
       <widget class="QLabel" name="imageLabel">
        <property name="text">
         <string>Image</string>
@@ -298,7 +344,7 @@
        </property>
       </widget>
      </item>
-     <item row="8" column="1">
+     <item row="7" column="1">
       <widget class="QWidget" name="widget" native="true">
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <property name="leftMargin">
@@ -346,7 +392,7 @@
        </layout>
       </widget>
      </item>
-     <item row="9" column="0">
+     <item row="8" column="0">
       <widget class="QLabel" name="zoomLabel">
        <property name="text">
         <string>Scale</string>
@@ -356,7 +402,7 @@
        </property>
       </widget>
      </item>
-     <item row="9" column="1">
+     <item row="8" column="1">
       <widget class="QDoubleSpinBox" name="zoom">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -378,32 +424,6 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="vendorLabel">
-       <property name="text">
-        <string>Vendor</string>
-       </property>
-       <property name="buddy">
-        <cstring>vendor</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="vendor"/>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="modelLabel">
-       <property name="text">
-        <string>Model</string>
-       </property>
-       <property name="buddy">
-        <cstring>model</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="model"/>
-     </item>
     </layout>
    </item>
    <item>
@@ -423,14 +443,14 @@
   <tabstop>vendor</tabstop>
   <tabstop>model</tabstop>
   <tabstop>category</tabstop>
+  <tabstop>inlets</tabstop>
   <tabstop>addInlet</tabstop>
   <tabstop>removeInlet</tabstop>
+  <tabstop>outlets</tabstop>
   <tabstop>addOutlet</tabstop>
   <tabstop>removeOutlet</tabstop>
   <tabstop>imageChooseButton</tabstop>
   <tabstop>zoom</tabstop>
-  <tabstop>inlets</tabstop>
-  <tabstop>outlets</tabstop>
  </tabstops>
  <resources/>
  <connections>

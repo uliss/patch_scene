@@ -52,6 +52,12 @@ DeviceProperties::DeviceProperties(QWidget* parent, DeviceId id, const QSharedDa
     ui->deviceName->setText(data->title());
     connect(ui->deviceName, &QLineEdit::textChanged, this, [this](const QString& txt) { data_->setTitle(txt); });
 
+    ui->vendor->setText(data->vendor());
+    connect(ui->vendor, &QLineEdit::textChanged, this, [this](const QString& txt) { data_->setVendor(txt); });
+
+    ui->model->setText(data->model());
+    connect(ui->model, &QLineEdit::textChanged, this, [this](const QString& txt) { data_->setModel(txt); });
+
     setupXletTable(ui->inlets, data->inputs().size());
     setupXletTable(ui->outlets, data->outputs().size());
     setupCategories();
