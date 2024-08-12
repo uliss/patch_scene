@@ -184,6 +184,12 @@ MainWindow::MainWindow(QWidget* parent)
 
     connect(diagram_, &Diagram::canRedoChanged, this, [this](bool value) { ui->actionRedo->setEnabled(value); });
     connect(diagram_, &Diagram::canUndoChanged, this, [this](bool value) { ui->actionUndo->setEnabled(value); });
+    connect(diagram_, &Diagram::sceneClearAll, this, [this]() {
+        device_model_->clear();
+        conn_model_->clear();
+        send_model_->clear();
+        return_model_->clear();
+    });
 
     connect(ui->actionAboutApp, SIGNAL(triggered(bool)), this, SLOT(showAbout()));
     connect(ui->actionCopy, SIGNAL(triggered()), diagram_, SLOT(copySelected()));

@@ -397,9 +397,18 @@ bool Diagram::setBackground(const QString& path)
         background_->setZValue(-100);
         scene->addItem(background_);
         background_->setPos(0, 0);
-        return !background_->isEmpty();
-    } else
-        return background_->setImagePath(path);
+        if (!background_->isEmpty()) {
+            emit sceneChanged();
+            return true;
+        } else
+            return false;
+    } else {
+        auto res = background_->setImagePath(path);
+        if (res)
+            emit sceneChanged();
+
+        return res;
+    }
 }
 
 bool Diagram::loadJson(const QString& path)
@@ -423,12 +432,12 @@ bool Diagram::loadJson(const QString& path)
     }
 
     auto root = doc.object();
-    auto keys = root.keys();
-    keys.sort();
-    if (keys != QStringList { "connections", "devices" }) {
-        qWarning() << "invalid keys: " << keys;
-        return false;
-    }
+    // auto keys = root.keys();
+    // keys.sort();
+    // if (keys != QStringList { "background", "connections", "devices" }) {
+    //     qWarning() << "invalid keys: " << keys;
+    //     return false;
+    // }
 
     clearAll();
 
@@ -454,6 +463,19 @@ bool Diagram::loadJson(const QString& path)
         }
 
         updateConnectionsPos();
+    }
+
+    if (root.contains("background")) {
+        auto bg_img = DiagramImage::fromJson(root.value("background"));
+        if (bg_img) {
+            background_ = bg_img.release();
+            scene->addItem(background_);
+        } else {
+            qWarning() << "can't load bg";
+        }
+    } else {
+        delete background_;
+        background_ = nullptr;
     }
 
     return true;
@@ -562,23 +584,26 @@ void Diagram::printScheme() const
 
 void Diagram::clearAll()
 {
-    ChangeEmitter ch(this);
-
     for (auto x : items()) {
         auto dev = qgraphicsitem_cast<Device*>(x);
         if (dev) {
             delete dev;
-            ch.trigger();
             continue;
         }
 
         auto conn = qgraphicsitem_cast<Connection*>(x);
         if (conn) {
             delete conn;
-            ch.trigger();
             continue;
         }
     }
+
+    if (background_) {
+        delete background_;
+        background_ = nullptr;
+    }
+
+    emit sceneClearAll();
 }
 
 QJsonObject Diagram::toJson() const
@@ -596,6 +621,10 @@ QJsonObject Diagram::toJson() const
         cons.append(c->toJson());
 
     json["connections"] = cons;
+
+    if (background_)
+        json["background"] = background_->toJson();
+
     return json;
 }
 
@@ -969,18 +998,6 @@ QList<Device*> Diagram::selectedDevices() const
     return res;
 }
 
-QList<DiagramImage*> Diagram::images() const
-{
-    QList<DiagramImage*> res;
-    for (auto x : scene->items()) {
-        auto dev = qgraphicsitem_cast<DiagramImage*>(x);
-        if (dev)
-            res.push_back(dev);
-    }
-
-    return res;
-}
-
 void Diagram::startSelectionRect(const QPoint& pos)
 {
     selection_origin_ = mapToScene(pos).toPoint();
@@ -1174,21 +1191,4 @@ Connection* Diagram::findConnectionByXlet(const XletInfo& xi) const
     }
 
     return nullptr;
-}
-
-QPixmap pixmapFromJson(const QJsonValue& v)
-{
-    const auto encoded = v.toString().toLatin1();
-    QPixmap p;
-    p.loadFromData(QByteArray::fromBase64(encoded), "PNG");
-    return p;
-}
-
-QJsonValue jsonFromPixmap(const QPixmap& p)
-{
-    QBuffer buffer;
-    buffer.open(QIODevice::WriteOnly);
-    p.save(&buffer, "PNG");
-    const auto encoded = buffer.data().toBase64();
-    return { QLatin1String(encoded) };
 }

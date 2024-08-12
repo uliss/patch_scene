@@ -33,9 +33,6 @@ enum class DiagramState {
     SelectionRect,
 };
 
-QJsonValue jsonFromPixmap(const QPixmap& p);
-QPixmap pixmapFromJson(const QJsonValue& v);
-
 class Diagram : public QGraphicsView {
     Q_OBJECT
 
@@ -49,7 +46,13 @@ public:
     Connection* findConnectionByXlet(const XletInfo& xi) const;
 
     void printScheme() const;
+
+    /**
+     * Save diagram objects, connections and background into JSON object
+     * @return
+     */
     QJsonObject toJson() const;
+
     bool loadJson(const QString& path);
 
     /**
@@ -95,6 +98,11 @@ public:
     bool showBackground() const { return show_background_; }
     void setShowBackground(bool value);
 
+    /**
+     * set new background, emit sceneChanged()
+     * @param path - full path to background image
+     * @return true on success, false on error
+     */
     bool setBackground(const QString& path);
 
     // undo/redo commands
@@ -137,7 +145,6 @@ public:
     QList<Connection*> connections() const;
     QList<Device*> devices() const;
     QList<Device*> selectedDevices() const;
-    QList<DiagramImage*> images() const;
 
     void selectDevices(const QList<DeviceId>& ids, bool value = true);
     void toggleDevices(const QList<DeviceId>& ids);
@@ -149,6 +156,7 @@ public:
 
 signals:
     void sceneChanged(); // for document changes
+    void sceneClearAll();
     void canRedoChanged(bool);
     void canUndoChanged(bool);
     void showCablesChanged(bool);
