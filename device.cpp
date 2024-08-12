@@ -563,7 +563,7 @@ void Device::incrementName()
             data_->setTitle(QString("%1 %2").arg(prefix).arg(num + 1));
         }
     } else {
-        data_->setTitle(data_->title() + " 1");
+        data_->setTitle(QString("%1 1").arg(data_->title()));
     }
 
     syncRect();
@@ -643,6 +643,11 @@ SharedDeviceData Device::deviceData() const
 
 void Device::setDeviceData(const SharedDeviceData& data)
 {
+    if (data->isNull()) {
+        qWarning() << "NULL data";
+        return;
+    }
+
     data_ = data;
     syncRect();
 }
