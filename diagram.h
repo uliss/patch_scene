@@ -82,19 +82,10 @@ public:
 
     /**
      * @brief setDeviceData, emit sceneChanged(), deviceUpdated()
-     * @param id - device id
      * @param data - device data
      * @return true on success, false on error
      */
-    bool setDeviceData(DeviceId id, const SharedDeviceData& data);
-
-    /**
-     * @brief setDeviceData, emit sceneChanged(), deviceUpdated()
-     * @param id - device id
-     * @param data - device data
-     * @return true on success, false on error
-     */
-    bool setDeviceData(Device* dev, const SharedDeviceData& data);
+    bool setDeviceData(const SharedDeviceData& data);
 
     bool showCables() const { return show_cables_; }
     void setShowCables(bool value);
@@ -110,6 +101,7 @@ public:
     void cmdDuplicateSelection();
     void cmdRemoveSelected();
     void cmdRemoveDevice(const SharedDeviceData& data);
+    void cmdUpdateDevice(const SharedDeviceData& data);
     void cmdSelectAll();
     void cmdAddToSelection(const QRectF& sel);
     void cmdSelectDevices(const QRectF& sel);

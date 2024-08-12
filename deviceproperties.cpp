@@ -143,9 +143,8 @@ void DeviceProperties::accept()
     syncXlets(ui->inlets, data_->inputs());
     syncXlets(ui->outlets, data_->outputs());
 
-    if (dia) {
-        dia->setDeviceData(id_, data_);
-    }
+    if (dia)
+        dia->cmdUpdateDevice(data_);
 
     QDialog::accept();
 }

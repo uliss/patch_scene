@@ -141,6 +141,12 @@ void Diagram::cmdRemoveDevice(const SharedDeviceData& data)
     undo_stack_->push(rem);
 }
 
+void Diagram::cmdUpdateDevice(const SharedDeviceData& data)
+{
+    auto up = new UpdateDeviceData(this, data);
+    undo_stack_->push(up);
+}
+
 void Diagram::cmdCreateDevice(const QPointF& pos)
 {
     auto add = new CreateDevice(this, pos);
@@ -341,21 +347,13 @@ QList<DeviceId> Diagram::allDeviceIds() const
     return res;
 }
 
-bool Diagram::setDeviceData(DeviceId id, const SharedDeviceData& data)
+bool Diagram::setDeviceData(const SharedDeviceData& data)
 {
-    auto dev = findDeviceById(id);
+    auto dev = findDeviceById(data->id());
     if (!dev) {
-        qWarning() << "device not found:" << id;
+        qWarning() << "device not found:" << data->id();
         return false;
     }
-
-    return setDeviceData(dev, data);
-}
-
-bool Diagram::setDeviceData(Device* dev, const SharedDeviceData& data)
-{
-    if (!dev)
-        return false;
 
     dev->setDeviceData(data);
     emit sceneChanged();

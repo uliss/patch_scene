@@ -51,9 +51,11 @@ constexpr int COL_CONN_DEST_NAME = 3;
 constexpr int COL_SEND_DEV_NAME = 2;
 constexpr int DATA_CONN_NCOLS = 6;
 
-constexpr int COL_DEV_NAME = 0;
-constexpr int COL_DEV_VENDOR = 1;
-constexpr int COL_DEV_MODEL = 2;
+enum DeviceColumnOrder {
+    COL_DEV_TITLE = 0,
+    COL_DEV_VENDOR,
+    COL_DEV_MODEL,
+};
 constexpr int DATA_DEV_NCOLS = 3;
 
 class DeviceItemModel : public QStandardItemModel {
@@ -96,7 +98,7 @@ MainWindow::MainWindow(QWidget* parent)
     device_model_->setHorizontalHeaderLabels({ tr("Name"), tr("Vendor"), tr("Model") });
     setupEquipmentTableView(ui->deviceList, device_model_);
     connect(ui->deviceList, &QTableView::clicked, this, [this](const QModelIndex& index) {
-        if (index.column() == COL_DEV_NAME) {
+        if (index.column() == COL_DEV_TITLE) {
             bool ok = false;
             auto id = index.data(DATA_DEVICE_ID).toInt(&ok);
             if (ok)
@@ -117,13 +119,16 @@ MainWindow::MainWindow(QWidget* parent)
                 auto data = dev->deviceData();
 
                 switch (item->column()) {
-                case COL_DEV_NAME:
+                case COL_DEV_TITLE:
+                    qWarning() << "update title";
                     data->setTitle(item->text());
                     break;
                 case COL_DEV_VENDOR:
+                    qWarning() << "update vendor";
                     data->setVendor(item->text());
                     break;
                 case COL_DEV_MODEL:
+                    qWarning() << "update model";
                     data->setModel(item->text());
                     break;
                 default:
@@ -131,7 +136,7 @@ MainWindow::MainWindow(QWidget* parent)
                     return;
                 }
 
-                diagram_->setDeviceData(dev, data);
+                diagram_->cmdUpdateDevice(data);
             } else {
                 qWarning() << "device not found:" << (int)id;
             }
@@ -342,7 +347,7 @@ void MainWindow::onDeviceRemove(SharedDeviceData data)
         return;
 
     for (int i = 0; i < device_model_->rowCount(); i++) {
-        auto item = device_model_->item(i, COL_DEV_NAME);
+        auto item = device_model_->item(i, COL_DEV_TITLE);
         if (item && item->data(DATA_DEVICE_ID) == data->id()) {
             device_model_->removeRow(i);
             ui->deviceList->resizeColumnsToContents();
@@ -369,39 +374,52 @@ static bool updateItemDeviceName(QStandardItem* item, const SharedDeviceData& da
 
 void MainWindow::onDeviceUpdate(SharedDeviceData data)
 {
-    bool found = false;
-    bool name_update = false;
+    if (!data) {
+        qWarning() << "invalid data";
+        return;
+    }
+
+    bool device_found = false;
+    bool title_update = false;
     for (int i = 0; i < device_model_->rowCount(); i++) {
-        auto item = device_model_->item(i, COL_DEV_NAME);
-        if (item && item->data(DATA_DEVICE_ID) == data->id()) {
+        auto title = device_model_->item(i, COL_DEV_TITLE);
+        if (title && title->data(DATA_DEVICE_ID) == data->id()) {
+            QSignalBlocker block(device_model_);
+
             if (data->category() != ItemCategory::Device) {
                 device_model_->removeRow(i);
             } else {
-                name_update = (item->text() != data->title());
-                if (name_update)
-                    item->setText(data->title());
+                title_update = (title->text() != data->title());
 
-                found = true;
+                if (title_update) {
+                    title->setText(data->title());
+                    ui->deviceList->update(title->index());
+                }
 
                 auto vendor = device_model_->item(i, COL_DEV_VENDOR);
-                if (vendor && vendor->text() != data->vendor())
+                if (vendor && vendor->text() != data->vendor()) {
                     vendor->setText(data->vendor());
+                    ui->deviceList->update(vendor->index());
+                }
 
                 auto model = device_model_->item(i, COL_DEV_MODEL);
-                if (model && model->text() != data->model())
+                if (model && model->text() != data->model()) {
                     model->setText(data->model());
+                    ui->deviceList->update(model->index());
+                }
 
-                ui->deviceList->resizeColumnsToContents();
+                device_found = true;
             }
 
+            ui->deviceList->resizeColumnsToContents();
             break;
         }
     }
 
     // not found in model
-    if (!found && data->category() == ItemCategory::Device) {
+    if (!device_found && data->category() == ItemCategory::Device) {
         onDeviceAdd(data);
-    } else if (name_update) {
+    } else if (title_update) {
         // update connection device name change
         for (int i = 0; i < conn_model_->rowCount(); i++) {
             if (updateItemDeviceName(conn_model_->item(i, COL_CONN_SRC_NAME), data))
