@@ -13,6 +13,32 @@
  *****************************************************************************/
 #include "diagram_image.h"
 
+#include <QBuffer>
+#include <QFile>
+#include <QJsonObject>
+
+constexpr const char* JSON_KEY_DATA = "data";
+constexpr const char* JSON_KEY_TYPE = "type";
+constexpr const char* JSON_PIXMAP = "pixmap";
+constexpr const char* JSON_SVG = "svg";
+
+QPixmap pixmapFromJson(const QJsonValue& v)
+{
+    const auto encoded = v.toString().toLatin1();
+    QPixmap p;
+    p.loadFromData(QByteArray::fromBase64(encoded), "PNG");
+    return p;
+}
+
+QJsonValue jsonFromPixmap(const QPixmap& p)
+{
+    QBuffer buffer;
+    buffer.open(QIODevice::WriteOnly);
+    p.save(&buffer, "PNG");
+    const auto encoded = buffer.data().toBase64();
+    return { QLatin1String(encoded) };
+}
+
 DiagramImage::DiagramImage(const QString& path, QGraphicsItem* parent)
     : QGraphicsItem(parent)
 {
@@ -49,29 +75,81 @@ bool DiagramImage::setImagePath(const QString& path)
     clearImage();
 
     if (path.isEmpty())
-        return !empty_;
+        return false;
 
     if (path.endsWith(".svg", Qt::CaseInsensitive)) {
+        QFile f(path);
+        if (!f.exists())
+            return false;
+
         svg_ = new QGraphicsSvgItem(path, this);
         qWarning() << svg_->boundingRect();
-        return isEmpty();
+        return true;
     } else if (path.endsWith(".png", Qt::CaseInsensitive)
         || path.endsWith(".jpg", Qt::CaseInsensitive)
         || path.endsWith(".jpeg", Qt::CaseInsensitive)) {
 
         QPixmap pixmap(path);
-        if (!pixmap) {
-            empty_ = true;
-            return !empty_;
-        }
+        if (!pixmap)
+            return false;
 
         pixmap_ = new QGraphicsPixmapItem(pixmap, this);
-        empty_ = false;
-        return !empty_;
+        return true;
     } else {
         qWarning() << "unknown image format:" << path;
-        empty_ = true;
-        return !empty_;
+        return false;
+    }
+}
+
+bool DiagramImage::isEmpty() const
+{
+    return !svg_ && !pixmap_;
+}
+
+QJsonValue DiagramImage::toJson() const
+{
+    if (pixmap_) {
+        QJsonObject js;
+        js[JSON_KEY_DATA] = jsonFromPixmap(pixmap_->pixmap());
+        js[JSON_KEY_TYPE] = JSON_PIXMAP;
+        return js;
+    } else if (svg_) {
+        QJsonObject js;
+        js[JSON_KEY_DATA] = svg_content_.toHtmlEscaped();
+        js[JSON_KEY_TYPE] = JSON_SVG;
+        return js;
+    } else
+        return QJsonValue();
+}
+
+std::unique_ptr<DiagramImage> DiagramImage::fromJson(const QJsonValue& v)
+{
+    if (!v.isObject()) {
+        qWarning() << "object expected";
+        return {};
+    }
+
+    auto obj = v.toObject();
+    auto type = obj.value(JSON_KEY_TYPE).toString();
+    if (type == JSON_PIXMAP) {
+        auto data = obj.value(JSON_KEY_DATA);
+        if (!data.isString()) {
+            qWarning() << __FILE_NAME__ << __FUNCTION__ << "data key expected";
+            return {};
+        }
+
+        auto pixmap = pixmapFromJson(data);
+        if (pixmap.isNull()) {
+            qWarning() << __FILE_NAME__ << __FUNCTION__ << "invalid pixmap data";
+            return {};
+        }
+
+        std::unique_ptr<DiagramImage> res(new DiagramImage({}));
+        res->pixmap_ = new QGraphicsPixmapItem(pixmap, res.get());
+        return res;
+    } else {
+        qWarning() << "unknown background image type:" << type;
+        return {};
     }
 }
 
@@ -83,5 +161,5 @@ void DiagramImage::clearImage()
     pixmap_ = nullptr;
     svg_ = nullptr;
 
-    empty_ = true;
+    svg_content_.clear();
 }

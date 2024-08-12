@@ -30,12 +30,18 @@ public:
     void clearImage();
     bool setImagePath(const QString& path);
 
-    bool isEmpty() const { return empty_; }
+    bool isEmpty() const;
+
+    QJsonValue toJson() const;
+    static std::unique_ptr<DiagramImage> fromJson(const QJsonValue& v);
+
+private:
+    void setPixmap();
 
 private:
     QGraphicsPixmapItem* pixmap_ { nullptr };
     QGraphicsSvgItem* svg_ { nullptr };
-    bool empty_ { true };
+    QString svg_content_;
 };
 
 #endif // DIAGRAM_IMAGE_H
