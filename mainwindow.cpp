@@ -672,7 +672,12 @@ void MainWindow::setupExpandButton(QToolButton* btn, QTableView* tab, QFrame* li
 
 void MainWindow::setupEquipmentTableView(QTableView* tab, QStandardItemModel* model)
 {
-    tab->setModel(model);
+    QSortFilterProxyModel* m = new QSortFilterProxyModel(this);
+    m->setDynamicSortFilter(true);
+    m->setSourceModel(model);
+    tab->setModel(m);
+    tab->setSortingEnabled(true);
+
     // tab->horizontalHeader()->setVisible(false);
     tab->setStyleSheet("QTableView::item {padding: 0px}");
     tab->setSelectionBehavior(QAbstractItemView::SelectItems);
@@ -682,6 +687,7 @@ void MainWindow::setupEquipmentTableView(QTableView* tab, QStandardItemModel* mo
 
 void MainWindow::setupDockTitle(QDockWidget* dock)
 {
+    // dock->setTitleBarWidget(new DockWidget(dock->windowTitle(), "book"));
     dock->setStyleSheet("QDockWidget::title { text-align: left; margin: 0 0 0 5px; }");
 
     // auto btn = new QToolButton(this);
