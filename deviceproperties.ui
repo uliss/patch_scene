@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>700</width>
+    <height>500</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -39,17 +39,20 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
+     <item row="3" column="0">
       <widget class="QLabel" name="categoryLabel">
        <property name="text">
         <string>Category</string>
        </property>
+       <property name="buddy">
+        <cstring>category</cstring>
+       </property>
       </widget>
      </item>
-     <item row="1" column="1">
+     <item row="3" column="1">
       <widget class="QComboBox" name="category"/>
      </item>
-     <item row="2" column="0">
+     <item row="4" column="0">
       <widget class="QLabel" name="inletsLabel">
        <property name="text">
         <string>Inputs</string>
@@ -59,8 +62,14 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="4" column="1">
       <widget class="QTableWidget" name="inlets">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>1</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
          <width>350</width>
@@ -82,6 +91,9 @@
        <attribute name="horizontalHeaderStretchLastSection">
         <bool>true</bool>
        </attribute>
+       <attribute name="verticalHeaderHighlightSections">
+        <bool>false</bool>
+       </attribute>
        <column/>
        <column/>
        <column/>
@@ -89,7 +101,7 @@
        <column/>
       </widget>
      </item>
-     <item row="3" column="1">
+     <item row="5" column="1">
       <widget class="QWidget" name="inletContainer" native="true">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
@@ -158,7 +170,7 @@
        </layout>
       </widget>
      </item>
-     <item row="4" column="0">
+     <item row="6" column="0">
       <widget class="QLabel" name="outletsLabel">
        <property name="text">
         <string>Outputs</string>
@@ -168,8 +180,14 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
+     <item row="6" column="1">
       <widget class="QTableWidget" name="outlets">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>1</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
          <width>350</width>
@@ -186,10 +204,13 @@
         <number>70</number>
        </attribute>
        <attribute name="horizontalHeaderHighlightSections">
-        <bool>true</bool>
+        <bool>false</bool>
        </attribute>
        <attribute name="horizontalHeaderStretchLastSection">
         <bool>true</bool>
+       </attribute>
+       <attribute name="verticalHeaderHighlightSections">
+        <bool>false</bool>
        </attribute>
        <column/>
        <column/>
@@ -198,7 +219,7 @@
        <column/>
       </widget>
      </item>
-     <item row="5" column="1">
+     <item row="7" column="1">
       <widget class="QWidget" name="outletContainer" native="true">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -267,14 +288,17 @@
        </layout>
       </widget>
      </item>
-     <item row="6" column="0">
+     <item row="8" column="0">
       <widget class="QLabel" name="imageLabel">
        <property name="text">
         <string>Image</string>
        </property>
+       <property name="buddy">
+        <cstring>imageChooseButton</cstring>
+       </property>
       </widget>
      </item>
-     <item row="6" column="1">
+     <item row="8" column="1">
       <widget class="QWidget" name="widget" native="true">
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <property name="leftMargin">
@@ -322,14 +346,17 @@
        </layout>
       </widget>
      </item>
-     <item row="7" column="0">
+     <item row="9" column="0">
       <widget class="QLabel" name="zoomLabel">
        <property name="text">
         <string>Scale</string>
        </property>
+       <property name="buddy">
+        <cstring>zoom</cstring>
+       </property>
       </widget>
      </item>
-     <item row="7" column="1">
+     <item row="9" column="1">
       <widget class="QDoubleSpinBox" name="zoom">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -351,6 +378,32 @@
        </property>
       </widget>
      </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="vendorLabel">
+       <property name="text">
+        <string>Vendor</string>
+       </property>
+       <property name="buddy">
+        <cstring>vendor</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="vendor"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="modelLabel">
+       <property name="text">
+        <string>Model</string>
+       </property>
+       <property name="buddy">
+        <cstring>model</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="model"/>
+     </item>
     </layout>
    </item>
    <item>
@@ -367,6 +420,15 @@
  </widget>
  <tabstops>
   <tabstop>deviceName</tabstop>
+  <tabstop>vendor</tabstop>
+  <tabstop>model</tabstop>
+  <tabstop>category</tabstop>
+  <tabstop>addInlet</tabstop>
+  <tabstop>removeInlet</tabstop>
+  <tabstop>addOutlet</tabstop>
+  <tabstop>removeOutlet</tabstop>
+  <tabstop>imageChooseButton</tabstop>
+  <tabstop>zoom</tabstop>
   <tabstop>inlets</tabstop>
   <tabstop>outlets</tabstop>
  </tabstops>
@@ -379,8 +441,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>260</x>
-     <y>295</y>
+     <x>272</x>
+     <y>495</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -395,8 +457,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>328</x>
-     <y>295</y>
+     <x>340</x>
+     <y>495</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

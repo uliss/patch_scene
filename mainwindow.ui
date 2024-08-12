@@ -654,6 +654,12 @@
    <property name="text">
     <string>Images</string>
    </property>
+   <property name="toolTip">
+    <string>Show/Hide images</string>
+   </property>
+   <property name="statusTip">
+    <string>show/hide images</string>
+   </property>
   </action>
  </widget>
  <resources>
