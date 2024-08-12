@@ -57,8 +57,6 @@ public:
 
     size_t visInputCount() const;
     size_t visOutputCount() const;
-    bool noVisInputs() const;
-    bool noVisOutputs() const;
     bool hasVisInputs() const;
     bool hasVisOutputs() const;
 
@@ -66,16 +64,16 @@ public:
     void setZoom(qreal z);
 
     QString title() const;
-    void setTitle(const QString& title) { title_ = title; }
+    void setTitle(const QString& title);
 
     QString vendor() const { return vendor_; }
-    void setVendor(const QString& vendor) { vendor_ = vendor; }
+    void setVendor(const QString& vendor);
 
     QString model() const { return model_; }
-    void setModel(const QString& model) { model_ = model; }
+    void setModel(const QString& model);
 
     QString image() const { return image_; }
-    void setImage(const QString& image) { image_ = image; }
+    void setImage(const QString& image);
     QString imageIconPath() const;
 
     ItemCategory category() const { return category_; }

@@ -333,7 +333,7 @@ size_t Device::outletCount() const
 
 bool Device::noXlets() const
 {
-    return data_->noVisInputs() && data_->noVisOutputs();
+    return !data_->hasVisInputs() && !data_->hasVisOutputs();
 }
 
 QJsonArray Device::xletToJson(const QList<XletData>& xlets) const

@@ -112,16 +112,6 @@ size_t DeviceData::visOutputCount() const
         [](const XletData& x) { return x.visible; });
 }
 
-bool DeviceData::noVisInputs() const
-{
-    return inputs_.empty() || (visInputCount() == 0);
-}
-
-bool DeviceData::noVisOutputs() const
-{
-    return outputs_.empty() || (visOutputCount() == 0);
-}
-
 bool DeviceData::hasVisInputs() const
 {
     return visInputCount() > 0;
@@ -140,16 +130,41 @@ void DeviceData::setZoom(qreal z)
 QString DeviceData::title() const
 {
     if (title_.isEmpty()) {
-        if (vendor_.isEmpty() && model_.isEmpty())
+        const bool v = !vendor_.isEmpty();
+        const bool m = !model_.isEmpty();
+
+        if (!m && !v)
             return "Unknown";
-        else if (vendor_.isEmpty())
-            return model_;
-        else if (model_.isEmpty())
+        else if (m && v)
+            return QString("%1 %2").arg(vendor_, model_);
+        else if (!m && v)
             return vendor_;
+        else if (m && !v)
+            return model_;
         else
-            return QString("%1 %2").arg(vendor_, title_);
+            return "????";
     } else
         return title_;
+}
+
+void DeviceData::setTitle(const QString& title)
+{
+    title_ = title.trimmed();
+}
+
+void DeviceData::setVendor(const QString& vendor)
+{
+    vendor_ = vendor.trimmed();
+}
+
+void DeviceData::setModel(const QString& model)
+{
+    model_ = model.trimmed();
+}
+
+void DeviceData::setImage(const QString& image)
+{
+    image_ = image.trimmed();
 }
 
 QString DeviceData::imageIconPath() const
@@ -168,6 +183,9 @@ bool DeviceData::setCategoryIndex(int idx)
 
 bool DeviceData::setJson(const QJsonValue& v)
 {
+    if (v.isUndefined())
+        return false;
+
     if (!v.isObject()) {
         qWarning() << __FILE_NAME__ << __FUNCTION__ << "json object expected, got:" << v;
         return false;
@@ -231,6 +249,9 @@ QJsonArray DeviceData::xletToJson(const QList<XletData>& xlets)
 
 bool DeviceData::setXletJson(const QJsonValue& v, QList<XletData>& xlets)
 {
+    if (v.isUndefined())
+        return false;
+
     if (!v.isArray()) {
         qWarning() << __FILE_NAME__ << __FUNCTION__ << "json array expected, got:" << v;
         return false;

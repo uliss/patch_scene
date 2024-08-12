@@ -104,6 +104,41 @@ MainWindow::MainWindow(QWidget* parent)
         }
     });
     ui->deviceList->resizeColumnsToContents();
+    connect(device_model_, &QStandardItemModel::itemChanged, this, [this](QStandardItem* item) {
+        if (!item)
+            return;
+
+        bool ok = false;
+        auto id = item->data(DATA_DEVICE_ID).toInt(&ok);
+        if (ok) {
+            auto dev = diagram->findDeviceById(id);
+            if (dev) {
+
+                auto data = dev->deviceData();
+
+                switch (item->column()) {
+                case COL_DEV_NAME:
+                    data->setTitle(item->text());
+                    break;
+                case COL_DEV_VENDOR:
+                    data->setVendor(item->text());
+                    break;
+                case COL_DEV_MODEL:
+                    data->setModel(item->text());
+                    break;
+                default:
+                    qWarning() << "unknown column:" << item->column();
+                    return;
+                }
+
+                diagram->setDeviceData(dev, data);
+            } else {
+                qWarning() << "device not found:" << (int)id;
+            }
+        } else {
+            qWarning() << "id property not found";
+        }
+    });
 
     conn_model_ = new QStandardItemModel(0, DATA_CONN_NCOLS, this);
     conn_model_->setHorizontalHeaderLabels({ tr("Source"), tr("Model"), tr("Plug"), tr("Destination"), tr("Model"), tr("Plug") });
@@ -285,12 +320,20 @@ void MainWindow::onDeviceAdd(SharedDeviceData data)
     if (data->category() != ItemCategory::Device)
         return;
 
-    auto item = new QStandardItem(data->title());
-    item->setData(data->id(), DATA_DEVICE_ID);
-    item->setToolTip(QString("#%1").arg(data->id()));
-    item->setEditable(false);
-    device_model_->appendRow(item);
-    ui->deviceList->resizeColumnToContents(0);
+    auto title = new QStandardItem(data->title());
+    title->setData(data->id(), DATA_DEVICE_ID);
+    title->setEditable(true);
+
+    auto vendor = new QStandardItem(data->vendor());
+    vendor->setData(data->id(), DATA_DEVICE_ID);
+    vendor->setEditable(true);
+
+    auto model = new QStandardItem(data->model());
+    model->setData(data->id(), DATA_DEVICE_ID);
+    model->setEditable(true);
+
+    device_model_->appendRow({ title, vendor, model });
+    ui->deviceList->resizeColumnsToContents();
 }
 
 void MainWindow::onDeviceRemove(SharedDeviceData data)
@@ -338,6 +381,14 @@ void MainWindow::onDeviceUpdate(SharedDeviceData data)
                     item->setText(data->title());
 
                 found = true;
+
+                auto vendor = device_model_->item(i, COL_DEV_VENDOR);
+                if (vendor && vendor->text() != data->vendor())
+                    vendor->setText(data->vendor());
+
+                auto model = device_model_->item(i, COL_DEV_MODEL);
+                if (model && model->text() != data->model())
+                    model->setText(data->model());
             }
 
             break;

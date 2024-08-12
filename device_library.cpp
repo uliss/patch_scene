@@ -73,7 +73,7 @@ bool DeviceLibrary::readFile(const QString& filename)
 
 bool DeviceLibrary::readItems(const QJsonValue& value, QList<SharedDeviceData>& items, ItemCategory cat)
 {
-    if (value.isNull())
+    if (value.isUndefined())
         return false;
 
     if (!value.isArray()) {

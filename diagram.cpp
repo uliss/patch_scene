@@ -349,6 +349,14 @@ bool Diagram::setDeviceData(DeviceId id, const SharedDeviceData& data)
         return false;
     }
 
+    return setDeviceData(dev, data);
+}
+
+bool Diagram::setDeviceData(Device* dev, const SharedDeviceData& data)
+{
+    if (!dev)
+        return false;
+
     dev->setDeviceData(data);
     emit sceneChanged();
     emit deviceUpdated(dev->deviceData());
