@@ -327,7 +327,7 @@
                 ]
             },
             {
-                "vendor": "Raspberry Pi Foundation",
+                "vendor": "RPi Foundation",
                 "model": "Raspberry Pi 3",
                 "title": "Raspberry Pi 3",
                 "image": "raspberry_pi_bw",
@@ -385,7 +385,7 @@
                 ]
             },
             {
-                "vendor": "Raspberry Pi Foundation",
+                "vendor": "RPi Foundation",
                 "model": "Raspberry Pi 4",
                 "title": "Raspberry Pi 4",
                 "image": "raspberry_pi_color",
@@ -732,8 +732,8 @@
                         "model": "usb_b"
                     },
                     {
-                        "model": "power_5_2mm",
-                        "name": "DC: +13V"
+                        "model": "power_dc_5.5x2.1",
+                        "name": "DC: +7..+12V"
                     }
                 ]
             },
@@ -869,6 +869,10 @@
                     {
                         "model": "jack_mini_trs",
                         "name": "MIDI sync in"
+                    },
+                    {
+                        "model": "power_dc_4.75x1.7",
+                        "name": "DC: +9V"
                     }
                 ],
                 "outputs": [
@@ -897,6 +901,10 @@
                     {
                         "model": "jack_mini_trs",
                         "name": "MIDI sync in"
+                    },
+                    {
+                        "model": "power_dc_4.75x1.7",
+                        "name": "DC: +9V"
                     }
                 ],
                 "outputs": [
@@ -925,6 +933,10 @@
                     {
                         "model": "jack_mini_trs",
                         "name": "MIDI sync in"
+                    },
+                    {
+                        "model": "power_dc_4.75x1.7",
+                        "name": "DC: +9V"
                     }
                 ],
                 "outputs": [
