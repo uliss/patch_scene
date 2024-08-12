@@ -71,5 +71,7 @@
         <file>resources/cable.svg</file>
         <file>resources/devices/accordion_1.svg</file>
         <file>resources/image.svg</file>
+        <file>resources/book.svg</file>
+        <file>resources/connectors/power_dc_socket.svg</file>
     </qresource>
 </RCC>
