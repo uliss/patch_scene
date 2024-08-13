@@ -1354,6 +1354,24 @@
                     }
                 ]
             }
+        ],
+        "furniture": [
+            {
+                "title": "Pocket music stand",
+                "image": "music_stand_1"
+            },
+            {
+                "title": "Steady music stand",
+                "image": "music_stand_2"
+            },
+            {
+                "title": "Pocket music stand low",
+                "image": "music_stand_low_1"
+            },
+            {
+                "title": "Steady music stand low",
+                "image": "music_stand_low_2"
+            }
         ]
     }
 }
