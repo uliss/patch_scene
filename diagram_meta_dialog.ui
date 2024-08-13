@@ -44,9 +44,6 @@
      <property name="text">
       <string>Event date</string>
      </property>
-     <property name="buddy">
-      <cstring>eventDateEdit</cstring>
-     </property>
     </widget>
    </item>
    <item row="0" column="1">
@@ -80,9 +77,6 @@
       <string>Enter event additional information</string>
      </property>
     </widget>
-   </item>
-   <item row="4" column="1">
-    <widget class="QDateEdit" name="eventDateEdit"/>
    </item>
    <item row="0" column="0">
     <widget class="QLabel" name="titleLabel">
@@ -193,6 +187,22 @@
      </item>
     </layout>
    </item>
+   <item row="4" column="1">
+    <widget class="QDateEdit" name="eventDateEdit">
+     <property name="frame">
+      <bool>true</bool>
+     </property>
+     <property name="buttonSymbols">
+      <enum>QAbstractSpinBox::PlusMinus</enum>
+     </property>
+     <property name="showGroupSeparator" stdset="0">
+      <bool>false</bool>
+     </property>
+     <property name="calendarPopup">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <tabstops>
@@ -201,7 +211,6 @@
   <tabstop>contactsTable</tabstop>
   <tabstop>toolButton</tabstop>
   <tabstop>toolButton_2</tabstop>
-  <tabstop>eventDateEdit</tabstop>
  </tabstops>
  <resources/>
  <connections>

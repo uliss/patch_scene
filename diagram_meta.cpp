@@ -59,6 +59,7 @@ std::optional<Contact> Contact::fromJson(const QJsonValue& val)
 DiagramMeta::DiagramMeta()
 {
     creation_date_ = QDate::currentDate();
+    event_date_ = QDate::currentDate().addMonths(1);
 }
 
 QJsonValue DiagramMeta::toJson() const

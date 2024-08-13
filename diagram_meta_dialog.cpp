@@ -31,6 +31,7 @@ DiagramMetaDialog::DiagramMetaDialog(const DiagramMeta& meta, QWidget* parent)
         meta_.setInfo(ui->infoEdit->toPlainText());
     });
 
+    ui->eventDateEdit->setCalendarPopup(true);
     ui->eventDateEdit->setDate(meta_.eventDate());
     connect(ui->eventDateEdit, &QDateEdit::userDateChanged, this, [this](const QDate& date) {
         meta_.setEventDate(date);
