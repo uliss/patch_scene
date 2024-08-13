@@ -380,6 +380,8 @@ bool Diagram::setDeviceData(const SharedDeviceData& data)
     if (title_update)
         emit deviceTitleUpdated(data->id(), data->title());
 
+    updateConnectionsPos();
+
     return true;
 }
 
