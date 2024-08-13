@@ -29,6 +29,8 @@ public:
     explicit DiagramMetaDialog(const DiagramMeta& meta, QWidget* parent = nullptr);
     ~DiagramMetaDialog();
 
+    const DiagramMeta& metaInfo() const { return meta_; }
+
 private:
     Ui::Diagram_Meta_Dialog* ui;
     DiagramMeta meta_;
