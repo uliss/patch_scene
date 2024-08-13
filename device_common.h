@@ -87,6 +87,7 @@ public:
 
     QList<XletData>& inputs() { return inputs_; }
     const QList<XletData>& inputs() const { return inputs_; }
+    void foreachVisInput(std::function<void(XletIndex, const XletData&)> fn);
     const XletData& inputAt(XletIndex n) const;
     void appendInput(const XletData& x) { inputs_.append(x); }
 
