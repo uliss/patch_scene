@@ -26,10 +26,11 @@ public:
     bool readFile(const QString& filename);
 
     const QList<SharedDeviceData>& devices() const { return devices_; }
+    const QList<SharedDeviceData>& furniture() const { return furniture_; }
+    const QList<SharedDeviceData>& humans() const { return humans_; }
     const QList<SharedDeviceData>& instruments() const { return instruments_; }
-
-    const QList<SharedDeviceData>& sends() const { return sends_; }
     const QList<SharedDeviceData>& returns() const { return returns_; }
+    const QList<SharedDeviceData>& sends() const { return sends_; }
 
 private:
     static bool readItems(const QJsonValue& value, QList<SharedDeviceData>& items, ItemCategory cat);

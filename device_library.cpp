@@ -66,7 +66,7 @@ bool DeviceLibrary::readFile(const QString& filename)
     readItems(lib.toObject().value(JSON_KEY_SENDS), sends_, ItemCategory::Send);
     readItems(lib.toObject().value(JSON_KEY_RETURNS), returns_, ItemCategory::Return);
     readItems(lib.toObject().value(JSON_KEY_FURNITURE), furniture_, ItemCategory::Furniture);
-    readItems(lib.toObject().value(JSON_KEY_DEVICES), humans_, ItemCategory::Human);
+    readItems(lib.toObject().value(JSON_KEY_HUMANS), humans_, ItemCategory::Human);
 
     return true;
 }
