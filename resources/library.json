@@ -1312,6 +1312,12 @@
                 "title": "Steady music stand low",
                 "image": "music_stand_low_2"
             }
+        ],
+        "humans": [
+            {
+                "title": "Cello player",
+                "image": "human_cello_1"
+            }
         ]
     }
 }
