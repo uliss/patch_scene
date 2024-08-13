@@ -158,9 +158,6 @@ void RemoveSelected::redo()
 DuplicateSelected::DuplicateSelected(Diagram* doc)
     : doc_(doc)
 {
-    // store device data
-    for (auto dev : doc_->selectedDevices())
-        data_.push_back(dev->deviceData());
 }
 
 void DuplicateSelected::undo()
@@ -168,8 +165,8 @@ void DuplicateSelected::undo()
     if (!doc_)
         return;
 
-    for (const auto& data : data_)
-        doc_->removeDevice(data->id());
+    for (auto id : data_)
+        doc_->removeDevice(id);
 }
 
 void DuplicateSelected::redo()
@@ -177,11 +174,12 @@ void DuplicateSelected::redo()
     if (!doc_)
         return;
 
-    for (const auto& data : data_) {
-        auto clone = new Device(data);
+    for (const auto& dev : doc_->selectedDevices()) {
+        auto clone = new Device(dev->deviceData());
         clone->moveBy(20, 20);
-        clone->incrementName();
+        // clone->incrementName();
         doc_->addDevice(clone);
+        data_.push_back(clone->id());
     }
 }
 
@@ -208,7 +206,6 @@ void DuplicateDevice::redo()
 
     auto clone = new Device(src_data_);
     clone->moveBy(20, 20);
-    clone->incrementName();
     doc_->addDevice(clone);
     new_id_ = clone->id();
 }
