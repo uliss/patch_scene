@@ -115,6 +115,11 @@ public:
      */
     bool setBackground(const QString& path);
 
+    /**
+     * clears background, emit sceneChanged()
+     */
+    void clearBackground();
+
     // undo/redo commands
     void cmdCreateDevice(const QPointF& pos);
     void cmdDuplicateDevice(const SharedDeviceData& data);

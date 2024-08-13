@@ -442,6 +442,14 @@ bool Diagram::setBackground(const QString& path)
     }
 }
 
+void Diagram::clearBackground()
+{
+    if (background_ && !background_->isEmpty()) {
+        background_->clearImage();
+        emit sceneChanged();
+    }
+}
+
 bool Diagram::loadJson(const QString& path)
 {
     qDebug() << __FUNCTION__ << path;
@@ -908,8 +916,13 @@ void Diagram::contextMenuEvent(QContextMenuEvent* event)
         connect(addAct, &QAction::triggered, this,
             [this, pos]() { cmdCreateDevice(mapToScene(pos)); });
 
+        auto clearBgAct = new QAction(tr("&Clear background"), this);
+        connect(clearBgAct, &QAction::triggered, this,
+            [this, pos]() { clearBackground(); });
+
         QMenu menu(this);
         menu.addAction(addAct);
+        menu.addAction(clearBgAct);
         menu.exec(mapToGlobal(pos));
     }
 }
