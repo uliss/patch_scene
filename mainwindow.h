@@ -78,6 +78,7 @@ private:
 
     void readPositionSettings();
     void writePositionSettings();
+    void writeFavorites();
 
     void loadSection(QStandardItem* parent, const QList<SharedDeviceData>& data);
 

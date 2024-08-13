@@ -14,6 +14,7 @@
 #include "mainwindow.h"
 #include "about_window.h"
 #include "device_library.h"
+#include "diagram_item_model.h"
 #include "diagram_meta_dialog.h"
 #include "export_document.h"
 #include "preferences_dialog.h"
@@ -43,10 +44,6 @@ constexpr const char* SKEY_SAVESTATE = "savestate";
 constexpr const char* SKEY_MAXIMIZED = "maximized";
 constexpr const char* SKEY_POS = "pos";
 constexpr const char* SKEY_SIZE = "size";
-
-constexpr int DATA_DEVICE_DATA = Qt::UserRole + 1;
-constexpr int DATA_DEVICE_ID = Qt::UserRole + 2;
-constexpr int DATA_CONNECTION = Qt::UserRole + 3;
 
 enum ConnColumnOrder {
     COL_CONN_SRC_NAME = 0,
@@ -80,26 +77,6 @@ enum DeviceColumnOrder {
     COL_DEV_MODEL,
 };
 constexpr int DATA_DEV_NCOLS = 3;
-
-class DeviceItemModel : public QStandardItemModel {
-public:
-    DeviceItemModel(QObject* parent = nullptr)
-        : QStandardItemModel(parent)
-    {
-    }
-
-    QMimeData* mimeData(const QModelIndexList& indexes) const override
-    {
-        QMimeData* data = new QMimeData();
-
-        for (auto& idx : indexes) {
-            if (idx.column() == 0)
-                data->setText(idx.data(DATA_DEVICE_DATA).toString());
-        }
-
-        return data;
-    }
-};
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
@@ -371,6 +348,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
     }
 
     writePositionSettings();
+    writeFavorites();
 
     QMainWindow::closeEvent(event);
 }
@@ -380,20 +358,12 @@ void MainWindow::onAddToFavorites(SharedDeviceData data)
     if (data->isNull())
         return;
 
-    QSettings qs(SETTINGS_ORG, SETTINGS_APP);
-
-    qs.beginGroup(SKEY_FAVORITES);
-
-    auto items = qs.value("items").toList();
-    data->setId(DEV_NULL_ID);
-    items.append(data->toJson());
-    qs.setValue("items", items);
-    qs.endGroup();
-
-    auto model = static_cast<DeviceItemModel*>(ui->favoritesTree->model());
+    auto model = dynamic_cast<DiagramItemModel*>(ui->favoritesTree->model());
     if (model) {
-        auto item = new QStandardItem(data->title());
-        model->appendRow(item);
+        auto dev = new QStandardItem(data->title());
+        QJsonDocument doc(data->toJson());
+        dev->setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
+        model->appendRow(dev);
     }
 }
 
@@ -642,7 +612,7 @@ void MainWindow::loadSection(QStandardItem* parent, const QList<SharedDeviceData
 
 void MainWindow::loadLibrary()
 {
-    auto model = new DeviceItemModel(this);
+    auto model = new DiagramItemModel(this);
     auto parentItem = model->invisibleRootItem();
 
     ui->libraryTree->setDragEnabled(true);
@@ -695,8 +665,26 @@ void MainWindow::loadLibrary()
 
 void MainWindow::loadFavorites()
 {
-    auto model = new DeviceItemModel(this);
+    auto model = new DiagramItemModel(this);
     auto parentItem = model->invisibleRootItem();
+
+    ui->favoritesTree->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->favoritesTree, &QTreeView::customContextMenuRequested, this, [this](const QPoint& pos) {
+        auto item = ui->favoritesTree->indexAt(pos);
+        if (item.isValid()) {
+            QMenu menu(this);
+            auto removeAct = new QAction(tr("Remove"), this);
+            connect(removeAct, &QAction::triggered, this,
+                [this, item]() {
+                    auto model = dynamic_cast<DiagramItemModel*>(ui->favoritesTree->model());
+                    if (model) {
+                        model->removeRow(item.row());
+                    }
+                });
+            menu.addAction(removeAct);
+            menu.exec(ui->favoritesTree->mapToGlobal(pos));
+        }
+    });
 
     ui->favoritesTree->setDragEnabled(true);
     ui->favoritesTree->setDragDropMode(QAbstractItemView::DragOnly);
@@ -721,20 +709,17 @@ void MainWindow::loadFavorites()
         if (data.setJson(x.toJsonValue())) {
             auto dev = new QStandardItem(data.title());
             dev->setEditable(false);
+            dev->setDragEnabled(true);
+            dev->setDropEnabled(false);
+
+            QJsonDocument doc(data.toJson());
+            dev->setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
+
             parentItem->appendRow(dev);
         }
     }
 
     qs.endGroup();
-
-    // DeviceLibrary dev_lib;
-    // if (!dev_lib.readFile(":/library.json"))
-    //     return;
-
-    // auto devices = new QStandardItem(tr("devices"));
-    // devices->setEditable(false);
-    // parentItem->appendRow(devices);
-    // loadSection(devices, dev_lib.devices());
 }
 
 void MainWindow::createToolbarScaleView()
@@ -827,6 +812,43 @@ void MainWindow::writePositionSettings()
         qs.setValue(SKEY_MAXIMIZED, size());
     }
 
+    qs.endGroup();
+}
+
+void MainWindow::writeFavorites()
+{
+    QSettings qs(SETTINGS_ORG, SETTINGS_APP);
+
+    qs.beginGroup(SKEY_FAVORITES);
+
+    QList<QVariant> items;
+    auto model = dynamic_cast<DiagramItemModel*>(ui->favoritesTree->model());
+    if (model) {
+        for (int i = 0; i < model->rowCount(); i++) {
+            auto item = model->item(i);
+            if (!item) {
+                qWarning() << __FUNCTION__ << "NULL model item";
+                continue;
+            }
+
+            auto data = model->item(i)->data(DATA_DEVICE_DATA);
+            if (data.isNull()) {
+                qWarning() << __FUNCTION__ << "empty data";
+                continue;
+            }
+
+            QJsonParseError err;
+            auto doc = QJsonDocument::fromJson(data.toByteArray(), &err);
+            if (!doc.isObject()) {
+                qWarning() << __FUNCTION__ << "json error:" << err.errorString();
+                continue;
+            }
+
+            items.push_back(doc.object());
+        }
+    }
+
+    qs.setValue("items", items);
     qs.endGroup();
 }
 

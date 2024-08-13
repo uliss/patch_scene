@@ -76,6 +76,7 @@ qt_add_executable(patch_scene
     resources/patch_scene_resources.qrc
     diagram_meta.h diagram_meta.cpp
     diagram_meta_dialog.h diagram_meta_dialog.cpp diagram_meta_dialog.ui
+    diagram_item_model.h diagram_item_model.cpp
     #tests/test_device_data.h tests/test_device_data.cpp
 )
 
