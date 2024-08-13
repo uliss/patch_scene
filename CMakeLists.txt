@@ -78,6 +78,7 @@ qt_add_executable(patch_scene
     diagram_meta_dialog.h diagram_meta_dialog.cpp diagram_meta_dialog.ui
     diagram_item_model.h diagram_item_model.cpp
     favorites_widget.h favorites_widget.cpp
+    diagram_state_machine.h diagram_state_machine.cpp
     #tests/test_device_data.h tests/test_device_data.cpp
 )
 
