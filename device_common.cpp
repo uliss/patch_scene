@@ -242,7 +242,19 @@ QJsonObject DeviceData::toJson() const
     return json;
 }
 
-const XletData& DeviceData::inputAt(XletIndex n) const { return inputs_.at(n); }
+void DeviceData::foreachVisInput(std::function<void(XletIndex, const XletData&)> fn)
+{
+    XletIndex idx = 0;
+    for (auto& x : inputs_) {
+        if (x.visible)
+            fn(idx++, x);
+    }
+}
+
+const XletData& DeviceData::inputAt(XletIndex n) const
+{
+    return inputs_.at(n);
+}
 
 QJsonArray DeviceData::xletToJson(const QList<XletData>& xlets)
 {
