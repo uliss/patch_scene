@@ -253,7 +253,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     updateTitle();
 
-    loadLibraryDevices();
+    loadLibrary();
 
     readPositionSettings();
 }
@@ -551,7 +551,20 @@ bool MainWindow::doSave()
     return true;
 }
 
-void MainWindow::loadLibraryDevices()
+void MainWindow::loadSection(QStandardItem* parent, const QList<SharedDeviceData>& data)
+{
+    for (auto& x : data) {
+        auto item = new QStandardItem(x->title());
+        item->setEditable(false);
+
+        QJsonDocument doc(x->toJson());
+        item->setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
+        item->setDropEnabled(false);
+        parent->appendRow(item);
+    }
+}
+
+void MainWindow::loadLibrary()
 {
     auto model = new DeviceItemModel(this);
     auto parentItem = model->invisibleRootItem();
@@ -561,23 +574,6 @@ void MainWindow::loadLibraryDevices()
     ui->libraryTree->setSortingEnabled(true);
     ui->libraryTree->sortByColumn(0, Qt::AscendingOrder);
 
-    auto devices = new QStandardItem(tr("devices"));
-    devices->setEditable(false);
-    parentItem->appendRow(devices);
-
-    DeviceLibrary dev_lib;
-    if (dev_lib.readFile("://ceam/cables/resources/library.json")) {
-        for (auto& dev : dev_lib.devices()) {
-            auto item = new QStandardItem(dev->title());
-            item->setEditable(false);
-
-            QJsonDocument doc(dev->toJson());
-            item->setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
-            item->setDropEnabled(false);
-            devices->appendRow(item);
-        }
-    }
-
     library_proxy_ = new QSortFilterProxyModel(this);
     library_proxy_->setSourceModel(model);
     library_proxy_->setFilterCaseSensitivity(Qt::CaseInsensitive);
@@ -586,51 +582,39 @@ void MainWindow::loadLibraryDevices()
     library_proxy_->setSortLocaleAware(true);
     ui->libraryTree->setModel(library_proxy_);
 
+    DeviceLibrary dev_lib;
+    if (!dev_lib.readFile("://ceam/cables/resources/library.json"))
+        return;
+
+    auto devices = new QStandardItem(tr("devices"));
+    devices->setEditable(false);
+    parentItem->appendRow(devices);
+    loadSection(devices, dev_lib.devices());
+
     auto instr = new QStandardItem({ tr("instruments") });
     instr->setEditable(false);
     parentItem->appendRow(instr);
-
-    for (auto& ins : dev_lib.instruments()) {
-        auto item = new QStandardItem(ins->title());
-        item->setEditable(false);
-
-        QJsonDocument doc(ins->toJson());
-        item->setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
-        item->setDropEnabled(false);
-        instr->appendRow(item);
-    }
+    loadSection(instr, dev_lib.instruments());
 
     auto sends = new QStandardItem({ tr("sends") });
     sends->setEditable(false);
     parentItem->appendRow(sends);
-
-    for (auto& send : dev_lib.sends()) {
-        auto item = new QStandardItem(send->title());
-        item->setEditable(false);
-
-        QJsonDocument doc(send->toJson());
-        item->setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
-        item->setDropEnabled(false);
-        sends->appendRow(item);
-    }
+    loadSection(sends, dev_lib.sends());
 
     auto returns = new QStandardItem({ tr("returns") });
     returns->setEditable(false);
     parentItem->appendRow(returns);
+    loadSection(returns, dev_lib.returns());
 
-    for (auto& rtn : dev_lib.returns()) {
-        auto item = new QStandardItem(rtn->title());
-        item->setEditable(false);
+    auto furniture = new QStandardItem({ tr("furniture") });
+    furniture->setEditable(false);
+    parentItem->appendRow(furniture);
+    loadSection(furniture, dev_lib.furniture());
 
-        QJsonDocument doc(rtn->toJson());
-        item->setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
-        item->setDropEnabled(false);
-        returns->appendRow(item);
-    }
-
-    // auto misc = new QStandardItem({ tr("misc") });
-    // misc->setEditable(false);
-    // parentItem->appendRow(misc);
+    auto humans = new QStandardItem({ tr("humans") });
+    humans->setEditable(false);
+    parentItem->appendRow(humans);
+    loadSection(humans, dev_lib.humans());
 }
 
 void MainWindow::createToolbarScaleView()

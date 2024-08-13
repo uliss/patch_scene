@@ -22,6 +22,7 @@
 #include <QTableWidget>
 
 class QToolButton;
+class DeviceLibrary;
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -63,7 +64,7 @@ private slots:
 private:
     void setProjectName(const QString& fileName);
     bool doSave();
-    void loadLibraryDevices();
+    void loadLibrary();
     void createToolbarScaleView();
     void resizePanels();
 
@@ -73,6 +74,8 @@ private:
 
     void readPositionSettings();
     void writePositionSettings();
+
+    void loadSection(QStandardItem* parent, const QList<SharedDeviceData>& data);
 
 private:
     Ui::MainWindow* ui;
