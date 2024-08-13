@@ -10,6 +10,7 @@ endif()
 project(patch_scene VERSION 0.2.0 LANGUAGES ${LANGS})
 # cmake search path
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+include(git_version)
 
 enable_testing(true)
 
@@ -75,6 +76,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         diagram_image.h diagram_image.cpp
         #tests/test_device_data.h tests/test_device_data.cpp
     )
+
+    target_include_directories(patch_scene PRIVATE ${PROJECT_BINARY_DIR})
+    add_dependencies(patch_scene git_version)
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET patch_scene APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
