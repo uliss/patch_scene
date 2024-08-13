@@ -19,7 +19,7 @@
 #include <QDialog>
 
 namespace Ui {
-class Diagram_Meta_Dialog;
+class DiagramMetaDialog;
 }
 
 class DiagramMetaDialog : public QDialog {
@@ -32,7 +32,7 @@ public:
     const DiagramMeta& metaInfo() const { return meta_; }
 
 private:
-    Ui::Diagram_Meta_Dialog* ui;
+    Ui::DiagramMetaDialog* ui;
     DiagramMeta meta_;
 };
 

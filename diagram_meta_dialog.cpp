@@ -16,7 +16,7 @@
 
 DiagramMetaDialog::DiagramMetaDialog(const DiagramMeta& meta, QWidget* parent)
     : QDialog(parent)
-    , ui(new Ui::Diagram_Meta_Dialog)
+    , ui(new Ui::DiagramMetaDialog)
     , meta_(meta)
 {
     ui->setupUi(this);

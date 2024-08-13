@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Diagram_Meta_Dialog</class>
- <widget class="QDialog" name="Diagram_Meta_Dialog">
+ <class>DiagramMetaDialog</class>
+ <widget class="QDialog" name="DiagramMetaDialog">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -17,7 +20,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Document Properties</string>
   </property>
   <layout class="QFormLayout" name="formLayout">
    <property name="sizeConstraint">
@@ -126,7 +129,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>Diagram_Meta_Dialog</receiver>
+   <receiver>DiagramMetaDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -142,7 +145,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>Diagram_Meta_Dialog</receiver>
+   <receiver>DiagramMetaDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
