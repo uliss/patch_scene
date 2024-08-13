@@ -572,7 +572,7 @@ bool MainWindow::doSave()
 {
     QFile file(file_name_);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qWarning() << "can't open" << file_name_;
+        qWarning() << "can't open for writing" << file_name_;
         return false;
     }
 
