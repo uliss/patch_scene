@@ -56,6 +56,7 @@ protected:
 private slots:
     void onDeviceAdd(SharedDeviceData data);
     void onDeviceRemove(SharedDeviceData data);
+    void onDeviceTitleUpdate(DeviceId id, const QString& title);
     void onDeviceUpdate(SharedDeviceData data);
     void onConnectionAdd(ConnectionData data);
     void onConnectionRemove(ConnectionData data);

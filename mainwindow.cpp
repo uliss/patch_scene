@@ -46,10 +46,31 @@ constexpr int DATA_DEVICE_DATA = Qt::UserRole + 1;
 constexpr int DATA_DEVICE_ID = Qt::UserRole + 2;
 constexpr int DATA_CONNECTION = Qt::UserRole + 3;
 
-constexpr int COL_CONN_SRC_NAME = 0;
-constexpr int COL_CONN_DEST_NAME = 3;
-constexpr int COL_SEND_DEV_NAME = 2;
+enum ConnColumnOrder {
+    COL_CONN_SRC_NAME = 0,
+    COL_CONN_SRC_MODEL,
+    COL_CONN_SRC_PLUG,
+    COL_CONN_DEST_NAME,
+    COL_CONN_DEST_MODEL,
+    COL_CONN_DEST_PLUG
+};
 constexpr int DATA_CONN_NCOLS = 6;
+
+enum SendColumnOrder {
+    COL_SEND_NAME = 0,
+    COL_SEND_INPUT,
+    COL_SEND_SRC_NAME,
+    COL_SEND_SRC_OUTPUT
+};
+constexpr int DATA_SEND_NCOLS = 4;
+
+enum ReturnColumnOrder {
+    COL_RETURN_NAME = 0,
+    COL_RETURN_OUTPUT,
+    COL_RETURN_DEST_NAME,
+    COL_RETURN_DEST_INPUT,
+};
+constexpr int DATA_RETURN_NCOLS = 4;
 
 enum DeviceColumnOrder {
     COL_DEV_TITLE = 0,
@@ -179,6 +200,8 @@ MainWindow::MainWindow(QWidget* parent)
     connect(diagram_, SIGNAL(deviceAdded(SharedDeviceData)), this, SLOT(onDeviceAdd(SharedDeviceData)));
     connect(diagram_, SIGNAL(deviceRemoved(SharedDeviceData)), this, SLOT(onDeviceRemove(SharedDeviceData)));
     connect(diagram_, SIGNAL(deviceUpdated(SharedDeviceData)), this, SLOT(onDeviceUpdate(SharedDeviceData)));
+    connect(diagram_, SIGNAL(deviceTitleUpdated(DeviceId, QString)), this, SLOT(onDeviceTitleUpdate(DeviceId, QString)));
+
     connect(diagram_, SIGNAL(connectionAdded(ConnectionData)), this, SLOT(onConnectionAdd(ConnectionData)));
     connect(diagram_, SIGNAL(connectionRemoved(ConnectionData)), this, SLOT(onConnectionRemove(ConnectionData)));
 
@@ -365,20 +388,40 @@ void MainWindow::onDeviceRemove(SharedDeviceData data)
     }
 }
 
-static bool updateItemDeviceName(QStandardItem* item, const SharedDeviceData& data)
+static bool updateItemDeviceName(QStandardItem* item, DeviceId id, const QString& title)
 {
     if (!item)
         return false;
 
     bool ok = false;
     auto dev_id = item->data(DATA_DEVICE_ID).toInt(&ok);
-    if (dev_id && dev_id == data->id()) {
-        if (data->title() != item->text())
-            item->setText(data->title());
+    if (dev_id && dev_id == id) {
+        if (item->text() != title)
+            item->setText(title);
 
         return true;
     } else
         return false;
+}
+
+void MainWindow::onDeviceTitleUpdate(DeviceId id, const QString& title)
+{
+    // update connection device name change
+    for (int i = 0; i < conn_model_->rowCount(); i++) {
+        if (updateItemDeviceName(conn_model_->item(i, COL_CONN_SRC_NAME), id, title))
+            continue;
+
+        if (updateItemDeviceName(conn_model_->item(i, COL_CONN_DEST_NAME), id, title))
+            continue;
+    }
+
+    // update connection device name change
+    for (int i = 0; i < send_model_->rowCount(); i++)
+        updateItemDeviceName(send_model_->item(i, COL_SEND_SRC_NAME), id, title);
+
+    // update connection device name change
+    for (int i = 0; i < return_model_->rowCount(); i++)
+        updateItemDeviceName(return_model_->item(i, COL_RETURN_DEST_NAME), id, title);
 }
 
 void MainWindow::onDeviceUpdate(SharedDeviceData data)
@@ -389,7 +432,6 @@ void MainWindow::onDeviceUpdate(SharedDeviceData data)
     }
 
     bool device_found = false;
-    bool title_update = false;
     for (int i = 0; i < device_model_->rowCount(); i++) {
         auto title = device_model_->item(i, COL_DEV_TITLE);
         if (title && title->data(DATA_DEVICE_ID) == data->id()) {
@@ -398,7 +440,7 @@ void MainWindow::onDeviceUpdate(SharedDeviceData data)
             if (data->category() != ItemCategory::Device) {
                 device_model_->removeRow(i);
             } else {
-                title_update = (title->text() != data->title());
+                bool title_update = (title->text() != data->title());
 
                 if (title_update) {
                     title->setText(data->title());
@@ -428,19 +470,6 @@ void MainWindow::onDeviceUpdate(SharedDeviceData data)
     // not found in model
     if (!device_found && data->category() == ItemCategory::Device) {
         onDeviceAdd(data);
-    } else if (title_update) {
-        // update connection device name change
-        for (int i = 0; i < conn_model_->rowCount(); i++) {
-            if (updateItemDeviceName(conn_model_->item(i, COL_CONN_SRC_NAME), data))
-                continue;
-
-            if (updateItemDeviceName(conn_model_->item(i, COL_CONN_DEST_NAME), data))
-                continue;
-        }
-
-        // update connection device name change
-        for (int i = 0; i < send_model_->rowCount(); i++)
-            updateItemDeviceName(send_model_->item(i, COL_SEND_DEV_NAME), data);
     }
 }
 
@@ -469,6 +498,7 @@ void MainWindow::onConnectionAdd(ConnectionData data)
         auto src_plug = new QStandardItem(conn2str(src.type));
         src_plug->setEditable(false);
         auto dest_name = new QStandardItem(dest_dev->deviceData()->title());
+        dest_name->setData(QVariant::fromValue(data), DATA_CONNECTION);
         dest_name->setData(data.dest, DATA_DEVICE_ID);
         dest_name->setEditable(false);
         auto dest_model = new QStandardItem(dest.modelString());
@@ -505,14 +535,14 @@ void MainWindow::onConnectionRemove(ConnectionData data)
     }
 
     for (int i = 0; i < send_model_->rowCount(); i++) {
-        auto item = send_model_->item(i, COL_SEND_DEV_NAME);
+        auto item = send_model_->item(i, COL_SEND_SRC_NAME);
         if (item && item->data(DATA_CONNECTION) == QVariant::fromValue(data)) {
             send_model_->removeRow(i);
         }
     }
 
     for (int i = 0; i < return_model_->rowCount(); i++) {
-        auto item = return_model_->item(i, 0);
+        auto item = return_model_->item(i, COL_RETURN_DEST_NAME);
         if (item && item->data(DATA_CONNECTION) == QVariant::fromValue(data)) {
             return_model_->removeRow(i);
         }
