@@ -11,26 +11,27 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#ifndef DIAGRAM_ITEM_MODEL_H
-#define DIAGRAM_ITEM_MODEL_H
+#ifndef FAVORITES_WIDGET_H
+#define FAVORITES_WIDGET_H
 
-#include <QStandardItemModel>
+#include "device_common.h"
+#include "diagram_item_model.h"
 
-class DeviceData;
+#include <QTreeView>
 
-constexpr int DATA_DEVICE_DATA = Qt::UserRole + 1;
-constexpr int DATA_DEVICE_ID = Qt::UserRole + 2;
-constexpr int DATA_CONNECTION = Qt::UserRole + 3;
-
-class DiagramItemModel : public QStandardItemModel {
+class FavoritesWidget : public QTreeView {
+    Q_OBJECT
 public:
-    DiagramItemModel(QObject* parent = nullptr);
-    QMimeData* mimeData(const QModelIndexList& indexes) const override;
+    FavoritesWidget(QWidget* parent = nullptr);
+
+    void addItem(const SharedDeviceData& data);
+
+    void setFromVariant(const QList<QVariant>& items);
+    QList<QVariant> toVariant() const;
+
+private:
+    DiagramItemModel* model_ { nullptr };
+    void initContextMenu();
 };
 
-class DiagramDataItem : public QStandardItem {
-public:
-    DiagramDataItem(const DeviceData& data);
-};
-
-#endif // DIAGRAM_ITEM_MODEL_H
+#endif // FAVORITES_WIDGET_H

@@ -15,6 +15,7 @@
 #define MAINWINDOW_H
 
 #include "diagram.h"
+#include "favorites_widget.h"
 
 #include <QMainWindow>
 #include <QSortFilterProxyModel>
@@ -89,6 +90,7 @@ private:
     QString file_name_;
     QSortFilterProxyModel* library_proxy_;
     QStandardItemModel *device_model_, *conn_model_, *send_model_, *return_model_;
+    FavoritesWidget* favorites_;
 };
 
 #endif // MAINWINDOW_H

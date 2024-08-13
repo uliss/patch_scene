@@ -12,7 +12,10 @@
  * this file belongs to.
  *****************************************************************************/
 #include "diagram_item_model.h"
+#include "device_common.h"
 
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QMimeData>
 
 DiagramItemModel::DiagramItemModel(QObject* parent)
@@ -30,4 +33,15 @@ QMimeData* DiagramItemModel::mimeData(const QModelIndexList& indexes) const
     }
 
     return data;
+}
+
+DiagramDataItem::DiagramDataItem(const DeviceData& data)
+    : QStandardItem(data.title())
+{
+    setEditable(false);
+    setDragEnabled(true);
+    setDropEnabled(false);
+
+    QJsonDocument doc(data.toJson());
+    setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
 }

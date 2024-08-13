@@ -95,6 +95,9 @@ MainWindow::MainWindow(QWidget* parent)
     setupDockTitle(ui->tableDock);
     setupDockTitle(ui->favoritesDock);
 
+    favorites_ = new FavoritesWidget(ui->favoritesDock);
+    ui->favoritesHBox->layout()->addWidget(favorites_);
+
     device_model_ = new QStandardItemModel(0, DATA_DEV_NCOLS, this);
     device_model_->setHorizontalHeaderLabels({ tr("Name"), tr("Vendor"), tr("Model") });
     setupEquipmentTableView(ui->deviceList, device_model_);
@@ -355,16 +358,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
 
 void MainWindow::onAddToFavorites(SharedDeviceData data)
 {
-    if (data->isNull())
-        return;
-
-    auto model = dynamic_cast<DiagramItemModel*>(ui->favoritesTree->model());
-    if (model) {
-        auto dev = new QStandardItem(data->title());
-        QJsonDocument doc(data->toJson());
-        dev->setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
-        model->appendRow(dev);
-    }
+    favorites_->addItem(data);
 }
 
 void MainWindow::onDeviceAdd(SharedDeviceData data)
@@ -665,60 +659,10 @@ void MainWindow::loadLibrary()
 
 void MainWindow::loadFavorites()
 {
-    auto model = new DiagramItemModel(this);
-    auto parentItem = model->invisibleRootItem();
-
-    ui->favoritesTree->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->favoritesTree, &QTreeView::customContextMenuRequested, this, [this](const QPoint& pos) {
-        auto item = ui->favoritesTree->indexAt(pos);
-        if (item.isValid()) {
-            QMenu menu(this);
-            auto removeAct = new QAction(tr("Remove"), this);
-            connect(removeAct, &QAction::triggered, this,
-                [this, item]() {
-                    auto model = dynamic_cast<DiagramItemModel*>(ui->favoritesTree->model());
-                    if (model) {
-                        model->removeRow(item.row());
-                    }
-                });
-            menu.addAction(removeAct);
-            menu.exec(ui->favoritesTree->mapToGlobal(pos));
-        }
-    });
-
-    ui->favoritesTree->setDragEnabled(true);
-    ui->favoritesTree->setDragDropMode(QAbstractItemView::DragOnly);
-    ui->favoritesTree->setSortingEnabled(true);
-    ui->favoritesTree->sortByColumn(0, Qt::AscendingOrder);
-
-    // library_proxy_ = new QSortFilterProxyModel(this);
-    // library_proxy_->setSourceModel(model);
-    // library_proxy_->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    // library_proxy_->setAutoAcceptChildRows(true);
-    // library_proxy_->setRecursiveFilteringEnabled(true);
-    // library_proxy_->setSortLocaleAware(true);
-    ui->favoritesTree->setModel(model);
-
     QSettings qs(SETTINGS_ORG, SETTINGS_APP);
 
     qs.beginGroup(SKEY_FAVORITES);
-
-    auto items = qs.value("items").toList();
-    for (auto& x : items) {
-        DeviceData data(DEV_NULL_ID);
-        if (data.setJson(x.toJsonValue())) {
-            auto dev = new QStandardItem(data.title());
-            dev->setEditable(false);
-            dev->setDragEnabled(true);
-            dev->setDropEnabled(false);
-
-            QJsonDocument doc(data.toJson());
-            dev->setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
-
-            parentItem->appendRow(dev);
-        }
-    }
-
+    favorites_->setFromVariant(qs.value("items").toList());
     qs.endGroup();
 }
 
@@ -820,35 +764,7 @@ void MainWindow::writeFavorites()
     QSettings qs(SETTINGS_ORG, SETTINGS_APP);
 
     qs.beginGroup(SKEY_FAVORITES);
-
-    QList<QVariant> items;
-    auto model = dynamic_cast<DiagramItemModel*>(ui->favoritesTree->model());
-    if (model) {
-        for (int i = 0; i < model->rowCount(); i++) {
-            auto item = model->item(i);
-            if (!item) {
-                qWarning() << __FUNCTION__ << "NULL model item";
-                continue;
-            }
-
-            auto data = model->item(i)->data(DATA_DEVICE_DATA);
-            if (data.isNull()) {
-                qWarning() << __FUNCTION__ << "empty data";
-                continue;
-            }
-
-            QJsonParseError err;
-            auto doc = QJsonDocument::fromJson(data.toByteArray(), &err);
-            if (!doc.isObject()) {
-                qWarning() << __FUNCTION__ << "json error:" << err.errorString();
-                continue;
-            }
-
-            items.push_back(doc.object());
-        }
-    }
-
-    qs.setValue("items", items);
+    qs.setValue("items", favorites_->toVariant());
     qs.endGroup();
 }
 
