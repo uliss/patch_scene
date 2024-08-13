@@ -44,6 +44,9 @@
      <property name="text">
       <string>Event date</string>
      </property>
+     <property name="buddy">
+      <cstring>eventDateEdit</cstring>
+     </property>
     </widget>
    </item>
    <item row="0" column="1">
@@ -154,7 +157,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QToolButton" name="toolButton">
+      <widget class="QToolButton" name="addContact">
        <property name="maximumSize">
         <size>
          <width>16</width>
@@ -167,10 +170,13 @@
        <property name="text">
         <string notr="true">+</string>
        </property>
+       <property name="toolButtonStyle">
+        <enum>Qt::ToolButtonTextOnly</enum>
+       </property>
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="toolButton_2">
+      <widget class="QToolButton" name="removeContact">
        <property name="maximumSize">
         <size>
          <width>16</width>
@@ -182,6 +188,9 @@
        </property>
        <property name="text">
         <string notr="true">-</string>
+       </property>
+       <property name="toolButtonStyle">
+        <enum>Qt::ToolButtonTextOnly</enum>
        </property>
       </widget>
      </item>
@@ -209,8 +218,8 @@
   <tabstop>titleEdit</tabstop>
   <tabstop>infoEdit</tabstop>
   <tabstop>contactsTable</tabstop>
-  <tabstop>toolButton</tabstop>
-  <tabstop>toolButton_2</tabstop>
+  <tabstop>addContact</tabstop>
+  <tabstop>removeContact</tabstop>
  </tabstops>
  <resources/>
  <connections>

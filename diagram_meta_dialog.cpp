@@ -21,16 +21,35 @@ DiagramMetaDialog::DiagramMetaDialog(const DiagramMeta& meta, QWidget* parent)
 {
     ui->setupUi(this);
 
+    initTitle();
+    initInfo();
+    initEventDate();
+    initContacts();
+}
+
+DiagramMetaDialog::~DiagramMetaDialog()
+{
+    delete ui;
+}
+
+void DiagramMetaDialog::initTitle()
+{
     ui->titleEdit->setText(meta_.title());
     connect(ui->titleEdit, &QLineEdit::textChanged, this, [this](const QString& title) {
         meta_.setTitle(title);
     });
+}
 
+void DiagramMetaDialog::initInfo()
+{
     ui->infoEdit->setPlainText(meta_.info());
     connect(ui->infoEdit, &QPlainTextEdit::textChanged, this, [this]() {
         meta_.setInfo(ui->infoEdit->toPlainText());
     });
+}
 
+void DiagramMetaDialog::initEventDate()
+{
     ui->eventDateEdit->setCalendarPopup(true);
     ui->eventDateEdit->setDate(meta_.eventDate());
     connect(ui->eventDateEdit, &QDateEdit::userDateChanged, this, [this](const QDate& date) {
@@ -39,7 +58,10 @@ DiagramMetaDialog::DiagramMetaDialog(const DiagramMeta& meta, QWidget* parent)
     ui->eventDateEdit->setStyleSheet(
         "#eventDateEdit QWidget#qt_calendar_prevmonth { qproperty-icon: url(\":/icons/arrow_back.svg\");}"
         "#eventDateEdit QWidget#qt_calendar_nextmonth { qproperty-icon : url(\":/icons/arrow_forward.svg\");}");
+}
 
+void DiagramMetaDialog::initContacts()
+{
     ui->contactsTable->setHorizontalHeaderLabels({ tr("Name"), tr("Work"), tr("Phone"), tr("Email") });
     int row = 0;
     for (auto& c : meta_.contacts()) {
@@ -61,11 +83,36 @@ DiagramMetaDialog::DiagramMetaDialog(const DiagramMeta& meta, QWidget* parent)
     }
 
     connect(ui->contactsTable, SIGNAL(itemChanged(QTableWidgetItem*)), ui->contactsTable, SLOT(resizeColumnsToContents()));
-
     ui->contactsTable->resizeColumnsToContents();
-}
 
-DiagramMetaDialog::~DiagramMetaDialog()
-{
-    delete ui;
+    connect(ui->addContact, &QToolButton::clicked, this, [this]() {
+        auto row = ui->contactsTable->currentRow();
+        if (row < 0)
+            row = ui->contactsTable->rowCount();
+
+        ui->contactsTable->insertRow(row);
+
+        auto name = new QTableWidgetItem(tr("John Doe"));
+        ui->contactsTable->setItem(row, 0, name);
+
+        auto work = new QTableWidgetItem(tr("manager"));
+        ui->contactsTable->setItem(row, 1, work);
+
+        auto phone = new QTableWidgetItem(tr("+7XXX XXX-XX-XX"));
+        ui->contactsTable->setItem(row, 2, phone);
+
+        auto email = new QTableWidgetItem();
+        ui->contactsTable->setItem(row, 3, email);
+    });
+
+    connect(ui->removeContact, &QToolButton::clicked, this, [this]() {
+        if (ui->contactsTable->rowCount() < 1)
+            return;
+
+        auto row = ui->contactsTable->currentRow();
+        if (row < 0)
+            row = ui->contactsTable->rowCount() - 1;
+
+        ui->contactsTable->removeRow(row);
+    });
 }
