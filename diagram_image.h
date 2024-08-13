@@ -19,7 +19,7 @@
 
 class DiagramImage : public QGraphicsItem {
 public:
-    DiagramImage(const QString& path, QGraphicsItem* parent = nullptr);
+    DiagramImage(const QString& path = {}, QGraphicsItem* parent = nullptr);
 
     enum { Type = QGraphicsItem::UserType + 4 };
     int type() const override { return Type; }
@@ -36,12 +36,13 @@ public:
     static std::unique_ptr<DiagramImage> fromJson(const QJsonValue& v);
 
 private:
-    void setPixmap();
+    bool setPixmap(const QPixmap& pixmap);
+    bool setSvg(const QString& path);
 
 private:
     QGraphicsPixmapItem* pixmap_ { nullptr };
     QGraphicsSvgItem* svg_ { nullptr };
-    QString svg_content_;
+    QByteArray svg_content_;
 };
 
 #endif // DIAGRAM_IMAGE_H
