@@ -572,10 +572,7 @@ void Device::incrementName()
 
 QJsonObject Device::toJson() const
 {
-    auto data_json = data_->toJson();
-
-    data_json["x"] = x();
-    data_json["y"] = y();
+    auto data_json = deviceData()->toJson();
     data_json["z"] = zValue();
 
     return data_json;
@@ -602,7 +599,6 @@ std::unique_ptr<Device> Device::fromJson(const QJsonValue& j)
     std::unique_ptr<Device> dev(new Device(data));
     auto obj = j.toObject();
 
-    dev->setPos(obj.value("x").toInt(), obj.value("y").toInt());
     dev->setZValue(obj.value("z").toDouble());
     return dev;
 }
