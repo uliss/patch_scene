@@ -36,15 +36,6 @@ DiagramMetaDialog::DiagramMetaDialog(const DiagramMeta& meta, QWidget* parent)
         meta_.setEventDate(date);
     });
 
-    Contact c;
-    c.setName("Name");
-    c.setPhone("Phone");
-    c.setEmail("email");
-    c.setWork("Manager");
-    meta_.contacts().append(c);
-    meta_.contacts().append(c);
-
-    ui->contactsTable->setStyleSheet("QTableCell {padding: 1px;}");
     ui->contactsTable->setHorizontalHeaderLabels({ tr("Name"), tr("Work"), tr("Phone"), tr("Email") });
     int row = 0;
     for (auto& c : meta_.contacts()) {
