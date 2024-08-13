@@ -109,8 +109,8 @@ Diagram::Diagram(QWidget* parent)
     setAlignment(Qt::AlignCenter);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    setMinimumHeight(100);
-    setMinimumWidth(100);
+    setMinimumHeight(300);
+    setMinimumWidth(300);
     setAcceptDrops(true);
 
     setRenderHint(QPainter::Antialiasing);
@@ -231,6 +231,19 @@ void Diagram::cmdAddToSelection(const QRectF& sel)
 
     auto sel_devs = new AddDeviceSelection(this, ids);
     undo_stack_->push(sel_devs);
+}
+
+void Diagram::cmdAddToSelection(const QList<QGraphicsItem*>& items)
+{
+    QList<DeviceId> ids;
+    for (auto x : items) {
+        auto dev = qgraphicsitem_cast<Device*>(x);
+        if (dev)
+            ids.push_back(dev->id());
+    }
+
+    auto add_sel = new AddDeviceSelection(this, ids);
+    undo_stack_->push(add_sel);
 }
 
 void Diagram::cmdSelectDevices(const QRectF& sel)
@@ -686,16 +699,39 @@ QJsonObject Diagram::toJson() const
     return json;
 }
 
+void Diagram::startSelectionAt(const QPoint& pos)
+{
+    selection_->setPos(mapToScene(pos));
+    selection_->setRect({});
+    selection_->setVisible(true);
+}
+
+void Diagram::startConnectionAt(const QPoint& pos)
+{
+    connection_->setLine(QLineF {});
+    connection_->setPos(mapToScene(pos));
+    connection_->setVisible(true);
+}
+
+void Diagram::drawConnectionTo(const QPoint& pos)
+{
+    connection_->setLine(QLineF(QPointF {}, connection_->mapFromScene(mapToScene(pos))));
+}
+
+void Diagram::drawSelectionTo(const QPoint& pos)
+{
+    QRectF rect(QPointF {}, selection_->mapFromScene(mapToScene(pos)));
+    selection_->setRect(rect.normalized());
+}
+
 void Diagram::mousePressEvent(QMouseEvent* event)
 {
     if (event->button() == Qt::RightButton) {
         return emit customContextMenuRequested(event->pos());
     }
 
-    switch (state_) {
-    case DiagramState::None: {
-        qDebug() << "[NONE]" << __FUNCTION__;
-
+    switch (state_machine_.state()) {
+    case DiagramState::Init: {
         auto devs = items(event->pos());
         bool device_found = std::any_of(devs.begin(), devs.end(), [](QGraphicsItem* x) { return qgraphicsitem_cast<Device*>(x); });
 
@@ -705,95 +741,56 @@ void Diagram::mousePressEvent(QMouseEvent* event)
             if (xlet != XletInfo::none()) {
                 bool disconnect = event->modifiers().testFlag(Qt::AltModifier);
                 if (disconnect) {
-                    state_ = DiagramState::None;
+                    state_machine_.setState(DiagramState::Init);
                     cmdDisconnectXlet(xlet);
                 } else {
-                    state_ = DiagramState::ConnectDevice;
-                    connection_->setVisible(true);
-                    connection_->setLine(QLineF {});
-                    auto pos = mapToScene(event->pos());
-                    connection_->setPos(pos);
+                    state_machine_.setState(DiagramState::ConnectDevice);
+                    startConnectionAt(event->pos());
                     conn_start_ = xlet;
                 }
 
                 return; //
 
-            } else if (event->modifiers().testFlag(Qt::ShiftModifier)) { // add/remove to/from selection
+            } else if (event->modifiers().testFlag(Qt::ControlModifier)) { // add/remove to/from selection
                 cmdToggleDevices(devs);
+            } else if (event->modifiers().testFlag(Qt::ShiftModifier)) { // add to selection
+                cmdAddToSelection(devs);
             } else
                 selectTopDevice(devs);
 
             if (scene->selectedItems().empty()) {
-                qDebug() << "empty";
-                state_ = DiagramState::None;
+                state_machine_.setState(DiagramState::Init);
             } else {
                 saveClickPos(event->pos());
-                state_ = DiagramState::SelectDevice;
+                state_machine_.setState(DiagramState::SelectDevice);
             }
         } else {
-            startSelectionRect(event->pos());
-            state_ = DiagramState::SelectionRect;
-        }
-    } break;
-    case DiagramState::SelectDevice: {
-        qDebug() << "[SEL_DEV]" << __FUNCTION__;
-
-        auto devs = items(event->pos());
-        bool device_found = std::any_of(devs.begin(), devs.end(), [](QGraphicsItem* x) { return qgraphicsitem_cast<Device*>(x); });
-
-        if (device_found) {
-            if (event->modifiers().testFlag(Qt::ShiftModifier)) { // add/remove to/from selection
-                cmdToggleDevices(devs);
-            } else { // unique selection
-                selectTopDevice(devs);
-            }
-
-            if (scene->selectedItems().empty()) {
-                state_ = DiagramState::None;
-            } else {
-                saveClickPos(event->pos());
-                state_ = DiagramState::SelectDevice;
-            }
-        } else {
-            startSelectionRect(event->pos());
-            state_ = DiagramState::SelectionRect;
+            startSelectionAt(event->pos());
+            state_machine_.setState(DiagramState::SelectionRect);
         }
     } break;
     case DiagramState::ConnectDevice: {
-        qDebug() << "[CONN]" << __FUNCTION__;
-        connection_->setVisible(true);
+        connection_->setVisible(false);
+        state_machine_.setState(DiagramState::Init);
     } break;
     case DiagramState::SelectionRect: {
-        qDebug() << "[SEL_RECT]" << __FUNCTION__;
-
-        state_ = DiagramState::None;
         selection_->setVisible(false);
+        state_machine_.setState(DiagramState::Init);
     } break;
-    case DiagramState::Move: {
-        qDebug() << "[MOVE]" << __FUNCTION__;
-    } break;
+    default:
+        state_machine_.setState(DiagramState::Init);
+        break;
     }
 }
 
 void Diagram::mouseMoveEvent(QMouseEvent* event)
 {
-    switch (state_) {
+    switch (state_machine_.state()) {
     case DiagramState::SelectionRect: {
-        // qDebug() << "[SEL_RECT]" << __FUNCTION__;
-
-        auto pos = mapToScene(event->pos());
-        QRect rect(selection_origin_,
-            QSize(pos.x() - selection_origin_.x(),
-                pos.y() - selection_origin_.y()));
-
-        selection_->setRect(rect.normalized());
+        drawSelectionTo(event->pos());
     } break;
     case DiagramState::SelectDevice: {
-        qDebug() << "[SEL_DEV]" << __FUNCTION__;
-        state_ = DiagramState::Move;
-    } break;
-    case DiagramState::None: {
-        // qDebug() << "[NONE]" << __FUNCTION__;
+        state_machine_.setState(DiagramState::Move);
     } break;
     case DiagramState::Move: {
         auto delta = mapToScene(event->pos()) - prev_event_pos_;
@@ -801,41 +798,33 @@ void Diagram::mouseMoveEvent(QMouseEvent* event)
         prev_event_pos_ = mapToScene(event->pos());
     } break;
     case DiagramState::ConnectDevice:
-        // qDebug() << "[CONN]" << __FUNCTION__;
-        connection_->setLine(QLineF(QPointF {}, connection_->mapFromScene(mapToScene(event->pos()))));
+        drawConnectionTo(event->pos());
+        break;
+    default:
         break;
     }
 }
 
 void Diagram::mouseReleaseEvent(QMouseEvent* event)
 {
-    switch (state_) {
-    case DiagramState::None:
-        qDebug() << "[NONE]" << __FUNCTION__;
-        break;
-    case DiagramState::Move: {
-        // qDebug() << "[MOVE]" << __FUNCTION__;
-        state_ = DiagramState::None;
+    switch (state_machine_.state()) {
+    case DiagramState::Move: { // finish item moving
+        state_machine_.setState(DiagramState::Init);
         cmdMoveSelectedDevicesFrom(prev_click_pos_, mapToScene(event->pos()));
     } break;
-    case DiagramState::SelectDevice: {
-        qDebug() << "[SEL_DEV]" << __FUNCTION__;
-        state_ = DiagramState::None;
-    } break;
-    case DiagramState::SelectionRect: {
-        qDebug() << "[SEL_RECT]" << __FUNCTION__;
-        auto bbox = selection_->rect();
+    case DiagramState::SelectionRect: { // finish selection
+        auto bbox = selection_->mapRectToScene(selection_->rect());
         if (event->modifiers().testFlag(Qt::ShiftModifier))
             cmdAddToSelection(bbox);
         else
             cmdSelectDevices(bbox);
 
         selection_->setVisible(false);
-        state_ = DiagramState::None;
+        state_machine_.setState(DiagramState::Init);
     } break;
-    case DiagramState::ConnectDevice:
+    case DiagramState::ConnectDevice: { // finish connection
         connection_->setVisible(false);
-        state_ = DiagramState::None;
+        state_machine_.setState(DiagramState::Init);
 
         auto xlet = hoverDeviceXlet(items(event->pos()), event->pos());
         if (xlet != XletInfo::none()) {
@@ -849,9 +838,9 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
         }
 
         conn_start_ = XletInfo::none();
-
-        // setCursor(Qt::CursorShape::ArrowCursor);
-
+    } break;
+    default:
+        state_machine_.setState(DiagramState::Init);
         break;
     }
 }
@@ -1069,13 +1058,6 @@ QList<Device*> Diagram::selectedDevices() const
     }
 
     return res;
-}
-
-void Diagram::startSelectionRect(const QPoint& pos)
-{
-    selection_origin_ = mapToScene(pos).toPoint();
-    selection_->setRect(QRect(selection_origin_, QSize()));
-    selection_->setVisible(true);
 }
 
 void Diagram::selectTopDevice(const QList<QGraphicsItem*>& devs)

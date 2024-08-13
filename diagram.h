@@ -18,6 +18,7 @@
 #include "device.h"
 #include "diagram_image.h"
 #include "diagram_meta.h"
+#include "diagram_state_machine.h"
 
 #include <QGraphicsItemGroup>
 #include <QGraphicsScene>
@@ -25,14 +26,6 @@
 #include <QTimer>
 #include <QUndoStack>
 #include <QWidget>
-
-enum class DiagramState {
-    None,
-    Move,
-    ConnectDevice,
-    SelectDevice,
-    SelectionRect,
-};
 
 class Diagram : public QGraphicsView {
     Q_OBJECT
@@ -144,6 +137,7 @@ public:
     void cmdUpdateDevice(const SharedDeviceData& data);
     void cmdSelectAll();
     void cmdAddToSelection(const QRectF& sel);
+    void cmdAddToSelection(const QList<QGraphicsItem*>& items);
     void cmdSelectDevices(const QRectF& sel);
     void cmdSelectUnique(DeviceId id);
     void cmdToggleDevices(const QList<QGraphicsItem*>& items);
@@ -234,7 +228,6 @@ private:
     bool viewportEvent(QEvent* event) override;
 #endif
 
-    void startSelectionRect(const QPoint& pos);
     void selectTopDevice(const QList<QGraphicsItem*>& devs);
     XletInfo hoverDeviceXlet(const QList<QGraphicsItem*>& devs, const QPoint& pt) const;
     void updateZoom(qreal zoom);
@@ -251,11 +244,10 @@ private:
     QGraphicsLineItem* connection_ { nullptr };
     DiagramImage* background_ { nullptr };
     QUndoStack* undo_stack_ { nullptr };
-    QPoint selection_origin_;
     QPointF prev_event_pos_;
     QPointF prev_click_pos_;
 
-    DiagramState state_ { DiagramState::None };
+    DiagramStateMachine state_machine_;
     XletInfo conn_start_;
     qreal zoom_ { 1 };
     bool show_cables_ { true };
@@ -269,6 +261,26 @@ private:
     void initSelectionRect();
     void initLiveConnection();
     void initScene();
+
+    /**
+     * @param pos - position in view coordinates
+     */
+    void startSelectionAt(const QPoint& pos);
+
+    /**
+     * @param pos - position in view coordinates
+     */
+    void startConnectionAt(const QPoint& pos);
+
+    /**
+     * @param pos - position in view coordinates
+     */
+    void drawConnectionTo(const QPoint& pos);
+
+    /**
+     * @param pos - position in view coordinates
+     */
+    void drawSelectionTo(const QPoint& pos);
 };
 
 #endif // DIAGRAM_H
