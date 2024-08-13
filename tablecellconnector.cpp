@@ -60,6 +60,8 @@ TableCellConnector::TableCellConnector(QWidget* parent)
         if (!icon.isNull())
             addItem(icon, connectorName(model), static_cast<int>(model));
     }
+
+    QComboBox::model()->sort(0);
 }
 
 ConnectorModel TableCellConnector::model() const
