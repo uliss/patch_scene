@@ -20,4 +20,12 @@ if(NOT DEFINED PATCH_SCENE_GIT_VERSION)
     message(WARNING "Failed to determine PATCH_SCENE_GIT_VERSION from Git tags. Using default version \"${PATCH_SCENE_GIT_VERSION}\".")
 endif()
 
+if(NOT DEFINED PATCH_SCENE_VERSION_MAJOR)
+    set(PATCH_SCENE_VERSION_MAJOR 0)
+endif()
+
+if(NOT DEFINED PATCH_SCENE_VERSION_PATCH)
+    set(PATCH_SCENE_VERSION_PATCH 0)
+endif()
+
 configure_file(${SRC} ${DST} @ONLY)
