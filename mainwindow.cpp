@@ -670,6 +670,7 @@ void MainWindow::setupEquipmentTableView(QTableView* tab, QStandardItemModel* mo
     m->setSourceModel(model);
     tab->setModel(m);
     tab->setSortingEnabled(true);
+    tab->sortByColumn(0, Qt::AscendingOrder);
 
     // tab->horizontalHeader()->setVisible(false);
     tab->setStyleSheet("QTableView::item {padding: 0px}");
