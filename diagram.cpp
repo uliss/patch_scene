@@ -41,13 +41,7 @@ constexpr const char* JSON_KEY_VERSION_MAJOR = "version-major";
 constexpr const char* JSON_KEY_VERSION_MINOR = "version-minor";
 constexpr const char* JSON_KEY_VERSION_PATCH = "version-patch";
 constexpr const char* JSON_KEY_VERSION_GIT = "version-git";
-
 constexpr const char* JSON_KEY_META = "meta";
-constexpr const char* JSON_KEY_TITLE = "title";
-constexpr const char* JSON_KEY_INFO = "info";
-constexpr const char* JSON_KEY_EVENT_DATE = "event-date";
-constexpr const char* JSON_KEY_CREATION_DATE = "creation-date";
-constexpr const char* JSON_KEY_LOCATION = "location";
 
 class ChangeEmitter {
     Diagram* diagram_;
@@ -680,6 +674,7 @@ QJsonObject Diagram::toJson() const
         json[JSON_KEY_BACKGROUND] = background_->toJson();
 
     json[JSON_KEY_APP] = appInfoJson();
+    json[JSON_KEY_META] = meta_.toJson();
 
     return json;
 }

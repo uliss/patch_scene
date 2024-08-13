@@ -17,6 +17,7 @@
 #include "connection.h"
 #include "device.h"
 #include "diagram_image.h"
+#include "diagram_meta.h"
 
 #include <QGraphicsItemGroup>
 #include <QGraphicsScene>
@@ -246,6 +247,7 @@ private:
     bool show_background_ { true };
 
     QList<SharedDeviceData> clip_buffer_;
+    DiagramMeta meta_;
 
 private:
     void initUndoStack();
