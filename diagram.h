@@ -223,6 +223,8 @@ private:
     Device* deviceAt(const QPoint& pos) const;
     bool dropJson(const QPointF& pos, const QByteArray& json);
 
+    QJsonValue appInfoJson() const;
+
 private:
     QGraphicsRectItem* selection_ { nullptr };
     QGraphicsLineItem* connection_ { nullptr };
