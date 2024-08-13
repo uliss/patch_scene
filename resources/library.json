@@ -1321,6 +1321,10 @@
             {
                 "title": "Cembalo player",
                 "image": "human_piano_1"
+            },
+            {
+                "title": "Violin player",
+                "image": "human_violin_1"
             }
         ]
     }
