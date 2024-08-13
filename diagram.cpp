@@ -927,6 +927,14 @@ void Diagram::dropEvent(QDropEvent* event)
     if (event->mimeData()->formats().contains("text/plain")) {
         if (dropJson(mapToScene(event->position().toPoint()), event->mimeData()->data("text/plain")))
             event->acceptProposedAction();
+    } else if (event->mimeData()->hasUrls()) {
+        auto files = event->mimeData()->urls();
+        if (files.size() == 1) {
+            if (setBackground(files.front().path()))
+                event->acceptProposedAction();
+        } else {
+            qDebug() << __FUNCTION__ << "single image file expected, got:" << files;
+        }
     }
 }
 
