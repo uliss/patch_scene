@@ -252,7 +252,6 @@ void DeviceProperties::updateImagePreview()
     if (data_->image().isEmpty()) {
         ui->currentImage->setText("?");
     } else {
-        auto path = data_->imageIconPath();
         QIcon icon(data_->imageIconPath());
         if (!icon.isNull())
             ui->currentImage->setPixmap(icon.pixmap(IMG_PREVIEW_SIZE, IMG_PREVIEW_SIZE));
