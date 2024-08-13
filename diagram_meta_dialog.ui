@@ -34,12 +34,18 @@
      <property name="text">
       <string>Contacts</string>
      </property>
+     <property name="buddy">
+      <cstring>contactsTable</cstring>
+     </property>
     </widget>
    </item>
    <item row="4" column="0">
     <widget class="QLabel" name="eventDateLabel">
      <property name="text">
       <string>Event date</string>
+     </property>
+     <property name="buddy">
+      <cstring>eventDateEdit</cstring>
      </property>
     </widget>
    </item>
@@ -189,6 +195,14 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>titleEdit</tabstop>
+  <tabstop>infoEdit</tabstop>
+  <tabstop>contactsTable</tabstop>
+  <tabstop>toolButton</tabstop>
+  <tabstop>toolButton_2</tabstop>
+  <tabstop>eventDateEdit</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -198,8 +212,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>306</x>
-     <y>278</y>
+     <x>406</x>
+     <y>415</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -214,8 +228,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>374</x>
-     <y>284</y>
+     <x>474</x>
+     <y>415</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
