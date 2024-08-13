@@ -22,6 +22,10 @@ using DeviceId = std::uint32_t;
 using XletIndex = std::uint8_t;
 
 constexpr DeviceId DEV_NULL_ID = 0;
+constexpr qreal ZVALUE_CONN = 100;
+constexpr qreal ZVALUE_BACKGROUND = -200;
+constexpr qreal ZVALUE_LIVE_CONN = 16000;
+constexpr qreal ZVALUE_SELECTION = 32000;
 
 struct ConnectionData {
     DeviceId src { 0 }, dest { 0 };
@@ -102,6 +106,8 @@ public:
     const ConnectionData& connectionData() const { return data_; }
 
     QJsonObject toJson() const;
+
+    bool checkValid() const;
 
 private:
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;

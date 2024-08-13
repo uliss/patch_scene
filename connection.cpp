@@ -58,6 +58,7 @@ bool ConnectionData::fromJson(const QJsonValue& j, ConnectionData& data)
 Connection::Connection(const ConnectionData& data)
     : data_(data)
 {
+    setZValue(ZVALUE_CONN);
 }
 
 bool Connection::operator==(const ConnectionData& data) const
@@ -100,6 +101,28 @@ QJsonObject Connection::toJson() const
     return data_.toJson();
 }
 
+bool Connection::checkValid() const
+{
+    Device* src = nullptr;
+    Device* dest = nullptr;
+
+    for (auto it : scene()->items()) {
+        auto dev = qgraphicsitem_cast<Device*>(it);
+        if (dev) {
+            if (dev->id() == data_.src) {
+                src = dev;
+            } else if (dev->id() == data_.dest) {
+                dest = dev;
+            }
+
+            if (src && dest)
+                break;
+        }
+    }
+
+    return src && dest;
+}
+
 bool Connection::updateCachedPos()
 {
     Device* src = nullptr;
@@ -120,12 +143,12 @@ bool Connection::updateCachedPos()
     }
 
     if (!src) {
-        qWarning() << "src id not found: " << src;
+        qWarning() << "src id not found: " << data_.src;
         return false;
     }
 
     if (!dest) {
-        qWarning() << "dest id not found: " << dest;
+        qWarning() << "dest id not found: " << data_.dest;
         return false;
     }
 
