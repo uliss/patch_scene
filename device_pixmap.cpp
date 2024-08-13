@@ -16,7 +16,9 @@
 
 #include <QDirIterator>
 #include <QLabel>
-#include <QSvgWidget>
+
+constexpr const char* PROP_FILEPATH = "filepath";
+constexpr const char* PROP_ICONNAME = "iconname";
 
 DevicePixmap::DevicePixmap(QWidget* parent)
     : QDialog(parent)
@@ -50,13 +52,15 @@ DevicePixmap::DevicePixmap(QWidget* parent)
 
         dir.next();
 
-        auto svg = new QSvgWidget(dir.filePath());
-        svg->setToolTip(dir.fileName());
-        svg->setProperty("filename", dir.filePath());
-        auto sh = svg->sizeHint().toSizeF();
-        auto ratio = sh.height() / sh.width();
-        svg->setFixedSize(CELL_SIZE, CELL_SIZE * ratio);
-        ui->imageTable->setCellWidget(row, col, svg);
+        QIcon icon(dir.filePath());
+        if (!icon.isNull()) {
+            auto svg = new QLabel();
+            svg->setPixmap(icon.pixmap(CELL_SIZE, CELL_SIZE));
+            svg->setToolTip(dir.fileName());
+            svg->setProperty(PROP_FILEPATH, dir.filePath());
+            svg->setProperty(PROP_ICONNAME, dir.fileInfo().baseName());
+            ui->imageTable->setCellWidget(row, col, svg);
+        }
     }
 
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(selectImage()));
@@ -69,14 +73,14 @@ DevicePixmap::~DevicePixmap()
 
 void DevicePixmap::setCurrent(const QString& file)
 {
-    auto nrows = ui->imageTable->rowCount();
-    auto ncols = ui->imageTable->columnCount();
+    const auto nrows = ui->imageTable->rowCount();
+    const auto ncols = ui->imageTable->columnCount();
 
     for (int i = 0; i < nrows; i++) {
         for (int j = 0; j < ncols; j++) {
-            auto w = qobject_cast<QSvgWidget*>(ui->imageTable->cellWidget(i, j));
+            auto w = qobject_cast<QLabel*>(ui->imageTable->cellWidget(i, j));
             if (w) {
-                auto filename = w->property("filename").toString();
+                auto filename = w->property(PROP_FILEPATH).toString();
                 if (filename == file) {
                     ui->imageTable->setCurrentCell(i, j);
                     return;
@@ -88,14 +92,14 @@ void DevicePixmap::setCurrent(const QString& file)
 
 void DevicePixmap::selectImage()
 {
-    auto row = ui->imageTable->currentRow();
-    auto col = ui->imageTable->currentColumn();
+    const auto row = ui->imageTable->currentRow();
+    const auto col = ui->imageTable->currentColumn();
 
     if (row >= 0 && col >= 0) {
-        auto w = qobject_cast<QSvgWidget*>(ui->imageTable->cellWidget(row, col));
+        auto w = qobject_cast<QLabel*>(ui->imageTable->cellWidget(row, col));
         if (w) {
-            auto filename = w->property("filename").toString();
-            emit choosePixmap(filename);
+            auto icon_name = w->property(PROP_ICONNAME).toString();
+            emit choosePixmap(icon_name);
         } else {
             emit choosePixmap({});
         }

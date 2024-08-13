@@ -115,7 +115,7 @@ DeviceProperties::DeviceProperties(QWidget* parent, DeviceId id, const QSharedDa
         }
     });
 
-    setImagePreview(data->imageIconPath());
+    updateImagePreview();
 
     int in_idx = 0;
     for (auto& in : data->inputs()) {
@@ -154,10 +154,9 @@ void DeviceProperties::chooseImageDialog()
     auto dev_pix = new DevicePixmap(this);
     dev_pix->setCurrent(data_->imageIconPath());
     connect(dev_pix, &DevicePixmap::choosePixmap, this,
-        [this](const QString& filename) {
-            // data_->setImage(filename);
-            qDebug() << filename << "TODO";
-            setImagePreview(filename);
+        [this](const QString& iconName) {
+            data_->setImage(iconName);
+            updateImagePreview();
         });
     dev_pix->show();
 }
@@ -248,14 +247,15 @@ bool DeviceProperties::duplicateXlet(QTableWidget* tab, int row)
     return false;
 }
 
-void DeviceProperties::setImagePreview(const QString& name)
+void DeviceProperties::updateImagePreview()
 {
-    if (name.isEmpty()) {
+    if (data_->image().isEmpty()) {
         ui->currentImage->setText("?");
     } else {
-        QIcon icon(name);
+        auto path = data_->imageIconPath();
+        QIcon icon(data_->imageIconPath());
         if (!icon.isNull())
-            ui->currentImage->setPixmap(QIcon(name).pixmap(IMG_PREVIEW_SIZE, IMG_PREVIEW_SIZE));
+            ui->currentImage->setPixmap(icon.pixmap(IMG_PREVIEW_SIZE, IMG_PREVIEW_SIZE));
     }
 }
 

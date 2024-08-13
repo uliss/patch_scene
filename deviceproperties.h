@@ -44,7 +44,7 @@ private:
     void insertXlet(QTableWidget* tab, int row, const XletData& data);
     bool duplicateXlet(QTableWidget* tab, int row);
 
-    void setImagePreview(const QString& name);
+    void updateImagePreview();
 
 private:
     static bool getXletData(const QTableWidget* table, int row, XletData& data);
