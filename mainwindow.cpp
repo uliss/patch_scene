@@ -115,6 +115,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     setupDockTitle(ui->libraryDock);
     setupDockTitle(ui->tableDock);
+    setupDockTitle(ui->favoritesDock);
 
     device_model_ = new QStandardItemModel(0, DATA_DEV_NCOLS, this);
     device_model_->setHorizontalHeaderLabels({ tr("Name"), tr("Vendor"), tr("Model") });
@@ -809,12 +810,15 @@ void MainWindow::duplicateSelection()
 void MainWindow::exportDocument()
 {
     auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, "", QStandardPaths::LocateDirectory);
-    auto odt_file = QFileDialog::getSaveFileName(this, tr("Save project"), path, tr("OpenDocument format (*.odt)"));
+    auto odt_file = QFileDialog::getSaveFileName(this, tr("Save to OpenDocument format"), path, tr("OpenDocument format (*.odt)"));
     if (odt_file.isEmpty())
         return;
 
     QTextDocument doc;
     QTextCursor cursor(&doc);
+
+    ceam::doc::insert_section(cursor, diagram_->meta().title());
+    ceam::doc::insert_section(cursor, diagram_->meta().eventDate().toString());
 
     ceam::doc::insert_section(cursor, tr("Devices"));
     ceam::doc::insert_table(cursor, device_model_, { 40, 20, 20 });

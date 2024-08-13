@@ -414,6 +414,39 @@
     </layout>
    </widget>
   </widget>
+  <widget class="QDockWidget" name="favoritesDock">
+   <property name="features">
+    <set>QDockWidget::NoDockWidgetFeatures</set>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::LeftDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string>Favorites</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents">
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <property name="leftMargin">
+      <number>3</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>3</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QTreeView" name="treeView"/>
+     </item>
+    </layout>
+   </widget>
+  </widget>
   <action name="actionOpen">
    <property name="text">
     <string>&amp;Open</string>

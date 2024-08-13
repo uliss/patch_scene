@@ -20,7 +20,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Document Properties</string>
+   <string>Project Information</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="sizeConstraint">
