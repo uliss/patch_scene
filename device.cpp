@@ -273,9 +273,10 @@ void Device::paintInlets(QPainter* painter)
 {
     painter->setPen(QPen(Qt::black, 0.5));
 
-    for (size_t i = 0; i < inletCount(); i++) {
-        auto pos = inletPos(i);
-        if (data_->inputAt(i).phantom_power) {
+    data_->foreachVisInput([this, painter](XletIndex idx, const XletData& inlet) {
+        auto pos = inletPos(idx);
+
+        if (inlet.phantom_power) {
             painter->setBrush(Qt::red);
             painter->setPen(QPen(Qt::red, 1));
         } else {
@@ -284,9 +285,7 @@ void Device::paintInlets(QPainter* painter)
         }
 
         painter->drawRect(pos.x() - (XLET_BOX_W / 2), pos.y(), XLET_BOX_W, XLET_BOX_H);
-
-        // painter->drawRect(inletRect(i));
-    }
+    });
 }
 
 void Device::paintOutlets(QPainter* painter)
