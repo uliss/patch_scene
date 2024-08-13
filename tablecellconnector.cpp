@@ -61,10 +61,10 @@ TableCellConnector::TableCellConnector(QWidget* parent)
             addItem(icon, connectorName(model), static_cast<int>(model));
     }
 
-    QComboBox::model()->sort(0);
+    model()->sort(0);
 }
 
-ConnectorModel TableCellConnector::model() const
+ConnectorModel TableCellConnector::connectorModel() const
 {
     bool ok = false;
     auto m = currentData().toInt(&ok);
@@ -74,7 +74,7 @@ ConnectorModel TableCellConnector::model() const
         return static_cast<ConnectorModel>(m);
 }
 
-void TableCellConnector::setModel(ConnectorModel model)
+void TableCellConnector::setConnectorModel(ConnectorModel model)
 {
     auto idx = findData(static_cast<int>(model));
     setCurrentIndex(idx);

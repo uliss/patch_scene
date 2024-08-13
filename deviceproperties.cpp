@@ -202,7 +202,7 @@ void DeviceProperties::insertXlet(QTableWidget* tab, int row, const XletData& da
 
     // model choose
     auto model = new TableCellConnector(tab);
-    model->setModel(data.model);
+    model->setConnectorModel(data.model);
     tab->setCellWidget(row, COL_MODEL, model);
 
     // show/hide
@@ -224,7 +224,7 @@ void DeviceProperties::insertXlet(QTableWidget* tab, int row, const XletData& da
     connect(model, &TableCellConnector::currentIndexChanged, this, [tab, row, phantom](int idx) {
         auto model = qobject_cast<TableCellConnector*>(tab->cellWidget(row, COL_MODEL));
         if (model)
-            phantom->setEnabled(connectSupportsPhantomPower(model->model()));
+            phantom->setEnabled(connectSupportsPhantomPower(model->connectorModel()));
     });
 
     auto nrows = std::max<int>(2, tab->rowCount());
@@ -291,7 +291,7 @@ bool DeviceProperties::getXletData(const QTableWidget* table, int row, XletData&
 
     auto model = qobject_cast<TableCellConnector*>(table->cellWidget(row, COL_MODEL));
     if (model)
-        data.model = model->model();
+        data.model = model->connectorModel();
 
     auto phantom = qobject_cast<TableCellCheckBox*>(table->cellWidget(row, COL_PHANTOM));
     if (phantom && connectSupportsPhantomPower(data.model))

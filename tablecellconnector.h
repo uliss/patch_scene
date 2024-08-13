@@ -23,8 +23,8 @@ class TableCellConnector : public QComboBox {
 public:
     explicit TableCellConnector(QWidget* parent = nullptr);
 
-    ConnectorModel model() const;
-    void setModel(ConnectorModel model);
+    ConnectorModel connectorModel() const;
+    void setConnectorModel(ConnectorModel model);
 };
 
 #endif // TABLECELLCONNECTOR_H
