@@ -49,6 +49,7 @@ public slots:
     void showAbout();
     void showPreferences();
     void updateTitle();
+    void documentProperties();
 
 protected:
     void closeEvent(QCloseEvent* event) override;

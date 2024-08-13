@@ -74,6 +74,7 @@
    <addaction name="separator"/>
    <addaction name="actionShowCables"/>
    <addaction name="actionShowBackground"/>
+   <addaction name="actionDocumentProperties"/>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -93,7 +94,10 @@
     <addaction name="actionSaveAs"/>
     <addaction name="actionExport"/>
     <addaction name="separator"/>
+    <addaction name="actionDocumentProperties"/>
+    <addaction name="separator"/>
     <addaction name="actionPrint"/>
+    <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menu_View">
@@ -659,6 +663,15 @@
    </property>
    <property name="statusTip">
     <string>show/hide background</string>
+   </property>
+  </action>
+  <action name="actionDocumentProperties">
+   <property name="icon">
+    <iconset resource="resources/patch_scene_resources.qrc">
+     <normaloff>:/icons/settings.svg</normaloff>:/icons/settings.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Document Properties</string>
    </property>
   </action>
  </widget>

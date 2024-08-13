@@ -14,6 +14,7 @@
 #include "mainwindow.h"
 #include "about_window.h"
 #include "device_library.h"
+#include "diagram_meta_dialog.h"
 #include "export_document.h"
 #include "preferences_dialog.h"
 #include "ui_mainwindow.h"
@@ -226,6 +227,7 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(saveDocument()));
     connect(ui->actionSelectAll, SIGNAL(triggered()), this, SLOT(selectAll()));
     connect(ui->actionSetBackground, SIGNAL(triggered(bool)), this, SLOT(setBackground()));
+    connect(ui->actionDocumentProperties, SIGNAL(triggered(bool)), this, SLOT(documentProperties()));
 
     connect(ui->actionShowCables, &QAction::triggered, diagram_, [this](bool value) {
         diagram_->setShowCables(value);
@@ -302,6 +304,12 @@ void MainWindow::updateTitle()
     } else {
         setWindowTitle(tr("%1 - PatchScene").arg(project_name_));
     }
+}
+
+void MainWindow::documentProperties()
+{
+    auto dialog = new DiagramMetaDialog({}, this);
+    dialog->show();
 }
 
 void MainWindow::setBackground()

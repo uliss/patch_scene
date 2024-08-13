@@ -77,5 +77,6 @@
         <file>devices/human_cello_1.svg</file>
         <file>devices/human_piano_1.svg</file>
         <file>devices/human_violin_1.svg</file>
+        <file>icons/settings.svg</file>
     </qresource>
 </RCC>
