@@ -31,6 +31,21 @@
 constexpr qreal MAX_ZOOM = 4.0;
 constexpr qreal MIN_ZOOM = 1.0 / MAX_ZOOM;
 
+constexpr const char* JSON_KEY_DEVICES = "devices";
+constexpr const char* JSON_KEY_CONNS = "connections";
+constexpr const char* JSON_KEY_BACKGROUND = "background";
+constexpr const char* JSON_KEY_APP = "app";
+constexpr const char* JSON_KEY_VERSION = "version";
+constexpr const char* JSON_KEY_VERSION_MAJOR = "version-major";
+constexpr const char* JSON_KEY_VERSION_MINOR = "version-minor";
+
+constexpr const char* JSON_KEY_META = "meta";
+constexpr const char* JSON_KEY_TITLE = "title";
+constexpr const char* JSON_KEY_INFO = "info";
+constexpr const char* JSON_KEY_EVENT_DATE = "event-date";
+constexpr const char* JSON_KEY_CREATION_DATE = "creation-date";
+constexpr const char* JSON_KEY_LOCATION = "location";
+
 class ChangeEmitter {
     Diagram* diagram_;
     bool changed_;
@@ -445,17 +460,11 @@ bool Diagram::loadJson(const QString& path)
     }
 
     auto root = doc.object();
-    // auto keys = root.keys();
-    // keys.sort();
-    // if (keys != QStringList { "background", "connections", "devices" }) {
-    //     qWarning() << "invalid keys: " << keys;
-    //     return false;
-    // }
 
     clearAll();
 
     // load devices
-    auto devs = root.value("devices");
+    auto devs = root.value(JSON_KEY_DEVICES);
     if (devs.isArray()) {
         auto arr = devs.toArray();
         for (const auto& j : arr) {
@@ -466,7 +475,7 @@ bool Diagram::loadJson(const QString& path)
     }
 
     // load connections
-    auto cons = root.value("connections");
+    auto cons = root.value(JSON_KEY_CONNS);
     if (cons.isArray()) {
         auto arr = cons.toArray();
         for (const auto& j : arr) {
@@ -478,8 +487,8 @@ bool Diagram::loadJson(const QString& path)
         updateConnectionsPos();
     }
 
-    if (root.contains("background")) {
-        auto bg_img = DiagramImage::fromJson(root.value("background"));
+    if (root.contains(JSON_KEY_BACKGROUND)) {
+        auto bg_img = DiagramImage::fromJson(root.value(JSON_KEY_BACKGROUND));
         if (bg_img) {
             background_ = bg_img.release();
             scene->addItem(background_);
@@ -627,20 +636,21 @@ QJsonObject Diagram::toJson() const
     for (auto dev : devices())
         devs.append(dev->toJson());
 
-    json["devices"] = devs;
+    json[JSON_KEY_DEVICES] = devs;
 
     QJsonArray cons;
     for (auto c : connections()) {
-        if (c->checkValid())
+        if (c->checkValid()) {
             cons.append(c->toJson());
-        else // remove invalid connections on save
+        } else { // remove invalid connections on save
             delete c;
+        }
     }
 
-    json["connections"] = cons;
+    json[JSON_KEY_CONNS] = cons;
 
     if (background_)
-        json["background"] = background_->toJson();
+        json[JSON_KEY_BACKGROUND] = background_->toJson();
 
     return json;
 }
