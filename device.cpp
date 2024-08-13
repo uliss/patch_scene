@@ -169,7 +169,7 @@ Device::~Device()
 
 QPointF Device::inletPos(int i, bool map) const
 {
-    const auto NUM_IN = inletCount();
+    const auto NUM_IN = visInletCount();
     if (NUM_IN == 0)
         return {};
 
@@ -184,7 +184,7 @@ QPointF Device::inletPos(int i, bool map) const
 
 QPointF Device::outletPos(int i, bool map) const
 {
-    const auto NUM_OUT = outletCount();
+    const auto NUM_OUT = visOutletCount();
     if (NUM_OUT == 0)
         return {};
 
@@ -293,7 +293,7 @@ void Device::paintOutlets(QPainter* painter)
     painter->setPen(QPen(Qt::black, 0.5));
     painter->setBrush(Qt::black);
 
-    for (size_t i = 0; i < outletCount(); i++) {
+    for (size_t i = 0; i < visOutletCount(); i++) {
         auto pos = outletPos(i);
         painter->drawRect(pos.x() - (XLET_BOX_W / 2), pos.y() - XLET_BOX_H, XLET_BOX_W, XLET_BOX_H);
     }
@@ -320,12 +320,12 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
     Q_UNUSED(event);
 }
 
-size_t Device::inletCount() const
+size_t Device::visInletCount() const
 {
     return data_->visInputCount();
 }
 
-size_t Device::outletCount() const
+size_t Device::visOutletCount() const
 {
     return data_->visOutputCount();
 }

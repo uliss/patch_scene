@@ -57,8 +57,8 @@ private:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
     void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) override;
 
-    size_t inletCount() const;
-    size_t outletCount() const;
+    size_t visInletCount() const;
+    size_t visOutletCount() const;
     bool noXlets() const;
 
     QJsonArray xletToJson(const QList<XletData>& xlets) const;
