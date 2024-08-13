@@ -75,5 +75,6 @@
         <file>ceam_logo_color.jpg</file>
         <file>library.json</file>
         <file>devices/human_cello_1.svg</file>
+        <file>devices/human_piano_1.svg</file>
     </qresource>
 </RCC>
