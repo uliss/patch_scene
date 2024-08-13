@@ -308,7 +308,10 @@ void MainWindow::updateTitle()
 
 void MainWindow::documentProperties()
 {
-    auto dialog = new DiagramMetaDialog({}, this);
+    auto dialog = new DiagramMetaDialog(diagram_->meta(), this);
+    connect(dialog, &DiagramMetaDialog::accepted, this, [dialog, this]() {
+        diagram_->setMeta(dialog->metaInfo());
+    });
     dialog->show();
 }
 
