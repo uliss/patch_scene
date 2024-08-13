@@ -521,6 +521,13 @@ bool Diagram::loadJson(const QString& path)
         background_ = nullptr;
     }
 
+    auto meta = DiagramMeta::fromJson(root.value(JSON_KEY_META));
+    if (meta) {
+        meta_ = meta.value();
+    } else {
+        meta_ = DiagramMeta();
+    }
+
     return true;
 }
 

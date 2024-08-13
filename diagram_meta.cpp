@@ -39,6 +39,23 @@ QJsonValue Contact::toJson() const
     return obj;
 }
 
+std::optional<Contact> Contact::fromJson(const QJsonValue& val)
+{
+    if (!val.isObject())
+        return {};
+
+    auto obj = val.toObject();
+
+    Contact c;
+
+    c.name_ = obj.value(JSON_KEY_NAME).toString();
+    c.work_ = obj.value(JSON_KEY_WORK).toString();
+    c.phone_ = obj.value(JSON_KEY_PHONE).toString();
+    c.email_ = obj.value(JSON_KEY_EMAIL).toString();
+
+    return c;
+}
+
 DiagramMeta::DiagramMeta()
 {
     creation_date_ = QDate::currentDate();
@@ -60,4 +77,28 @@ QJsonValue DiagramMeta::toJson() const
     obj[JSON_KEY_CONTACTS] = arr;
 
     return obj;
+}
+
+std::optional<DiagramMeta> DiagramMeta::fromJson(const QJsonValue& val)
+{
+    if (!val.isObject())
+        return {};
+
+    auto obj = val.toObject();
+
+    DiagramMeta meta;
+
+    meta.title_ = obj.value(JSON_KEY_TITLE).toString();
+    meta.info_ = obj.value(JSON_KEY_INFO).toString();
+    meta.creation_date_ = QDate::fromString(obj.value(JSON_KEY_CREATION_DATE).toString());
+    meta.event_date_ = QDate::fromString(obj.value(JSON_KEY_EVENT_DATE).toString());
+
+    auto arr = obj.value(JSON_KEY_CONTACTS).toArray();
+    for (const auto& item : arr) {
+        auto contact = Contact::fromJson(item);
+        if (contact)
+            meta.contacts_.push_back(contact.value());
+    }
+
+    return meta;
 }

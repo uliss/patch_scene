@@ -33,6 +33,7 @@ public:
     void setEmail(const QString& email) { email_ = email; }
 
     QJsonValue toJson() const;
+    static std::optional<Contact> fromJson(const QJsonValue& val);
 };
 
 class DiagramMeta {
@@ -58,6 +59,7 @@ public:
     QList<Contact>& contacts() { return contacts_; }
 
     QJsonValue toJson() const;
+    static std::optional<DiagramMeta> fromJson(const QJsonValue& val);
 };
 
 #endif // DIAGRAM_META_H

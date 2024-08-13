@@ -64,6 +64,10 @@ public:
      */
     QJsonObject toJson() const;
 
+    /**
+     * load from JSON file
+     * @return true on success, false on error
+     */
     bool loadJson(const QString& path);
 
     /**
