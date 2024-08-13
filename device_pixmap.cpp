@@ -25,6 +25,7 @@ DevicePixmap::DevicePixmap(QWidget* parent)
     ui->setupUi(this);
 
     constexpr int NCOL = 4;
+    const auto CELL_SIZE = 80;
 
     int pix_idx = 0;
 
@@ -36,18 +37,22 @@ DevicePixmap::DevicePixmap(QWidget* parent)
 
         if (row >= ui->imageTable->rowCount()) {
             ui->imageTable->insertRow(row);
-            ui->imageTable->setRowHeight(row, 50);
+            ui->imageTable->setRowHeight(row, CELL_SIZE);
         }
 
         if (col >= ui->imageTable->columnCount()) {
             ui->imageTable->insertColumn(col);
-            ui->imageTable->setColumnWidth(col, 50);
+            ui->imageTable->setColumnWidth(col, CELL_SIZE);
         }
 
         dir.next();
 
         auto svg = new QSvgWidget(dir.filePath());
+        svg->setToolTip(dir.filePath());
         svg->setProperty("filename", dir.filePath());
+        auto sh = svg->sizeHint().toSizeF();
+        auto ratio = sh.height() / sh.width();
+        svg->setFixedSize(CELL_SIZE, CELL_SIZE * ratio);
         ui->imageTable->setCellWidget(row, col, svg);
     }
 
