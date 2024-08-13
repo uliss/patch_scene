@@ -118,7 +118,7 @@
     <addaction name="actionCut"/>
     <addaction name="actionPaste"/>
     <addaction name="separator"/>
-    <addaction name="actionSelect_All"/>
+    <addaction name="actionSelectAll"/>
     <addaction name="actionDuplicate"/>
     <addaction name="actionPreferences"/>
    </widget>
@@ -420,7 +420,7 @@
   </action>
   <action name="actionZoomIn">
    <property name="icon">
-    <iconset theme="zoom-in" resource="cables_resources.qrc">
+    <iconset theme="zoom-in" resource="resources/patch_scene_resources.qrc">
      <normaloff>:/icons/zoom_in_02.svg</normaloff>:/icons/zoom_in_02.svg</iconset>
    </property>
    <property name="text">
@@ -435,7 +435,7 @@
   </action>
   <action name="actionZoomOut">
    <property name="icon">
-    <iconset theme="zoom-out" resource="cables_resources.qrc">
+    <iconset theme="zoom-out" resource="resources/patch_scene_resources.qrc">
      <normaloff>:/icons/zoom_out_02.svg</normaloff>:/icons/zoom_out_02.svg</iconset>
    </property>
    <property name="text">
@@ -467,7 +467,7 @@
     <string>Ctrl+P</string>
    </property>
   </action>
-  <action name="actionSelect_All">
+  <action name="actionSelectAll">
    <property name="text">
     <string>Select All</string>
    </property>
@@ -536,7 +536,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="cables_resources.qrc">
+    <iconset resource="resources/patch_scene_resources.qrc">
      <normaloff>:/icons/undo.svg</normaloff>:/icons/undo.svg</iconset>
    </property>
    <property name="text">
@@ -551,7 +551,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="cables_resources.qrc">
+    <iconset resource="resources/patch_scene_resources.qrc">
      <normaloff>:/icons/redo.svg</normaloff>:/icons/redo.svg</iconset>
    </property>
    <property name="text">
@@ -603,7 +603,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="cables_resources.qrc">
+    <iconset resource="resources/patch_scene_resources.qrc">
      <normaloff>:/icons/cable.svg</normaloff>:/icons/cable.svg</iconset>
    </property>
    <property name="text">
@@ -648,7 +648,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="cables_resources.qrc">
+    <iconset resource="resources/patch_scene_resources.qrc">
      <normaloff>:/icons/image.svg</normaloff>:/icons/image.svg</iconset>
    </property>
    <property name="text">
@@ -663,7 +663,7 @@
   </action>
  </widget>
  <resources>
-  <include location="cables_resources.qrc"/>
+  <include location="resources/patch_scene_resources.qrc"/>
  </resources>
  <connections/>
 </ui>

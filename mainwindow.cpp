@@ -224,7 +224,7 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->actionPrint, SIGNAL(triggered()), this, SLOT(printScheme()));
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
     connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(saveDocument()));
-    connect(ui->actionSelect_All, SIGNAL(triggered()), this, SLOT(selectAll()));
+    connect(ui->actionSelectAll, SIGNAL(triggered()), this, SLOT(selectAll()));
     connect(ui->actionSetBackground, SIGNAL(triggered(bool)), this, SLOT(setBackground()));
 
     connect(ui->actionShowCables, &QAction::triggered, diagram_, [this](bool value) {
