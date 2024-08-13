@@ -57,7 +57,7 @@ qt_add_executable(patch_scene
     diagram.h diagram.cpp
     device.h device.cpp
     connection.h connection.cpp
-    cables_resources.qrc
+
     deviceproperties.h deviceproperties.cpp deviceproperties.ui
     socket.h socket.cpp
     tablecellcheckbox.h tablecellcheckbox.cpp
@@ -73,6 +73,7 @@ qt_add_executable(patch_scene
     device_common.h device_common.cpp
     export_document.h export_document.cpp
     diagram_image.h diagram_image.cpp
+    resources/patch_scene_resources.qrc
     #tests/test_device_data.h tests/test_device_data.cpp
 )
 
@@ -89,6 +90,11 @@ set_target_properties(patch_scene PROPERTIES
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
+)
+
+add_custom_target(translations
+    SOURCES
+    patch_scene_ru.ts
 )
 
 include(GNUInstallDirs)

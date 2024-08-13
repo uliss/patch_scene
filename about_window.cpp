@@ -27,7 +27,7 @@ AboutWindow::AboutWindow(QWidget* parent)
     ui->tabWidget->addTab(general, tr("General"));
 
     general->setStyleSheet("background: palette(window)");
-    general->setMarkdown(tr("![ceam_logo_color.jpg](:/ceam/cables/resources/ceam_logo_color.jpg)\n\n"
+    general->setMarkdown(tr("![ceam_logo_color.jpg](:/ceam_logo_color.jpg)\n\n"
                             "**PatchScene** - software for drawing stage schemes and connections\n\n"
                             "Developed in **CEAM** (Center of electroacoustic music in Moscow Conservetory)\n\n"
                             "Version: %1 (build %2)\n\n"

@@ -28,9 +28,9 @@ static QString xlet_icon_path(ConnectorModel model, ConnectorType type)
 {
     switch (type) {
     case ConnectorType::Socket_Male:
-        return QString(":/ceam/cables/resources/connectors/%1_socket_male.svg").arg(connectorSvgName(model));
+        return QString(":/connectors/%1_socket_male.svg").arg(connectorSvgName(model));
     case ConnectorType::Socket_Female:
-        return QString(":/ceam/cables/resources/connectors/%1_socket.svg").arg(connectorSvgName(model));
+        return QString(":/connectors/%1_socket.svg").arg(connectorSvgName(model));
     case ConnectorType::Plug_Male:
     case ConnectorType::Plug_Female:
         return {};

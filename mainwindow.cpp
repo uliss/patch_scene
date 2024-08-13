@@ -232,7 +232,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     ui->librarySearch->setStatusTip(tr("search in library"));
     ui->librarySearch->setClearButtonEnabled(true);
-    ui->librarySearch->addAction(QIcon(":/ceam/cables/resources/search_02.svg"), QLineEdit::LeadingPosition);
+    ui->librarySearch->addAction(QIcon(":/icons/search_02.svg"), QLineEdit::LeadingPosition);
     ui->librarySearch->setStyleSheet("QLineEdit {border-width: 1px;}");
 
 #ifndef Q_OS_DARWIN
@@ -583,7 +583,7 @@ void MainWindow::loadLibrary()
     ui->libraryTree->setModel(library_proxy_);
 
     DeviceLibrary dev_lib;
-    if (!dev_lib.readFile("://ceam/cables/resources/library.json"))
+    if (!dev_lib.readFile(":/library.json"))
         return;
 
     auto devices = new QStandardItem(tr("devices"));
@@ -687,7 +687,7 @@ void MainWindow::setupDockTitle(QDockWidget* dock)
     // btn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     // btn->setText(dock->windowTitle());
     // btn->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    // btn->setIcon(QIcon(":/ceam/cables/resources/zoom_normal_02.svg"));
+    // btn->setIcon(QIcon(":/icons/zoom_normal_02.svg"));
     // btn->setStyleSheet("QToolButton { border-width: 0; background-color: transparent; margin: 2px 0 0 4px; }");
     // dock->setTitleBarWidget(btn);
 }

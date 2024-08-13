@@ -171,7 +171,7 @@ void DeviceData::setImage(const QString& image)
 
 QString DeviceData::imageIconPath() const
 {
-    return image_.isEmpty() ? QString {} : QString(":/ceam/cables/resources/devices/%1.svg").arg(image_);
+    return image_.isEmpty() ? QString {} : QString(":/devices/%1.svg").arg(image_);
 }
 
 bool DeviceData::setCategoryIndex(int idx)

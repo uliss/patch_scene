@@ -34,7 +34,7 @@ DevicePixmap::DevicePixmap(QWidget* parent)
 
     int pix_idx = 0;
 
-    QDirIterator dir(":/ceam/cables/resources/devices/", QDirIterator::NoIteratorFlags);
+    QDirIterator dir(":/devices/", QDirIterator::NoIteratorFlags);
     while (dir.hasNext()) {
         int row = pix_idx / NCOL;
         int col = pix_idx % NCOL;
