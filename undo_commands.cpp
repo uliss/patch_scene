@@ -280,6 +280,8 @@ void MoveByDevices::undo()
         if (it != deltas_.cend())
             dev->moveBy(-it->x(), -it->y());
     }
+
+    doc_->updateConnectionsPos();
 }
 
 void MoveByDevices::redo()
@@ -292,6 +294,8 @@ void MoveByDevices::redo()
         if (it != deltas_.cend())
             dev->moveBy(it->x(), it->y());
     }
+
+    doc_->updateConnectionsPos();
 }
 
 CutSelected::CutSelected(Diagram* doc)
