@@ -7,7 +7,7 @@ else()
     set(LANGS CXX)
 endif()
 
-project(patch_scene VERSION 0.2.1 LANGUAGES ${LANGS})
+project(patch_scene VERSION 0.2.0 LANGUAGES ${LANGS})
 # cmake search path
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 include(git_version)
@@ -49,58 +49,39 @@ if(APPLE)
     endif()
 endif()
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(patch_scene
-        MANUAL_FINALIZATION
-        MACOSX_BUNDLE
-        ${PROJECT_SOURCES}
-        ${app_icon_macos}
-        diagram.h diagram.cpp
-        device.h device.cpp
-        connection.h connection.cpp
-        cables_resources.qrc
-        deviceproperties.h deviceproperties.cpp deviceproperties.ui
-        socket.h socket.cpp
-        tablecellcheckbox.h tablecellcheckbox.cpp
-        tablecellconnector.h tablecellconnector.cpp
-        device_xlet.h device_xlet.cpp
-        device_pixmap.h device_pixmap.cpp device_pixmap.ui
-        about_window.h about_window.cpp about_window.ui
-        preferences_dialog.h preferences_dialog.cpp preferences_dialog.ui
-        device_library.h device_library.cpp
-        # resources/library.json
-        # patch_scene_ru.ts
-        undo_commands.h undo_commands.cpp
-        device_common.h device_common.cpp
-        export_document.h export_document.cpp
-        diagram_image.h diagram_image.cpp
-        #tests/test_device_data.h tests/test_device_data.cpp
-    )
+qt_add_executable(patch_scene
+    MANUAL_FINALIZATION
+    MACOSX_BUNDLE
+    ${PROJECT_SOURCES}
+    ${app_icon_macos}
+    diagram.h diagram.cpp
+    device.h device.cpp
+    connection.h connection.cpp
+    cables_resources.qrc
+    deviceproperties.h deviceproperties.cpp deviceproperties.ui
+    socket.h socket.cpp
+    tablecellcheckbox.h tablecellcheckbox.cpp
+    tablecellconnector.h tablecellconnector.cpp
+    device_xlet.h device_xlet.cpp
+    device_pixmap.h device_pixmap.cpp device_pixmap.ui
+    about_window.h about_window.cpp about_window.ui
+    preferences_dialog.h preferences_dialog.cpp preferences_dialog.ui
+    device_library.h device_library.cpp
+    # resources/library.json
+    # patch_scene_ru.ts
+    undo_commands.h undo_commands.cpp
+    device_common.h device_common.cpp
+    export_document.h export_document.cpp
+    diagram_image.h diagram_image.cpp
+    #tests/test_device_data.h tests/test_device_data.cpp
+)
 
-    target_include_directories(patch_scene PRIVATE ${PROJECT_BINARY_DIR})
-    add_dependencies(patch_scene git_version)
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET patch_scene APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
-else()
-    if(ANDROID)
-        add_library(patch_scene SHARED
-            ${PROJECT_SOURCES}
-        )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-    else()
-        add_executable(patch_scene
-            ${PROJECT_SOURCES}
-        )
-    endif()
-endif()
+target_include_directories(patch_scene PRIVATE ${PROJECT_BINARY_DIR})
+add_dependencies(patch_scene git_version)
 
 target_link_libraries(patch_scene
     PRIVATE
     Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::PrintSupport Qt${QT_VERSION_MAJOR}::SvgWidgets)
-
 
 set_target_properties(patch_scene PROPERTIES
     ${BUNDLE_ID_OPTION}
