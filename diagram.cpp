@@ -72,6 +72,29 @@ void Diagram::initUndoStack()
     connect(undo_stack_, SIGNAL(canUndoChanged(bool)), this, SIGNAL(canUndoChanged(bool)));
 }
 
+Diagram::Diagram(QWidget* parent)
+    : QGraphicsView { parent }
+{
+    meta_.setTitle(tr("New project"));
+
+    setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    setAlignment(Qt::AlignCenter);
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+    setMinimumHeight(300);
+    setMinimumWidth(300);
+    setAcceptDrops(true);
+
+    setRenderHint(QPainter::Antialiasing);
+
+    initScene();
+
+    initLiveConnection();
+    initSelectionRect();
+    initUndoStack();
+}
+
 void Diagram::initSelectionRect()
 {
     selection_ = new QGraphicsRectItem();
@@ -99,27 +122,6 @@ void Diagram::initScene()
     scene->setBackgroundBrush(QColor(252, 252, 252));
     scene->setMinimumRenderSize(0.5);
     setScene(scene);
-}
-
-Diagram::Diagram(QWidget* parent)
-    : QGraphicsView { parent }
-{
-    setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    setAlignment(Qt::AlignCenter);
-    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-    setMinimumHeight(300);
-    setMinimumWidth(300);
-    setAcceptDrops(true);
-
-    setRenderHint(QPainter::Antialiasing);
-
-    initScene();
-
-    initLiveConnection();
-    initSelectionRect();
-    initUndoStack();
 }
 
 bool Diagram::removeDevice(DeviceId id)
