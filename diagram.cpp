@@ -63,6 +63,7 @@ void Diagram::initUndoStack()
 void Diagram::initSelectionRect()
 {
     selection_ = new QGraphicsRectItem();
+    selection_->setZValue(ZVALUE_SELECTION);
     auto pen = QPen(Qt::blue);
     pen.setDashPattern({ 2, 2 });
     selection_->setPen(pen);
@@ -73,7 +74,7 @@ void Diagram::initSelectionRect()
 void Diagram::initLiveConnection()
 {
     connection_ = new QGraphicsLineItem();
-    connection_->setZValue(16000);
+    connection_->setZValue(ZVALUE_LIVE_CONN);
     connection_->setVisible(false);
     scene->addItem(connection_);
 }
@@ -135,8 +136,10 @@ bool Diagram::removeDevice(DeviceId id)
 void Diagram::updateConnectionsPos()
 {
     for (auto c : connections()) {
-        c->updateCachedPos();
-        c->update(c->boundingRect());
+        if (c->updateCachedPos())
+            c->update(c->boundingRect());
+        else
+            delete c;
     }
 }
 
@@ -394,7 +397,7 @@ bool Diagram::setBackground(const QString& path)
 {
     if (!background_) {
         background_ = new DiagramImage(path);
-        background_->setZValue(-100);
+        background_->setZValue(ZVALUE_BACKGROUND);
         scene->addItem(background_);
         background_->setPos(0, 0);
         if (!background_->isEmpty()) {
@@ -617,8 +620,12 @@ QJsonObject Diagram::toJson() const
     json["devices"] = devs;
 
     QJsonArray cons;
-    for (auto c : connections())
-        cons.append(c->toJson());
+    for (auto c : connections()) {
+        if (c->checkValid())
+            cons.append(c->toJson());
+        else // remove invalid connections on save
+            delete c;
+    }
 
     json["connections"] = cons;
 

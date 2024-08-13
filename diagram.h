@@ -169,17 +169,15 @@ signals:
     void connectionRemoved(ConnectionData data);
 
 public slots:
-    void zoomIn();
-    void zoomOut();
-    void zoomNormal();
-    void undo();
-    void redo();
     void copySelected();
     void cutSelected();
     void paste();
-
-private slots:
+    void redo();
+    void undo();
     void updateConnectionsPos();
+    void zoomIn();
+    void zoomNormal();
+    void zoomOut();
 
 protected:
     void contextMenuEvent(QContextMenuEvent* event) override;
