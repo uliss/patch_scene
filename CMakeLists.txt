@@ -60,7 +60,6 @@ qt_add_executable(patch_scene
     diagram.h diagram.cpp
     device.h device.cpp
     connection.h connection.cpp
-
     deviceproperties.h deviceproperties.cpp deviceproperties.ui
     socket.h socket.cpp
     tablecellcheckbox.h tablecellcheckbox.cpp
@@ -75,6 +74,7 @@ qt_add_executable(patch_scene
     export_document.h export_document.cpp
     diagram_image.h diagram_image.cpp
     resources/patch_scene_resources.qrc
+    diagram_meta.h diagram_meta.cpp
     #tests/test_device_data.h tests/test_device_data.cpp
 )
 
