@@ -37,6 +37,7 @@ constexpr const char* SETTINGS_ORG = "space.ceam";
 constexpr const char* SETTINGS_APP = "PatchScene";
 
 constexpr const char* SKEY_MAINWINDOW = "mainwindow";
+constexpr const char* SKEY_FAVORITES = "favorites";
 constexpr const char* SKEY_GEOMETRY = "geometry";
 constexpr const char* SKEY_SAVESTATE = "savestate";
 constexpr const char* SKEY_MAXIMIZED = "maximized";
@@ -215,6 +216,7 @@ MainWindow::MainWindow(QWidget* parent)
         send_model_->clear();
         return_model_->clear();
     });
+    connect(diagram_, SIGNAL(addToFavorites(SharedDeviceData)), this, SLOT(onAddToFavorites(SharedDeviceData)));
 
     connect(ui->actionAboutApp, SIGNAL(triggered(bool)), this, SLOT(showAbout()));
     connect(ui->actionCopy, SIGNAL(triggered()), diagram_, SLOT(copySelected()));
@@ -228,7 +230,7 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(saveDocument()));
     connect(ui->actionSelectAll, SIGNAL(triggered()), this, SLOT(selectAll()));
     connect(ui->actionSetBackground, SIGNAL(triggered(bool)), this, SLOT(setBackground()));
-    connect(ui->actionDocumentProperties, SIGNAL(triggered(bool)), this, SLOT(documentProperties()));
+    connect(ui->actionProjectInfo, SIGNAL(triggered(bool)), this, SLOT(documentProperties()));
 
     connect(ui->actionShowCables, &QAction::triggered, diagram_, [this](bool value) {
         diagram_->setShowCables(value);
@@ -288,6 +290,7 @@ MainWindow::MainWindow(QWidget* parent)
     updateTitle();
 
     loadLibrary();
+    loadFavorites();
 
     readPositionSettings();
 }
@@ -370,6 +373,28 @@ void MainWindow::closeEvent(QCloseEvent* event)
     writePositionSettings();
 
     QMainWindow::closeEvent(event);
+}
+
+void MainWindow::onAddToFavorites(SharedDeviceData data)
+{
+    if (data->isNull())
+        return;
+
+    QSettings qs(SETTINGS_ORG, SETTINGS_APP);
+
+    qs.beginGroup(SKEY_FAVORITES);
+
+    auto items = qs.value("items").toList();
+    data->setId(DEV_NULL_ID);
+    items.append(data->toJson());
+    qs.setValue("items", items);
+    qs.endGroup();
+
+    auto model = static_cast<DeviceItemModel*>(ui->favoritesTree->model());
+    if (model) {
+        auto item = new QStandardItem(data->title());
+        model->appendRow(item);
+    }
 }
 
 void MainWindow::onDeviceAdd(SharedDeviceData data)
@@ -666,6 +691,50 @@ void MainWindow::loadLibrary()
     humans->setEditable(false);
     parentItem->appendRow(humans);
     loadSection(humans, dev_lib.humans());
+}
+
+void MainWindow::loadFavorites()
+{
+    auto model = new DeviceItemModel(this);
+    auto parentItem = model->invisibleRootItem();
+
+    ui->favoritesTree->setDragEnabled(true);
+    ui->favoritesTree->setDragDropMode(QAbstractItemView::DragOnly);
+    ui->favoritesTree->setSortingEnabled(true);
+    ui->favoritesTree->sortByColumn(0, Qt::AscendingOrder);
+
+    // library_proxy_ = new QSortFilterProxyModel(this);
+    // library_proxy_->setSourceModel(model);
+    // library_proxy_->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    // library_proxy_->setAutoAcceptChildRows(true);
+    // library_proxy_->setRecursiveFilteringEnabled(true);
+    // library_proxy_->setSortLocaleAware(true);
+    ui->favoritesTree->setModel(model);
+
+    QSettings qs(SETTINGS_ORG, SETTINGS_APP);
+
+    qs.beginGroup(SKEY_FAVORITES);
+
+    auto items = qs.value("items").toList();
+    for (auto& x : items) {
+        DeviceData data(DEV_NULL_ID);
+        if (data.setJson(x.toJsonValue())) {
+            auto dev = new QStandardItem(data.title());
+            dev->setEditable(false);
+            parentItem->appendRow(dev);
+        }
+    }
+
+    qs.endGroup();
+
+    // DeviceLibrary dev_lib;
+    // if (!dev_lib.readFile(":/library.json"))
+    //     return;
+
+    // auto devices = new QStandardItem(tr("devices"));
+    // devices->setEditable(false);
+    // parentItem->appendRow(devices);
+    // loadSection(devices, dev_lib.devices());
 }
 
 void MainWindow::createToolbarScaleView()

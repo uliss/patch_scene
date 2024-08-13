@@ -74,7 +74,7 @@
    <addaction name="separator"/>
    <addaction name="actionShowCables"/>
    <addaction name="actionShowBackground"/>
-   <addaction name="actionDocumentProperties"/>
+   <addaction name="actionProjectInfo"/>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -94,7 +94,7 @@
     <addaction name="actionSaveAs"/>
     <addaction name="actionExport"/>
     <addaction name="separator"/>
-    <addaction name="actionDocumentProperties"/>
+    <addaction name="actionProjectInfo"/>
     <addaction name="separator"/>
     <addaction name="actionPrint"/>
     <addaction name="separator"/>
@@ -442,7 +442,11 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QTreeView" name="treeView"/>
+      <widget class="QTreeView" name="favoritesTree">
+       <attribute name="headerVisible">
+        <bool>false</bool>
+       </attribute>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -698,13 +702,16 @@
     <string>show/hide background</string>
    </property>
   </action>
-  <action name="actionDocumentProperties">
+  <action name="actionProjectInfo">
    <property name="icon">
     <iconset resource="resources/patch_scene_resources.qrc">
-     <normaloff>:/icons/settings.svg</normaloff>:/icons/settings.svg</iconset>
+     <normaloff>:/icons/info.svg</normaloff>:/icons/info.svg</iconset>
    </property>
    <property name="text">
-    <string>Document Properties</string>
+    <string>Project Information</string>
+   </property>
+   <property name="toolTip">
+    <string>Project Information</string>
    </property>
   </action>
  </widget>

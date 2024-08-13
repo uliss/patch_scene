@@ -55,6 +55,7 @@ protected:
     void closeEvent(QCloseEvent* event) override;
 
 private slots:
+    void onAddToFavorites(SharedDeviceData data);
     void onDeviceAdd(SharedDeviceData data);
     void onDeviceRemove(SharedDeviceData data);
     void onDeviceTitleUpdate(DeviceId id, const QString& title);
@@ -67,6 +68,7 @@ private:
     void setProjectName(const QString& fileName);
     bool doSave();
     void loadLibrary();
+    void loadFavorites();
     void createToolbarScaleView();
     void resizePanels();
 

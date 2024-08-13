@@ -185,6 +185,7 @@ public:
     void setClipBuffer(const QList<SharedDeviceData>& data);
 
 signals:
+    void addToFavorites(SharedDeviceData data);
     void sceneChanged(); // for document changes
     void sceneClearAll();
     void canRedoChanged(bool);

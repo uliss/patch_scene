@@ -877,6 +877,10 @@ void Diagram::contextMenuEvent(QContextMenuEvent* event)
             connect(removeAct, &QAction::triggered, this,
                 [this, data]() { cmdRemoveDevice(data); });
 
+            auto addToFavoritesAct = new QAction(tr("Add to favorites"), this);
+            connect(addToFavoritesAct, &QAction::triggered, this,
+                [this, data]() { emit addToFavorites(data); });
+
             auto propertiesAct = new QAction(tr("Properties"), this);
             connect(propertiesAct, &QAction::triggered, this,
                 [this, id]() {
@@ -892,6 +896,7 @@ void Diagram::contextMenuEvent(QContextMenuEvent* event)
             menu.addAction(duplicateAct);
             menu.addAction(removeAct);
             menu.addSeparator();
+            menu.addAction(addToFavoritesAct);
             menu.addAction(propertiesAct);
             menu.exec(mapToGlobal(pos));
         } else {
