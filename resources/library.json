@@ -2,6 +2,39 @@
     "library": {
         "devices": [
             {
+                "title": "Mic vocal",
+                "image": "mic_on_stand_2",
+                "zoom": 1.5,
+                "outputs": [
+                    {
+                        "model": "xlr",
+                        "socket": "male"
+                    }
+                ]
+            },
+            {
+                "title": "Mic instr",
+                "image": "mic_on_stand_1",
+                "zoom": 1.5,
+                "outputs": [
+                    {
+                        "model": "xlr",
+                        "socket": "male"
+                    }
+                ]
+            },
+            {
+                "title": "Mic instr stereo",
+                "image": "mic_on_stand_stereo",
+                "zoom": 1.5,
+                "outputs": [
+                    {
+                        "model": "xlr",
+                        "socket": "male"
+                    }
+                ]
+            },
+            {
                 "vendor": "Focuswrite",
                 "model": "Scarlett 18i20",
                 "category": "audio",
@@ -1062,11 +1095,13 @@
                 "inputs": [
                     {
                         "model": "xlr",
-                        "name": "Send #1"
+                        "name": "Send #1",
+                        "phantom": true
                     },
                     {
                         "model": "xlr",
-                        "name": "Send #2"
+                        "name": "Send #2",
+                        "phantom": true
                     }
                 ]
             },
@@ -1075,19 +1110,23 @@
                 "inputs": [
                     {
                         "model": "xlr",
-                        "name": "Send #1"
+                        "name": "Send #1",
+                        "phantom": true
                     },
                     {
                         "model": "xlr",
-                        "name": "Send #2"
+                        "name": "Send #2",
+                        "phantom": true
                     },
                     {
                         "model": "xlr",
-                        "name": "Send #3"
+                        "name": "Send #3",
+                        "phantom": true
                     },
                     {
                         "model": "xlr",
-                        "name": "Send #4"
+                        "name": "Send #4",
+                        "phantom": true
                     }
                 ]
             },
@@ -1096,35 +1135,43 @@
                 "inputs": [
                     {
                         "model": "xlr",
-                        "name": "Send #1"
+                        "name": "Send #1",
+                        "phantom": true
                     },
                     {
                         "model": "xlr",
-                        "name": "Send #2"
+                        "name": "Send #2",
+                        "phantom": true
                     },
                     {
                         "model": "xlr",
-                        "name": "Send #3"
+                        "name": "Send #3",
+                        "phantom": true
                     },
                     {
                         "model": "xlr",
-                        "name": "Send #4"
+                        "name": "Send #4",
+                        "phantom": true
                     },
                     {
                         "model": "xlr",
-                        "name": "Send #5"
+                        "name": "Send #5",
+                        "phantom": true
                     },
                     {
                         "model": "xlr",
-                        "name": "Send #6"
+                        "name": "Send #6",
+                        "phantom": true
                     },
                     {
                         "model": "xlr",
-                        "name": "Send #7"
+                        "name": "Send #7",
+                        "phantom": true
                     },
                     {
                         "model": "xlr",
-                        "name": "Send #8"
+                        "name": "Send #8",
+                        "phantom": true
                     }
                 ]
             },
@@ -1133,67 +1180,83 @@
                 "inputs": [
                     {
                         "model": "xlr",
-                        "name": "Send #1"
+                        "name": "Send #1",
+                        "phantom": true
                     },
                     {
                         "model": "xlr",
-                        "name": "Send #2"
+                        "name": "Send #2",
+                        "phantom": true
                     },
                     {
                         "model": "xlr",
-                        "name": "Send #3"
+                        "name": "Send #3",
+                        "phantom": true
                     },
                     {
                         "model": "xlr",
-                        "name": "Send #4"
+                        "name": "Send #4",
+                        "phantom": true
                     },
                     {
                         "model": "xlr",
-                        "name": "Send #5"
+                        "name": "Send #5",
+                        "phantom": true
                     },
                     {
                         "model": "xlr",
-                        "name": "Send #6"
+                        "name": "Send #6",
+                        "phantom": true
                     },
                     {
                         "model": "xlr",
-                        "name": "Send #7"
+                        "name": "Send #7",
+                        "phantom": true
                     },
                     {
                         "model": "xlr",
-                        "name": "Send #8"
+                        "name": "Send #8",
+                        "phantom": true
                     },
                     {
                         "model": "xlr",
-                        "name": "Send #9"
+                        "name": "Send #9",
+                        "phantom": true
                     },
                     {
                         "model": "xlr",
-                        "name": "Send #10"
+                        "name": "Send #10",
+                        "phantom": true
                     },
                     {
                         "model": "xlr",
-                        "name": "Send #11"
+                        "name": "Send #11",
+                        "phantom": true
                     },
                     {
                         "model": "xlr",
-                        "name": "Send #12"
+                        "name": "Send #12",
+                        "phantom": true
                     },
                     {
                         "model": "xlr",
-                        "name": "Send #13"
+                        "name": "Send #13",
+                        "phantom": true
                     },
                     {
                         "model": "xlr",
-                        "name": "Send #14"
+                        "name": "Send #14",
+                        "phantom": true
                     },
                     {
                         "model": "xlr",
-                        "name": "Send #15"
+                        "name": "Send #15",
+                        "phantom": true
                     },
                     {
                         "model": "xlr",
-                        "name": "Send #16"
+                        "name": "Send #16",
+                        "phantom": true
                     }
                 ]
             }
