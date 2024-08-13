@@ -24,8 +24,11 @@ DevicePixmap::DevicePixmap(QWidget* parent)
 {
     ui->setupUi(this);
 
-    constexpr int NCOL = 4;
-    const auto CELL_SIZE = 80;
+    constexpr int NCOL = 6;
+    const auto CELL_SIZE = 60;
+    ui->imageTable->setMinimumWidth(NCOL * CELL_SIZE);
+    ui->imageTable->setMinimumHeight(4 * CELL_SIZE);
+    ui->imageTable->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
 
     int pix_idx = 0;
 
@@ -48,7 +51,7 @@ DevicePixmap::DevicePixmap(QWidget* parent)
         dir.next();
 
         auto svg = new QSvgWidget(dir.filePath());
-        svg->setToolTip(dir.filePath());
+        svg->setToolTip(dir.fileName());
         svg->setProperty("filename", dir.filePath());
         auto sh = svg->sizeHint().toSizeF();
         auto ratio = sh.height() / sh.width();
@@ -85,7 +88,6 @@ void DevicePixmap::setCurrent(const QString& file)
 
 void DevicePixmap::selectImage()
 {
-    qDebug() << __FUNCTION__;
     auto row = ui->imageTable->currentRow();
     auto col = ui->imageTable->currentColumn();
 
@@ -93,12 +95,9 @@ void DevicePixmap::selectImage()
         auto w = qobject_cast<QSvgWidget*>(ui->imageTable->cellWidget(row, col));
         if (w) {
             auto filename = w->property("filename").toString();
-            qDebug() << filename;
             emit choosePixmap(filename);
         } else {
             emit choosePixmap({});
         }
     }
-
-    qDebug() << ui->imageTable->currentRow() << ui->imageTable->currentColumn();
 }
