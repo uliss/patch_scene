@@ -123,11 +123,6 @@ include(InstallRequiredSystemLibraries)
 if(APPLE)
     configure_file(scripts/bundle_fix.sh ${PROJECT_BINARY_DIR}/bundle_fix.sh @ONLY)
 
-    # MACOSX_BUNDLE_ICON_FILE
-    #     Sets CFBundleIconFile.
-    # MACOSX_BUNDLE_INFO_STRING
-    #     Sets CFBundleGetInfoString.
-
     set(CPACK_GENERATOR "DragNDrop")
     include(CPack)
 endif()
