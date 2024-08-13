@@ -895,7 +895,9 @@ void Diagram::contextMenuEvent(QContextMenuEvent* event)
 
 void Diagram::dragEnterEvent(QDragEnterEvent* event)
 {
-    qDebug() << event->mimeData()->formats();
+    if (!event->mimeData()->formats().contains("text/plain"))
+        return;
+
     auto data = event->mimeData()->data("text/plain");
     if (!data.isEmpty())
         event->acceptProposedAction();

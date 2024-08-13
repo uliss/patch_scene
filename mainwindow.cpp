@@ -597,6 +597,7 @@ void MainWindow::loadSection(QStandardItem* parent, const QList<SharedDeviceData
 
         QJsonDocument doc(x->toJson());
         item->setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
+        item->setDragEnabled(true);
         item->setDropEnabled(false);
         parent->appendRow(item);
     }
