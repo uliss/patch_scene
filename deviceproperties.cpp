@@ -155,9 +155,9 @@ void DeviceProperties::chooseImageDialog()
     dev_pix->setCurrent(data_->imageIconPath());
     connect(dev_pix, &DevicePixmap::choosePixmap, this,
         [this](const QString& filename) {
-            // data_->image = filename;
+            // data_->setImage(filename);
             qDebug() << filename << "TODO";
-            // setImagePreview(filename);
+            setImagePreview(filename);
         });
     dev_pix->show();
 }
@@ -253,9 +253,9 @@ void DeviceProperties::setImagePreview(const QString& name)
     if (name.isEmpty()) {
         ui->currentImage->setText("?");
     } else {
-        QPixmap pix(name);
-        if (!pix.isNull())
-            ui->currentImage->setPixmap(pix.scaled(IMG_PREVIEW_SIZE, IMG_PREVIEW_SIZE));
+        QIcon icon(name);
+        if (!icon.isNull())
+            ui->currentImage->setPixmap(QIcon(name).pixmap(IMG_PREVIEW_SIZE, IMG_PREVIEW_SIZE));
     }
 }
 
