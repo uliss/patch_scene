@@ -25,6 +25,7 @@ FavoritesWidget::FavoritesWidget(QWidget* parent)
     model_ = new DiagramItemModel(this);
     setModel(model_);
 
+    setMinimumWidth(150);
     setDragEnabled(true);
     setDragDropMode(QAbstractItemView::DragOnly);
     setSortingEnabled(true);
