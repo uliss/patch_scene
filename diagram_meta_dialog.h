@@ -34,10 +34,13 @@ public:
 private:
     Ui::DiagramMetaDialog* ui;
     DiagramMeta meta_;
+
+private:
     void initTitle();
     void initInfo();
     void initEventDate();
-void initContacts();
+    void initContacts();
+    void syncContacts();
 };
 
 #endif // DIAGRAM_META_DIALOG_H

@@ -14,6 +14,13 @@
 #include "diagram_meta_dialog.h"
 #include "ui_diagram_meta_dialog.h"
 
+enum ContactTableOrder {
+    COL_NAME,
+    COL_WORK,
+    COL_PHONE,
+    COL_EMAIL
+};
+
 DiagramMetaDialog::DiagramMetaDialog(const DiagramMeta& meta, QWidget* parent)
     : QDialog(parent)
     , ui(new Ui::DiagramMetaDialog)
@@ -25,6 +32,10 @@ DiagramMetaDialog::DiagramMetaDialog(const DiagramMeta& meta, QWidget* parent)
     initInfo();
     initEventDate();
     initContacts();
+
+    connect(this, &QDialog::accepted, this, [this]() {
+        syncContacts();
+    });
 }
 
 DiagramMetaDialog::~DiagramMetaDialog()
@@ -68,16 +79,16 @@ void DiagramMetaDialog::initContacts()
         ui->contactsTable->insertRow(row);
 
         auto name = new QTableWidgetItem(c.name());
-        ui->contactsTable->setItem(row, 0, name);
+        ui->contactsTable->setItem(row, COL_NAME, name);
 
         auto work = new QTableWidgetItem(c.work());
-        ui->contactsTable->setItem(row, 1, work);
+        ui->contactsTable->setItem(row, COL_WORK, work);
 
         auto phone = new QTableWidgetItem(c.phone());
-        ui->contactsTable->setItem(row, 2, phone);
+        ui->contactsTable->setItem(row, COL_PHONE, phone);
 
         auto email = new QTableWidgetItem(c.email());
-        ui->contactsTable->setItem(row, 3, email);
+        ui->contactsTable->setItem(row, COL_EMAIL, email);
 
         row++;
     }
@@ -93,16 +104,16 @@ void DiagramMetaDialog::initContacts()
         ui->contactsTable->insertRow(row);
 
         auto name = new QTableWidgetItem(tr("John Doe"));
-        ui->contactsTable->setItem(row, 0, name);
+        ui->contactsTable->setItem(row, COL_NAME, name);
 
         auto work = new QTableWidgetItem(tr("manager"));
-        ui->contactsTable->setItem(row, 1, work);
+        ui->contactsTable->setItem(row, COL_WORK, work);
 
         auto phone = new QTableWidgetItem(tr("+7XXX XXX-XX-XX"));
-        ui->contactsTable->setItem(row, 2, phone);
+        ui->contactsTable->setItem(row, COL_PHONE, phone);
 
         auto email = new QTableWidgetItem();
-        ui->contactsTable->setItem(row, 3, email);
+        ui->contactsTable->setItem(row, COL_EMAIL, email);
     });
 
     connect(ui->removeContact, &QToolButton::clicked, this, [this]() {
@@ -115,4 +126,32 @@ void DiagramMetaDialog::initContacts()
 
         ui->contactsTable->removeRow(row);
     });
+}
+
+void DiagramMetaDialog::syncContacts()
+{
+    meta_.contacts().clear();
+
+    const int NROWS = ui->contactsTable->rowCount();
+    for (int i = 0; i < NROWS; i++) {
+        Contact ct;
+
+        auto name = ui->contactsTable->item(i, COL_NAME);
+        if (name)
+            ct.setName(name->text());
+
+        auto work = ui->contactsTable->item(i, COL_WORK);
+        if (work)
+            ct.setWork(work->text());
+
+        auto phone = ui->contactsTable->item(i, COL_PHONE);
+        if (phone)
+            ct.setPhone(phone->text());
+
+        auto email = ui->contactsTable->item(i, COL_EMAIL);
+        if (email)
+            ct.setEmail(email->text());
+
+        meta_.contacts().push_back(ct);
+    }
 }
