@@ -807,8 +807,9 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
 
 void Diagram::contextMenuEvent(QContextMenuEvent* event)
 {
+    event->accept();
     auto pos = event->pos();
-    auto dev = qgraphicsitem_cast<Device*>(itemAt(event->pos()));
+    auto dev = deviceAt(pos);
 
     if (dev) {
         auto selected = scene->selectedItems();
@@ -868,7 +869,7 @@ void Diagram::contextMenuEvent(QContextMenuEvent* event)
 
         QMenu menu(this);
         menu.addAction(addAct);
-        menu.exec(mapToGlobal(event->pos()));
+        menu.exec(mapToGlobal(pos));
     }
 }
 
@@ -1177,6 +1178,17 @@ bool Diagram::isValidConnection(const XletInfo& src, const XletInfo& dest) const
     }
 
     return true;
+}
+
+Device* Diagram::deviceAt(const QPoint& pos) const
+{
+    for (auto x : items(pos)) {
+        auto dev = qgraphicsitem_cast<Device*>(x);
+        if (dev)
+            return dev;
+    }
+
+    return nullptr;
 }
 
 Device* Diagram::findDeviceById(DeviceId id) const

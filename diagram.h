@@ -209,6 +209,8 @@ private:
 
     bool isValidConnection(const XletInfo& src, const XletInfo& dest) const;
 
+    Device* deviceAt(const QPoint& pos) const;
+
 private:
     QGraphicsRectItem* selection_ { nullptr };
     QGraphicsLineItem* connection_ { nullptr };
