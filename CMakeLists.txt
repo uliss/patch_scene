@@ -7,7 +7,11 @@ else()
     set(LANGS CXX)
 endif()
 
-project(patch_scene VERSION 0.1 LANGUAGES ${LANGS})
+project(patch_scene VERSION 0.2.0 LANGUAGES ${LANGS})
+# cmake search path
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+
+enable_testing(true)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -16,9 +20,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-
-find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets SvgWidgets PrintSupport)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets SvgWidgets PrintSupport LinguistTools)
+find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets SvgWidgets PrintSupport Test)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets SvgWidgets PrintSupport LinguistTools Test)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -70,6 +73,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         device_common.h device_common.cpp
         export_document.h export_document.cpp
         diagram_image.h diagram_image.cpp
+        #tests/test_device_data.h tests/test_device_data.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET patch_scene APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -119,6 +123,7 @@ if(QT_VERSION_MAJOR EQUAL 6)
     )
 endif()
 
+include(summary)
 include(InstallRequiredSystemLibraries)
 
 if(APPLE)
