@@ -70,8 +70,6 @@ qt_add_executable(patch_scene
     about_window.h about_window.cpp about_window.ui
     preferences_dialog.h preferences_dialog.cpp preferences_dialog.ui
     device_library.h device_library.cpp
-    # resources/library.json
-    # patch_scene_ru.ts
     undo_commands.h undo_commands.cpp
     device_common.h device_common.cpp
     export_document.h export_document.cpp
@@ -97,7 +95,7 @@ set_target_properties(patch_scene PROPERTIES
 
 add_custom_target(translations
     SOURCES
-    patch_scene_ru.ts
+        patch_scene_ru.ts
 )
 
 include(GNUInstallDirs)
