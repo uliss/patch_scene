@@ -14,10 +14,31 @@
 #ifndef DIAGRAM_META_H
 #define DIAGRAM_META_H
 
+#include <QDate>
+#include <QJsonValue>
 #include <QString>
+
+class Contact {
+    QString name_, work_, phone_, email_;
+
+public:
+    const QString& name() const { return name_; }
+    const QString& work() const { return work_; }
+    const QString& phone() const { return phone_; }
+    const QString& email() const { return email_; }
+
+    void setName(const QString& name) { name_ = name; }
+    void setWork(const QString& work) { work_ = work; }
+    void setPhone(const QString& phone) { phone_ = phone; }
+    void setEmail(const QString& email) { email_ = email; }
+
+    QJsonValue toJson() const;
+};
 
 class DiagramMeta {
     QString title_, info_;
+    QDate event_date_, creation_date_;
+    QList<Contact> contacts_;
 
 public:
     DiagramMeta();
@@ -27,6 +48,16 @@ public:
 
     const QString& info() const { return info_; }
     void setInfo(const QString& info) { info_ = info; }
+
+    const QDate& eventDate() const { return event_date_; }
+    void setEventDate(const QDate& date) { event_date_ = date; }
+
+    const QDate& creationDate() const { return creation_date_; }
+
+    const QList<Contact>& contacts() const { return contacts_; }
+    QList<Contact>& contacts() { return contacts_; }
+
+    QJsonValue toJson() const;
 };
 
 #endif // DIAGRAM_META_H
