@@ -221,6 +221,7 @@ private:
     bool isValidConnection(const XletInfo& src, const XletInfo& dest) const;
 
     Device* deviceAt(const QPoint& pos) const;
+    bool dropJson(const QPointF& pos, const QByteArray& json);
 
 private:
     QGraphicsRectItem* selection_ { nullptr };

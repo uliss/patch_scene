@@ -895,12 +895,26 @@ void Diagram::contextMenuEvent(QContextMenuEvent* event)
 
 void Diagram::dragEnterEvent(QDragEnterEvent* event)
 {
-    if (!event->mimeData()->formats().contains("text/plain"))
-        return;
+    if (event->mimeData()->formats().contains("text/plain")) {
+        auto data = event->mimeData()->data("text/plain");
+        if (!data.isEmpty())
+            event->acceptProposedAction();
+    } else if (event->mimeData()->hasUrls()) {
+        auto files = event->mimeData()->urls();
+        if (files.size() == 1) {
+            auto fname = files.front().fileName();
 
-    auto data = event->mimeData()->data("text/plain");
-    if (!data.isEmpty())
-        event->acceptProposedAction();
+            if (fname.endsWith(".svg", Qt::CaseInsensitive)
+                || fname.endsWith(".png", Qt::CaseInsensitive)
+                || fname.endsWith(".jpg", Qt::CaseInsensitive)
+                || fname.endsWith(".jpeg", Qt::CaseInsensitive))
+                event->acceptProposedAction();
+        } else {
+            qDebug() << __FUNCTION__ << "single image file expected, got:" << files;
+        }
+    } else {
+        qDebug() << __FUNCTION__ << "unsupported MIME type:" << event->mimeData()->formats();
+    }
 }
 
 void Diagram::dragMoveEvent(QDragMoveEvent* event)
@@ -910,30 +924,10 @@ void Diagram::dragMoveEvent(QDragMoveEvent* event)
 
 void Diagram::dropEvent(QDropEvent* event)
 {
-    auto json_data = event->mimeData()->data("text/plain");
-    if (json_data.isEmpty()) {
-        qDebug() << "empty data";
-        return;
+    if (event->mimeData()->formats().contains("text/plain")) {
+        if (dropJson(mapToScene(event->position().toPoint()), event->mimeData()->data("text/plain")))
+            event->acceptProposedAction();
     }
-
-    QJsonParseError err;
-    auto doc = QJsonDocument::fromJson(json_data, &err);
-    if (doc.isNull()) {
-        qWarning() << doc << err.errorString();
-        return;
-    }
-
-    SharedDeviceData data(new DeviceData(DEV_NULL_ID));
-    if (!data->setJson(doc.object())) {
-        qWarning() << "can't set JSON";
-        return;
-    }
-
-    data->setPos(mapToScene(event->position().toPoint()));
-
-    cmdDuplicateDevice(data);
-
-    event->acceptProposedAction();
 }
 
 void Diagram::keyPressEvent(QKeyEvent* event)
@@ -1211,6 +1205,31 @@ Device* Diagram::deviceAt(const QPoint& pos) const
     }
 
     return nullptr;
+}
+
+bool Diagram::dropJson(const QPointF& pos, const QByteArray& json)
+{
+    if (json.isEmpty()) {
+        qDebug() << __FUNCTION__ << "empty data";
+        return false;
+    }
+
+    QJsonParseError err;
+    auto doc = QJsonDocument::fromJson(json, &err);
+    if (doc.isNull()) {
+        qWarning() << doc << err.errorString();
+        return false;
+    }
+
+    SharedDeviceData data(new DeviceData(DEV_NULL_ID));
+    if (!data->setJson(doc.object())) {
+        qWarning() << "can't set JSON";
+        return false;
+    }
+
+    data->setPos(pos);
+    cmdDuplicateDevice(data);
+    return true;
 }
 
 Device* Diagram::findDeviceById(DeviceId id) const
