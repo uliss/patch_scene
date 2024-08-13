@@ -121,8 +121,10 @@ include(summary)
 include(InstallRequiredSystemLibraries)
 
 if(APPLE)
-    configure_file(scripts/bundle_fix.sh ${PROJECT_BINARY_DIR}/bundle_fix.sh @ONLY)
-
-    set(CPACK_GENERATOR "DragNDrop")
-    include(CPack)
+    configure_file(scripts/macos_make_dmg.sh ${PROJECT_BINARY_DIR}/macos_make_dmg.sh @ONLY)
+    add_custom_target(dmg
+        COMMAND ${PROJECT_BINARY_DIR}/macos_make_dmg.sh
+        WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
+        DEPENDS patch_scene
+    )
 endif()
