@@ -80,5 +80,7 @@
         <file>icons/settings.svg</file>
         <file>icons/favorite.svg</file>
         <file>icons/info.svg</file>
+        <file>icons/arrow_back.svg</file>
+        <file>icons/arrow_forward.svg</file>
     </qresource>
 </RCC>

@@ -36,6 +36,9 @@ DiagramMetaDialog::DiagramMetaDialog(const DiagramMeta& meta, QWidget* parent)
     connect(ui->eventDateEdit, &QDateEdit::userDateChanged, this, [this](const QDate& date) {
         meta_.setEventDate(date);
     });
+    ui->eventDateEdit->setStyleSheet(
+        "#eventDateEdit QWidget#qt_calendar_prevmonth { qproperty-icon: url(\":/icons/arrow_back.svg\");}"
+        "#eventDateEdit QWidget#qt_calendar_nextmonth { qproperty-icon : url(\":/icons/arrow_forward.svg\");}");
 
     ui->contactsTable->setHorizontalHeaderLabels({ tr("Name"), tr("Work"), tr("Phone"), tr("Email") });
     int row = 0;
