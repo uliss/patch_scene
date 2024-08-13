@@ -121,6 +121,16 @@ public:
      */
     void clearBackground();
 
+    /**
+     * Diagram meta information
+     */
+    const DiagramMeta& meta() const { return meta_; }
+
+    /**
+     * Set diagram meta information
+     */
+    void setMeta(const DiagramMeta& meta) { meta_ = meta; }
+
     // undo/redo commands
     void cmdCreateDevice(const QPointF& pos);
     void cmdDuplicateDevice(const SharedDeviceData& data);
