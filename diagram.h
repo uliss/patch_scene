@@ -164,6 +164,7 @@ signals:
     void zoomChanged(qreal);
     void deviceAdded(SharedDeviceData data);
     void deviceRemoved(SharedDeviceData data);
+    void deviceTitleUpdated(DeviceId id, const QString& title);
     void deviceUpdated(SharedDeviceData data);
     void connectionAdded(ConnectionData data);
     void connectionRemoved(ConnectionData data);

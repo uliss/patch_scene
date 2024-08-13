@@ -83,7 +83,9 @@ void Diagram::initScene()
 {
     scene = new QGraphicsScene();
     scene->setItemIndexMethod(QGraphicsScene::NoIndex);
-    scene->setSceneRect(-250, -250, 1000, 1000); // Устанавливаем область графической сцены
+    // scene->setSceneRect(-250, -250, 1000, 1000); // Устанавливаем область графической сцены
+    scene->setBackgroundBrush(QColor(252, 252, 252));
+    scene->setMinimumRenderSize(0.5);
     setScene(scene);
 }
 
@@ -369,9 +371,15 @@ bool Diagram::setDeviceData(const SharedDeviceData& data)
         return false;
     }
 
+    const bool title_update = (dev->deviceData()->title() != data->title());
+
     dev->setDeviceData(data);
     emit sceneChanged();
     emit deviceUpdated(dev->deviceData());
+
+    if (title_update)
+        emit deviceTitleUpdated(data->id(), data->title());
+
     return true;
 }
 
