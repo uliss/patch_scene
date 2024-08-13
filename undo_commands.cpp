@@ -98,12 +98,18 @@ RemoveDevice::RemoveDevice(Diagram* doc, const SharedDeviceData& data)
     : doc_(doc)
     , data_(data)
 {
+    if (doc_)
+        conn_ = doc_->findDeviceConnections(data->id());
 }
 
 void RemoveDevice::undo()
 {
-    if (doc_)
+    if (doc_) {
         doc_->addDevice(new Device(data_));
+
+        for (auto& conn : conn_)
+            doc_->connectDevices(conn);
+    }
 }
 
 void RemoveDevice::redo()
@@ -115,9 +121,14 @@ void RemoveDevice::redo()
 RemoveSelected::RemoveSelected(Diagram* doc)
     : doc_(doc)
 {
+    if (!doc_)
+        return;
+
     // store device data
     for (auto dev : doc_->selectedDevices())
         data_.push_back(dev->deviceData());
+
+    conn_ = doc_->findSelectedConnections();
 }
 
 void RemoveSelected::undo()
@@ -130,6 +141,9 @@ void RemoveSelected::undo()
         doc_->addDevice(dev);
         dev->setSelected(true);
     }
+
+    for (auto& c : qAsConst(conn_))
+        doc_->connectDevices(c);
 }
 
 void RemoveSelected::redo()

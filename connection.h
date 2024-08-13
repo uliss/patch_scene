@@ -69,6 +69,8 @@ struct ConnectionData {
 
 Q_DECLARE_METATYPE(ConnectionData)
 
+uint qHash(const ConnectionData& key);
+
 struct XletInfo {
     DeviceId id { 0 };
     XletType type { XletType::None };

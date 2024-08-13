@@ -45,6 +45,16 @@ public:
 
     Connection* findConnectionByXlet(const XletInfo& xi) const;
 
+    /**
+     * Returns list of all device connections (in/out)
+     */
+    QList<ConnectionData> findDeviceConnections(DeviceId id) const;
+
+    /**
+     * Return set of all connections of all selected devices
+     */
+    QSet<ConnectionData> findSelectedConnections() const;
+
     void printScheme() const;
 
     /**

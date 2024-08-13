@@ -18,7 +18,7 @@
 #include <QUndoCommand>
 
 #include "connection.h"
-#include "device.h"
+#include "device_common.h"
 
 class Diagram;
 class DeviceData;
@@ -46,6 +46,7 @@ public:
 private:
     Diagram* doc_;
     SharedDeviceData data_;
+    QList<ConnectionData> conn_;
 };
 
 class RemoveSelected : public QUndoCommand {
@@ -58,6 +59,7 @@ public:
 private:
     Diagram* doc_;
     QList<SharedDeviceData> data_;
+    QSet<ConnectionData> conn_;
 };
 
 class DuplicateSelected : public QUndoCommand {

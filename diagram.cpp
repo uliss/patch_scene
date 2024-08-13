@@ -1231,3 +1231,45 @@ Connection* Diagram::findConnectionByXlet(const XletInfo& xi) const
 
     return nullptr;
 }
+
+QList<ConnectionData> Diagram::findDeviceConnections(DeviceId id) const
+{
+    QList<ConnectionData> res;
+
+    for (auto x : items()) {
+        auto conn = qgraphicsitem_cast<Connection*>(x);
+        if (conn) {
+            if (conn->relatesToId(id))
+                res.push_back(conn->connectionData());
+        }
+    }
+
+    return res;
+}
+
+QSet<ConnectionData> Diagram::findSelectedConnections() const
+{
+    QSet<ConnectionData> res;
+
+    QList<DeviceId> dev_ids;
+    dev_ids.reserve(32);
+
+    // fill selected ID's
+    for (auto& x : scene->selectedItems()) {
+        auto dev = qgraphicsitem_cast<Device*>(x);
+        if (dev)
+            dev_ids.push_back(dev->id());
+    }
+
+    for (auto& x : scene->items()) {
+        auto conn = qgraphicsitem_cast<Connection*>(x);
+        if (conn) {
+            for (auto id : dev_ids) {
+                if (conn->relatesToId(id))
+                    res.insert(conn->connectionData());
+            }
+        }
+    }
+
+    return res;
+}

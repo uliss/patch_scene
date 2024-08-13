@@ -166,3 +166,11 @@ bool Connection::updateCachedPos()
 
     return true;
 }
+
+uint qHash(const ConnectionData& key)
+{
+    return qHash(key.dest)
+        ^ qHash(key.in)
+        ^ qHash(key.src)
+        ^ qHash(key.out);
+}
