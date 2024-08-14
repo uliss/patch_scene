@@ -24,7 +24,11 @@ namespace doc {
         QStandardItemModel* model,
         const QList<int>& columnContraints = {});
 
+    void insert_table(QTextCursor& cursor,
+        const QList<QStringList>& data);
+
     void insert_section(QTextCursor& cursor, const QString& text);
+    void insert_paragrapn(QTextCursor& cursor, const QString& text, Qt::Alignment align = Qt::AlignLeft);
 }
 }
 

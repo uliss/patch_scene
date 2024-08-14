@@ -17,6 +17,44 @@
 #include <QTextTable>
 #include <QTextTableFormat>
 
+void ceam::doc::insert_table(QTextCursor& cursor, const QList<QStringList>& data)
+{
+    if (data.isEmpty())
+        return;
+
+    auto first_line = data.front();
+    auto NCOLS = first_line.size();
+    auto NROWS = data.size();
+
+    QTextTableFormat tab_fmt;
+    tab_fmt.setCellPadding(4);
+    tab_fmt.setBottomMargin(10);
+    tab_fmt.setHeaderRowCount(1);
+    tab_fmt.setCellSpacing(0);
+    tab_fmt.setCellSpacing(0);
+
+    tab_fmt.setBorderBrush(QBrush(Qt::SolidPattern));
+    tab_fmt.setBorderCollapse(true);
+
+    cursor.movePosition(QTextCursor::End);
+    auto table = cursor.insertTable(NROWS, NCOLS + 1, tab_fmt);
+
+    for (int row = 0; row < NROWS; ++row) {
+        for (int col = -1; col < NCOLS; ++col) {
+            auto cell = table->cellAt(row + 1, col + 1);
+            auto cell_cursor = cell.firstCursorPosition();
+
+            if (col == -1) {
+                cell_cursor.insertText(QString("%1").arg(row + 1));
+            } else {
+                cell_cursor.insertText(data[row][col]);
+            }
+        }
+    }
+
+    cursor.movePosition(QTextCursor::End);
+}
+
 void ceam::doc::insert_table(QTextCursor& cursor,
     QStandardItemModel* model,
     const QList<int>& columnContraints)
@@ -58,7 +96,7 @@ void ceam::doc::insert_table(QTextCursor& cursor,
         if (item) {
             cell_cursor.insertText(item->text());
         } else {
-            cell_cursor.insertText("№");
+            // cell_cursor.insertText("№");
         }
     }
 
@@ -96,6 +134,18 @@ void ceam::doc::insert_section(QTextCursor& cursor, const QString& text)
     auto frame = cursor.insertFrame(frame_fmt);
     if (frame)
         frame->firstCursorPosition().insertText(text, char_fmt);
+
+    cursor.movePosition(QTextCursor::End);
+}
+
+void ceam::doc::insert_paragrapn(QTextCursor& cursor, const QString& text, Qt::Alignment align)
+{
+    QTextBlockFormat block_fmt;
+    block_fmt.setAlignment(align);
+
+    cursor.movePosition(QTextCursor::End);
+    cursor.insertBlock(block_fmt);
+    cursor.insertText(text);
 
     cursor.movePosition(QTextCursor::End);
 }

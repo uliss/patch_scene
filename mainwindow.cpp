@@ -17,7 +17,6 @@
 #include "diagram_item_model.h"
 #include "diagram_meta_dialog.h"
 #include "export_document.h"
-#include "preferences_dialog.h"
 #include "ui_mainwindow.h"
 
 #include <QCloseEvent>
@@ -824,8 +823,28 @@ void MainWindow::exportDocument()
     QTextDocument doc;
     QTextCursor cursor(&doc);
 
-    ceam::doc::insert_section(cursor, diagram_->meta().title());
-    ceam::doc::insert_section(cursor, diagram_->meta().eventDate().toString());
+    auto& meta = diagram_->meta();
+
+    ceam::doc::insert_section(cursor, meta.title());
+    ceam::doc::insert_section(cursor, {});
+
+    ceam::doc::insert_paragrapn(cursor, tr("Event date: %1").arg(meta.eventDate().toString()));
+    ceam::doc::insert_paragrapn(cursor, {});
+
+    if (!meta.info().isEmpty()) {
+        ceam::doc::insert_paragrapn(cursor, tr("Info: %1").arg(meta.info()));
+        ceam::doc::insert_paragrapn(cursor, {});
+    }
+
+    ceam::doc::insert_section(cursor, tr("Contacts"));
+    ceam::doc::insert_section(cursor, {});
+
+    QList<QStringList> contacts_data;
+    contacts_data.push_back({ tr("Name"), tr("Work"), tr("Phone"), tr("Email") });
+    for (auto& c : meta.contacts())
+        contacts_data.push_back({ c.name(), c.work(), c.phone(), c.email() });
+
+    ceam::doc::insert_table(cursor, contacts_data);
 
     ceam::doc::insert_section(cursor, tr("Devices"));
     ceam::doc::insert_table(cursor, device_model_, { 40, 20, 20 });
@@ -840,6 +859,8 @@ void MainWindow::exportDocument()
     ceam::doc::insert_table(cursor, return_model_);
 
     QTextDocumentWriter writer(odt_file, "ODF");
+
+    ceam::doc::insert_paragrapn(cursor, tr("Created with PatchScene"), Qt::AlignRight);
 
     if (writer.write(&doc)) {
         qDebug() << "exported to" << odt_file;
