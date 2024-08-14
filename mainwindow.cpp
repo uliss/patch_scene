@@ -17,6 +17,7 @@
 #include "diagram_item_model.h"
 #include "diagram_meta_dialog.h"
 #include "export_document.h"
+#include "patch_scene_version.h"
 #include "ui_mainwindow.h"
 
 #include <QCloseEvent>
@@ -825,20 +826,16 @@ void MainWindow::exportDocument()
 
     auto& meta = diagram_->meta();
 
-    ceam::doc::insert_section(cursor, meta.title());
-    ceam::doc::insert_section(cursor, {});
+    ceam::doc::insert_header(cursor, meta.title());
 
-    ceam::doc::insert_paragrapn(cursor, tr("Event date: %1").arg(meta.eventDate().toString()));
-    ceam::doc::insert_paragrapn(cursor, {});
+    ceam::doc::insert_paragraph(cursor, tr("Event date: %1").arg(meta.eventDate().toString()));
 
     if (!meta.info().isEmpty()) {
-        ceam::doc::insert_paragrapn(cursor, tr("Info: %1").arg(meta.info()));
-        ceam::doc::insert_paragrapn(cursor, {});
+        ceam::doc::insert_section(cursor, tr("Information"));
+        ceam::doc::insert_paragraph(cursor, meta.info());
     }
 
     ceam::doc::insert_section(cursor, tr("Contacts"));
-    ceam::doc::insert_section(cursor, {});
-
     QList<QStringList> contacts_data;
     contacts_data.push_back({ tr("Name"), tr("Work"), tr("Phone"), tr("Email") });
     for (auto& c : meta.contacts())
@@ -860,7 +857,7 @@ void MainWindow::exportDocument()
 
     QTextDocumentWriter writer(odt_file, "ODF");
 
-    ceam::doc::insert_paragrapn(cursor, tr("Created with PatchScene"), Qt::AlignRight);
+    ceam::doc::insert_paragraph(cursor, tr("Created with PatchScene v%1").arg(PATCH_SCENE_VERSION), Qt::AlignRight);
 
     if (writer.write(&doc)) {
         qDebug() << "exported to" << odt_file;
