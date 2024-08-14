@@ -317,8 +317,8 @@ void MainWindow::showAbout()
 
 void MainWindow::showPreferences()
 {
-    auto prefs = new PreferencesDialog(this);
-    prefs->show();
+    // /auto prefs = new PreferencesDialog(this);
+    // prefs->show();
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)

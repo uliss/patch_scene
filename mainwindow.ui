@@ -706,6 +706,9 @@
    <property name="toolTip">
     <string>Project Information</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
+   </property>
   </action>
  </widget>
  <resources>
