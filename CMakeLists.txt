@@ -131,7 +131,7 @@ if(APPLE)
     )
     add_custom_target(app-zip
         COMMAND zip -r
-            "PatchScene-v${PROJECT_VERSION}-${CMAKE_SYSTEM_PROCESSOR}.zip"
+            "PatchScene-v${PROJECT_VERSION}-${CMAKE_SYSTEM_PROCESSOR}.app.zip"
             "PatchScene.app/"
         WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/dist
     )
