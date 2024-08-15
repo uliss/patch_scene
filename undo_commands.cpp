@@ -142,7 +142,7 @@ void RemoveSelected::undo()
         dev->setSelected(true);
     }
 
-    for (auto& c : qAsConst(conn_))
+    for (auto& c : std::as_const(conn_))
         doc_->connectDevices(c);
 }
 
