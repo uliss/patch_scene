@@ -177,7 +177,7 @@ MainWindow::MainWindow(QWidget* parent)
     setupExpandButton(ui->sendListBtn, ui->sendList, ui->sendListLine);
     setupExpandButton(ui->returnListBtn, ui->returnList, ui->returnListLine);
 
-    diagram_ = new Diagram();
+    diagram_ = new Diagram(1600, 1600);
     ui->gridLayout->addWidget(diagram_, 1, 1);
     connect(diagram_, SIGNAL(sceneChanged()), this, SLOT(onSceneChange()));
     connect(diagram_, SIGNAL(deviceAdded(SharedDeviceData)), this, SLOT(onDeviceAdd(SharedDeviceData)));

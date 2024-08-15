@@ -35,7 +35,7 @@ public:
     Q_PROPERTY(bool showBackground READ showBackground WRITE setShowBackground NOTIFY showBackgroundChanged)
 
 public:
-    explicit Diagram(QWidget* parent = nullptr);
+    explicit Diagram(int w, int h, QWidget* parent = nullptr);
 
     Connection* findConnectionByXlet(const XletInfo& xi) const;
 
@@ -260,7 +260,7 @@ private:
     void initUndoStack();
     void initSelectionRect();
     void initLiveConnection();
-    void initScene();
+    void initScene(int w, int h);
 
     /**
      * @param pos - position in view coordinates

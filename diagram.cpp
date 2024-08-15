@@ -72,7 +72,7 @@ void Diagram::initUndoStack()
     connect(undo_stack_, SIGNAL(canUndoChanged(bool)), this, SIGNAL(canUndoChanged(bool)));
 }
 
-Diagram::Diagram(QWidget* parent)
+Diagram::Diagram(int w, int h, QWidget* parent)
     : QGraphicsView { parent }
 {
     meta_.setTitle(tr("New project"));
@@ -82,13 +82,14 @@ Diagram::Diagram(QWidget* parent)
     setAlignment(Qt::AlignCenter);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
+    setMinimumWidth(400);
     setMinimumHeight(300);
-    setMinimumWidth(300);
+
     setAcceptDrops(true);
 
     setRenderHint(QPainter::Antialiasing);
 
-    initScene();
+    initScene(w, h);
 
     initLiveConnection();
     initSelectionRect();
@@ -114,11 +115,11 @@ void Diagram::initLiveConnection()
     scene->addItem(connection_);
 }
 
-void Diagram::initScene()
+void Diagram::initScene(int w, int h)
 {
     scene = new QGraphicsScene();
     scene->setItemIndexMethod(QGraphicsScene::NoIndex);
-    // scene->setSceneRect(-250, -250, 1000, 1000); // Устанавливаем область графической сцены
+    scene->setSceneRect(-w / 2, -h / 2, w, h);
     scene->setBackgroundBrush(QColor(252, 252, 252));
     scene->setMinimumRenderSize(0.5);
     setScene(scene);
@@ -640,7 +641,14 @@ void Diagram::printScheme() const
 
         QPainter painter(&printer);
         painter.setRenderHint(QPainter::Antialiasing);
+        // save scene rect
+        auto scene_rect = scene->sceneRect();
+        // update scene rect
+        scene->setSceneRect(scene->itemsBoundingRect());
+        // render
         scene->render(&painter);
+        // restore scene rect
+        scene->setSceneRect(scene_rect);
 
         for (auto x : scene->items())
             x->setCacheMode(QGraphicsItem::DeviceCoordinateCache);
