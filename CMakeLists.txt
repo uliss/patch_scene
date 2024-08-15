@@ -31,6 +31,10 @@ set(PROJECT_SOURCES
         mainwindow.ui
 )
 
+if(WIN32)
+    list(APPEND PROJECT_SOURCES app.rc)
+endif()
+
 if(APPLE)
     list(APPEND PROJECT_SOURCES macos_utils.h macos_utils.mm)
     set(MACOSX_BUNDLE_ICON_FILE patch_scene.icns)
