@@ -123,6 +123,7 @@ if(QT_VERSION_MAJOR EQUAL 6)
     )
 endif()
 
+include(icon_tools)
 include(summary)
 include(InstallRequiredSystemLibraries)
 
