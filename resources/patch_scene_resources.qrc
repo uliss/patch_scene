@@ -82,5 +82,6 @@
         <file>icons/info.svg</file>
         <file>icons/arrow_back.svg</file>
         <file>icons/arrow_forward.svg</file>
+        <file>app_icon.svg</file>
     </qresource>
 </RCC>

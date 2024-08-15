@@ -20,6 +20,7 @@
 int main(int argc, char* argv[])
 {
     QApplication app(argc, argv);
+    app.setWindowIcon(QIcon(":/app_icon.svg"));
     QTranslator qt_tr;
 
     qDebug() << QLocale::system();
