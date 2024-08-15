@@ -14,6 +14,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "app_settings.h"
 #include "diagram.h"
 #include "favorites_widget.h"
 
@@ -78,8 +79,8 @@ private:
     void setupDockTitle(QDockWidget* dock);
 
     void readPositionSettings();
-    void writePositionSettings();
-    void writeFavorites();
+    void writePositionSettings() const;
+    void writeFavorites() const;
 
     void loadSection(QStandardItem* parent, const QList<SharedDeviceData>& data);
 
@@ -91,6 +92,7 @@ private:
     QSortFilterProxyModel* library_proxy_;
     QStandardItemModel *device_model_, *conn_model_, *send_model_, *return_model_;
     FavoritesWidget* favorites_;
+    AppSettings settings_;
 };
 
 #endif // MAINWINDOW_H

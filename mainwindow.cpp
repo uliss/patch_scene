@@ -34,17 +34,6 @@
 #include <QTextDocumentWriter>
 #include <QTextTable>
 
-constexpr const char* SETTINGS_ORG = "space.ceam";
-constexpr const char* SETTINGS_APP = "PatchScene";
-
-constexpr const char* SKEY_MAINWINDOW = "mainwindow";
-constexpr const char* SKEY_FAVORITES = "favorites";
-constexpr const char* SKEY_GEOMETRY = "geometry";
-constexpr const char* SKEY_SAVESTATE = "savestate";
-constexpr const char* SKEY_MAXIMIZED = "maximized";
-constexpr const char* SKEY_POS = "pos";
-constexpr const char* SKEY_SIZE = "size";
-
 enum ConnColumnOrder {
     COL_CONN_SRC_NAME = 0,
     COL_CONN_SRC_MODEL,
@@ -659,11 +648,7 @@ void MainWindow::loadLibrary()
 
 void MainWindow::loadFavorites()
 {
-    QSettings qs(SETTINGS_ORG, SETTINGS_APP);
-
-    qs.beginGroup(SKEY_FAVORITES);
-    favorites_->setFromVariant(qs.value("items").toList());
-    qs.endGroup();
+    favorites_->setFromVariant(settings_.readFavorites());
 }
 
 void MainWindow::createToolbarScaleView()
@@ -742,46 +727,19 @@ void MainWindow::setupDockTitle(QDockWidget* dock)
     // dock->setTitleBarWidget(btn);
 }
 
-void MainWindow::writePositionSettings()
+void MainWindow::writePositionSettings() const
 {
-    QSettings qs(SETTINGS_ORG, SETTINGS_APP);
-
-    qs.beginGroup(SKEY_MAINWINDOW);
-
-    qs.setValue(SKEY_GEOMETRY, saveGeometry());
-    qs.setValue(SKEY_SAVESTATE, saveState());
-    qs.setValue(SKEY_MAXIMIZED, isMaximized());
-    if (!isMaximized()) {
-        qs.setValue(SKEY_POS, pos());
-        qs.setValue(SKEY_MAXIMIZED, size());
-    }
-
-    qs.endGroup();
+    settings_.writeWindowPos(this);
 }
 
-void MainWindow::writeFavorites()
+void MainWindow::writeFavorites() const
 {
-    QSettings qs(SETTINGS_ORG, SETTINGS_APP);
-
-    qs.beginGroup(SKEY_FAVORITES);
-    qs.setValue("items", favorites_->toVariant());
-    qs.endGroup();
+    settings_.writeFavorites(favorites_->toVariant());
 }
 
 void MainWindow::readPositionSettings()
 {
-    QSettings qs(SETTINGS_ORG, SETTINGS_APP);
-
-    qs.beginGroup(SKEY_MAINWINDOW);
-
-    restoreGeometry(qs.value(SKEY_GEOMETRY, saveGeometry()).toByteArray());
-    restoreState(qs.value(SKEY_SAVESTATE, saveState()).toByteArray());
-    move(qs.value(SKEY_POS, pos()).toPoint());
-    resize(qs.value(SKEY_SIZE, size()).toSize());
-    if (qs.value(SKEY_MAXIMIZED, isMaximized()).toBool())
-        showMaximized();
-
-    qs.endGroup();
+    settings_.readWindowPos(this);
 }
 
 void MainWindow::printScheme()
