@@ -129,4 +129,7 @@ if(APPLE)
         WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
         DEPENDS patch_scene
     )
+    add_custom_target(run
+        COMMAND open ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.app
+    )
 endif()
