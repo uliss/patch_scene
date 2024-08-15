@@ -61,28 +61,28 @@ qt_add_executable(patch_scene
     MACOSX_BUNDLE
     ${PROJECT_SOURCES}
     ${app_icon_macos}
-    diagram.h diagram.cpp
-    device.h device.cpp
+    about_window.h about_window.cpp about_window.ui
     connection.h connection.cpp
+    device.h device.cpp
+    device_common.h device_common.cpp
+    device_library.h device_library.cpp
+    device_pixmap.h device_pixmap.cpp device_pixmap.ui
+    device_xlet.h device_xlet.cpp
     deviceproperties.h deviceproperties.cpp deviceproperties.ui
+    diagram.h diagram.cpp
+    diagram_image.h diagram_image.cpp
+    diagram_item_model.h diagram_item_model.cpp
+    diagram_meta.h diagram_meta.cpp
+    diagram_meta_dialog.h diagram_meta_dialog.cpp diagram_meta_dialog.ui
+    diagram_state_machine.h diagram_state_machine.cpp
+    export_document.h export_document.cpp
+    favorites_widget.h favorites_widget.cpp
+    preferences_dialog.h preferences_dialog.cpp preferences_dialog.ui
+    resources/patch_scene_resources.qrc
     socket.h socket.cpp
     tablecellcheckbox.h tablecellcheckbox.cpp
     tablecellconnector.h tablecellconnector.cpp
-    device_xlet.h device_xlet.cpp
-    device_pixmap.h device_pixmap.cpp device_pixmap.ui
-    about_window.h about_window.cpp about_window.ui
-    preferences_dialog.h preferences_dialog.cpp preferences_dialog.ui
-    device_library.h device_library.cpp
     undo_commands.h undo_commands.cpp
-    device_common.h device_common.cpp
-    export_document.h export_document.cpp
-    diagram_image.h diagram_image.cpp
-    resources/patch_scene_resources.qrc
-    diagram_meta.h diagram_meta.cpp
-    diagram_meta_dialog.h diagram_meta_dialog.cpp diagram_meta_dialog.ui
-    diagram_item_model.h diagram_item_model.cpp
-    favorites_widget.h favorites_widget.cpp
-    diagram_state_machine.h diagram_state_machine.cpp
     #tests/test_device_data.h tests/test_device_data.cpp
 )
 
