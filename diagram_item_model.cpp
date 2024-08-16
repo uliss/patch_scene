@@ -45,3 +45,13 @@ DiagramDataItem::DiagramDataItem(const DeviceData& data)
     QJsonDocument doc(data.toJson());
     setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
 }
+
+DeviceData DiagramDataItem::deviceData() const
+{
+    DeviceData dev(DEV_NULL_ID);
+    auto var = data(DATA_DEVICE_DATA);
+    if (var.canConvert<QByteArray>())
+        dev.setJson(var.toByteArray());
+
+    return dev;
+}

@@ -14,9 +14,9 @@
 #ifndef DIAGRAM_ITEM_MODEL_H
 #define DIAGRAM_ITEM_MODEL_H
 
-#include <QStandardItemModel>
+#include "device_common.h"
 
-class DeviceData;
+#include <QStandardItemModel>
 
 constexpr int DATA_DEVICE_DATA = Qt::UserRole + 1;
 constexpr int DATA_DEVICE_ID = Qt::UserRole + 2;
@@ -31,6 +31,7 @@ public:
 class DiagramDataItem : public QStandardItem {
 public:
     DiagramDataItem(const DeviceData& data);
+    DeviceData deviceData() const;
 };
 
 #endif // DIAGRAM_ITEM_MODEL_H
