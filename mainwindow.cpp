@@ -882,7 +882,7 @@ void MainWindow::openDocument()
 {
     auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, "", QStandardPaths::LocateDirectory);
     auto file_name = QFileDialog::getOpenFileName(this, tr("Open project"), path, tr("PatchScene projects (*.psc)"));
-    openDocument(path);
+    openDocument(file_name);
 }
 
 void MainWindow::openDocument(const QString& path)
