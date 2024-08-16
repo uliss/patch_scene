@@ -14,6 +14,8 @@
 #ifndef APP_SETTINGS_H
 #define APP_SETTINGS_H
 
+#include <QList>
+#include <QUrl>
 #include <QVariant>
 
 class QMainWindow;
@@ -27,6 +29,9 @@ public:
 
     void readWindowPos(QMainWindow* win) const;
     void writeWindowPos(const QMainWindow* win) const;
+
+    QList<QUrl> readRecentFiles() const;
+    void writeRecentFiles(const QList<QUrl>& files) const;
 };
 
 #endif // APP_SETTINGS_H

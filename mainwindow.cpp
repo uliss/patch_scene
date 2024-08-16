@@ -262,6 +262,7 @@ MainWindow::MainWindow(QWidget* parent)
     loadFavorites();
 
     readPositionSettings();
+    readRecentFiles();
 }
 
 MainWindow::~MainWindow()
@@ -340,6 +341,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
     }
 
     writePositionSettings();
+    writeRecentFiles();
     writeFavorites();
 
     QMainWindow::closeEvent(event);
@@ -737,6 +739,58 @@ void MainWindow::writeFavorites() const
     settings_.writeFavorites(favorites_->toVariant());
 }
 
+void MainWindow::syncRecentFilesMenu()
+{
+    ui->menuRecentFiles->clear();
+
+    for (auto& url : recent_files_) {
+        auto open_file = new QAction(url.fileName(), this);
+        open_file->setData(url);
+        open_file->setToolTip(url.path());
+        open_file->setStatusTip(url.path());
+        connect(open_file, &QAction::triggered, this, [this, url]() {
+            openDocument(url.path());
+        });
+        ui->menuRecentFiles->addAction(open_file);
+    }
+
+    if (!recent_files_.empty()) {
+        ui->menuRecentFiles->addSeparator();
+        auto act_clear = new QAction(tr("Clear"));
+        connect(act_clear, &QAction::triggered, this, [this]() {
+            recent_files_.clear();
+            syncRecentFilesMenu();
+        });
+        ui->menuRecentFiles->addAction(act_clear);
+    }
+}
+
+void MainWindow::readRecentFiles()
+{
+    recent_files_ = settings_.readRecentFiles();
+    syncRecentFilesMenu();
+}
+
+void MainWindow::writeRecentFiles() const
+{
+    settings_.writeRecentFiles(recent_files_);
+}
+
+void MainWindow::addRecentFile(const QUrl& file)
+{
+    constexpr int MAX_RECENT_FILES = 10;
+
+    auto idx = recent_files_.indexOf(file);
+    if (idx >= 0)
+        recent_files_.removeAll(file);
+
+    recent_files_.push_front(file);
+    if (recent_files_.size() > MAX_RECENT_FILES)
+        recent_files_.resize(MAX_RECENT_FILES);
+
+    syncRecentFilesMenu();
+}
+
 void MainWindow::readPositionSettings()
 {
     settings_.readWindowPos(this);
@@ -827,11 +881,17 @@ void MainWindow::exportDocument()
 void MainWindow::openDocument()
 {
     auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, "", QStandardPaths::LocateDirectory);
-    auto file_name = QFileDialog::getOpenFileName(this, tr("Open project"), path, tr("PatchScene projects (*.psc *.json)"));
-    if (diagram_->loadJson(file_name)) {
-        setProjectName(file_name);
+    auto file_name = QFileDialog::getOpenFileName(this, tr("Open project"), path, tr("PatchScene projects (*.psc)"));
+    openDocument(path);
+}
+
+void MainWindow::openDocument(const QString& path)
+{
+    if (diagram_->loadJson(path)) {
+        setProjectName(path);
         updateTitle();
         setWindowModified(false);
         statusBar()->showMessage(tr("Load '%1'").arg(file_name_), 2000);
+        addRecentFile(path);
     }
 }

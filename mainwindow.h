@@ -45,6 +45,7 @@ public slots:
     void duplicateSelection();
     void exportDocument();
     void openDocument();
+    void openDocument(const QString& path);
     void printScheme();
     void selectAll();
     void setBackground();
@@ -70,7 +71,6 @@ private:
     void setProjectName(const QString& fileName);
     bool doSave();
     void loadLibrary();
-    void loadFavorites();
     void createToolbarScaleView();
     void resizePanels();
 
@@ -80,7 +80,14 @@ private:
 
     void readPositionSettings();
     void writePositionSettings() const;
+
+    void loadFavorites();
     void writeFavorites() const;
+
+    void addRecentFile(const QUrl& file);
+    void readRecentFiles();
+    void writeRecentFiles() const;
+    void syncRecentFilesMenu();
 
     void loadSection(QStandardItem* parent, const QList<SharedDeviceData>& data);
 
@@ -93,6 +100,7 @@ private:
     QStandardItemModel *device_model_, *conn_model_, *send_model_, *return_model_;
     FavoritesWidget* favorites_;
     AppSettings settings_;
+    QList<QUrl> recent_files_;
 };
 
 #endif // MAINWINDOW_H

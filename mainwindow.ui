@@ -89,8 +89,13 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
+    <widget class="QMenu" name="menuRecentFiles">
+     <property name="title">
+      <string>Recent files</string>
+     </property>
+    </widget>
     <addaction name="actionOpen"/>
-    <addaction name="actionRecentFiles"/>
+    <addaction name="menuRecentFiles"/>
     <addaction name="actionSave"/>
     <addaction name="actionSaveAs"/>
     <addaction name="actionExport"/>
@@ -711,9 +716,9 @@
     <string>Ctrl+I</string>
    </property>
   </action>
-  <action name="actionRecentFiles">
+  <action name="actionClearRecentFiles">
    <property name="text">
-    <string>Recent files</string>
+    <string>Clear</string>
    </property>
   </action>
  </widget>

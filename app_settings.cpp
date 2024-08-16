@@ -21,6 +21,8 @@ constexpr const char* SETTINGS_APP = "PatchScene";
 
 constexpr const char* SKEY_MAINWINDOW = "mainwindow";
 constexpr const char* SKEY_FAVORITES = "favorites";
+
+constexpr const char* SKEY_RECENT_FILES = "recent-files";
 constexpr const char* SKEY_GEOMETRY = "geometry";
 constexpr const char* SKEY_SAVESTATE = "savestate";
 constexpr const char* SKEY_MAXIMIZED = "maximized";
@@ -83,5 +85,40 @@ void AppSettings::writeWindowPos(const QMainWindow* win) const
         qs.setValue(SKEY_MAXIMIZED, win->size());
     }
 
+    qs.endGroup();
+}
+
+QList<QUrl> AppSettings::readRecentFiles() const
+{
+    QList<QUrl> res;
+
+    QSettings qs(SETTINGS_ORG, SETTINGS_APP);
+
+    qs.beginGroup(SKEY_MAINWINDOW);
+    const auto vfiles = qs.value(SKEY_RECENT_FILES);
+
+    if (vfiles.canConvert<QList<QVariant>>()) {
+        for (const auto& var : vfiles.toList()) {
+            if (var.canConvert<QUrl>())
+                res.push_back(var.toUrl());
+        }
+    }
+
+    qs.endGroup();
+
+    return res;
+}
+
+void AppSettings::writeRecentFiles(const QList<QUrl>& files) const
+{
+    QSettings qs(SETTINGS_ORG, SETTINGS_APP);
+
+    qs.beginGroup(SKEY_MAINWINDOW);
+
+    QList<QVariant> vfiles;
+    for (auto& url : files)
+        vfiles.push_back(url);
+
+    qs.setValue(SKEY_RECENT_FILES, vfiles);
     qs.endGroup();
 }
