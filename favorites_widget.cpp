@@ -48,8 +48,6 @@ void FavoritesWidget::addItem(const SharedDeviceData& data)
 
 void FavoritesWidget::setFromVariant(const QList<QVariant>& items)
 {
-    auto parent = model_->invisibleRootItem();
-
     for (auto& x : items) {
         SharedDeviceData data(new DeviceData(DEV_NULL_ID));
 
