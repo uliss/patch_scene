@@ -30,10 +30,9 @@ enum {
 
 constexpr int IMG_PREVIEW_SIZE = 30;
 
-DeviceProperties::DeviceProperties(QWidget* parent, DeviceId id, const QSharedDataPointer<DeviceData>& data)
+DeviceProperties::DeviceProperties(QWidget* parent, const QSharedDataPointer<DeviceData>& data)
     : QDialog(parent)
     , ui(new Ui::DeviceProperties)
-    , id_(id)
     , data_(data)
 {
     data_.detach();

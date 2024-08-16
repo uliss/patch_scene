@@ -887,7 +887,7 @@ void Diagram::contextMenuEvent(QContextMenuEvent* event)
                     if (!dev)
                         return;
 
-                    auto dialog = new DeviceProperties(this, dev->id(), dev->deviceData());
+                    auto dialog = new DeviceProperties(this, dev->deviceData());
                     dialog->exec();
                 });
 

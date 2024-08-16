@@ -15,7 +15,8 @@
 #define DEVICEPROPERTIES_H
 
 #include "connection.h"
-#include "device.h"
+#include "device_common.h"
+#include "device_xlet.h"
 
 #include <QDialog>
 
@@ -30,7 +31,7 @@ class DeviceProperties : public QDialog {
     Q_OBJECT
 
 public:
-    explicit DeviceProperties(QWidget* parent, DeviceId id, const QSharedDataPointer<DeviceData>& data);
+    explicit DeviceProperties(QWidget* parent, const QSharedDataPointer<DeviceData>& data);
     ~DeviceProperties();
 
 public Q_SLOTS:
@@ -53,7 +54,6 @@ private:
 
 private:
     Ui::DeviceProperties* ui;
-    DeviceId id_;
     QSharedDataPointer<DeviceData> data_;
 };
 
