@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include "favorites_widget.h"
 #include "device_common.h"
+#include "deviceproperties.h"
 
 #include <QHeaderView>
 #include <QJsonDocument>
@@ -42,8 +43,7 @@ void FavoritesWidget::addItem(const SharedDeviceData& data)
     if (data->isNull())
         return;
 
-    auto dev = new DiagramDataItem(*data);
-    model_->appendRow(dev);
+    model_->addDeviceItem(data);
 }
 
 void FavoritesWidget::setFromVariant(const QList<QVariant>& items)
@@ -51,12 +51,10 @@ void FavoritesWidget::setFromVariant(const QList<QVariant>& items)
     auto parent = model_->invisibleRootItem();
 
     for (auto& x : items) {
-        DeviceData data(DEV_NULL_ID);
+        SharedDeviceData data(new DeviceData(DEV_NULL_ID));
 
-        if (data.setJson(x.toJsonValue())) {
-            auto dev = new DiagramDataItem(data);
-            parent->appendRow(dev);
-        }
+        if (data->setJson(x.toJsonValue()))
+            model_->addDeviceItem(data);
     }
 }
 
@@ -94,13 +92,34 @@ void FavoritesWidget::initContextMenu()
 {
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, &QTreeView::customContextMenuRequested, this, [this](const QPoint& pos) {
-        auto item = indexAt(pos);
-        if (item.isValid()) {
+        auto item_idx = indexAt(pos);
+        if (item_idx.isValid()) {
             QMenu menu(this);
+            auto editAct = new QAction(tr("Edit"), this);
+            connect(editAct, &QAction::triggered, this,
+                [this, item_idx]() {
+                    auto item_data = item_idx.data(DATA_DEVICE_DATA).toByteArray();
+                    if (!item_data.isNull()) {
+                        SharedDeviceData dev_data(new DeviceData(DEV_NULL_ID));
+
+                        if (dev_data->setJson(item_data)) {
+                            auto dialog = new DeviceProperties(this, dev_data);
+                            connect(dialog, &DeviceProperties::acceptData, this,
+                                [this, item_idx](const SharedDeviceData& data) {
+                                    auto item = model_->deviceItem(item_idx.row(), item_idx.column());
+                                    if (item)
+                                        item->setDeviceData(data);
+                                });
+                            dialog->exec();
+                        }
+                    }
+                });
+            menu.addAction(editAct);
+
             auto removeAct = new QAction(tr("Remove"), this);
             connect(removeAct, &QAction::triggered, this,
-                [this, item]() {
-                    model_->removeRow(item.row());
+                [this, item_idx]() {
+                    model_->removeRow(item_idx.row());
                 });
             menu.addAction(removeAct);
             menu.exec(mapToGlobal(pos));
