@@ -55,3 +55,9 @@ DeviceData DiagramDataItem::deviceData() const
 
     return dev;
 }
+
+void DiagramDataItem::setDeviceData(const DeviceData& data)
+{
+    QJsonDocument doc(data.toJson());
+    setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
+}

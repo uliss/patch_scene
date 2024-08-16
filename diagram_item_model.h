@@ -32,6 +32,7 @@ class DiagramDataItem : public QStandardItem {
 public:
     DiagramDataItem(const DeviceData& data);
     DeviceData deviceData() const;
+    void setDeviceData(const DeviceData& data);
 };
 
 #endif // DIAGRAM_ITEM_MODEL_H
