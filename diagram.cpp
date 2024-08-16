@@ -1250,20 +1250,8 @@ Device* Diagram::deviceAt(const QPoint& pos) const
 
 bool Diagram::dropJson(const QPointF& pos, const QByteArray& json)
 {
-    if (json.isEmpty()) {
-        qDebug() << __FUNCTION__ << "empty data";
-        return false;
-    }
-
-    QJsonParseError err;
-    auto doc = QJsonDocument::fromJson(json, &err);
-    if (doc.isNull()) {
-        qWarning() << doc << err.errorString();
-        return false;
-    }
-
     SharedDeviceData data(new DeviceData(DEV_NULL_ID));
-    if (!data->setJson(doc.object())) {
+    if (!data->setJson(json)) {
         qWarning() << "can't set JSON";
         return false;
     }
