@@ -22,17 +22,20 @@ constexpr int DATA_DEVICE_DATA = Qt::UserRole + 1;
 constexpr int DATA_DEVICE_ID = Qt::UserRole + 2;
 constexpr int DATA_CONNECTION = Qt::UserRole + 3;
 
+class DiagramDataItem : public QStandardItem {
+public:
+    DiagramDataItem(const SharedDeviceData& data);
+    DeviceData deviceData() const;
+    void setDeviceData(const SharedDeviceData& data);
+};
+
 class DiagramItemModel : public QStandardItemModel {
 public:
     DiagramItemModel(QObject* parent = nullptr);
     QMimeData* mimeData(const QModelIndexList& indexes) const override;
-};
 
-class DiagramDataItem : public QStandardItem {
-public:
-    DiagramDataItem(const DeviceData& data);
-    DeviceData deviceData() const;
-    void setDeviceData(const DeviceData& data);
+    DiagramDataItem* deviceItem(int row, int column);
+    void addDeviceItem(const SharedDeviceData& data);
 };
 
 #endif // DIAGRAM_ITEM_MODEL_H

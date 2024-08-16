@@ -35,15 +35,24 @@ QMimeData* DiagramItemModel::mimeData(const QModelIndexList& indexes) const
     return data;
 }
 
-DiagramDataItem::DiagramDataItem(const DeviceData& data)
-    : QStandardItem(data.title())
+DiagramDataItem* DiagramItemModel::deviceItem(int row, int column)
+{
+    return static_cast<DiagramDataItem*>(item(row, column));
+}
+
+void DiagramItemModel::addDeviceItem(const SharedDeviceData& data)
+{
+    if (data)
+        appendRow(new DiagramDataItem(data));
+}
+
+DiagramDataItem::DiagramDataItem(const SharedDeviceData& data)
 {
     setEditable(false);
     setDragEnabled(true);
     setDropEnabled(false);
 
-    QJsonDocument doc(data.toJson());
-    setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
+    setDeviceData(data);
 }
 
 DeviceData DiagramDataItem::deviceData() const
@@ -56,8 +65,11 @@ DeviceData DiagramDataItem::deviceData() const
     return dev;
 }
 
-void DiagramDataItem::setDeviceData(const DeviceData& data)
+void DiagramDataItem::setDeviceData(const SharedDeviceData& data)
 {
-    QJsonDocument doc(data.toJson());
-    setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
+    if (data) {
+        setText(data->title());
+        QJsonDocument doc(data->toJson());
+        setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
+    }
 }
