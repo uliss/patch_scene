@@ -256,10 +256,6 @@ void Device::paintTitleBox(QPainter* painter)
     case ItemCategory::Return:
         painter->setBrush(QColor::fromRgb(0xff, 0xd1, 0x71, 200));
         break;
-    case ItemCategory::Device:
-    case ItemCategory::Instrument:
-    case ItemCategory::Human:
-    case ItemCategory::Furniture:
     default:
         painter->setBrush(QColor::fromRgbF(0.9, 0.9, 0.9, 0.6));
         break;
