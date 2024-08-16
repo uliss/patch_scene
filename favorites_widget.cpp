@@ -22,6 +22,8 @@
 FavoritesWidget::FavoritesWidget(QWidget* parent)
     : QTreeView(parent)
 {
+    setIndentation(0);
+
     model_ = new DiagramItemModel(this);
     setModel(model_);
 
