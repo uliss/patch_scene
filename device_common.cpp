@@ -16,11 +16,14 @@
 #include <QDebug>
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QJsonParseError>
 
 constexpr const char* STR_DEVICE = "device";
 constexpr const char* STR_SEND = "send";
 constexpr const char* STR_RETURN = "return";
 constexpr const char* STR_INSTRUMENT = "instrument";
+constexpr const char* STR_HUMAN = "human";
+constexpr const char* STR_FURNITURE = "furniture";
 
 constexpr const char* JSON_KEY_ID = "id";
 constexpr const char* JSON_KEY_X = "x";
@@ -39,17 +42,16 @@ constexpr const char* JSON_KEY_BATTERY_COUNT = "battery-count";
 const char* toString(ItemCategory cat)
 {
     switch (cat) {
-    case ItemCategory::Instrument:
-        return STR_INSTRUMENT;
     case ItemCategory::Human:
-        return "human";
+        return STR_HUMAN;
     case ItemCategory::Furniture:
-        return "furniture";
+        return STR_FURNITURE;
     case ItemCategory::Send:
         return STR_SEND;
     case ItemCategory::Return:
         return STR_RETURN;
     case ItemCategory::Device:
+    case ItemCategory::MaxCategory:
     default:
         return STR_DEVICE;
     }
@@ -72,10 +74,10 @@ bool fromQString(const QString& str, ItemCategory& cat)
     } else if (icat == STR_SEND) {
         cat = ItemCategory::Send;
         return true;
-    } else if (icat == "furniture") {
+    } else if (icat == STR_FURNITURE) {
         cat = ItemCategory::Furniture;
         return true;
-    } else if (icat == "human") {
+    } else if (icat == STR_HUMAN) {
         cat = ItemCategory::Human;
         return true;
     } else if (icat == STR_INSTRUMENT) {
@@ -217,6 +219,26 @@ bool DeviceData::setJson(const QJsonValue& v)
     setXletJson(obj.value(JSON_KEY_OUTPUTS), outputs_);
 
     return true;
+}
+
+bool DeviceData::setJson(const QByteArray& json)
+{
+    if (json.isEmpty()) {
+        qDebug() << __FUNCTION__ << "empty data";
+        return false;
+    }
+
+    QJsonParseError err;
+    auto doc = QJsonDocument::fromJson(json, &err);
+    if (doc.isNull()) {
+        qWarning() << doc << err.errorString();
+        return false;
+    }
+
+    if (!doc.isObject())
+        return false;
+
+    return setJson(doc.object());
 }
 
 QJsonObject DeviceData::toJson() const

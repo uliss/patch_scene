@@ -83,6 +83,7 @@ public:
     bool setCategoryIndex(int idx);
 
     bool setJson(const QJsonValue& v);
+    bool setJson(const QByteArray& json);
     QJsonObject toJson() const;
 
     QList<XletData>& inputs() { return inputs_; }
