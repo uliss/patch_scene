@@ -828,7 +828,15 @@ void MainWindow::duplicateSelection()
 
 void MainWindow::exportDocument()
 {
+    QFileInfo finfo(file_name_);
+
     auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, "", QStandardPaths::LocateDirectory);
+    if (file_name_.isEmpty()) {
+        path += "/NewProject.odt";
+    } else {
+        path += "/" + finfo.baseName() + ".odt";
+    }
+
     auto odt_file = QFileDialog::getSaveFileName(this, tr("Save to OpenDocument format"), path, tr("OpenDocument format (*.odt)"));
     if (odt_file.isEmpty())
         return;
