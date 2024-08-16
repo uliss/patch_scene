@@ -14,7 +14,6 @@
 #ifndef DEVICEPROPERTIES_H
 #define DEVICEPROPERTIES_H
 
-#include "connection.h"
 #include "device_common.h"
 #include "device_xlet.h"
 
@@ -31,8 +30,11 @@ class DeviceProperties : public QDialog {
     Q_OBJECT
 
 public:
-    explicit DeviceProperties(QWidget* parent, const QSharedDataPointer<DeviceData>& data);
+    explicit DeviceProperties(QWidget* parent, const SharedDeviceData& data);
     ~DeviceProperties();
+
+signals:
+    void acceptData(const SharedDeviceData& data);
 
 public Q_SLOTS:
     void accept() override;
@@ -54,7 +56,7 @@ private:
 
 private:
     Ui::DeviceProperties* ui;
-    QSharedDataPointer<DeviceData> data_;
+    SharedDeviceData data_;
 };
 
 #endif // DEVICEPROPERTIES_H

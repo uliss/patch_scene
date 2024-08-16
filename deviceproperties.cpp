@@ -13,7 +13,6 @@
  *****************************************************************************/
 #include "deviceproperties.h"
 #include "device_pixmap.h"
-#include "diagram.h"
 #include "tablecellcheckbox.h"
 #include "tablecellconnector.h"
 #include "ui_deviceproperties.h"
@@ -30,7 +29,7 @@ enum {
 
 constexpr int IMG_PREVIEW_SIZE = 30;
 
-DeviceProperties::DeviceProperties(QWidget* parent, const QSharedDataPointer<DeviceData>& data)
+DeviceProperties::DeviceProperties(QWidget* parent, const SharedDeviceData& data)
     : QDialog(parent)
     , ui(new Ui::DeviceProperties)
     , data_(data)
@@ -137,13 +136,10 @@ DeviceProperties::~DeviceProperties()
 
 void DeviceProperties::accept()
 {
-    auto dia = qobject_cast<Diagram*>(parent());
-
     syncXlets(ui->inlets, data_->inputs());
     syncXlets(ui->outlets, data_->outputs());
 
-    if (dia)
-        dia->cmdUpdateDevice(data_);
+    emit acceptData(data_);
 
     QDialog::accept();
 }

@@ -888,6 +888,9 @@ void Diagram::contextMenuEvent(QContextMenuEvent* event)
                         return;
 
                     auto dialog = new DeviceProperties(this, dev->deviceData());
+                    connect(dialog, &DeviceProperties::acceptData, this, [this](const SharedDeviceData& data) {
+                        cmdUpdateDevice(data);
+                    });
                     dialog->exec();
                 });
 
