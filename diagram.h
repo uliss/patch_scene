@@ -178,6 +178,8 @@ public:
     const QList<SharedDeviceData>& clipBuffer() const;
     void setClipBuffer(const QList<SharedDeviceData>& data);
 
+    QImage toImage() const;
+
 signals:
     void addToFavorites(SharedDeviceData data);
     void sceneChanged(); // for document changes

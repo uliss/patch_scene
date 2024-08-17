@@ -1200,6 +1200,24 @@ void Diagram::setClipBuffer(const QList<SharedDeviceData>& data)
     clip_buffer_ = data;
 }
 
+QImage Diagram::toImage() const
+{
+    QImage image(scene->itemsBoundingRect().size().toSize(), QImage::Format_RGB32);
+    QPainter painter(&image);
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    const QSignalBlocker block(scene);
+    // save scene rect
+    auto scene_rect = scene->sceneRect();
+    // update scene rect
+    scene->setSceneRect(scene->itemsBoundingRect());
+    // render
+    scene->render(&painter);
+    // restore scene rect
+    scene->setSceneRect(scene_rect);
+    return image;
+}
+
 void Diagram::updateZoom(qreal zoom)
 {
     if (zoom < MIN_ZOOM || zoom > MAX_ZOOM)
