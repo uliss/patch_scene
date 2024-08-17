@@ -72,11 +72,6 @@ MainWindow::MainWindow(QWidget* parent)
     setStatusBar(new QStatusBar);
     // createToolbarScaleView();
 
-#ifdef Q_OS_DARWIN
-    // mac_app_hide_ = new QAction(tr("Hide"), this);
-    // mac_app_show_ = new QAction(tr("Show"), this);
-#endif
-
     setupDockTitle(ui->libraryDock);
     setupDockTitle(ui->tableDock);
     setupDockTitle(ui->favoritesDock);
@@ -86,29 +81,9 @@ MainWindow::MainWindow(QWidget* parent)
     ui->favoritesHBox->layout()->addWidget(favorites_);
 
     initDeviceList();
-
-    conn_model_ = new QStandardItemModel(0, DATA_CONN_NCOLS, this);
-    conn_model_->setHorizontalHeaderLabels({ tr("Source"), tr("Model"), tr("Plug"), tr("Destination"), tr("Model"), tr("Plug") });
-    setupEquipmentTableView(ui->connectionList, conn_model_);
-    connect(ui->connectionList, &QTableView::clicked, this, [this](const QModelIndex& index) {
-        if (index.column() == COL_CONN_SRC_NAME || index.column() == COL_CONN_DEST_NAME) {
-            bool ok = false;
-            auto id = index.data(DATA_DEVICE_ID).toInt(&ok);
-            if (ok)
-                diagram_->cmdSelectUnique(id);
-        }
-    });
-    ui->connectionList->resizeColumnsToContents();
-
-    send_model_ = new QStandardItemModel(0, 2, this);
-    send_model_->setHorizontalHeaderLabels({ tr("Send"), tr("Input"), tr("Device"), tr("Output") });
-    setupEquipmentTableView(ui->returnList, send_model_);
-    ui->returnList->resizeColumnsToContents();
-
-    return_model_ = new QStandardItemModel(0, 2, this);
-    return_model_->setHorizontalHeaderLabels({ tr("Return"), tr("Output"), tr("Device"), tr("Input") });
-    setupEquipmentTableView(ui->sendList, return_model_);
-    ui->sendList->resizeColumnsToContents();
+    initConnectionList();
+    initSendList();
+    initReturnList();
 
     setupExpandButton(ui->deviceListBtn, ui->deviceList, ui->deviceListLine);
     setupExpandButton(ui->connectionListBtn, ui->connectionList, ui->connectionListLine);
@@ -261,6 +236,38 @@ void MainWindow::initLibrarySearch()
         ui->librarySearch->setMaximumHeight(16);
     }
 #endif
+}
+
+void MainWindow::initConnectionList()
+{
+    conn_model_ = new QStandardItemModel(0, DATA_CONN_NCOLS, this);
+    conn_model_->setHorizontalHeaderLabels({ tr("Source"), tr("Model"), tr("Plug"), tr("Destination"), tr("Model"), tr("Plug") });
+    setupEquipmentTableView(ui->connectionList, conn_model_);
+    connect(ui->connectionList, &QTableView::clicked, this, [this](const QModelIndex& index) {
+        if (index.column() == COL_CONN_SRC_NAME || index.column() == COL_CONN_DEST_NAME) {
+            bool ok = false;
+            auto id = index.data(DATA_DEVICE_ID).toInt(&ok);
+            if (ok)
+                diagram_->cmdSelectUnique(id);
+        }
+    });
+    ui->connectionList->resizeColumnsToContents();
+}
+
+void MainWindow::initSendList()
+{
+    send_model_ = new QStandardItemModel(0, DATA_SEND_NCOLS, this);
+    send_model_->setHorizontalHeaderLabels({ tr("Send"), tr("Input"), tr("Device"), tr("Output") });
+    setupEquipmentTableView(ui->returnList, send_model_);
+    ui->returnList->resizeColumnsToContents();
+}
+
+void MainWindow::initReturnList()
+{
+    return_model_ = new QStandardItemModel(0, DATA_RETURN_NCOLS, this);
+    return_model_->setHorizontalHeaderLabels({ tr("Return"), tr("Output"), tr("Device"), tr("Input") });
+    setupEquipmentTableView(ui->sendList, return_model_);
+    ui->sendList->resizeColumnsToContents();
 }
 
 void MainWindow::updateTitle()

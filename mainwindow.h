@@ -70,9 +70,12 @@ private slots:
 
 private:
     void initActions();
+    void initConnectionList();
     void initDeviceList();
     void initDiagram();
     void initLibrarySearch();
+    void initReturnList();
+    void initSendList();
 
     void setProjectName(const QString& fileName);
     bool doSave();
