@@ -150,9 +150,9 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->actionZoomIn, SIGNAL(triggered()), diagram_, SLOT(zoomIn()));
     connect(ui->actionZoomNormal, SIGNAL(triggered()), diagram_, SLOT(zoomNormal()));
     connect(ui->actionZoomOut, SIGNAL(triggered()), diagram_, SLOT(zoomOut()));
-    connect(diagram_, &Diagram::zoomChanged, this, [this](qreal z) {
-        statusBar()->showMessage(tr("Zoom %1%").arg(qRound(z * 100)), 1000);
-    });
+
+    connect(ui->actionRedo, SIGNAL(triggered()), diagram_, SLOT(redo()));
+    connect(ui->actionUndo, SIGNAL(triggered()), diagram_, SLOT(undo()));
 
     connect(ui->librarySearch, &QLineEdit::textChanged, this, [this](const QString& txt) {
         library_proxy_->setFilterRegularExpression(txt);
@@ -160,10 +160,6 @@ MainWindow::MainWindow(QWidget* parent)
         if (!txt.isEmpty())
             ui->libraryTree->expandAll();
     });
-
-    connect(ui->actionRedo, SIGNAL(triggered()), diagram_, SLOT(redo()));
-    connect(ui->actionUndo, SIGNAL(triggered()), diagram_, SLOT(undo()));
-
     ui->librarySearch->setStatusTip(tr("search in library"));
     ui->librarySearch->setClearButtonEnabled(true);
     ui->librarySearch->addAction(QIcon(":/icons/search_02.svg"), QLineEdit::LeadingPosition);
@@ -204,6 +200,7 @@ void MainWindow::initDiagram()
     diagram_ = new Diagram(1600, 1600);
 
     ui->gridLayout->addWidget(diagram_, 1, 1);
+
     connect(diagram_, SIGNAL(sceneChanged()), this, SLOT(onSceneChange()));
     connect(diagram_, SIGNAL(deviceAdded(SharedDeviceData)), this, SLOT(onDeviceAdd(SharedDeviceData)));
     connect(diagram_, SIGNAL(deviceRemoved(SharedDeviceData)), this, SLOT(onDeviceRemove(SharedDeviceData)));
@@ -222,6 +219,9 @@ void MainWindow::initDiagram()
         return_model_->removeRows(0, return_model_->rowCount());
     });
     connect(diagram_, SIGNAL(addToFavorites(SharedDeviceData)), this, SLOT(onAddToFavorites(SharedDeviceData)));
+    connect(diagram_, &Diagram::zoomChanged, this, [this](qreal z) {
+        statusBar()->showMessage(tr("Zoom %1%").arg(qRound(z * 100)), 1000);
+    });
 }
 
 void MainWindow::initDeviceList()
