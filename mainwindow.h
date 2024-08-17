@@ -15,6 +15,7 @@
 #define MAINWINDOW_H
 
 #include "app_settings.h"
+#include "device_item_model.h"
 #include "diagram.h"
 #include "favorites_widget.h"
 
@@ -68,6 +69,7 @@ private slots:
     void onSceneChange();
 
 private:
+    void initDiagram();
     void setProjectName(const QString& fileName);
     bool doSave();
     void loadLibrary();
@@ -88,6 +90,7 @@ private:
     void readRecentFiles();
     void writeRecentFiles() const;
     void syncRecentFilesMenu();
+    void updateDeviceView(const SharedDeviceData& data, int idx);
 
     void loadSection(QStandardItem* parent, const QList<SharedDeviceData>& data);
 
@@ -97,7 +100,8 @@ private:
     QString project_name_;
     QString file_name_;
     QSortFilterProxyModel* library_proxy_;
-    QStandardItemModel *device_model_, *conn_model_, *send_model_, *return_model_;
+    DeviceItemModel* device_model_;
+    QStandardItemModel *conn_model_, *send_model_, *return_model_;
     FavoritesWidget* favorites_;
     AppSettings settings_;
     QList<QUrl> recent_files_;

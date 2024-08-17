@@ -84,6 +84,7 @@ qt_add_executable(patch_scene
     tablecellconnector.h tablecellconnector.cpp
     undo_commands.h undo_commands.cpp
     app_settings.h app_settings.cpp
+    device_item_model.h device_item_model.cpp
     #tests/test_device_data.h tests/test_device_data.cpp
 )
 

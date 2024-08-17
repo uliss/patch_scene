@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include "mainwindow.h"
 #include "about_window.h"
+#include "device_item_model.h"
 #include "device_library.h"
 #include "diagram_item_model.h"
 #include "diagram_meta_dialog.h"
@@ -60,13 +61,6 @@ enum ReturnColumnOrder {
 };
 constexpr int DATA_RETURN_NCOLS = 4;
 
-enum DeviceColumnOrder {
-    COL_DEV_TITLE = 0,
-    COL_DEV_VENDOR,
-    COL_DEV_MODEL,
-};
-constexpr int DATA_DEV_NCOLS = 3;
-
 constexpr const char* SCHEME_DATA_URL = "mydata://scheme.png";
 constexpr qreal SCHEME_IMAGE_WIDTH = 625;
 
@@ -90,54 +84,24 @@ MainWindow::MainWindow(QWidget* parent)
     favorites_ = new FavoritesWidget(ui->favoritesDock);
     ui->favoritesHBox->layout()->addWidget(favorites_);
 
-    device_model_ = new QStandardItemModel(0, DATA_DEV_NCOLS, this);
-    device_model_->setHorizontalHeaderLabels({ tr("Name"), tr("Vendor"), tr("Model") });
+    device_model_ = new DeviceItemModel(this);
     setupEquipmentTableView(ui->deviceList, device_model_);
     connect(ui->deviceList, &QTableView::clicked, this, [this](const QModelIndex& index) {
-        if (index.column() == COL_DEV_TITLE) {
-            bool ok = false;
-            auto id = index.data(DATA_DEVICE_ID).toInt(&ok);
-            if (ok)
-                diagram_->cmdSelectUnique(id);
-        }
+        auto id = device_model_->deviceId(index.row());
+        if (id)
+            diagram_->cmdSelectUnique(id.value());
     });
     ui->deviceList->resizeColumnsToContents();
     connect(device_model_, &QStandardItemModel::itemChanged, this, [this](QStandardItem* item) {
-        if (!item)
-            return;
-
-        bool ok = false;
-        auto id = item->data(DATA_DEVICE_ID).toInt(&ok);
-        if (ok) {
-            auto dev = diagram_->findDeviceById(id);
+        auto id = device_model_->deviceId(item);
+        if (id) {
+            auto dev = diagram_->findDeviceById(id.value());
             if (dev) {
-
-                auto data = dev->deviceData();
-
-                switch (item->column()) {
-                case COL_DEV_TITLE:
-                    qWarning() << "update title";
-                    data->setTitle(item->text());
-                    break;
-                case COL_DEV_VENDOR:
-                    qWarning() << "update vendor";
-                    data->setVendor(item->text());
-                    break;
-                case COL_DEV_MODEL:
-                    qWarning() << "update model";
-                    data->setModel(item->text());
-                    break;
-                default:
-                    qWarning() << "unknown column:" << item->column();
-                    return;
-                }
-
+                auto data = device_model_->updateDeviceData(item, dev->deviceData());
                 diagram_->cmdUpdateDevice(data);
             } else {
-                qWarning() << "device not found:" << (int)id;
+                qWarning() << "device not found:" << (int)id.value();
             }
-        } else {
-            qWarning() << "id property not found";
         }
     });
 
@@ -169,26 +133,7 @@ MainWindow::MainWindow(QWidget* parent)
     setupExpandButton(ui->sendListBtn, ui->sendList, ui->sendListLine);
     setupExpandButton(ui->returnListBtn, ui->returnList, ui->returnListLine);
 
-    diagram_ = new Diagram(1600, 1600);
-    ui->gridLayout->addWidget(diagram_, 1, 1);
-    connect(diagram_, SIGNAL(sceneChanged()), this, SLOT(onSceneChange()));
-    connect(diagram_, SIGNAL(deviceAdded(SharedDeviceData)), this, SLOT(onDeviceAdd(SharedDeviceData)));
-    connect(diagram_, SIGNAL(deviceRemoved(SharedDeviceData)), this, SLOT(onDeviceRemove(SharedDeviceData)));
-    connect(diagram_, SIGNAL(deviceUpdated(SharedDeviceData)), this, SLOT(onDeviceUpdate(SharedDeviceData)));
-    connect(diagram_, SIGNAL(deviceTitleUpdated(DeviceId, QString)), this, SLOT(onDeviceTitleUpdate(DeviceId, QString)));
-
-    connect(diagram_, SIGNAL(connectionAdded(ConnectionData)), this, SLOT(onConnectionAdd(ConnectionData)));
-    connect(diagram_, SIGNAL(connectionRemoved(ConnectionData)), this, SLOT(onConnectionRemove(ConnectionData)));
-
-    connect(diagram_, &Diagram::canRedoChanged, this, [this](bool value) { ui->actionRedo->setEnabled(value); });
-    connect(diagram_, &Diagram::canUndoChanged, this, [this](bool value) { ui->actionUndo->setEnabled(value); });
-    connect(diagram_, &Diagram::sceneClearAll, this, [this]() {
-        device_model_->removeRows(0, device_model_->rowCount());
-        conn_model_->removeRows(0, conn_model_->rowCount());
-        send_model_->removeRows(0, send_model_->rowCount());
-        return_model_->removeRows(0, return_model_->rowCount());
-    });
-    connect(diagram_, SIGNAL(addToFavorites(SharedDeviceData)), this, SLOT(onAddToFavorites(SharedDeviceData)));
+    initDiagram();
 
     connect(ui->actionAboutApp, SIGNAL(triggered(bool)), this, SLOT(showAbout()));
     connect(ui->actionCopy, SIGNAL(triggered()), diagram_, SLOT(copySelected()));
@@ -271,6 +216,31 @@ MainWindow::MainWindow(QWidget* parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::initDiagram()
+{
+    diagram_ = new Diagram(1600, 1600);
+
+    ui->gridLayout->addWidget(diagram_, 1, 1);
+    connect(diagram_, SIGNAL(sceneChanged()), this, SLOT(onSceneChange()));
+    connect(diagram_, SIGNAL(deviceAdded(SharedDeviceData)), this, SLOT(onDeviceAdd(SharedDeviceData)));
+    connect(diagram_, SIGNAL(deviceRemoved(SharedDeviceData)), this, SLOT(onDeviceRemove(SharedDeviceData)));
+    connect(diagram_, SIGNAL(deviceUpdated(SharedDeviceData)), this, SLOT(onDeviceUpdate(SharedDeviceData)));
+    connect(diagram_, SIGNAL(deviceTitleUpdated(DeviceId, QString)), this, SLOT(onDeviceTitleUpdate(DeviceId, QString)));
+
+    connect(diagram_, SIGNAL(connectionAdded(ConnectionData)), this, SLOT(onConnectionAdd(ConnectionData)));
+    connect(diagram_, SIGNAL(connectionRemoved(ConnectionData)), this, SLOT(onConnectionRemove(ConnectionData)));
+
+    connect(diagram_, &Diagram::canRedoChanged, this, [this](bool value) { ui->actionRedo->setEnabled(value); });
+    connect(diagram_, &Diagram::canUndoChanged, this, [this](bool value) { ui->actionUndo->setEnabled(value); });
+    connect(diagram_, &Diagram::sceneClearAll, this, [this]() {
+        device_model_->clearItems();
+        conn_model_->removeRows(0, conn_model_->rowCount());
+        send_model_->removeRows(0, send_model_->rowCount());
+        return_model_->removeRows(0, return_model_->rowCount());
+    });
+    connect(diagram_, SIGNAL(addToFavorites(SharedDeviceData)), this, SLOT(onAddToFavorites(SharedDeviceData)));
 }
 
 void MainWindow::updateTitle()
@@ -357,38 +327,14 @@ void MainWindow::onAddToFavorites(SharedDeviceData data)
 
 void MainWindow::onDeviceAdd(SharedDeviceData data)
 {
-    if (data->category() != ItemCategory::Device)
-        return;
-
-    auto title = new QStandardItem(data->title());
-    title->setData(data->id(), DATA_DEVICE_ID);
-    title->setEditable(true);
-
-    auto vendor = new QStandardItem(data->vendor());
-    vendor->setData(data->id(), DATA_DEVICE_ID);
-    vendor->setEditable(true);
-
-    auto model = new QStandardItem(data->model());
-    model->setData(data->id(), DATA_DEVICE_ID);
-    model->setEditable(true);
-
-    device_model_->appendRow({ title, vendor, model });
-    ui->deviceList->resizeColumnsToContents();
+    if (device_model_->addDevice(data))
+        ui->deviceList->resizeColumnsToContents();
 }
 
 void MainWindow::onDeviceRemove(SharedDeviceData data)
 {
-    if (data->category() != ItemCategory::Device)
-        return;
-
-    for (int i = 0; i < device_model_->rowCount(); i++) {
-        auto item = device_model_->item(i, COL_DEV_TITLE);
-        if (item && item->data(DATA_DEVICE_ID) == data->id()) {
-            device_model_->removeRow(i);
-            ui->deviceList->resizeColumnsToContents();
-            break;
-        }
-    }
+    if (device_model_->removeDevice(data))
+        ui->deviceList->resizeColumnsToContents();
 }
 
 static bool updateItemDeviceName(QStandardItem* item, DeviceId id, const QString& title)
@@ -427,6 +373,35 @@ void MainWindow::onDeviceTitleUpdate(DeviceId id, const QString& title)
         updateItemDeviceName(return_model_->item(i, COL_RETURN_DEST_NAME), id, title);
 }
 
+void MainWindow::updateDeviceView(const SharedDeviceData& data, int idx)
+{
+    if (data->category() != ItemCategory::Device) {
+        device_model_->removeRow(idx);
+    } else {
+        QSignalBlocker sb(device_model_);
+
+        auto title = device_model_->deviceTitle(idx);
+        if (title) {
+            title->setText(data->title());
+            ui->deviceList->update(title->index());
+        }
+
+        auto vendor = device_model_->deviceVendor(idx);
+        if (vendor) {
+            vendor->setText(data->vendor());
+            ui->deviceList->update(vendor->index());
+        }
+
+        auto model = device_model_->deviceModel(idx);
+        if (model) {
+            model->setText(data->model());
+            ui->deviceList->update(model->index());
+        }
+    }
+
+    ui->deviceList->resizeColumnsToContents();
+}
+
 void MainWindow::onDeviceUpdate(SharedDeviceData data)
 {
     if (!data) {
@@ -435,38 +410,10 @@ void MainWindow::onDeviceUpdate(SharedDeviceData data)
     }
 
     bool device_found = false;
-    for (int i = 0; i < device_model_->rowCount(); i++) {
-        auto title = device_model_->item(i, COL_DEV_TITLE);
-        if (title && title->data(DATA_DEVICE_ID) == data->id()) {
-            QSignalBlocker block(device_model_);
-
-            if (data->category() != ItemCategory::Device) {
-                device_model_->removeRow(i);
-            } else {
-                bool title_update = (title->text() != data->title());
-
-                if (title_update) {
-                    title->setText(data->title());
-                    ui->deviceList->update(title->index());
-                }
-
-                auto vendor = device_model_->item(i, COL_DEV_VENDOR);
-                if (vendor && vendor->text() != data->vendor()) {
-                    vendor->setText(data->vendor());
-                    ui->deviceList->update(vendor->index());
-                }
-
-                auto model = device_model_->item(i, COL_DEV_MODEL);
-                if (model && model->text() != data->model()) {
-                    model->setText(data->model());
-                    ui->deviceList->update(model->index());
-                }
-
-                device_found = true;
-            }
-
-            ui->deviceList->resizeColumnsToContents();
-            break;
+    for (int i = 0; i < device_model_->deviceCount(); i++) {
+        auto id = device_model_->deviceId(i);
+        if (id && id.value() == data->id()) {
+            return updateDeviceView(data, i);
         }
     }
 
