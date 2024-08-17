@@ -180,10 +180,10 @@ MainWindow::MainWindow(QWidget* parent)
     connect(diagram_, &Diagram::canRedoChanged, this, [this](bool value) { ui->actionRedo->setEnabled(value); });
     connect(diagram_, &Diagram::canUndoChanged, this, [this](bool value) { ui->actionUndo->setEnabled(value); });
     connect(diagram_, &Diagram::sceneClearAll, this, [this]() {
-        device_model_->clear();
-        conn_model_->clear();
-        send_model_->clear();
-        return_model_->clear();
+        device_model_->removeRows(0, device_model_->rowCount());
+        conn_model_->removeRows(0, conn_model_->rowCount());
+        send_model_->removeRows(0, send_model_->rowCount());
+        return_model_->removeRows(0, return_model_->rowCount());
     });
     connect(diagram_, SIGNAL(addToFavorites(SharedDeviceData)), this, SLOT(onAddToFavorites(SharedDeviceData)));
 
@@ -701,10 +701,10 @@ void MainWindow::setupExpandButton(QToolButton* btn, QTableView* tab, QFrame* li
 
 void MainWindow::setupEquipmentTableView(QTableView* tab, QStandardItemModel* model)
 {
-    QSortFilterProxyModel* m = new QSortFilterProxyModel(this);
-    m->setDynamicSortFilter(true);
-    m->setSourceModel(model);
-    tab->setModel(m);
+    QSortFilterProxyModel* sort_proxy = new QSortFilterProxyModel(this);
+    sort_proxy->setDynamicSortFilter(true);
+    sort_proxy->setSourceModel(model);
+    tab->setModel(sort_proxy);
     tab->setSortingEnabled(true);
     tab->sortByColumn(0, Qt::AscendingOrder);
 
@@ -842,6 +842,8 @@ void MainWindow::exportDocument()
         return;
 
     QTextDocument doc;
+    doc.setMetaInformation(QTextDocument::DocumentTitle, diagram_->meta().title());
+
     QTextCursor cursor(&doc);
 
     auto& meta = diagram_->meta();
@@ -863,8 +865,21 @@ void MainWindow::exportDocument()
 
     ceam::doc::insert_table(cursor, contacts_data);
 
+
+    ceam::doc::insert_section(cursor, tr("Scheme"));
+    ceam::doc::insert_paragraph(cursor, "");
+    auto img = diagram_->toImage();
+    doc.addResource(QTextDocument::ImageResource, QUrl("mydata://image.png"), QVariant(img));
+
+    QTextImageFormat imageFormat;
+    imageFormat.setName("mydata://image.png");
+    imageFormat.setWidth(625);
+    imageFormat.setHeight(625 * img.height() / img.width());
+    cursor.insertImage(imageFormat);
+
+    ceam::doc::insert_paragraph(cursor, "");
     ceam::doc::insert_section(cursor, tr("Devices"));
-    ceam::doc::insert_table(cursor, device_model_, { 40, 20, 20 });
+    ceam::doc::insert_table(cursor, device_model_);
 
     ceam::doc::insert_section(cursor, tr("Connections"));
     ceam::doc::insert_table(cursor, conn_model_);

@@ -20,12 +20,8 @@
 namespace ceam {
 namespace doc {
 
-    void insert_table(QTextCursor& cursor,
-        QStandardItemModel* model,
-        const QList<int>& columnContraints = {});
-
-    void insert_table(QTextCursor& cursor,
-        const QList<QStringList>& data);
+    void insert_table(QTextCursor& cursor, const QStandardItemModel* model);
+    void insert_table(QTextCursor& cursor, const QList<QStringList>& data);
 
     void insert_header(QTextCursor& cursor, const QString& text);
     void insert_section(QTextCursor& cursor, const QString& text);

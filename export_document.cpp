@@ -17,52 +17,100 @@
 #include <QTextTable>
 #include <QTextTableFormat>
 
+constexpr int DEFAULT_FONT_SIZE = 10;
+constexpr int PAR_FONT_SIZE = DEFAULT_FONT_SIZE;
+constexpr int TAB_FONT_SIZE = DEFAULT_FONT_SIZE;
+constexpr int SECTION_FONT_SIZE = DEFAULT_FONT_SIZE + 2;
+constexpr int HEADER_FONT_SIZE = DEFAULT_FONT_SIZE * 2;
+
+static QTextCharFormat make_char_fmt(int size, bool bold = false, bool italic = false)
+{
+    QTextCharFormat fmt;
+    fmt.setFontWeight(bold ? QFont::Bold : QFont::Normal);
+    fmt.setFontPointSize(size);
+    fmt.setFontItalic(true);
+    return fmt;
+}
+
+static QTextBlockFormat make_block_fmt(Qt::Alignment align = Qt::AlignLeft)
+{
+    QTextBlockFormat fmt;
+
+    fmt.setAlignment(align);
+    fmt.setTopMargin(5);
+    fmt.setLeftMargin(20);
+    fmt.setBottomMargin(5);
+
+    return fmt;
+}
+
+static QTextBlockFormat make_cell_fmt(Qt::Alignment align = Qt::AlignLeft)
+{
+    QTextBlockFormat fmt;
+
+    fmt.setAlignment(align);
+    fmt.setTopMargin(0);
+    fmt.setLeftMargin(0);
+    fmt.setBottomMargin(0);
+    fmt.setRightMargin(0);
+
+    return fmt;
+}
+
+static QTextTableFormat make_table_fmt()
+{
+    QTextTableFormat fmt;
+
+    fmt.setCellPadding(3);
+    fmt.setBottomMargin(10);
+    fmt.setHeaderRowCount(1);
+    fmt.setCellSpacing(0);
+
+    fmt.setBackground(Qt::red);
+    fmt.setForeground(Qt::green);
+
+    fmt.setBorderBrush(Qt::darkGray);
+    // fmt.setBorderCollapse(true);
+    fmt.setColumnWidthConstraints({ QTextLength { QTextLength::FixedLength, 40 } });
+
+    return fmt;
+}
+
 void ceam::doc::insert_table(QTextCursor& cursor, const QList<QStringList>& data)
 {
-    if (data.isEmpty())
+    if (data.isEmpty() || cursor.isNull())
         return;
 
     auto first_line = data.front();
     auto NCOLS = first_line.size();
     auto NROWS = data.size();
 
-    QTextTableFormat tab_fmt;
-    tab_fmt.setCellPadding(4);
-    tab_fmt.setBottomMargin(10);
-    tab_fmt.setHeaderRowCount(1);
-    tab_fmt.setCellSpacing(0);
-    tab_fmt.setCellSpacing(0);
-
-    tab_fmt.setBorderBrush(QBrush(Qt::SolidPattern));
-    tab_fmt.setBorderCollapse(true);
-
     cursor.movePosition(QTextCursor::End);
-    auto table = cursor.insertTable(NROWS, NCOLS + 1, tab_fmt);
 
-    QTextCharFormat char_fmt;
-    char_fmt.setFontPointSize(10);
+    auto table = cursor.insertTable(NROWS, NCOLS + 1, make_table_fmt());
 
     for (int row = 0; row < NROWS; ++row) {
-        QString row_index;
+        const bool is_header = (row == 0);
 
-        if (row == 0) {
-            char_fmt.setFontWeight(QFont::Bold);
-            row_index = "#";
-        } else {
-            char_fmt.setFontWeight(QFont::Normal);
-            row_index = QString("%1").arg(row);
-        }
+        for (int col = 0; col < NCOLS + 1; ++col) {
+            auto cell = table->cellAt(row, col);
+            if (!cell.isValid()) {
+                qWarning() << "invalid cell:" << row << col;
+                continue;
+            }
 
-        for (int col = -1; col < NCOLS; ++col) {
-            auto cell = table->cellAt(row, col + 1);
-            auto cell_cursor = cell.firstCursorPosition();
+            auto tab_cursor = cell.firstCursorPosition();
+            if (tab_cursor.isNull()) {
+                qWarning() << "invalid cursor:" << row << col;
+                continue;
+            }
 
-            if (col == -1) {
-                char_fmt.setFontItalic(true);
-                cell_cursor.insertText(row_index, char_fmt);
+            if (col == 0) {
+                QString row_index = is_header ? "#" : QString("%1").arg(row);
+                tab_cursor.insertText(row_index, make_char_fmt(TAB_FONT_SIZE, is_header, true));
             } else {
-                char_fmt.setFontItalic(false);
-                cell_cursor.insertText(data[row][col], char_fmt);
+                if (row < data.size() && (col - 1) < data[row].size())
+                    tab_cursor.insertText(data[row][col - 1], make_char_fmt(TAB_FONT_SIZE, is_header, false));
             }
         }
     }
@@ -70,103 +118,58 @@ void ceam::doc::insert_table(QTextCursor& cursor, const QList<QStringList>& data
     cursor.movePosition(QTextCursor::End);
 }
 
-void ceam::doc::insert_table(QTextCursor& cursor,
-    QStandardItemModel* model,
-    const QList<int>& columnContraints)
+void ceam::doc::insert_table(QTextCursor& cursor, const QStandardItemModel* model)
 {
+    if (!model)
+        return;
+
     auto NCOLS = model->columnCount();
     auto NROWS = model->rowCount();
 
-    QTextTableFormat tab_fmt;
-    tab_fmt.setCellPadding(4);
-    tab_fmt.setBottomMargin(10);
-    tab_fmt.setHeaderRowCount(1);
-    tab_fmt.setCellSpacing(0);
-    tab_fmt.setCellSpacing(0);
+    QList<QStringList> data;
 
-    tab_fmt.setBorderBrush(QBrush(Qt::SolidPattern));
-    tab_fmt.setBorderCollapse(true);
-
-    QList<QTextLength> col_constraints;
-    col_constraints.push_back(QTextLength { QTextLength::FixedLength, 20 });
-
-    for (auto w : columnContraints)
-        col_constraints.push_back(QTextLength { QTextLength::PercentageLength, qreal(w) });
-
-    qDebug() << col_constraints;
-
-    tab_fmt.setColumnWidthConstraints(col_constraints);
-
-    cursor.movePosition(QTextCursor::End);
-    auto table = cursor.insertTable(1, NCOLS + 1, tab_fmt);
-
-    for (int col = -1; col < NCOLS; col++) {
-        auto cell = table->cellAt(0, col + 1);
-        auto cell_cursor = cell.firstCursorPosition();
-        auto fmt = cell.format();
-        fmt.setFontWeight(QFont::Bold);
-        cell.setFormat(fmt);
-
-        auto item = model->horizontalHeaderItem(col);
-        if (item) {
-            cell_cursor.insertText(item->text());
-        } else {
-            // cell_cursor.insertText("№");
-        }
+    QStringList header_data;
+    header_data.resize(NCOLS);
+    for (int col = 0; col < header_data.size(); ++col) {
+        auto header = model->horizontalHeaderItem(col);
+        if (header)
+            header_data[col] = header->text();
     }
+    data.push_back(header_data);
 
-    table->appendRows(NROWS);
     for (int row = 0; row < NROWS; ++row) {
-        for (int col = -1; col < NCOLS; ++col) {
-            auto cell = table->cellAt(row + 1, col + 1);
-            auto cell_cursor = cell.firstCursorPosition();
-
-            if (col == -1) {
-                cell_cursor.insertText(QString("%1").arg(row + 1));
-            } else {
-                auto item = model->item(row, col);
-                if (item)
-                    cell_cursor.insertText(item->text());
-            }
+        QStringList data_row;
+        for (int col = 0; col < NCOLS; ++col) {
+            auto item = model->item(row, col);
+            if (item)
+                data_row.push_back(item->text());
         }
+        data.push_back(data_row);
     }
 
-    cursor.movePosition(QTextCursor::End);
+    insert_table(cursor, data);
 }
 
 void ceam::doc::insert_section(QTextCursor& cursor, const QString& text)
 {
-    QTextBlockFormat block_fmt;
-    block_fmt.setTopMargin(5);
-    block_fmt.setBottomMargin(5);
+    auto block_fmt = make_block_fmt();
+    block_fmt.setLeftMargin(0);
     block_fmt.setBackground(QColor("#F0F0F0"));
-
-    QTextCharFormat char_fmt;
-    char_fmt.setFontWeight(QFont::Bold);
-    char_fmt.setFontPointSize(12);
 
     cursor.movePosition(QTextCursor::End);
     cursor.insertBlock(block_fmt);
-    cursor.insertText(text, char_fmt);
+    cursor.insertText(text, make_char_fmt(SECTION_FONT_SIZE, false));
 
     cursor.movePosition(QTextCursor::End);
 }
 
 void ceam::doc::insert_paragraph(QTextCursor& cursor, const QString& text, Qt::Alignment align)
 {
-    QTextBlockFormat block_fmt;
-    block_fmt.setAlignment(align);
-    block_fmt.setTopMargin(5);
-    block_fmt.setLeftMargin(20);
-    block_fmt.setBottomMargin(5);
-
-    QTextCharFormat char_fmt;
-    char_fmt.setFontWeight(QFont::Normal);
-    char_fmt.setFontPointSize(12);
-
+    auto block_fmt = make_block_fmt(align);
     cursor.movePosition(QTextCursor::End);
+
     cursor.insertBlock(block_fmt);
-    cursor.insertText(text, char_fmt);
+    cursor.insertText(text, make_char_fmt(PAR_FONT_SIZE, false));
 
     cursor.movePosition(QTextCursor::End);
 }
@@ -177,13 +180,8 @@ void ceam::doc::insert_header(QTextCursor& cursor, const QString& text)
     block_fmt.setTopMargin(10);
     block_fmt.setBottomMargin(10);
 
-    QTextCharFormat char_fmt;
-    char_fmt.setFontWeight(QFont::Bold);
-    char_fmt.setFontPointSize(24);
-
-    cursor.movePosition(QTextCursor::End);
     cursor.insertBlock(block_fmt);
-    cursor.insertText(text, char_fmt);
+    cursor.insertText(text, make_char_fmt(HEADER_FONT_SIZE, true));
 
     cursor.movePosition(QTextCursor::End);
 }
