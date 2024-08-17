@@ -67,6 +67,9 @@ enum DeviceColumnOrder {
 };
 constexpr int DATA_DEV_NCOLS = 3;
 
+constexpr const char* SCHEME_DATA_URL = "mydata://scheme.png";
+constexpr qreal SCHEME_IMAGE_WIDTH = 625;
+
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -865,16 +868,15 @@ void MainWindow::exportDocument()
 
     ceam::doc::insert_table(cursor, contacts_data);
 
-
     ceam::doc::insert_section(cursor, tr("Scheme"));
     ceam::doc::insert_paragraph(cursor, "");
     auto img = diagram_->toImage();
-    doc.addResource(QTextDocument::ImageResource, QUrl("mydata://image.png"), QVariant(img));
+    doc.addResource(QTextDocument::ImageResource, QUrl(SCHEME_DATA_URL), QVariant(img));
 
     QTextImageFormat imageFormat;
-    imageFormat.setName("mydata://image.png");
-    imageFormat.setWidth(625);
-    imageFormat.setHeight(625 * img.height() / img.width());
+    imageFormat.setName(SCHEME_DATA_URL);
+    imageFormat.setWidth(SCHEME_IMAGE_WIDTH);
+    imageFormat.setHeight(SCHEME_IMAGE_WIDTH * img.height() / img.width());
     cursor.insertImage(imageFormat);
 
     ceam::doc::insert_paragraph(cursor, "");
