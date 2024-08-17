@@ -69,8 +69,10 @@ private slots:
     void onSceneChange();
 
 private:
+    void initActions();
     void initDeviceList();
     void initDiagram();
+    void initLibrarySearch();
 
     void setProjectName(const QString& fileName);
     bool doSave();

@@ -80,6 +80,7 @@ MainWindow::MainWindow(QWidget* parent)
     setupDockTitle(ui->libraryDock);
     setupDockTitle(ui->tableDock);
     setupDockTitle(ui->favoritesDock);
+    setUnifiedTitleAndToolBarOnMac(true);
 
     favorites_ = new FavoritesWidget(ui->favoritesDock);
     ui->favoritesHBox->layout()->addWidget(favorites_);
@@ -115,69 +116,8 @@ MainWindow::MainWindow(QWidget* parent)
     setupExpandButton(ui->returnListBtn, ui->returnList, ui->returnListLine);
 
     initDiagram();
-
-    connect(ui->actionAboutApp, SIGNAL(triggered(bool)), this, SLOT(showAbout()));
-    connect(ui->actionCopy, SIGNAL(triggered()), diagram_, SLOT(copySelected()));
-    connect(ui->actionCut, SIGNAL(triggered()), diagram_, SLOT(cutSelected()));
-    connect(ui->actionPaste, SIGNAL(triggered()), diagram_, SLOT(paste()));
-    connect(ui->actionDuplicate, SIGNAL(triggered()), this, SLOT(duplicateSelection()));
-    connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(openDocument()));
-    connect(ui->actionPreferences, SIGNAL(triggered(bool)), this, SLOT(showPreferences()));
-    connect(ui->actionPrint, SIGNAL(triggered()), this, SLOT(printScheme()));
-    connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
-    connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(saveDocument()));
-    connect(ui->actionSelectAll, SIGNAL(triggered()), this, SLOT(selectAll()));
-    connect(ui->actionSetBackground, SIGNAL(triggered(bool)), this, SLOT(setBackground()));
-    connect(ui->actionProjectInfo, SIGNAL(triggered(bool)), this, SLOT(documentProperties()));
-
-    connect(ui->actionShowCables, &QAction::triggered, diagram_, [this](bool value) {
-        diagram_->setShowCables(value);
-    });
-    connect(ui->actionShowBackground, &QAction::triggered, diagram_, [this](bool value) {
-        diagram_->setShowBackground(value);
-    });
-    connect(ui->actionExport, SIGNAL(triggered()), this, SLOT(exportDocument()));
-
-    connect(ui->actionAddDevice, &QAction::triggered, this, [this]() {
-        auto pos = diagram_->mapFromGlobal(QCursor::pos());
-        if (pos.x() < 0 || pos.y() < 0)
-            return;
-
-        diagram_->cmdCreateDevice(diagram_->mapToScene(pos));
-    });
-
-    // zoom
-    connect(ui->actionZoomIn, SIGNAL(triggered()), diagram_, SLOT(zoomIn()));
-    connect(ui->actionZoomNormal, SIGNAL(triggered()), diagram_, SLOT(zoomNormal()));
-    connect(ui->actionZoomOut, SIGNAL(triggered()), diagram_, SLOT(zoomOut()));
-
-    connect(ui->actionRedo, SIGNAL(triggered()), diagram_, SLOT(redo()));
-    connect(ui->actionUndo, SIGNAL(triggered()), diagram_, SLOT(undo()));
-
-    connect(ui->librarySearch, &QLineEdit::textChanged, this, [this](const QString& txt) {
-        library_proxy_->setFilterRegularExpression(txt);
-
-        if (!txt.isEmpty())
-            ui->libraryTree->expandAll();
-    });
-    ui->librarySearch->setStatusTip(tr("search in library"));
-    ui->librarySearch->setClearButtonEnabled(true);
-    ui->librarySearch->addAction(QIcon(":/icons/search_02.svg"), QLineEdit::LeadingPosition);
-    ui->librarySearch->setStyleSheet("QLineEdit {border-width: 1px;}");
-
-#ifndef Q_OS_DARWIN
-    ui->actionZoomIn->setIconVisibleInMenu(true);
-    ui->actionZoomOut->setIconVisibleInMenu(true);
-#else
-    setUnifiedTitleAndToolBarOnMac(true);
-
-    {
-        auto font = ui->librarySearch->font();
-        font.setPointSize(font.pointSize() - 2);
-        ui->librarySearch->setFont(font);
-        ui->librarySearch->setMaximumHeight(16);
-    }
-#endif
+    initActions();
+    initLibrarySearch();
 
     resizePanels();
 
@@ -249,6 +189,78 @@ void MainWindow::initDeviceList()
             diagram_->cmdSelectUnique(id.value());
     });
     ui->deviceList->resizeColumnsToContents();
+}
+
+void MainWindow::initActions()
+{
+#ifdef Q_OS_DARWIN
+    ui->actionZoomIn->setIconVisibleInMenu(false);
+    ui->actionZoomOut->setIconVisibleInMenu(false);
+#else
+    ui->actionZoomIn->setIconVisibleInMenu(true);
+    ui->actionZoomOut->setIconVisibleInMenu(true);
+#endif
+
+    connect(ui->actionAboutApp, SIGNAL(triggered(bool)), this, SLOT(showAbout()));
+    connect(ui->actionCopy, SIGNAL(triggered()), diagram_, SLOT(copySelected()));
+    connect(ui->actionCut, SIGNAL(triggered()), diagram_, SLOT(cutSelected()));
+    connect(ui->actionPaste, SIGNAL(triggered()), diagram_, SLOT(paste()));
+    connect(ui->actionDuplicate, SIGNAL(triggered()), this, SLOT(duplicateSelection()));
+    connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(openDocument()));
+    connect(ui->actionPreferences, SIGNAL(triggered(bool)), this, SLOT(showPreferences()));
+    connect(ui->actionPrint, SIGNAL(triggered()), this, SLOT(printScheme()));
+    connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
+    connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(saveDocument()));
+    connect(ui->actionSelectAll, SIGNAL(triggered()), this, SLOT(selectAll()));
+    connect(ui->actionSetBackground, SIGNAL(triggered(bool)), this, SLOT(setBackground()));
+    connect(ui->actionProjectInfo, SIGNAL(triggered(bool)), this, SLOT(documentProperties()));
+
+    connect(ui->actionShowCables, &QAction::triggered, diagram_, [this](bool value) {
+        diagram_->setShowCables(value);
+    });
+    connect(ui->actionShowBackground, &QAction::triggered, diagram_, [this](bool value) {
+        diagram_->setShowBackground(value);
+    });
+    connect(ui->actionExport, SIGNAL(triggered()), this, SLOT(exportDocument()));
+
+    connect(ui->actionAddDevice, &QAction::triggered, this, [this]() {
+        auto pos = diagram_->mapFromGlobal(QCursor::pos());
+        if (pos.x() < 0 || pos.y() < 0)
+            return;
+
+        diagram_->cmdCreateDevice(diagram_->mapToScene(pos));
+    });
+
+    // zoom
+    connect(ui->actionZoomIn, SIGNAL(triggered()), diagram_, SLOT(zoomIn()));
+    connect(ui->actionZoomNormal, SIGNAL(triggered()), diagram_, SLOT(zoomNormal()));
+    connect(ui->actionZoomOut, SIGNAL(triggered()), diagram_, SLOT(zoomOut()));
+
+    connect(ui->actionRedo, SIGNAL(triggered()), diagram_, SLOT(redo()));
+    connect(ui->actionUndo, SIGNAL(triggered()), diagram_, SLOT(undo()));
+}
+
+void MainWindow::initLibrarySearch()
+{
+    connect(ui->librarySearch, &QLineEdit::textChanged, this, [this](const QString& txt) {
+        library_proxy_->setFilterRegularExpression(txt);
+
+        if (!txt.isEmpty())
+            ui->libraryTree->expandAll();
+    });
+    ui->librarySearch->setStatusTip(tr("search in library"));
+    ui->librarySearch->setClearButtonEnabled(true);
+    ui->librarySearch->addAction(QIcon(":/icons/search_02.svg"), QLineEdit::LeadingPosition);
+    ui->librarySearch->setStyleSheet("QLineEdit {border-width: 1px;}");
+
+#ifdef Q_OS_DARWIN
+    {
+        auto font = ui->librarySearch->font();
+        font.setPointSize(font.pointSize() - 2);
+        ui->librarySearch->setFont(font);
+        ui->librarySearch->setMaximumHeight(16);
+    }
+#endif
 }
 
 void MainWindow::updateTitle()
