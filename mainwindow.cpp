@@ -84,26 +84,7 @@ MainWindow::MainWindow(QWidget* parent)
     favorites_ = new FavoritesWidget(ui->favoritesDock);
     ui->favoritesHBox->layout()->addWidget(favorites_);
 
-    device_model_ = new DeviceItemModel(this);
-    setupEquipmentTableView(ui->deviceList, device_model_);
-    connect(ui->deviceList, &QTableView::clicked, this, [this](const QModelIndex& index) {
-        auto id = device_model_->deviceId(index.row());
-        if (id)
-            diagram_->cmdSelectUnique(id.value());
-    });
-    ui->deviceList->resizeColumnsToContents();
-    connect(device_model_, &QStandardItemModel::itemChanged, this, [this](QStandardItem* item) {
-        auto id = device_model_->deviceId(item);
-        if (id) {
-            auto dev = diagram_->findDeviceById(id.value());
-            if (dev) {
-                auto data = device_model_->updateDeviceData(item, dev->deviceData());
-                diagram_->cmdUpdateDevice(data);
-            } else {
-                qWarning() << "device not found:" << (int)id.value();
-            }
-        }
-    });
+    initDeviceList();
 
     conn_model_ = new QStandardItemModel(0, DATA_CONN_NCOLS, this);
     conn_model_->setHorizontalHeaderLabels({ tr("Source"), tr("Model"), tr("Plug"), tr("Destination"), tr("Model"), tr("Plug") });
@@ -241,6 +222,33 @@ void MainWindow::initDiagram()
         return_model_->removeRows(0, return_model_->rowCount());
     });
     connect(diagram_, SIGNAL(addToFavorites(SharedDeviceData)), this, SLOT(onAddToFavorites(SharedDeviceData)));
+}
+
+void MainWindow::initDeviceList()
+{
+    device_model_ = new DeviceItemModel(this);
+    connect(device_model_, &QStandardItemModel::itemChanged, this, [this](QStandardItem* item) {
+        auto id = device_model_->deviceId(item);
+        if (id) {
+            auto dev = diagram_->findDeviceById(id.value());
+            if (dev) {
+                auto data = device_model_->updateDeviceData(item, dev->deviceData());
+                diagram_->cmdUpdateDevice(data);
+            } else {
+                qWarning() << "device not found:" << (int)id.value();
+            }
+        }
+    });
+
+    setupEquipmentTableView(ui->deviceList, device_model_);
+
+    ui->deviceList->verticalHeader()->setVisible(false);
+    connect(ui->deviceList, &QTableView::clicked, this, [this](const QModelIndex& index) {
+        auto id = device_model_->deviceId(index.row());
+        if (id)
+            diagram_->cmdSelectUnique(id.value());
+    });
+    ui->deviceList->resizeColumnsToContents();
 }
 
 void MainWindow::updateTitle()

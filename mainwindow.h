@@ -69,10 +69,11 @@ private slots:
     void onSceneChange();
 
 private:
+    void initDeviceList();
     void initDiagram();
+
     void setProjectName(const QString& fileName);
     bool doSave();
-    void loadLibrary();
     void createToolbarScaleView();
     void resizePanels();
 
@@ -83,6 +84,7 @@ private:
     void readPositionSettings();
     void writePositionSettings() const;
 
+    void loadLibrary();
     void loadFavorites();
     void writeFavorites() const;
 
