@@ -170,6 +170,7 @@ void MainWindow::initActions()
     connect(ui->actionPrint, SIGNAL(triggered()), this, SLOT(printScheme()));
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
     connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(saveDocument()));
+    connect(ui->actionSaveAs, SIGNAL(triggered()), this, SLOT(saveDocumentAs()));
     connect(ui->actionSelectAll, SIGNAL(triggered()), this, SLOT(selectAll()));
     connect(ui->actionSetBackground, SIGNAL(triggered(bool)), this, SLOT(setBackground()));
     connect(ui->actionProjectInfo, SIGNAL(triggered(bool)), this, SLOT(documentProperties()));
@@ -727,11 +728,17 @@ bool MainWindow::saveDocumentAs()
 {
     auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, "", QStandardPaths::LocateDirectory);
     file_name_ = QFileDialog::getSaveFileName(this, tr("Save project"), path, tr("PatchScene projects (*.psc)"));
+    if (file_name_.isEmpty())
+        return false;
 
     if (QFileInfo(file_name_).suffix().isEmpty())
         file_name_.append(".psc");
 
-    return doSave();
+    auto res = doSave();
+    if (res)
+        addRecentFile(file_name_);
+
+    return res;
 }
 
 void MainWindow::duplicateSelection()
