@@ -65,6 +65,7 @@ protected:
 
 private slots:
     void onAddToFavorites(SharedDeviceData data);
+    void onBatteryChange(const BatteryChange& data);
     void onDeviceAdd(SharedDeviceData data);
     void onDeviceRemove(SharedDeviceData data);
     void onDeviceTitleUpdate(DeviceId id, const QString& title);

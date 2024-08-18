@@ -96,6 +96,7 @@ void MainWindow::initDiagram()
     connect(diagram_, SIGNAL(deviceUpdated(SharedDeviceData)), this, SLOT(onDeviceUpdate(SharedDeviceData)));
     connect(diagram_, SIGNAL(deviceTitleUpdated(DeviceId, QString)), this, SLOT(onDeviceTitleUpdate(DeviceId, QString)));
 
+    connect(diagram_, SIGNAL(batteryChanged(BatteryChange)), this, SLOT(onBatteryChange(BatteryChange)));
     connect(diagram_, SIGNAL(connectionAdded(ConnectionData)), this, SLOT(onConnectionAdd(ConnectionData)));
     connect(diagram_, SIGNAL(connectionRemoved(ConnectionData)), this, SLOT(onConnectionRemove(ConnectionData)));
 
@@ -388,6 +389,12 @@ void MainWindow::closeEvent(QCloseEvent* event)
 void MainWindow::onAddToFavorites(SharedDeviceData data)
 {
     favorites_->addItem(data);
+}
+
+void MainWindow::onBatteryChange(const BatteryChange& data)
+{
+    if (data)
+        battery_model_->updateDeviceData(data);
 }
 
 void MainWindow::onDeviceAdd(SharedDeviceData data)
