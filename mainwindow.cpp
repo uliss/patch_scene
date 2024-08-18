@@ -726,7 +726,11 @@ bool MainWindow::saveDocument()
 bool MainWindow::saveDocumentAs()
 {
     auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, "", QStandardPaths::LocateDirectory);
-    file_name_ = QFileDialog::getSaveFileName(this, tr("Save project"), path, tr("PatchScene projects (*.psc *.json)"));
+    file_name_ = QFileDialog::getSaveFileName(this, tr("Save project"), path, tr("PatchScene projects (*.psc)"));
+
+    if (QFileInfo(file_name_).suffix().isEmpty())
+        file_name_.append(".psc");
+
     return doSave();
 }
 
@@ -749,6 +753,9 @@ void MainWindow::exportDocument()
     auto odt_file = QFileDialog::getSaveFileName(this, tr("Save to OpenDocument format"), path, tr("OpenDocument format (*.odt)"));
     if (odt_file.isEmpty())
         return;
+
+    if (QFileInfo(odt_file).suffix().isEmpty())
+        odt_file.append(".odt");
 
     QTextDocument doc;
     doc.setMetaInformation(QTextDocument::DocumentTitle, diagram_->meta().title());
