@@ -42,11 +42,18 @@ enum class BatteryType {
     None,
     AA,
     AAA,
-    Crona,
+    AAAA,
+    PP3_Krona,
+    B,
+    C,
+    A23,
+    A27,
     MaxBattery_,
 };
 
 const char* toString(BatteryType type);
+const char* toJsonString(BatteryType type);
+BatteryType fromJsonString(const QString& str);
 void foreachBatteryType(std::function<void(const char*, int)> fn);
 
 class DeviceData : public QSharedData {

@@ -39,6 +39,8 @@ constexpr const char* JSON_KEY_CATEGORY = "category";
 constexpr const char* JSON_KEY_BATTERY_TYPE = "battery-type";
 constexpr const char* JSON_KEY_BATTERY_COUNT = "battery-count";
 
+constexpr int MAX_BATTERIES_COUNT = 10;
+
 const char* toString(ItemCategory cat)
 {
     switch (cat) {
@@ -218,6 +220,9 @@ bool DeviceData::setJson(const QJsonValue& v)
     setXletJson(obj.value(JSON_KEY_INPUTS), inputs_);
     setXletJson(obj.value(JSON_KEY_OUTPUTS), outputs_);
 
+    battery_count_ = qBound<int>(0, obj.value(JSON_KEY_BATTERY_COUNT).toInt(), MAX_BATTERIES_COUNT);
+    battery_type_ = fromJsonString(obj.value(JSON_KEY_BATTERY_TYPE).toString());
+
     return true;
 }
 
@@ -255,7 +260,7 @@ QJsonObject DeviceData::toJson() const
     // json["zvalue"] = data_->zvalue;
     json[JSON_KEY_IMAGE] = image_;
     json[JSON_KEY_CATEGORY] = toString(category_);
-    json[JSON_KEY_BATTERY_TYPE] = toString(battery_type_);
+    json[JSON_KEY_BATTERY_TYPE] = toJsonString(battery_type_);
     json[JSON_KEY_BATTERY_COUNT] = battery_count_;
 
     json[JSON_KEY_INPUTS] = xletToJson(inputs_);
@@ -322,27 +327,42 @@ bool DeviceData::setXletJson(const QJsonValue& v, QList<XletData>& xlets)
     return true;
 }
 
-const char* toString(BatteryType type)
-{
-    switch (type) {
-    case BatteryType::AA:
-        return "AA";
-    case BatteryType::AAA:
-        return "AAA";
-    case BatteryType::Crona:
-        return "Crona";
-    case BatteryType::None:
-        return "None";
-    default:
-        return "?";
-    }
+namespace {
+// clang-format off
+const QMap<BatteryType, std::pair<const char*, const char*>> BATTERY_NAMES_MAP = {
+    { BatteryType::None,        { "None",         "none" } },
+    { BatteryType::AA,          { "AA",           "aa" } },
+    { BatteryType::AAA,         { "AAA",          "aaa" } },
+    { BatteryType::AAAA,        { "AAAA",         "aaaa" } },
+    { BatteryType::B,           { "B",            "b" } },
+    { BatteryType::C,           { "C",            "c" } },
+    { BatteryType::A23,         { "A23",          "a23" } },
+    { BatteryType::A27,         { "A27",          "a27" } },
+    { BatteryType::PP3_Krona,   { "PP3 (Krona)",  "krona" } },
+};
+// clang-format on
 }
 
-QDebug operator<<(QDebug debug, const DeviceData& data)
+const char* toString(BatteryType type)
 {
-    QDebugStateSaver saver(debug);
-    debug.nospace() << data.toJson();
-    return debug;
+    auto it = BATTERY_NAMES_MAP.find(type);
+    return (it == BATTERY_NAMES_MAP.end()) ? "?" : it->first;
+}
+
+const char* toJsonString(BatteryType type)
+{
+    auto it = BATTERY_NAMES_MAP.find(type);
+    return (it == BATTERY_NAMES_MAP.end()) ? "?" : it->second;
+}
+
+BatteryType fromJsonString(const QString& str)
+{
+    for (auto it = BATTERY_NAMES_MAP.keyValueBegin(); it != BATTERY_NAMES_MAP.keyValueEnd(); ++it) {
+        if (it->second.second == str.toLower())
+            return it->first;
+    }
+
+    return BatteryType::None;
 }
 
 void foreachBatteryType(std::function<void(const char*, int)> fn)
@@ -353,4 +373,11 @@ void foreachBatteryType(std::function<void(const char*, int)> fn)
     {
         fn(toString(static_cast<BatteryType>(i)), i);
     }
+}
+
+QDebug operator<<(QDebug debug, const DeviceData& data)
+{
+    QDebugStateSaver saver(debug);
+    debug.nospace() << data.toJson();
+    return debug;
 }

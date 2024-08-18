@@ -164,20 +164,20 @@ http://ceammc.com</oldsource>
     <name>DeviceProperties</name>
     <message>
         <location filename="deviceproperties.ui" line="14"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="334"/>
+        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="366"/>
         <source>Device Properties</source>
         <translation>Свойства элемента</translation>
     </message>
     <message>
         <location filename="deviceproperties.ui" line="22"/>
-        <location filename="deviceproperties.cpp" line="163"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="335"/>
+        <location filename="deviceproperties.cpp" line="189"/>
+        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="367"/>
         <source>Name</source>
         <translation>Название</translation>
     </message>
     <message>
         <location filename="deviceproperties.ui" line="44"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="337"/>
+        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="369"/>
         <source>device name</source>
         <translation>название элемента</translation>
     </message>
@@ -187,85 +187,91 @@ http://ceammc.com</oldsource>
     </message>
     <message>
         <location filename="deviceproperties.ui" line="107"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="342"/>
+        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="374"/>
         <source>Inputs</source>
         <translation>Входы</translation>
     </message>
     <message>
         <location filename="deviceproperties.ui" line="228"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="349"/>
+        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="381"/>
         <source>Outputs</source>
         <translation>Выходы</translation>
     </message>
     <message>
         <location filename="deviceproperties.ui" line="346"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="356"/>
+        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="388"/>
         <source>Image</source>
         <translation>Изображение</translation>
     </message>
     <message>
         <location filename="deviceproperties.ui" line="371"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="357"/>
+        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="389"/>
         <source>...</source>
         <translation></translation>
     </message>
     <message>
         <location filename="deviceproperties.ui" line="378"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="359"/>
+        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="391"/>
         <source>choose device image</source>
         <translation>выбрать изображение устройства</translation>
     </message>
     <message>
         <location filename="deviceproperties.ui" line="381"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="361"/>
+        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="393"/>
         <source>Choose</source>
         <translation>Выбрать</translation>
     </message>
     <message>
         <location filename="deviceproperties.ui" line="401"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="362"/>
+        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="394"/>
         <source>Scale</source>
         <translation>Масштаб</translation>
     </message>
     <message>
+        <location filename="deviceproperties.ui" line="455"/>
+        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="395"/>
+        <source>Batteries</source>
+        <translation>Батарейки</translation>
+    </message>
+    <message>
         <location filename="deviceproperties.ui" line="199"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="344"/>
+        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="376"/>
         <source>add input</source>
         <translation>добавить вход</translation>
     </message>
     <message>
         <location filename="deviceproperties.ui" line="51"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="339"/>
+        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="371"/>
         <source>Vendor</source>
         <translation>Производитель</translation>
     </message>
     <message>
         <location filename="deviceproperties.ui" line="66"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="340"/>
+        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="372"/>
         <source>Model</source>
         <translation>Модель</translation>
     </message>
     <message>
         <location filename="deviceproperties.ui" line="215"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="347"/>
+        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="379"/>
         <source>remove input</source>
         <translation>удалить вход</translation>
     </message>
     <message>
         <location filename="deviceproperties.ui" line="317"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="351"/>
+        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="383"/>
         <source>add output</source>
         <translation>добавить выход</translation>
     </message>
     <message>
         <location filename="deviceproperties.ui" line="333"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="354"/>
+        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="386"/>
         <source>remove output</source>
         <translation>удалить выход</translation>
     </message>
     <message>
         <location filename="deviceproperties.ui" line="94"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="341"/>
+        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="373"/>
         <source>Category</source>
         <translation>Категория</translation>
     </message>
@@ -275,32 +281,32 @@ http://ceammc.com</oldsource>
         <translation>Свойства &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="163"/>
+        <location filename="deviceproperties.cpp" line="189"/>
         <source>Type</source>
         <translation>Тип</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="163"/>
+        <location filename="deviceproperties.cpp" line="189"/>
         <source>Show</source>
         <translation>Показывать</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="163"/>
+        <location filename="deviceproperties.cpp" line="189"/>
         <source>Phantom</source>
         <translation>Фантом</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="163"/>
+        <location filename="deviceproperties.cpp" line="189"/>
         <source>Socket</source>
         <translation>Гнездо</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="209"/>
+        <location filename="deviceproperties.cpp" line="235"/>
         <source>Female</source>
         <translation>Мама</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="210"/>
+        <location filename="deviceproperties.cpp" line="236"/>
         <source>Male</source>
         <translation>Папа</translation>
     </message>
