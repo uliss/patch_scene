@@ -604,6 +604,61 @@ void MainWindow::resizePanels()
     resizeDocks({ ui->libraryDock, ui->tableDock }, dockSizes, Qt::Horizontal);
 }
 
+QTextDocument* MainWindow::exportToDocument()
+{
+    auto doc = new QTextDocument(this);
+    doc->setMetaInformation(QTextDocument::DocumentTitle, diagram_->meta().title());
+
+    QTextCursor cursor(doc);
+
+    auto& meta = diagram_->meta();
+
+    ceam::doc::insert_header(cursor, meta.title());
+
+    ceam::doc::insert_paragraph(cursor, tr("Event date: %1").arg(meta.eventDate().toString()));
+
+    if (!meta.info().isEmpty()) {
+        ceam::doc::insert_section(cursor, tr("Information"));
+        ceam::doc::insert_paragraph(cursor, meta.info());
+    }
+
+    ceam::doc::insert_section(cursor, tr("Contacts"));
+    QList<QStringList> contacts_data;
+    contacts_data.push_back({ tr("Name"), tr("Work"), tr("Phone"), tr("Email") });
+    for (auto& c : meta.contacts())
+        contacts_data.push_back({ c.name(), c.work(), c.phone(), c.email() });
+
+    ceam::doc::insert_table(cursor, contacts_data);
+
+    ceam::doc::insert_section(cursor, tr("Scheme"));
+    ceam::doc::insert_paragraph(cursor, "");
+    auto img = diagram_->toImage();
+    doc->addResource(QTextDocument::ImageResource, QUrl(SCHEME_DATA_URL), QVariant(img));
+
+    QTextImageFormat imageFormat;
+    imageFormat.setName(SCHEME_DATA_URL);
+    imageFormat.setWidth(SCHEME_IMAGE_WIDTH);
+    imageFormat.setHeight(SCHEME_IMAGE_WIDTH * img.height() / img.width());
+    cursor.insertImage(imageFormat);
+
+    ceam::doc::insert_paragraph(cursor, "");
+    ceam::doc::insert_section(cursor, tr("Devices"));
+    ceam::doc::insert_table(cursor, device_model_);
+
+    ceam::doc::insert_section(cursor, tr("Connections"));
+    ceam::doc::insert_table(cursor, conn_model_);
+
+    ceam::doc::insert_section(cursor, tr("Sends"));
+    ceam::doc::insert_table(cursor, send_model_);
+
+    ceam::doc::insert_section(cursor, tr("Returns"));
+    ceam::doc::insert_table(cursor, return_model_);
+
+    ceam::doc::insert_paragraph(cursor, tr("Created with PatchScene v%1").arg(PATCH_SCENE_VERSION), Qt::AlignRight);
+
+    return doc;
+}
+
 void MainWindow::setupExpandButton(QToolButton* btn, QTableView* tab, QFrame* line)
 {
     line->setHidden(true);
@@ -764,59 +819,13 @@ void MainWindow::exportToOdf()
     if (QFileInfo(odt_file).suffix().isEmpty())
         odt_file.append(".odt");
 
-    QTextDocument doc;
-    doc.setMetaInformation(QTextDocument::DocumentTitle, diagram_->meta().title());
-
-    QTextCursor cursor(&doc);
-
-    auto& meta = diagram_->meta();
-
-    ceam::doc::insert_header(cursor, meta.title());
-
-    ceam::doc::insert_paragraph(cursor, tr("Event date: %1").arg(meta.eventDate().toString()));
-
-    if (!meta.info().isEmpty()) {
-        ceam::doc::insert_section(cursor, tr("Information"));
-        ceam::doc::insert_paragraph(cursor, meta.info());
-    }
-
-    ceam::doc::insert_section(cursor, tr("Contacts"));
-    QList<QStringList> contacts_data;
-    contacts_data.push_back({ tr("Name"), tr("Work"), tr("Phone"), tr("Email") });
-    for (auto& c : meta.contacts())
-        contacts_data.push_back({ c.name(), c.work(), c.phone(), c.email() });
-
-    ceam::doc::insert_table(cursor, contacts_data);
-
-    ceam::doc::insert_section(cursor, tr("Scheme"));
-    ceam::doc::insert_paragraph(cursor, "");
-    auto img = diagram_->toImage();
-    doc.addResource(QTextDocument::ImageResource, QUrl(SCHEME_DATA_URL), QVariant(img));
-
-    QTextImageFormat imageFormat;
-    imageFormat.setName(SCHEME_DATA_URL);
-    imageFormat.setWidth(SCHEME_IMAGE_WIDTH);
-    imageFormat.setHeight(SCHEME_IMAGE_WIDTH * img.height() / img.width());
-    cursor.insertImage(imageFormat);
-
-    ceam::doc::insert_paragraph(cursor, "");
-    ceam::doc::insert_section(cursor, tr("Devices"));
-    ceam::doc::insert_table(cursor, device_model_);
-
-    ceam::doc::insert_section(cursor, tr("Connections"));
-    ceam::doc::insert_table(cursor, conn_model_);
-
-    ceam::doc::insert_section(cursor, tr("Sends"));
-    ceam::doc::insert_table(cursor, send_model_);
-
-    ceam::doc::insert_section(cursor, tr("Returns"));
-    ceam::doc::insert_table(cursor, return_model_);
+    auto doc = exportToDocument();
+    if (!doc)
+        return;
 
     QTextDocumentWriter writer(odt_file, "ODF");
 
-    ceam::doc::insert_paragraph(cursor, tr("Created with PatchScene v%1").arg(PATCH_SCENE_VERSION), Qt::AlignRight);
-
-    if (writer.write(&doc)) {
+    if (writer.write(doc)) {
         qDebug() << "exported to" << odt_file;
     } else {
         qWarning() << "can't save to" << odt_file;

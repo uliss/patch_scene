@@ -85,6 +85,8 @@ private:
     void createToolbarScaleView();
     void resizePanels();
 
+    QTextDocument* exportToDocument();
+
     void setupExpandButton(QToolButton* btn, QTableView* tab, QFrame* line);
     void setupDockTitle(QDockWidget* dock);
 
