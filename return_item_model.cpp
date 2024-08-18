@@ -24,11 +24,12 @@ enum ReturnColumnOrder {
 constexpr int DATA_RETURN_NCOLS = 4;
 constexpr int RETURN_SORT_ROLE = Qt::UserRole + 1;
 
-class ReturnSortProxy : public QSortFilterProxyModel {
+class SortProxy : public QSortFilterProxyModel {
 public:
-    ReturnSortProxy(QObject* parent)
+    SortProxy(QObject* parent)
         : QSortFilterProxyModel(parent)
     {
+        setDynamicSortFilter(true);
     }
 
     bool lessThan(const QModelIndex& a, const QModelIndex& b) const final
@@ -47,7 +48,7 @@ ReturnItemModel::ReturnItemModel(QObject* parent)
 {
     setHorizontalHeaderLabels({ tr("Return"), tr("Output"), tr("Device"), tr("Input") });
 
-    proxy_ = new ReturnSortProxy(this);
+    proxy_ = new SortProxy(this);
     proxy_->setDynamicSortFilter(true);
     proxy_->setSourceModel(this);
 }

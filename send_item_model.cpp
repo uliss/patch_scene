@@ -22,6 +22,25 @@ enum SendColumnOrder {
     COL_SEND_SRC_OUTPUT
 };
 constexpr int DATA_SEND_NCOLS = 4;
+constexpr int SEND_SORT_ROLE = Qt::UserRole + 1;
+
+class SortProxy : public QSortFilterProxyModel {
+public:
+    SortProxy(QObject* parent)
+        : QSortFilterProxyModel(parent)
+    {
+        setDynamicSortFilter(true);
+    }
+
+    bool lessThan(const QModelIndex& a, const QModelIndex& b) const final
+    {
+        if (a.isValid() && b.isValid())
+            if (a.column() == COL_SEND_INPUT || a.column() == COL_SEND_SRC_OUTPUT)
+                return a.data(SEND_SORT_ROLE).toInt() < b.data(SEND_SORT_ROLE).toInt();
+
+        return QSortFilterProxyModel::lessThan(a, b);
+    }
+};
 }
 
 SendItemModel::SendItemModel(QObject* parent)
@@ -29,8 +48,7 @@ SendItemModel::SendItemModel(QObject* parent)
 {
     setHorizontalHeaderLabels({ tr("Send"), tr("Input"), tr("Device"), tr("Output") });
 
-    proxy_ = new QSortFilterProxyModel(this);
-    proxy_->setDynamicSortFilter(true);
+    proxy_ = new SortProxy(this);
     proxy_->setSourceModel(this);
 }
 
@@ -52,7 +70,12 @@ bool SendItemModel::addConnection(const ConnectionData& data,
     dest_name->setEditable(false);
 
     auto src_idx = new QStandardItem(QString("%1").arg((int)data.out + 1));
+    src_idx->setEditable(false);
+    src_idx->setData(data.out, SEND_SORT_ROLE);
     auto dest_idx = new QStandardItem(QString("%1").arg((int)data.in + 1));
+    dest_idx->setData(data.in, SEND_SORT_ROLE);
+    dest_idx->setEditable(false);
+
     appendRow({ dest_name, dest_idx, src_name, src_idx });
 
     return true;
