@@ -18,6 +18,8 @@
 
 #include <QGraphicsItem>
 
+namespace ceam {
+
 class Device : public QGraphicsRectItem {
 public:
     explicit Device();
@@ -90,5 +92,6 @@ private:
     QGraphicsSvgItem* image_;
     mutable SharedDeviceData data_;
 };
+}
 
 #endif // DEVICE_H

@@ -43,6 +43,8 @@ public:
 };
 }
 
+using namespace ceam;
+
 ReturnItemModel::ReturnItemModel(QObject* parent)
     : QStandardItemModel { 0, DATA_RETURN_NCOLS, parent }
 {

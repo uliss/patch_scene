@@ -18,6 +18,8 @@
 
 class QCheckBox;
 
+namespace ceam {
+
 class TableCellCheckBox : public QWidget {
     Q_OBJECT
 public:
@@ -28,5 +30,6 @@ public:
 private:
     QCheckBox* chk_;
 };
+}
 
 #endif // TABLECELLCHECKBOX_H

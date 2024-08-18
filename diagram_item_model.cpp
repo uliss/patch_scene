@@ -18,6 +18,8 @@
 #include <QJsonObject>
 #include <QMimeData>
 
+using namespace ceam;
+
 DiagramItemModel::DiagramItemModel(QObject* parent)
     : QStandardItemModel(parent)
 {

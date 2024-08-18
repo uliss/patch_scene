@@ -17,6 +17,7 @@
 #include <QTextTable>
 #include <QTextTableFormat>
 
+namespace {
 constexpr int DEFAULT_FONT_SIZE = 10;
 constexpr int PAR_FONT_SIZE = DEFAULT_FONT_SIZE;
 constexpr int TAB_FONT_SIZE = DEFAULT_FONT_SIZE;
@@ -32,7 +33,7 @@ static QTextCharFormat make_char_fmt(int size, bool bold = false, bool italic = 
     return fmt;
 }
 
-static QTextBlockFormat make_block_fmt(Qt::Alignment align = Qt::AlignLeft)
+QTextBlockFormat make_block_fmt(Qt::Alignment align = Qt::AlignLeft)
 {
     QTextBlockFormat fmt;
 
@@ -44,7 +45,7 @@ static QTextBlockFormat make_block_fmt(Qt::Alignment align = Qt::AlignLeft)
     return fmt;
 }
 
-static QTextBlockFormat make_cell_fmt(Qt::Alignment align = Qt::AlignLeft)
+QTextBlockFormat make_cell_fmt(Qt::Alignment align = Qt::AlignLeft)
 {
     QTextBlockFormat fmt;
 
@@ -57,7 +58,7 @@ static QTextBlockFormat make_cell_fmt(Qt::Alignment align = Qt::AlignLeft)
     return fmt;
 }
 
-static QTextTableFormat make_table_fmt(int width)
+QTextTableFormat make_table_fmt(int width)
 {
     constexpr int LEFT_MARGIN = 40;
     constexpr int NUM_COL_WIDTH = 35;
@@ -81,7 +82,7 @@ static QTextTableFormat make_table_fmt(int width)
     return fmt;
 }
 
-static QSizeF doc_page_size(const QTextCursor& cursor)
+QSizeF doc_page_size(const QTextCursor& cursor)
 {
     auto doc = cursor.document();
     if (!doc)
@@ -89,6 +90,7 @@ static QSizeF doc_page_size(const QTextCursor& cursor)
 
     auto m = doc->documentMargin();
     return doc->pageSize().shrunkBy({ m, m, m, m });
+}
 }
 
 void ceam::doc::insert_table(QTextCursor& cursor, const QList<QStringList>& data)

@@ -20,6 +20,8 @@
 #include <QSortFilterProxyModel>
 #include <QStandardItemModel>
 
+namespace ceam {
+
 class ConnectionData;
 class XletData;
 
@@ -57,5 +59,6 @@ private:
 private:
     QSortFilterProxyModel* proxy_;
 };
+}
 
 #endif // CONNECTION_ITEM_MODEL_H

@@ -22,6 +22,8 @@ namespace Ui {
 class DiagramMetaDialog;
 }
 
+namespace ceam {
+
 class DiagramMetaDialog : public QDialog {
     Q_OBJECT
 
@@ -42,5 +44,7 @@ private:
     void initContacts();
     void syncContacts();
 };
+
+}
 
 #endif // DIAGRAM_META_DIALOG_H

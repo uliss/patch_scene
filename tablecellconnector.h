@@ -18,6 +18,8 @@
 
 #include <QComboBox>
 
+namespace ceam {
+
 class TableCellConnector : public QComboBox {
     Q_OBJECT
 public:
@@ -26,5 +28,6 @@ public:
     ConnectorModel connectorModel() const;
     void setConnectorModel(ConnectorModel model);
 };
+}
 
 #endif // TABLECELLCONNECTOR_H

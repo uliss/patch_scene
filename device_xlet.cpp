@@ -16,6 +16,9 @@
 #include <QJsonObject>
 #include <QPainter>
 
+using namespace ceam;
+
+namespace {
 constexpr const char* KEY_LEVEL = "level";
 constexpr const char* KEY_NAME = "name";
 constexpr const char* KEY_PHANTOM = "phantom";
@@ -24,7 +27,7 @@ constexpr const char* KEY_SOCKET = "socket";
 constexpr const char* KEY_MODEL = "model";
 constexpr const char* KEY_BG_COLOR = "color";
 
-static QString xlet_icon_path(ConnectorModel model, ConnectorType type)
+QString xlet_icon_path(ConnectorModel model, ConnectorType type)
 {
     switch (type) {
     case ConnectorType::Socket_Male:
@@ -37,13 +40,14 @@ static QString xlet_icon_path(ConnectorModel model, ConnectorType type)
     }
 }
 
-static ConnectorType connector_type(const QString& type)
+ConnectorType connector_type(const QString& type)
 {
     if (type == "male") {
         return ConnectorType::Socket_Male;
     } else {
         return ConnectorType::Socket_Female;
     }
+}
 }
 
 QString XletData::modelString() const

@@ -16,6 +16,7 @@
 #include <QMainWindow>
 #include <QSettings>
 
+namespace {
 constexpr const char* SETTINGS_ORG = "space.ceam";
 constexpr const char* SETTINGS_APP = "PatchScene";
 
@@ -29,6 +30,9 @@ constexpr const char* SKEY_MAXIMIZED = "maximized";
 constexpr const char* SKEY_POS = "pos";
 constexpr const char* SKEY_SIZE = "size";
 constexpr const char* SKEY_ITEMS = "items";
+}
+
+using namespace ceam;
 
 AppSettings::AppSettings() { }
 

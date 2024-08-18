@@ -20,16 +20,19 @@ namespace Ui {
 class PreferencesDialog;
 }
 
-class PreferencesDialog : public QDialog
-{
+namespace ceam {
+
+class PreferencesDialog : public QDialog {
     Q_OBJECT
 
 public:
-    explicit PreferencesDialog(QWidget *parent = nullptr);
+    explicit PreferencesDialog(QWidget* parent = nullptr);
     ~PreferencesDialog();
 
 private:
-    Ui::PreferencesDialog *ui;
+    Ui::PreferencesDialog* ui;
 };
+
+}
 
 #endif // PREFERENCES_DIALOG_H

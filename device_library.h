@@ -19,6 +19,8 @@
 #include <QJsonObject>
 #include <QString>
 
+namespace ceam {
+
 class DeviceLibrary {
 public:
     DeviceLibrary();
@@ -38,5 +40,7 @@ private:
 private:
     QList<SharedDeviceData> devices_, instruments_, sends_, returns_, humans_, furniture_;
 };
+
+}
 
 #endif // DEVICE_LIBRARY_H

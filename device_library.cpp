@@ -17,12 +17,16 @@
 #include <QFile>
 #include <QJsonDocument>
 
+namespace {
 constexpr const char* JSON_KEY_DEVICES = "devices";
 constexpr const char* JSON_KEY_INSTRUMENTS = "instruments";
 constexpr const char* JSON_KEY_SENDS = "sends";
 constexpr const char* JSON_KEY_RETURNS = "returns";
 constexpr const char* JSON_KEY_HUMANS = "humans";
 constexpr const char* JSON_KEY_FURNITURE = "furniture";
+}
+
+using namespace ceam;
 
 DeviceLibrary::DeviceLibrary() { }
 

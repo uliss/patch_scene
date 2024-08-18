@@ -18,6 +18,8 @@
 
 #include <QGraphicsLineItem>
 
+namespace ceam {
+
 using DeviceId = std::uint32_t;
 using XletIndex = std::uint8_t;
 
@@ -66,10 +68,6 @@ struct ConnectionData {
 
     static bool fromJson(const QJsonValue& j, ConnectionData& data);
 };
-
-Q_DECLARE_METATYPE(ConnectionData)
-
-uint qHash(const ConnectionData& key);
 
 struct XletInfo {
     DeviceId id { 0 };
@@ -133,5 +131,11 @@ private:
     ConnectionData data_;
     QPainterPath line_;
 };
+
+uint qHash(const ConnectionData& key);
+
+}
+
+Q_DECLARE_METATYPE(ceam::ConnectionData)
 
 #endif // CONNECTION_H

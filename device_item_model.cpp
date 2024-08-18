@@ -14,12 +14,16 @@
 #include "device_item_model.h"
 #include "diagram_item_model.h"
 
+namespace {
 enum DeviceColumnOrder {
     COL_DEV_TITLE = 0,
     COL_DEV_VENDOR,
     COL_DEV_MODEL,
 };
 constexpr int DATA_DEV_NCOLS = 3;
+}
+
+using namespace ceam;
 
 QList<QString> DeviceItemModel::headerLabels()
 {

@@ -20,6 +20,8 @@
 
 class QMainWindow;
 
+namespace ceam {
+
 class AppSettings {
 public:
     AppSettings();
@@ -33,5 +35,6 @@ public:
     QList<QUrl> readRecentFiles() const;
     void writeRecentFiles(const QList<QUrl>& files) const;
 };
+}
 
 #endif // APP_SETTINGS_H

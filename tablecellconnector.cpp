@@ -16,6 +16,9 @@
 
 #include <QFile>
 
+using namespace ceam;
+
+namespace {
 constexpr auto CONNECTOR_MIN = static_cast<int>(ConnectorModel::UNKNOWN);
 constexpr auto CONNECTOR_MAX = static_cast<int>(ConnectorModel::CONNECTOR_MAX);
 
@@ -50,6 +53,7 @@ public:
         }
     }
 };
+}
 
 TableCellConnector::TableCellConnector(QWidget* parent)
     : QComboBox { parent }

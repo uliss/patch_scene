@@ -43,6 +43,8 @@ public:
 };
 }
 
+using namespace ceam;
+
 SendItemModel::SendItemModel(QObject* parent)
     : QStandardItemModel(0, DATA_SEND_NCOLS, parent)
 {

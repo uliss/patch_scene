@@ -23,6 +23,8 @@
 #include "connection.h"
 #include "device_xlet.h"
 
+namespace ceam {
+
 enum class ItemCategory {
     Device,
     Instrument,
@@ -154,8 +156,10 @@ private:
     qreal zoom_ = { 1 };
 };
 
-QDebug operator<<(QDebug debug, const DeviceData& data);
-
 using SharedDeviceData = QSharedDataPointer<DeviceData>;
+
+}
+
+QDebug operator<<(QDebug debug, const ceam::DeviceData& data);
 
 #endif // DEVICE_COMMON_H

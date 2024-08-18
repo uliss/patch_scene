@@ -26,6 +26,8 @@ class DeviceProperties;
 class QComboBox;
 class QTableWidget;
 
+namespace ceam {
+
 class DeviceProperties : public QDialog {
     Q_OBJECT
 
@@ -58,5 +60,7 @@ private:
     Ui::DeviceProperties* ui;
     SharedDeviceData data_;
 };
+
+}
 
 #endif // DEVICEPROPERTIES_H

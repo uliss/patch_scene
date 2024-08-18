@@ -14,7 +14,11 @@
 #include "undo_commands.h"
 #include "diagram.h"
 
+namespace {
 constexpr int MoveDeviceId = 1000;
+}
+
+using namespace ceam;
 
 CreateDevice::CreateDevice(Diagram* doc, const QPointF& pos)
     : doc_(doc)

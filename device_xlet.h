@@ -18,6 +18,8 @@
 
 #include <QGraphicsSvgItem>
 
+namespace ceam {
+
 struct XletData {
     QString name;
     ConnectorModel model { ConnectorModel::UNKNOWN };
@@ -54,5 +56,7 @@ private:
     XletData data_;
     XletType type_ { XletType::In };
 };
+
+}
 
 #endif // DEVICE_XLET_H

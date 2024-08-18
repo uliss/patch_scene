@@ -18,6 +18,8 @@ constexpr int COL_BATTERY_TYPE = 0;
 constexpr int COL_BATTERY_COUNT = 1;
 }
 
+using namespace ceam;
+
 BatteryItemModel::BatteryItemModel(QObject* parent)
     : QStandardItemModel { parent }
 {

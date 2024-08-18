@@ -20,6 +20,8 @@
 #include <QSortFilterProxyModel>
 #include <QStandardItemModel>
 
+namespace ceam {
+
 class ReturnItemModel : public QStandardItemModel {
     Q_OBJECT
 public:
@@ -40,5 +42,6 @@ private:
 private:
     QSortFilterProxyModel* proxy_;
 };
+}
 
 #endif // RETURN_ITEM_MODEL_H

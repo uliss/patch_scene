@@ -26,6 +26,9 @@
 
 #include <unordered_map>
 
+using namespace ceam;
+
+namespace {
 constexpr qreal XLET_W = 22;
 constexpr qreal XLET_H = 20;
 constexpr qreal XLET_BOX_W = 8;
@@ -42,8 +45,21 @@ constexpr int TITLE_CHAR_WIDTH = 10;
 constexpr qreal DEF_IMAGE_WIDTH = 100;
 
 constexpr DeviceId INIT_ID = 1;
-
 using DeviceIdMap = std::unordered_map<DeviceId, bool>;
+
+SharedDeviceData makeDeviceData()
+{
+    QSharedDataPointer data(new DeviceData(DEV_NULL_ID));
+    data->setTitle("Device");
+    data->appendInput(XletData { "", ConnectorModel::XLR });
+    data->appendInput(XletData { "", ConnectorModel::XLR });
+    data->appendInput(XletData { "MIDI", ConnectorModel::DIN_MIDI });
+    data->appendInput(XletData { "USB", ConnectorModel::USB_C });
+
+    data->appendOutput(XletData { "L", ConnectorModel::JACK_TRS });
+    data->appendOutput(XletData { "R", ConnectorModel::JACK_TRS });
+    return data;
+}
 
 class DeviceIdFactory {
     using key_value = DeviceIdMap::value_type;
@@ -122,19 +138,6 @@ public:
                    });
     }
 };
-
-static SharedDeviceData makeDeviceData()
-{
-    QSharedDataPointer data(new DeviceData(DEV_NULL_ID));
-    data->setTitle("Device");
-    data->appendInput(XletData { "", ConnectorModel::XLR });
-    data->appendInput(XletData { "", ConnectorModel::XLR });
-    data->appendInput(XletData { "MIDI", ConnectorModel::DIN_MIDI });
-    data->appendInput(XletData { "USB", ConnectorModel::USB_C });
-
-    data->appendOutput(XletData { "L", ConnectorModel::JACK_TRS });
-    data->appendOutput(XletData { "R", ConnectorModel::JACK_TRS });
-    return data;
 }
 
 Device::Device()

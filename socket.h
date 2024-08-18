@@ -16,6 +16,8 @@
 
 #include <QObject>
 
+namespace ceam {
+
 enum class ConnectorModel : std::uint8_t {
     UNKNOWN,
     // audio
@@ -122,5 +124,7 @@ enum class XletType : std::uint8_t {
 };
 
 QString connectorTypeName(ConnectorType type);
+
+}
 
 #endif // SOCKET_H

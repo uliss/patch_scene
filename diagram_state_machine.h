@@ -14,6 +14,8 @@
 #ifndef DIAGRAM_STATE_MACHINE_H
 #define DIAGRAM_STATE_MACHINE_H
 
+namespace ceam {
+
 enum class DiagramState {
     Init,
     Move,
@@ -30,5 +32,6 @@ public:
     DiagramState state() const { return state_; }
     void setState(DiagramState state);
 };
+}
 
 #endif // DIAGRAM_STATE_MACHINE_H

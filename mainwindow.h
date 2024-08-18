@@ -37,6 +37,8 @@ class MainWindow;
 }
 QT_END_NAMESPACE
 
+
+namespace ceam {
 class MainWindow : public QMainWindow {
     Q_OBJECT
 
@@ -124,5 +126,6 @@ private:
     AppSettings settings_;
     QList<QUrl> recent_files_;
 };
+}
 
 #endif // MAINWINDOW_H

@@ -20,6 +20,8 @@
 #include <QJsonObject>
 #include <QMenu>
 
+using namespace ceam;
+
 FavoritesWidget::FavoritesWidget(QWidget* parent)
     : QTreeView(parent)
 {

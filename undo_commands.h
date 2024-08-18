@@ -20,6 +20,8 @@
 #include "connection.h"
 #include "device_common.h"
 
+namespace ceam {
+
 class Diagram;
 class DeviceData;
 
@@ -220,5 +222,7 @@ private:
     Diagram* doc_;
     SharedDeviceData old_data_, new_data_;
 };
+
+}
 
 #endif // UNDO_COMMANDS_H

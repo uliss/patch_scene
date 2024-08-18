@@ -15,7 +15,10 @@
 
 #include <QDebug>
 
-static const char* toString(DiagramState st)
+using namespace ceam;
+
+namespace {
+const char* toString(DiagramState st)
 {
     switch (st) {
     case DiagramState::Init:
@@ -31,6 +34,7 @@ static const char* toString(DiagramState st)
     default:
         return "[?]";
     }
+}
 }
 
 DiagramStateMachine::DiagramStateMachine() { }

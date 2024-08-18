@@ -36,6 +36,8 @@
 #include <QTextDocumentWriter>
 #include <QTextTable>
 
+using namespace ceam;
+
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)

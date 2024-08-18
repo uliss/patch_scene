@@ -16,6 +16,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 
+namespace {
 constexpr const char* JSON_KEY_NAME = "name";
 constexpr const char* JSON_KEY_WORK = "work";
 constexpr const char* JSON_KEY_PHONE = "phone";
@@ -26,6 +27,9 @@ constexpr const char* JSON_KEY_INFO = "info";
 constexpr const char* JSON_KEY_CREATION_DATE = "creation-date";
 constexpr const char* JSON_KEY_EVENT_DATE = "event-date";
 constexpr const char* JSON_KEY_CONTACTS = "contacts";
+}
+
+using namespace ceam;
 
 QJsonValue Contact::toJson() const
 {

@@ -18,6 +18,8 @@
 #include <QJsonObject>
 #include <QPainter>
 
+using namespace ceam;
+
 QJsonObject ConnectionData::toJson() const
 {
     QJsonObject j;
@@ -167,10 +169,10 @@ bool Connection::updateCachedPos()
     return true;
 }
 
-uint qHash(const ConnectionData& key)
+uint ceam::qHash(const ConnectionData& key)
 {
-    return qHash(key.dest)
-        ^ qHash(key.in)
-        ^ qHash(key.src)
-        ^ qHash(key.out);
+    return ::qHash(key.dest)
+        ^ ::qHash(key.in)
+        ^ ::qHash(key.src)
+        ^ ::qHash(key.out);
 }

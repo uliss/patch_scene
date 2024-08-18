@@ -14,12 +14,16 @@
 #include "diagram_meta_dialog.h"
 #include "ui_diagram_meta_dialog.h"
 
+namespace {
 enum ContactTableOrder {
     COL_NAME,
     COL_WORK,
     COL_PHONE,
     COL_EMAIL
 };
+}
+
+using namespace ceam;
 
 DiagramMetaDialog::DiagramMetaDialog(const DiagramMeta& meta, QWidget* parent)
     : QDialog(parent)

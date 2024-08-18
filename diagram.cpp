@@ -30,6 +30,9 @@
 #include "patch_scene_version.h"
 #include "undo_commands.h"
 
+using namespace ceam;
+
+namespace {
 constexpr qreal MAX_ZOOM = 4.0;
 constexpr qreal MIN_ZOOM = 1.0 / MAX_ZOOM;
 
@@ -65,6 +68,9 @@ public:
 
     operator bool() const { return changed_; }
 };
+}
+
+using namespace ceam;
 
 void Diagram::initUndoStack()
 {

@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
         qDebug() << "app tr added";
     }
 
-    MainWindow w;
+    ceam::MainWindow w;
     w.show();
     return app.exec();
 }

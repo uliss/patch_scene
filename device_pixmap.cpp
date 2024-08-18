@@ -17,8 +17,12 @@
 #include <QDirIterator>
 #include <QLabel>
 
+namespace {
 constexpr const char* PROP_FILEPATH = "filepath";
 constexpr const char* PROP_ICONNAME = "iconname";
+}
+
+using namespace ceam;
 
 DevicePixmap::DevicePixmap(QWidget* parent)
     : QDialog(parent)

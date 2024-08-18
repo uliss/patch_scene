@@ -19,6 +19,7 @@
 
 #include <QFileInfo>
 
+namespace {
 enum {
     COL_MODEL,
     COL_VISIBLE,
@@ -28,6 +29,9 @@ enum {
 };
 
 constexpr int IMG_PREVIEW_SIZE = 30;
+}
+
+using namespace ceam;
 
 DeviceProperties::DeviceProperties(QWidget* parent, const SharedDeviceData& data)
     : QDialog(parent)

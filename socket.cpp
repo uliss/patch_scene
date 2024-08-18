@@ -16,6 +16,9 @@
 
 #include <map>
 
+using namespace ceam;
+
+namespace {
 struct ConnectorModelData {
     QString json_name;
     QString svg_name;
@@ -112,7 +115,9 @@ static const ConnectorModelMap& model_map()
     return map;
 }
 
-const QString& connectorSvgName(ConnectorModel model)
+}
+
+const QString& ceam::connectorSvgName(ConnectorModel model)
 {
     static const QString unknown("???");
     auto& data = model_map();
@@ -121,7 +126,7 @@ const QString& connectorSvgName(ConnectorModel model)
     return it == data.end() ? unknown : it->second.svg_name;
 }
 
-const QString& connectorJsonName(ConnectorModel model)
+const QString& ceam::connectorJsonName(ConnectorModel model)
 {
     static const QString unknown("???");
     auto& data = model_map();
@@ -130,7 +135,7 @@ const QString& connectorJsonName(ConnectorModel model)
     return it == data.end() ? unknown : it->second.json_name;
 }
 
-const QString& connectorName(ConnectorModel model)
+const QString& ceam::connectorName(ConnectorModel model)
 {
     static const QString unknown("???");
     auto& data = model_map();
@@ -139,7 +144,7 @@ const QString& connectorName(ConnectorModel model)
     return it == data.end() ? unknown : it->second.name;
 }
 
-ConnectorModel findConnectorBySvgName(const QString& name)
+ConnectorModel ceam::findConnectorBySvgName(const QString& name)
 {
     auto& data = model_map();
     for (auto& kv : data) {
@@ -150,7 +155,7 @@ ConnectorModel findConnectorBySvgName(const QString& name)
     return ConnectorModel::UNKNOWN;
 }
 
-ConnectorModel findConnectorByJsonName(const QString& name)
+ConnectorModel ceam::findConnectorByJsonName(const QString& name)
 {
     auto& data = model_map();
     for (auto& kv : data) {
@@ -161,7 +166,7 @@ ConnectorModel findConnectorByJsonName(const QString& name)
     return ConnectorModel::UNKNOWN;
 }
 
-QString connectorTypeName(ConnectorType type)
+QString ceam::connectorTypeName(ConnectorType type)
 {
     switch (type) {
     case ConnectorType::Socket_Male:
@@ -175,7 +180,7 @@ QString connectorTypeName(ConnectorType type)
     }
 }
 
-bool connectSupportsPhantomPower(ConnectorModel model)
+bool ceam::connectSupportsPhantomPower(ConnectorModel model)
 {
     switch (model) {
     case ConnectorModel::XLR:

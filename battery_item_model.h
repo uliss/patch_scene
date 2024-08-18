@@ -21,6 +21,7 @@
 
 #include <unordered_map>
 
+namespace ceam {
 class BatteryItemModel : public QStandardItemModel {
     Q_OBJECT
 public:
@@ -39,5 +40,6 @@ private:
     QSortFilterProxyModel* proxy_;
     std::unordered_map<BatteryType, int> batteries_;
 };
+}
 
 #endif // BATTERY_ITEM_MODEL_H

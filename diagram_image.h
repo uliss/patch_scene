@@ -17,6 +17,8 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsSvgItem>
 
+namespace ceam {
+
 class DiagramImage : public QGraphicsItem {
 public:
     DiagramImage(const QString& path = {}, QGraphicsItem* parent = nullptr);
@@ -44,5 +46,7 @@ private:
     QGraphicsSvgItem* svg_ { nullptr };
     QByteArray svg_content_;
 };
+
+}
 
 #endif // DIAGRAM_IMAGE_H

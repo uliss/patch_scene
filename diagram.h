@@ -27,6 +27,8 @@
 #include <QUndoStack>
 #include <QWidget>
 
+namespace ceam {
+
 class Diagram : public QGraphicsView {
     Q_OBJECT
 
@@ -286,5 +288,7 @@ private:
      */
     void drawSelectionTo(const QPoint& pos);
 };
+
+}
 
 #endif // DIAGRAM_H

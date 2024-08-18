@@ -20,6 +20,7 @@ namespace Ui {
 class DevicePixmap;
 }
 
+namespace ceam {
 class DevicePixmap : public QDialog
 {
     Q_OBJECT
@@ -39,5 +40,6 @@ public slots:
 private:
     Ui::DevicePixmap *ui;
 };
+}
 
 #endif // DEVICE_PIXMAP_H

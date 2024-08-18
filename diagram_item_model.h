@@ -18,6 +18,8 @@
 
 #include <QStandardItemModel>
 
+namespace ceam {
+
 constexpr int DATA_DEVICE_DATA = Qt::UserRole + 1;
 constexpr int DATA_DEVICE_ID = Qt::UserRole + 2;
 constexpr int DATA_CONNECTION = Qt::UserRole + 3;
@@ -37,5 +39,6 @@ public:
     DiagramDataItem* deviceItem(int row, int column);
     void addDeviceItem(const SharedDeviceData& data);
 };
+}
 
 #endif // DIAGRAM_ITEM_MODEL_H

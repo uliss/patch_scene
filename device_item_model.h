@@ -19,6 +19,8 @@
 #include <QSortFilterProxyModel>
 #include <QStandardItemModel>
 
+namespace ceam {
+
 class DeviceItemModel : public QStandardItemModel {
     Q_OBJECT
 public:
@@ -47,5 +49,7 @@ public:
 private:
     QSortFilterProxyModel* proxy_;
 };
+
+}
 
 #endif // DEVICE_ITEM_MODEL_H

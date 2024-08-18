@@ -19,6 +19,8 @@
 
 #include <QTreeView>
 
+namespace ceam {
+
 class FavoritesWidget : public QTreeView {
     Q_OBJECT
 public:
@@ -33,5 +35,6 @@ private:
     DiagramItemModel* model_ { nullptr };
     void initContextMenu();
 };
+}
 
 #endif // FAVORITES_WIDGET_H

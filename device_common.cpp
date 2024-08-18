@@ -18,6 +18,8 @@
 #include <QJsonObject>
 #include <QJsonParseError>
 
+namespace {
+
 constexpr const char* STR_DEVICE = "device";
 constexpr const char* STR_SEND = "send";
 constexpr const char* STR_RETURN = "return";
@@ -41,7 +43,11 @@ constexpr const char* JSON_KEY_BATTERY_COUNT = "battery-count";
 
 constexpr int MAX_BATTERIES_COUNT = 10;
 
-const char* toString(ItemCategory cat)
+}
+
+using namespace ceam;
+
+const char* ceam::toString(ItemCategory cat)
 {
     switch (cat) {
     case ItemCategory::Human:
@@ -59,7 +65,7 @@ const char* toString(ItemCategory cat)
     }
 }
 
-bool fromQString(const QString& str, ItemCategory& cat)
+bool ceam::fromQString(const QString& str, ItemCategory& cat)
 {
     if (str.isEmpty()) {
         cat = ItemCategory::Device;
@@ -91,7 +97,7 @@ bool fromQString(const QString& str, ItemCategory& cat)
     }
 }
 
-void foreachItemCategory(std::function<void(const char*, int)> fn)
+void ceam::foreachItemCategory(std::function<void(const char*, int)> fn)
 {
     for (int i = static_cast<int>(ItemCategory::Device);
          i < static_cast<int>(ItemCategory::MaxCategory);
@@ -348,19 +354,19 @@ const QMap<BatteryType, std::pair<const char*, const char*>> BATTERY_NAMES_MAP =
 // clang-format on
 }
 
-const char* toString(BatteryType type)
+const char* ceam::toString(BatteryType type)
 {
     auto it = BATTERY_NAMES_MAP.find(type);
     return (it == BATTERY_NAMES_MAP.end()) ? "?" : it->first;
 }
 
-const char* toJsonString(BatteryType type)
+const char* ceam::toJsonString(BatteryType type)
 {
     auto it = BATTERY_NAMES_MAP.find(type);
     return (it == BATTERY_NAMES_MAP.end()) ? "?" : it->second;
 }
 
-BatteryType fromJsonString(const QString& str)
+BatteryType ceam::fromJsonString(const QString& str)
 {
     for (auto it = BATTERY_NAMES_MAP.keyValueBegin(); it != BATTERY_NAMES_MAP.keyValueEnd(); ++it) {
         if (it->second.second == str.toLower())
@@ -370,7 +376,7 @@ BatteryType fromJsonString(const QString& str)
     return BatteryType::None;
 }
 
-void foreachBatteryType(std::function<void(const char*, int)> fn)
+void ceam::foreachBatteryType(std::function<void(const char*, int)> fn)
 {
     for (int i = static_cast<int>(BatteryType::None);
          i < static_cast<int>(BatteryType::MaxBattery_);
@@ -378,13 +384,6 @@ void foreachBatteryType(std::function<void(const char*, int)> fn)
     {
         fn(toString(static_cast<BatteryType>(i)), i);
     }
-}
-
-QDebug operator<<(QDebug debug, const DeviceData& data)
-{
-    QDebugStateSaver saver(debug);
-    debug.nospace() << data.toJson();
-    return debug;
 }
 
 BatteryChange::BatteryChange(BatteryType typeA, int countA, BatteryType typeB, int countB)
@@ -398,4 +397,11 @@ BatteryChange::BatteryChange(BatteryType typeA, int countA, BatteryType typeB, i
 BatteryChange::operator bool() const
 {
     return typeA_ != typeB_ || countA_ != countB_;
+}
+
+QDebug operator<<(QDebug debug, const ceam::DeviceData& data)
+{
+    QDebugStateSaver saver(debug);
+    debug.nospace() << data.toJson();
+    return debug;
 }

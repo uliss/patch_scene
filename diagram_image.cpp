@@ -18,6 +18,7 @@
 #include <QJsonObject>
 #include <QTemporaryFile>
 
+namespace {
 constexpr const char* JSON_KEY_DATA = "data";
 constexpr const char* JSON_KEY_TYPE = "type";
 constexpr const char* JSON_PIXMAP = "pixmap";
@@ -39,6 +40,9 @@ QJsonValue jsonFromPixmap(const QPixmap& p)
     const auto encoded = buffer.data().toBase64();
     return { QLatin1String(encoded) };
 }
+}
+
+using namespace ceam;
 
 DiagramImage::DiagramImage(const QString& path, QGraphicsItem* parent)
     : QGraphicsItem(parent)

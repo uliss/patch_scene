@@ -27,6 +27,8 @@ constexpr int DATA_CONN_NCOLS = 6;
 
 }
 
+using namespace ceam;
+
 ConnectionItemModel::ConnectionItemModel(QObject* parent)
     : QStandardItemModel(0, DATA_CONN_NCOLS, parent)
 {

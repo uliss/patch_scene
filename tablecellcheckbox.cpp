@@ -16,6 +16,8 @@
 #include <QCheckBox>
 #include <QHBoxLayout>
 
+using namespace ceam;
+
 TableCellCheckBox::TableCellCheckBox(bool state)
 {
     chk_ = new QCheckBox(this);

@@ -18,6 +18,7 @@
 #include <QJsonValue>
 #include <QString>
 
+namespace ceam {
 class Contact {
     QString name_, work_, phone_, email_;
 
@@ -61,5 +62,6 @@ public:
     QJsonValue toJson() const;
     static std::optional<DiagramMeta> fromJson(const QJsonValue& val);
 };
+}
 
 #endif // DIAGRAM_META_H
