@@ -36,9 +36,6 @@
 #include <QTextDocumentWriter>
 #include <QTextTable>
 
-constexpr const char* SCHEME_DATA_URL = "mydata://scheme.png";
-constexpr qreal SCHEME_IMAGE_WIDTH = 625;
-
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -634,17 +631,8 @@ QTextDocument* MainWindow::exportToDocument(const QSizeF& pageSize)
     ceam::doc::insert_table(cursor, contacts_data);
 
     ceam::doc::insert_section(cursor, tr("Scheme"));
-    ceam::doc::insert_paragraph(cursor, "");
-    auto img = diagram_->toImage();
-    doc->addResource(QTextDocument::ImageResource, QUrl(SCHEME_DATA_URL), QVariant(img));
+    ceam::doc::insert_image(cursor, diagram_->toImage());
 
-    QTextImageFormat imageFormat;
-    imageFormat.setName(SCHEME_DATA_URL);
-    imageFormat.setWidth(SCHEME_IMAGE_WIDTH);
-    imageFormat.setHeight(SCHEME_IMAGE_WIDTH * img.height() / img.width());
-    cursor.insertImage(imageFormat);
-
-    ceam::doc::insert_paragraph(cursor, "");
     ceam::doc::insert_section(cursor, tr("Devices"));
     ceam::doc::insert_table(cursor, device_model_);
 
@@ -849,11 +837,15 @@ void MainWindow::exportToPdf()
     if (QFileInfo(pdf_file).suffix().isEmpty())
         pdf_file.append(".pdf");
 
-    QPrinter printer(QPrinter::PrinterResolution);
+    QPrinter printer(QPrinter::HighResolution);
+
     printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setCreator(QString("PatchScene v%1").arg(PATCH_SCENE_VERSION));
     printer.setPrintProgram(QString("PatchScene v%1").arg(PATCH_SCENE_VERSION));
     printer.setFontEmbeddingEnabled(true);
     printer.setOutputFileName(pdf_file);
+
+    qDebug() << "resolution:" << printer.resolution();
 
     auto doc = exportToDocument(printer.pageRect(QPrinter::Point).size());
     if (!doc)

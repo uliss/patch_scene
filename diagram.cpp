@@ -23,6 +23,7 @@
 #include <QMouseEvent>
 #include <QPrintDialog>
 #include <QPrinter>
+#include <QSvgGenerator>
 
 #include "device.h"
 #include "deviceproperties.h"
@@ -1202,20 +1203,62 @@ void Diagram::setClipBuffer(const QList<SharedDeviceData>& data)
 
 QImage Diagram::toImage() const
 {
-    QImage image(scene->itemsBoundingRect().size().toSize(), QImage::Format_RGB32);
+    QImage image(scene->itemsBoundingRect().size().toSize() * 4, QImage::Format_RGB32);
     QPainter painter(&image);
     painter.setRenderHint(QPainter::Antialiasing);
 
     const QSignalBlocker block(scene);
     // save scene rect
     auto scene_rect = scene->sceneRect();
+    auto brush = scene->backgroundBrush();
     // update scene rect
     scene->setSceneRect(scene->itemsBoundingRect());
+    scene->setBackgroundBrush(Qt::white);
     // render
     scene->render(&painter);
     // restore scene rect
     scene->setSceneRect(scene_rect);
+    scene->setBackgroundBrush(brush);
     return image;
+}
+
+std::pair<QByteArray, QSize> Diagram::toSvg() const
+{
+    QBuffer buf;
+    if (!buf.open(QBuffer::ReadWrite)) {
+        qWarning() << __FUNCTION__ << "can't open buffer";
+        return {};
+    }
+
+    QSvgGenerator svg_gen;
+    svg_gen.setOutputDevice(&buf);
+
+    QSignalBlocker db(scene);
+
+    auto box = scene->itemsBoundingRect().toRect();
+    auto old_rect = scene->sceneRect();
+
+    svg_gen.setSize(box.size());
+    svg_gen.setViewBox(QRect { 0, 0, box.width(), box.height() });
+    svg_gen.setTitle("PatchScheme connection diagram");
+    svg_gen.setResolution(72);
+    svg_gen.setDescription(QString("create with PatchScene v%1").arg(PATCH_SCENE_VERSION));
+
+    QPainter painter(&svg_gen);
+
+    scene->setSceneRect(box);
+    for (auto x : scene->items())
+        x->setCacheMode(QGraphicsItem::NoCache);
+
+    scene->render(&painter);
+    painter.end();
+
+    for (auto x : scene->items())
+        x->setCacheMode(QGraphicsItem::DeviceCoordinateCache);
+
+    scene->setSceneRect(old_rect);
+
+    return { buf.data(), box.size() };
 }
 
 void Diagram::updateZoom(qreal zoom)

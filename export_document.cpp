@@ -217,3 +217,46 @@ void ceam::doc::insert_header(QTextCursor& cursor, const QString& text)
 
     cursor.movePosition(QTextCursor::End);
 }
+
+void ceam::doc::insert_image(QTextCursor& cursor, const QImage& img)
+{
+    if (img.isNull())
+        return;
+
+    auto doc = cursor.document();
+    if (!doc)
+        return;
+
+    static int image_counter = 1;
+    auto res_id = QString("mydata://image-%1.png").arg(image_counter++);
+    doc->addResource(QTextDocument::ImageResource, res_id, QVariant(img));
+
+    QTextImageFormat img_fmt;
+    auto page_size = doc_page_size(cursor);
+    img_fmt.setName(res_id);
+    img_fmt.setWidth(page_size.width());
+    img_fmt.setHeight(page_size.width() * img.height() / img.width());
+    cursor.insertImage(img_fmt);
+}
+
+void ceam::doc::insert_svg_image(QTextCursor& cursor, const std::pair<QByteArray, QSize>& svg_data)
+{
+    if (cursor.isNull())
+        return;
+
+    auto doc = cursor.document();
+    if (!doc)
+        return;
+
+    static int image_counter = 1;
+    auto res_id = QString("mydata://image-%1.svg").arg(image_counter++);
+    doc->addResource(QTextDocument::ImageResource, res_id, QVariant(svg_data.first));
+
+    QTextImageFormat img_fmt;
+    auto page_size = doc_page_size(cursor);
+    auto svg_size = svg_data.second;
+    img_fmt.setName(res_id);
+    img_fmt.setWidth(page_size.width());
+    img_fmt.setHeight(page_size.width() * svg_size.height() / qreal(svg_size.width()));
+    cursor.insertImage(img_fmt);
+}

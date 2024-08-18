@@ -26,6 +26,8 @@ namespace doc {
     void insert_header(QTextCursor& cursor, const QString& text);
     void insert_section(QTextCursor& cursor, const QString& text);
     void insert_paragraph(QTextCursor& cursor, const QString& text, Qt::Alignment align = Qt::AlignLeft);
+    void insert_image(QTextCursor& cursor, const QImage& img);
+    void insert_svg_image(QTextCursor& cursor, const std::pair<QByteArray, QSize>& svg_data);
 }
 }
 

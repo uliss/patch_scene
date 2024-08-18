@@ -179,6 +179,7 @@ public:
     void setClipBuffer(const QList<SharedDeviceData>& data);
 
     QImage toImage() const;
+    std::pair<QByteArray, QSize> toSvg() const;
 
 signals:
     void addToFavorites(SharedDeviceData data);
