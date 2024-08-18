@@ -94,10 +94,61 @@ http://ceammc.com</oldsource>
     </message>
 </context>
 <context>
+    <name>ConnectionItemModel</name>
+    <message>
+        <location filename="connection_item_model.cpp" line="33"/>
+        <source>Source</source>
+        <translation>Источник</translation>
+    </message>
+    <message>
+        <location filename="connection_item_model.cpp" line="33"/>
+        <source>Model</source>
+        <translation>Модель</translation>
+    </message>
+    <message>
+        <location filename="connection_item_model.cpp" line="33"/>
+        <source>Plug</source>
+        <translation>Вилка</translation>
+    </message>
+    <message>
+        <location filename="connection_item_model.cpp" line="33"/>
+        <source>Destination</source>
+        <translation>Назначение</translation>
+    </message>
+    <message>
+        <location filename="connection_item_model.cpp" line="68"/>
+        <source>female</source>
+        <translation>мама</translation>
+    </message>
+    <message>
+        <location filename="connection_item_model.cpp" line="70"/>
+        <source>male</source>
+        <translation>папа</translation>
+    </message>
+</context>
+<context>
     <name>DeviceData</name>
     <message>
         <source>Device</source>
         <translation type="vanished">Устройство</translation>
+    </message>
+</context>
+<context>
+    <name>DeviceItemModel</name>
+    <message>
+        <location filename="device_item_model.cpp" line="26"/>
+        <source>Name</source>
+        <translation>Название</translation>
+    </message>
+    <message>
+        <location filename="device_item_model.cpp" line="26"/>
+        <source>Vendor</source>
+        <translation>Производитель</translation>
+    </message>
+    <message>
+        <location filename="device_item_model.cpp" line="26"/>
+        <source>Model</source>
+        <translation>Модель</translation>
     </message>
 </context>
 <context>
@@ -402,12 +453,12 @@ http://ceammc.com</oldsource>
 <context>
     <name>FavoritesWidget</name>
     <message>
-        <location filename="favorites_widget.cpp" line="98"/>
+        <location filename="favorites_widget.cpp" line="96"/>
         <source>Edit</source>
         <translation>Правка</translation>
     </message>
     <message>
-        <location filename="favorites_widget.cpp" line="119"/>
+        <location filename="favorites_widget.cpp" line="117"/>
         <source>Remove</source>
         <translation>Удалить</translation>
     </message>
@@ -489,28 +540,28 @@ http://ceammc.com</oldsource>
     </message>
     <message>
         <location filename="mainwindow.ui" line="273"/>
-        <location filename="mainwindow.cpp" line="858"/>
+        <location filename="mainwindow.cpp" line="789"/>
         <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="562"/>
         <source>Devices</source>
         <translation>Устройства</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="311"/>
-        <location filename="mainwindow.cpp" line="861"/>
+        <location filename="mainwindow.cpp" line="792"/>
         <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="563"/>
         <source>Connections</source>
         <translation>Соединения</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="346"/>
-        <location filename="mainwindow.cpp" line="864"/>
+        <location filename="mainwindow.cpp" line="795"/>
         <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="564"/>
         <source>Sends</source>
         <translation>Посылы</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="381"/>
-        <location filename="mainwindow.cpp" line="867"/>
+        <location filename="mainwindow.cpp" line="798"/>
         <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="565"/>
         <source>Returns</source>
         <translation>Возвраты</translation>
@@ -806,7 +857,7 @@ http://ceammc.com</oldsource>
     </message>
     <message>
         <location filename="mainwindow.ui" line="721"/>
-        <location filename="mainwindow.cpp" line="759"/>
+        <location filename="mainwindow.cpp" line="668"/>
         <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="550"/>
         <source>Clear</source>
         <translation>Очистить</translation>
@@ -840,144 +891,127 @@ http://ceammc.com</oldsource>
         <translation>показать/скрыть фон</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="225"/>
+        <location filename="mainwindow.cpp" line="112"/>
         <source>Zoom %1%</source>
         <translation>Масштаб %1%</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="238"/>
+        <location filename="mainwindow.cpp" line="210"/>
         <source>search in library</source>
         <translation>поиск в библиотеке</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="91"/>
-        <location filename="mainwindow.cpp" line="852"/>
+        <location filename="mainwindow.cpp" line="771"/>
         <source>Name</source>
         <translation>Название</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="91"/>
         <source>Vendor</source>
-        <translation>Производитель</translation>
+        <translation type="vanished">Производитель</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="91"/>
-        <location filename="mainwindow.cpp" line="142"/>
         <source>Model</source>
-        <translation>Модель</translation>
+        <translation type="vanished">Модель</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="142"/>
         <source>Source</source>
-        <translation>Источник</translation>
+        <translation type="vanished">Источник</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="142"/>
         <source>Plug</source>
-        <translation>Вилка</translation>
+        <translation type="vanished">Вилка</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="142"/>
         <source>Destination</source>
-        <translation>Назначение</translation>
+        <translation type="vanished">Назначение</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="155"/>
-        <location filename="mainwindow.cpp" line="160"/>
         <source>Output</source>
-        <translation>Выход</translation>
+        <translation type="vanished">Выход</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="155"/>
         <source>Send</source>
-        <translation>Посыл</translation>
+        <translation type="vanished">Посыл</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="155"/>
-        <location filename="mainwindow.cpp" line="160"/>
         <source>Input</source>
-        <translation>Вход</translation>
+        <translation type="vanished">Вход</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="155"/>
-        <location filename="mainwindow.cpp" line="160"/>
         <source>Device</source>
-        <translation>Устройство</translation>
+        <translation type="vanished">Устройство</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="160"/>
         <source>Return</source>
-        <translation>Возврат</translation>
+        <translation type="vanished">Возврат</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="276"/>
+        <location filename="mainwindow.cpp" line="293"/>
         <source>New Project - PatchScene</source>
         <translation>Новый проект - PatchScene</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="279"/>
+        <location filename="mainwindow.cpp" line="296"/>
         <source>%1 - PatchScene</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="296"/>
+        <location filename="mainwindow.cpp" line="313"/>
         <source>Open image</source>
         <translation>Открыть изображение</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="298"/>
+        <location filename="mainwindow.cpp" line="315"/>
         <source>Image files (*.JPG *.jpg *.jpeg *.PNG *.png *.SVG *.svg)</source>
         <translation>Изображения (*.JPG *.jpg *.jpeg *.PNG *.png *.SVG *.svg)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="640"/>
+        <location filename="mainwindow.cpp" line="565"/>
         <source>furniture</source>
         <translation>инвентарь</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="645"/>
+        <location filename="mainwindow.cpp" line="570"/>
         <source>humans</source>
         <translation>люди</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="323"/>
+        <location filename="mainwindow.cpp" line="340"/>
         <source>Warning</source>
         <translation>Внимание</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="324"/>
+        <location filename="mainwindow.cpp" line="341"/>
         <source>Document is not saved!
 Do you wan&apos;t to save it before closing?</source>
         <translation>Документ не сохранен!
 Сохранить его перед закрытием?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="481"/>
         <source>female</source>
-        <translation>мама</translation>
+        <translation type="vanished">мама</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="483"/>
         <source>male</source>
-        <translation>папа</translation>
+        <translation type="vanished">папа</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="620"/>
+        <location filename="mainwindow.cpp" line="545"/>
         <source>devices</source>
         <translation>устройства</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="625"/>
+        <location filename="mainwindow.cpp" line="550"/>
         <source>instruments</source>
         <translation>инструменты</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="630"/>
+        <location filename="mainwindow.cpp" line="555"/>
         <source>sends</source>
         <translation>посылы</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="635"/>
+        <location filename="mainwindow.cpp" line="560"/>
         <source>returns</source>
         <translation>возвраты</translation>
     </message>
@@ -986,72 +1020,77 @@ Do you wan&apos;t to save it before closing?</source>
         <translation type="vanished">разное</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="820"/>
+        <location filename="mainwindow.cpp" line="729"/>
         <source>Save project</source>
         <translation>Сохранить проект</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="820"/>
+        <location filename="mainwindow.cpp" line="729"/>
         <source>PatchScene projects (*.psc *.json)</source>
         <translation>проекты PatchScene (*.psc *.json)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="832"/>
+        <location filename="mainwindow.cpp" line="749"/>
         <source>OpenDocument format (*.odt)</source>
         <translation>OpenDocument формат (*.odt)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="832"/>
+        <location filename="mainwindow.cpp" line="749"/>
         <source>Save to OpenDocument format</source>
         <translation>Сохранить в формате OpenDocument</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="843"/>
+        <location filename="mainwindow.cpp" line="762"/>
         <source>Event date: %1</source>
         <translation>Дата события %1</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="846"/>
+        <location filename="mainwindow.cpp" line="765"/>
         <source>Information</source>
         <translation>Информация</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="850"/>
+        <location filename="mainwindow.cpp" line="769"/>
         <source>Contacts</source>
         <translation>Контакты</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="852"/>
+        <location filename="mainwindow.cpp" line="771"/>
         <source>Work</source>
         <translation>Должность</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="852"/>
+        <location filename="mainwindow.cpp" line="771"/>
         <source>Phone</source>
         <translation>Телефон</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="852"/>
+        <location filename="mainwindow.cpp" line="771"/>
         <source>Email</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="872"/>
+        <location filename="mainwindow.cpp" line="777"/>
+        <source>Scheme</source>
+        <translation>Схема</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="803"/>
         <source>Created with PatchScene v%1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="884"/>
+        <location filename="mainwindow.cpp" line="815"/>
         <source>Open project</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="884"/>
+        <location filename="mainwindow.cpp" line="815"/>
         <source>PatchScene projects (*.psc)</source>
         <translation>Проекты PatchScene (*.psc)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="894"/>
+        <location filename="mainwindow.cpp" line="825"/>
         <source>Load &apos;%1&apos;</source>
         <translation>Загружен &apos;%1&apos;</translation>
     </message>
@@ -1063,6 +1102,52 @@ Do you wan&apos;t to save it before closing?</source>
         <location filename="build/patch_scene_autogen/include/ui_preferences_dialog.h" line="52"/>
         <source>Preferences</source>
         <translation>Настройки</translation>
+    </message>
+</context>
+<context>
+    <name>ReturnItemModel</name>
+    <message>
+        <location filename="return_item_model.cpp" line="49"/>
+        <source>Return</source>
+        <translation>Возврат</translation>
+    </message>
+    <message>
+        <location filename="return_item_model.cpp" line="49"/>
+        <source>Output</source>
+        <translation>Выход</translation>
+    </message>
+    <message>
+        <location filename="return_item_model.cpp" line="49"/>
+        <source>Device</source>
+        <translation>Устройство</translation>
+    </message>
+    <message>
+        <location filename="return_item_model.cpp" line="49"/>
+        <source>Input</source>
+        <translation>Вход</translation>
+    </message>
+</context>
+<context>
+    <name>SendItemModel</name>
+    <message>
+        <location filename="send_item_model.cpp" line="49"/>
+        <source>Send</source>
+        <translation>Посыл</translation>
+    </message>
+    <message>
+        <location filename="send_item_model.cpp" line="49"/>
+        <source>Input</source>
+        <translation>Вход</translation>
+    </message>
+    <message>
+        <location filename="send_item_model.cpp" line="49"/>
+        <source>Device</source>
+        <translation>Устройство</translation>
+    </message>
+    <message>
+        <location filename="send_item_model.cpp" line="49"/>
+        <source>Output</source>
+        <translation>Выход</translation>
     </message>
 </context>
 </TS>
