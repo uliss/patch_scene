@@ -50,6 +50,26 @@ void BatteryItemModel::removeDeviceData(const SharedDeviceData& data)
     updateData();
 }
 
+void BatteryItemModel::updateDeviceData(const BatteryChange& data)
+{
+    if (data) {
+        int updates = 0;
+
+        if (data.typeA() != BatteryType::None) {
+            batteries_[data.typeA()] -= data.typeADelta();
+            updates++;
+        }
+
+        if (data.typeB() != BatteryType::None) {
+            batteries_[data.typeB()] += data.typeBDelta();
+            updates++;
+        }
+
+        if (updates > 0)
+            updateData();
+    }
+}
+
 void BatteryItemModel::updateData()
 {
     setRowCount(batteries_.size());
@@ -72,5 +92,7 @@ void BatteryItemModel::updateData()
             count->setData(kv.second);
             count->setText(QString("%1").arg(kv.second));
         }
+
+        row++;
     }
 }

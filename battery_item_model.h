@@ -28,6 +28,7 @@ public:
 
     void addDeviceData(const SharedDeviceData& data);
     void removeDeviceData(const SharedDeviceData& data);
+    void updateDeviceData(const BatteryChange& data);
 
     QSortFilterProxyModel* sortProxy() { return proxy_; }
 
