@@ -97,7 +97,7 @@ static const ConnectorModelMap& model_map()
         { ConnectorModel::POWER_TYPE_SCHUKO,       { "power_schuko",     "power_schuko",     "Power Schuko (type F)" } },
         { ConnectorModel::POWER_TYPE_A,            { "power_type_a",     "power_type_a",     "Power type A" } },
         { ConnectorModel::POWER_TYPE_B,            { "power_type_b",     "power_type_b",     "Power type B" } },
-        { ConnectorModel::POWER_TYPE_C,            { "power_type_b",     "power_type_b",     "Power type C" } },
+        { ConnectorModel::POWER_TYPE_C,            { "power_type_c",     "power_type_b",     "Power type C" } },
         { ConnectorModel::POWER_IEC_C_1_2,         { "power_iec_c_1_2",  "power_iec_c_1_2",  "Power IEC C1/C2" } },
         { ConnectorModel::POWER_IEC_C_7_8,         { "power_iec_c_7_8",  "power_iec_c_7_8",  "Power IEC C7/C8" } },
         { ConnectorModel::POWER_IEC_C_13_14,       { "power_iec_c_13_14","power_iec_c_13_14b","Power IEC C13/C14" } },
