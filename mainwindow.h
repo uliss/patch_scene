@@ -47,7 +47,7 @@ public slots:
     bool saveDocument();
     bool saveDocumentAs();
     void duplicateSelection();
-    void exportDocument();
+    void exportToOdf();
     void openDocument();
     void openDocument(const QString& path);
     void printScheme();

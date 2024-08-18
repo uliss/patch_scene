@@ -180,7 +180,7 @@ void MainWindow::initActions()
     connect(ui->actionShowBackground, &QAction::triggered, diagram_, [this](bool value) {
         diagram_->setShowBackground(value);
     });
-    connect(ui->actionExport, SIGNAL(triggered()), this, SLOT(exportDocument()));
+    connect(ui->actionExport, SIGNAL(triggered()), this, SLOT(exportToOdf()));
 
     connect(ui->actionAddDevice, &QAction::triggered, this, [this]() {
         auto pos = diagram_->mapFromGlobal(QCursor::pos());
@@ -739,7 +739,7 @@ void MainWindow::duplicateSelection()
     diagram_->cmdDuplicateSelection();
 }
 
-void MainWindow::exportDocument()
+void MainWindow::exportToOdf()
 {
     QFileInfo finfo(file_name_);
 
