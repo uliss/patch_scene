@@ -335,7 +335,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="returnListBtn">
+      <widget class="QToolButton" name="sendListBtn">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -354,10 +354,10 @@
       </widget>
      </item>
      <item>
-      <widget class="QTableView" name="returnList"/>
+      <widget class="QTableView" name="sendList"/>
      </item>
      <item>
-      <widget class="Line" name="returnListLine">
+      <widget class="Line" name="sendListLine">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -370,7 +370,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="sendListBtn">
+      <widget class="QToolButton" name="returnListBtn">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -389,10 +389,10 @@
       </widget>
      </item>
      <item>
-      <widget class="QTableView" name="sendList"/>
+      <widget class="QTableView" name="returnList"/>
      </item>
      <item>
-      <widget class="Line" name="sendListLine">
+      <widget class="Line" name="returnListLine">
        <property name="enabled">
         <bool>false</bool>
        </property>

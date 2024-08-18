@@ -15,9 +15,12 @@
 #define MAINWINDOW_H
 
 #include "app_settings.h"
+#include "connection_item_model.h"
 #include "device_item_model.h"
 #include "diagram.h"
 #include "favorites_widget.h"
+#include "return_item_model.h"
+#include "send_item_model.h"
 
 #include <QMainWindow>
 #include <QSortFilterProxyModel>
@@ -108,7 +111,9 @@ private:
     QString file_name_;
     QSortFilterProxyModel* library_proxy_;
     DeviceItemModel* device_model_;
-    QStandardItemModel *conn_model_, *send_model_, *return_model_;
+    ConnectionItemModel* conn_model_;
+    SendItemModel* send_model_;
+    ReturnItemModel* return_model_;
     FavoritesWidget* favorites_;
     AppSettings settings_;
     QList<QUrl> recent_files_;

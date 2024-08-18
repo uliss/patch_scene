@@ -35,32 +35,6 @@
 #include <QTextDocumentWriter>
 #include <QTextTable>
 
-enum ConnColumnOrder {
-    COL_CONN_SRC_NAME = 0,
-    COL_CONN_SRC_MODEL,
-    COL_CONN_SRC_PLUG,
-    COL_CONN_DEST_NAME,
-    COL_CONN_DEST_MODEL,
-    COL_CONN_DEST_PLUG
-};
-constexpr int DATA_CONN_NCOLS = 6;
-
-enum SendColumnOrder {
-    COL_SEND_NAME = 0,
-    COL_SEND_INPUT,
-    COL_SEND_SRC_NAME,
-    COL_SEND_SRC_OUTPUT
-};
-constexpr int DATA_SEND_NCOLS = 4;
-
-enum ReturnColumnOrder {
-    COL_RETURN_NAME = 0,
-    COL_RETURN_OUTPUT,
-    COL_RETURN_DEST_NAME,
-    COL_RETURN_DEST_INPUT,
-};
-constexpr int DATA_RETURN_NCOLS = 4;
-
 constexpr const char* SCHEME_DATA_URL = "mydata://scheme.png";
 constexpr qreal SCHEME_IMAGE_WIDTH = 625;
 
@@ -129,9 +103,9 @@ void MainWindow::initDiagram()
     connect(diagram_, &Diagram::canUndoChanged, this, [this](bool value) { ui->actionUndo->setEnabled(value); });
     connect(diagram_, &Diagram::sceneClearAll, this, [this]() {
         device_model_->clearItems();
-        conn_model_->removeRows(0, conn_model_->rowCount());
-        send_model_->removeRows(0, send_model_->rowCount());
-        return_model_->removeRows(0, return_model_->rowCount());
+        conn_model_->clearItems();
+        send_model_->clearItems();
+        return_model_->clearItems();
     });
     connect(diagram_, SIGNAL(addToFavorites(SharedDeviceData)), this, SLOT(onAddToFavorites(SharedDeviceData)));
     connect(diagram_, &Diagram::zoomChanged, this, [this](qreal z) {
@@ -240,34 +214,28 @@ void MainWindow::initLibrarySearch()
 
 void MainWindow::initConnectionList()
 {
-    conn_model_ = new QStandardItemModel(0, DATA_CONN_NCOLS, this);
-    conn_model_->setHorizontalHeaderLabels({ tr("Source"), tr("Model"), tr("Plug"), tr("Destination"), tr("Model"), tr("Plug") });
+    conn_model_ = new ConnectionItemModel(this);
     setupEquipmentTableView(ui->connectionList, conn_model_);
     connect(ui->connectionList, &QTableView::clicked, this, [this](const QModelIndex& index) {
-        if (index.column() == COL_CONN_SRC_NAME || index.column() == COL_CONN_DEST_NAME) {
-            bool ok = false;
-            auto id = index.data(DATA_DEVICE_ID).toInt(&ok);
-            if (ok)
-                diagram_->cmdSelectUnique(id);
-        }
+        auto id = conn_model_->deviceId(index);
+        if (id)
+            diagram_->cmdSelectUnique(id.value());
     });
     ui->connectionList->resizeColumnsToContents();
 }
 
 void MainWindow::initSendList()
 {
-    send_model_ = new QStandardItemModel(0, DATA_SEND_NCOLS, this);
-    send_model_->setHorizontalHeaderLabels({ tr("Send"), tr("Input"), tr("Device"), tr("Output") });
-    setupEquipmentTableView(ui->returnList, send_model_);
-    ui->returnList->resizeColumnsToContents();
+    send_model_ = new SendItemModel(this);
+    setupEquipmentTableView(ui->sendList, send_model_);
+    ui->sendList->resizeColumnsToContents();
 }
 
 void MainWindow::initReturnList()
 {
-    return_model_ = new QStandardItemModel(0, DATA_RETURN_NCOLS, this);
-    return_model_->setHorizontalHeaderLabels({ tr("Return"), tr("Output"), tr("Device"), tr("Input") });
-    setupEquipmentTableView(ui->sendList, return_model_);
-    ui->sendList->resizeColumnsToContents();
+    return_model_ = new ReturnItemModel(this);
+    setupEquipmentTableView(ui->returnList, return_model_);
+    ui->returnList->resizeColumnsToContents();
 }
 
 void MainWindow::updateTitle()
@@ -364,40 +332,16 @@ void MainWindow::onDeviceRemove(SharedDeviceData data)
         ui->deviceList->resizeColumnsToContents();
 }
 
-static bool updateItemDeviceName(QStandardItem* item, DeviceId id, const QString& title)
-{
-    if (!item)
-        return false;
-
-    bool ok = false;
-    auto dev_id = item->data(DATA_DEVICE_ID).toInt(&ok);
-    if (dev_id && dev_id == id) {
-        if (item->text() != title)
-            item->setText(title);
-
-        return true;
-    } else
-        return false;
-}
-
 void MainWindow::onDeviceTitleUpdate(DeviceId id, const QString& title)
 {
-    // update connection device name change
-    for (int i = 0; i < conn_model_->rowCount(); i++) {
-        if (updateItemDeviceName(conn_model_->item(i, COL_CONN_SRC_NAME), id, title))
-            continue;
+    if (conn_model_->updateDeviceTitle(id, title))
+        ui->connectionList->resizeColumnsToContents();
 
-        if (updateItemDeviceName(conn_model_->item(i, COL_CONN_DEST_NAME), id, title))
-            continue;
-    }
+    if (send_model_->updateDeviceTitle(id, title))
+        ui->sendList->resizeColumnsToContents();
 
-    // update connection device name change
-    for (int i = 0; i < send_model_->rowCount(); i++)
-        updateItemDeviceName(send_model_->item(i, COL_SEND_SRC_NAME), id, title);
-
-    // update connection device name change
-    for (int i = 0; i < return_model_->rowCount(); i++)
-        updateItemDeviceName(return_model_->item(i, COL_RETURN_DEST_NAME), id, title);
+    if (return_model_->updateDeviceTitle(id, title))
+        ui->returnList->resizeColumnsToContents();
 }
 
 void MainWindow::updateDeviceView(const SharedDeviceData& data, int idx)
@@ -452,78 +396,33 @@ void MainWindow::onDeviceUpdate(SharedDeviceData data)
 
 void MainWindow::onConnectionAdd(ConnectionData data)
 {
-    auto conn2str = [](ConnectorType t) {
-        switch (t) {
-        case ConnectorType::Socket_Male:
-            return tr("female");
-        case ConnectorType::Socket_Female:
-            return tr("male");
-        default:
-            return QString {};
-        }
-    };
-
     XletData src, dest;
     Device *src_dev = nullptr, *dest_dev = nullptr;
     if (diagram_->findConnectionXletData(data, src, dest, &src_dev, &dest_dev)) {
-        auto src_name = new QStandardItem(src_dev->deviceData()->title());
-        src_name->setData(QVariant::fromValue(data), DATA_CONNECTION);
-        src_name->setData(data.src, DATA_DEVICE_ID);
-        src_name->setEditable(false);
-        auto src_model = new QStandardItem(src.modelString());
-        src_model->setEditable(false);
-        auto src_plug = new QStandardItem(conn2str(src.type));
-        src_plug->setEditable(false);
-        auto dest_name = new QStandardItem(dest_dev->deviceData()->title());
-        dest_name->setData(QVariant::fromValue(data), DATA_CONNECTION);
-        dest_name->setData(data.dest, DATA_DEVICE_ID);
-        dest_name->setEditable(false);
-        auto dest_model = new QStandardItem(dest.modelString());
-        dest_model->setEditable(false);
-        auto dest_plug = new QStandardItem(conn2str(dest.type));
-        dest_plug->setEditable(false);
+        if (!src_dev || !dest_dev)
+            return;
 
-        conn_model_->appendRow({ src_name, src_model, src_plug, dest_name, dest_model, dest_plug });
-        ui->connectionList->resizeColumnsToContents();
+        if (conn_model_->addConnection(data, src_dev->deviceData(), src, dest_dev->deviceData(), dest))
+            ui->connectionList->resizeColumnsToContents();
 
-        if (dest_dev->deviceData()->category() == ItemCategory::Send) {
-            auto src_idx = new QStandardItem(QString("%1").arg((int)data.out + 1));
-            auto dest_idx = new QStandardItem(QString("%1").arg((int)data.in + 1));
-            send_model_->appendRow({ dest_name->clone(), dest_idx, src_name->clone(), src_idx });
-            ui->returnList->resizeColumnsToContents();
-        }
-
-        if (src_dev->deviceData()->category() == ItemCategory::Return) {
-            auto src_idx = new QStandardItem(QString("%1").arg((int)data.out + 1));
-            auto dest_idx = new QStandardItem(QString("%1").arg((int)data.in + 1));
-            return_model_->appendRow({ src_name->clone(), src_idx, dest_name->clone(), dest_idx });
+        if (send_model_->addConnection(data, src_dev->deviceData(), dest_dev->deviceData()))
             ui->sendList->resizeColumnsToContents();
-        }
+
+        if (return_model_->addConnection(data, src_dev->deviceData(), dest_dev->deviceData()))
+            ui->returnList->resizeColumnsToContents();
     }
 }
 
 void MainWindow::onConnectionRemove(ConnectionData data)
 {
-    for (int i = 0; i < conn_model_->rowCount(); i++) {
-        auto item = conn_model_->item(i, COL_CONN_SRC_NAME);
-        if (item && item->data(DATA_CONNECTION) == QVariant::fromValue(data)) {
-            conn_model_->removeRow(i);
-        }
-    }
+    if (conn_model_->removeConnection(data))
+        ui->connectionList->resizeColumnsToContents();
 
-    for (int i = 0; i < send_model_->rowCount(); i++) {
-        auto item = send_model_->item(i, COL_SEND_SRC_NAME);
-        if (item && item->data(DATA_CONNECTION) == QVariant::fromValue(data)) {
-            send_model_->removeRow(i);
-        }
-    }
+    if (send_model_->removeConnection(data))
+        ui->sendList->resizeColumnsToContents();
 
-    for (int i = 0; i < return_model_->rowCount(); i++) {
-        auto item = return_model_->item(i, COL_RETURN_DEST_NAME);
-        if (item && item->data(DATA_CONNECTION) == QVariant::fromValue(data)) {
-            return_model_->removeRow(i);
-        }
-    }
+    if (return_model_->removeConnection(data))
+        ui->returnList->resizeColumnsToContents();
 }
 
 void MainWindow::onSceneChange()

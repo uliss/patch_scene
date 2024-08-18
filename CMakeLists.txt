@@ -85,6 +85,9 @@ qt_add_executable(patch_scene
     undo_commands.h undo_commands.cpp
     app_settings.h app_settings.cpp
     device_item_model.h device_item_model.cpp
+    connection_item_model.h connection_item_model.cpp
+    send_item_model.h send_item_model.cpp
+    return_item_model.h return_item_model.cpp
     #tests/test_device_data.h tests/test_device_data.cpp
 )
 
