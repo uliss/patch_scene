@@ -677,6 +677,11 @@ QTextDocument* MainWindow::exportToDocument(const QSizeF& pageSize)
     ceam::doc::insert_section(cursor, tr("Returns"));
     ceam::doc::insert_table(cursor, return_model_);
 
+    if (battery_model_->rowCount() > 0) {
+        ceam::doc::insert_section(cursor, tr("Batteries"));
+        ceam::doc::insert_table(cursor, battery_model_);
+    }
+
     ceam::doc::insert_paragraph(cursor, tr("Created with PatchScene v%1").arg(PATCH_SCENE_VERSION), Qt::AlignRight);
 
     return doc;
