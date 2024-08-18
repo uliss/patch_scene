@@ -28,6 +28,7 @@
 #include <QJsonObject>
 #include <QMessageBox>
 #include <QMimeData>
+#include <QPrinter>
 #include <QSettings>
 #include <QStandardItemModel>
 #include <QStandardPaths>
@@ -181,7 +182,8 @@ void MainWindow::initActions()
     connect(ui->actionShowBackground, &QAction::triggered, diagram_, [this](bool value) {
         diagram_->setShowBackground(value);
     });
-    connect(ui->actionExport, SIGNAL(triggered()), this, SLOT(exportToOdf()));
+    connect(ui->actionExportToPdf, SIGNAL(triggered()), this, SLOT(exportToPdf()));
+    connect(ui->actionExportToOdf, SIGNAL(triggered()), this, SLOT(exportToOdf()));
 
     connect(ui->actionAddDevice, &QAction::triggered, this, [this]() {
         auto pos = diagram_->mapFromGlobal(QCursor::pos());
@@ -604,9 +606,10 @@ void MainWindow::resizePanels()
     resizeDocks({ ui->libraryDock, ui->tableDock }, dockSizes, Qt::Horizontal);
 }
 
-QTextDocument* MainWindow::exportToDocument()
+QTextDocument* MainWindow::exportToDocument(const QSizeF& pageSize)
 {
     auto doc = new QTextDocument(this);
+    doc->setPageSize(pageSize);
     doc->setMetaInformation(QTextDocument::DocumentTitle, diagram_->meta().title());
 
     QTextCursor cursor(doc);
@@ -803,23 +806,21 @@ void MainWindow::duplicateSelection()
 
 void MainWindow::exportToOdf()
 {
-    QFileInfo finfo(file_name_);
-
     auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, "", QStandardPaths::LocateDirectory);
     if (file_name_.isEmpty()) {
         path += "/NewProject.odt";
     } else {
-        path += "/" + finfo.baseName() + ".odt";
+        path += "/" + QFileInfo(file_name_).baseName() + ".odt";
     }
 
-    auto odt_file = QFileDialog::getSaveFileName(this, tr("Save to OpenDocument format"), path, tr("OpenDocument format (*.odt)"));
+    auto odt_file = QFileDialog::getSaveFileName(this, tr("Export to OpenDocument format"), path, tr("OpenDocument format (*.odt)"));
     if (odt_file.isEmpty())
         return;
 
     if (QFileInfo(odt_file).suffix().isEmpty())
         odt_file.append(".odt");
 
-    auto doc = exportToDocument();
+    auto doc = exportToDocument(QSizeF(575, 822));
     if (!doc)
         return;
 
@@ -830,6 +831,35 @@ void MainWindow::exportToOdf()
     } else {
         qWarning() << "can't save to" << odt_file;
     }
+}
+
+void MainWindow::exportToPdf()
+{
+    auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, "", QStandardPaths::LocateDirectory);
+    if (file_name_.isEmpty()) {
+        path += "/NewProject.pdf";
+    } else {
+        path += "/" + QFileInfo(file_name_).baseName() + ".pdf";
+    }
+
+    auto pdf_file = QFileDialog::getSaveFileName(this, tr("Export to PDF format"), path, tr("PDF format (*.pdf)"));
+    if (pdf_file.isEmpty())
+        return;
+
+    if (QFileInfo(pdf_file).suffix().isEmpty())
+        pdf_file.append(".pdf");
+
+    QPrinter printer(QPrinter::PrinterResolution);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setPrintProgram(QString("PatchScene v%1").arg(PATCH_SCENE_VERSION));
+    printer.setFontEmbeddingEnabled(true);
+    printer.setOutputFileName(pdf_file);
+
+    auto doc = exportToDocument(printer.pageRect(QPrinter::Point).size());
+    if (!doc)
+        return;
+
+    doc->print(&printer);
 }
 
 void MainWindow::openDocument()

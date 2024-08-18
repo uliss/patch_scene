@@ -20,7 +20,7 @@
 constexpr int DEFAULT_FONT_SIZE = 10;
 constexpr int PAR_FONT_SIZE = DEFAULT_FONT_SIZE;
 constexpr int TAB_FONT_SIZE = DEFAULT_FONT_SIZE;
-constexpr int SECTION_FONT_SIZE = DEFAULT_FONT_SIZE + 2;
+constexpr int SECTION_FONT_SIZE = DEFAULT_FONT_SIZE * 1.5;
 constexpr int HEADER_FONT_SIZE = DEFAULT_FONT_SIZE * 2;
 
 static QTextCharFormat make_char_fmt(int size, bool bold = false, bool italic = false)
@@ -28,7 +28,7 @@ static QTextCharFormat make_char_fmt(int size, bool bold = false, bool italic = 
     QTextCharFormat fmt;
     fmt.setFontWeight(bold ? QFont::Bold : QFont::Normal);
     fmt.setFontPointSize(size);
-    fmt.setFontItalic(true);
+    fmt.setFontItalic(italic);
     return fmt;
 }
 
@@ -57,23 +57,38 @@ static QTextBlockFormat make_cell_fmt(Qt::Alignment align = Qt::AlignLeft)
     return fmt;
 }
 
-static QTextTableFormat make_table_fmt()
+static QTextTableFormat make_table_fmt(int width)
 {
+    constexpr int LEFT_MARGIN = 40;
+    constexpr int NUM_COL_WIDTH = 35;
     QTextTableFormat fmt;
 
     fmt.setCellPadding(3);
+    fmt.setTopMargin(10);
     fmt.setBottomMargin(10);
     fmt.setHeaderRowCount(1);
     fmt.setCellSpacing(0);
+    fmt.setLeftMargin(LEFT_MARGIN);
+    fmt.setWidth(width);
 
-    fmt.setBackground(Qt::red);
-    fmt.setForeground(Qt::green);
+    fmt.setBorderBrush(Qt::lightGray);
+    fmt.setBorderStyle(QTextFrameFormat::BorderStyle_Solid);
+    fmt.setBorderCollapse(true);
+    fmt.setBorder(1);
 
-    fmt.setBorderBrush(Qt::darkGray);
-    // fmt.setBorderCollapse(true);
-    fmt.setColumnWidthConstraints({ QTextLength { QTextLength::FixedLength, 40 } });
+    fmt.setColumnWidthConstraints({ QTextLength { QTextLength::FixedLength, NUM_COL_WIDTH } });
 
     return fmt;
+}
+
+static QSizeF doc_page_size(const QTextCursor& cursor)
+{
+    auto doc = cursor.document();
+    if (!doc)
+        return {};
+
+    auto m = doc->documentMargin();
+    return doc->pageSize().shrunkBy({ m, m, m, m });
 }
 
 void ceam::doc::insert_table(QTextCursor& cursor, const QList<QStringList>& data)
@@ -87,7 +102,10 @@ void ceam::doc::insert_table(QTextCursor& cursor, const QList<QStringList>& data
 
     cursor.movePosition(QTextCursor::End);
 
-    auto table = cursor.insertTable(NROWS, NCOLS + 1, make_table_fmt());
+    auto doc_margin = cursor.document()->documentMargin();
+    auto doc_rect = cursor.document()->pageSize().shrunkBy({ doc_margin, doc_margin, doc_margin, doc_margin });
+
+    auto table = cursor.insertTable(NROWS, NCOLS + 1, make_table_fmt(doc_rect.width()));
 
     for (int row = 0; row < NROWS; ++row) {
         const bool is_header = (row == 0);
@@ -98,6 +116,10 @@ void ceam::doc::insert_table(QTextCursor& cursor, const QList<QStringList>& data
                 qWarning() << "invalid cell:" << row << col;
                 continue;
             }
+
+            auto cell_fmt = cell.format();
+            cell_fmt.setBackground(row % 2 == 0 ? QColor(240, 240, 240) : Qt::white);
+            cell.setFormat(cell_fmt);
 
             auto tab_cursor = cell.firstCursorPosition();
             if (tab_cursor.isNull()) {
@@ -154,11 +176,21 @@ void ceam::doc::insert_section(QTextCursor& cursor, const QString& text)
 {
     auto block_fmt = make_block_fmt();
     block_fmt.setLeftMargin(0);
+    block_fmt.setTopMargin(5);
+    block_fmt.setBottomMargin(5);
     block_fmt.setBackground(QColor("#F0F0F0"));
 
     cursor.movePosition(QTextCursor::End);
     cursor.insertBlock(block_fmt);
     cursor.insertText(text, make_char_fmt(SECTION_FONT_SIZE, false));
+
+    QTextFrameFormat line;
+    line.setHeight(1.5);
+    line.setWidth(doc_page_size(cursor).width());
+    line.setBorderStyle(QTextFrameFormat::BorderStyle_Solid);
+    line.setBorderBrush(Qt::black);
+    line.setBorder(0.5);
+    cursor.insertFrame(line);
 
     cursor.movePosition(QTextCursor::End);
 }

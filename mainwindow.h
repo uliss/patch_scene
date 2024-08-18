@@ -48,6 +48,7 @@ public slots:
     bool saveDocumentAs();
     void duplicateSelection();
     void exportToOdf();
+    void exportToPdf();
     void openDocument();
     void openDocument(const QString& path);
     void printScheme();
@@ -85,7 +86,7 @@ private:
     void createToolbarScaleView();
     void resizePanels();
 
-    QTextDocument* exportToDocument();
+    QTextDocument* exportToDocument(const QSizeF& pageSize);
 
     void setupExpandButton(QToolButton* btn, QTableView* tab, QFrame* line);
     void setupDockTitle(QDockWidget* dock);
