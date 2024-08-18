@@ -127,6 +127,32 @@ DeviceProperties::DeviceProperties(QWidget* parent, const SharedDeviceData& data
 
     ui->inlets->resizeColumnsToContents();
     ui->outlets->resizeColumnsToContents();
+
+    foreachBatteryType(
+        [this](const char* name, int value) {
+            ui->batteryType->addItem(name, value);
+        });
+    connect(ui->batteryType, &QComboBox::currentIndexChanged, this, [this](int v) {
+        data_->setBatteryType(ui->batteryType->currentData().toInt());
+
+        // set single battery if has battery and battery count == 0
+        if (v != 0) {
+            ui->batteryCount->setEnabled(true);
+
+            if (ui->batteryCount->value() == 0)
+                ui->batteryCount->setValue(1);
+        } else {
+            ui->batteryCount->setEnabled(false);
+            ui->batteryCount->setValue(0);
+        }
+    });
+
+    ui->batteryType->setCurrentText(toString(data->batteryType()));
+    ui->batteryCount->setEnabled(data->batteryType() != BatteryType::None);
+    ui->batteryCount->setValue(data->batteryCount());
+    connect(ui->batteryCount, &QSpinBox::valueChanged, this, [this](int v) {
+        data_->setBatteryCount(v);
+    });
 }
 
 DeviceProperties::~DeviceProperties()

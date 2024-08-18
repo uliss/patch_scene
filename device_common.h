@@ -34,14 +34,20 @@ enum class ItemCategory {
     // when add new value - update toQString, fromQString, foreachItemCategory functions!
 };
 
+const char* toString(ItemCategory cat);
+bool fromQString(const QString& str, ItemCategory& cat);
+void foreachItemCategory(std::function<void(const char*, int)> fn);
+
 enum class BatteryType {
     None,
     AA,
     AAA,
-    Crona
+    Crona,
+    MaxBattery_,
 };
 
-QString toQString(BatteryType type);
+const char* toString(BatteryType type);
+void foreachBatteryType(std::function<void(const char*, int)> fn);
 
 class DeviceData : public QSharedData {
 public:
@@ -101,7 +107,10 @@ public:
     void setPos(const QPointF& pos) { pos_ = pos; }
 
     int batteryCount() const { return battery_count_; }
-    BatteryType batteryType() const { return battery_; }
+    void setBatteryCount(int v);
+
+    BatteryType batteryType() const { return battery_type_; }
+    void setBatteryType(int type);
 
 private:
     static QJsonArray xletToJson(const QList<XletData>& xlets);
@@ -116,7 +125,7 @@ private:
     DeviceId id_ { 0 };
     qreal zvalue_ = { 1 };
     ItemCategory category_ { ItemCategory::Device };
-    BatteryType battery_ { BatteryType::None };
+    BatteryType battery_type_ { BatteryType::None };
     int battery_count_ { 0 };
     qreal zoom_ = { 1 };
 };
@@ -124,10 +133,5 @@ private:
 QDebug operator<<(QDebug debug, const DeviceData& data);
 
 using SharedDeviceData = QSharedDataPointer<DeviceData>;
-
-const char* toString(ItemCategory cat);
-bool fromQString(const QString& str, ItemCategory& cat);
-
-void foreachItemCategory(std::function<void(const char*, int)> fn);
 
 #endif // DEVICE_COMMON_H

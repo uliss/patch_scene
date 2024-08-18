@@ -255,7 +255,7 @@ QJsonObject DeviceData::toJson() const
     // json["zvalue"] = data_->zvalue;
     json[JSON_KEY_IMAGE] = image_;
     json[JSON_KEY_CATEGORY] = toString(category_);
-    json[JSON_KEY_BATTERY_TYPE] = toQString(battery_);
+    json[JSON_KEY_BATTERY_TYPE] = toString(battery_type_);
     json[JSON_KEY_BATTERY_COUNT] = battery_count_;
 
     json[JSON_KEY_INPUTS] = xletToJson(inputs_);
@@ -276,6 +276,19 @@ void DeviceData::foreachVisInput(std::function<void(XletIndex, const XletData&)>
 const XletData& DeviceData::inputAt(XletIndex n) const
 {
     return inputs_.at(n);
+}
+
+void DeviceData::setBatteryCount(int v)
+{
+    battery_count_ = qBound(0, v, 10);
+}
+
+void DeviceData::setBatteryType(int type)
+{
+    if (type < static_cast<int>(BatteryType::None) || type >= static_cast<int>(BatteryType::MaxBattery_))
+        return;
+
+    battery_type_ = static_cast<BatteryType>(type);
 }
 
 QJsonArray DeviceData::xletToJson(const QList<XletData>& xlets)
@@ -309,7 +322,7 @@ bool DeviceData::setXletJson(const QJsonValue& v, QList<XletData>& xlets)
     return true;
 }
 
-QString toQString(BatteryType type)
+const char* toString(BatteryType type)
 {
     switch (type) {
     case BatteryType::AA:
@@ -319,8 +332,9 @@ QString toQString(BatteryType type)
     case BatteryType::Crona:
         return "Crona";
     case BatteryType::None:
+        return "None";
     default:
-        return {};
+        return "?";
     }
 }
 
@@ -329,4 +343,14 @@ QDebug operator<<(QDebug debug, const DeviceData& data)
     QDebugStateSaver saver(debug);
     debug.nospace() << data.toJson();
     return debug;
+}
+
+void foreachBatteryType(std::function<void(const char*, int)> fn)
+{
+    for (int i = static_cast<int>(BatteryType::None);
+         i < static_cast<int>(BatteryType::MaxBattery_);
+         i++) //
+    {
+        fn(toString(static_cast<BatteryType>(i)), i);
+    }
 }
