@@ -15,6 +15,7 @@
 #define MAINWINDOW_H
 
 #include "app_settings.h"
+#include "battery_item_model.h"
 #include "connection_item_model.h"
 #include "device_item_model.h"
 #include "diagram.h"
@@ -75,6 +76,7 @@ private slots:
 private:
     void initActions();
     void initConnectionList();
+    void initBatteryList();
     void initDeviceList();
     void initDiagram();
     void initLibrarySearch();
@@ -116,6 +118,7 @@ private:
     ConnectionItemModel* conn_model_;
     SendItemModel* send_model_;
     ReturnItemModel* return_model_;
+    BatteryItemModel* battery_model_;
     FavoritesWidget* favorites_;
     AppSettings settings_;
     QList<QUrl> recent_files_;

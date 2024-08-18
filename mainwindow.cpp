@@ -54,11 +54,13 @@ MainWindow::MainWindow(QWidget* parent)
 
     initDeviceList();
     initConnectionList();
+    initBatteryList();
     initSendList();
     initReturnList();
 
     setupExpandButton(ui->deviceListBtn, ui->deviceList, ui->deviceListLine);
     setupExpandButton(ui->connectionListBtn, ui->connectionList, ui->connectionListLine);
+    setupExpandButton(ui->batteryListBtn, ui->batteryList, ui->batteryListLine);
     setupExpandButton(ui->sendListBtn, ui->sendList, ui->sendListLine);
     setupExpandButton(ui->returnListBtn, ui->returnList, ui->returnListLine);
 
@@ -247,6 +249,25 @@ void MainWindow::initConnectionList()
     ui->connectionList->resizeColumnsToContents();
 }
 
+void MainWindow::initBatteryList()
+{
+    battery_model_ = new BatteryItemModel(this);
+
+    QSignalBlocker sb(ui->batteryList);
+    ui->batteryList->setModel(battery_model_->sortProxy());
+    ui->batteryList->setSortingEnabled(true);
+    ui->batteryList->sortByColumn(0, Qt::AscendingOrder);
+
+    ui->batteryList->horizontalHeader()->setVisible(true);
+    ui->batteryList->horizontalHeader()->setStretchLastSection(false);
+    ui->batteryList->verticalHeader()->setVisible(false);
+
+    ui->batteryList->setStyleSheet("QTableView::item {padding: 0px}");
+    ui->batteryList->setSelectionBehavior(QAbstractItemView::SelectItems);
+    ui->batteryList->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->batteryList->resizeColumnsToContents();
+}
+
 void MainWindow::initSendList()
 {
     send_model_ = new SendItemModel(this);
@@ -373,12 +394,16 @@ void MainWindow::onDeviceAdd(SharedDeviceData data)
 {
     if (device_model_->addDevice(data))
         ui->deviceList->resizeColumnsToContents();
+
+    battery_model_->addDeviceData(data);
 }
 
 void MainWindow::onDeviceRemove(SharedDeviceData data)
 {
     if (device_model_->removeDevice(data))
         ui->deviceList->resizeColumnsToContents();
+
+    battery_model_->removeDeviceData(data);
 }
 
 void MainWindow::onDeviceTitleUpdate(DeviceId id, const QString& title)

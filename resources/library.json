@@ -35,6 +35,13 @@
                 ]
             },
             {
+                "title": "Body Pack",
+                "vendor": "AKG",
+                "model": "mini M2",
+                "battery-type": "aa",
+                "battery-count": 1
+            },
+            {
                 "vendor": "Focuswrite",
                 "model": "Scarlett 18i20",
                 "category": "audio",

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>650</width>
-    <height>500</height>
+    <height>580</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -330,6 +330,44 @@
      </item>
      <item>
       <widget class="Line" name="connectionListLine">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="batteryListBtn">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="contextMenuPolicy">
+        <enum>Qt::NoContextMenu</enum>
+       </property>
+       <property name="text">
+        <string>Batteries</string>
+       </property>
+       <property name="toolButtonStyle">
+        <enum>Qt::ToolButtonTextBesideIcon</enum>
+       </property>
+       <property name="arrowType">
+        <enum>Qt::DownArrow</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTableView" name="batteryList"/>
+     </item>
+     <item>
+      <widget class="Line" name="batteryListLine">
        <property name="enabled">
         <bool>false</bool>
        </property>
