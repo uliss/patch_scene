@@ -36,7 +36,7 @@ constexpr int MIN_HEIGHT = 16;
 constexpr int DEF_WIDTH = 100;
 constexpr int DEF_HEIGHT = 40;
 
-constexpr int TITLE_MIN_CHAR_WIDTH = 5;
+constexpr int TITLE_MIN_CHAR_WIDTH = 8;
 constexpr int TITLE_MAX_CHAR_WIDTH = 18;
 constexpr int TITLE_CHAR_WIDTH = 10;
 constexpr qreal DEF_IMAGE_WIDTH = 100;
