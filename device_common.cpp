@@ -296,6 +296,11 @@ void DeviceData::setBatteryType(int type)
     battery_type_ = static_cast<BatteryType>(type);
 }
 
+BatteryChange DeviceData::calcBatteryChange(const DeviceData& data) const
+{
+    return BatteryChange(battery_type_, battery_count_, data.battery_type_, data.battery_count_);
+}
+
 QJsonArray DeviceData::xletToJson(const QList<XletData>& xlets)
 {
     QJsonArray arr;
@@ -380,4 +385,17 @@ QDebug operator<<(QDebug debug, const DeviceData& data)
     QDebugStateSaver saver(debug);
     debug.nospace() << data.toJson();
     return debug;
+}
+
+BatteryChange::BatteryChange(BatteryType typeA, int countA, BatteryType typeB, int countB)
+{
+    typeA_ = typeA;
+    typeB_ = typeB;
+    countA_ = countA;
+    countB_ = countB;
+}
+
+BatteryChange::operator bool() const
+{
+    return typeA_ != typeB_ || countA_ != countB_;
 }

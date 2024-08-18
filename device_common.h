@@ -56,6 +56,22 @@ const char* toJsonString(BatteryType type);
 BatteryType fromJsonString(const QString& str);
 void foreachBatteryType(std::function<void(const char*, int)> fn);
 
+class BatteryChange {
+    BatteryType typeA_ { BatteryType::None }, typeB_ { BatteryType::None };
+    int countA_ { 0 }, countB_ { 0 };
+
+public:
+    BatteryChange() { }
+    BatteryChange(BatteryType typeA, int countA, BatteryType typeB, int countB);
+
+    int typeADelta() const { return countA_; }
+    int typeBDelta() const { return countB_; }
+    BatteryType typeA() const { return typeA_; }
+    BatteryType typeB() const { return typeB_; }
+
+    operator bool() const;
+};
+
 class DeviceData : public QSharedData {
 public:
     constexpr static const qreal MIN_ZOOM = 0.25;
@@ -118,6 +134,7 @@ public:
 
     BatteryType batteryType() const { return battery_type_; }
     void setBatteryType(int type);
+    BatteryChange calcBatteryChange(const DeviceData& data) const;
 
 private:
     static QJsonArray xletToJson(const QList<XletData>& xlets);
