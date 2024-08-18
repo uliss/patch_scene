@@ -22,6 +22,24 @@ enum ReturnColumnOrder {
     COL_RETURN_DEST_INPUT,
 };
 constexpr int DATA_RETURN_NCOLS = 4;
+constexpr int RETURN_SORT_ROLE = Qt::UserRole + 1;
+
+class ReturnSortProxy : public QSortFilterProxyModel {
+public:
+    ReturnSortProxy(QObject* parent)
+        : QSortFilterProxyModel(parent)
+    {
+    }
+
+    bool lessThan(const QModelIndex& a, const QModelIndex& b) const final
+    {
+        if (a.isValid() && b.isValid())
+            if (a.column() == COL_RETURN_OUTPUT || a.column() == COL_RETURN_DEST_INPUT)
+                return a.data(RETURN_SORT_ROLE).toInt() < b.data(RETURN_SORT_ROLE).toInt();
+
+        return QSortFilterProxyModel::lessThan(a, b);
+    }
+};
 }
 
 ReturnItemModel::ReturnItemModel(QObject* parent)
@@ -29,7 +47,7 @@ ReturnItemModel::ReturnItemModel(QObject* parent)
 {
     setHorizontalHeaderLabels({ tr("Return"), tr("Output"), tr("Device"), tr("Input") });
 
-    proxy_ = new QSortFilterProxyModel(this);
+    proxy_ = new ReturnSortProxy(this);
     proxy_->setDynamicSortFilter(true);
     proxy_->setSourceModel(this);
 }
@@ -52,8 +70,10 @@ bool ReturnItemModel::addConnection(const ConnectionData& data,
     dest_name->setEditable(false);
 
     auto src_idx = new QStandardItem(QString("%1").arg((int)data.out + 1));
+    src_idx->setData(data.out, RETURN_SORT_ROLE);
     src_idx->setEditable(false);
     auto dest_idx = new QStandardItem(QString("%1").arg((int)data.in + 1));
+    dest_idx->setData(data.in, RETURN_SORT_ROLE);
     dest_idx->setEditable(false);
 
     appendRow({ src_name, src_idx, dest_name, dest_idx });
