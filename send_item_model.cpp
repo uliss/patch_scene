@@ -28,6 +28,10 @@ SendItemModel::SendItemModel(QObject* parent)
     : QStandardItemModel(0, DATA_SEND_NCOLS, parent)
 {
     setHorizontalHeaderLabels({ tr("Send"), tr("Input"), tr("Device"), tr("Output") });
+
+    proxy_ = new QSortFilterProxyModel(this);
+    proxy_->setDynamicSortFilter(true);
+    proxy_->setSourceModel(this);
 }
 
 bool SendItemModel::addConnection(const ConnectionData& data,

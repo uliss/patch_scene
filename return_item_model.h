@@ -16,6 +16,8 @@
 
 #include "connection.h"
 #include "device_common.h"
+
+#include <QSortFilterProxyModel>
 #include <QStandardItemModel>
 
 class ReturnItemModel : public QStandardItemModel {
@@ -30,8 +32,13 @@ public:
 
     std::optional<DeviceId> deviceId(const QModelIndex& idx) const;
 
+    QSortFilterProxyModel* sortProxy() { return proxy_; }
+
 private:
     bool updateDeviceTitle(const QModelIndex& idx, DeviceId id, const QString& title);
+
+private:
+    QSortFilterProxyModel* proxy_;
 };
 
 #endif // RETURN_ITEM_MODEL_H

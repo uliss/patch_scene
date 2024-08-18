@@ -28,6 +28,10 @@ ReturnItemModel::ReturnItemModel(QObject* parent)
     : QStandardItemModel { 0, DATA_RETURN_NCOLS, parent }
 {
     setHorizontalHeaderLabels({ tr("Return"), tr("Output"), tr("Device"), tr("Input") });
+
+    proxy_ = new QSortFilterProxyModel(this);
+    proxy_->setDynamicSortFilter(true);
+    proxy_->setSourceModel(this);
 }
 
 bool ReturnItemModel::addConnection(const ConnectionData& data,

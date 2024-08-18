@@ -16,8 +16,11 @@
 
 #include "connection.h"
 #include "device_common.h"
+
+#include <QSortFilterProxyModel>
 #include <QStandardItemModel>
 
+class ConnectionData;
 class XletData;
 
 class ConnectionItemModel : public QStandardItemModel {
@@ -46,8 +49,13 @@ public:
 
     void clearItems();
 
+    QSortFilterProxyModel* sortProxy() { return proxy_; }
+
 private:
     bool updateDeviceTitle(const QModelIndex& idx, DeviceId id, const QString& title);
+
+private:
+    QSortFilterProxyModel* proxy_;
 };
 
 #endif // CONNECTION_ITEM_MODEL_H

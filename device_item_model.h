@@ -39,6 +39,8 @@ public:
 
     SharedDeviceData updateDeviceData(const QStandardItem* item, const SharedDeviceData& data);
 
+    QSortFilterProxyModel* sortProxy() { return proxy_; }
+
 public:
     static QList<QString> headerLabels();
 

@@ -31,6 +31,10 @@ ConnectionItemModel::ConnectionItemModel(QObject* parent)
     : QStandardItemModel(0, DATA_CONN_NCOLS, parent)
 {
     setHorizontalHeaderLabels({ tr("Source"), tr("Model"), tr("Plug"), tr("Destination"), tr("Model"), tr("Plug") });
+
+    proxy_ = new QSortFilterProxyModel(this);
+    proxy_->setDynamicSortFilter(true);
+    proxy_->setSourceModel(this);
 }
 
 bool ConnectionItemModel::updateDeviceTitle(DeviceId id, const QString& title)

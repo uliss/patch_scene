@@ -129,9 +129,19 @@ void MainWindow::initDeviceList()
         }
     });
 
-    setupEquipmentTableView(ui->deviceList, device_model_);
+    QSignalBlocker sb(ui->deviceList);
+    ui->deviceList->setSortingEnabled(true);
+    ui->deviceList->sortByColumn(0, Qt::AscendingOrder);
 
+    ui->deviceList->horizontalHeader()->setVisible(true);
+    ui->deviceList->horizontalHeader()->setStretchLastSection(true);
     ui->deviceList->verticalHeader()->setVisible(false);
+
+    ui->deviceList->setStyleSheet("QTableView::item {padding: 0px}");
+    ui->deviceList->setSelectionBehavior(QAbstractItemView::SelectItems);
+    ui->deviceList->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->deviceList->setModel(device_model_->sortProxy());
+
     connect(ui->deviceList, &QTableView::clicked, this, [this](const QModelIndex& index) {
         auto id = device_model_->deviceId(index.row());
         if (id)
@@ -215,7 +225,20 @@ void MainWindow::initLibrarySearch()
 void MainWindow::initConnectionList()
 {
     conn_model_ = new ConnectionItemModel(this);
-    setupEquipmentTableView(ui->connectionList, conn_model_);
+
+    QSignalBlocker sb(ui->connectionList);
+    ui->connectionList->setModel(conn_model_->sortProxy());
+    ui->connectionList->setSortingEnabled(true);
+    ui->connectionList->sortByColumn(0, Qt::AscendingOrder);
+
+    ui->connectionList->horizontalHeader()->setVisible(true);
+    ui->connectionList->horizontalHeader()->setStretchLastSection(true);
+    ui->connectionList->verticalHeader()->setVisible(false);
+
+    ui->connectionList->setStyleSheet("QTableView::item {padding: 0px}");
+    ui->connectionList->setSelectionBehavior(QAbstractItemView::SelectItems);
+    ui->connectionList->setSelectionMode(QAbstractItemView::SingleSelection);
+
     connect(ui->connectionList, &QTableView::clicked, this, [this](const QModelIndex& index) {
         auto id = conn_model_->deviceId(index);
         if (id)
@@ -227,14 +250,40 @@ void MainWindow::initConnectionList()
 void MainWindow::initSendList()
 {
     send_model_ = new SendItemModel(this);
-    setupEquipmentTableView(ui->sendList, send_model_);
+
+    QSignalBlocker sb(ui->sendList);
+    ui->sendList->setModel(send_model_->sortProxy());
+    ui->sendList->setSortingEnabled(true);
+    ui->sendList->sortByColumn(0, Qt::AscendingOrder);
+
+    ui->sendList->horizontalHeader()->setVisible(true);
+    ui->sendList->horizontalHeader()->setStretchLastSection(true);
+    ui->sendList->verticalHeader()->setVisible(true);
+
+    ui->sendList->setStyleSheet("QTableView::item {padding: 0px}");
+    ui->sendList->setSelectionBehavior(QAbstractItemView::SelectItems);
+    ui->sendList->setSelectionMode(QAbstractItemView::SingleSelection);
+
     ui->sendList->resizeColumnsToContents();
 }
 
 void MainWindow::initReturnList()
 {
     return_model_ = new ReturnItemModel(this);
-    setupEquipmentTableView(ui->returnList, return_model_);
+
+    QSignalBlocker sb(ui->returnList);
+    ui->returnList->setModel(return_model_->sortProxy());
+    ui->returnList->setSortingEnabled(true);
+    ui->returnList->sortByColumn(0, Qt::AscendingOrder);
+
+    ui->returnList->horizontalHeader()->setVisible(true);
+    ui->returnList->horizontalHeader()->setStretchLastSection(true);
+    ui->returnList->verticalHeader()->setVisible(true);
+
+    ui->returnList->setStyleSheet("QTableView::item {padding: 0px}");
+    ui->returnList->setSelectionBehavior(QAbstractItemView::SelectItems);
+    ui->returnList->setSelectionMode(QAbstractItemView::SingleSelection);
+
     ui->returnList->resizeColumnsToContents();
 }
 
@@ -573,22 +622,6 @@ void MainWindow::setupExpandButton(QToolButton* btn, QTableView* tab, QFrame* li
         tab->setHidden(vis);
         line->setHidden(!vis);
     });
-}
-
-void MainWindow::setupEquipmentTableView(QTableView* tab, QStandardItemModel* model)
-{
-    QSortFilterProxyModel* sort_proxy = new QSortFilterProxyModel(this);
-    sort_proxy->setDynamicSortFilter(true);
-    sort_proxy->setSourceModel(model);
-    tab->setModel(sort_proxy);
-    tab->setSortingEnabled(true);
-    tab->sortByColumn(0, Qt::AscendingOrder);
-
-    // tab->horizontalHeader()->setVisible(false);
-    tab->setStyleSheet("QTableView::item {padding: 0px}");
-    tab->setSelectionBehavior(QAbstractItemView::SelectItems);
-    tab->setSelectionMode(QAbstractItemView::SingleSelection);
-    tab->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 }
 
 void MainWindow::setupDockTitle(QDockWidget* dock)

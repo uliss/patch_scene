@@ -86,7 +86,6 @@ private:
     void resizePanels();
 
     void setupExpandButton(QToolButton* btn, QTableView* tab, QFrame* line);
-    void setupEquipmentTableView(QTableView* tab, QStandardItemModel* model);
     void setupDockTitle(QDockWidget* dock);
 
     void readPositionSettings();
