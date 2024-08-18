@@ -95,7 +95,7 @@ public:
     bool removeDevice(DeviceId id);
 
     /**
-     * @brief setDeviceData, emit sceneChanged(), deviceUpdated()
+     * @brief setDeviceData, emit sceneChanged(), deviceUpdated() and batteryChanged()
      * @param data - device data
      * @return true on success, false on error
      */
@@ -183,6 +183,7 @@ public:
 
 signals:
     void addToFavorites(SharedDeviceData data);
+    void batteryChanged(const BatteryChange& data);
     void sceneChanged(); // for document changes
     void sceneClearAll();
     void canRedoChanged(bool);

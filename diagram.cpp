@@ -402,9 +402,14 @@ bool Diagram::setDeviceData(const SharedDeviceData& data)
 
     const bool title_update = (dev->deviceData()->title() != data->title());
 
+    auto battery_change = dev->deviceData()->calcBatteryChange(*data);
+
     dev->setDeviceData(data);
     emit sceneChanged();
     emit deviceUpdated(dev->deviceData());
+
+    if (battery_change)
+        emit batteryChanged(battery_change);
 
     if (title_update)
         emit deviceTitleUpdated(data->id(), data->title());
