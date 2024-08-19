@@ -1386,7 +1386,7 @@
         "humans": [
             {
                 "title": "Cello player",
-                "image": "human_cello_1"
+                "image": "human_cello_2"
             },
             {
                 "title": "Cembalo player",
@@ -1394,7 +1394,15 @@
             },
             {
                 "title": "Violin player",
-                "image": "human_violin_1"
+                "image": "human_violin_2"
+            },
+            {
+                "title": "Viola player",
+                "image": "human_viola_1"
+            },
+            {
+                "title": "Balalaika player",
+                "image": "human_balalaika_1"
             }
         ]
     }
