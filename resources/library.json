@@ -1094,6 +1094,10 @@
                 "vendor": "",
                 "model": "Accordion",
                 "image": "accordion_1"
+            },
+            {
+                "model": "Bass guitar",
+                "image": "bass_guitar_1"
             }
         ],
         "sends": [
