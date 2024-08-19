@@ -58,42 +58,37 @@ const char* ceam::toString(ItemCategory cat)
         return STR_SEND;
     case ItemCategory::Return:
         return STR_RETURN;
+    case ItemCategory::Instrument:
+        return STR_INSTRUMENT;
     case ItemCategory::Device:
+        return STR_DEVICE;
     case ItemCategory::MaxCategory:
     default:
         return STR_DEVICE;
     }
 }
 
-bool ceam::fromQString(const QString& str, ItemCategory& cat)
+std::optional<ItemCategory> ceam::fromQString(const QString& str)
 {
-    if (str.isEmpty()) {
-        cat = ItemCategory::Device;
-        return true;
-    }
+    if (str.isEmpty())
+        return ItemCategory::Device;
 
     auto icat = str.toLower();
     if (icat == STR_DEVICE) {
-        cat = ItemCategory::Device;
-        return true;
+        return ItemCategory::Device;
     } else if (icat == STR_RETURN) {
-        cat = ItemCategory::Return;
-        return true;
+        return ItemCategory::Return;
     } else if (icat == STR_SEND) {
-        cat = ItemCategory::Send;
-        return true;
+        return ItemCategory::Send;
     } else if (icat == STR_FURNITURE) {
-        cat = ItemCategory::Furniture;
-        return true;
+        return ItemCategory::Furniture;
     } else if (icat == STR_HUMAN) {
-        cat = ItemCategory::Human;
-        return true;
+        return ItemCategory::Human;
     } else if (icat == STR_INSTRUMENT) {
-        cat = ItemCategory::Instrument;
-        return true;
+        return ItemCategory::Instrument;
     } else {
         qWarning() << __FUNCTION__ << "unknown category:" << str;
-        return false;
+        return {};
     }
 }
 
@@ -132,6 +127,12 @@ bool DeviceData::hasVisInputs() const
 bool DeviceData::hasVisOutputs() const
 {
     return visOutputCount() > 0;
+}
+
+bool DeviceData::showInDeviceCategory() const
+{
+    return category_ == ItemCategory::Device
+        || (category_ == ItemCategory::Instrument && (visInputCount() > 0 || hasVisOutputs() > 0));
 }
 
 void DeviceData::setZoom(qreal z)
@@ -219,9 +220,9 @@ bool DeviceData::setJson(const QJsonValue& v)
     image_ = obj.value(JSON_KEY_IMAGE).toString();
     setZoom(obj.value(JSON_KEY_ZOOM).toDouble(1));
 
-    ItemCategory cat;
-    if (fromQString(obj.value(JSON_KEY_CATEGORY).toString(), cat))
-        category_ = cat;
+    auto cat = fromQString(obj.value(JSON_KEY_CATEGORY).toString());
+    if (cat)
+        category_ = cat.value();
 
     setXletJson(obj.value(JSON_KEY_INPUTS), inputs_);
     setXletJson(obj.value(JSON_KEY_OUTPUTS), outputs_);

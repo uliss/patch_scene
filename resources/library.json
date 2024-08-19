@@ -1097,7 +1097,8 @@
             },
             {
                 "model": "Bass guitar",
-                "image": "bass_guitar_1"
+                "image": "bass_guitar_1",
+                "outputs": [{"model": "jack_ts"}]
             }
         ],
         "sends": [

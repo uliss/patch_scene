@@ -42,7 +42,7 @@ DeviceItemModel::DeviceItemModel(QObject* parent)
 
 bool DeviceItemModel::addDevice(const SharedDeviceData& data)
 {
-    if (!data || data->category() != ItemCategory::Device)
+    if (!data || !data->showInDeviceCategory())
         return false;
 
     auto title = new QStandardItem(data->title());

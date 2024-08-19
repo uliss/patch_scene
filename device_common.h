@@ -37,7 +37,7 @@ enum class ItemCategory {
 };
 
 const char* toString(ItemCategory cat);
-bool fromQString(const QString& str, ItemCategory& cat);
+std::optional<ItemCategory> fromQString(const QString& str);
 void foreachItemCategory(std::function<void(const char*, int)> fn);
 
 enum class BatteryType {
@@ -90,6 +90,8 @@ public:
     size_t visOutputCount() const;
     bool hasVisInputs() const;
     bool hasVisOutputs() const;
+
+    bool showInDeviceCategory() const;
 
     qreal zoom() const { return zoom_; }
     void setZoom(qreal z);
