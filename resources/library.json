@@ -3,6 +3,7 @@
         "devices": [
             {
                 "title": "Mic vocal",
+                "title-ru": "Микрофон вокальный",
                 "image": "mic_on_stand_2",
                 "zoom": 1.5,
                 "outputs": [
@@ -14,6 +15,7 @@
             },
             {
                 "title": "Mic instr",
+                "title-ru": "Микрофон инструментальный",
                 "image": "mic_on_stand_1",
                 "zoom": 1.5,
                 "outputs": [
@@ -25,6 +27,7 @@
             },
             {
                 "title": "Mic instr stereo",
+                "title-ru": "Микрофон инструментальный (стерео)",
                 "image": "mic_on_stand_stereo",
                 "zoom": 1.5,
                 "outputs": [
@@ -758,8 +761,8 @@
                 ]
             },
             {
-                "vendor": "",
-                "model": "Power extender 220V (5-socket)",
+                "title": "Power extender 220V (5-socket)",
+                "title-ru": "Удлинитель 220В (5-розеток)",
                 "category": "misc",
                 "outputs": [
                     {
@@ -785,8 +788,8 @@
                 ]
             },
             {
-                "vendor": "",
-                "model": "Power extender 220V (3-socket)",
+                "title": "Power extender 220V (3-socket)",
+                "title-ru": "Удлинитель 220В (3-розетки)",
                 "category": "misc",
                 "outputs": [
                     {
@@ -1374,18 +1377,22 @@
         "furniture": [
             {
                 "title": "Pocket music stand",
+                "title-ru": "Пюпитр складной",
                 "image": "music_stand_1"
             },
             {
                 "title": "Steady music stand",
+                "title-ru": "Пюпитр устойчивый",
                 "image": "music_stand_2"
             },
             {
                 "title": "Pocket music stand low",
+                "title-ru": "Пюпитр складной низкий",
                 "image": "music_stand_low_1"
             },
             {
                 "title": "Steady music stand low",
+                "title-ru": "Пюпитр устойчивый низкий",
                 "image": "music_stand_low_2"
             }
         ],
