@@ -95,5 +95,6 @@
         <file>devices/human_clarinet_1.svg</file>
         <file>devices/human_dj_1.svg</file>
         <file>devices/dj_mixer.svg</file>
+        <file>devices/synth_diy_1.svg</file>
     </qresource>
 </RCC>
