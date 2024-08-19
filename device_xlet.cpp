@@ -26,6 +26,7 @@ constexpr const char* KEY_VISIBLE = "visible";
 constexpr const char* KEY_SOCKET = "socket";
 constexpr const char* KEY_MODEL = "model";
 constexpr const char* KEY_BG_COLOR = "color";
+constexpr const char* KEY_PLUG_CORD = "plug-cord";
 
 QString xlet_icon_path(ConnectorModel model, ConnectorType type)
 {
@@ -76,6 +77,7 @@ QJsonObject XletData::toJson() const
     j[KEY_VISIBLE] = visible;
     j[KEY_MODEL] = connectorJsonName(model);
     j[KEY_BG_COLOR] = color_bg.name();
+    j[KEY_PLUG_CORD] = plug_cord;
 
     switch (type) {
     case ConnectorType::Socket_Male:
@@ -107,6 +109,7 @@ bool XletData::fromJson(const QJsonValue& j, XletData& data)
     data.model = findConnectorByJsonName(obj.value(KEY_MODEL).toString());
     data.color_bg = obj.value(KEY_BG_COLOR).toString("#FFF");
     data.type = connector_type(obj.value(KEY_SOCKET).toString(""));
+    data.plug_cord = obj.value(KEY_PLUG_CORD).toBool(false);
 
     return true;
 }

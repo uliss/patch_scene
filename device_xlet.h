@@ -26,6 +26,7 @@ struct XletData {
     ConnectorType type { ConnectorType::Socket_Female };
     bool visible { true };
     bool phantom_power { false };
+    bool plug_cord { false };
     QString level;
     QColor color_bg { Qt::white };
 
