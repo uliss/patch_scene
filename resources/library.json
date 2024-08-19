@@ -1047,56 +1047,57 @@
         ],
         "instruments": [
             {
-                "vendor": "",
-                "model": "Violin",
+                "title": "Violin",
+                "title-ru": "Скрипка",
                 "image": "violin_1"
             },
             {
-                "vendor": "",
-                "model": "Viola",
+                "title": "Viola",
+                "title-ru": "Альт",
                 "image": "violin_1",
                 "zoom": 1.25
             },
             {
-                "vendor": "",
-                "model": "Cello",
+                "title": "Cello",
+                "title-ru": "Виолончель",
                 "image": "cello_1"
             },
             {
-                "vendor": "",
-                "model": "Piano",
+                "title": "Piano",
+                "title-ru": "Фортепиано",
                 "image": "piano_1",
                 "zoom": 2
             },
             {
-                "vendor": "",
-                "model": "Balalaika",
+                "title": "Balalaika",
+                "title-ru": "Балалайка",
                 "image": "balalaika_1",
                 "zoom": 0.75
             },
             {
-                "vendor": "",
-                "model": "Harp",
+                "title": "Harp",
+                "title-ru": "Арфа",
                 "image": "harp_1",
                 "zoom": 1.5
             },
             {
-                "vendor": "",
-                "model": "French Horn",
+                "title": "French Horn",
+                "title-ru": "Валторна",
                 "image": "french_horn_1"
             },
             {
-                "vendor": "",
-                "model": "Trumpet",
+                "title": "Trumpet",
+                "title-ru": "Труба",
                 "image": "trumpet_1"
             },
             {
-                "vendor": "",
-                "model": "Accordion",
+                "title": "Accordion",
+                "title-ru": "Аккордеон",
                 "image": "accordion_1"
             },
             {
-                "model": "Bass guitar",
+                "title": "Bass guitar",
+                "title-ru": "Бас-гитара",
                 "image": "bass_guitar_1",
                 "outputs": [{"model": "jack_ts"}]
             }
@@ -1391,6 +1392,7 @@
         "humans": [
             {
                 "title": "Cello player",
+                "title-ru": "Виолончелист",
                 "image": "human_cello_2"
             },
             {
@@ -1399,34 +1401,42 @@
             },
             {
                 "title": "Violin player",
+                "title-ru": "Скрипач",
                 "image": "human_violin_2"
             },
             {
                 "title": "Viola player",
+                "title-ru": "Альтист",
                 "image": "human_viola_1"
             },
             {
                 "title": "Balalaika player",
+                "title-ru": "Балалаешник",
                 "image": "human_balalaika_1"
             },
             {
                 "title": "Balalaika Bass player",
+                "title-ru": "Бас-балалаешник",
                 "image": "human_balalaika_bass"
             },
             {
                 "title": "Accordion player",
+                "title-ru": "Баянист",
                 "image": "human_accordion_1"
             },
             {
                 "title": "Trumpet player",
+                "title-ru": "Трубач",
                 "image": "human_trumpet_1"
             },
             {
                 "title": "Flute player",
+                "title-ru": "Флейтист",
                 "image": "human_flute_1"
             },
             {
                 "title": "Clarinet player",
+                "title-ru": "Кларнетист",
                 "image": "human_clarinet_1"
             },
             {
@@ -1435,6 +1445,7 @@
             },
             {
                 "title": "Acoustic guitar player",
+                "title-ru": "Гитарист (акустика)",
                 "image": "human_guitar_1"
             }
         ]

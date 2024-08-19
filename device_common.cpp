@@ -43,6 +43,15 @@ constexpr const char* JSON_KEY_BATTERY_COUNT = "battery-count";
 
 constexpr int MAX_BATTERIES_COUNT = 10;
 
+QString readLocalizedKey(const QJsonObject& obj, const QString& key, const QString& lang)
+{
+    auto loc_value = obj.value(key + '-' + lang).toString();
+    if (!loc_value.isEmpty())
+        return loc_value;
+
+    return obj.value(key).toString();
+}
+
 }
 
 using namespace ceam;
@@ -211,7 +220,9 @@ bool DeviceData::setJson(const QJsonValue& v)
         json_id = DEV_NULL_ID;
 
     id_ = json_id;
-    title_ = obj.value(JSON_KEY_TITLE).toString();
+
+    auto lang = QLocale::system().bcp47Name();
+    title_ = readLocalizedKey(obj, JSON_KEY_TITLE, lang);
     vendor_ = obj.value(JSON_KEY_VENDOR).toString();
     model_ = obj.value(JSON_KEY_MODEL).toString();
     pos_.setX(obj.value(JSON_KEY_X).toDouble(0));
