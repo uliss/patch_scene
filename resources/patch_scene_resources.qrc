@@ -97,5 +97,6 @@
         <file>devices/dj_mixer.svg</file>
         <file>devices/synth_diy_1.svg</file>
         <file>devices/bass_guitar_1.svg</file>
+        <file>devices/glass_1.svg</file>
     </qresource>
 </RCC>
