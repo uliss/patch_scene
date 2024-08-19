@@ -1403,6 +1403,18 @@
             {
                 "title": "Balalaika player",
                 "image": "human_balalaika_1"
+            },
+            {
+                "title": "Balalaika Bass player",
+                "image": "human_balalaika_bass"
+            },
+            {
+                "title": "Accordion player",
+                "image": "human_accordion_1"
+            },
+            {
+                "title": "Trumpet player",
+                "image": "human_trumpet_1"
             }
         ]
     }

@@ -88,5 +88,8 @@
         <file>devices/human_guitar_1.svg</file>
         <file>devices/human_cello_2.svg</file>
         <file>devices/human_balalaika_1.svg</file>
+        <file>devices/human_trumpet_1.svg</file>
+        <file>devices/human_balalaika_bass.svg</file>
+        <file>devices/human_accordion_1.svg</file>
     </qresource>
 </RCC>
