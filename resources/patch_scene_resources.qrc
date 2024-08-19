@@ -83,5 +83,10 @@
         <file>icons/arrow_back.svg</file>
         <file>icons/arrow_forward.svg</file>
         <file>app_icon.svg</file>
+        <file>devices/human_violin_2.svg</file>
+        <file>devices/human_viola_1.svg</file>
+        <file>devices/human_guitar_1.svg</file>
+        <file>devices/human_cello_2.svg</file>
+        <file>devices/human_balalaika_1.svg</file>
     </qresource>
 </RCC>
