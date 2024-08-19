@@ -1423,6 +1423,14 @@
             {
                 "title": "Clarinet player",
                 "image": "human_clarinet_1"
+            },
+            {
+                "title": "Dj",
+                "image": "human_dj_1"
+            },
+            {
+                "title": "Acoustic guitar player",
+                "image": "human_guitar_1"
             }
         ]
     }
