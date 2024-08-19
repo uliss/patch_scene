@@ -1046,6 +1046,18 @@
                         "name": "CH 2 OUT"
                     }
                 ]
+            },
+            {
+                "title": "Headphones (DIN)",
+                "title-ru": "Наушники (DIN)",
+                "image": "phones_1",
+                "inputs": [
+                    {
+                        "model": "din_5",
+                        "socket": "male",
+                        "plug-cord": true
+                    }
+                ]
             }
         ],
         "instruments": [

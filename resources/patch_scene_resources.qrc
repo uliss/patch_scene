@@ -99,5 +99,6 @@
         <file>devices/bass_guitar_1.svg</file>
         <file>devices/glass_1.svg</file>
         <file>devices/chimes_1.svg</file>
+        <file>devices/phones_1.svg</file>
     </qresource>
 </RCC>
