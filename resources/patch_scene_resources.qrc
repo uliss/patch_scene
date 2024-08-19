@@ -92,5 +92,6 @@
         <file>devices/human_balalaika_bass.svg</file>
         <file>devices/human_accordion_1.svg</file>
         <file>devices/human_flute_1.svg</file>
+        <file>devices/human_clarinet_1.svg</file>
     </qresource>
 </RCC>

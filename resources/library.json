@@ -1419,6 +1419,10 @@
             {
                 "title": "Flute player",
                 "image": "human_flute_1"
+            },
+            {
+                "title": "Clarinet player",
+                "image": "human_clarinet_1"
             }
         ]
     }
