@@ -136,9 +136,12 @@ include(InstallRequiredSystemLibraries)
 
 if(APPLE)
     find_program(PLIST_BUDDY PlistBuddy PATHS /usr/libexec)
+    find_program(DMGBUILD dmgbuild PATHS $ENV["PATH"])
+
     set(FILE_ICNS "${PROJECT_SOURCE_DIR}/resources/patch_scene_file.icns")
 
     configure_file(scripts/macos_make_dmg.sh ${PROJECT_BINARY_DIR}/macos_make_dmg.sh @ONLY)
+    configure_file(resources/dmg_settings.json ${PROJECT_BINARY_DIR}/dmg_settings.json @ONLY)
     add_custom_target(dmg
         COMMAND ${PROJECT_BINARY_DIR}/macos_make_dmg.sh
         WORKING_DIRECTORY ${PROJECT_BINARY_DIR}

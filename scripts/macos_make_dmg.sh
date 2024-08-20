@@ -3,8 +3,6 @@
 VERSION="@PROJECT_VERSION@"
 APP_NAME="PatchScene"
 SRC_APP="@PROJECT_NAME@.app"
-SRC_DMG="PatchScene.dmg"
-SRC_DMG_RW="PatchScene_rw.dmg"
 DEST_APP="PatchScene.app"
 DEST_DMG="PatchScene-v@PROJECT_VERSION@-@CMAKE_SYSTEM_PROCESSOR@.dmg"
 DIST_DIR="@PROJECT_BINARY_DIR@/dist"
@@ -13,6 +11,9 @@ FILE_ICNS_PATH="@FILE_ICNS@"
 FILE_ICNS=$(basename ${FILE_ICNS_PATH})
 FILE_DESC="'PatchScene project'"
 FILE_ID="space.ceam.patch-scene.scheme"
+DMGBUILD="@DMGBUILD@"
+DMG_BACKGROUND="@PROJECT_SOURCE_DIR@/resources/mac_dmg_background.png"
+
 cd "@PROJECT_BINARY_DIR@"
 
 echo "- cleaning dist directory ..."
@@ -51,37 +52,25 @@ UTEXT="UTTypeTagSpecification:public.filename-extension"
 ${BLIST_BUDDY} -c "Add ${UTUTD}:0:${UTEXT}          array"                  ${INFO_PLIST}
 ${BLIST_BUDDY} -c "Add ${UTUTD}:0:${UTEXT}:0        string psc"             ${INFO_PLIST}
 
-
 cd "${DIST_DIR}"
 
 # deploy and create dmg
-echo "- deploy and make DMG ..."
-/opt/local/libexec/qt6/bin/macdeployqt "${DEST_APP}" -dmg -appstore-compliant -always-overwrite -codesign="-"
+echo "- deploy and make App bundle ..."
+/opt/local/libexec/qt6/bin/macdeployqt "${DEST_APP}" -appstore-compliant -always-overwrite -codesign="-"
 
 # check app
 echo "- check app ..."
 codesign --verify --verbose "${DEST_APP}"
 
-echo "- change the permision of DMG file"
-hdiutil convert "${SRC_DMG}" -format UDRW -o "${SRC_DMG_RW}"
 
-echo "- mount it and save the device"
-DEVICE=$(hdiutil attach -readwrite -noverify "${SRC_DMG_RW}" |egrep '^/dev/' |sed 1q |awk '{print $1}')
+if [[ -x "${DMGBUILD}" ]]
+then
+    echo "- create DMG ..."
+    cp "@PROJECT_BINARY_DIR@/dmg_settings.json" .
+    ${DMGBUILD} --settings dmg_settings.json PatchScene ${DEST_DMG}
+else
+    echo "- no dmgbuild tool found found..."
+fi
 
-echo $DEVICE
-sleep 2
 
-echo "- create the symbolic link to application folder"
-PATH_AT_VOLUME="/Volumes/${APP_NAME}"
-ln -s /Applications ${PATH_AT_VOLUME}
-
-# unmount it
-hdiutil detach "${DEVICE}"
-
-rm -f "${SRC_DMG}"
-
-hdiutil convert "${SRC_DMG_RW}" -format UDZO -o "${DEST_DMG}"
-
-rm -f "${SRC_DMG_RW}"
-exit
 
