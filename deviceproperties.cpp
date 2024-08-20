@@ -157,6 +157,11 @@ DeviceProperties::DeviceProperties(QWidget* parent, const SharedDeviceData& data
     connect(ui->batteryCount, &QSpinBox::valueChanged, this, [this](int v) {
         data_->setBatteryCount(v);
     });
+
+    ui->showTitle->setCheckState(data->showTitle() ? Qt::Checked : Qt::Unchecked);
+    connect(ui->showTitle, &QCheckBox::stateChanged, this, [this](int state) {
+        data_->setShowTitle(state == Qt::Checked);
+    });
 }
 
 DeviceProperties::~DeviceProperties()
