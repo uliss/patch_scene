@@ -25,7 +25,7 @@
 
 namespace ceam {
 
-enum class ItemCategory {
+enum class ItemCategory : std::uint8_t {
     Device,
     Instrument,
     Human,
@@ -40,7 +40,7 @@ const char* toString(ItemCategory cat);
 std::optional<ItemCategory> fromQString(const QString& str);
 void foreachItemCategory(std::function<void(const char*, int)> fn);
 
-enum class BatteryType {
+enum class BatteryType : std::uint8_t {
     None,
     AA,
     AAA,
@@ -140,6 +140,9 @@ public:
     void setBatteryType(int type);
     BatteryChange calcBatteryChange(const DeviceData& data) const;
 
+    bool showTitle() const { return show_title_; }
+    void setShowTitle(bool value) { show_title_ = value; }
+
 private:
     static QJsonArray xletToJson(const QList<XletData>& xlets);
     static bool setXletJson(const QJsonValue& v, QList<XletData>& xlets);
@@ -150,12 +153,13 @@ private:
     QString model_, vendor_, title_;
     QString image_;
     QPointF pos_;
+    float zoom_ = { 1 };
+    float zvalue_ = { 1 };
     DeviceId id_ { 0 };
-    qreal zvalue_ = { 1 };
+    int battery_count_ { 0 };
     ItemCategory category_ { ItemCategory::Device };
     BatteryType battery_type_ { BatteryType::None };
-    int battery_count_ { 0 };
-    qreal zoom_ = { 1 };
+    bool show_title_ { true };
 };
 
 using SharedDeviceData = QSharedDataPointer<DeviceData>;
