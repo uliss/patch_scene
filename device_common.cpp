@@ -319,6 +319,15 @@ BatteryChange DeviceData::calcBatteryChange(const DeviceData& data) const
     return BatteryChange(battery_type_, battery_count_, data.battery_type_, data.battery_count_);
 }
 
+size_t DeviceData::calcModelId() const
+{
+    return ::qHash(model_)
+        ^ ::qHash(vendor_)
+        ^ ::qHash(static_cast<int>(category_))
+        ^ ::qHash(static_cast<int>(battery_type_))
+        ^ ::qHash(battery_count_);
+}
+
 QJsonArray DeviceData::xletToJson(const QList<XletData>& xlets)
 {
     QJsonArray arr;

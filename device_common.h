@@ -140,6 +140,8 @@ public:
     void setBatteryType(int type);
     BatteryChange calcBatteryChange(const DeviceData& data) const;
 
+    size_t calcModelId() const;
+
     bool showTitle() const { return show_title_; }
     void setShowTitle(bool value) { show_title_ = value; }
 
