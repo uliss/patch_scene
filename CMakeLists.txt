@@ -134,11 +134,15 @@ include(icon_tools)
 include(summary)
 include(InstallRequiredSystemLibraries)
 
+find_program(GITHUB_CLI gh)
+
 if(APPLE)
     find_program(PLIST_BUDDY PlistBuddy PATHS /usr/libexec)
     find_program(DMGBUILD dmgbuild PATHS $ENV["PATH"])
 
     set(FILE_ICNS "${PROJECT_SOURCE_DIR}/resources/patch_scene_file.icns")
+    set(APP_ZIP_FILE "PatchScene-v${PROJECT_VERSION}-${CMAKE_SYSTEM_PROCESSOR}.app.zip")
+    set(DMG_FILE "PatchScene-v${PROJECT_VERSION}-${CMAKE_SYSTEM_PROCESSOR}.dmg")
 
     configure_file(scripts/macos_make_dmg.sh ${PROJECT_BINARY_DIR}/macos_make_dmg.sh @ONLY)
     configure_file(resources/dmg_settings.json ${PROJECT_BINARY_DIR}/dmg_settings.json @ONLY)
@@ -148,12 +152,23 @@ if(APPLE)
         DEPENDS patch_scene
     )
     add_custom_target(app-zip
-        COMMAND zip -r
-            "PatchScene-v${PROJECT_VERSION}-${CMAKE_SYSTEM_PROCESSOR}.app.zip"
-            "PatchScene.app/"
+        COMMAND zip -r ${APP_ZIP_FILE} "PatchScene.app/"
         WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/dist
     )
     add_custom_target(run
         COMMAND open ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.app
     )
+
+    if(GITHUB_CLI)
+        add_custom_target(dev_new_release
+            COMMAND git push --tags
+            COMMAND ${GITHUB_CLI} release create "v${PROJECT_VERSION}"
+            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+        )
+        add_custom_target(dev_upload
+            COMMAND ${GITHUB_CLI} release upload --clobber "v${PROJECT_VERSION}" ${APP_ZIP_FILE}
+            COMMAND ${GITHUB_CLI} release upload --clobber "v${PROJECT_VERSION}" ${DMG_FILE}
+            WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/dist
+        )
+    endif()
 endif()
