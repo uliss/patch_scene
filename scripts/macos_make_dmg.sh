@@ -6,6 +6,11 @@ SRC_DMG="PatchScene.dmg"
 DEST_APP="PatchScene.app"
 DEST_DMG="PatchScene-v@PROJECT_VERSION@-@CMAKE_SYSTEM_PROCESSOR@.dmg"
 DIST_DIR="@PROJECT_BINARY_DIR@/dist"
+BLIST_BUDDY="@PLIST_BUDDY@"
+FILE_ICNS_PATH="@FILE_ICNS@"
+FILE_ICNS=$(basename ${FILE_ICNS_PATH})
+FILE_DESC="'PatchScene project'"
+FILE_ID="space.ceam.patch-scene.scheme"
 cd "@PROJECT_BINARY_DIR@"
 
 echo "- cleaning dist directory ..."
@@ -16,9 +21,34 @@ mkdir -p "${DIST_DIR}/${DEST_APP}"
 echo "- copy app to dist directory ..."
 cp -R "${SRC_APP}/" "${DIST_DIR}/${DEST_APP}"
 
+echo "- file icon ICNS ..."
+cp "${FILE_ICNS_PATH}" "${DIST_DIR}/${DEST_APP}/Contents/Resources"
+
 # fix dark theme
 echo "- macos dark theme fix ..."
-/usr/libexec/PlistBuddy -c "Add :NSRequiresAquaSystemAppearance bool true" "${DIST_DIR}/${DEST_APP}/Contents/Info.plist"
+INFO_PLIST="${DIST_DIR}/${DEST_APP}/Contents/Info.plist"
+${BLIST_BUDDY} -c "Add :NSRequiresAquaSystemAppearance bool true" ${INFO_PLIST}
+${BLIST_BUDDY} -c "Add :CFBundleTypeRole string Editor"           ${INFO_PLIST}
+echo "- adding psc extension ..."
+
+CFBDT=":CFBundleDocumentTypes"
+${BLIST_BUDDY} -c "Add ${CFBDT} array"                                      ${INFO_PLIST}
+${BLIST_BUDDY} -c "Add ${CFBDT}:0:CFBundleTypeExtensions array"             ${INFO_PLIST}
+${BLIST_BUDDY} -c "Add ${CFBDT}:0:CFBundleTypeExtensions:0 string psc"      ${INFO_PLIST}
+${BLIST_BUDDY} -c "Add ${CFBDT}:0:CFBundleTypeIconFile string ${FILE_ICNS}" ${INFO_PLIST}
+${BLIST_BUDDY} -c "Add ${CFBDT}:0:CFBundleTypeName string ${FILE_DESC}"     ${INFO_PLIST}
+
+UTUTD=":UTExportedTypeDeclarations"
+${BLIST_BUDDY} -c "Add ${UTUTD} array"                                      ${INFO_PLIST}
+${BLIST_BUDDY} -c "Add ${UTUTD}:0:UTTypeIdentifier  string ${FILE_ID}"      ${INFO_PLIST}
+#${BLIST_BUDDY} -c "Add ${UTUTD}:0:UTTypeConformsTo  string public.json"     ${INFO_PLIST}
+${BLIST_BUDDY} -c "Add ${UTUTD}:0:UTTypeDescription string ${FILE_DESC}"    ${INFO_PLIST}
+${BLIST_BUDDY} -c "Add ${UTUTD}:0:UTTypeIconFile    string ${FILE_ICNS}"    ${INFO_PLIST}
+
+UTEXT="UTTypeTagSpecification:public.filename-extension"
+${BLIST_BUDDY} -c "Add ${UTUTD}:0:${UTEXT}          array"                  ${INFO_PLIST}
+${BLIST_BUDDY} -c "Add ${UTUTD}:0:${UTEXT}:0        string psc"             ${INFO_PLIST}
+
 
 cd "${DIST_DIR}"
 
