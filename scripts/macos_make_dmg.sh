@@ -1,8 +1,10 @@
 #!/bin/bash
 
 VERSION="@PROJECT_VERSION@"
+APP_NAME="PatchScene"
 SRC_APP="@PROJECT_NAME@.app"
 SRC_DMG="PatchScene.dmg"
+SRC_DMG_RW="PatchScene_rw.dmg"
 DEST_APP="PatchScene.app"
 DEST_DMG="PatchScene-v@PROJECT_VERSION@-@CMAKE_SYSTEM_PROCESSOR@.dmg"
 DIST_DIR="@PROJECT_BINARY_DIR@/dist"
@@ -60,6 +62,26 @@ echo "- deploy and make DMG ..."
 echo "- check app ..."
 codesign --verify --verbose "${DEST_APP}"
 
-# renaming
-echo "- renaming DMG ..."
-mv "${SRC_DMG}" "${DEST_DMG}"
+echo "- change the permision of DMG file"
+hdiutil convert "${SRC_DMG}" -format UDRW -o "${SRC_DMG_RW}"
+
+echo "- mount it and save the device"
+DEVICE=$(hdiutil attach -readwrite -noverify "${SRC_DMG_RW}" |egrep '^/dev/' |sed 1q |awk '{print $1}')
+
+echo $DEVICE
+sleep 2
+
+echo "- create the symbolic link to application folder"
+PATH_AT_VOLUME="/Volumes/${APP_NAME}"
+ln -s /Applications ${PATH_AT_VOLUME}
+
+# unmount it
+hdiutil detach "${DEVICE}"
+
+rm -f "${SRC_DMG}"
+
+hdiutil convert "${SRC_DMG_RW}" -format UDZO -o "${DEST_DMG}"
+
+rm -f "${SRC_DMG_RW}"
+exit
+
