@@ -14,31 +14,60 @@
 #include "mainwindow.h"
 
 #include <QApplication>
+#include <QFileOpenEvent>
 #include <QLibraryInfo>
 #include <QTranslator>
 
+class PatchSceneApp : public QApplication {
+public:
+    PatchSceneApp(int& argc, char** argv, int flags = ApplicationFlags)
+        : QApplication(argc, argv, flags)
+    {
+        setWindowIcon(QIcon(":/app_icon.svg"));
+
+        QTranslator qt_tr;
+
+        qDebug() << QLocale::system();
+
+        if (qt_tr.load(QLocale::system(), "qtbase", "_",
+                QLibraryInfo::path(QLibraryInfo::TranslationsPath))) {
+
+            installTranslator(&qt_tr);
+            qDebug() << "qt tr added";
+        }
+
+        QTranslator my_tr;
+        if (my_tr.load(QLocale::system(), "patch_scene_ru.qm", "", ":/i18n")) {
+            installTranslator(&my_tr);
+            qDebug() << "app tr added";
+        }
+
+        window_.show();
+    }
+
+signals:
+    void openFile(const QString& fn);
+
+protected:
+    bool event(QEvent* event) final
+    {
+        if (event->type() == QEvent::FileOpen) {
+            auto open_event = dynamic_cast<QFileOpenEvent*>(event);
+            if (open_event) {
+                window_.openDocument(open_event->file());
+                return true;
+            }
+        }
+
+        return QApplication::event(event);
+    }
+
+private:
+    ceam::MainWindow window_;
+};
+
 int main(int argc, char* argv[])
 {
-    QApplication app(argc, argv);
-    app.setWindowIcon(QIcon(":/app_icon.svg"));
-    QTranslator qt_tr;
-
-    qDebug() << QLocale::system();
-
-    if (qt_tr.load(QLocale::system(), "qtbase", "_",
-            QLibraryInfo::path(QLibraryInfo::TranslationsPath))) {
-
-        app.installTranslator(&qt_tr);
-        qDebug() << "qt tr added";
-    }
-
-    QTranslator my_tr;
-    if (my_tr.load(QLocale::system(), "patch_scene_ru.qm", "", ":/i18n")) {
-        app.installTranslator(&my_tr);
-        qDebug() << "app tr added";
-    }
-
-    ceam::MainWindow w;
-    w.show();
+    PatchSceneApp app(argc, argv);
     return app.exec();
 }
