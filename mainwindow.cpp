@@ -62,9 +62,10 @@ MainWindow::MainWindow(QWidget* parent)
 
     setupExpandButton(ui->deviceListBtn, ui->deviceList, ui->deviceListLine);
     setupExpandButton(ui->connectionListBtn, ui->connectionList, ui->connectionListLine);
-    setupExpandButton(ui->batteryListBtn, ui->batteryList, ui->batteryListLine);
+    setupExpandButton(ui->batteryListBtn, ui->batteryList, ui->batteryListLine, false);
     setupExpandButton(ui->sendListBtn, ui->sendList, ui->sendListLine);
     setupExpandButton(ui->returnListBtn, ui->returnList, ui->returnListLine);
+    setupExpandButton(ui->furnitureListBtn, ui->furnitureList, ui->furnitureListLine, false);
 
     initDiagram();
     initActions();
@@ -689,11 +690,11 @@ QTextDocument* MainWindow::exportToDocument(const QSizeF& pageSize)
     return doc;
 }
 
-void MainWindow::setupExpandButton(QToolButton* btn, QTableView* tab, QFrame* line)
+void MainWindow::setupExpandButton(QToolButton* btn, QTableView* tab, QFrame* line, bool expanded)
 {
-    line->setHidden(true);
-    tab->setHidden(false);
-    btn->setArrowType(Qt::DownArrow);
+    line->setHidden(expanded);
+    tab->setVisible(expanded);
+    btn->setArrowType(expanded ? Qt::DownArrow : Qt::RightArrow);
     btn->setIconSize(QSize(6, 6));
 
     btn->setStyleSheet("QToolButton { "

@@ -93,7 +93,7 @@ private:
 
     QTextDocument* exportToDocument(const QSizeF& pageSize);
 
-    void setupExpandButton(QToolButton* btn, QTableView* tab, QFrame* line);
+    void setupExpandButton(QToolButton* btn, QTableView* tab, QFrame* line, bool expanded = true);
     void setupDockTitle(QDockWidget* dock);
 
     void readPositionSettings();

@@ -380,6 +380,44 @@
       </widget>
      </item>
      <item>
+      <widget class="QToolButton" name="furnitureListBtn">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="contextMenuPolicy">
+        <enum>Qt::NoContextMenu</enum>
+       </property>
+       <property name="text">
+        <string>Furniture</string>
+       </property>
+       <property name="toolButtonStyle">
+        <enum>Qt::ToolButtonTextBesideIcon</enum>
+       </property>
+       <property name="arrowType">
+        <enum>Qt::DownArrow</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTableView" name="furnitureList"/>
+     </item>
+     <item>
+      <widget class="Line" name="furnitureListLine">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QToolButton" name="sendListBtn">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
