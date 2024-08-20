@@ -89,6 +89,7 @@ qt_add_executable(patch_scene
     send_item_model.h send_item_model.cpp
     return_item_model.h return_item_model.cpp
     battery_item_model.h battery_item_model.cpp
+    furniture_item_model.h furniture_item_model.cpp
     #tests/test_device_data.h tests/test_device_data.cpp
 )
 

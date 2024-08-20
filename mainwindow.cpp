@@ -292,6 +292,26 @@ void MainWindow::initSendList()
     ui->sendList->resizeColumnsToContents();
 }
 
+void MainWindow::initFurnitureList()
+{
+    furniture_model_ = new FurnitureItemModel(this);
+
+    QSignalBlocker sb(ui->furnitureList);
+    ui->furnitureList->setModel(furniture_model_);
+    ui->furnitureList->setSortingEnabled(true);
+    ui->furnitureList->sortByColumn(0, Qt::AscendingOrder);
+
+    ui->furnitureList->horizontalHeader()->setVisible(true);
+    ui->furnitureList->horizontalHeader()->setStretchLastSection(true);
+    ui->furnitureList->verticalHeader()->setVisible(true);
+
+    ui->furnitureList->setStyleSheet("QTableView::item {padding: 0px}");
+    ui->furnitureList->setSelectionBehavior(QAbstractItemView::SelectItems);
+    ui->furnitureList->setSelectionMode(QAbstractItemView::SingleSelection);
+
+    ui->furnitureList->resizeColumnsToContents();
+}
+
 void MainWindow::initReturnList()
 {
     return_model_ = new ReturnItemModel(this);
@@ -406,6 +426,7 @@ void MainWindow::onDeviceAdd(SharedDeviceData data)
         ui->deviceList->resizeColumnsToContents();
 
     battery_model_->addDeviceData(data);
+    furniture_model_->addFurniture(data);
 }
 
 void MainWindow::onDeviceRemove(SharedDeviceData data)
@@ -414,6 +435,7 @@ void MainWindow::onDeviceRemove(SharedDeviceData data)
         ui->deviceList->resizeColumnsToContents();
 
     battery_model_->removeDeviceData(data);
+    furniture_model_->removeFurniture(data);
 }
 
 void MainWindow::onDeviceTitleUpdate(DeviceId id, const QString& title)
@@ -901,7 +923,7 @@ void MainWindow::openDocument()
     openDocument(file_name);
 }
 
-void MainWindow::openDocument(const QString& path)
+bool MainWindow::openDocument(const QString& path)
 {
     if (diagram_->loadJson(path)) {
         setProjectName(path);
@@ -909,5 +931,8 @@ void MainWindow::openDocument(const QString& path)
         setWindowModified(false);
         statusBar()->showMessage(tr("Load '%1'").arg(file_name_), 2000);
         addRecentFile(path);
+        return true;
+    } else {
+        return false;
     }
 }

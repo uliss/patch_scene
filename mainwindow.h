@@ -20,6 +20,7 @@
 #include "device_item_model.h"
 #include "diagram.h"
 #include "favorites_widget.h"
+#include "furniture_item_model.h"
 #include "return_item_model.h"
 #include "send_item_model.h"
 
@@ -37,7 +38,6 @@ class MainWindow;
 }
 QT_END_NAMESPACE
 
-
 namespace ceam {
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -53,7 +53,7 @@ public slots:
     void exportToOdf();
     void exportToPdf();
     void openDocument();
-    void openDocument(const QString& path);
+    bool openDocument(const QString& path);
     void printScheme();
     void selectAll();
     void setBackground();
@@ -85,6 +85,7 @@ private:
     void initLibrarySearch();
     void initReturnList();
     void initSendList();
+    void initFurnitureList();
 
     void setProjectName(const QString& fileName);
     bool doSave();
@@ -122,6 +123,7 @@ private:
     SendItemModel* send_model_;
     ReturnItemModel* return_model_;
     BatteryItemModel* battery_model_;
+    FurnitureItemModel* furniture_model_;
     FavoritesWidget* favorites_;
     AppSettings settings_;
     QList<QUrl> recent_files_;
