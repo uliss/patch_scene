@@ -43,6 +43,9 @@ public:
         }
 
         window_.show();
+
+        if (argc > 1 && argv[1])
+            window_.openDocument(QString(argv[1]));
     }
 
 signals:
