@@ -7,7 +7,7 @@ else()
     set(LANGS CXX)
 endif()
 
-project(patch_scene VERSION 0.2.0 LANGUAGES ${LANGS})
+project(patch_scene VERSION 0.2.5 LANGUAGES ${LANGS})
 # cmake search path
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 include(git_version)
