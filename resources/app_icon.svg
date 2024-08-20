@@ -34,7 +34,7 @@
    inkscape:window-x="0"
    inkscape:window-y="25"
    inkscape:window-maximized="0"
-   inkscape:current-layer="Layer_1" />
+   inkscape:current-layer="g39" />
 
 
 
@@ -68,7 +68,9 @@
 <g
    id="g39"
    transform="matrix(1.2311971,0,0,1.2311868,10.50239,5.884401)"
-   style="stroke-width:0.812221"><circle
+   style="stroke-width:0.812221"
+   inkscape:label="logo"
+   inkscape:highlight-color="#7dfd57"><circle
      fill="#f8b62d"
      stroke="#000000"
      stroke-miterlimit="10"
