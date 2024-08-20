@@ -26,25 +26,6 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="deviceName">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>600</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="toolTip">
-        <string>device name</string>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="0">
       <widget class="QLabel" name="vendorLabel">
        <property name="text">
@@ -56,7 +37,7 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="0,0,0,0,0">
+      <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="0,0,0,0">
        <item>
         <widget class="QLineEdit" name="vendor"/>
        </item>
@@ -72,13 +53,6 @@
        </item>
        <item>
         <widget class="QLineEdit" name="model"/>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="showTitle">
-         <property name="text">
-          <string>Show Title</string>
-         </property>
-        </widget>
        </item>
        <item>
         <spacer name="horizontalSpacer_4">
@@ -493,6 +467,33 @@
        </item>
       </layout>
      </item>
+     <item row="0" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <item>
+        <widget class="QLineEdit" name="deviceName">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>500</width>
+           <height>0</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="showTitle">
+         <property name="text">
+          <string>Show Title</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
     </layout>
    </item>
    <item>
@@ -509,6 +510,7 @@
  </widget>
  <tabstops>
   <tabstop>deviceName</tabstop>
+  <tabstop>showTitle</tabstop>
   <tabstop>vendor</tabstop>
   <tabstop>model</tabstop>
   <tabstop>category</tabstop>
@@ -519,6 +521,9 @@
   <tabstop>addOutlet</tabstop>
   <tabstop>removeOutlet</tabstop>
   <tabstop>imageChooseButton</tabstop>
+  <tabstop>zoom</tabstop>
+  <tabstop>batteryType</tabstop>
+  <tabstop>batteryCount</tabstop>
  </tabstops>
  <resources/>
  <connections>
