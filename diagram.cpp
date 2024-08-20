@@ -36,16 +36,17 @@ namespace {
 constexpr qreal MAX_ZOOM = 4.0;
 constexpr qreal MIN_ZOOM = 1.0 / MAX_ZOOM;
 
-constexpr const char* JSON_KEY_DEVICES = "devices";
-constexpr const char* JSON_KEY_CONNS = "connections";
-constexpr const char* JSON_KEY_BACKGROUND = "background";
 constexpr const char* JSON_KEY_APP = "application";
+constexpr const char* JSON_KEY_BACKGROUND = "background";
+constexpr const char* JSON_KEY_CONNS = "connections";
+constexpr const char* JSON_KEY_DEVICES = "devices";
+constexpr const char* JSON_KEY_FORMAT_VERSION = "format-version";
+constexpr const char* JSON_KEY_META = "meta";
 constexpr const char* JSON_KEY_VERSION = "version";
+constexpr const char* JSON_KEY_VERSION_GIT = "version-git";
 constexpr const char* JSON_KEY_VERSION_MAJOR = "version-major";
 constexpr const char* JSON_KEY_VERSION_MINOR = "version-minor";
 constexpr const char* JSON_KEY_VERSION_PATCH = "version-patch";
-constexpr const char* JSON_KEY_VERSION_GIT = "version-git";
-constexpr const char* JSON_KEY_META = "meta";
 
 class ChangeEmitter {
     Diagram* diagram_;
@@ -502,11 +503,9 @@ bool Diagram::loadJson(const QString& path)
         if (!app_vers.isEmpty())
             qDebug() << "open document, created with PatchScene:" << app_vers;
 
-        auto app_maj = app.value(JSON_KEY_VERSION_MAJOR).toInt();
-        auto app_min = app.value(JSON_KEY_VERSION_MINOR).toInt();
+        auto fmt_vers = app.value(JSON_KEY_FORMAT_VERSION).toInt();
 
-        auto int_vers = (app_maj * 100) + app_min;
-        if (int_vers > PATCH_SCENE_VERSION_INT) {
+        if (fmt_vers > PATCH_SCENE_VERSION_INT) {
             qWarning() << "the document was created with more recent version, then the current one, "
                           "some feature can be missing...";
         }
@@ -1345,6 +1344,7 @@ QJsonValue Diagram::appInfoJson() const
     obj[JSON_KEY_VERSION_MINOR] = PATCH_SCENE_VERSION_MAJOR;
     obj[JSON_KEY_VERSION_PATCH] = PATCH_SCENE_VERSION_PATCH;
     obj[JSON_KEY_VERSION_GIT] = PATCH_SCENE_GIT_VERSION;
+    obj[JSON_KEY_FORMAT_VERSION] = PATCH_SCENE_FILE_FORMAT_VERSION;
 
     return obj;
 }
