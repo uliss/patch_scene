@@ -6,8 +6,8 @@
     "window": { "position": { "x": 100, "y": 100 },
                 "size": { "width": 600, "height": 400 } },
     "contents": [
-        { "x": 140, "y": 120, "type": "file",
+        { "x": 160, "y": 120, "type": "file",
           "path": "@PROJECT_BINARY_DIR@/dist/PatchScene.app" },
-        { "x": 500, "y": 120, "type": "link", "path": "/Applications" }
+        { "x": 480, "y": 120, "type": "link", "path": "/Applications" }
     ]
 }
