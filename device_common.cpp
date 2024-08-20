@@ -40,6 +40,7 @@ constexpr const char* JSON_KEY_OUTPUTS = "outputs";
 constexpr const char* JSON_KEY_CATEGORY = "category";
 constexpr const char* JSON_KEY_BATTERY_TYPE = "battery-type";
 constexpr const char* JSON_KEY_BATTERY_COUNT = "battery-count";
+constexpr const char* JSON_KEY_SHOW_TITLE = "show-title";
 
 constexpr int MAX_BATTERIES_COUNT = 10;
 
@@ -241,6 +242,8 @@ bool DeviceData::setJson(const QJsonValue& v)
     battery_count_ = qBound<int>(0, obj.value(JSON_KEY_BATTERY_COUNT).toInt(), MAX_BATTERIES_COUNT);
     battery_type_ = fromJsonString(obj.value(JSON_KEY_BATTERY_TYPE).toString());
 
+    show_title_ = obj[JSON_KEY_SHOW_TITLE].toBool(true);
+
     return true;
 }
 
@@ -283,6 +286,7 @@ QJsonObject DeviceData::toJson() const
 
     json[JSON_KEY_INPUTS] = xletToJson(inputs_);
     json[JSON_KEY_OUTPUTS] = xletToJson(outputs_);
+    json[JSON_KEY_SHOW_TITLE] = show_title_;
 
     return json;
 }

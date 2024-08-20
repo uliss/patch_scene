@@ -248,7 +248,7 @@ void Device::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
 
 void Device::paintTitleBox(QPainter* painter)
 {
-    if (!title_)
+    if (!title_ || !data_->showTitle())
         return;
 
     painter->setPen(Qt::NoPen);
@@ -445,6 +445,10 @@ void Device::updateTitlePos()
     if (!title_)
         return;
 
+    title_->setVisible(data_->showTitle());
+    if (!data_->showTitle())
+        return;
+
     auto opts = title_->document()->defaultTextOption();
     opts.setAlignment(Qt::AlignHCenter);
     title_->document()->setDefaultTextOption(opts);
@@ -458,7 +462,7 @@ void Device::updateImagePos()
         return;
 
     auto yoff = 0;
-    if (title_)
+    if (title_ && data_->showTitle())
         yoff += title_->boundingRect().height();
 
     auto bbox = boundingRect();
@@ -522,7 +526,7 @@ int Device::calcWidth() const
 
     int w = qMax(NUM_IN, NUM_OUT) * XLET_W;
 
-    if (TITLE_SIZE > 0) {
+    if (TITLE_SIZE > 0 && data_->showTitle()) {
         auto txt_wd = qBound<int>(TITLE_MIN_CHAR_WIDTH, TITLE_SIZE, TITLE_MAX_CHAR_WIDTH);
         w = qMax<int>(w, txt_wd * TITLE_CHAR_WIDTH);
     }
@@ -536,7 +540,7 @@ int Device::calcWidth() const
 int Device::calcHeight() const
 {
     int h = 0;
-    if (title_)
+    if (title_ && data_->showTitle())
         h += title_->boundingRect().height();
 
     if (image_)
