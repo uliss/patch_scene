@@ -116,5 +116,6 @@
         <file>devices/xylophone_1.svg</file>
         <file>devices/tuba_1.svg</file>
         <file>devices/oboe_1.svg</file>
+        <file>devices/oboe_2.svg</file>
     </qresource>
 </RCC>

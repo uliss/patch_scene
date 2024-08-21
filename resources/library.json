@@ -1557,6 +1557,12 @@
                 "title-ru": "Гобой",
                 "image": "oboe_1",
                 "zoom": 0.75
+            },
+            {
+                "title": "English Horn",
+                "title-ru": "Английский Рожок",
+                "image": "oboe_2",
+                "zoom": 0.9
             }
         ],
         "sends": [
