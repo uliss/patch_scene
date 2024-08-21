@@ -693,13 +693,24 @@ void Diagram::clearAll()
 void Diagram::wheelEvent(QWheelEvent* event)
 {
     if (event->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier)) {
-        int angle = event->angleDelta().y();
+        auto numPixels = event->pixelDelta();
+        auto numDegrees = event->angleDelta();
+
         qreal factor = 1;
-        if (angle > 0) {
-            factor = 1.01;
-        } else {
-            factor = 0.99;
+        if (!numPixels.isNull()) {
+            if (numPixels.y() > 0) {
+                factor = 1.02;
+            } else {
+                factor = 0.98;
+            }
+        } else if (!numDegrees.isNull()) {
+            if (numPixels.y() > 0) {
+                factor = 1.01;
+            } else {
+                factor = 0.99;
+            }
         }
+
         updateZoom(zoom_ * factor);
     } else
         QGraphicsView::wheelEvent(event);

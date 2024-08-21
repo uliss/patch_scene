@@ -220,6 +220,7 @@ protected:
     void mouseMoveEvent(QMouseEvent* event) override;
     void mousePressEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;
+    void wheelEvent(QWheelEvent* event) final;
 
 private:
     QGraphicsScene* scene;
@@ -229,8 +230,6 @@ private:
     void saveClickPos(const QPoint& pos);
     QList<DeviceId> allDeviceIds() const;
     void clearAll();
-
-    void wheelEvent(QWheelEvent* event) final;
 
 #ifdef __MACH__
     bool viewportEvent(QEvent* event) override;
