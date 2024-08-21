@@ -178,6 +178,25 @@
                 ]
             },
             {
+                "model": "308P",
+                "vendor": "JBL",
+                "image": "speaker_1",
+                "zoom": 1.25,
+                "inputs": [
+                    {
+                        "model": "jack_trs",
+                        "name": "balanced input"
+                    },
+                    {
+                        "model": "xlr"
+                    },
+                    {
+                        "model": "power_iec_c_13_14",
+                        "socket": "male"
+                    }
+                ]
+            },
+            {
                 "vendor": "Focuswrite",
                 "model": "Scarlett 18i20",
                 "category": "audio",
