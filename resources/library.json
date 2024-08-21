@@ -1201,6 +1201,121 @@
                 ]
             },
             {
+                "model": "FS22",
+                "vendor": "Flamma",
+                "title": "Flamma EKOVERB",
+                "image": "guitar_pedal_1",
+                "zoom": 0.75,
+                "inputs": [
+                    {
+                        "model": "jack_ts",
+                        "name": "INPUT-R"
+                    },
+                    {
+                        "model": "jack_ts",
+                        "name": "INPUT-L (MONO)"
+                    },
+                    {
+                        "model": "power_dc_5.5x2.1",
+                        "name": "DC (-)9V 300ma"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "jack_ts",
+                        "name": "OUTPUT-R"
+                    },
+                    {
+                        "model": "jack_ts",
+                        "name": "OUTPUT-L (MONO)"
+                    }
+                ]
+            },
+            {
+                "model": "Soul Press II",
+                "vendor": "Hotone",
+                "title": "Hotone Expression Pedal",
+                "image": "guitar_pedal_2",
+                "zoom": 0.75,
+                "inputs": [
+                    {
+                        "model": "jack_ts",
+                        "name": "INPUT"
+                    },
+                    {
+                        "model": "power_dc_5.5x2.1",
+                        "name": "DC (-)9V 300ma"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "jack_ts",
+                        "name": "EXP OUT"
+                    },
+                    {
+                        "model": "jack_ts",
+                        "name": "OUTPUT"
+                    },
+                    {
+                        "model": "jack_ts",
+                        "name": "TUNER OUT"
+                    }
+                ]
+            },
+            {
+                "model": "XTone Pro",
+                "vendor": "XSonic",
+                "inputs": [
+                    {
+                        "model": "xlr_jack",
+                        "name": "In Right",
+                        "phantom": true
+                    },
+                    {
+                        "model": "jack_ts",
+                        "name": "In Left"
+                    },
+                    {
+                        "model": "jack_trs",
+                        "name": "EXP"
+                    },
+                    {
+                        "model": "midi",
+                        "name": "IN"
+                    },
+                    {
+                        "model": "power_dc_5.5x2.1",
+                        "name": "DC (-)9V"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "jack_trs",
+                        "name": "L"
+                    },
+                    {
+                        "model": "jack_trs",
+                        "name": "R"
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "male",
+                        "name": "XLR"
+                    },
+                    {
+                        "model": "jack_mini_trs",
+                        "name": "phones"
+                    },
+                    {
+                        "model": "midi",
+                        "name": "OUT"
+                    },
+                    {
+                        "model": "usb_b"
+                    }
+                ]
+            },
+            {
                 "model": "PM1",
                 "vendor": "Behringer",
                 "title": "Behringer PM1 Personal monitoring",

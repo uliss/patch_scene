@@ -111,5 +111,7 @@
         <file>connectors/xlr_mini_socket.svg</file>
         <file>connectors/xlr_mini_socket_male.svg</file>
         <file>devices/monitor_1.svg</file>
+        <file>devices/guitar_pedal_2.svg</file>
+        <file>devices/guitar_pedal_1.svg</file>
     </qresource>
 </RCC>
