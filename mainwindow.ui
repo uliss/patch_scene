@@ -154,7 +154,7 @@
      <string>Window</string>
     </property>
     <addaction name="actionMinimize"/>
-    <addaction name="actionShow"/>
+    <addaction name="actionMaximize"/>
    </widget>
    <widget class="QMenu" name="menuObjects">
     <property name="title">
@@ -719,9 +719,9 @@
     <string>Minimize</string>
    </property>
   </action>
-  <action name="actionShow">
+  <action name="actionMaximize">
    <property name="text">
-    <string>Show</string>
+    <string>Maximize</string>
    </property>
   </action>
   <action name="actionCopy">

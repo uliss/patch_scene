@@ -79,6 +79,8 @@ MainWindow::MainWindow(QWidget* parent)
         else if (!value && isFullScreen())
             showNormal();
     });
+    connect(ui->actionMinimize, SIGNAL(triggered()), this, SLOT(showMinimized()));
+    connect(ui->actionMaximize, SIGNAL(triggered()), this, SLOT(showMaximized()));
 
     resizePanels();
 
