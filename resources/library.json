@@ -26,6 +26,50 @@
                 ]
             },
             {
+                "title": "MIDI router",
+                "title-ru": "MIDI роутер",
+                "vendor": "MVR electronic",
+                "inputs": [
+                    {
+                        "model": "midi",
+                        "name": "IN 1"
+                    },
+                    {
+                        "model": "midi",
+                        "name": "IN 2"
+                    },
+                    {
+                        "model": "midi",
+                        "name": "IN 3"
+                    },
+                    {
+                        "model": "midi",
+                        "name": "IN 4"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "midi",
+                        "name": "OUT 1"
+                    },
+                    {
+                        "model": "midi",
+                        "name": "OUT 2"
+                    },
+                    {
+                        "model": "midi",
+                        "name": "OUT 3"
+                    },
+                    {
+                        "model": "midi",
+                        "name": "OUT 4"
+                    },
+                    {
+                        "model": "usb_b"
+                    }
+                ]
+            },
+            {
                 "title": "Mic instr stereo",
                 "title-ru": "Микрофон инструментальный (стерео)",
                 "image": "mic_on_stand_stereo",
