@@ -1541,6 +1541,11 @@
                 "title": "Drum Set",
                 "title-ru": "Ударная установка",
                 "image": "drum_set_1"
+            },
+            {
+                "title": "Xylophone",
+                "title-ru": "Ксилофон",
+                "image": "xylophone_1"
             }
         ],
         "sends": [
