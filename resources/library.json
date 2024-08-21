@@ -1097,6 +1097,71 @@
                         "name": "AUDIO OUT (balanced)"
                     }
                 ]
+            },
+            {
+                "model": "PM1",
+                "vendor": "Berhinger",
+                "title": "Berhinger PM1 Personal monitoring",
+                "title-ru": "Berhinger PM1 Персональный мониторинг",
+                "inputs": [
+                    {
+                        "model": "xlr"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "jack_mini_trs"
+                    }
+                ]
+            },
+            {
+                "model": "Mini Converter",
+                "vendor": "Wiistar",
+                "title": "HDMI to SDI",
+                "inputs": [
+                    {
+                        "model": "hdmi",
+                        "name": "HDMI in"
+                    },
+                    {
+                        "model": "power_dc_5.5x2.1",
+                        "name": "DC 5~12V"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "bnc",
+                        "name": "SDI out 1"
+                    },
+                    {
+                        "model": "bnc",
+                        "name": "SDI out 2"
+                    }
+                ]
+            },
+            {
+                "model": "MPC-10",
+                "vendor": "DOREMiDi",
+                "title": "Midi Pedal Converter",
+                "inputs": [
+                    {
+                        "model": "jack_trs",
+                        "name": "EXP1"
+                    },
+                    {
+                        "model": "jack_trs",
+                        "name": "EXP2"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "usb_type_c"
+                    },
+                    {
+                        "model": "jack_mini_trs",
+                        "name": "MIDI out"
+                    }
+                ]
             }
         ],
         "instruments": [
