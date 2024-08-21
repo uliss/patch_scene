@@ -1551,6 +1551,12 @@
                 "title": "Tuba",
                 "title-ru": "Туба",
                 "image": "tuba_1"
+            },
+            {
+                "title": "Oboe",
+                "title-ru": "Гобой",
+                "image": "oboe_1",
+                "zoom": 0.75
             }
         ],
         "sends": [
