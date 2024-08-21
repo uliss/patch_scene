@@ -412,6 +412,7 @@ void Device::createTitle(qreal wd)
     clearTitle();
     title_ = new QGraphicsTextItem(data_->title(), this);
     title_->setTextWidth(wd);
+    title_->setToolTip(data_->modelVendor());
 }
 
 void Device::createImage(qreal wd)
