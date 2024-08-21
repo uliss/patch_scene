@@ -99,11 +99,13 @@ public:
     QString title() const;
     void setTitle(const QString& title);
 
-    QString vendor() const { return vendor_; }
+    const QString& vendor() const { return vendor_; }
     void setVendor(const QString& vendor);
 
-    QString model() const { return model_; }
+    const QString& model() const { return model_; }
     void setModel(const QString& model);
+
+    QString modelVendor() const;
 
     QString image() const { return image_; }
     void setImage(const QString& image);

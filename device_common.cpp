@@ -152,21 +152,9 @@ void DeviceData::setZoom(qreal z)
 
 QString DeviceData::title() const
 {
-    if (title_.isEmpty()) {
-        const bool v = !vendor_.isEmpty();
-        const bool m = !model_.isEmpty();
-
-        if (!m && !v)
-            return "Unknown";
-        else if (m && v)
-            return QString("%1 %2").arg(vendor_, model_);
-        else if (!m && v)
-            return vendor_;
-        else if (m && !v)
-            return model_;
-        else
-            return "????";
-    } else
+    if (title_.isEmpty())
+        return modelVendor();
+    else
         return title_;
 }
 
@@ -183,6 +171,23 @@ void DeviceData::setVendor(const QString& vendor)
 void DeviceData::setModel(const QString& model)
 {
     model_ = model.trimmed();
+}
+
+QString DeviceData::modelVendor() const
+{
+    const bool v = !vendor_.isEmpty();
+    const bool m = !model_.isEmpty();
+
+    if (!m && !v)
+        return "Unknown";
+    else if (m && v)
+        return QString("%1 %2").arg(vendor_, model_);
+    else if (!m && v)
+        return vendor_;
+    else if (m && !v)
+        return model_;
+    else
+        return "????";
 }
 
 void DeviceData::setImage(const QString& image)
@@ -325,7 +330,8 @@ BatteryChange DeviceData::calcBatteryChange(const DeviceData& data) const
 
 size_t DeviceData::calcModelId() const
 {
-    return ::qHash(model_)
+    return ::qHash(title_)
+        ^ ::qHash(model_)
         ^ ::qHash(vendor_)
         ^ ::qHash(static_cast<int>(category_))
         ^ ::qHash(static_cast<int>(battery_type_))
