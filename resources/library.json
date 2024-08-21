@@ -130,6 +130,10 @@
                     {
                         "model": "xlr",
                         "socket": "male"
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "male"
                     }
                 ]
             },
