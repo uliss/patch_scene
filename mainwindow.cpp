@@ -33,6 +33,7 @@
 #include <QStandardItemModel>
 #include <QStandardPaths>
 #include <QStatusBar>
+#include <QTextDocument>
 #include <QTextDocumentWriter>
 #include <QTextTable>
 

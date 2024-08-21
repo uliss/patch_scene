@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include "export_document.h"
 
+#include <QTextDocument>
 #include <QTextLength>
 #include <QTextTable>
 #include <QTextTableFormat>

@@ -177,6 +177,8 @@ QString ceam::connectorTypeName(ConnectorType type)
         return "plug_male";
     case ConnectorType::Plug_Female:
         return "plug_female";
+    default:
+        return "???";
     }
 }
 
