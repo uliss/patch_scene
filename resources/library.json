@@ -1563,6 +1563,12 @@
                 "title-ru": "Английский Рожок",
                 "image": "oboe_2",
                 "zoom": 0.9
+            },
+            {
+                "title": "Trombone",
+                "title-ru": "Тромбон",
+                "image": "trombone_1",
+                "zoom": 1.2
             }
         ],
         "sends": [
