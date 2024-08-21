@@ -26,6 +26,20 @@
                 ]
             },
             {
+                "title": "USB hub",
+                "title-ru": "USB хаб",
+                "vendor": "Orico",
+                "inputs": [
+                    { "model": "usb3_a" }
+                ],
+                "outputs": [
+                    { "model": "usb3_a" },
+                    { "model": "usb3_a" },
+                    { "model": "usb3_a" },
+                    { "model": "usb3_a" }
+                ]
+            },
+            {
                 "title": "MIDI router",
                 "title-ru": "MIDI роутер",
                 "vendor": "MVR electronic",
