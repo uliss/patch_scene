@@ -1019,6 +1019,8 @@
                 "model": "UHF Bodypack",
                 "image": "body_pack_1",
                 "zoom": 0.75,
+                "battery-type": "aa",
+                "battery-count": 2,
                 "outputs": [
                     {
                         "model": "jack_mini_trs",
