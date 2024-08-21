@@ -798,6 +798,40 @@
                 ]
             },
             {
+                "vendor": "Behringer",
+                "model": "MicroAMP HA400",
+                "description": "Ultra-compact 4-channel stereo headphone amplifier",
+                "outputs": [
+                    {
+                        "model": "jack_trs",
+                        "name": "1"
+                    },
+                    {
+                        "model": "jack_trs",
+                        "name": "2"
+                    },
+                    {
+                        "model": "jack_trs",
+                        "name": "3"
+                    },
+                    {
+                        "model": "jack_trs",
+                        "name": "4"
+                    }
+                ],
+                "inputs": [
+                    {
+                        "model": "jack_trs",
+                        "name": "INPUT"
+                    },
+                    {
+                        "model": "power_dc_5.5x2.1",
+                        "name": "12V",
+                        "power": "+"
+                    }
+                ]
+            },
+            {
                 "vendor": "Midas",
                 "model": "Air MR18",
                 "category": "audio",
