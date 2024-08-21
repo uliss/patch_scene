@@ -1051,6 +1051,63 @@
                 ]
             },
             {
+                "vendor": "Mosky Audio",
+                "model": "ISO 10 Power Supply",
+                "category": "guitar",
+                "inputs": [
+                    {
+                        "model": "power_dc_5.5x2.1",
+                        "name": "DC (-)12V"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "usb_a",
+                        "name": "DC 5V 1A"
+                    },
+                    {
+                        "model": "power_dc_5.5x2.1",
+                        "name": "DC (-)9V 300mA"
+                    },
+                    {
+                        "model": "power_dc_5.5x2.1",
+                        "name": "DC (-)9V 300mA"
+                    },
+                    {
+                        "model": "power_dc_5.5x2.1",
+                        "name": "DC (-)9V 300mA"
+                    },
+                    {
+                        "model": "power_dc_5.5x2.1",
+                        "name": "DC (-)9V 300mA"
+                    },
+                    {
+                        "model": "power_dc_5.5x2.1",
+                        "name": "DC (-)9V 300mA"
+                    },
+                    {
+                        "model": "power_dc_5.5x2.1",
+                        "name": "DC (-)9V 300mA"
+                    },
+                    {
+                        "model": "power_dc_5.5x2.1",
+                        "name": "DC (-)9V 300mA"
+                    },
+                    {
+                        "model": "power_dc_5.5x2.1",
+                        "name": "DC (-)9V 500mA"
+                    },
+                    {
+                        "model": "power_dc_5.5x2.1",
+                        "name": "DC (-)9,12,18V 500mA"
+                    },
+                    {
+                        "model": "power_dc_5.5x2.1",
+                        "name": "DC (-)9,12,18V 500mA"
+                    }
+                ]
+            },
+            {
                 "vendor": "UGreen",
                 "model": "USB-C Adapter",
                 "category": "computer",
