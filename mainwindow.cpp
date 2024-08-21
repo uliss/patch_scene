@@ -73,12 +73,16 @@ MainWindow::MainWindow(QWidget* parent)
     initActions();
     initLibrarySearch();
 
+#ifdef Q_OS_DARWIN
+    ui->actionFullscreen->setVisible(false);
+#else
     connect(ui->actionFullscreen, &QAction::triggered, this, [this](bool value) {
         if (value && !isFullScreen())
             showFullScreen();
         else if (!value && isFullScreen())
             showNormal();
     });
+#endif
     connect(ui->actionMinimize, SIGNAL(triggered()), this, SLOT(showMinimized()));
     connect(ui->actionMaximize, SIGNAL(triggered()), this, SLOT(showMaximized()));
 
