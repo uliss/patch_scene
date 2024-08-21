@@ -203,3 +203,39 @@ bool ceam::connectorIsPlug(ConnectorType type)
 {
     return type == ConnectorType::Plug_Female || type == ConnectorType::Plug_Male;
 }
+
+QString ceam::powerTypeToString(PowerType type)
+{
+    switch (type) {
+
+    case PowerType::DC_Positive:
+        return "+";
+    case PowerType::DC_Negative:
+        return "-";
+    case PowerType::AC:
+        return "~";
+    case PowerType::Phantom:
+        return "phantom";
+    case PowerType::None:
+    default:
+        return {};
+    }
+}
+
+std::optional<PowerType> ceam::powerTypeFromString(const QString& str)
+{
+    if (str.isEmpty())
+        return PowerType::None;
+
+    const auto lstr = str.toLower();
+    if (lstr == "+")
+        return PowerType::DC_Positive;
+    else if (lstr == "-")
+        return PowerType::DC_Negative;
+    else if (lstr == "~")
+        return PowerType::AC;
+    else if (lstr == "phantom")
+        return PowerType::Phantom;
+    else
+        return {};
+}

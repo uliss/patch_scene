@@ -47,6 +47,14 @@ constexpr qreal DEF_IMAGE_WIDTH = 100;
 constexpr DeviceId INIT_ID = 1;
 using DeviceIdMap = std::unordered_map<DeviceId, bool>;
 
+QRectF powerRect(const QPointF& pos, qreal wd = 2)
+{
+    return QRectF(pos.x() - (XLET_W / 2 - (wd * 0.5)),
+        pos.y() + (wd * 0.5),
+        XLET_W - wd,
+        XLET_H - wd);
+}
+
 SharedDeviceData makeDeviceData()
 {
     QSharedDataPointer data(new DeviceData(DEV_NULL_ID));
@@ -274,6 +282,32 @@ void Device::paintInlets(QPainter* painter)
 
     data_->foreachVisInput([this, painter](XletIndex idx, const XletData& inlet) {
         auto pos = inletPos(idx);
+
+        switch (inlet.power_type) {
+        case PowerType::DC_Positive:
+            painter->setBrush(Qt::red);
+            painter->setPen(Qt::NoPen);
+            painter->drawRect(powerRect(pos, 0));
+            break;
+        case PowerType::DC_Negative:
+            painter->setBrush(Qt::blue);
+            painter->setPen(Qt::NoPen);
+            painter->drawRect(powerRect(pos, 0));
+            break;
+        case PowerType::AC:
+            painter->setBrush(Qt::darkYellow);
+            painter->setPen(Qt::NoPen);
+            painter->drawRect(powerRect(pos, 0));
+            break;
+        case PowerType::Phantom:
+            painter->setBrush(Qt::NoBrush);
+            painter->setPen(QPen(Qt::darkRed, 2));
+            painter->drawRect(powerRect(pos, 2));
+            break;
+        case PowerType::None:
+        default:
+            break;
+        }
 
         if (inlet.phantom_power) {
             painter->setBrush(Qt::red);

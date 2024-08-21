@@ -29,7 +29,9 @@
                 "title": "HDMI EDID Manager",
                 "inputs": [
                     { "model": "hdmi" },
-                    { "model": "power_dc_5.5x2.1", "name": "DC (+)5V" }
+                    { "model": "power_dc_5.5x2.1",
+                      "name": "DC (+)5V",
+                      "power": "+" }
                 ],
                 "outputs": [
                     { "model": "hdmi" }
@@ -67,7 +69,8 @@
                 "model": "Ampero Control",
                 "vendor": "Hotone",
                 "inputs": [
-                    { "model": "power_dc_5.5x2.1", "name": "DC (-)9..18V" },
+                    { "model": "power_dc_5.5x2.1", "name": "DC (-)9..18V",
+                      "power": "-" },
                     { "model": "midi", "name": "MIDI in" },
                     { "model": "jack_trs", "name": "EXP 1" },
                     { "model": "jack_trs", "name": "EXP 2" }
@@ -934,7 +937,8 @@
                     },
                     {
                         "model": "power_dc_5.5x2.1",
-                        "name": "DC: +7..+12V"
+                        "name": "DC: +7..+12V",
+                        "power": "+"
                     }
                 ]
             },
@@ -1000,7 +1004,8 @@
                     },
                     {
                         "model": "power_dc_5.5x2.1",
-                        "name": "DC (+)12..18V 300mA"
+                        "name": "DC (+)12..18V 300mA",
+                        "power": "+"
                     }
                 ],
                 "outputs": [
@@ -1058,7 +1063,8 @@
                 "inputs": [
                     {
                         "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9V"
+                        "name": "DC (-)9V",
+                        "power": "-"
                     },
                     {
                         "model": "jack_ts"
@@ -1079,7 +1085,8 @@
                 "inputs": [
                     {
                         "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)12V 100mA"
+                        "name": "DC (-)12V 100mA",
+                        "power": "-"
                     },
                     {
                         "model": "jack_ts",
@@ -1112,7 +1119,8 @@
                 "inputs": [
                     {
                         "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)12V"
+                        "name": "DC (-)12V",
+                        "power": "-"
                     }
                 ],
                 "outputs": [
@@ -1122,43 +1130,54 @@
                     },
                     {
                         "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9V 300mA"
+                        "name": "DC (-)9V 300mA",
+                        "power": "-"
+
                     },
                     {
                         "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9V 300mA"
+                        "name": "DC (-)9V 300mA",
+                        "power": "-"
                     },
                     {
                         "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9V 300mA"
+                        "name": "DC (-)9V 300mA",
+                        "power": "-"
                     },
                     {
                         "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9V 300mA"
+                        "name": "DC (-)9V 300mA",
+                        "power": "-"
                     },
                     {
                         "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9V 300mA"
+                        "name": "DC (-)9V 300mA",
+                        "power": "-"
                     },
                     {
                         "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9V 300mA"
+                        "name": "DC (-)9V 300mA",
+                        "power": "-"
                     },
                     {
                         "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9V 300mA"
+                        "name": "DC (-)9V 300mA",
+                        "power": "-"
                     },
                     {
                         "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9V 500mA"
+                        "name": "DC (-)9V 500mA",
+                        "power": "-"
                     },
                     {
                         "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9,12,18V 500mA"
+                        "name": "DC (-)9,12,18V 500mA",
+                        "power": "-"
                     },
                     {
                         "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9,12,18V 500mA"
+                        "name": "DC (-)9,12,18V 500mA",
+                        "power": "-"
                     }
                 ]
             },
@@ -1219,7 +1238,9 @@
                     },
                     {
                         "model": "power_dc_4.75x1.7",
-                        "name": "DC: +9V"
+                        "name": "DC: +9V",
+                        "power": "+"
+
                     }
                 ],
                 "outputs": [
@@ -1251,7 +1272,8 @@
                     },
                     {
                         "model": "power_dc_4.75x1.7",
-                        "name": "DC: +9V"
+                        "name": "DC: +9V",
+                        "power": "+"
                     }
                 ],
                 "outputs": [
@@ -1283,7 +1305,8 @@
                     },
                     {
                         "model": "power_dc_4.75x1.7",
-                        "name": "DC: +9V"
+                        "name": "DC: +9V",
+                        "power": "+"
                     }
                 ],
                 "outputs": [
@@ -1428,7 +1451,8 @@
                 "inputs": [
                     {
                         "model": "power_dc_5.5x2.1",
-                        "name": "+12V 300ma, DC only"
+                        "name": "+12V 300ma, DC only",
+                        "power": "+"
                     }
                 ],
                 "outputs": [
@@ -1455,7 +1479,8 @@
                     },
                     {
                         "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9V 300ma"
+                        "name": "DC (-)9V 300ma",
+                        "power": "-"
                     }
                 ],
                 "outputs": [
@@ -1482,7 +1507,8 @@
                     },
                     {
                         "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9V 300ma"
+                        "name": "DC (-)9V 300ma",
+                        "power": "-"
                     }
                 ],
                 "outputs": [
@@ -1523,7 +1549,8 @@
                     },
                     {
                         "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9V"
+                        "name": "DC (-)9V",
+                        "power": "-"
                     }
                 ],
                 "outputs": [
@@ -1625,7 +1652,8 @@
                 "inputs": [
                     {
                         "model": "power_dc_5.5x2.1",
-                        "name": "(-)9V"
+                        "name": "(-)9V",
+                        "power": "-"
                     }
                 ],
                 "outputs": [
@@ -1674,7 +1702,8 @@
                 "inputs": [
                     {
                         "model": "power_dc_5.5x2.1",
-                        "name": "DC in (+)12V"
+                        "name": "DC in (+)12V",
+                        "power": "+"
                     },
                     {
                         "model": "bnc",
@@ -1688,7 +1717,8 @@
                 "outputs": [
                     {
                         "model": "power_dc_5.5x2.1",
-                        "name": "DC out (+)8V"
+                        "name": "DC out (+)8V",
+                        "power": "+"
                     },
                     {
                         "model": "jack_mini_trs",

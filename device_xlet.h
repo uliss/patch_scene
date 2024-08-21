@@ -26,7 +26,7 @@ struct XletData {
     ConnectorType type { ConnectorType::Socket_Female };
     bool visible { true };
     bool phantom_power { false };
-    bool plug_cord { false };
+    PowerType power_type { PowerType::None };
     QString level;
     QColor color_bg { Qt::white };
 
@@ -49,7 +49,7 @@ public:
     int type() const override { return Type; }
 
     const XletData& xletData() const;
-    XletType zletType() const { return type_; }
+    XletType xletType() const { return type_; }
     QString iconPath() const;
     void setConnectPoint(const QPointF& pos);
 

@@ -127,6 +127,17 @@ QString connectorTypeName(ConnectorType type);
 bool connectorIsSocket(ConnectorType type);
 bool connectorIsPlug(ConnectorType type);
 
+enum class PowerType : std::uint8_t {
+    None,
+    DC_Positive,
+    DC_Negative,
+    AC,
+    Phantom,
+};
+
+QString powerTypeToString(PowerType type);
+std::optional<PowerType> powerTypeFromString(const QString& str);
+
 }
 
 #endif // SOCKET_H

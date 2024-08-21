@@ -26,7 +26,7 @@ constexpr const char* KEY_VISIBLE = "visible";
 constexpr const char* KEY_SOCKET = "socket";
 constexpr const char* KEY_MODEL = "model";
 constexpr const char* KEY_BG_COLOR = "color";
-constexpr const char* KEY_PLUG_CORD = "plug-cord";
+constexpr const char* KEY_POWER_TYPE = "power";
 
 constexpr const char* SOCKET_MALE = "male";
 constexpr const char* SOCKET_FEMALE = "female";
@@ -86,14 +86,15 @@ QString XletData::typeString() const
 QJsonObject XletData::toJson() const
 {
     QJsonObject j;
+
     j[KEY_NAME] = name;
     j[KEY_LEVEL] = level;
     j[KEY_PHANTOM] = phantom_power;
     j[KEY_VISIBLE] = visible;
     j[KEY_MODEL] = connectorJsonName(model);
     j[KEY_BG_COLOR] = color_bg.name();
-    j[KEY_PLUG_CORD] = plug_cord;
     j[KEY_SOCKET] = typeString();
+    j[KEY_POWER_TYPE] = powerTypeToString(power_type);
 
     return j;
 }
@@ -114,7 +115,9 @@ bool XletData::fromJson(const QJsonValue& j, XletData& data)
     data.model = findConnectorByJsonName(obj.value(KEY_MODEL).toString());
     data.color_bg = obj.value(KEY_BG_COLOR).toString("#FFF");
     data.type = connector_type(obj.value(KEY_SOCKET).toString(""));
-    data.plug_cord = obj.value(KEY_PLUG_CORD).toBool(false);
+    auto power_type = powerTypeFromString(obj.value(KEY_POWER_TYPE).toString({}));
+    if (power_type)
+        data.power_type = power_type.value();
 
     return true;
 }
