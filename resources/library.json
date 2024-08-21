@@ -832,6 +832,35 @@
                 ]
             },
             {
+                "vendor": "ART",
+                "model": "Tube MP Studio V3",
+                "description": "Voiced Valve Preamplifier",
+                "outputs": [
+                    {
+                        "model": "jack_trs"
+                    },
+                    {
+                        "model": "xlr",
+                        "socket": "male"
+                    }
+                ],
+                "inputs": [
+                    {
+                        "model": "jack_trs"
+                    },
+                    {
+                        "model": "xlr",
+                        "power": "phantom",
+                        "phantom": true
+                    },
+                    {
+                        "model": "power_dc_5.5x2.1",
+                        "name": "AC 9V",
+                        "power": "~"
+                    }
+                ]
+            },
+            {
                 "vendor": "Midas",
                 "model": "Air MR18",
                 "category": "audio",
