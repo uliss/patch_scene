@@ -1058,6 +1058,45 @@
                         "plug-cord": true
                     }
                 ]
+            },
+            {
+                "model": "PT 40 mini PRO",
+                "vendor": "AKG",
+                "title": "AKG mini PRO Transmitter",
+                "title-ru": "AKG mini PRO Передатчик",
+                "tooltip": "660.700 MHz",
+                "image": "body_pack_1",
+                "zoom": 0.3,
+                "battery-type": "aa",
+                "battery-count": 1,
+                "inputs": [
+                    {
+                        "model": "xlr-mini",
+                        "socket": "female",
+                        "visible": false
+                    }
+                ]
+            },
+            {
+                "model": "SR 40 mini PRO",
+                "vendor": "AKG",
+                "title": "AKG mini PRO Receiver",
+                "title-ru": "AKG mini PRO Приёмник",
+                "tooltip": "660.700 MHz",
+                "image": "akg_sr40_mini_pro",
+                "zoom": 0.8,
+                "inputs": [
+                    {
+                        "model": "power_dc_5.5x2.1",
+                        "name": "+12V 300ma, DC only"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "jack_trs",
+                        "name": "AUDIO OUT (balanced)"
+                    }
+                ]
             }
         ],
         "instruments": [

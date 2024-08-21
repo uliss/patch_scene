@@ -105,5 +105,7 @@
         <file>devices/gong_1.svg</file>
         <file>devices/drum_set_1.svg</file>
         <file>devices/congas_1.svg</file>
+        <file>devices/body_pack_1.svg</file>
+        <file>devices/akg_sr40_mini_pro.svg</file>
     </qresource>
 </RCC>
