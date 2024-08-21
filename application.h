@@ -11,11 +11,29 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
+#ifndef APPLICATION_H
+#define APPLICATION_H
 
-#include "application.h"
+#include "mainwindow.h"
 
-int main(int argc, char* argv[])
-{
-    ceam::PatchSceneApp app(argc, argv);
-    return app.exec();
+#include <QApplication>
+#include <QTranslator>
+
+namespace ceam {
+
+class PatchSceneApp : public QApplication {
+    Q_OBJECT
+public:
+    PatchSceneApp(int& argc, char** argv, int flags = ApplicationFlags);
+
+protected:
+    bool event(QEvent* event) final;
+
+private:
+    QTranslator qt_translator_, translator_;
+    std::unique_ptr<MainWindow> window_ { nullptr };
+};
+
 }
+
+#endif // APPLICATION_H
