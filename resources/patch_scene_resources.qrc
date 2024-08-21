@@ -133,5 +133,6 @@
         <file>devices/human_conductor_1.svg</file>
         <file>devices/light_moving_head_2.svg</file>
         <file>devices/light_moving_head_1.svg</file>
+        <file>devices/banjo_1.svg</file>
     </qresource>
 </RCC>

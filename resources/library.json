@@ -2086,6 +2086,12 @@
                 "title-ru": "Тромбон",
                 "image": "trombone_1",
                 "zoom": 1.2
+            },
+            {
+                "title": "Banjo",
+                "title-ru": "Банджо",
+                "image": "banjo_1",
+                "zoom": 1
             }
         ],
         "sends": [
