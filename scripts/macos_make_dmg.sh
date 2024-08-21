@@ -31,11 +31,11 @@ cp "${FILE_ICNS_PATH}" "${DIST_DIR}/${DEST_APP}/Contents/Resources"
 echo "- macos dark theme fix ..."
 INFO_PLIST="${DIST_DIR}/${DEST_APP}/Contents/Info.plist"
 ${BLIST_BUDDY} -c "Add :NSRequiresAquaSystemAppearance bool true" ${INFO_PLIST}
-${BLIST_BUDDY} -c "Add :CFBundleTypeRole string Editor"           ${INFO_PLIST}
 echo "- adding psc extension ..."
 
 CFBDT=":CFBundleDocumentTypes"
 ${BLIST_BUDDY} -c "Add ${CFBDT} array"                                      ${INFO_PLIST}
+${BLIST_BUDDY} -c "Add ${CFBDT}:0:CFBundleTypeRole string Editor"           ${INFO_PLIST}
 ${BLIST_BUDDY} -c "Add ${CFBDT}:0:CFBundleTypeExtensions array"             ${INFO_PLIST}
 ${BLIST_BUDDY} -c "Add ${CFBDT}:0:CFBundleTypeExtensions:0 string psc"      ${INFO_PLIST}
 ${BLIST_BUDDY} -c "Add ${CFBDT}:0:CFBundleTypeIconFile string ${FILE_ICNS}" ${INFO_PLIST}
