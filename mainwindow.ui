@@ -537,7 +537,7 @@
   </action>
   <action name="actionZoomIn">
    <property name="icon">
-    <iconset theme="zoom-in" resource="resources/patch_scene_resources.qrc">
+    <iconset resource="resources/patch_scene_resources.qrc">
      <normaloff>:/icons/zoom_in_02.svg</normaloff>:/icons/zoom_in_02.svg</iconset>
    </property>
    <property name="text">
@@ -552,7 +552,7 @@
   </action>
   <action name="actionZoomOut">
    <property name="icon">
-    <iconset theme="zoom-out" resource="resources/patch_scene_resources.qrc">
+    <iconset resource="resources/patch_scene_resources.qrc">
      <normaloff>:/icons/zoom_out_02.svg</normaloff>:/icons/zoom_out_02.svg</iconset>
    </property>
    <property name="text">
