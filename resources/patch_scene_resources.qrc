@@ -110,5 +110,6 @@
         <file>connectors/hdmi_socket.svg</file>
         <file>connectors/xlr_mini_socket.svg</file>
         <file>connectors/xlr_mini_socket_male.svg</file>
+        <file>devices/monitor_1.svg</file>
     </qresource>
 </RCC>
