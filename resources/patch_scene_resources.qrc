@@ -124,5 +124,6 @@
         <file>connectors/jack_plug_male.svg</file>
         <file>devices/phones_2.svg</file>
         <file>connectors/usb_micro_a_socket.svg</file>
+        <file>devices/gameboy_1.svg</file>
     </qresource>
 </RCC>

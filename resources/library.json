@@ -673,6 +673,18 @@
                 ]
             },
             {
+                "vendor": "Nintendo",
+                "model": "Gameboy",
+                "category": "audio",
+                "image": "gameboy_1",
+                "zoom": 0.5,
+                "outputs": [
+                    {
+                        "model": "jack_trs"
+                    }
+                ]
+            },
+            {
                 "vendor": "Midas",
                 "model": "Air MR18",
                 "category": "audio",

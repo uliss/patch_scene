@@ -8,7 +8,7 @@
    fill="none"
    version="1.1"
    id="svg7"
-   sodipodi:docname="usb-micro-two-svgrepo-com.svg"
+   sodipodi:docname="usb_micro_a_socket.svg"
    inkscape:version="1.3.2 (091e20e, 2023-11-25)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -28,7 +28,7 @@
      inkscape:current-layer="svg7" />
   <g
      id="g7"
-     transform="matrix(0.9333331,0,0,-0.9333331,-0.86666454,23.633329)">
+     transform="matrix(0.73333315,0,0,-0.73333315,1.033335,24.033331)">
     <path
        d="m 2.6818182,14.704545 c 0,-0.564852 0.457892,-1.022727 1.0227273,-1.022727 H 15.295455 c 0.564852,0 1.022727,0.457875 1.022727,1.022727 v 2.093046 c 0,0.191693 -0.05386,0.3795 -0.155455,0.542045 L 14.91408,19.3375 c -0.186921,0.299011 -0.514671,0.480682 -0.867273,0.480682 H 4.9531932 c -0.3526125,0 -0.6803659,-0.181671 -0.8672557,-0.480682 L 2.8372727,17.339636 C 2.7356852,17.177091 2.6818182,16.989284 2.6818182,16.797591 Z"
        fill="#2f88ff"
@@ -37,7 +37,7 @@
        stroke-linecap="round"
        stroke-linejoin="round"
        id="path1"
-       style="fill:#808080" />
+       style="fill:#afafaf;stroke:#474747;fill-opacity:1;stroke-opacity:1" />
     <path
        d="m 5.0681818,13.681818 h 8.8636362 v 2.727273 H 5.0681818 Z"
        fill="#2f88ff"
@@ -67,7 +67,8 @@
        stroke-width="1.36364"
        stroke-linecap="round"
        stroke-linejoin="round"
-       id="path5" />
+       id="path5"
+       style="display:inline" />
     <path
        d="M 6.7727273,16.409091 V 15.727273"
        stroke="#ffffff"
@@ -81,6 +82,24 @@
        stroke-width="1.36364"
        stroke-linecap="round"
        stroke-linejoin="round"
-       id="path7" />
+       id="path7"
+       style="stroke:#474747;stroke-opacity:1"
+       inkscape:label="path7" />
   </g>
+  <text
+     xml:space="preserve"
+     style="font-weight:500;font-size:4.01111px;line-height:1;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue, Medium';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.151761;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.7"
+     x="7.9278007"
+     y="3.9321213"
+     id="text1"><tspan
+       sodipodi:role="line"
+       id="tspan1"
+       x="7.9278007"
+       y="3.9321213"
+       style="stroke-width:0.151761">USB</tspan><tspan
+       sodipodi:role="line"
+       x="7.9278007"
+       y="7.9432311"
+       style="stroke-width:0.151761"
+       id="tspan2">MICRO</tspan></text>
 </svg>
