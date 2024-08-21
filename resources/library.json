@@ -26,6 +26,33 @@
                 ]
             },
             {
+                "vendor": "M-Audio",
+                "model": "MIDISPORT 2x2",
+                "inputs": [
+                    {
+                        "model": "midi",
+                        "name": "In A"
+                    },
+                    {
+                        "model": "midi",
+                        "name": "In B"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "usb_b"
+                    },
+                    {
+                        "model": "midi",
+                        "name": "Out A"
+                    },
+                    {
+                        "model": "midi",
+                        "name": "Out B"
+                    }
+                ]
+            },
+            {
                 "title": "HDMI EDID Manager",
                 "inputs": [
                     { "model": "hdmi" },
