@@ -103,5 +103,7 @@
         <file>devices/chair_1.svg</file>
         <file>devices/table_1.svg</file>
         <file>devices/gong_1.svg</file>
+        <file>devices/drum_set_1.svg</file>
+        <file>devices/congas_1.svg</file>
     </qresource>
 </RCC>
