@@ -45,13 +45,15 @@ public Q_SLOTS:
 private:
     void setupXletTable(QTableWidget* tab, size_t rows);
     void setupCategories();
+    void setupXlets(const SharedDeviceData& data);
+    void setupBattery(const SharedDeviceData& data);
 
-    void insertXlet(QTableWidget* tab, int row, const XletData& data);
+    void insertXlet(QTableWidget* tab, int row, const XletData& data, bool resize = true);
     bool duplicateXlet(QTableWidget* tab, int row);
 
     void updateImagePreview();
 
-    void enableXlets(bool value);
+    void enableCategoryWidgets(bool value, ItemCategory cat);
 
 private:
     static bool getXletData(const QTableWidget* table, int row, XletData& data);
@@ -61,7 +63,6 @@ private:
 private:
     Ui::DeviceProperties* ui;
     SharedDeviceData data_;
-    void setupXlets(const SharedDeviceData& data);
 };
 
 }
