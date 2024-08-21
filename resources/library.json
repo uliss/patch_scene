@@ -26,6 +26,16 @@
                 ]
             },
             {
+                "title": "HDMI EDID Manager",
+                "inputs": [
+                    { "model": "hdmi" },
+                    { "model": "power_dc_5.5x2.1", "name": "DC (+)5V" }
+                ],
+                "outputs": [
+                    { "model": "hdmi" }
+                ]
+            },
+            {
                 "title": "USB hub",
                 "title-ru": "USB хаб",
                 "vendor": "Orico",
