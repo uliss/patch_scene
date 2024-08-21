@@ -102,5 +102,6 @@
         <file>devices/phones_1.svg</file>
         <file>devices/chair_1.svg</file>
         <file>devices/table_1.svg</file>
+        <file>devices/gong_1.svg</file>
     </qresource>
 </RCC>

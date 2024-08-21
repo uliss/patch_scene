@@ -1115,6 +1115,11 @@
                 "title-ru": "Бас-гитара",
                 "image": "bass_guitar_1",
                 "outputs": [{"model": "jack_ts"}]
+            },
+            {
+                "title": "Gong",
+                "title-ru": "Гонг",
+                "image": "gong_1"
             }
         ],
         "sends": [
