@@ -488,7 +488,7 @@
        <item>
         <widget class="QCheckBox" name="showTitle">
          <property name="text">
-          <string>Show Title</string>
+          <string>Show</string>
          </property>
         </widget>
        </item>
