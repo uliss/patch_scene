@@ -42,7 +42,6 @@
         <file>devices/mic_on_stand_2.svg</file>
         <file>devices/mic_on_stand_stereo.svg</file>
         <file>devices/midi_controller_mixer_1.svg</file>
-        <file>devices/mixer_1.svg</file>
         <file>devices/mixer_2.svg</file>
         <file>devices/music_stand_1.svg</file>
         <file>devices/music_stand_2.svg</file>
@@ -129,5 +128,10 @@
         <file>devices/guitar_pedal_3.svg</file>
         <file>devices/audio_recorder_1.svg</file>
         <file>connectors/jack_micro_socket.svg</file>
+        <file>devices/human_oboe_1.svg</file>
+        <file>devices/human_conductor_1.svg</file>
+        <file>devices/light_moving_head_2.svg</file>
+        <file>devices/light_moving_head_1.svg</file>
+        <file>devices/banjo_1.svg</file>
     </qresource>
 </RCC>
