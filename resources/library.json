@@ -1071,6 +1071,41 @@
                 ]
             },
             {
+                "vendor": "AMT",
+                "model": "PANGAEA CP-100",
+                "description": "IR convolution player",
+                "category": "guitar",
+                "image": "guitar_pedal_1",
+                "inputs": [
+                    {
+                        "model": "power_dc_5.5x2.1",
+                        "name": "DC (-)12V 100mA"
+                    },
+                    {
+                        "model": "jack_ts",
+                        "name": "INPUT"
+                    },
+                    {
+                        "model": "jack_ts",
+                        "name": "THRU"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "jack_ts",
+                        "name": "OUT"
+                    },
+                    {
+                        "model": "jack_mini_trs",
+                        "name": "Phones"
+                    },
+                    {
+                        "model": "usb_b",
+                        "name": "USB"
+                    }
+                ]
+            },
+            {
                 "vendor": "Mosky Audio",
                 "model": "ISO 10 Power Supply",
                 "category": "guitar",
