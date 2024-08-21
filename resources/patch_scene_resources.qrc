@@ -119,5 +119,7 @@
         <file>devices/oboe_2.svg</file>
         <file>devices/trombone_1.svg</file>
         <file>devices/stage_1.svg</file>
+        <file>devices/phones_3.svg</file>
+        <file>connectors/jack_mini_plug_male.svg</file>
     </qresource>
 </RCC>

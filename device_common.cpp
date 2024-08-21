@@ -310,6 +310,15 @@ const XletData& DeviceData::inputAt(XletIndex n) const
     return inputs_.at(n);
 }
 
+void DeviceData::foreachVisOutput(std::function<void(XletIndex, const XletData&)> fn)
+{
+    XletIndex idx = 0;
+    for (auto& x : outputs_) {
+        if (x.visible)
+            fn(idx++, x);
+    }
+}
+
 void DeviceData::setBatteryCount(int v)
 {
     battery_count_ = qBound(0, v, 10);

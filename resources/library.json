@@ -134,6 +134,19 @@
                 ]
             },
             {
+                "title": "Phones in-ear",
+                "title-ru": "Наушники внутриканальные",
+                "image": "phones_3",
+                "zoom": 0.5,
+                "show-title": false,
+                "outputs": [
+                    {
+                        "model": "jack_mini_trs",
+                        "socket": "plug_male"
+                    }
+                ]
+            },
+            {
                 "vendor": "Focuswrite",
                 "model": "Scarlett 18i20",
                 "category": "audio",
@@ -1166,7 +1179,7 @@
                 "battery-count": 1,
                 "inputs": [
                     {
-                        "model": "xlr-mini",
+                        "model": "xlr_mini",
                         "socket": "female",
                         "visible": false
                     }

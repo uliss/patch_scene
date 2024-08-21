@@ -124,6 +124,8 @@ enum class XletType : std::uint8_t {
 };
 
 QString connectorTypeName(ConnectorType type);
+bool connectorIsSocket(ConnectorType type);
+bool connectorIsPlug(ConnectorType type);
 
 }
 

@@ -193,3 +193,13 @@ bool ceam::connectSupportsPhantomPower(ConnectorModel model)
         return false;
     }
 }
+
+bool ceam::connectorIsSocket(ConnectorType type)
+{
+    return type == ConnectorType::Socket_Female || type == ConnectorType::Socket_Male;
+}
+
+bool ceam::connectorIsPlug(ConnectorType type)
+{
+    return type == ConnectorType::Plug_Female || type == ConnectorType::Plug_Male;
+}

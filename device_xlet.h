@@ -36,6 +36,9 @@ struct XletData {
     QJsonObject toJson() const;
 
     static bool fromJson(const QJsonValue& j, XletData& data);
+
+    bool isSocket() const;
+    bool isPlug() const;
 };
 
 class DeviceXlet : public QGraphicsSvgItem {

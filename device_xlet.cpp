@@ -28,6 +28,11 @@ constexpr const char* KEY_MODEL = "model";
 constexpr const char* KEY_BG_COLOR = "color";
 constexpr const char* KEY_PLUG_CORD = "plug-cord";
 
+constexpr const char* SOCKET_MALE = "male";
+constexpr const char* SOCKET_FEMALE = "female";
+constexpr const char* PLUG_MALE = "plug_male";
+constexpr const char* PLUG_FEMALE = "plug_female";
+
 QString xlet_icon_path(ConnectorModel model, ConnectorType type)
 {
     switch (type) {
@@ -36,6 +41,7 @@ QString xlet_icon_path(ConnectorModel model, ConnectorType type)
     case ConnectorType::Socket_Female:
         return QString(":/connectors/%1_socket.svg").arg(connectorSvgName(model));
     case ConnectorType::Plug_Male:
+        return QString(":/connectors/%1_plug_male.svg").arg(connectorSvgName(model));
     case ConnectorType::Plug_Female:
     default:
         return {};
@@ -44,8 +50,12 @@ QString xlet_icon_path(ConnectorModel model, ConnectorType type)
 
 ConnectorType connector_type(const QString& type)
 {
-    if (type == "male") {
+    if (type == SOCKET_MALE) {
         return ConnectorType::Socket_Male;
+    } else if (type == PLUG_MALE) {
+        return ConnectorType::Plug_Male;
+    } else if (type == PLUG_FEMALE) {
+        return ConnectorType::Plug_Female;
     } else {
         return ConnectorType::Socket_Female;
     }
@@ -61,9 +71,13 @@ QString XletData::typeString() const
 {
     switch (type) {
     case ConnectorType::Socket_Male:
-        return "male";
+        return SOCKET_MALE;
     case ConnectorType::Socket_Female:
-        return "female";
+        return SOCKET_FEMALE;
+    case ConnectorType::Plug_Male:
+        return PLUG_MALE;
+    case ConnectorType::Plug_Female:
+        return PLUG_FEMALE;
     default:
         return "";
     }
@@ -79,17 +93,7 @@ QJsonObject XletData::toJson() const
     j[KEY_MODEL] = connectorJsonName(model);
     j[KEY_BG_COLOR] = color_bg.name();
     j[KEY_PLUG_CORD] = plug_cord;
-
-    switch (type) {
-    case ConnectorType::Socket_Male:
-        j[KEY_SOCKET] = "male";
-        break;
-    case ConnectorType::Socket_Female:
-        j[KEY_SOCKET] = "female";
-        break;
-    default:
-        break;
-    }
+    j[KEY_SOCKET] = typeString();
 
     return j;
 }
@@ -113,6 +117,16 @@ bool XletData::fromJson(const QJsonValue& j, XletData& data)
     data.plug_cord = obj.value(KEY_PLUG_CORD).toBool(false);
 
     return true;
+}
+
+bool XletData::isSocket() const
+{
+    return connectorIsSocket(type);
+}
+
+bool XletData::isPlug() const
+{
+    return connectorIsPlug(type);
 }
 
 DeviceXlet::DeviceXlet(const XletData& data, XletType type, QGraphicsItem* parentItem)

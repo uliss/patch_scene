@@ -292,10 +292,13 @@ void Device::paintOutlets(QPainter* painter)
     painter->setPen(QPen(Qt::black, 0.5));
     painter->setBrush(Qt::black);
 
-    for (size_t i = 0; i < visOutletCount(); i++) {
-        auto pos = outletPos(i);
+    data_->foreachVisOutput([this, painter](XletIndex idx, const XletData& outlet) {
+        if (outlet.isPlug())
+            return;
+
+        auto pos = outletPos(idx);
         painter->drawRect(pos.x() - (XLET_BOX_W / 2), pos.y() - XLET_BOX_H, XLET_BOX_W, XLET_BOX_H);
-    }
+    });
 }
 
 void Device::mousePressEvent(QGraphicsSceneMouseEvent* event)

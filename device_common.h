@@ -129,6 +129,7 @@ public:
 
     QList<XletData>& outputs() { return outputs_; }
     const QList<XletData>& outputs() const { return outputs_; }
+    void foreachVisOutput(std::function<void(XletIndex, const XletData&)> fn);
     const XletData& outputAt(XletIndex n) const { return outputs_.at(n); }
     void appendOutput(const XletData& x) { outputs_.append(x); }
 
