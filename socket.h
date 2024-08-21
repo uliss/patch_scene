@@ -95,6 +95,7 @@ enum class ConnectorModel : std::uint8_t {
     POWER_IEC_C_15_16,
     POWER_IEC_C_17_18,
     POWER_DC_3_8x1_3,
+    POWER_DC_3_5x1_35,
     POWER_DC_4_75x1_7,
     POWER_DC_5_5x2_1,
     POWER_DC_5_5x2_5,

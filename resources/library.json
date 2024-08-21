@@ -692,6 +692,13 @@
                     {
                         "model": "jack_trs"
                     }
+                ],
+                "inputs": [
+                    {
+                        "model": "power_dc_3.5x1.35",
+                        "power": "-",
+                        "name": "DC 6V"
+                    }
                 ]
             },
             {
