@@ -51,6 +51,8 @@ private:
 
     void updateImagePreview();
 
+    void enableXlets(bool value);
+
 private:
     static bool getXletData(const QTableWidget* table, int row, XletData& data);
     static bool removeXlet(QTableWidget* table, int row);
@@ -59,6 +61,7 @@ private:
 private:
     Ui::DeviceProperties* ui;
     SharedDeviceData data_;
+    void setupXlets(const SharedDeviceData& data);
 };
 
 }

@@ -119,18 +119,7 @@ DeviceProperties::DeviceProperties(QWidget* parent, const SharedDeviceData& data
 
     updateImagePreview();
 
-    int in_idx = 0;
-    for (auto& in : data->inputs()) {
-        insertXlet(ui->inlets, in_idx++, in);
-    }
-
-    int out_idx = 0;
-    for (auto& out : data->outputs()) {
-        insertXlet(ui->outlets, out_idx++, out);
-    }
-
-    ui->inlets->resizeColumnsToContents();
-    ui->outlets->resizeColumnsToContents();
+    setupXlets(data);
 
     foreachBatteryType(
         [this](const char* name, int value) {
@@ -211,16 +200,28 @@ void DeviceProperties::setupCategories()
     foreachItemCategory([this](const char* name, int i) {
         ui->category->addItem(tr(name), i);
     });
-
-    ui->category->setCurrentIndex(data_->categoryIndex());
     connect(ui->category, &QComboBox::currentIndexChanged, this, [this](int) {
         bool ok = false;
         auto idx = ui->category->currentData().toInt(&ok);
-        if (ok)
+        if (ok) {
             data_->setCategoryIndex(idx);
-        else
+            switch (data_->category()) {
+            case ItemCategory::Human:
+            case ItemCategory::Furniture:
+                enableXlets(false);
+                break;
+            case ItemCategory::Device:
+            case ItemCategory::Instrument:
+            case ItemCategory::Send:
+            case ItemCategory::Return:
+            case ItemCategory::MaxCategory:
+                enableXlets(true);
+                break;
+            }
+        } else
             qWarning() << __FUNCTION__ << "can't get category index";
     });
+    ui->category->setCurrentIndex(data_->categoryIndex());
 }
 
 void DeviceProperties::insertXlet(QTableWidget* tab, int row, const XletData& data)
@@ -287,6 +288,61 @@ void DeviceProperties::updateImagePreview()
             ui->currentImage->setPixmap(icon.pixmap(IMG_PREVIEW_SIZE, IMG_PREVIEW_SIZE));
     }
 }
+
+void DeviceProperties::enableXlets(bool value)
+{
+    // ui->inlets->setEnabled(value);
+    // ui->outlets->setEnabled(value);
+    // ui->addInlet->setEnabled(value);
+    // ui->removeInlet->setEnabled(value);
+    // ui->addOutlet->setEnabled(value);
+    // ui->removeOutlet->setEnabled(value);
+    // ui->inletsLabel->setEnabled(value);
+    // ui->outletsLabel->setEnabled(value);
+    // ui->batteryType->setEnabled(value);
+
+
+    ui->inlets->setVisible(value);
+    ui->outlets->setVisible(value);
+    ui->addInlet->setVisible(value);
+    ui->removeInlet->setVisible(value);
+    ui->addOutlet->setVisible(value);
+    ui->removeOutlet->setVisible(value);
+    ui->inletsLabel->setVisible(value);
+    ui->outletsLabel->setVisible(value);
+    ui->batteryType->setVisible(value);
+    ui->batteryCount->setVisible(value);
+    ui->batteryLabel->setVisible(value);
+
+    adjustSize();
+    adjustSize();
+}
+
+
+void DeviceProperties::setupXlets(const SharedDeviceData& data)
+{
+    int in_idx = 0;
+    for (auto& in : data->inputs()) {
+        insertXlet(ui->inlets, in_idx++, in);
+    }
+
+    int out_idx = 0;
+    for (auto& out : data->outputs()) {
+        insertXlet(ui->outlets, out_idx++, out);
+    }
+
+    ui->inlets->resizeColumnsToContents();
+    ui->outlets->resizeColumnsToContents();
+
+    ui->inletContainer->setAlignment(ui->addInlet, Qt::AlignLeft);
+    ui->inletContainer->setAlignment(ui->removeInlet, Qt::AlignLeft);
+    ui->inletContainer->addStretch(10);
+
+    ui->outletContainer->setAlignment(ui->addOutlet, Qt::AlignLeft);
+    ui->outletContainer->setAlignment(ui->removeOutlet, Qt::AlignLeft);
+    ui->outletContainer->addStretch(10);
+}
+
 
 bool DeviceProperties::removeXlet(QTableWidget* table, int row)
 {
