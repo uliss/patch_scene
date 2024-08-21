@@ -47,12 +47,20 @@ constexpr qreal DEF_IMAGE_WIDTH = 100;
 constexpr DeviceId INIT_ID = 1;
 using DeviceIdMap = std::unordered_map<DeviceId, bool>;
 
-QRectF powerRect(const QPointF& pos, qreal wd = 2)
+QRectF powerRectInlet(const QPointF& pos, qreal wd = 2)
 {
     return QRectF(pos.x() - (XLET_W / 2 - (wd * 0.5)),
         pos.y() + (wd * 0.5),
         XLET_W - wd,
         XLET_H - wd);
+}
+
+QRectF powerRectOutlet(const QPointF& pos, qreal wd = 2)
+{
+    return QRectF(pos.x() - (XLET_W / 2 - (wd * 0.5)),
+                  pos.y() - (wd * 0.5),
+                  XLET_W - wd,
+                  - XLET_H - wd);
 }
 
 SharedDeviceData makeDeviceData()
@@ -287,27 +295,27 @@ void Device::paintInlets(QPainter* painter)
         case PowerType::DC_Positive:
             painter->setBrush(Qt::red);
             painter->setPen(Qt::NoPen);
-            painter->drawRect(powerRect(pos, 0));
+            painter->drawRect(powerRectInlet(pos, 0));
             break;
         case PowerType::DC_Negative:
             painter->setBrush(Qt::blue);
             painter->setPen(Qt::NoPen);
-            painter->drawRect(powerRect(pos, 0));
+            painter->drawRect(powerRectInlet(pos, 0));
             break;
         case PowerType::AC:
             painter->setBrush(Qt::darkYellow);
             painter->setPen(Qt::NoPen);
-            painter->drawRect(powerRect(pos, 0));
+            painter->drawRect(powerRectInlet(pos, 0));
             break;
         case PowerType::AC_DC:
             painter->setBrush(Qt::darkMagenta);
             painter->setPen(Qt::NoPen);
-            painter->drawRect(powerRect(pos, 0));
+            painter->drawRect(powerRectInlet(pos, 0));
             break;
         case PowerType::Phantom:
             painter->setBrush(Qt::NoBrush);
             painter->setPen(QPen(Qt::darkRed, 2));
-            painter->drawRect(powerRect(pos, 2));
+            painter->drawRect(powerRectInlet(pos, 2));
             break;
         case PowerType::None:
         default:
@@ -335,7 +343,41 @@ void Device::paintOutlets(QPainter* painter)
         if (outlet.isPlug())
             return;
 
-        auto pos = outletPos(idx);
+        const auto pos = outletPos(idx);
+
+        switch (outlet.power_type) {
+        case PowerType::DC_Positive:
+            painter->setBrush(Qt::red);
+            painter->setPen(Qt::NoPen);
+            painter->drawRect(powerRectOutlet(pos, 0));
+            break;
+        case PowerType::DC_Negative:
+            painter->setBrush(Qt::blue);
+            painter->setPen(Qt::NoPen);
+            painter->drawRect(powerRectOutlet(pos, 0));
+            break;
+        case PowerType::AC:
+            painter->setBrush(Qt::darkYellow);
+            painter->setPen(Qt::NoPen);
+            painter->drawRect(powerRectOutlet(pos, 0));
+            break;
+        case PowerType::AC_DC:
+            painter->setBrush(Qt::darkMagenta);
+            painter->setPen(Qt::NoPen);
+            painter->drawRect(powerRectOutlet(pos, 0));
+            break;
+        case PowerType::Phantom:
+            painter->setBrush(Qt::NoBrush);
+            painter->setPen(QPen(Qt::darkRed, 2));
+            painter->drawRect(powerRectOutlet(pos, 2));
+            break;
+        case PowerType::None:
+        default:
+            break;
+        }
+
+        painter->setBrush(Qt::black);
+         painter->setPen(QPen(Qt::black, 1));
         painter->drawRect(pos.x() - (XLET_BOX_W / 2), pos.y() - XLET_BOX_H, XLET_BOX_W, XLET_BOX_H);
     });
 }
