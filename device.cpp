@@ -299,6 +299,11 @@ void Device::paintInlets(QPainter* painter)
             painter->setPen(Qt::NoPen);
             painter->drawRect(powerRect(pos, 0));
             break;
+        case PowerType::AC_DC:
+            painter->setBrush(Qt::darkMagenta);
+            painter->setPen(Qt::NoPen);
+            painter->drawRect(powerRect(pos, 0));
+            break;
         case PowerType::Phantom:
             painter->setBrush(Qt::NoBrush);
             painter->setPen(QPen(Qt::darkRed, 2));

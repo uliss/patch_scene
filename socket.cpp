@@ -214,6 +214,8 @@ QString ceam::powerTypeToString(PowerType type)
         return "-";
     case PowerType::AC:
         return "~";
+    case PowerType::AC_DC:
+        return "ac/dc";
     case PowerType::Phantom:
         return "phantom";
     case PowerType::None:
@@ -234,6 +236,8 @@ std::optional<PowerType> ceam::powerTypeFromString(const QString& str)
         return PowerType::DC_Negative;
     else if (lstr == "~")
         return PowerType::AC;
+    else if (lstr == "ac/dc")
+        return PowerType::AC_DC;
     else if (lstr == "phantom")
         return PowerType::Phantom;
     else

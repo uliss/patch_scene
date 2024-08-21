@@ -57,7 +57,7 @@
                 "battery-type": "krona",
                 "battery-count": 1,
                 "inputs": [
-                    { "model": "power_dc_5.5x2.1", "name": "9V AC/DC" },
+                    { "model": "power_dc_5.5x2.1", "name": "9V AC/DC", "power": "ac/dc" },
                     { "model": "jack_trs", "name": "CC7" },
                     { "model": "jack_trs", "name": "CC17" }
                 ],

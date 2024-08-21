@@ -132,6 +132,7 @@ enum class PowerType : std::uint8_t {
     DC_Positive,
     DC_Negative,
     AC,
+    AC_DC,
     Phantom,
 };
 
