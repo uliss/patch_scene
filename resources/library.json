@@ -2438,6 +2438,11 @@
                 "image": "human_trumpet_1"
             },
             {
+                "title": "Oboe player",
+                "title-ru": "Гобоист",
+                "image": "human_oboe_1"
+            },
+            {
                 "title": "Flute player",
                 "title-ru": "Флейтист",
                 "image": "human_flute_1"
