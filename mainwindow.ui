@@ -137,6 +137,7 @@
     <addaction name="separator"/>
     <addaction name="actionSelectAll"/>
     <addaction name="actionDuplicate"/>
+    <addaction name="separator"/>
     <addaction name="actionPreferences"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
@@ -528,6 +529,9 @@
    </widget>
   </widget>
   <action name="actionOpen">
+   <property name="icon">
+    <iconset theme="document-open"/>
+   </property>
    <property name="text">
     <string>&amp;Open</string>
    </property>
@@ -537,7 +541,7 @@
   </action>
   <action name="actionZoomIn">
    <property name="icon">
-    <iconset resource="resources/patch_scene_resources.qrc">
+    <iconset theme="zoom-in" resource="resources/patch_scene_resources.qrc">
      <normaloff>:/icons/zoom_in_02.svg</normaloff>:/icons/zoom_in_02.svg</iconset>
    </property>
    <property name="text">
@@ -552,7 +556,7 @@
   </action>
   <action name="actionZoomOut">
    <property name="icon">
-    <iconset resource="resources/patch_scene_resources.qrc">
+    <iconset theme="zoom-out" resource="resources/patch_scene_resources.qrc">
      <normaloff>:/icons/zoom_out_02.svg</normaloff>:/icons/zoom_out_02.svg</iconset>
    </property>
    <property name="text">
@@ -566,6 +570,9 @@
    </property>
   </action>
   <action name="actionZoomNormal">
+   <property name="icon">
+    <iconset theme="zoom"/>
+   </property>
    <property name="text">
     <string>Zoom Normal</string>
    </property>
@@ -586,6 +593,9 @@
    </property>
   </action>
   <action name="actionSelectAll">
+   <property name="icon">
+    <iconset theme="edit-select-all"/>
+   </property>
    <property name="text">
     <string>Select All</string>
    </property>
@@ -594,6 +604,9 @@
    </property>
   </action>
   <action name="actionQuit">
+   <property name="icon">
+    <iconset theme="exit"/>
+   </property>
    <property name="text">
     <string>Quit</string>
    </property>
@@ -605,6 +618,9 @@
    </property>
   </action>
   <action name="actionSave">
+   <property name="icon">
+    <iconset theme="document-save"/>
+   </property>
    <property name="text">
     <string>Save</string>
    </property>
@@ -613,6 +629,9 @@
    </property>
   </action>
   <action name="actionDuplicate">
+   <property name="icon">
+    <iconset theme="edit-duplicate"/>
+   </property>
    <property name="text">
     <string>Duplicate</string>
    </property>
@@ -629,6 +648,9 @@
    </property>
   </action>
   <action name="actionAboutApp">
+   <property name="icon">
+    <iconset theme="info"/>
+   </property>
    <property name="text">
     <string>About PatchScene</string>
    </property>
@@ -654,7 +676,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="resources/patch_scene_resources.qrc">
+    <iconset theme="undo" resource="resources/patch_scene_resources.qrc">
      <normaloff>:/icons/undo.svg</normaloff>:/icons/undo.svg</iconset>
    </property>
    <property name="text">
@@ -669,7 +691,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="resources/patch_scene_resources.qrc">
+    <iconset theme="redo" resource="resources/patch_scene_resources.qrc">
      <normaloff>:/icons/redo.svg</normaloff>:/icons/redo.svg</iconset>
    </property>
    <property name="text">
@@ -690,6 +712,9 @@
    </property>
   </action>
   <action name="actionCopy">
+   <property name="icon">
+    <iconset theme="edit-copy"/>
+   </property>
    <property name="text">
     <string>Copy</string>
    </property>
@@ -698,6 +723,9 @@
    </property>
   </action>
   <action name="actionCut">
+   <property name="icon">
+    <iconset theme="edit-cut"/>
+   </property>
    <property name="text">
     <string>Cut</string>
    </property>
@@ -706,6 +734,9 @@
    </property>
   </action>
   <action name="actionPaste">
+   <property name="icon">
+    <iconset theme="edit-paste"/>
+   </property>
    <property name="text">
     <string>Paste</string>
    </property>
@@ -773,7 +804,7 @@
   </action>
   <action name="actionProjectInfo">
    <property name="icon">
-    <iconset resource="resources/patch_scene_resources.qrc">
+    <iconset theme="document-properties" resource="resources/patch_scene_resources.qrc">
      <normaloff>:/icons/info.svg</normaloff>:/icons/info.svg</iconset>
    </property>
    <property name="text">
@@ -805,6 +836,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+E</string>
+   </property>
+  </action>
+  <action name="actionFullscreen">
+   <property name="text">
+    <string>Fullscreen</string>
    </property>
   </action>
  </widget>
