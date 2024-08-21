@@ -1255,6 +1255,27 @@
                 ]
             },
             {
+                "vendor": "Rowin",
+                "model": "Noise Gate",
+                "category": "guitar",
+                "image": "guitar_pedal_3",
+                "inputs": [
+                    {
+                        "model": "power_dc_5.5x2.1",
+                        "name": "DC (-)9V",
+                        "power": "-"
+                    },
+                    {
+                        "model": "jack_ts"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "jack_ts"
+                    }
+                ]
+            },
+            {
                 "vendor": "AMT",
                 "model": "PANGAEA CP-100",
                 "description": "IR convolution player",
