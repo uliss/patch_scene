@@ -29,17 +29,17 @@ public:
 
         qDebug() << QLocale::system();
 
-        if (qt_tr.load(QLocale::system(), "qtbase", "_",
+        if (qt_tr.load(QLocale::system(), "qt", "_",
                 QLibraryInfo::path(QLibraryInfo::TranslationsPath))) {
 
-            installTranslator(&qt_tr);
-            qDebug() << "qt tr added";
+            if (installTranslator(&qt_tr))
+                qDebug() << "qt tr added:" << qt_tr.filePath();
         }
 
         QTranslator my_tr;
-        if (my_tr.load(QLocale::system(), "patch_scene_ru.qm", "", ":/i18n")) {
-            installTranslator(&my_tr);
-            qDebug() << "app tr added";
+        if (my_tr.load(QLocale(), "patch_scene", QLatin1String("_"), QLatin1String(":/i18n"))) {
+            if (installTranslator(&my_tr))
+                qDebug() << "app tr added:" << my_tr.filePath() << my_tr.language();
         }
 
         window_.show();
