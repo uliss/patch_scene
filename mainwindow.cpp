@@ -73,6 +73,13 @@ MainWindow::MainWindow(QWidget* parent)
     initActions();
     initLibrarySearch();
 
+    connect(ui->actionFullscreen, &QAction::triggered, this, [this](bool value) {
+        if (value && !isFullScreen())
+            showFullScreen();
+        else if (!value && isFullScreen())
+            showNormal();
+    });
+
     resizePanels();
 
     updateTitle();

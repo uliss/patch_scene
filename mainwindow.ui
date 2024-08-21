@@ -121,6 +121,8 @@
     <addaction name="actionZoomOut"/>
     <addaction name="actionZoomNormal"/>
     <addaction name="separator"/>
+    <addaction name="actionFullscreen"/>
+    <addaction name="separator"/>
     <addaction name="actionShowCables"/>
     <addaction name="actionShowBackground"/>
    </widget>
@@ -530,7 +532,8 @@
   </widget>
   <action name="actionOpen">
    <property name="icon">
-    <iconset theme="document-open"/>
+    <iconset theme="document-open">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>&amp;Open</string>
@@ -571,7 +574,8 @@
   </action>
   <action name="actionZoomNormal">
    <property name="icon">
-    <iconset theme="zoom"/>
+    <iconset theme="zoom-original">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Zoom Normal</string>
@@ -594,7 +598,8 @@
   </action>
   <action name="actionSelectAll">
    <property name="icon">
-    <iconset theme="edit-select-all"/>
+    <iconset theme="edit-select-all">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Select All</string>
@@ -605,7 +610,8 @@
   </action>
   <action name="actionQuit">
    <property name="icon">
-    <iconset theme="exit"/>
+    <iconset theme="application-exit">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Quit</string>
@@ -619,7 +625,8 @@
   </action>
   <action name="actionSave">
    <property name="icon">
-    <iconset theme="document-save"/>
+    <iconset theme="document-save">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Save</string>
@@ -630,7 +637,8 @@
   </action>
   <action name="actionDuplicate">
    <property name="icon">
-    <iconset theme="edit-duplicate"/>
+    <iconset theme="edit-duplicate">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Duplicate</string>
@@ -640,6 +648,10 @@
    </property>
   </action>
   <action name="actionSaveAs">
+   <property name="icon">
+    <iconset theme="document-save-as">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
    <property name="text">
     <string>Save As...</string>
    </property>
@@ -649,7 +661,8 @@
   </action>
   <action name="actionAboutApp">
    <property name="icon">
-    <iconset theme="info"/>
+    <iconset theme="help-about">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>About PatchScene</string>
@@ -713,7 +726,8 @@
   </action>
   <action name="actionCopy">
    <property name="icon">
-    <iconset theme="edit-copy"/>
+    <iconset theme="edit-copy">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Copy</string>
@@ -724,7 +738,8 @@
   </action>
   <action name="actionCut">
    <property name="icon">
-    <iconset theme="edit-cut"/>
+    <iconset theme="edit-cut">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Cut</string>
@@ -735,7 +750,8 @@
   </action>
   <action name="actionPaste">
    <property name="icon">
-    <iconset theme="edit-paste"/>
+    <iconset theme="edit-paste">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Paste</string>
@@ -789,7 +805,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="resources/patch_scene_resources.qrc">
+    <iconset theme="image-x-generic" resource="resources/patch_scene_resources.qrc">
      <normaloff>:/icons/image.svg</normaloff>:/icons/image.svg</iconset>
    </property>
    <property name="text">
@@ -831,6 +847,10 @@
    </property>
   </action>
   <action name="actionExportToPdf">
+   <property name="icon">
+    <iconset theme="application-pdf">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
    <property name="text">
     <string>Export to PDF</string>
    </property>
@@ -839,8 +859,18 @@
    </property>
   </action>
   <action name="actionFullscreen">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="view-fullscreen">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
    <property name="text">
     <string>Fullscreen</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+F</string>
    </property>
   </action>
  </widget>
