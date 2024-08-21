@@ -127,5 +127,7 @@
         <file>devices/gameboy_1.svg</file>
         <file>devices/radio_system_uhf_1.svg</file>
         <file>devices/guitar_pedal_3.svg</file>
+        <file>devices/audio_recorder_1.svg</file>
+        <file>connectors/jack_micro_socket.svg</file>
     </qresource>
 </RCC>

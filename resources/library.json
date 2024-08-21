@@ -65,6 +65,27 @@
                 ]
             },
             {
+                "vendor": "Zoom",
+                "model": "H4n Pro",
+                "description": "Handy Recorder",
+                "image": "audio_recorder_1",
+                "battery-type": "aa",
+                "battery-count": 2,
+                "inputs": [
+                    { "model": "xlr_jack", "name": "1" },
+                    { "model": "xlr_jack", "name": "2" },
+                    { "model": "jack_micro_trrs", "name": "remote" },
+                    { "model": "jack_mini_trs", "name": "External Stereo Microphone" },
+                    { "model": "power_dc_4.0x1.7",
+                      "name": "DC 5V",
+                      "power": "+" }
+                ],
+                "outputs": [
+                    { "model": "usb_mini_b" },
+                    { "model": "jack_mini_trs", "name": "phones/line" }
+                ]
+            },
+            {
                 "title": "USB hub",
                 "title-ru": "USB хаб",
                 "vendor": "Orico",

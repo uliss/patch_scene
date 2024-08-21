@@ -107,6 +107,7 @@ static const ConnectorModelMap& model_map()
         { ConnectorModel::POWER_IEC_C_15_16,       { "power_iec_c_15_16",   "power_iec_c_15_16","Power IEC C15/C16" } },
         { ConnectorModel::POWER_IEC_C_17_18,       { "power_iec_c_17_18",   "power_iec_c_17_18","Power IEC C17/C18" } },
         { ConnectorModel::POWER_DC_3_8x1_3,        { "power_dc_3.8x1.3",    "power_dc",         "Power DC 3.8/1.3mm" } },
+        { ConnectorModel::POWER_DC_4_0x1_7,        { "power_dc_4.0x1.7",    "power_dc",         "Power DC 4.0/1.7mm" } },
         { ConnectorModel::POWER_DC_4_75x1_7,       { "power_dc_4.75x1.7",   "power_dc",         "Power DC 4.75/1.7mm" } },
         { ConnectorModel::POWER_DC_5_5x2_1,        { "power_dc_5.5x2.1",    "power_dc",         "Power DC 5.5/2.1mm" } },
         { ConnectorModel::POWER_DC_5_5x2_5,        { "power_dc_5.5x2.5",    "power_dc",         "Power DC 5.5/2.5mm" } },
