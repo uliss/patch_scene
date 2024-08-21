@@ -1051,6 +1051,26 @@
                 ]
             },
             {
+                "vendor": "Rowin",
+                "model": "Tuner LT-901",
+                "category": "guitar",
+                "image": "guitar_pedal_3",
+                "inputs": [
+                    {
+                        "model": "power_dc_5.5x2.1",
+                        "name": "DC (-)9V"
+                    },
+                    {
+                        "model": "jack_ts"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "jack_ts"
+                    }
+                ]
+            },
+            {
                 "vendor": "Mosky Audio",
                 "model": "ISO 10 Power Supply",
                 "category": "guitar",
