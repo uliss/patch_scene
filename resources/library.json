@@ -1,2477 +1,2542 @@
 {
-    "library": {
-        "devices": [
-            {
-                "title": "Mic vocal",
-                "title-ru": "Микрофон вокальный",
-                "image": "mic_on_stand_2",
-                "zoom": 1.5,
-                "outputs": [
-                    {
-                        "model": "xlr",
-                        "socket": "male"
-                    }
-                ]
-            },
-            {
-                "title": "Mic instr",
-                "title-ru": "Микрофон инструментальный",
-                "image": "mic_on_stand_1",
-                "zoom": 1.5,
-                "outputs": [
-                    {
-                        "model": "xlr",
-                        "socket": "male"
-                    }
-                ]
-            },
-            {
-                "vendor": "M-Audio",
-                "model": "MIDISPORT 2x2",
-                "inputs": [
-                    {
-                        "model": "midi",
-                        "name": "In A"
-                    },
-                    {
-                        "model": "midi",
-                        "name": "In B"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "usb_b"
-                    },
-                    {
-                        "model": "midi",
-                        "name": "Out A"
-                    },
-                    {
-                        "model": "midi",
-                        "name": "Out B"
-                    }
-                ]
-            },
-            {
-                "title": "HDMI EDID Manager",
-                "inputs": [
-                    { "model": "hdmi" },
-                    { "model": "power_dc_5.5x2.1",
-                      "name": "DC (+)5V",
-                      "power": "+" }
-                ],
-                "outputs": [
-                    { "model": "hdmi" }
-                ]
-            },
-            {
-                "vendor": "Zoom",
-                "model": "H4n Pro",
-                "description": "Handy Recorder",
-                "image": "audio_recorder_1",
-                "battery-type": "aa",
-                "battery-count": 2,
-                "inputs": [
-                    { "model": "xlr_jack", "name": "1" },
-                    { "model": "xlr_jack", "name": "2" },
-                    { "model": "jack_micro_trrs", "name": "remote" },
-                    { "model": "jack_mini_trs", "name": "External Stereo Microphone" },
-                    { "model": "power_dc_4.0x1.7",
-                      "name": "DC 5V",
-                      "power": "+" }
-                ],
-                "outputs": [
-                    { "model": "usb_mini_b" },
-                    { "model": "jack_mini_trs", "name": "phones/line" }
-                ]
-            },
-            {
-                "title": "USB hub",
-                "title-ru": "USB хаб",
-                "vendor": "Orico",
-                "inputs": [
-                    { "model": "usb3_a" }
-                ],
-                "outputs": [
-                    { "model": "usb3_a" },
-                    { "model": "usb3_a" },
-                    { "model": "usb3_a" },
-                    { "model": "usb3_a" }
-                ]
-            },
-            {
-                "model": "MidiXchange",
-                "vendor": "Rocktron",
-                "battery-type": "krona",
-                "battery-count": 1,
-                "inputs": [
-                    { "model": "power_dc_5.5x2.1", "name": "9V AC/DC", "power": "ac/dc" },
-                    { "model": "jack_trs", "name": "CC7" },
-                    { "model": "jack_trs", "name": "CC17" }
-                ],
-                "outputs": [
-                    { "model": "midi", "name": "MIDI out" }
-                ]
-            },
-            {
-                "model": "Ampero Control",
-                "vendor": "Hotone",
-                "inputs": [
-                    { "model": "power_dc_5.5x2.1", "name": "DC (-)9..18V",
-                      "power": "-" },
-                    { "model": "midi", "name": "MIDI in" },
-                    { "model": "jack_trs", "name": "EXP 1" },
-                    { "model": "jack_trs", "name": "EXP 2" }
-                ],
-                "outputs": [
-                    { "model": "midi", "name": "MIDI out/thru" },
-                    { "model": "usb_b" }
-                ]
-            },
-            {
-                "title": "MIDI router",
-                "title-ru": "MIDI роутер",
-                "vendor": "MVR electronic",
-                "inputs": [
-                    {
-                        "model": "midi",
-                        "name": "IN 1"
-                    },
-                    {
-                        "model": "midi",
-                        "name": "IN 2"
-                    },
-                    {
-                        "model": "midi",
-                        "name": "IN 3"
-                    },
-                    {
-                        "model": "midi",
-                        "name": "IN 4"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "midi",
-                        "name": "OUT 1"
-                    },
-                    {
-                        "model": "midi",
-                        "name": "OUT 2"
-                    },
-                    {
-                        "model": "midi",
-                        "name": "OUT 3"
-                    },
-                    {
-                        "model": "midi",
-                        "name": "OUT 4"
-                    },
-                    {
-                        "model": "usb_b"
-                    }
-                ]
-            },
-            {
-                "title": "Mic instr stereo",
-                "title-ru": "Микрофон инструментальный (стерео)",
-                "image": "mic_on_stand_stereo",
-                "zoom": 1.5,
-                "outputs": [
-                    {
-                        "model": "xlr",
-                        "socket": "male"
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "male"
-                    }
-                ]
-            },
-            {
-                "title": "Phones in-ear",
-                "title-ru": "Наушники внутриканальные",
-                "image": "phones_3",
-                "zoom": 0.3,
-                "show-title": false,
-                "inputs": [
-                    {
-                        "model": "jack_mini_trs",
-                        "socket": "plug_male"
-                    }
-                ]
-            },
-            {
-                "title": "Phones Jack",
-                "title-ru": "Наушники Jack",
-                "image": "phones_2",
-                "zoom": 0.6,
-                "show-title": false,
-                "inputs": [
-                    {
-                        "model": "jack_trs",
-                        "socket": "plug_male"
-                    }
-                ]
-            },
-            {
-                "model": "305P MKII",
-                "vendor": "JBL",
-                "image": "speaker_1",
-                "inputs": [
-                    {
-                        "model": "jack_trs",
-                        "name": "balanced input"
-                    },
-                    {
-                        "model": "xlr"
-                    },
-                    {
-                        "model": "power_iec_c_13_14",
-                        "socket": "male"
-                    }
-                ]
-            },
-            {
-                "model": "308P",
-                "vendor": "JBL",
-                "image": "speaker_1",
-                "zoom": 1.25,
-                "inputs": [
-                    {
-                        "model": "jack_trs",
-                        "name": "balanced input"
-                    },
-                    {
-                        "model": "xlr"
-                    },
-                    {
-                        "model": "power_iec_c_13_14",
-                        "socket": "male"
-                    }
-                ]
-            },
-            {
-                "vendor": "Focuswrite",
-                "model": "Scarlett 18i20",
-                "category": "audio",
-                "inputs": [
-                    {
-                        "model": "xlr_jack",
-                        "socket": "female",
-                        "name": "1",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr_jack",
-                        "socket": "female",
-                        "name": "2",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr_jack",
-                        "socket": "female",
-                        "name": "3",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr_jack",
-                        "socket": "female",
-                        "name": "4",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr_jack",
-                        "socket": "female",
-                        "name": "5",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr_jack",
-                        "socket": "female",
-                        "name": "6",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr_jack",
-                        "socket": "female",
-                        "name": "7",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr_jack",
-                        "socket": "female",
-                        "name": "8",
-                        "phantom": true
-                    },
-                    {
-                        "model": "midi",
-                        "socket": "female",
-                        "name": "MIDI in"
-                    },
-                    {
-                        "model": "usb_b",
-                        "socket": "female"
-                    },
-                    {
-                        "model": "spdif",
-                        "socket": "female",
-                        "name": "SPDIF in"
-                    },
-                    {
-                        "model": "toslink",
-                        "socket": "female",
-                        "name": "Optical 1-16"
-                    },
-                    {
-                        "model": "toslink",
-                        "socket": "female",
-                        "name": "Optical 17-32"
-                    },
-                    {
-                        "model": "power_iec_c_13_14",
-                        "socket": "male",
-                        "name": "Power plug 220V",
-                        "power": "~"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "jack_trs",
-                        "socket": "female",
-                        "name": "Line out 1"
-                    },
-                    {
-                        "model": "jack_trs",
-                        "socket": "female",
-                        "name": "Line out 2"
-                    },
-                    {
-                        "model": "jack_trs",
-                        "socket": "female",
-                        "name": "Line out 3"
-                    },
-                    {
-                        "model": "jack_trs",
-                        "socket": "female",
-                        "name": "Line out 4"
-                    },
-                    {
-                        "model": "jack_trs",
-                        "socket": "female",
-                        "name": "Line out 5"
-                    },
-                    {
-                        "model": "jack_trs",
-                        "socket": "female",
-                        "name": "Line out 6"
-                    },
-                    {
-                        "model": "jack_trs",
-                        "socket": "female",
-                        "name": "Line out 7"
-                    },
-                    {
-                        "model": "jack_trs",
-                        "socket": "female",
-                        "name": "Line out 8"
-                    },
-                    {
-                        "model": "jack_trs",
-                        "socket": "female",
-                        "name": "Line out 9"
-                    },
-                    {
-                        "model": "jack_trs",
-                        "socket": "female",
-                        "name": "Line out 10"
-                    },
-                    {
-                        "model": "jack_trs",
-                        "socket": "female",
-                        "name": "Phones 1"
-                    },
-                    {
-                        "model": "jack_trs",
-                        "socket": "female",
-                        "name": "Phones 2"
-                    },
-                    {
-                        "model": "midi",
-                        "socket": "female",
-                        "name": "MIDI out"
-                    },
-                    {
-                        "model": "spdif",
-                        "socket": "female",
-                        "name": "SPDIF out"
-                    },
-                    {
-                        "model": "toslink",
-                        "socket": "female",
-                        "name": "Optical 1-16"
-                    },
-                    {
-                        "model": "toslink",
-                        "socket": "female",
-                        "name": "Optical 17-32"
-                    },
-                    {
-                        "model": "bnc",
-                        "socket": "female",
-                        "name": "World clock"
-                    }
-                ]
-            },
-            {
-                "vendor": "Yamaha",
-                "model": "MG10XU",
-                "title": "Yamaha Mixing console MG10XU",
-                "image": "mixer_2",
-                "category": "audio",
-                "inputs": [
-                    {
-                        "model": "xlr",
-                        "socket": "female",
-                        "name": "Mic/Line 1",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "female",
-                        "name": "Mic/Line 2",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "female",
-                        "name": "Mic/Line 3",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "female",
-                        "name": "Mic/Line 4",
-                        "phantom": true
-                    },
-                    {
-                        "model": "jack_ts",
-                        "socket": "female",
-                        "name": "Line 5",
-                        "level": "-10dBu"
-                    },
-                    {
-                        "model": "jack_ts",
-                        "socket": "female",
-                        "name": "Line 6",
-                        "level": "-10dBu"
-                    },
-                    {
-                        "model": "rca",
-                        "socket": "female",
-                        "name": "Line 5",
-                        "color": "#FF0000"
-                    },
-                    {
-                        "model": "rca",
-                        "socket": "female",
-                        "color": "#0000FF",
-                        "name": "Line 6"
-                    },
-                    {
-                        "model": "jack_ts",
-                        "socket": "female",
-                        "name": "Line 7",
-                        "level": "-10dBu"
-                    },
-                    {
-                        "model": "jack_ts",
-                        "socket": "female",
-                        "name": "Line 8",
-                        "level": "-10dBu"
-                    },
-                    {
-                        "model": "rca",
-                        "socket": "female",
-                        "name": "Line 7"
-                    },
-                    {
-                        "model": "rca",
-                        "socket": "female",
-                        "name": "Line 8"
-                    },
-                    {
-                        "model": "jack_ts",
-                        "socket": "female",
-                        "name": "Line 9",
-                        "level": "-10dBu"
-                    },
-                    {
-                        "model": "jack_ts",
-                        "socket": "female",
-                        "name": "Line 10",
-                        "level": "-10dBu"
-                    },
-                    {
-                        "model": "jack_ts",
-                        "socket": "female",
-                        "name": "Foot Switch FX"
-                    },
-                    {
-                        "model": "usb_b",
-                        "socket": "female",
-                        "name": "USB in 24-bit/192kHz"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "jack_ts",
-                        "socket": "female",
-                        "name": "Monitor out L",
-                        "level": "+4dBu"
-                    },
-                    {
-                        "model": "jack_ts",
-                        "socket": "female",
-                        "name": "Monitor out R",
-                        "level": "+4dBu"
-                    },
-                    {
-                        "model": "jack_trs",
-                        "socket": "female",
-                        "name": "Fx send",
-                        "level": "+4dBu"
-                    },
-                    {
-                        "model": "jack_ts",
-                        "socket": "female",
-                        "name": "Stereo out L",
-                        "level": "+4dBu"
-                    },
-                    {
-                        "model": "jack_ts",
-                        "socket": "female",
-                        "name": "Stereo out R",
-                        "level": "+4dBu"
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Stereo out L",
-                        "level": "+4dBu"
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Stereo out R",
-                        "level": "+4dBu"
-                    },
-                    {
-                        "model": "jack_trs",
-                        "socket": "female",
-                        "name": "Phones"
-                    }
-                ]
-            },
-            {
-                "vendor": "RPi Foundation",
-                "model": "Raspberry Pi 3",
-                "title": "Raspberry Pi 3",
-                "image": "raspberry_pi_bw",
-                "category": "computer",
-                "inputs": [
-                    {
-                        "model": "usb_a",
-                        "socket": "female",
-                        "name": "USB 1"
-                    },
-                    {
-                        "model": "usb_a",
-                        "socket": "female",
-                        "name": "USB 2"
-                    },
-                    {
-                        "model": "usb3_a",
-                        "socket": "female",
-                        "name": "USB 3"
-                    },
-                    {
-                        "model": "usb3_a",
-                        "socket": "female",
-                        "name": "USB 4"
-                    },
-                    {
-                        "model": "ethernet",
-                        "socket": "female",
-                        "name": "Ethernet"
-                    },
-                    {
-                        "model": "usb_type_c",
-                        "socket": "female",
-                        "name": "Power"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "hdmi_micro",
-                        "socket": "female",
-                        "name": "HDMI 1"
-                    },
-                    {
-                        "model": "hdmi_micro",
-                        "socket": "female",
-                        "name": "HDMI 2"
-                    },
-                    {
-                        "model": "jack_mini_trs",
-                        "socket": "female",
-                        "name": "Audio out"
-                    }
-                ]
-            },
-            {
-                "vendor": "RPi Foundation",
-                "model": "Raspberry Pi 4",
-                "title": "Raspberry Pi 4",
-                "image": "raspberry_pi_color",
-                "category": "computer",
-                "inputs": [
-                    {
-                        "model": "usb_a",
-                        "socket": "female",
-                        "name": "USB 1"
-                    },
-                    {
-                        "model": "usb_a",
-                        "socket": "female",
-                        "name": "USB 2"
-                    },
-                    {
-                        "model": "usb3_a",
-                        "socket": "female",
-                        "name": "USB 3"
-                    },
-                    {
-                        "model": "usb3_a",
-                        "socket": "female",
-                        "name": "USB 4"
-                    },
-                    {
-                        "model": "ethernet",
-                        "socket": "female",
-                        "name": "Ethernet"
-                    },
-                    {
-                        "model": "usb_type_c",
-                        "socket": "female",
-                        "name": "Power"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "hdmi_micro",
-                        "socket": "female",
-                        "name": "HDMI 1"
-                    },
-                    {
-                        "model": "hdmi_micro",
-                        "socket": "female",
-                        "name": "HDMI 2"
-                    }
-                ]
-            },
-            {
-                "vendor": "Apple",
-                "model": "",
-                "title": "Macbook Air M1",
-                "category": "computer",
-                "image": "laptop_1",
-                "inputs": [
-                    {
-                        "model": "usb_type_c",
-                        "socket": "female",
-                        "name": "USB/Thunderbolt 1"
-                    },
-                    {
-                        "model": "usb_type_c",
-                        "socket": "female",
-                        "name": "USB/Thunderbolt 2"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "jack_mini_trs",
-                        "socket": "female",
-                        "name": "Audio out"
-                    }
-                ]
-            },
-            {
-                "vendor": "Novation",
-                "model": "LaunchPad mini",
-                "category": "midi",
-                "image": "novation_launchpad_mini",
-                "outputs": [
-                    {
-                        "model": "usb_type_c"
-                    }
-                ]
-            },
-            {
-                "vendor": "Novation",
-                "model": "LaunchKey mini",
-                "category": "midi",
-                "image": "synth_2",
-                "outputs": [
-                    {
-                        "model": "usb_micro_a"
-                    }
-                ]
-            },
-            {
-                "vendor": "Nintendo",
-                "model": "Gameboy",
-                "category": "audio",
-                "image": "gameboy_1",
-                "battery-type": "aa",
-                "battery-count": 4,
-                "zoom": 0.5,
-                "outputs": [
-                    {
-                        "model": "jack_trs"
-                    }
-                ],
-                "inputs": [
-                    {
-                        "model": "power_dc_3.5x1.35",
-                        "power": "-",
-                        "name": "DC 6V"
-                    }
-                ]
-            },
-            {
-                "vendor": "Meris",
-                "model": "Ottobit",
-                "category": "guitar",
-                "image": "guitar_pedal_1",
-                "zoom": 0.5,
-                "outputs": [
-                    {
-                        "model": "jack_ts",
-                        "name": "Left"
-                    },
-                    {
-                        "model": "jack_ts",
-                        "name": "Right"
-                    }
-                ],
-                "inputs": [
-                    {
-                        "model": "jack_ts",
-                        "name": "INPUT"
-                    },
-                    {
-                        "model": "jack_trs",
-                        "name": "EXP/MIDI"
-                    },
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "power": "-",
-                        "name": "DC 9V"
-                    }
-                ]
-            },
-            {
-                "vendor": "DigiTech",
-                "model": "Whammy V01",
-                "category": "guitar",
-                "image": "guitar_pedal_1",
-                "zoom": 0.5,
-                "outputs": [
-                    {
-                        "model": "jack_ts",
-                        "name": "Output"
-                    }
-                ],
-                "inputs": [
-                    {
-                        "model": "jack_ts",
-                        "name": "INPUT"
-                    },
-                    {
-                        "model": "midi",
-                        "name": "MIDI"
-                    },
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "power": "-",
-                        "name": "DC 9V 1300mA"
-                    }
-                ]
-            },
-            {
-                "vendor": "BOSS",
-                "model": "RC-10R",
-                "description": "Rhythm loop station",
-                "category": "guitar",
-                "image": "guitar_pedal_1",
-                "zoom": 0.5,
-                "outputs": [
-                    {
-                        "model": "jack_ts",
-                        "name": "A (mono)"
-                    },
-                    {
-                        "model": "jack_ts",
-                        "name": "B"
-                    }
-                ],
-                "inputs": [
-                    {
-                        "model": "jack_ts",
-                        "name": "A (mono)"
-                    },
-                    {
-                        "model": "jack_ts",
-                        "name": "B"
-                    },
-                    {
-                        "model": "jack_trs",
-                        "name": "CTL 1,2/EXP"
-                    },
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "Boss PSA adapter"
-                    }
-                ]
-            },
-            {
-                "vendor": "Behringer",
-                "model": "MicroAMP HA400",
-                "description": "Ultra-compact 4-channel stereo headphone amplifier",
-                "outputs": [
-                    {
-                        "model": "jack_trs",
-                        "name": "1"
-                    },
-                    {
-                        "model": "jack_trs",
-                        "name": "2"
-                    },
-                    {
-                        "model": "jack_trs",
-                        "name": "3"
-                    },
-                    {
-                        "model": "jack_trs",
-                        "name": "4"
-                    }
-                ],
-                "inputs": [
-                    {
-                        "model": "jack_trs",
-                        "name": "INPUT"
-                    },
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "12V",
-                        "power": "+"
-                    }
-                ]
-            },
-            {
-                "vendor": "ART",
-                "model": "Tube MP Studio V3",
-                "description": "Voiced Valve Preamplifier",
-                "outputs": [
-                    {
-                        "model": "jack_trs"
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "male"
-                    }
-                ],
-                "inputs": [
-                    {
-                        "model": "jack_trs"
-                    },
-                    {
-                        "model": "xlr",
-                        "power": "phantom",
-                        "phantom": true
-                    },
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "AC 9V",
-                        "power": "~"
-                    }
-                ]
-            },
-            {
-                "vendor": "Midas",
-                "model": "Air MR18",
-                "category": "audio",
-                "inputs": [
-                    {
-                        "model": "xlr_jack",
-                        "socket": "female",
-                        "name": "1",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr_jack",
-                        "socket": "female",
-                        "name": "2",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr_jack",
-                        "socket": "female",
-                        "name": "3",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr_jack",
-                        "socket": "female",
-                        "name": "4",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr_jack",
-                        "socket": "female",
-                        "name": "5",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr_jack",
-                        "socket": "female",
-                        "name": "6",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr_jack",
-                        "socket": "female",
-                        "name": "7",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr_jack",
-                        "socket": "female",
-                        "name": "8",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr_jack",
-                        "socket": "female",
-                        "name": "9",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr_jack",
-                        "socket": "female",
-                        "name": "10",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr_jack",
-                        "socket": "female",
-                        "name": "11",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr_jack",
-                        "socket": "female",
-                        "name": "12",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr_jack",
-                        "socket": "female",
-                        "name": "13",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr_jack",
-                        "socket": "female",
-                        "name": "14",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr_jack",
-                        "socket": "female",
-                        "name": "15",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr_jack",
-                        "socket": "female",
-                        "name": "16",
-                        "phantom": true
-                    },
-                    {
-                        "model": "ethernet",
-                        "socket": "female",
-                        "name": "Remote control"
-                    },
-                    {
-                        "model": "usb_b",
-                        "socket": "female"
-                    },
-                    {
-                        "model": "power_iec_c_13_14",
-                        "socket": "male",
-                        "name": "Power plug 220V",
-                        "power": "~"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Main L"
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Main R"
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Aux 1"
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Aux 2"
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Aux 3"
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Aux 4"
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Aux 5"
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Aux 6"
-                    },
-                    {
-                        "model": "ethernet",
-                        "socket": "female",
-                        "name": "Ultranet out"
-                    },
-                    {
-                        "model": "jack_trs",
-                        "socket": "female",
-                        "name": "Phones"
-                    }
-                ]
-            },
-            {
-                "vendor": "Korg",
-                "model": "Nanokontrol 2",
-                "category": "midi",
-                "image": "midi_controller_mixer_1",
-                "outputs": [
-                    {
-                        "model": "usb_mini_b"
-                    }
-                ]
-            },
-            {
-                "vendor": "Casio",
-                "model": "Privia PX-160",
-                "zoom": 2,
-                "category": "midi",
-                "image": "piano_keyboard_1",
-                "inputs": [
-                    {
-                        "model": "jack_ts",
-                        "name": "Sustain pedal"
-                    },
-                    {
-                        "model": "unknown",
-                        "name": "Power +12V"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "usb_b"
-                    },
-                    {
-                        "model": "jack_mini_trs",
-                        "socket": "female",
-                        "name": "Phones 1"
-                    },
-                    {
-                        "model": "jack_mini_trs",
-                        "socket": "female",
-                        "name": "Phones 2"
-                    },
-                    {
-                        "model": "jack_ts",
-                        "socket": "female",
-                        "name": "Line out L"
-                    },
-                    {
-                        "model": "jack_ts",
-                        "socket": "female",
-                        "name": "Line out R"
-                    }
-                ]
-            },
-            {
-                "vendor": "Akai",
-                "model": "4000-DS",
-                "category": "audio",
-                "image": "magnetophone_1",
-                "outputs": [
-                    {
-                        "model": "din_5",
-                        "socket": "female",
-                        "name": "Phones 1"
-                    }
-                ]
-            },
-            {
-                "vendor": "Arduino",
-                "model": "Uno",
-                "category": "computer",
-                "image": "arduino_uno",
-                "inputs": [
-                    {
-                        "model": "usb_b"
-                    },
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "DC: +7..+12V",
-                        "power": "+"
-                    }
-                ]
-            },
-            {
-                "title": "Power extender 220V (5-socket)",
-                "title-ru": "Удлинитель 220В (5-розеток)",
-                "category": "misc",
-                "outputs": [
-                    {
-                        "model": "power_schuko",
-                        "name": "220V",
-                        "power": "~"
-                    },
-                    {
-                        "model": "power_schuko",
-                        "name": "220V",
-                        "power": "~"
-                    },
-                    {
-                        "model": "power_schuko",
-                        "name": "220V",
-                        "power": "~"
-                    },
-                    {
-                        "model": "power_schuko",
-                        "name": "220V",
-                        "power": "~"
-                    },
-                    {
-                        "model": "power_schuko",
-                        "name": "220V",
-                        "power": "~"
-                    }
-                ]
-            },
-            {
-                "title": "Power extender 220V (3-socket)",
-                "title-ru": "Удлинитель 220В (3-розетки)",
-                "category": "misc",
-                "outputs": [
-                    {
-                        "model": "power_schuko",
-                        "name": "220V",
-                        "power": "~"
-                    },
-                    {
-                        "model": "power_schuko",
-                        "name": "220V",
-                        "power": "~"
-                    },
-                    {
-                        "model": "power_schuko",
-                        "name": "220V",
-                        "power": "~"
-                    }
-                ]
-            },
-            {
-                "vendor": "Phenyx Pro",
-                "model": "PTM-10",
-                "image": "radio_system_uhf_1",
-                "zoom": 0.75,
-                "inputs": [
-                    {
-                        "model": "xlr_jack",
-                        "name": "Left"
-                    },
-                    {
-                        "model": "xlr_jack",
-                        "name": "Right (mono)"
-                    },
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "DC (+)12..18V 300mA",
-                        "power": "+"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "jack_trs",
-                        "name": "Phones"
-                    },
-                    {
-                        "model": "bnc",
-                        "name": "Antenna"
-                    }
-                ]
-            },
-            {
-                "vendor": "Phenyx Pro",
-                "model": "UHF Bodypack",
-                "image": "body_pack_1",
-                "zoom": 0.75,
-                "battery-type": "aa",
-                "battery-count": 2,
-                "outputs": [
-                    {
-                        "model": "jack_mini_trs",
-                        "name": "Phones"
-                    }
-                ]
-            },
-            {
-                "vendor": "",
-                "model": "Floor speaker R",
-                "category": "audio",
-                "image": "speaker_floor_1",
-                "inputs": [
-                    {
-                        "model": "xlr"
-                    }
-                ]
-            },
-            {
-                "vendor": "",
-                "model": "Floor speaker L",
-                "category": "audio",
-                "image": "speaker_floor_2",
-                "inputs": [
-                    {
-                        "model": "xlr"
-                    }
-                ]
-            },
-            {
-                "vendor": "Rowin",
-                "model": "Tuner LT-901",
-                "category": "guitar",
-                "image": "guitar_pedal_3",
-                "inputs": [
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9V",
-                        "power": "-"
-                    },
-                    {
-                        "model": "jack_ts"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "jack_ts"
-                    }
-                ]
-            },
-            {
-                "vendor": "Rowin",
-                "model": "Noise Gate",
-                "category": "guitar",
-                "image": "guitar_pedal_3",
-                "inputs": [
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9V",
-                        "power": "-"
-                    },
-                    {
-                        "model": "jack_ts"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "jack_ts"
-                    }
-                ]
-            },
-            {
-                "vendor": "AMT",
-                "model": "PANGAEA CP-100",
-                "description": "IR convolution player",
-                "category": "guitar",
-                "image": "guitar_pedal_1",
-                "inputs": [
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)12V 100mA",
-                        "power": "-"
-                    },
-                    {
-                        "model": "jack_ts",
-                        "name": "INPUT"
-                    },
-                    {
-                        "model": "jack_ts",
-                        "name": "THRU"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "jack_ts",
-                        "name": "OUT"
-                    },
-                    {
-                        "model": "jack_mini_trs",
-                        "name": "Phones"
-                    },
-                    {
-                        "model": "usb_b",
-                        "name": "USB"
-                    }
-                ]
-            },
-            {
-                "vendor": "Mosky Audio",
-                "model": "ISO 10 Power Supply",
-                "category": "guitar",
-                "inputs": [
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)12V",
-                        "power": "-"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "usb_a",
-                        "name": "DC 5V 1A"
-                    },
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9V 300mA",
-                        "power": "-"
-
-                    },
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9V 300mA",
-                        "power": "-"
-                    },
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9V 300mA",
-                        "power": "-"
-                    },
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9V 300mA",
-                        "power": "-"
-                    },
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9V 300mA",
-                        "power": "-"
-                    },
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9V 300mA",
-                        "power": "-"
-                    },
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9V 300mA",
-                        "power": "-"
-                    },
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9V 500mA",
-                        "power": "-"
-                    },
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9,12,18V 500mA",
-                        "power": "-"
-                    },
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9,12,18V 500mA",
-                        "power": "-"
-                    }
-                ]
-            },
-            {
-                "vendor": "UGreen",
-                "model": "USB-C Adapter",
-                "category": "computer",
-                "inputs": [
-                    {
-                        "model": "usb_type_c"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "ethernet",
-                        "name": "1000Mbit Ethernet"
-                    },
-                    {
-                        "model": "vga"
-                    },
-                    {
-                        "model": "hdmi",
-                        "name": "Video output"
-                    },
-                    {
-                        "model": "usb3_a",
-                        "name": "USB 1"
-                    },
-                    {
-                        "model": "usb3_a",
-                        "name": "USB 2"
-                    },
-                    {
-                        "model": "usb3_a",
-                        "name": "USB 3"
-                    },
-                    {
-                        "model": "jack_mini_trs",
-                        "name": "Audio output"
-                    }
-                ]
-            },
-            {
-                "vendor": "Korg",
-                "model": "Volca Bass",
-                "category": "computer",
-                "image": "synth_2",
-                "battery-type": "aa",
-                "battery-count": 6,
-                "inputs": [
-                    {
-                        "model": "midi",
-                        "name": "MIDI in"
-                    },
-                    {
-                        "model": "jack_mini_trs",
-                        "name": "MIDI sync in"
-                    },
-                    {
-                        "model": "power_dc_4.75x1.7",
-                        "name": "DC: +9V",
-                        "power": "+"
-
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "jack_mini_trs",
-                        "name": "MIDI sync out"
-                    },
-                    {
-                        "model": "jack_mini_trs",
-                        "name": "Phones out"
-                    }
-                ]
-            },
-            {
-                "vendor": "Korg",
-                "model": "Volca Keys",
-                "image": "synth_2",
-                "category": "computer",
-                "battery-type": "aa",
-                "battery-count": 6,
-                "inputs": [
-                    {
-                        "model": "midi",
-                        "name": "MIDI in"
-                    },
-                    {
-                        "model": "jack_mini_trs",
-                        "name": "MIDI sync in"
-                    },
-                    {
-                        "model": "power_dc_4.75x1.7",
-                        "name": "DC: +9V",
-                        "power": "+"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "jack_mini_trs",
-                        "name": "MIDI sync out"
-                    },
-                    {
-                        "model": "jack_mini_trs",
-                        "name": "Phones out"
-                    }
-                ]
-            },
-            {
-                "vendor": "Korg",
-                "model": "Volca FM",
-                "image": "synth_2",
-                "category": "computer",
-                "battery-type": "aa",
-                "battery-count": 6,
-                "inputs": [
-                    {
-                        "model": "midi",
-                        "name": "MIDI in"
-                    },
-                    {
-                        "model": "jack_mini_trs",
-                        "name": "MIDI sync in"
-                    },
-                    {
-                        "model": "power_dc_4.75x1.7",
-                        "name": "DC: +9V",
-                        "power": "+"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "jack_mini_trs",
-                        "name": "MIDI sync out"
-                    },
-                    {
-                        "model": "jack_mini_trs",
-                        "name": "Phones out"
-                    }
-                ]
-            },
-            {
-                "vendor": "Pnkight",
-                "model": "Artnet DMX CR011R",
-                "category": "light",
-                "inputs": [
-                    {
-                        "model": "usb_type_c",
-                        "name": "Power 5V"
-                    },
-                    {
-                        "model": "ethernet",
-                        "name": "Artnet in/out"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "xlr",
-                        "name": "DMX in/out"
-                    }
-                ]
-            },
-            {
-                "vendor": "",
-                "model": "DiBox",
-                "inputs": [
-                    {
-                        "model": "jack_ts",
-                        "name": "Unbalanced input"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Balanced output"
-                    }
-                ]
-            },
-            {
-                "vendor": "",
-                "model": "Stereo DiBox",
-                "inputs": [
-                    {
-                        "model": "jack_ts",
-                        "name": "Unbalanced input"
-                    },
-                    {
-                        "model": "jack_ts",
-                        "name": "Unbalanced input"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Balanced output"
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Balanced output"
-                    }
-                ]
-            },
-            {
-                "vendor": "Behringer",
-                "model": "Ultra-DI DI20",
-                "battery-type": "krona",
-                "battery-count": 1,
-                "inputs": [
-                    {
-                        "model": "jack_trs",
-                        "name": "CH1 IN (BAL/UNBAL)"
-                    },
-                    {
-                        "model": "jack_trs",
-                        "name": "CH2 IN (BAL/UNBAL)"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "CH 1 OUT"
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "CH 2 OUT"
-                    }
-                ]
-            },
-            {
-                "title": "Headphones (DIN)",
-                "title-ru": "Наушники (DIN)",
-                "image": "phones_1",
-                "inputs": [
-                    {
-                        "model": "din_5",
-                        "socket": "male",
-                        "plug-cord": true
-                    }
-                ]
-            },
-            {
-                "model": "PT 40 mini PRO",
-                "vendor": "AKG",
-                "title": "AKG mini PRO Transmitter",
-                "title-ru": "AKG mini PRO Передатчик",
-                "tooltip": "660.700 MHz",
-                "image": "body_pack_1",
-                "zoom": 0.3,
-                "battery-type": "aa",
-                "battery-count": 1,
-                "inputs": [
-                    {
-                        "model": "xlr_mini",
-                        "socket": "female",
-                        "visible": false
-                    }
-                ]
-            },
-            {
-                "model": "SR 40 mini PRO",
-                "vendor": "AKG",
-                "title": "AKG mini PRO Receiver",
-                "title-ru": "AKG mini PRO Приёмник",
-                "tooltip": "660.700 MHz",
-                "image": "akg_sr40_mini_pro",
-                "zoom": 0.8,
-                "inputs": [
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "+12V 300ma, DC only",
-                        "power": "+"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "jack_trs",
-                        "name": "AUDIO OUT (balanced)"
-                    }
-                ]
-            },
-            {
-                "model": "FS22",
-                "vendor": "Flamma",
-                "title": "Flamma EKOVERB",
-                "image": "guitar_pedal_1",
-                "zoom": 0.75,
-                "inputs": [
-                    {
-                        "model": "jack_ts",
-                        "name": "INPUT-R"
-                    },
-                    {
-                        "model": "jack_ts",
-                        "name": "INPUT-L (MONO)"
-                    },
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9V 300ma",
-                        "power": "-"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "jack_ts",
-                        "name": "OUTPUT-R"
-                    },
-                    {
-                        "model": "jack_ts",
-                        "name": "OUTPUT-L (MONO)"
-                    }
-                ]
-            },
-            {
-                "model": "Soul Press II",
-                "vendor": "Hotone",
-                "title": "Hotone Expression Pedal",
-                "image": "guitar_pedal_2",
-                "zoom": 0.75,
-                "inputs": [
-                    {
-                        "model": "jack_ts",
-                        "name": "INPUT"
-                    },
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9V 300ma",
-                        "power": "-"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "jack_ts",
-                        "name": "EXP OUT"
-                    },
-                    {
-                        "model": "jack_ts",
-                        "name": "OUTPUT"
-                    },
-                    {
-                        "model": "jack_ts",
-                        "name": "TUNER OUT"
-                    }
-                ]
-            },
-            {
-                "model": "XTone Pro",
-                "vendor": "XSonic",
-                "inputs": [
-                    {
-                        "model": "xlr_jack",
-                        "name": "In Right",
-                        "phantom": true
-                    },
-                    {
-                        "model": "jack_ts",
-                        "name": "In Left"
-                    },
-                    {
-                        "model": "jack_trs",
-                        "name": "EXP"
-                    },
-                    {
-                        "model": "midi",
-                        "name": "IN"
-                    },
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "DC (-)9V",
-                        "power": "-"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "jack_trs",
-                        "name": "L"
-                    },
-                    {
-                        "model": "jack_trs",
-                        "name": "R"
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "XLR"
-                    },
-                    {
-                        "model": "jack_mini_trs",
-                        "name": "phones"
-                    },
-                    {
-                        "model": "midi",
-                        "name": "OUT"
-                    },
-                    {
-                        "model": "usb_b"
-                    }
-                ]
-            },
-            {
-                "model": "PM1",
-                "vendor": "Behringer",
-                "title": "Behringer PM1 Personal monitoring",
-                "title-ru": "Behringer PM1 Персональный мониторинг",
-                "inputs": [
-                    {
-                        "model": "xlr"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "jack_mini_trs"
-                    }
-                ]
-            },
-            {
-                "model": "Mini Converter",
-                "vendor": "Wiistar",
-                "title": "HDMI to SDI",
-                "inputs": [
-                    {
-                        "model": "hdmi",
-                        "name": "HDMI in"
-                    },
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "DC 5~12V"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "bnc",
-                        "name": "SDI out 1"
-                    },
-                    {
-                        "model": "bnc",
-                        "name": "SDI out 2"
-                    }
-                ]
-            },
-            {
-                "model": "MPC-10",
-                "vendor": "DOREMiDi",
-                "title": "Midi Pedal Converter",
-                "inputs": [
-                    {
-                        "model": "jack_trs",
-                        "name": "EXP1"
-                    },
-                    {
-                        "model": "jack_trs",
-                        "name": "EXP2"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "usb_type_c"
-                    },
-                    {
-                        "model": "jack_mini_trs",
-                        "name": "MIDI out"
-                    }
-                ]
-            },
-            {
-                "model": "FC-ONE",
-                "vendor": "DOREMiDi",
-                "title": "MIDI Foot Controller FC-ONE",
-                "inputs": [
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "(-)9V",
-                        "power": "-"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "usb_type_c"
-                    },
-                    {
-                        "model": "jack_mini_trs",
-                        "name": "MIDI out"
-                    }
-                ]
-            },
-            {
-                "model": "B29L",
-                "vendor": "AKG",
-                "title": "Battery Power Supply",
-                "battery-type": "krona",
-                "battery-count": 1,
-                "inputs": [
-                    {
-                        "model": "xlr_mini",
-                        "socket": "male",
-                        "name": "IN L"
-                    },
-                    {
-                        "model": "xlr_mini",
-                        "socket": "male",
-                        "name": "IN R"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "xlr",
-                        "socket": "male"
-                    }
-                ]
-            },
-            {
-                "model": "FW5685",
-                "vendor": "FeelWorld",
-                "title": "Field Monitor",
-                "image": "monitor_1",
-                "battery-type": "krona",
-                "battery-count": 0,
-                "zoom": 0.7,
-                "inputs": [
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "DC in (+)12V",
-                        "power": "+"
-                    },
-                    {
-                        "model": "bnc",
-                        "name": "SDI in"
-                    },
-                    {
-                        "model": "hdmi",
-                        "name": "HDMI IN"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "model": "power_dc_5.5x2.1",
-                        "name": "DC out (+)8V",
-                        "power": "+"
-                    },
-                    {
-                        "model": "jack_mini_trs",
-                        "name": "Phones"
-                    },
-                    {
-                        "model": "usb_type_c"
-                    },
-                    {
-                        "model": "bnc",
-                        "name": "SDI out"
-                    },
-                    {
-                        "model": "hdmi",
-                        "name": "HDMI out"
-                    }
-                ]
-            }
-        ],
-        "instruments": [
-            {
-                "title": "Violin",
-                "title-ru": "Скрипка",
-                "image": "violin_1"
-            },
-            {
-                "title": "Viola",
-                "title-ru": "Альт",
-                "image": "violin_1",
-                "zoom": 1.25
-            },
-            {
-                "title": "Cello",
-                "title-ru": "Виолончель",
-                "image": "cello_1"
-            },
-            {
-                "title": "Piano",
-                "title-ru": "Фортепиано",
-                "image": "piano_1",
-                "zoom": 2
-            },
-            {
-                "title": "Balalaika",
-                "title-ru": "Балалайка",
-                "image": "balalaika_1",
-                "zoom": 0.75
-            },
-            {
-                "title": "Harp",
-                "title-ru": "Арфа",
-                "image": "harp_1",
-                "zoom": 1.5
-            },
-            {
-                "title": "French Horn",
-                "title-ru": "Валторна",
-                "image": "french_horn_1"
-            },
-            {
-                "title": "Trumpet",
-                "title-ru": "Труба",
-                "image": "trumpet_1"
-            },
-            {
-                "title": "Accordion",
-                "title-ru": "Аккордеон",
-                "image": "accordion_1"
-            },
-            {
-                "title": "Bass guitar",
-                "title-ru": "Бас-гитара",
-                "image": "bass_guitar_1",
-                "outputs": [{"model": "jack_ts"}]
-            },
-            {
-                "title": "Gong",
-                "title-ru": "Гонг",
-                "image": "gong_1"
-            },
-            {
-                "title": "Congas",
-                "title-ru": "Конги",
-                "image": "congas_1",
-                "zoom": 0.5
-            },
-            {
-                "title": "Drum Set",
-                "title-ru": "Ударная установка",
-                "image": "drum_set_1"
-            },
-            {
-                "title": "Xylophone",
-                "title-ru": "Ксилофон",
-                "image": "xylophone_1"
-            },
-            {
-                "title": "Tuba",
-                "title-ru": "Туба",
-                "image": "tuba_1"
-            },
-            {
-                "title": "Oboe",
-                "title-ru": "Гобой",
-                "image": "oboe_1",
-                "zoom": 0.75
-            },
-            {
-                "title": "English Horn",
-                "title-ru": "Английский Рожок",
-                "image": "oboe_2",
-                "zoom": 0.9
-            },
-            {
-                "title": "Trombone",
-                "title-ru": "Тромбон",
-                "image": "trombone_1",
-                "zoom": 1.2
-            },
-            {
-                "title": "Banjo",
-                "title-ru": "Банджо",
-                "image": "banjo_1",
-                "zoom": 1
-            }
-        ],
-        "sends": [
-            {
-                "title": "Send stereo",
-                "inputs": [
-                    {
-                        "model": "xlr",
-                        "name": "Send #1",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "name": "Send #2",
-                        "phantom": true
-                    }
-                ]
-            },
-            {
-                "title": "Send 4-ch",
-                "inputs": [
-                    {
-                        "model": "xlr",
-                        "name": "Send #1",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "name": "Send #2",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "name": "Send #3",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "name": "Send #4",
-                        "phantom": true
-                    }
-                ]
-            },
-            {
-                "title": "Send 8-ch",
-                "inputs": [
-                    {
-                        "model": "xlr",
-                        "name": "Send #1",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "name": "Send #2",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "name": "Send #3",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "name": "Send #4",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "name": "Send #5",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "name": "Send #6",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "name": "Send #7",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "name": "Send #8",
-                        "phantom": true
-                    }
-                ]
-            },
-            {
-                "title": "Send 16-ch",
-                "inputs": [
-                    {
-                        "model": "xlr",
-                        "name": "Send #1",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "name": "Send #2",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "name": "Send #3",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "name": "Send #4",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "name": "Send #5",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "name": "Send #6",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "name": "Send #7",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "name": "Send #8",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "name": "Send #9",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "name": "Send #10",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "name": "Send #11",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "name": "Send #12",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "name": "Send #13",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "name": "Send #14",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "name": "Send #15",
-                        "phantom": true
-                    },
-                    {
-                        "model": "xlr",
-                        "name": "Send #16",
-                        "phantom": true
-                    }
-                ]
-            }
-        ],
-        "returns": [
-            {
-                "title": "Return mono",
-                "outputs": [
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Return #1"
-                    }
-                ]
-            },
-            {
-                "title": "Return stereo",
-                "outputs": [
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Return #1"
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Return #2"
-                    }
-                ]
-            },
-            {
-                "title": "Return 4-ch",
-                "outputs": [
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Return #1"
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Return #2"
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Return #3"
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Return #4"
-                    }
-                ]
-            },
-            {
-                "title": "Return 8-ch",
-                "outputs": [
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Return #1"
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Return #2"
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Return #3"
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Return #4"
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Return #5"
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Return #6"
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Return #7"
-                    },
-                    {
-                        "model": "xlr",
-                        "socket": "male",
-                        "name": "Return #8"
-                    }
-                ]
-            }
-        ],
-        "furniture": [
-            {
-                "title": "Pocket music stand",
-                "title-ru": "Пюпитр складной",
-                "image": "music_stand_1"
-            },
-            {
-                "title": "Steady music stand",
-                "title-ru": "Пюпитр устойчивый",
-                "image": "music_stand_2"
-            },
-            {
-                "title": "Pocket music stand low",
-                "title-ru": "Пюпитр складной низкий",
-                "image": "music_stand_low_1"
-            },
-            {
-                "title": "Steady music stand low",
-                "title-ru": "Пюпитр устойчивый низкий",
-                "image": "music_stand_low_2"
-            },
-            {
-                "title": "Chair",
-                "title-ru": "Стул",
-                "image": "chair_1",
-                "zoom": 0.7
-            },
-            {
-                "title": "Table",
-                "title-ru": "Стол",
-                "image": "table_1",
-                "zoom": 1.25
-            },
-            {
-                "title": "Stage",
-                "title-ru": "Сцена",
-                "image": "stage_1",
-                "zoom": 1.5
-            }
-        ],
-        "humans": [
-            {
-                "title": "Cello player",
-                "title-ru": "Виолончелист",
-                "image": "human_cello_2"
-            },
-            {
-                "title": "Cembalo player",
-                "image": "human_piano_1"
-            },
-            {
-                "title": "Violin player",
-                "title-ru": "Скрипач",
-                "image": "human_violin_2"
-            },
-            {
-                "title": "Viola player",
-                "title-ru": "Альтист",
-                "image": "human_viola_1"
-            },
-            {
-                "title": "Balalaika player",
-                "title-ru": "Балалаешник",
-                "image": "human_balalaika_1"
-            },
-            {
-                "title": "Balalaika Bass player",
-                "title-ru": "Бас-балалаешник",
-                "image": "human_balalaika_bass"
-            },
-            {
-                "title": "Accordion player",
-                "title-ru": "Баянист",
-                "image": "human_accordion_1"
-            },
-            {
-                "title": "Trumpet player",
-                "title-ru": "Трубач",
-                "image": "human_trumpet_1"
-            },
-            {
-                "title": "Oboe player",
-                "title-ru": "Гобоист",
-                "image": "human_oboe_1"
-            },
-            {
-                "title": "Flute player",
-                "title-ru": "Флейтист",
-                "image": "human_flute_1"
-            },
-            {
-                "title": "Clarinet player",
-                "title-ru": "Кларнетист",
-                "image": "human_clarinet_1"
-            },
-            {
-                "title": "Dj",
-                "image": "human_dj_1"
-            },
-            {
-                "title": "Conductor",
-                "title-ru": "Дирижёр",
-                "image": "human_conductor_1"
-            },
-            {
-                "title": "Acoustic guitar player",
-                "title-ru": "Гитарист (акустика)",
-                "image": "human_guitar_1"
-            }
+  "library": {
+    "devices": [
+      {
+        "title": "Mic vocal",
+        "title-ru": "Микрофон вокальный",
+        "image": "mic_on_stand_2",
+        "zoom": 1.5,
+        "outputs": [
+          {
+            "model": "xlr",
+            "socket": "male"
+          }
         ]
-    }
+      },
+      {
+        "title": "Mic instr",
+        "title-ru": "Микрофон инструментальный",
+        "image": "mic_on_stand_1",
+        "zoom": 1.5,
+        "outputs": [
+          {
+            "model": "xlr",
+            "socket": "male"
+          }
+        ]
+      },
+      {
+        "vendor": "M-Audio",
+        "model": "MIDISPORT 2x2",
+        "inputs": [
+          {
+            "model": "midi",
+            "name": "In A"
+          },
+          {
+            "model": "midi",
+            "name": "In B"
+          },
+          {
+            "model": "usb_b"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "midi",
+            "name": "Out A"
+          },
+          {
+            "model": "midi",
+            "name": "Out B"
+          }
+        ]
+      },
+      {
+        "title": "HDMI EDID Manager",
+        "inputs": [
+          {
+            "model": "hdmi"
+          },
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "DC (+)5V",
+            "power": "+"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "hdmi"
+          }
+        ]
+      },
+      {
+        "vendor": "Zoom",
+        "model": "H4n Pro",
+        "description": "Handy Recorder",
+        "image": "audio_recorder_1",
+        "battery-type": "aa",
+        "battery-count": 2,
+        "inputs": [
+          {
+            "model": "xlr_jack",
+            "name": "1"
+          },
+          {
+            "model": "xlr_jack",
+            "name": "2"
+          },
+          {
+            "model": "jack_micro_trrs",
+            "name": "remote"
+          },
+          {
+            "model": "jack_mini_trs",
+            "name": "External Stereo Microphone"
+          },
+          {
+            "model": "usb_mini_b"
+          },
+          {
+            "model": "power_dc_4.0x1.7",
+            "name": "DC 5V",
+            "power": "+"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "jack_mini_trs",
+            "name": "phones/line"
+          }
+        ]
+      },
+      {
+        "title": "USB hub",
+        "title-ru": "USB хаб",
+        "vendor": "Orico",
+        "inputs": [
+          {
+            "model": "usb3_a"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "usb3_a"
+          },
+          {
+            "model": "usb3_a"
+          },
+          {
+            "model": "usb3_a"
+          },
+          {
+            "model": "usb3_a"
+          }
+        ]
+      },
+      {
+        "model": "MidiXchange",
+        "vendor": "Rocktron",
+        "battery-type": "krona",
+        "battery-count": 1,
+        "inputs": [
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "9V AC/DC",
+            "power": "ac/dc"
+          },
+          {
+            "model": "jack_trs",
+            "name": "CC7"
+          },
+          {
+            "model": "jack_trs",
+            "name": "CC17"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "midi",
+            "name": "MIDI out"
+          }
+        ]
+      },
+      {
+        "model": "Ampero Control",
+        "vendor": "Hotone",
+        "inputs": [
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "DC (-)9..18V",
+            "power": "-"
+          },
+          {
+            "model": "midi",
+            "name": "MIDI in"
+          },
+          {
+            "model": "jack_trs",
+            "name": "EXP 1"
+          },
+          {
+            "model": "jack_trs",
+            "name": "EXP 2"
+          },
+          {
+            "model": "usb_b"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "midi",
+            "name": "MIDI out/thru"
+          }
+        ]
+      },
+      {
+        "title": "MIDI router",
+        "title-ru": "MIDI роутер",
+        "vendor": "MVR electronic",
+        "inputs": [
+          {
+            "model": "midi",
+            "name": "IN 1"
+          },
+          {
+            "model": "midi",
+            "name": "IN 2"
+          },
+          {
+            "model": "midi",
+            "name": "IN 3"
+          },
+          {
+            "model": "midi",
+            "name": "IN 4"
+          },
+          {
+            "model": "usb_b"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "midi",
+            "name": "OUT 1"
+          },
+          {
+            "model": "midi",
+            "name": "OUT 2"
+          },
+          {
+            "model": "midi",
+            "name": "OUT 3"
+          },
+          {
+            "model": "midi",
+            "name": "OUT 4"
+          }
+        ]
+      },
+      {
+        "title": "Mic instr stereo",
+        "title-ru": "Микрофон инструментальный (стерео)",
+        "image": "mic_on_stand_stereo",
+        "zoom": 1.5,
+        "outputs": [
+          {
+            "model": "xlr",
+            "socket": "male"
+          },
+          {
+            "model": "xlr",
+            "socket": "male"
+          }
+        ]
+      },
+      {
+        "title": "Phones in-ear",
+        "title-ru": "Наушники внутриканальные",
+        "image": "phones_3",
+        "zoom": 0.3,
+        "show-title": false,
+        "inputs": [
+          {
+            "model": "jack_mini_trs",
+            "socket": "plug_male"
+          }
+        ]
+      },
+      {
+        "title": "Phones Jack",
+        "title-ru": "Наушники Jack",
+        "image": "phones_2",
+        "zoom": 0.6,
+        "show-title": false,
+        "inputs": [
+          {
+            "model": "jack_trs",
+            "socket": "plug_male"
+          }
+        ]
+      },
+      {
+        "model": "305P MKII",
+        "vendor": "JBL",
+        "image": "speaker_1",
+        "inputs": [
+          {
+            "model": "jack_trs",
+            "name": "balanced input"
+          },
+          {
+            "model": "xlr"
+          },
+          {
+            "model": "power_iec_c_13_14",
+            "socket": "male"
+          }
+        ]
+      },
+      {
+        "model": "308P",
+        "vendor": "JBL",
+        "image": "speaker_1",
+        "zoom": 1.25,
+        "inputs": [
+          {
+            "model": "jack_trs",
+            "name": "balanced input"
+          },
+          {
+            "model": "xlr"
+          },
+          {
+            "model": "power_iec_c_13_14",
+            "socket": "male"
+          }
+        ]
+      },
+      {
+        "vendor": "Focuswrite",
+        "model": "Scarlett 18i20",
+        "category": "audio",
+        "inputs": [
+          {
+            "model": "xlr_jack",
+            "socket": "female",
+            "name": "1",
+            "phantom": true
+          },
+          {
+            "model": "xlr_jack",
+            "socket": "female",
+            "name": "2",
+            "phantom": true
+          },
+          {
+            "model": "xlr_jack",
+            "socket": "female",
+            "name": "3",
+            "phantom": true
+          },
+          {
+            "model": "xlr_jack",
+            "socket": "female",
+            "name": "4",
+            "phantom": true
+          },
+          {
+            "model": "xlr_jack",
+            "socket": "female",
+            "name": "5",
+            "phantom": true
+          },
+          {
+            "model": "xlr_jack",
+            "socket": "female",
+            "name": "6",
+            "phantom": true
+          },
+          {
+            "model": "xlr_jack",
+            "socket": "female",
+            "name": "7",
+            "phantom": true
+          },
+          {
+            "model": "xlr_jack",
+            "socket": "female",
+            "name": "8",
+            "phantom": true
+          },
+          {
+            "model": "midi",
+            "socket": "female",
+            "name": "MIDI in"
+          },
+          {
+            "model": "usb_b",
+            "socket": "female"
+          },
+          {
+            "model": "spdif",
+            "socket": "female",
+            "name": "SPDIF in"
+          },
+          {
+            "model": "toslink",
+            "socket": "female",
+            "name": "Optical 1-16"
+          },
+          {
+            "model": "toslink",
+            "socket": "female",
+            "name": "Optical 17-32"
+          },
+          {
+            "model": "power_iec_c_13_14",
+            "socket": "male",
+            "name": "Power plug 220V",
+            "power": "~"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "jack_trs",
+            "socket": "female",
+            "name": "Line out 1"
+          },
+          {
+            "model": "jack_trs",
+            "socket": "female",
+            "name": "Line out 2"
+          },
+          {
+            "model": "jack_trs",
+            "socket": "female",
+            "name": "Line out 3"
+          },
+          {
+            "model": "jack_trs",
+            "socket": "female",
+            "name": "Line out 4"
+          },
+          {
+            "model": "jack_trs",
+            "socket": "female",
+            "name": "Line out 5"
+          },
+          {
+            "model": "jack_trs",
+            "socket": "female",
+            "name": "Line out 6"
+          },
+          {
+            "model": "jack_trs",
+            "socket": "female",
+            "name": "Line out 7"
+          },
+          {
+            "model": "jack_trs",
+            "socket": "female",
+            "name": "Line out 8"
+          },
+          {
+            "model": "jack_trs",
+            "socket": "female",
+            "name": "Line out 9"
+          },
+          {
+            "model": "jack_trs",
+            "socket": "female",
+            "name": "Line out 10"
+          },
+          {
+            "model": "jack_trs",
+            "socket": "female",
+            "name": "Phones 1"
+          },
+          {
+            "model": "jack_trs",
+            "socket": "female",
+            "name": "Phones 2"
+          },
+          {
+            "model": "midi",
+            "socket": "female",
+            "name": "MIDI out"
+          },
+          {
+            "model": "spdif",
+            "socket": "female",
+            "name": "SPDIF out"
+          },
+          {
+            "model": "toslink",
+            "socket": "female",
+            "name": "Optical 1-16"
+          },
+          {
+            "model": "toslink",
+            "socket": "female",
+            "name": "Optical 17-32"
+          },
+          {
+            "model": "bnc",
+            "socket": "female",
+            "name": "World clock"
+          }
+        ]
+      },
+      {
+        "vendor": "Yamaha",
+        "model": "MG10XU",
+        "title": "Yamaha Mixing console MG10XU",
+        "image": "mixer_2",
+        "category": "audio",
+        "inputs": [
+          {
+            "model": "xlr",
+            "socket": "female",
+            "name": "Mic/Line 1",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "socket": "female",
+            "name": "Mic/Line 2",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "socket": "female",
+            "name": "Mic/Line 3",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "socket": "female",
+            "name": "Mic/Line 4",
+            "phantom": true
+          },
+          {
+            "model": "jack_ts",
+            "socket": "female",
+            "name": "Line 5",
+            "level": "-10dBu"
+          },
+          {
+            "model": "jack_ts",
+            "socket": "female",
+            "name": "Line 6",
+            "level": "-10dBu"
+          },
+          {
+            "model": "rca",
+            "socket": "female",
+            "name": "Line 5",
+            "color": "#FF0000"
+          },
+          {
+            "model": "rca",
+            "socket": "female",
+            "color": "#0000FF",
+            "name": "Line 6"
+          },
+          {
+            "model": "jack_ts",
+            "socket": "female",
+            "name": "Line 7",
+            "level": "-10dBu"
+          },
+          {
+            "model": "jack_ts",
+            "socket": "female",
+            "name": "Line 8",
+            "level": "-10dBu"
+          },
+          {
+            "model": "rca",
+            "socket": "female",
+            "name": "Line 7"
+          },
+          {
+            "model": "rca",
+            "socket": "female",
+            "name": "Line 8"
+          },
+          {
+            "model": "jack_ts",
+            "socket": "female",
+            "name": "Line 9",
+            "level": "-10dBu"
+          },
+          {
+            "model": "jack_ts",
+            "socket": "female",
+            "name": "Line 10",
+            "level": "-10dBu"
+          },
+          {
+            "model": "jack_ts",
+            "socket": "female",
+            "name": "Foot Switch FX"
+          },
+          {
+            "model": "usb_b",
+            "socket": "female",
+            "name": "USB in 24-bit/192kHz"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "jack_ts",
+            "socket": "female",
+            "name": "Monitor out L",
+            "level": "+4dBu"
+          },
+          {
+            "model": "jack_ts",
+            "socket": "female",
+            "name": "Monitor out R",
+            "level": "+4dBu"
+          },
+          {
+            "model": "jack_trs",
+            "socket": "female",
+            "name": "Fx send",
+            "level": "+4dBu"
+          },
+          {
+            "model": "jack_ts",
+            "socket": "female",
+            "name": "Stereo out L",
+            "level": "+4dBu"
+          },
+          {
+            "model": "jack_ts",
+            "socket": "female",
+            "name": "Stereo out R",
+            "level": "+4dBu"
+          },
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Stereo out L",
+            "level": "+4dBu"
+          },
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Stereo out R",
+            "level": "+4dBu"
+          },
+          {
+            "model": "jack_trs",
+            "socket": "female",
+            "name": "Phones"
+          }
+        ]
+      },
+      {
+        "vendor": "RPi Foundation",
+        "model": "Raspberry Pi 3",
+        "title": "Raspberry Pi 3",
+        "image": "raspberry_pi_bw",
+        "category": "computer",
+        "inputs": [
+          {
+            "model": "ethernet",
+            "socket": "female",
+            "name": "Ethernet"
+          },
+          {
+            "model": "usb_type_c",
+            "socket": "female",
+            "name": "Power"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "usb_a",
+            "socket": "female",
+            "name": "USB 1"
+          },
+          {
+            "model": "usb_a",
+            "socket": "female",
+            "name": "USB 2"
+          },
+          {
+            "model": "usb3_a",
+            "socket": "female",
+            "name": "USB 3"
+          },
+          {
+            "model": "usb3_a",
+            "socket": "female",
+            "name": "USB 4"
+          },
+          {
+            "model": "hdmi_micro",
+            "socket": "female",
+            "name": "HDMI 1"
+          },
+          {
+            "model": "hdmi_micro",
+            "socket": "female",
+            "name": "HDMI 2"
+          },
+          {
+            "model": "jack_mini_trs",
+            "socket": "female",
+            "name": "Audio out"
+          }
+        ]
+      },
+      {
+        "vendor": "RPi Foundation",
+        "model": "Raspberry Pi 4",
+        "title": "Raspberry Pi 4",
+        "image": "raspberry_pi_color",
+        "category": "computer",
+        "inputs": [
+          {
+            "model": "ethernet",
+            "socket": "female",
+            "name": "Ethernet"
+          },
+          {
+            "model": "usb_type_c",
+            "socket": "female",
+            "name": "Power"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "usb_a",
+            "socket": "female",
+            "name": "USB 1"
+          },
+          {
+            "model": "usb_a",
+            "socket": "female",
+            "name": "USB 2"
+          },
+          {
+            "model": "usb3_a",
+            "socket": "female",
+            "name": "USB 3"
+          },
+          {
+            "model": "usb3_a",
+            "socket": "female",
+            "name": "USB 4"
+          },
+          {
+            "model": "hdmi_micro",
+            "socket": "female",
+            "name": "HDMI 1"
+          },
+          {
+            "model": "hdmi_micro",
+            "socket": "female",
+            "name": "HDMI 2"
+          }
+        ]
+      },
+      {
+        "vendor": "Apple",
+        "model": "",
+        "title": "Macbook Air M1",
+        "category": "computer",
+        "image": "laptop_1",
+        "outputs": [
+          {
+            "model": "usb_type_c",
+            "socket": "female",
+            "name": "USB/Thunderbolt 1"
+          },
+          {
+            "model": "usb_type_c",
+            "socket": "female",
+            "name": "USB/Thunderbolt 2"
+          },
+          {
+            "model": "jack_mini_trs",
+            "socket": "female",
+            "name": "Audio out"
+          }
+        ]
+      },
+      {
+        "vendor": "Novation",
+        "model": "LaunchPad mini",
+        "category": "midi",
+        "image": "novation_launchpad_mini",
+        "inputs": [
+          {
+            "model": "usb_type_c"
+          }
+        ]
+      },
+      {
+        "vendor": "Novation",
+        "model": "LaunchKey mini",
+        "category": "midi",
+        "image": "synth_2",
+        "inputs": [
+          {
+            "model": "usb_micro_a"
+          }
+        ]
+      },
+      {
+        "vendor": "Nintendo",
+        "model": "Gameboy",
+        "category": "audio",
+        "image": "gameboy_1",
+        "battery-type": "aa",
+        "battery-count": 4,
+        "zoom": 0.5,
+        "outputs": [
+          {
+            "model": "jack_trs"
+          }
+        ],
+        "inputs": [
+          {
+            "model": "power_dc_3.5x1.35",
+            "power": "-",
+            "name": "DC 6V"
+          }
+        ]
+      },
+      {
+        "vendor": "Meris",
+        "model": "Ottobit",
+        "category": "guitar",
+        "image": "guitar_pedal_1",
+        "zoom": 0.5,
+        "outputs": [
+          {
+            "model": "jack_ts",
+            "name": "Left"
+          },
+          {
+            "model": "jack_ts",
+            "name": "Right"
+          }
+        ],
+        "inputs": [
+          {
+            "model": "jack_ts",
+            "name": "INPUT"
+          },
+          {
+            "model": "jack_trs",
+            "name": "EXP/MIDI"
+          },
+          {
+            "model": "power_dc_5.5x2.1",
+            "power": "-",
+            "name": "DC 9V"
+          }
+        ]
+      },
+      {
+        "vendor": "DigiTech",
+        "model": "Whammy V01",
+        "category": "guitar",
+        "image": "guitar_pedal_1",
+        "zoom": 0.5,
+        "outputs": [
+          {
+            "model": "jack_ts",
+            "name": "Output"
+          }
+        ],
+        "inputs": [
+          {
+            "model": "jack_ts",
+            "name": "INPUT"
+          },
+          {
+            "model": "midi",
+            "name": "MIDI"
+          },
+          {
+            "model": "power_dc_5.5x2.1",
+            "power": "-",
+            "name": "DC 9V 1300mA"
+          }
+        ]
+      },
+      {
+        "vendor": "BOSS",
+        "model": "RC-10R",
+        "description": "Rhythm loop station",
+        "category": "guitar",
+        "image": "guitar_pedal_1",
+        "zoom": 0.5,
+        "outputs": [
+          {
+            "model": "jack_ts",
+            "name": "A (mono)"
+          },
+          {
+            "model": "jack_ts",
+            "name": "B"
+          }
+        ],
+        "inputs": [
+          {
+            "model": "jack_ts",
+            "name": "A (mono)"
+          },
+          {
+            "model": "jack_ts",
+            "name": "B"
+          },
+          {
+            "model": "jack_trs",
+            "name": "CTL 1,2/EXP"
+          },
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "Boss PSA adapter"
+          }
+        ]
+      },
+      {
+        "vendor": "Behringer",
+        "model": "MicroAMP HA400",
+        "description": "Ultra-compact 4-channel stereo headphone amplifier",
+        "outputs": [
+          {
+            "model": "jack_trs",
+            "name": "1"
+          },
+          {
+            "model": "jack_trs",
+            "name": "2"
+          },
+          {
+            "model": "jack_trs",
+            "name": "3"
+          },
+          {
+            "model": "jack_trs",
+            "name": "4"
+          }
+        ],
+        "inputs": [
+          {
+            "model": "jack_trs",
+            "name": "INPUT"
+          },
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "12V",
+            "power": "+"
+          }
+        ]
+      },
+      {
+        "vendor": "ART",
+        "model": "Tube MP Studio V3",
+        "description": "Voiced Valve Preamplifier",
+        "outputs": [
+          {
+            "model": "jack_trs"
+          },
+          {
+            "model": "xlr",
+            "socket": "male"
+          }
+        ],
+        "inputs": [
+          {
+            "model": "jack_trs"
+          },
+          {
+            "model": "xlr",
+            "power": "phantom",
+            "phantom": true
+          },
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "AC 9V",
+            "power": "~"
+          }
+        ]
+      },
+      {
+        "vendor": "Midas",
+        "model": "Air MR18",
+        "category": "audio",
+        "inputs": [
+          {
+            "model": "xlr_jack",
+            "socket": "female",
+            "name": "1",
+            "phantom": true
+          },
+          {
+            "model": "xlr_jack",
+            "socket": "female",
+            "name": "2",
+            "phantom": true
+          },
+          {
+            "model": "xlr_jack",
+            "socket": "female",
+            "name": "3",
+            "phantom": true
+          },
+          {
+            "model": "xlr_jack",
+            "socket": "female",
+            "name": "4",
+            "phantom": true
+          },
+          {
+            "model": "xlr_jack",
+            "socket": "female",
+            "name": "5",
+            "phantom": true
+          },
+          {
+            "model": "xlr_jack",
+            "socket": "female",
+            "name": "6",
+            "phantom": true
+          },
+          {
+            "model": "xlr_jack",
+            "socket": "female",
+            "name": "7",
+            "phantom": true
+          },
+          {
+            "model": "xlr_jack",
+            "socket": "female",
+            "name": "8",
+            "phantom": true
+          },
+          {
+            "model": "xlr_jack",
+            "socket": "female",
+            "name": "9",
+            "phantom": true
+          },
+          {
+            "model": "xlr_jack",
+            "socket": "female",
+            "name": "10",
+            "phantom": true
+          },
+          {
+            "model": "xlr_jack",
+            "socket": "female",
+            "name": "11",
+            "phantom": true
+          },
+          {
+            "model": "xlr_jack",
+            "socket": "female",
+            "name": "12",
+            "phantom": true
+          },
+          {
+            "model": "xlr_jack",
+            "socket": "female",
+            "name": "13",
+            "phantom": true
+          },
+          {
+            "model": "xlr_jack",
+            "socket": "female",
+            "name": "14",
+            "phantom": true
+          },
+          {
+            "model": "xlr_jack",
+            "socket": "female",
+            "name": "15",
+            "phantom": true
+          },
+          {
+            "model": "xlr_jack",
+            "socket": "female",
+            "name": "16",
+            "phantom": true
+          },
+          {
+            "model": "ethernet",
+            "socket": "female",
+            "name": "Remote control"
+          },
+          {
+            "model": "usb_b",
+            "socket": "female"
+          },
+          {
+            "model": "power_iec_c_13_14",
+            "socket": "male",
+            "name": "Power plug 220V",
+            "power": "~"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Main L"
+          },
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Main R"
+          },
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Aux 1"
+          },
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Aux 2"
+          },
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Aux 3"
+          },
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Aux 4"
+          },
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Aux 5"
+          },
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Aux 6"
+          },
+          {
+            "model": "ethernet",
+            "socket": "female",
+            "name": "Ultranet out"
+          },
+          {
+            "model": "jack_trs",
+            "socket": "female",
+            "name": "Phones"
+          }
+        ]
+      },
+      {
+        "vendor": "Korg",
+        "model": "Nanokontrol 2",
+        "category": "midi",
+        "image": "midi_controller_mixer_1",
+        "inputs": [
+          {
+            "model": "usb_mini_b"
+          }
+        ]
+      },
+      {
+        "vendor": "Casio",
+        "model": "Privia PX-160",
+        "zoom": 2,
+        "category": "midi",
+        "image": "piano_keyboard_1",
+        "inputs": [
+          {
+            "model": "jack_ts",
+            "name": "Sustain pedal"
+          },
+          {
+            "model": "unknown",
+            "name": "Power +12V"
+          },
+          {
+            "model": "usb_b"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "jack_mini_trs",
+            "socket": "female",
+            "name": "Phones 1"
+          },
+          {
+            "model": "jack_mini_trs",
+            "socket": "female",
+            "name": "Phones 2"
+          },
+          {
+            "model": "jack_ts",
+            "socket": "female",
+            "name": "Line out L"
+          },
+          {
+            "model": "jack_ts",
+            "socket": "female",
+            "name": "Line out R"
+          }
+        ]
+      },
+      {
+        "vendor": "Akai",
+        "model": "4000-DS",
+        "category": "audio",
+        "image": "magnetophone_1",
+        "outputs": [
+          {
+            "model": "din_5",
+            "socket": "female",
+            "name": "Phones 1"
+          }
+        ]
+      },
+      {
+        "vendor": "Arduino",
+        "model": "Uno",
+        "category": "computer",
+        "image": "arduino_uno",
+        "inputs": [
+          {
+            "model": "usb_b"
+          },
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "DC: +7..+12V",
+            "power": "+"
+          }
+        ]
+      },
+      {
+        "title": "Power extender 220V (5-socket)",
+        "title-ru": "Удлинитель 220В (5-розеток)",
+        "category": "misc",
+        "outputs": [
+          {
+            "model": "power_schuko",
+            "name": "220V",
+            "power": "~"
+          },
+          {
+            "model": "power_schuko",
+            "name": "220V",
+            "power": "~"
+          },
+          {
+            "model": "power_schuko",
+            "name": "220V",
+            "power": "~"
+          },
+          {
+            "model": "power_schuko",
+            "name": "220V",
+            "power": "~"
+          },
+          {
+            "model": "power_schuko",
+            "name": "220V",
+            "power": "~"
+          }
+        ]
+      },
+      {
+        "title": "Power extender 220V (3-socket)",
+        "title-ru": "Удлинитель 220В (3-розетки)",
+        "category": "misc",
+        "outputs": [
+          {
+            "model": "power_schuko",
+            "name": "220V",
+            "power": "~"
+          },
+          {
+            "model": "power_schuko",
+            "name": "220V",
+            "power": "~"
+          },
+          {
+            "model": "power_schuko",
+            "name": "220V",
+            "power": "~"
+          }
+        ]
+      },
+      {
+        "vendor": "Phenyx Pro",
+        "model": "PTM-10",
+        "image": "radio_system_uhf_1",
+        "zoom": 0.75,
+        "inputs": [
+          {
+            "model": "xlr_jack",
+            "name": "Left"
+          },
+          {
+            "model": "xlr_jack",
+            "name": "Right (mono)"
+          },
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "DC (+)12..18V 300mA",
+            "power": "+"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "jack_trs",
+            "name": "Phones"
+          },
+          {
+            "model": "bnc",
+            "name": "Antenna"
+          }
+        ]
+      },
+      {
+        "vendor": "Phenyx Pro",
+        "model": "UHF Bodypack",
+        "image": "body_pack_1",
+        "zoom": 0.75,
+        "battery-type": "aa",
+        "battery-count": 2,
+        "outputs": [
+          {
+            "model": "jack_mini_trs",
+            "name": "Phones"
+          }
+        ]
+      },
+      {
+        "vendor": "",
+        "model": "Floor speaker R",
+        "category": "audio",
+        "image": "speaker_floor_1",
+        "inputs": [
+          {
+            "model": "xlr"
+          }
+        ]
+      },
+      {
+        "vendor": "",
+        "model": "Floor speaker L",
+        "category": "audio",
+        "image": "speaker_floor_2",
+        "inputs": [
+          {
+            "model": "xlr"
+          }
+        ]
+      },
+      {
+        "vendor": "Rowin",
+        "model": "Tuner LT-901",
+        "category": "guitar",
+        "image": "guitar_pedal_3",
+        "inputs": [
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "DC (-)9V",
+            "power": "-"
+          },
+          {
+            "model": "jack_ts"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "jack_ts"
+          }
+        ]
+      },
+      {
+        "vendor": "Rowin",
+        "model": "Noise Gate",
+        "category": "guitar",
+        "image": "guitar_pedal_3",
+        "inputs": [
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "DC (-)9V",
+            "power": "-"
+          },
+          {
+            "model": "jack_ts"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "jack_ts"
+          }
+        ]
+      },
+      {
+        "vendor": "AMT",
+        "model": "PANGAEA CP-100",
+        "description": "IR convolution player",
+        "category": "guitar",
+        "image": "guitar_pedal_1",
+        "inputs": [
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "DC (-)12V 100mA",
+            "power": "-"
+          },
+          {
+            "model": "jack_ts",
+            "name": "INPUT"
+          },
+          {
+            "model": "jack_ts",
+            "name": "THRU"
+          },
+          {
+            "model": "usb_b",
+            "name": "USB"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "jack_ts",
+            "name": "OUT"
+          },
+          {
+            "model": "jack_mini_trs",
+            "name": "Phones"
+          }
+        ]
+      },
+      {
+        "vendor": "Mosky Audio",
+        "model": "ISO 10 Power Supply",
+        "category": "guitar",
+        "inputs": [
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "DC (-)12V",
+            "power": "-"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "usb_a",
+            "name": "DC 5V 1A"
+          },
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "DC (-)9V 300mA",
+            "power": "-"
+          },
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "DC (-)9V 300mA",
+            "power": "-"
+          },
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "DC (-)9V 300mA",
+            "power": "-"
+          },
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "DC (-)9V 300mA",
+            "power": "-"
+          },
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "DC (-)9V 300mA",
+            "power": "-"
+          },
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "DC (-)9V 300mA",
+            "power": "-"
+          },
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "DC (-)9V 300mA",
+            "power": "-"
+          },
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "DC (-)9V 500mA",
+            "power": "-"
+          },
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "DC (-)9,12,18V 500mA",
+            "power": "-"
+          },
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "DC (-)9,12,18V 500mA",
+            "power": "-"
+          }
+        ]
+      },
+      {
+        "vendor": "UGreen",
+        "model": "USB-C Adapter",
+        "category": "computer",
+        "inputs": [
+          {
+            "model": "usb_type_c"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "ethernet",
+            "name": "1000Mbit Ethernet"
+          },
+          {
+            "model": "vga"
+          },
+          {
+            "model": "hdmi",
+            "name": "Video output"
+          },
+          {
+            "model": "usb3_a",
+            "name": "USB 1"
+          },
+          {
+            "model": "usb3_a",
+            "name": "USB 2"
+          },
+          {
+            "model": "usb3_a",
+            "name": "USB 3"
+          },
+          {
+            "model": "jack_mini_trs",
+            "name": "Audio output"
+          }
+        ]
+      },
+      {
+        "vendor": "Korg",
+        "model": "Volca Bass",
+        "category": "computer",
+        "image": "synth_2",
+        "battery-type": "aa",
+        "battery-count": 6,
+        "inputs": [
+          {
+            "model": "midi",
+            "name": "MIDI in"
+          },
+          {
+            "model": "jack_mini_trs",
+            "name": "MIDI sync in"
+          },
+          {
+            "model": "power_dc_4.75x1.7",
+            "name": "DC: +9V",
+            "power": "+"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "jack_mini_trs",
+            "name": "MIDI sync out"
+          },
+          {
+            "model": "jack_mini_trs",
+            "name": "Phones out"
+          }
+        ]
+      },
+      {
+        "vendor": "Korg",
+        "model": "Volca Keys",
+        "image": "synth_2",
+        "category": "computer",
+        "battery-type": "aa",
+        "battery-count": 6,
+        "inputs": [
+          {
+            "model": "midi",
+            "name": "MIDI in"
+          },
+          {
+            "model": "jack_mini_trs",
+            "name": "MIDI sync in"
+          },
+          {
+            "model": "power_dc_4.75x1.7",
+            "name": "DC: +9V",
+            "power": "+"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "jack_mini_trs",
+            "name": "MIDI sync out"
+          },
+          {
+            "model": "jack_mini_trs",
+            "name": "Phones out"
+          }
+        ]
+      },
+      {
+        "vendor": "Korg",
+        "model": "Volca FM",
+        "image": "synth_2",
+        "category": "computer",
+        "battery-type": "aa",
+        "battery-count": 6,
+        "inputs": [
+          {
+            "model": "midi",
+            "name": "MIDI in"
+          },
+          {
+            "model": "jack_mini_trs",
+            "name": "MIDI sync in"
+          },
+          {
+            "model": "power_dc_4.75x1.7",
+            "name": "DC: +9V",
+            "power": "+"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "jack_mini_trs",
+            "name": "MIDI sync out"
+          },
+          {
+            "model": "jack_mini_trs",
+            "name": "Phones out"
+          }
+        ]
+      },
+      {
+        "vendor": "Pnkight",
+        "model": "Artnet DMX CR011R",
+        "category": "light",
+        "inputs": [
+          {
+            "model": "usb_type_c",
+            "name": "Power 5V"
+          },
+          {
+            "model": "ethernet",
+            "name": "Artnet in/out"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "xlr",
+            "name": "DMX in/out"
+          }
+        ]
+      },
+      {
+        "vendor": "",
+        "model": "DiBox",
+        "inputs": [
+          {
+            "model": "jack_ts",
+            "name": "Unbalanced input"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Balanced output"
+          }
+        ]
+      },
+      {
+        "vendor": "",
+        "model": "Stereo DiBox",
+        "inputs": [
+          {
+            "model": "jack_ts",
+            "name": "Unbalanced input"
+          },
+          {
+            "model": "jack_ts",
+            "name": "Unbalanced input"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Balanced output"
+          },
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Balanced output"
+          }
+        ]
+      },
+      {
+        "vendor": "Behringer",
+        "model": "Ultra-DI DI20",
+        "battery-type": "krona",
+        "battery-count": 1,
+        "inputs": [
+          {
+            "model": "jack_trs",
+            "name": "CH1 IN (BAL/UNBAL)"
+          },
+          {
+            "model": "jack_trs",
+            "name": "CH2 IN (BAL/UNBAL)"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "CH 1 OUT"
+          },
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "CH 2 OUT"
+          }
+        ]
+      },
+      {
+        "title": "Headphones (DIN)",
+        "title-ru": "Наушники (DIN)",
+        "image": "phones_1",
+        "inputs": [
+          {
+            "model": "din_5",
+            "socket": "male",
+            "plug-cord": true
+          }
+        ]
+      },
+      {
+        "model": "PT 40 mini PRO",
+        "vendor": "AKG",
+        "title": "AKG mini PRO Transmitter",
+        "title-ru": "AKG mini PRO Передатчик",
+        "tooltip": "660.700 MHz",
+        "image": "body_pack_1",
+        "zoom": 0.3,
+        "battery-type": "aa",
+        "battery-count": 1,
+        "inputs": [
+          {
+            "model": "xlr_mini",
+            "socket": "female",
+            "visible": false
+          }
+        ]
+      },
+      {
+        "model": "SR 40 mini PRO",
+        "vendor": "AKG",
+        "title": "AKG mini PRO Receiver",
+        "title-ru": "AKG mini PRO Приёмник",
+        "tooltip": "660.700 MHz",
+        "image": "akg_sr40_mini_pro",
+        "zoom": 0.8,
+        "inputs": [
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "+12V 300ma, DC only",
+            "power": "+"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "jack_trs",
+            "name": "AUDIO OUT (balanced)"
+          }
+        ]
+      },
+      {
+        "model": "FS22",
+        "vendor": "Flamma",
+        "title": "Flamma EKOVERB",
+        "image": "guitar_pedal_1",
+        "zoom": 0.75,
+        "inputs": [
+          {
+            "model": "jack_ts",
+            "name": "INPUT-R"
+          },
+          {
+            "model": "jack_ts",
+            "name": "INPUT-L (MONO)"
+          },
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "DC (-)9V 300ma",
+            "power": "-"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "jack_ts",
+            "name": "OUTPUT-R"
+          },
+          {
+            "model": "jack_ts",
+            "name": "OUTPUT-L (MONO)"
+          }
+        ]
+      },
+      {
+        "model": "Soul Press II",
+        "vendor": "Hotone",
+        "title": "Hotone Expression Pedal",
+        "image": "guitar_pedal_2",
+        "zoom": 0.75,
+        "inputs": [
+          {
+            "model": "jack_ts",
+            "name": "INPUT"
+          },
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "DC (-)9V 300ma",
+            "power": "-"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "jack_ts",
+            "name": "EXP OUT"
+          },
+          {
+            "model": "jack_ts",
+            "name": "OUTPUT"
+          },
+          {
+            "model": "jack_ts",
+            "name": "TUNER OUT"
+          }
+        ]
+      },
+      {
+        "model": "XTone Pro",
+        "vendor": "XSonic",
+        "inputs": [
+          {
+            "model": "xlr_jack",
+            "name": "In Right",
+            "phantom": true
+          },
+          {
+            "model": "jack_ts",
+            "name": "In Left"
+          },
+          {
+            "model": "jack_trs",
+            "name": "EXP"
+          },
+          {
+            "model": "midi",
+            "name": "IN"
+          },
+          {
+            "model": "usb_b"
+          },
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "DC (-)9V",
+            "power": "-"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "jack_trs",
+            "name": "L"
+          },
+          {
+            "model": "jack_trs",
+            "name": "R"
+          },
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "XLR"
+          },
+          {
+            "model": "jack_mini_trs",
+            "name": "phones"
+          },
+          {
+            "model": "midi",
+            "name": "OUT"
+          }
+        ]
+      },
+      {
+        "model": "PM1",
+        "vendor": "Behringer",
+        "title": "Behringer PM1 Personal monitoring",
+        "title-ru": "Behringer PM1 Персональный мониторинг",
+        "inputs": [
+          {
+            "model": "xlr"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "jack_mini_trs"
+          }
+        ]
+      },
+      {
+        "model": "Mini Converter",
+        "vendor": "Wiistar",
+        "title": "HDMI to SDI",
+        "inputs": [
+          {
+            "model": "hdmi",
+            "name": "HDMI in"
+          },
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "DC 5~12V"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "bnc",
+            "name": "SDI out 1"
+          },
+          {
+            "model": "bnc",
+            "name": "SDI out 2"
+          }
+        ]
+      },
+      {
+        "model": "MPC-10",
+        "vendor": "DOREMiDi",
+        "title": "Midi Pedal Converter",
+        "inputs": [
+          {
+            "model": "jack_trs",
+            "name": "EXP1"
+          },
+          {
+            "model": "jack_trs",
+            "name": "EXP2"
+          },
+          {
+            "model": "usb_type_c"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "jack_mini_trs",
+            "name": "MIDI out"
+          }
+        ]
+      },
+      {
+        "model": "FC-ONE",
+        "vendor": "DOREMiDi",
+        "title": "MIDI Foot Controller FC-ONE",
+        "inputs": [
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "(-)9V",
+            "power": "-"
+          },
+          {
+            "model": "usb_type_c"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "jack_mini_trs",
+            "name": "MIDI out"
+          }
+        ]
+      },
+      {
+        "model": "B29L",
+        "vendor": "AKG",
+        "title": "Battery Power Supply",
+        "battery-type": "krona",
+        "battery-count": 1,
+        "inputs": [
+          {
+            "model": "xlr_mini",
+            "socket": "male",
+            "name": "IN L"
+          },
+          {
+            "model": "xlr_mini",
+            "socket": "male",
+            "name": "IN R"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "xlr",
+            "socket": "male"
+          }
+        ]
+      },
+      {
+        "model": "FW5685",
+        "vendor": "FeelWorld",
+        "title": "Field Monitor",
+        "image": "monitor_1",
+        "battery-type": "krona",
+        "battery-count": 0,
+        "zoom": 0.7,
+        "inputs": [
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "DC in (+)12V",
+            "power": "+"
+          },
+          {
+            "model": "bnc",
+            "name": "SDI in"
+          },
+          {
+            "model": "hdmi",
+            "name": "HDMI IN"
+          },
+          {
+            "model": "usb_type_c"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "DC out (+)8V",
+            "power": "+"
+          },
+          {
+            "model": "jack_mini_trs",
+            "name": "Phones"
+          },
+          {
+            "model": "bnc",
+            "name": "SDI out"
+          },
+          {
+            "model": "hdmi",
+            "name": "HDMI out"
+          }
+        ]
+      }
+    ],
+    "instruments": [
+      {
+        "title": "Violin",
+        "title-ru": "Скрипка",
+        "image": "violin_1"
+      },
+      {
+        "title": "Viola",
+        "title-ru": "Альт",
+        "image": "violin_1",
+        "zoom": 1.25
+      },
+      {
+        "title": "Cello",
+        "title-ru": "Виолончель",
+        "image": "cello_1"
+      },
+      {
+        "title": "Piano",
+        "title-ru": "Фортепиано",
+        "image": "piano_1",
+        "zoom": 2
+      },
+      {
+        "title": "Balalaika",
+        "title-ru": "Балалайка",
+        "image": "balalaika_1",
+        "zoom": 0.75
+      },
+      {
+        "title": "Harp",
+        "title-ru": "Арфа",
+        "image": "harp_1",
+        "zoom": 1.5
+      },
+      {
+        "title": "French Horn",
+        "title-ru": "Валторна",
+        "image": "french_horn_1"
+      },
+      {
+        "title": "Trumpet",
+        "title-ru": "Труба",
+        "image": "trumpet_1"
+      },
+      {
+        "title": "Accordion",
+        "title-ru": "Аккордеон",
+        "image": "accordion_1"
+      },
+      {
+        "title": "Bass guitar",
+        "title-ru": "Бас-гитара",
+        "image": "bass_guitar_1",
+        "outputs": [
+          {
+            "model": "jack_ts"
+          }
+        ]
+      },
+      {
+        "title": "Gong",
+        "title-ru": "Гонг",
+        "image": "gong_1"
+      },
+      {
+        "title": "Congas",
+        "title-ru": "Конги",
+        "image": "congas_1",
+        "zoom": 0.5
+      },
+      {
+        "title": "Drum Set",
+        "title-ru": "Ударная установка",
+        "image": "drum_set_1"
+      },
+      {
+        "title": "Xylophone",
+        "title-ru": "Ксилофон",
+        "image": "xylophone_1"
+      },
+      {
+        "title": "Tuba",
+        "title-ru": "Туба",
+        "image": "tuba_1"
+      },
+      {
+        "title": "Oboe",
+        "title-ru": "Гобой",
+        "image": "oboe_1",
+        "zoom": 0.75
+      },
+      {
+        "title": "English Horn",
+        "title-ru": "Английский Рожок",
+        "image": "oboe_2",
+        "zoom": 0.9
+      },
+      {
+        "title": "Trombone",
+        "title-ru": "Тромбон",
+        "image": "trombone_1",
+        "zoom": 1.2
+      },
+      {
+        "title": "Banjo",
+        "title-ru": "Банджо",
+        "image": "banjo_1",
+        "zoom": 1
+      }
+    ],
+    "sends": [
+      {
+        "title": "Send stereo",
+        "inputs": [
+          {
+            "model": "xlr",
+            "name": "Send #1",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "name": "Send #2",
+            "phantom": true
+          }
+        ]
+      },
+      {
+        "title": "Send 4-ch",
+        "inputs": [
+          {
+            "model": "xlr",
+            "name": "Send #1",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "name": "Send #2",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "name": "Send #3",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "name": "Send #4",
+            "phantom": true
+          }
+        ]
+      },
+      {
+        "title": "Send 8-ch",
+        "inputs": [
+          {
+            "model": "xlr",
+            "name": "Send #1",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "name": "Send #2",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "name": "Send #3",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "name": "Send #4",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "name": "Send #5",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "name": "Send #6",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "name": "Send #7",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "name": "Send #8",
+            "phantom": true
+          }
+        ]
+      },
+      {
+        "title": "Send 16-ch",
+        "inputs": [
+          {
+            "model": "xlr",
+            "name": "Send #1",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "name": "Send #2",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "name": "Send #3",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "name": "Send #4",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "name": "Send #5",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "name": "Send #6",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "name": "Send #7",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "name": "Send #8",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "name": "Send #9",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "name": "Send #10",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "name": "Send #11",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "name": "Send #12",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "name": "Send #13",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "name": "Send #14",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "name": "Send #15",
+            "phantom": true
+          },
+          {
+            "model": "xlr",
+            "name": "Send #16",
+            "phantom": true
+          }
+        ]
+      }
+    ],
+    "returns": [
+      {
+        "title": "Return mono",
+        "outputs": [
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Return #1"
+          }
+        ]
+      },
+      {
+        "title": "Return stereo",
+        "outputs": [
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Return #1"
+          },
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Return #2"
+          }
+        ]
+      },
+      {
+        "title": "Return 4-ch",
+        "outputs": [
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Return #1"
+          },
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Return #2"
+          },
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Return #3"
+          },
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Return #4"
+          }
+        ]
+      },
+      {
+        "title": "Return 8-ch",
+        "outputs": [
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Return #1"
+          },
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Return #2"
+          },
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Return #3"
+          },
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Return #4"
+          },
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Return #5"
+          },
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Return #6"
+          },
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Return #7"
+          },
+          {
+            "model": "xlr",
+            "socket": "male",
+            "name": "Return #8"
+          }
+        ]
+      }
+    ],
+    "furniture": [
+      {
+        "title": "Pocket music stand",
+        "title-ru": "Пюпитр складной",
+        "image": "music_stand_1"
+      },
+      {
+        "title": "Steady music stand",
+        "title-ru": "Пюпитр устойчивый",
+        "image": "music_stand_2"
+      },
+      {
+        "title": "Pocket music stand low",
+        "title-ru": "Пюпитр складной низкий",
+        "image": "music_stand_low_1"
+      },
+      {
+        "title": "Steady music stand low",
+        "title-ru": "Пюпитр устойчивый низкий",
+        "image": "music_stand_low_2"
+      },
+      {
+        "title": "Chair",
+        "title-ru": "Стул",
+        "image": "chair_1",
+        "zoom": 0.7
+      },
+      {
+        "title": "Table",
+        "title-ru": "Стол",
+        "image": "table_1",
+        "zoom": 1.25
+      },
+      {
+        "title": "Stage",
+        "title-ru": "Сцена",
+        "image": "stage_1",
+        "zoom": 1.5
+      }
+    ],
+    "humans": [
+      {
+        "title": "Cello player",
+        "title-ru": "Виолончелист",
+        "image": "human_cello_2"
+      },
+      {
+        "title": "Cembalo player",
+        "image": "human_piano_1"
+      },
+      {
+        "title": "Violin player",
+        "title-ru": "Скрипач",
+        "image": "human_violin_2"
+      },
+      {
+        "title": "Viola player",
+        "title-ru": "Альтист",
+        "image": "human_viola_1"
+      },
+      {
+        "title": "Balalaika player",
+        "title-ru": "Балалаешник",
+        "image": "human_balalaika_1"
+      },
+      {
+        "title": "Balalaika Bass player",
+        "title-ru": "Бас-балалаешник",
+        "image": "human_balalaika_bass"
+      },
+      {
+        "title": "Accordion player",
+        "title-ru": "Баянист",
+        "image": "human_accordion_1"
+      },
+      {
+        "title": "Trumpet player",
+        "title-ru": "Трубач",
+        "image": "human_trumpet_1"
+      },
+      {
+        "title": "Oboe player",
+        "title-ru": "Гобоист",
+        "image": "human_oboe_1"
+      },
+      {
+        "title": "Flute player",
+        "title-ru": "Флейтист",
+        "image": "human_flute_1"
+      },
+      {
+        "title": "Clarinet player",
+        "title-ru": "Кларнетист",
+        "image": "human_clarinet_1"
+      },
+      {
+        "title": "Dj",
+        "image": "human_dj_1"
+      },
+      {
+        "title": "Conductor",
+        "title-ru": "Дирижёр",
+        "image": "human_conductor_1"
+      },
+      {
+        "title": "Acoustic guitar player",
+        "title-ru": "Гитарист (акустика)",
+        "image": "human_guitar_1"
+      }
+    ]
+  }
 }
