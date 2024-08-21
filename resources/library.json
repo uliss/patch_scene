@@ -1406,6 +1406,18 @@
                 "title": "Steady music stand low",
                 "title-ru": "Пюпитр устойчивый низкий",
                 "image": "music_stand_low_2"
+            },
+            {
+                "title": "Chair",
+                "title-ru": "Стул",
+                "image": "chair_1",
+                "zoom": 0.7
+            },
+            {
+                "title": "Table",
+                "title-ru": "Стол",
+                "image": "table_1",
+                "zoom": 1.25
             }
         ],
         "humans": [
