@@ -2457,6 +2457,11 @@
                 "image": "human_dj_1"
             },
             {
+                "title": "Conductor",
+                "title-ru": "Дирижёр",
+                "image": "human_conductor_1"
+            },
+            {
                 "title": "Acoustic guitar player",
                 "title-ru": "Гитарист (акустика)",
                 "image": "human_guitar_1"

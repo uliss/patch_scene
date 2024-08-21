@@ -130,5 +130,6 @@
         <file>devices/audio_recorder_1.svg</file>
         <file>connectors/jack_micro_socket.svg</file>
         <file>devices/human_oboe_1.svg</file>
+        <file>devices/human_conductor_1.svg</file>
     </qresource>
 </RCC>
