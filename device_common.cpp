@@ -215,7 +215,7 @@ bool DeviceData::setJson(const QJsonValue& v)
         return false;
 
     if (!v.isObject()) {
-        qWarning() << __FILE_NAME__ << __FUNCTION__ << "json object expected, got:" << v;
+        qWarning() << __FILE__ << __FUNCTION__ << "json object expected, got:" << v;
         return false;
     }
 
@@ -353,7 +353,7 @@ bool DeviceData::setXletJson(const QJsonValue& v, QList<XletData>& xlets)
         return false;
 
     if (!v.isArray()) {
-        qWarning() << __FILE_NAME__ << __FUNCTION__ << "json array expected, got:" << v;
+        qWarning() << __FILE__ << __FUNCTION__ << "json array expected, got:" << v;
         return false;
     }
 

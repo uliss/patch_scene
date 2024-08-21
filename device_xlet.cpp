@@ -37,6 +37,7 @@ QString xlet_icon_path(ConnectorModel model, ConnectorType type)
         return QString(":/connectors/%1_socket.svg").arg(connectorSvgName(model));
     case ConnectorType::Plug_Male:
     case ConnectorType::Plug_Female:
+    default:
         return {};
     }
 }
@@ -96,7 +97,7 @@ QJsonObject XletData::toJson() const
 bool XletData::fromJson(const QJsonValue& j, XletData& data)
 {
     if (!j.isObject()) {
-        qWarning() << __FILE_NAME__ << __FUNCTION__ << "json object expected, got:" << j;
+        qWarning() << __FILE__ << __FUNCTION__ << "json object expected, got:" << j;
         return false;
     }
 

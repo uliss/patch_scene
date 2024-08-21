@@ -169,7 +169,7 @@ std::unique_ptr<DiagramImage> DiagramImage::fromJson(const QJsonValue& v)
     if (type == JSON_PIXMAP) {
         auto data = obj.value(JSON_KEY_DATA);
         if (!data.isString()) {
-            qWarning() << __FILE_NAME__ << __FUNCTION__ << "data key expected";
+            qWarning() << __FILE__ << __FUNCTION__ << "data key expected";
             return {};
         }
 
@@ -181,24 +181,24 @@ std::unique_ptr<DiagramImage> DiagramImage::fromJson(const QJsonValue& v)
     } else if (type == JSON_SVG) {
         auto data = obj.value(JSON_KEY_DATA);
         if (!data.isString()) {
-            qWarning() << __FILE_NAME__ << __FUNCTION__ << "data key expected";
+            qWarning() << __FILE__ << __FUNCTION__ << "data key expected";
             return {};
         }
 
         auto compressed_data = QByteArray::fromBase64(data.toString().toLatin1());
         if (compressed_data.isEmpty()) {
-            qWarning() << __FILE_NAME__ << __FUNCTION__ << "invalid SVG compressed data";
+            qWarning() << __FILE__ << __FUNCTION__ << "invalid SVG compressed data";
             return {};
         }
 
         QTemporaryFile tmp;
         if (!tmp.open()) {
-            qWarning() << __FILE_NAME__ << __FUNCTION__ << "can't open tmp SVG file";
+            qWarning() << __FILE__ << __FUNCTION__ << "can't open tmp SVG file";
             return {};
         }
         auto nbytes = tmp.write(qUncompress(compressed_data));
         if (nbytes <= 0) {
-            qWarning() << __FILE_NAME__ << __FUNCTION__ << "can't write to tmp SVG file";
+            qWarning() << __FILE__ << __FUNCTION__ << "can't write to tmp SVG file";
             return {};
         }
         tmp.flush();

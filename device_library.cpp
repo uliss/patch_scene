@@ -87,7 +87,7 @@ bool DeviceLibrary::readItems(const QJsonValue& value, QList<SharedDeviceData>& 
         return false;
 
     if (!value.isArray()) {
-        qWarning() << __FILE_NAME__ << __FUNCTION__ << "json array expected, got:" << value;
+        qWarning() << __FILE__ << __FUNCTION__ << "json array expected, got:" << value;
         return false;
     }
 
