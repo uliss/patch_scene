@@ -985,6 +985,48 @@
                 ]
             },
             {
+                "vendor": "Phenyx Pro",
+                "model": "PTM-10",
+                "image": "radio_system_uhf_1",
+                "zoom": 0.75,
+                "inputs": [
+                    {
+                        "model": "xlr_jack",
+                        "name": "Left"
+                    },
+                    {
+                        "model": "xlr_jack",
+                        "name": "Right (mono)"
+                    },
+                    {
+                        "model": "power_dc_5.5x2.1",
+                        "name": "DC (+)12..18V 300mA"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "jack_trs",
+                        "name": "Phones"
+                    },
+                    {
+                        "model": "bnc",
+                        "name": "Antenna"
+                    }
+                ]
+            },
+            {
+                "vendor": "Phenyx Pro",
+                "model": "UHF Bodypack",
+                "image": "body_pack_1",
+                "zoom": 0.75,
+                "outputs": [
+                    {
+                        "model": "jack_mini_trs",
+                        "name": "Phones"
+                    }
+                ]
+            },
+            {
                 "vendor": "",
                 "model": "Floor speaker R",
                 "category": "audio",
