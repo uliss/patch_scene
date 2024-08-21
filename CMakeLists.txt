@@ -173,3 +173,17 @@ if(APPLE)
         )
     endif()
 endif()
+
+if(WIN32)
+    install(TARGETS patch_scene
+        BUNDLE  DESTINATION .
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    )
+
+    qt6_generate_deploy_app_script(
+        TARGET patch_scene
+        OUTPUT_SCRIPT deploy_script
+        NO_UNSUPPORTED_PLATFORM_ERROR
+    )
+    install(SCRIPT ${deploy_script})
+endif()
