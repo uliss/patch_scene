@@ -50,6 +50,20 @@
                 ]
             },
             {
+                "model": "MidiXchange",
+                "vendor": "Rocktron",
+                "battery-type": "krona",
+                "battery-count": 1,
+                "inputs": [
+                    { "model": "power_dc_5.5x2.1", "name": "9V AC/DC" },
+                    { "model": "jack_ts", "name": "CC7" },
+                    { "model": "jack_ts", "name": "CC17" }
+                ],
+                "outputs": [
+                    { "model": "midi", "name": "MIDI out" }
+                ]
+            },
+            {
                 "title": "MIDI router",
                 "title-ru": "MIDI роутер",
                 "vendor": "MVR electronic",
