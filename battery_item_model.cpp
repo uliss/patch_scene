@@ -30,13 +30,15 @@ BatteryItemModel::BatteryItemModel(QObject* parent)
     proxy_->setSourceModel(this);
 }
 
-void BatteryItemModel::addDeviceData(const SharedDeviceData& data)
+bool BatteryItemModel::addDeviceData(const SharedDeviceData& data)
 {
     if (!data || data->batteryCount() == 0)
-        return;
+        return false;
 
     batteries_[data->batteryType()] += data->batteryCount();
     updateData();
+
+    return true;
 }
 
 void BatteryItemModel::removeDeviceData(const SharedDeviceData& data)

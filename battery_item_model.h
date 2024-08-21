@@ -27,7 +27,7 @@ class BatteryItemModel : public QStandardItemModel {
 public:
     explicit BatteryItemModel(QObject* parent = nullptr);
 
-    void addDeviceData(const SharedDeviceData& data);
+    bool addDeviceData(const SharedDeviceData& data);
     void removeDeviceData(const SharedDeviceData& data);
     void updateDeviceData(const BatteryChange& data);
 

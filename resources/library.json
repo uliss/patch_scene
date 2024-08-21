@@ -1162,6 +1162,31 @@
                         "name": "MIDI out"
                     }
                 ]
+            },
+            {
+                "model": "B29L",
+                "vendor": "AKG",
+                "title": "Battery Power Supply",
+                "battery-type": "krona",
+                "battery-count": 1,
+                "inputs": [
+                    {
+                        "model": "xlr_mini",
+                        "socket": "male",
+                        "name": "IN L"
+                    },
+                    {
+                        "model": "xlr_mini",
+                        "socket": "male",
+                        "name": "IN R"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "xlr",
+                        "socket": "male"
+                    }
+                ]
             }
         ],
         "instruments": [

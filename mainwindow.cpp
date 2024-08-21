@@ -426,7 +426,8 @@ void MainWindow::onDeviceAdd(SharedDeviceData data)
     if (device_model_->addDevice(data))
         ui->deviceList->resizeColumnsToContents();
 
-    battery_model_->addDeviceData(data);
+    if (battery_model_->addDeviceData(data))
+        ui->batteryList->resizeColumnToContents(0);
 
     if (furniture_model_->addFurniture(data))
         ui->furnitureList->resizeColumnToContents(0);
