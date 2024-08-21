@@ -702,6 +702,38 @@
                 ]
             },
             {
+                "vendor": "Meris",
+                "model": "Ottobit",
+                "category": "guitar",
+                "image": "guitar_pedal_1",
+                "zoom": 0.5,
+                "outputs": [
+                    {
+                        "model": "jack_ts",
+                        "name": "Left"
+                    },
+                    {
+                        "model": "jack_ts",
+                        "name": "Right"
+                    }
+                ],
+                "inputs": [
+                    {
+                        "model": "jack_ts",
+                        "name": "INPUT"
+                    },
+                    {
+                        "model": "jack_trs",
+                        "name": "EXP/MIDI"
+                    },
+                    {
+                        "model": "power_dc_5.5x2.1",
+                        "power": "-",
+                        "name": "DC 9V"
+                    }
+                ]
+            },
+            {
                 "vendor": "Midas",
                 "model": "Air MR18",
                 "category": "audio",
