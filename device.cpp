@@ -303,7 +303,7 @@ void Device::paintInlets(QPainter* painter)
             painter->drawRect(powerRectInlet(pos, 0));
             break;
         case PowerType::AC:
-            painter->setBrush(Qt::darkYellow);
+            painter->setBrush(QColor(255, 127, 0));
             painter->setPen(Qt::NoPen);
             painter->drawRect(powerRectInlet(pos, 0));
             break;
@@ -357,7 +357,7 @@ void Device::paintOutlets(QPainter* painter)
             painter->drawRect(powerRectOutlet(pos, 0));
             break;
         case PowerType::AC:
-            painter->setBrush(Qt::darkYellow);
+            painter->setBrush(QColor(255, 127, 0));
             painter->setPen(Qt::NoPen);
             painter->drawRect(powerRectOutlet(pos, 0));
             break;

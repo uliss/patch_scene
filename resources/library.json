@@ -283,7 +283,8 @@
                     {
                         "model": "power_iec_c_13_14",
                         "socket": "male",
-                        "name": "Power plug 220V"
+                        "name": "Power plug 220V",
+                        "power": "~"
                     }
                 ],
                 "outputs": [
@@ -684,6 +685,8 @@
                 "model": "Gameboy",
                 "category": "audio",
                 "image": "gameboy_1",
+                "battery-type": "aa",
+                "battery-count": 4,
                 "zoom": 0.5,
                 "outputs": [
                     {
@@ -804,7 +807,8 @@
                     {
                         "model": "power_iec_c_13_14",
                         "socket": "male",
-                        "name": "Power plug 220V"
+                        "name": "Power plug 220V",
+                        "power": "~"
                     }
                 ],
                 "outputs": [
@@ -949,23 +953,28 @@
                 "outputs": [
                     {
                         "model": "power_schuko",
-                        "name": "220V"
+                        "name": "220V",
+                        "power": "~"
                     },
                     {
                         "model": "power_schuko",
-                        "name": "220V"
+                        "name": "220V",
+                        "power": "~"
                     },
                     {
                         "model": "power_schuko",
-                        "name": "220V"
+                        "name": "220V",
+                        "power": "~"
                     },
                     {
                         "model": "power_schuko",
-                        "name": "220V"
+                        "name": "220V",
+                        "power": "~"
                     },
                     {
                         "model": "power_schuko",
-                        "name": "220V"
+                        "name": "220V",
+                        "power": "~"
                     }
                 ]
             },
@@ -976,15 +985,18 @@
                 "outputs": [
                     {
                         "model": "power_schuko",
-                        "name": "220V"
+                        "name": "220V",
+                        "power": "~"
                     },
                     {
                         "model": "power_schuko",
-                        "name": "220V"
+                        "name": "220V",
+                        "power": "~"
                     },
                     {
                         "model": "power_schuko",
-                        "name": "220V"
+                        "name": "220V",
+                        "power": "~"
                     }
                 ]
             },
@@ -1387,6 +1399,8 @@
             {
                 "vendor": "Behringer",
                 "model": "Ultra-DI DI20",
+                "battery-type": "krona",
+                "battery-count": 1,
                 "inputs": [
                     {
                         "model": "jack_trs",
