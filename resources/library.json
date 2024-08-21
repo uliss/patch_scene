@@ -1546,6 +1546,11 @@
                 "title": "Xylophone",
                 "title-ru": "Ксилофон",
                 "image": "xylophone_1"
+            },
+            {
+                "title": "Tuba",
+                "title-ru": "Туба",
+                "image": "tuba_1"
             }
         ],
         "sends": [

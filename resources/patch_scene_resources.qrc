@@ -114,5 +114,6 @@
         <file>devices/guitar_pedal_2.svg</file>
         <file>devices/guitar_pedal_1.svg</file>
         <file>devices/xylophone_1.svg</file>
+        <file>devices/tuba_1.svg</file>
     </qresource>
 </RCC>
