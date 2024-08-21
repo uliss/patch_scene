@@ -230,6 +230,8 @@ private:
     QList<DeviceId> allDeviceIds() const;
     void clearAll();
 
+    void wheelEvent(QWheelEvent* event) final;
+
 #ifdef __MACH__
     bool viewportEvent(QEvent* event) override;
 #endif

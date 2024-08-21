@@ -690,6 +690,21 @@ void Diagram::clearAll()
     emit sceneClearAll();
 }
 
+void Diagram::wheelEvent(QWheelEvent* event)
+{
+    if (event->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier)) {
+        int angle = event->angleDelta().y();
+        qreal factor = 1;
+        if (angle > 0) {
+            factor = 1.01;
+        } else {
+            factor = 0.99;
+        }
+        updateZoom(zoom_ * factor);
+    } else
+        QGraphicsView::wheelEvent(event);
+}
+
 QJsonObject Diagram::toJson() const
 {
     QJsonObject json;
