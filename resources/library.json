@@ -137,11 +137,24 @@
                 "title": "Phones in-ear",
                 "title-ru": "Наушники внутриканальные",
                 "image": "phones_3",
-                "zoom": 0.5,
+                "zoom": 0.3,
                 "show-title": false,
-                "outputs": [
+                "inputs": [
                     {
                         "model": "jack_mini_trs",
+                        "socket": "plug_male"
+                    }
+                ]
+            },
+            {
+                "title": "Phones Jack",
+                "title-ru": "Наушники Jack",
+                "image": "phones_2",
+                "zoom": 0.6,
+                "show-title": false,
+                "inputs": [
+                    {
+                        "model": "jack_trs",
                         "socket": "plug_male"
                     }
                 ]
