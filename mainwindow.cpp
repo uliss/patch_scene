@@ -222,6 +222,7 @@ void MainWindow::initLibrarySearch()
 
 #ifdef Q_OS_DARWIN
     {
+        ui->librarySearch->setMaximumHeight(17);
         auto font = ui->librarySearch->font();
         font.setPointSize(font.pointSize() - 2);
         ui->librarySearch->setFont(font);
