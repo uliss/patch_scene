@@ -59,6 +59,7 @@ MainWindow::MainWindow(QWidget* parent)
     initBatteryList();
     initSendList();
     initReturnList();
+    initFurnitureList();
 
     setupExpandButton(ui->deviceListBtn, ui->deviceList, ui->deviceListLine);
     setupExpandButton(ui->connectionListBtn, ui->connectionList, ui->connectionListLine);
@@ -297,7 +298,7 @@ void MainWindow::initFurnitureList()
     furniture_model_ = new FurnitureItemModel(this);
 
     QSignalBlocker sb(ui->furnitureList);
-    ui->furnitureList->setModel(furniture_model_);
+    ui->furnitureList->setModel(furniture_model_->proxyModel());
     ui->furnitureList->setSortingEnabled(true);
     ui->furnitureList->sortByColumn(0, Qt::AscendingOrder);
 
@@ -426,7 +427,9 @@ void MainWindow::onDeviceAdd(SharedDeviceData data)
         ui->deviceList->resizeColumnsToContents();
 
     battery_model_->addDeviceData(data);
-    furniture_model_->addFurniture(data);
+
+    if (furniture_model_->addFurniture(data))
+        ui->furnitureList->resizeColumnToContents(0);
 }
 
 void MainWindow::onDeviceRemove(SharedDeviceData data)
@@ -435,7 +438,9 @@ void MainWindow::onDeviceRemove(SharedDeviceData data)
         ui->deviceList->resizeColumnsToContents();
 
     battery_model_->removeDeviceData(data);
-    furniture_model_->removeFurniture(data);
+
+    if (furniture_model_->removeFurniture(data))
+        ui->furnitureList->resizeColumnToContents(0);
 }
 
 void MainWindow::onDeviceTitleUpdate(DeviceId id, const QString& title)

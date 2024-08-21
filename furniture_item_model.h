@@ -16,6 +16,7 @@
 
 #include "device_common.h"
 
+#include <QSortFilterProxyModel>
 #include <QStandardItemModel>
 
 namespace ceam {
@@ -28,8 +29,14 @@ public:
     bool addFurniture(const SharedDeviceData& data);
     bool removeFurniture(const SharedDeviceData& data);
 
+    QSortFilterProxyModel* proxyModel() { return proxy_; }
+
 private:
     QMap<size_t, std::pair<QString, int>> furniture_map_;
+    QSortFilterProxyModel* proxy_;
+
+private:
+    void updateData();
 };
 
 }
