@@ -123,5 +123,6 @@
         <file>connectors/jack_mini_plug_male.svg</file>
         <file>connectors/jack_plug_male.svg</file>
         <file>devices/phones_2.svg</file>
+        <file>connectors/usb_micro_a_socket.svg</file>
     </qresource>
 </RCC>

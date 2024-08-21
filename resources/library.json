@@ -653,12 +653,22 @@
             {
                 "vendor": "Novation",
                 "model": "LaunchPad mini",
-                "title": "LaunchPad mini",
                 "category": "midi",
                 "image": "novation_launchpad_mini",
-                "inputs": [
+                "outputs": [
                     {
                         "model": "usb_type_c"
+                    }
+                ]
+            },
+            {
+                "vendor": "Novation",
+                "model": "LaunchKey mini",
+                "category": "midi",
+                "image": "synth_2",
+                "outputs": [
+                    {
+                        "model": "usb_micro_a"
                     }
                 ]
             },
@@ -836,7 +846,7 @@
                 "model": "Nanokontrol 2",
                 "category": "midi",
                 "image": "midi_controller_mixer_1",
-                "inputs": [
+                "outputs": [
                     {
                         "model": "usb_mini_b"
                     }
@@ -850,9 +860,6 @@
                 "image": "piano_keyboard_1",
                 "inputs": [
                     {
-                        "model": "usb_b"
-                    },
-                    {
                         "model": "jack_ts",
                         "name": "Sustain pedal"
                     },
@@ -862,6 +869,9 @@
                     }
                 ],
                 "outputs": [
+                    {
+                        "model": "usb_b"
+                    },
                     {
                         "model": "jack_mini_trs",
                         "socket": "female",
