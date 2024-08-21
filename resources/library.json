@@ -56,11 +56,25 @@
                 "battery-count": 1,
                 "inputs": [
                     { "model": "power_dc_5.5x2.1", "name": "9V AC/DC" },
-                    { "model": "jack_ts", "name": "CC7" },
-                    { "model": "jack_ts", "name": "CC17" }
+                    { "model": "jack_trs", "name": "CC7" },
+                    { "model": "jack_trs", "name": "CC17" }
                 ],
                 "outputs": [
                     { "model": "midi", "name": "MIDI out" }
+                ]
+            },
+            {
+                "model": "Ampero Control",
+                "vendor": "Hotone",
+                "inputs": [
+                    { "model": "power_dc_5.5x2.1", "name": "DC (-)9..18V" },
+                    { "model": "midi", "name": "MIDI in" },
+                    { "model": "jack_trs", "name": "EXP 1" },
+                    { "model": "jack_trs", "name": "EXP 2" }
+                ],
+                "outputs": [
+                    { "model": "midi", "name": "MIDI out/thru" },
+                    { "model": "usb_b" }
                 ]
             },
             {
@@ -1188,9 +1202,9 @@
             },
             {
                 "model": "PM1",
-                "vendor": "Berhinger",
-                "title": "Berhinger PM1 Personal monitoring",
-                "title-ru": "Berhinger PM1 Персональный мониторинг",
+                "vendor": "Behringer",
+                "title": "Behringer PM1 Personal monitoring",
+                "title-ru": "Behringer PM1 Персональный мониторинг",
                 "inputs": [
                     {
                         "model": "xlr"
