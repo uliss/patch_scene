@@ -1872,6 +1872,12 @@
                 "title-ru": "Стол",
                 "image": "table_1",
                 "zoom": 1.25
+            },
+            {
+                "title": "Stage",
+                "title-ru": "Сцена",
+                "image": "stage_1",
+                "zoom": 1.5
             }
         ],
         "humans": [

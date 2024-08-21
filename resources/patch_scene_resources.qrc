@@ -118,5 +118,6 @@
         <file>devices/oboe_1.svg</file>
         <file>devices/oboe_2.svg</file>
         <file>devices/trombone_1.svg</file>
+        <file>devices/stage_1.svg</file>
     </qresource>
 </RCC>
