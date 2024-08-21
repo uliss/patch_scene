@@ -62,9 +62,14 @@ qt_add_executable(patch_scene
     ${PROJECT_SOURCES}
     ${app_icon_macos}
     about_window.h about_window.cpp about_window.ui
+    app_settings.h app_settings.cpp
+    application.h application.cpp
+    battery_item_model.h battery_item_model.cpp
     connection.h connection.cpp
+    connection_item_model.h connection_item_model.cpp
     device.h device.cpp
     device_common.h device_common.cpp
+    device_item_model.h device_item_model.cpp
     device_library.h device_library.cpp
     device_pixmap.h device_pixmap.cpp device_pixmap.ui
     device_xlet.h device_xlet.cpp
@@ -77,20 +82,15 @@ qt_add_executable(patch_scene
     diagram_state_machine.h diagram_state_machine.cpp
     export_document.h export_document.cpp
     favorites_widget.h favorites_widget.cpp
+    furniture_item_model.h furniture_item_model.cpp
     preferences_dialog.h preferences_dialog.cpp preferences_dialog.ui
     resources/patch_scene_resources.qrc
+    return_item_model.h return_item_model.cpp
+    send_item_model.h send_item_model.cpp
     socket.h socket.cpp
     tablecellcheckbox.h tablecellcheckbox.cpp
     tablecellconnector.h tablecellconnector.cpp
     undo_commands.h undo_commands.cpp
-    app_settings.h app_settings.cpp
-    device_item_model.h device_item_model.cpp
-    connection_item_model.h connection_item_model.cpp
-    send_item_model.h send_item_model.cpp
-    return_item_model.h return_item_model.cpp
-    battery_item_model.h battery_item_model.cpp
-    furniture_item_model.h furniture_item_model.cpp
-    application.h application.cpp
     #tests/test_device_data.h tests/test_device_data.cpp
 )
 
