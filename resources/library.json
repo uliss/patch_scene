@@ -872,6 +872,8 @@
                 "model": "Volca Bass",
                 "category": "computer",
                 "image": "synth_2",
+                "battery-type": "aa",
+                "battery-count": 6,
                 "inputs": [
                     {
                         "model": "midi",
@@ -902,6 +904,8 @@
                 "model": "Volca Keys",
                 "image": "synth_2",
                 "category": "computer",
+                "battery-type": "aa",
+                "battery-count": 6,
                 "inputs": [
                     {
                         "model": "midi",
@@ -932,6 +936,8 @@
                 "model": "Volca FM",
                 "image": "synth_2",
                 "category": "computer",
+                "battery-type": "aa",
+                "battery-count": 6,
                 "inputs": [
                     {
                         "model": "midi",
@@ -1151,6 +1157,26 @@
                     {
                         "model": "jack_trs",
                         "name": "EXP2"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "usb_type_c"
+                    },
+                    {
+                        "model": "jack_mini_trs",
+                        "name": "MIDI out"
+                    }
+                ]
+            },
+            {
+                "model": "FC-ONE",
+                "vendor": "DOREMiDi",
+                "title": "MIDI Foot Controller FC-ONE",
+                "inputs": [
+                    {
+                        "model": "power_dc_5.5x2.1",
+                        "name": "(-)9V"
                     }
                 ],
                 "outputs": [
