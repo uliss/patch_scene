@@ -49,12 +49,6 @@ PatchSceneApp::PatchSceneApp(int& argc, char** argv, int flags)
 
     parser.process(*this);
 
-    if (parser.isSet(verbose_opt)) {
-        QLoggingCategory::setFilterRules("*.info=true;");
-        QLoggingCategory::setFilterRules("qt*=false");
-    } else
-        QLoggingCategory::setFilterRules("*.info=false;");
-
     if (parser.isSet(debug_opt)) {
         QLoggingCategory::setFilterRules("*.debug=true");
         QLoggingCategory::setFilterRules("qt*=false");
@@ -78,6 +72,30 @@ PatchSceneApp::PatchSceneApp(int& argc, char** argv, int flags)
         if (installTranslator(&translator_))
             qDebug() << "app tr added:" << translator_.filePath() << translator_.language();
     }
+
+    qDebug() << "APP_DIR:       " << applicationDirPath();
+    qDebug() << "current cpu:   " << QSysInfo::currentCpuArchitecture();
+    qDebug() << "kernel type:   " << QSysInfo::kernelType();
+    qDebug() << "kernel version:" << QSysInfo::kernelVersion();
+    qDebug() << "Qt build:      " << QLibraryInfo::build();
+
+#define PRINT_QT_PATH(p)                                 \
+    {                                                    \
+        qDebug() << "Qt " #p ":"                         \
+                 << QLibraryInfo::path(QLibraryInfo::p); \
+    }
+
+    PRINT_QT_PATH(PrefixPath);
+    PRINT_QT_PATH(DocumentationPath);
+    PRINT_QT_PATH(HeadersPath);
+    PRINT_QT_PATH(LibrariesPath);
+    PRINT_QT_PATH(LibraryExecutablesPath);
+    PRINT_QT_PATH(BinariesPath);
+    PRINT_QT_PATH(PluginsPath);
+    PRINT_QT_PATH(ArchDataPath);
+    PRINT_QT_PATH(DataPath);
+    PRINT_QT_PATH(TranslationsPath);
+    PRINT_QT_PATH(SettingsPath);
 
     setWindowIcon(QIcon(":/app_icon.svg"));
     window_.reset(new MainWindow);
