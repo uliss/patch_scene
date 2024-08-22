@@ -785,11 +785,11 @@ void Diagram::mousePressEvent(QMouseEvent* event)
         if (device_found) {
             const auto xlet = hoverDeviceXlet(devs, event->pos());
 
-            if (xlet != XletInfo::none()) {
+            if (xlet) {
                 bool disconnect = event->modifiers().testFlag(Qt::AltModifier);
                 if (disconnect) {
                     state_machine_.setState(DiagramState::Init);
-                    cmdDisconnectXlet(xlet);
+                    cmdDisconnectXlet(xlet.value());
                 } else {
                     state_machine_.setState(DiagramState::ConnectDevice);
                     startConnectionAt(event->pos());
@@ -874,17 +874,17 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
         state_machine_.setState(DiagramState::Init);
 
         auto xlet = hoverDeviceXlet(items(event->pos()), event->pos());
-        if (xlet != XletInfo::none()) {
-            if (!isValidConnection(conn_start_, xlet))
+        if (xlet && conn_start_) {
+            if (!isValidConnection(conn_start_.value(), xlet.value()))
                 return;
 
-            if (xlet.type() == XletType::Out)
-                cmdConnectDevices(ConnectionData(xlet.id(), xlet.index(), conn_start_.id(), conn_start_.index()));
-            else if (xlet.type() == XletType::In)
-                cmdConnectDevices(ConnectionData(conn_start_.id(), conn_start_.index(), xlet.id(), xlet.index()));
+            if (xlet->type() == XletType::Out)
+                cmdConnectDevices(ConnectionData(xlet->id(), xlet->index(), conn_start_->id(), conn_start_->index()));
+            else if (xlet->type() == XletType::In)
+                cmdConnectDevices(ConnectionData(conn_start_->id(), conn_start_->index(), xlet->id(), xlet->index()));
         }
 
-        conn_start_ = XletInfo::none();
+        conn_start_ = {};
     } break;
     default:
         state_machine_.setState(DiagramState::Init);
@@ -1128,7 +1128,7 @@ void Diagram::selectTopDevice(const QList<QGraphicsItem*>& devs)
     cmdSelectUnique(dev->id());
 }
 
-XletInfo Diagram::hoverDeviceXlet(const QList<QGraphicsItem*>& devs, const QPoint& pt) const
+std::optional<XletInfo> Diagram::hoverDeviceXlet(const QList<QGraphicsItem*>& devs, const QPoint& pt) const
 {
     Device* dev = nullptr;
     for (auto x : devs) {
@@ -1138,19 +1138,19 @@ XletInfo Diagram::hoverDeviceXlet(const QList<QGraphicsItem*>& devs, const QPoin
     }
 
     if (!dev)
-        return XletInfo::none();
+        return {};
 
     auto in = dev->inletAt(mapToScene(pt));
     if (in >= 0) {
-        return { dev->id(), in, XletType::In };
+        return XletInfo { dev->id(), in, XletType::In };
     }
 
     auto out = dev->outletAt(mapToScene(pt));
     if (out >= 0) {
-        return { dev->id(), out, XletType::Out };
+        return XletInfo { dev->id(), out, XletType::Out };
     }
 
-    return XletInfo::none();
+    return {};
 }
 
 bool Diagram::connectDevices(const ConnectionData& data)

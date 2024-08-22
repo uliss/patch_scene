@@ -89,13 +89,11 @@ public:
 };
 
 class XletInfo {
-    DeviceId id_ { 0 };
-    XletType type_ { XletType::None };
-    int index_ { -1 };
+    DeviceId id_;
+    XletIndex index_;
+    XletType type_;
 
 public:
-    XletInfo() { }
-
     XletInfo(DeviceId id, int index, XletType type)
         : id_(id)
         , type_(type)
@@ -113,8 +111,6 @@ public:
     DeviceId id() const { return id_; }
     XletType type() const { return type_; }
     XletIndex index() const { return index_; }
-
-    static XletInfo none() { return { 0, -1, XletType::None }; }
 };
 
 class Connection : public QGraphicsItem {

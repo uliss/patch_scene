@@ -236,7 +236,7 @@ private:
 #endif
 
     void selectTopDevice(const QList<QGraphicsItem*>& devs);
-    XletInfo hoverDeviceXlet(const QList<QGraphicsItem*>& devs, const QPoint& pt) const;
+    std::optional<XletInfo> hoverDeviceXlet(const QList<QGraphicsItem*>& devs, const QPoint& pt) const;
     void updateZoom(qreal zoom);
 
     bool isValidConnection(const XletInfo& src, const XletInfo& dest) const;
@@ -255,7 +255,7 @@ private:
     QPointF prev_click_pos_;
 
     DiagramStateMachine state_machine_;
-    XletInfo conn_start_;
+    std::optional<XletInfo> conn_start_;
     qreal zoom_ { 1 };
     bool show_cables_ { true };
     bool show_background_ { true };
