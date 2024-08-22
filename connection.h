@@ -82,7 +82,8 @@ public:
      */
     QJsonObject toJson() const;
 
-    static bool fromJson(const QJsonValue& j, ConnectionData& data);
+public:
+    static std::optional<ConnectionData> fromJson(const QJsonValue& j);
 };
 
 struct XletInfo {

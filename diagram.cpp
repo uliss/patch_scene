@@ -527,9 +527,9 @@ bool Diagram::loadJson(const QString& path)
     if (cons.isArray()) {
         auto arr = cons.toArray();
         for (const auto& j : arr) {
-            ConnectionData data(0, 0, 0, 0);
-            if (ConnectionData::fromJson(j, data))
-                addConnection(new Connection(data));
+            auto conn_data = ConnectionData::fromJson(j);
+            if (conn_data)
+                addConnection(new Connection(conn_data.value()));
         }
 
         updateConnectionsPos();

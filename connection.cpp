@@ -32,11 +32,12 @@ QJsonObject ConnectionData::toJson() const
     return j;
 }
 
-bool ConnectionData::fromJson(const QJsonValue& j, ConnectionData& data)
+std::optional<ConnectionData> ConnectionData::fromJson(const QJsonValue& j)
 {
     if (!j.isObject())
-        return false;
+        return {};
 
+    ConnectionData data(0, 0, 0, 0);
     auto obj = j.toObject();
     auto src = obj.value("src").toInt(-1);
     if (src >= 0)
@@ -54,7 +55,7 @@ bool ConnectionData::fromJson(const QJsonValue& j, ConnectionData& data)
     if (out >= 0)
         data.out_ = out;
 
-    return true;
+    return data;
 }
 
 Connection::Connection(const ConnectionData& data)

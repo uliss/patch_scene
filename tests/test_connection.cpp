@@ -35,19 +35,18 @@ void TestConnection::dataInit()
 
 void TestConnection::dataJson()
 {
-    ConnectionData cd(0, 0, 0, 0);
-    QVERIFY(!ConnectionData::fromJson({}, cd));
-    auto js = cd.toJson();
-    QVERIFY(ConnectionData::fromJson(cd.toJson(), cd));
+    ConnectionData cd1(0, 0, 0, 0);
+    QCOMPARE(cd1.toJson().count(), 4);
+    QVERIFY(!ConnectionData::fromJson({}));
+    QVERIFY(ConnectionData::fromJson(cd1.toJson()));
+    QVERIFY(ConnectionData::fromJson(cd1.toJson()).value() == cd1);
 
     ConnectionData cd2(1, 2, 3, 4);
-    QVERIFY(cd.toJson() != cd2.toJson());
+    QVERIFY(cd1.toJson() != cd2.toJson());
+
     ConnectionData cd3(1, 2, 3, 4);
     QCOMPARE(cd2, cd3);
-    QVERIFY(cd3.toJson() == cd2.toJson());
-
-    QVERIFY(ConnectionData::fromJson(cd3.toJson(), cd));
-    QCOMPARE(cd3, cd);
+    QVERIFY(ConnectionData::fromJson(cd2.toJson()).value() == cd2);
 }
 
 void TestConnection::dataHash()
