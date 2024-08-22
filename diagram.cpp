@@ -557,6 +557,8 @@ bool Diagram::loadJson(const QString& path)
         meta_ = DiagramMeta();
     }
 
+    clearUndoStack();
+
     return true;
 }
 
@@ -1297,6 +1299,12 @@ std::pair<QByteArray, QSize> Diagram::toSvg() const
     scene->setSceneRect(old_rect);
 
     return { buf.data(), box.size() };
+}
+
+void Diagram::clearUndoStack()
+{
+    if (undo_stack_)
+        undo_stack_->clear();
 }
 
 void Diagram::updateZoom(qreal zoom)

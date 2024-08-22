@@ -201,6 +201,7 @@ signals:
     void connectionRemoved(ConnectionData data);
 
 public slots:
+    void clearUndoStack();
     void copySelected();
     void cutSelected();
     void paste();
