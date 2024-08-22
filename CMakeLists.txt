@@ -136,7 +136,10 @@ include(jq_format)
 include(summary)
 include(InstallRequiredSystemLibraries)
 
-find_program(GITHUB_CLI gh)
+find_program(GITHUB_CLI gh gh.exe)
+if(GITHUB_CLI)
+    message(STATUS "GitHub command line found: ${GITHUB_CLI}")
+endif()
 
 if(APPLE)
     find_program(PLIST_BUDDY PlistBuddy PATHS /usr/libexec)
@@ -189,11 +192,6 @@ if(WIN32)
     )
     if(7Z_EXE)
         message(STATUS "7z found at: ${7Z_EXE}")
-    endif()
-
-    find_program(GITHUB_CLI NAMES gh gh.exe)
-    if(GITHUB_CLI)
-        message(STATUS "GitHub command line found: ${GITHUB_CLI}")
     endif()
 
     if(CMAKE_SIZEOF_VOID_P EQUAL 8)
