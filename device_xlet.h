@@ -28,7 +28,6 @@ struct XletData {
     bool phantom_power { false };
     PowerType power_type { PowerType::None };
     QString level;
-    QColor color_bg { Qt::white };
 
     QString modelString() const;
     QString typeString() const;

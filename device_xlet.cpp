@@ -25,7 +25,6 @@ constexpr const char* KEY_PHANTOM = "phantom";
 constexpr const char* KEY_VISIBLE = "visible";
 constexpr const char* KEY_SOCKET = "socket";
 constexpr const char* KEY_MODEL = "model";
-constexpr const char* KEY_BG_COLOR = "color";
 constexpr const char* KEY_POWER_TYPE = "power";
 
 constexpr const char* SOCKET_MALE = "male";
@@ -92,7 +91,6 @@ QJsonObject XletData::toJson() const
     j[KEY_PHANTOM] = phantom_power;
     j[KEY_VISIBLE] = visible;
     j[KEY_MODEL] = connectorJsonName(model);
-    j[KEY_BG_COLOR] = color_bg.name();
     j[KEY_SOCKET] = typeString();
     j[KEY_POWER_TYPE] = powerTypeToString(power_type);
 
@@ -113,7 +111,6 @@ bool XletData::fromJson(const QJsonValue& j, XletData& data)
     data.phantom_power = obj.value(KEY_PHANTOM).toBool(false);
     data.level = obj.value(KEY_LEVEL).toString();
     data.model = findConnectorByJsonName(obj.value(KEY_MODEL).toString());
-    data.color_bg = obj.value(KEY_BG_COLOR).toString("#FFF");
     data.type = connector_type(obj.value(KEY_SOCKET).toString(""));
     auto power_type = powerTypeFromString(obj.value(KEY_POWER_TYPE).toString({}));
     if (power_type)
