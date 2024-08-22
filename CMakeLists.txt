@@ -100,6 +100,7 @@ qt_add_executable(patch_scene
     ${app_icon_macos}
     main.cpp
     resources/patch_scene_resources.qrc
+    resources/ceam_logo_color.png
 )
 
 add_dependencies(patch_scene git_version)
@@ -195,6 +196,10 @@ if(APPLE)
 endif()
 
 if(WIN32)
+    qt_import_plugins(patch_scene
+        INCLUDE_BY_TYPE imageformats Qt::QJpegPlugin Qt::QGifPlugin
+    )
+
     target_sources(patch_scene PRIVATE ${PROJECT_BINARY_DIR}/patch_scene_win.rc)
     set(CMAKE_INSTALL_PREFIX ${PROJECT_BINARY_DIR}/dist)
 
