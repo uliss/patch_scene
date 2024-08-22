@@ -14,12 +14,39 @@
 #ifndef MACOS_UTILS_H
 #define MACOS_UTILS_H
 
+#include <QMutex>
+#include <QObject>
+
 namespace ceam {
 namespace macos {
 
     void hideApplication();
     void showApplication();
 
+    class NativeAlertDialog : public QObject {
+        Q_OBJECT
+    public:
+        NativeAlertDialog(QObject* parent = nullptr);
+
+        /**
+         * creates local loop event cycle and waits for signal
+         */
+        long waitForAnswer();
+
+    public slots:
+        void execDeferred(const QString& message, const QString& info = {});
+
+    private slots:
+        void execNow();
+
+    signals:
+        void alertDone(long);
+
+    private:
+        QString message_, info_;
+        QMutex mtx_;
+        int rc_;
+    };
 }
 }
 

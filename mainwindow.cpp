@@ -45,6 +45,11 @@ MainWindow::MainWindow(QWidget* parent)
 {
     ui->setupUi(this);
     setStatusBar(new QStatusBar);
+
+#ifdef Q_OS_DARWIN
+    connect(&alert_proxy_, SIGNAL(emitAlertClose(int)), this, SLOT(onNSAlert(int)), Qt::QueuedConnection);
+#endif
+
     // createToolbarScaleView();
 
     setupDockTitle(ui->libraryDock);
@@ -392,16 +397,7 @@ void MainWindow::showPreferences()
 void MainWindow::closeEvent(QCloseEvent* event)
 {
     if (isWindowModified()) {
-        // auto x = new MacWarningDialog(tr("Warning"),
-        //     tr("Document is not saved!\n"
-        //        "Do you wan't to save it before closing?"), this);
-        // x->execNativeDialogLater();
-
-        auto btn = QMessageBox::question(this,
-            tr("Warning"),
-            tr("Document is not saved!\n"
-               "Do you wan't to save it before closing?"),
-            QMessageBox::StandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel));
+        auto btn = showNonSavedDocAlert();
 
         switch (btn) {
         case QMessageBox::Yes:
@@ -557,6 +553,11 @@ void MainWindow::onSceneChange()
     setWindowModified(true);
 }
 
+void MainWindow::onNSAlert(int code)
+{
+    qDebug() << code;
+}
+
 void MainWindow::setProjectName(const QString& fileName)
 {
     project_name_ = QFileInfo(fileName).baseName();
@@ -596,6 +597,23 @@ void MainWindow::loadSection(QStandardItem* parent, const QList<SharedDeviceData
         item->setDropEnabled(false);
         parent->appendRow(item);
     }
+}
+
+QMessageBox::StandardButton MainWindow::showNonSavedDocAlert()
+{
+    const auto msg = tr("Document is not saved!\n"
+                        "Do you wan't to save it before closing?");
+#ifdef Q_OS_DARWIN
+    alert_proxy_.execDeferred(msg);
+    return static_cast<QMessageBox::StandardButton>(alert_proxy_.waitForAnswer());
+#else
+
+    return QMessageBox::question(this,
+        tr("Warning"),
+        msg,
+        QMessageBox::StandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel));
+
+#endif
 }
 
 void MainWindow::loadLibrary()

@@ -24,7 +24,12 @@
 #include "return_item_model.h"
 #include "send_item_model.h"
 
+#ifdef Q_OS_MAC
+#include "macos_utils.h"
+#endif
+
 #include <QMainWindow>
+#include <QMessageBox>
 #include <QSortFilterProxyModel>
 #include <QStandardItemModel>
 #include <QTableWidget>
@@ -76,6 +81,8 @@ private slots:
     void onConnectionRemove(ConnectionData data);
     void onSceneChange();
 
+    void onNSAlert(int code);
+
 private:
     void initActions();
     void initConnectionList();
@@ -112,6 +119,8 @@ private:
 
     void loadSection(QStandardItem* parent, const QList<SharedDeviceData>& data);
 
+    QMessageBox::StandardButton showNonSavedDocAlert();
+
 private:
     Ui::MainWindow* ui;
     Diagram* diagram_;
@@ -127,6 +136,10 @@ private:
     FavoritesWidget* favorites_;
     AppSettings settings_;
     QList<QUrl> recent_files_;
+
+#ifdef Q_OS_MAC
+    macos::NativeAlertDialog alert_proxy_;
+#endif
 };
 }
 
