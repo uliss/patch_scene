@@ -3,16 +3,27 @@ find_package(ImageMagick)
 if(ImageMagick_FOUND)
     set(SVG_APP_ICON ${PROJECT_SOURCE_DIR}/resources/app_icon.svg)
     set(SVG_FILE_ICON ${PROJECT_SOURCE_DIR}/resources/file_icon.svg)
-    set(ICO_ICON ${PROJECT_SOURCE_DIR}/resources/app_icon_win.ico)
+    set(ICO_APP_ICON ${PROJECT_SOURCE_DIR}/resources/app_icon_win.ico)
+    set(ICO_FILE_ICON ${PROJECT_SOURCE_DIR}/resources/file_icon_win.ico)
+
     add_custom_command(
-        OUTPUT  ${ICO_ICON}
-        COMMAND ${ImageMagick_EXECUTABLE_DIR}/convert -background none ${SVG_APP_ICON} -resize 256x256 ${ICO_ICON}
+        OUTPUT  ${ICO_APP_ICON}
+        COMMAND ${ImageMagick_EXECUTABLE_DIR}/convert -background none ${SVG_APP_ICON} -resize 256x256 ${ICO_APP_ICON}
         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/resources
         DEPENDS ${SVG_APP_ICON}
         USES_TERMINAL
         VERBATIM
     )
-    add_custom_target(generate_ico DEPENDS ${ICO_ICON})
+    add_custom_command(
+        OUTPUT  ${ICO_FILE_ICON}
+        COMMAND ${ImageMagick_EXECUTABLE_DIR}/convert -background none ${SVG_FILE_ICON} -resize 256x256 ${ICO_FILE_ICON}
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/resources
+        DEPENDS ${SVG_FILE_ICON}
+        USES_TERMINAL
+        VERBATIM
+    )
+
+    add_custom_target(generate_ico DEPENDS ${ICO_APP_ICON} ${ICO_FILE_ICON})
     add_dependencies(patch_scene generate_ico)
 
     if(APPLE)
