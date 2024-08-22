@@ -10,6 +10,7 @@ target_include_directories(psc_tests
 )
 target_link_libraries(psc_tests
     PRIVATE
+        patch_scene_lib
         Qt::Test
         Qt6::Widgets Qt6::PrintSupport Qt6::SvgWidgets
 )

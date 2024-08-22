@@ -22,6 +22,7 @@ public:
 private slots:
     void testInit();
     void fromJson();
+    void testHash();
 };
 
 #endif // TEST_CONNECTION_H

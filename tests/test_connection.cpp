@@ -14,8 +14,9 @@
 #include "test_connection.h"
 #include "connection.h"
 
-#include <QTest>
+#include <QJsonObject>
 #include <QJsonValue>
+#include <QTest>
 
 using namespace ceam;
 
@@ -26,12 +27,34 @@ void TestConnection::testInit()
     QVERIFY(cd.isSameDestimation(cd));
     QVERIFY(cd.isSameSource(cd));
     QVERIFY(cd == cd);
+    QCOMPARE(cd, cd);
+    QCOMPARE(cd, ConnectionData(0, 0, 0, 0));
 }
 
 void TestConnection::fromJson()
 {
-    // ConnectionData cd(0, 0, 0, 0);
-    // QVERIFY(ConnectionData::fromJson({}, cd));
+    ConnectionData cd(0, 0, 0, 0);
+    QVERIFY(!ConnectionData::fromJson({}, cd));
+    auto js = cd.toJson();
+    QVERIFY(ConnectionData::fromJson(cd.toJson(), cd));
+
+    ConnectionData cd2(1, 2, 3, 4);
+    QVERIFY(cd.toJson() != cd2.toJson());
+    ConnectionData cd3(1, 2, 3, 4);
+    QCOMPARE(cd2, cd3);
+    QVERIFY(cd3.toJson() == cd2.toJson());
+
+    QVERIFY(ConnectionData::fromJson(cd3.toJson(), cd));
+    QCOMPARE(cd3, cd);
+}
+
+void TestConnection::testHash()
+{
+    QCOMPARE_EQ(qHash(ConnectionData(0, 0, 0, 0)), qHash(ConnectionData(0, 0, 0, 0)));
+    QCOMPARE_NE(qHash(ConnectionData(0, 0, 0, 0)), qHash(ConnectionData(1, 0, 0, 0)));
+    QCOMPARE_NE(qHash(ConnectionData(0, 0, 0, 0)), qHash(ConnectionData(0, 1, 0, 0)));
+    QCOMPARE_NE(qHash(ConnectionData(0, 0, 0, 0)), qHash(ConnectionData(0, 0, 1, 0)));
+    QCOMPARE_NE(qHash(ConnectionData(0, 0, 0, 0)), qHash(ConnectionData(0, 0, 0, 1)));
 }
 
 static TestConnection conn;
