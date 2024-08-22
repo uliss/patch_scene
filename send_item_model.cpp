@@ -63,19 +63,19 @@ bool SendItemModel::addConnection(const ConnectionData& data,
 
     auto src_name = new QStandardItem(src->title());
     src_name->setData(QVariant::fromValue(data), DATA_CONNECTION);
-    src_name->setData(data.src, DATA_DEVICE_ID);
+    src_name->setData(data.source(), DATA_DEVICE_ID);
     src_name->setEditable(false);
 
     auto dest_name = new QStandardItem(dest->title());
     dest_name->setData(QVariant::fromValue(data), DATA_CONNECTION);
-    dest_name->setData(data.dest, DATA_DEVICE_ID);
+    dest_name->setData(data.destination(), DATA_DEVICE_ID);
     dest_name->setEditable(false);
 
-    auto src_idx = new QStandardItem(QString("%1").arg((int)data.out + 1));
+    auto src_idx = new QStandardItem(QString("%1").arg((int)data.sourceOutput() + 1));
     src_idx->setEditable(false);
-    src_idx->setData(data.out, SEND_SORT_ROLE);
-    auto dest_idx = new QStandardItem(QString("%1").arg((int)data.in + 1));
-    dest_idx->setData(data.in, SEND_SORT_ROLE);
+    src_idx->setData(data.sourceOutput(), SEND_SORT_ROLE);
+    auto dest_idx = new QStandardItem(QString("%1").arg((int)data.destinationInput() + 1));
+    dest_idx->setData(data.destinationInput(), SEND_SORT_ROLE);
     dest_idx->setEditable(false);
 
     appendRow({ dest_name, dest_idx, src_name, src_idx });

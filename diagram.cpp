@@ -139,7 +139,7 @@ bool Diagram::removeDevice(DeviceId id)
 
     for (auto x : scene->items()) {
         auto conn = qgraphicsitem_cast<Connection*>(x);
-        if (conn && conn->relatesToId(id)) {
+        if (conn && conn->relatesToDevice(id)) {
             emit connectionRemoved(conn->connectionData());
             delete conn;
             ch.trigger();
@@ -570,25 +570,25 @@ bool Diagram::findConnectionXletData(const ConnectionData& data, XletData& src, 
         if (count == 2)
             break;
 
-        if (dev->id() == data.src) {
+        if (dev->id() == data.source()) {
             auto dev_data = dev->deviceData();
-            if (data.out < dev_data->outputs().size()) {
-                src = dev_data->outputAt(data.out);
+            if (data.sourceOutput() < dev_data->outputs().size()) {
+                src = dev_data->outputAt(data.sourceOutput());
                 if (src_dev)
                     *src_dev = dev;
                 count++;
             } else {
-                qWarning() << "invalid source outlet:" << (int)data.out;
+                qWarning() << "invalid source outlet:" << (int)data.sourceOutput();
             }
-        } else if (dev->id() == data.dest) {
+        } else if (dev->id() == data.destination()) {
             auto dev_data = dev->deviceData();
-            if (data.in < dev_data->inputs().size()) {
-                dest = dev_data->inputAt(data.in);
+            if (data.destinationInput() < dev_data->inputs().size()) {
+                dest = dev_data->inputAt(data.destinationInput());
                 if (dest_dev)
                     *dest_dev = dev;
                 count++;
             } else {
-                qWarning() << "invalid dest inlet:" << (int)data.in;
+                qWarning() << "invalid dest inlet:" << (int)data.destinationInput();
             }
         }
     }
@@ -729,7 +729,7 @@ QJsonObject Diagram::toJson() const
     QJsonArray cons;
     for (auto c : connections()) {
         if (c->checkConnectedElements()) {
-            cons.append(c->toJson());
+            cons.append(c->connectionData().toJson());
         } else { // remove invalid connections on save
             delete c;
         }
@@ -1403,7 +1403,7 @@ QList<ConnectionData> Diagram::findDeviceConnections(DeviceId id) const
     for (auto x : items()) {
         auto conn = qgraphicsitem_cast<Connection*>(x);
         if (conn) {
-            if (conn->relatesToId(id))
+            if (conn->relatesToDevice(id))
                 res.push_back(conn->connectionData());
         }
     }
@@ -1429,7 +1429,7 @@ QSet<ConnectionData> Diagram::findSelectedConnections() const
         auto conn = qgraphicsitem_cast<Connection*>(x);
         if (conn) {
             for (auto id : dev_ids) {
-                if (conn->relatesToId(id))
+                if (conn->relatesToDevice(id))
                     res.insert(conn->connectionData());
             }
         }

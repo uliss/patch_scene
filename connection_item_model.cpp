@@ -80,7 +80,7 @@ bool ConnectionItemModel::addConnection(const ConnectionData& data,
 
     auto src_name = new QStandardItem(src->title());
     src_name->setData(QVariant::fromValue(data), DATA_CONNECTION);
-    src_name->setData(data.src, DATA_DEVICE_ID);
+    src_name->setData(data.source(), DATA_DEVICE_ID);
     src_name->setEditable(false);
     auto src_model = new QStandardItem(src_out.modelString());
     src_model->setEditable(false);
@@ -89,7 +89,7 @@ bool ConnectionItemModel::addConnection(const ConnectionData& data,
 
     auto dest_name = new QStandardItem(dest->title());
     dest_name->setData(QVariant::fromValue(data), DATA_CONNECTION);
-    dest_name->setData(data.dest, DATA_DEVICE_ID);
+    dest_name->setData(data.destination(), DATA_DEVICE_ID);
     dest_name->setEditable(false);
     auto dest_model = new QStandardItem(dest_in.modelString());
     dest_model->setEditable(false);

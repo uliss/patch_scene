@@ -24,6 +24,7 @@ private slots:
     void dataJson();
     void dataHash();
     void testConnection();
+    void findConnected();
 };
 
 #endif // TEST_CONNECTION_H

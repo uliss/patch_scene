@@ -64,19 +64,19 @@ bool ReturnItemModel::addConnection(const ConnectionData& data,
 
     auto src_name = new QStandardItem(src->title());
     src_name->setData(QVariant::fromValue(data), DATA_CONNECTION);
-    src_name->setData(data.src, DATA_DEVICE_ID);
+    src_name->setData(data.source(), DATA_DEVICE_ID);
     src_name->setEditable(false);
 
     auto dest_name = new QStandardItem(dest->title());
     dest_name->setData(QVariant::fromValue(data), DATA_CONNECTION);
-    dest_name->setData(data.dest, DATA_DEVICE_ID);
+    dest_name->setData(data.destination(), DATA_DEVICE_ID);
     dest_name->setEditable(false);
 
-    auto src_idx = new QStandardItem(QString("%1").arg((int)data.out + 1));
-    src_idx->setData(data.out, RETURN_SORT_ROLE);
+    auto src_idx = new QStandardItem(QString("%1").arg((int)data.sourceOutput() + 1));
+    src_idx->setData(data.sourceOutput(), RETURN_SORT_ROLE);
     src_idx->setEditable(false);
-    auto dest_idx = new QStandardItem(QString("%1").arg((int)data.in + 1));
-    dest_idx->setData(data.in, RETURN_SORT_ROLE);
+    auto dest_idx = new QStandardItem(QString("%1").arg((int)data.destinationInput() + 1));
+    dest_idx->setData(data.destinationInput(), RETURN_SORT_ROLE);
     dest_idx->setEditable(false);
 
     appendRow({ src_name, src_idx, dest_name, dest_idx });

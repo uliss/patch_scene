@@ -90,24 +90,14 @@ QRectF Connection::boundingRect() const
 
 XletInfo Connection::destinationInfo() const
 {
-    return { data_.dest, XletType::In, data_.in };
+    return { data_.destination(), XletType::In, data_.destinationInput() };
 }
 
-XletInfo Connection::sourceInfo() const
-{
-    return { data_.src, XletType::Out, data_.out };
-}
-
-QJsonObject Connection::toJson() const
-{
-    return data_.toJson();
-}
-
-bool Connection::checkConnectedElements() const
+std::optional<std::pair<Device*, Device*>> Connection::findConnectedElements() const
 {
     auto sc = scene();
     if (!sc)
-        return false;
+        return {};
 
     Device* src = nullptr;
     Device* dest = nullptr;
@@ -115,51 +105,38 @@ bool Connection::checkConnectedElements() const
     for (auto it : sc->items()) {
         auto dev = qgraphicsitem_cast<Device*>(it);
         if (dev) {
-            if (dev->id() == data_.src) {
+            if (dev->id() == data_.source()) {
                 src = dev;
-            } else if (dev->id() == data_.dest) {
+            } else if (dev->id() == data_.destination()) {
                 dest = dev;
             }
 
             if (src && dest)
-                break;
+                return std::pair { src, dest };
         }
     }
 
-    return src && dest;
+    return {};
+}
+
+XletInfo Connection::sourceInfo() const
+{
+    return { data_.source(), XletType::Out, data_.sourceOutput() };
+}
+
+bool Connection::checkConnectedElements() const
+{
+    return findConnectedElements().has_value();
 }
 
 bool Connection::updateCachedPos()
 {
-    Device* src = nullptr;
-    Device* dest = nullptr;
-
-    for (auto it : scene()->items()) {
-        auto dev = qgraphicsitem_cast<Device*>(it);
-        if (dev) {
-            if (dev->id() == data_.src) {
-                src = dev;
-            } else if (dev->id() == data_.dest) {
-                dest = dev;
-            }
-
-            if (src && dest)
-                break;
-        }
-    }
-
-    if (!src) {
-        qWarning() << "src id not found: " << data_.src;
+    auto conn = findConnectedElements();
+    if (!conn.has_value())
         return false;
-    }
 
-    if (!dest) {
-        qWarning() << "dest id not found: " << data_.dest;
-        return false;
-    }
-
-    auto p0 = src->outletPos(data_.out, true);
-    auto p1 = dest->inletPos(data_.in, true);
+    auto p0 = conn->first->outletPos(data_.sourceOutput(), true);
+    auto p1 = conn->second->inletPos(data_.destinationInput(), true);
 
     prepareGeometryChange();
     line_.clear();
@@ -175,8 +152,8 @@ bool Connection::updateCachedPos()
 
 uint ceam::qHash(const ConnectionData& key)
 {
-    return ::qHash(key.dest)
-        ^ ::qHash(key.in)
-        ^ ::qHash(key.src)
-        ^ ::qHash(key.out);
+    return ::qHash(key.destination())
+        ^ ::qHash(key.destinationInput())
+        ^ ::qHash(key.source())
+        ^ ::qHash(key.sourceOutput());
 }

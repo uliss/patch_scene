@@ -23,16 +23,19 @@ namespace ceam {
 using DeviceId = std::uint32_t;
 using XletIndex = std::uint8_t;
 
+class Device;
+
 constexpr DeviceId DEV_NULL_ID = 0;
 constexpr qreal ZVALUE_CONN = 100;
 constexpr qreal ZVALUE_BACKGROUND = -200;
 constexpr qreal ZVALUE_LIVE_CONN = 16000;
 constexpr qreal ZVALUE_SELECTION = 32000;
 
-struct ConnectionData {
+class ConnectionData {
     DeviceId src { 0 }, dest { 0 };
     XletIndex out { 0 }, in { 0 };
 
+public:
     ConnectionData(DeviceId src_, XletIndex out_, DeviceId dest_, XletIndex in_)
         : src(src_)
         , out(out_)
@@ -41,12 +44,22 @@ struct ConnectionData {
     {
     }
 
+    DeviceId source() const { return src; }
+    DeviceId destination() const { return dest; }
+    XletIndex sourceOutput() const { return out; }
+    XletIndex destinationInput() const { return in; }
+
     const bool operator==(const ConnectionData& data) const
     {
         return data.src == src
             && data.dest == dest
             && data.in == in
             && data.out == out;
+    }
+
+    bool relatesToId(DeviceId id) const
+    {
+        return src == id || dest == id;
     }
 
     bool isValid() const
@@ -91,45 +104,38 @@ public:
 
     enum { Type = QGraphicsItem::UserType + 2 };
     int type() const override { return Type; }
-
-    bool operator==(const ConnectionData& data) const;
     QRectF boundingRect() const override;
 
-    DeviceId source() const { return data_.src; }
-    DeviceId destination() const { return data_.dest; }
-    XletIndex sourceOutput() const { return data_.out; }
-    XletIndex destinationInput() const { return data_.in; }
-
+    bool operator==(const ConnectionData& data) const;
+    const ConnectionData& connectionData() const { return data_; }
     XletInfo sourceInfo() const;
     XletInfo destinationInfo() const;
-
-    const ConnectionData& connectionData() const { return data_; }
-
-    QJsonObject toJson() const;
+    bool relatesToDevice(DeviceId id) const { return data_.relatesToId(id); }
 
     /**
-     * check if connected elements are exists on scene
+     * find connected elements on the graphic scene
      * @complexity O(n)
+     * @return pair of valid pointers to connected element or null optional
+     */
+    std::optional<std::pair<Device*, Device*>> findConnectedElements() const;
+
+    /**
+     * check if connected elements are exists on the scene
+     * @complexity O(n)
+     * @return true if connected source and destination are exists
      */
     bool checkConnectedElements() const;
 
-private:
+    /**
+     * updates connection positions
+     * @complexity O(n)
+     * @return true on success
+     */
+    bool updateCachedPos();
+
+protected:
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
     QPainterPath shape() const override;
-
-public:
-    // QRectF boundingRect() const override;
-    // void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-    // void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
-    // void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
-    // void mouseReleaseEvent(QGraphicsSceneMouseEvent *event)   override;
-
-    bool relatesToId(DeviceId id) const
-    {
-        return data_.src == id || data_.dest == id;
-    }
-
-    bool updateCachedPos();
 
 private:
     ConnectionData data_;
