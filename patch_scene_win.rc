@@ -1,0 +1,26 @@
+id1 ICON "@PROJECT_SOURCE_DIR@/resources/app_icon_win.ico"
+id2 ICON "@PROJECT_SOURCE_DIR@/resources/file_icon_win.ico"
+1 VERSIONINFO
+FILEVERSION     @PROJECT_VERSION_MAJOR@,@PROJECT_VERSION_MINOR@,@PROJECT_VERSION_PATCH@,0
+PRODUCTVERSION  @PROJECT_VERSION_MAJOR@,@PROJECT_VERSION_MINOR@,@PROJECT_VERSION_PATCH@,0
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040904E4"
+    BEGIN
+      VALUE "CompanyName", "ceam.space"
+      VALUE "FileDescription", "PatchScene"
+      VALUE "FileVersion", "v@PROJECT_VERSION@"
+      VALUE "InternalName", "@PROJECT_NAME@.exe"
+      VALUE "LegalCopyright", "Serge Poltavski, CEAMMC, et al."
+      VALUE "OriginalFilename", "@PROJECT_NAME@.exe"
+      VALUE "ProductName", "PatchScene"
+      VALUE "ProductVersion", "v@PROJECT_VERSION@"
+    END
+  END
+
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x409, 1200
+  END
+END

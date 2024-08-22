@@ -61,7 +61,7 @@ set(PROJECT_SOURCES
 )
 
 if(WIN32)
-    list(APPEND PROJECT_SOURCES app.rc)
+    configure_file(patch_scene_win.rc ${PROJECT_BINARY_DIR}/patch_scene_win.rc @ONLY)
 endif()
 
 if(APPLE)
@@ -195,6 +195,7 @@ if(APPLE)
 endif()
 
 if(WIN32)
+    target_sources(patch_scene PRIVATE ${PROJECT_BINARY_DIR}/patch_scene_win.rc)
     set(CMAKE_INSTALL_PREFIX ${PROJECT_BINARY_DIR}/dist)
 
     install(TARGETS patch_scene
