@@ -25,10 +25,38 @@ find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets SvgWidgets PrintSupport Te
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets SvgWidgets PrintSupport LinguistTools Test)
 
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
+    mainwindow.cpp
+    mainwindow.h
+    mainwindow.ui
+    about_window.h about_window.cpp about_window.ui
+    app_settings.h app_settings.cpp
+    application.h application.cpp
+    battery_item_model.h battery_item_model.cpp
+    connection.h connection.cpp
+    connection_item_model.h connection_item_model.cpp
+    device.h device.cpp
+    device_common.h device_common.cpp
+    device_item_model.h device_item_model.cpp
+    device_library.h device_library.cpp
+    device_pixmap.h device_pixmap.cpp device_pixmap.ui
+    device_xlet.h device_xlet.cpp
+    deviceproperties.h deviceproperties.cpp deviceproperties.ui
+    diagram.h diagram.cpp
+    diagram_image.h diagram_image.cpp
+    diagram_item_model.h diagram_item_model.cpp
+    diagram_meta.h diagram_meta.cpp
+    diagram_meta_dialog.h diagram_meta_dialog.cpp diagram_meta_dialog.ui
+    diagram_state_machine.h diagram_state_machine.cpp
+    export_document.h export_document.cpp
+    favorites_widget.h favorites_widget.cpp
+    furniture_item_model.h furniture_item_model.cpp
+    preferences_dialog.h preferences_dialog.cpp preferences_dialog.ui
+    return_item_model.h return_item_model.cpp
+    send_item_model.h send_item_model.cpp
+    socket.h socket.cpp
+    tablecellcheckbox.h tablecellcheckbox.cpp
+    tablecellconnector.h tablecellconnector.cpp
+    undo_commands.h undo_commands.cpp
 )
 
 if(WIN32)
@@ -56,50 +84,32 @@ if(APPLE)
     set(MACOSX_BUNDLE_LONG_VERSION_STRING ${PROJECT_VERSION})
 endif()
 
+add_library(patch_scene_lib STATIC ${PROJECT_SOURCES})
+target_include_directories(patch_scene_lib PRIVATE ${PROJECT_BINARY_DIR})
+target_link_libraries(patch_scene_lib
+    PRIVATE
+        Qt${QT_VERSION_MAJOR}::Widgets
+        Qt${QT_VERSION_MAJOR}::PrintSupport
+        Qt${QT_VERSION_MAJOR}::SvgWidgets
+)
+
 qt_add_executable(patch_scene
     MANUAL_FINALIZATION
     MACOSX_BUNDLE
-    ${PROJECT_SOURCES}
-    ${app_icon_macos}
-    about_window.h about_window.cpp about_window.ui
-    app_settings.h app_settings.cpp
-    application.h application.cpp
-    battery_item_model.h battery_item_model.cpp
-    connection.h connection.cpp
-    connection_item_model.h connection_item_model.cpp
-    device.h device.cpp
-    device_common.h device_common.cpp
-    device_item_model.h device_item_model.cpp
-    device_library.h device_library.cpp
-    device_pixmap.h device_pixmap.cpp device_pixmap.ui
-    device_xlet.h device_xlet.cpp
-    deviceproperties.h deviceproperties.cpp deviceproperties.ui
-    diagram.h diagram.cpp
-    diagram_image.h diagram_image.cpp
-    diagram_item_model.h diagram_item_model.cpp
-    diagram_meta.h diagram_meta.cpp
-    diagram_meta_dialog.h diagram_meta_dialog.cpp diagram_meta_dialog.ui
-    diagram_state_machine.h diagram_state_machine.cpp
-    export_document.h export_document.cpp
-    favorites_widget.h favorites_widget.cpp
-    furniture_item_model.h furniture_item_model.cpp
-    preferences_dialog.h preferences_dialog.cpp preferences_dialog.ui
+    main.cpp
     resources/patch_scene_resources.qrc
-    return_item_model.h return_item_model.cpp
-    send_item_model.h send_item_model.cpp
-    socket.h socket.cpp
-    tablecellcheckbox.h tablecellcheckbox.cpp
-    tablecellconnector.h tablecellconnector.cpp
-    undo_commands.h undo_commands.cpp
-    #tests/test_device_data.h tests/test_device_data.cpp
+    ${app_icon_macos}
 )
 
-target_include_directories(patch_scene PRIVATE ${PROJECT_BINARY_DIR})
 add_dependencies(patch_scene git_version)
 
 target_link_libraries(patch_scene
     PRIVATE
-    Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::PrintSupport Qt${QT_VERSION_MAJOR}::SvgWidgets)
+        patch_scene_lib
+        Qt${QT_VERSION_MAJOR}::Widgets
+        Qt${QT_VERSION_MAJOR}::PrintSupport
+        Qt${QT_VERSION_MAJOR}::SvgWidgets
+)
 
 set_target_properties(patch_scene PROPERTIES
     ${BUNDLE_ID_OPTION}
@@ -136,7 +146,12 @@ include(jq_format)
 include(summary)
 include(InstallRequiredSystemLibraries)
 
-find_program(GITHUB_CLI gh)
+add_subdirectory(tests)
+
+find_program(GITHUB_CLI gh gh.exe)
+if(GITHUB_CLI)
+    message(STATUS "GitHub command line found: ${GITHUB_CLI}")
+endif()
 
 if(APPLE)
     find_program(PLIST_BUDDY PlistBuddy PATHS /usr/libexec)
@@ -195,11 +210,6 @@ if(WIN32)
         add_custom_target(app-zip
             COMMAND ${7Z_EXE} a ${APP_ZIP_NAME} "${CMAKE_INSTALL_PREFIX}/bin/*"
             USES_TERMINAL)
-    endif()
-
-    find_program(GITHUB_CLI NAMES gh gh.exe)
-    if(GITHUB_CLI)
-        message(STATUS "GitHub command line found: ${GITHUB_CLI}")
     endif()
 
     set(INNO_INSTALLER_NAME "PatchScene-${PROJECT_VERSION}-setup")
