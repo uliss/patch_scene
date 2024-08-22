@@ -24,10 +24,10 @@ QJsonObject ConnectionData::toJson() const
 {
     QJsonObject j;
 
-    j["src"] = static_cast<int>(src);
-    j["dest"] = static_cast<int>(dest);
-    j["in"] = static_cast<int>(in);
-    j["out"] = static_cast<int>(out);
+    j["src"] = static_cast<int>(src_);
+    j["dest"] = static_cast<int>(dest_);
+    j["in"] = static_cast<int>(in_);
+    j["out"] = static_cast<int>(out_);
 
     return j;
 }
@@ -40,19 +40,19 @@ bool ConnectionData::fromJson(const QJsonValue& j, ConnectionData& data)
     auto obj = j.toObject();
     auto src = obj.value("src").toInt(-1);
     if (src >= 0)
-        data.src = src;
+        data.src_ = src;
 
     auto dest = obj.value("dest").toInt(-1);
     if (dest >= 0)
-        data.dest = dest;
+        data.dest_ = dest;
 
     auto in = obj.value("in").toInt(-1);
     if (in >= 0)
-        data.in = in;
+        data.in_ = in;
 
     auto out = obj.value("out").toInt(-1);
     if (out >= 0)
-        data.out = out;
+        data.out_ = out;
 
     return true;
 }

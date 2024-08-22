@@ -32,51 +32,54 @@ constexpr qreal ZVALUE_LIVE_CONN = 16000;
 constexpr qreal ZVALUE_SELECTION = 32000;
 
 class ConnectionData {
-    DeviceId src { 0 }, dest { 0 };
-    XletIndex out { 0 }, in { 0 };
+    DeviceId src_ { 0 }, dest_ { 0 };
+    XletIndex out_ { 0 }, in_ { 0 };
 
 public:
-    ConnectionData(DeviceId src_, XletIndex out_, DeviceId dest_, XletIndex in_)
-        : src(src_)
-        , out(out_)
-        , dest(dest_)
-        , in(in_)
+    ConnectionData(DeviceId src, XletIndex out, DeviceId dest, XletIndex in)
+        : src_(src)
+        , out_(out)
+        , dest_(dest)
+        , in_(in)
     {
     }
 
-    DeviceId source() const { return src; }
-    DeviceId destination() const { return dest; }
-    XletIndex sourceOutput() const { return out; }
-    XletIndex destinationInput() const { return in; }
+    DeviceId source() const { return src_; }
+    DeviceId destination() const { return dest_; }
+    XletIndex sourceOutput() const { return out_; }
+    XletIndex destinationInput() const { return in_; }
 
     const bool operator==(const ConnectionData& data) const
     {
-        return data.src == src
-            && data.dest == dest
-            && data.in == in
-            && data.out == out;
+        return data.src_ == src_
+            && data.dest_ == dest_
+            && data.in_ == in_
+            && data.out_ == out_;
     }
 
     bool relatesToId(DeviceId id) const
     {
-        return src == id || dest == id;
+        return src_ == id || dest_ == id;
     }
 
     bool isValid() const
     {
-        return src != dest;
+        return src_ != dest_;
     }
 
     bool isSameSource(const ConnectionData& conn) const
     {
-        return src == conn.src && out == conn.out;
+        return src_ == conn.src_ && out_ == conn.out_;
     }
 
     bool isSameDestimation(const ConnectionData& conn) const
     {
-        return dest == conn.dest && in == conn.in;
+        return dest_ == conn.dest_ && in_ == conn.in_;
     }
 
+    /**
+     * converts to Json object
+     */
     QJsonObject toJson() const;
 
     static bool fromJson(const QJsonValue& j, ConnectionData& data);
