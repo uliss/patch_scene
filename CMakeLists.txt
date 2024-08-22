@@ -25,42 +25,9 @@ find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets SvgWidgets PrintSupport Te
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets SvgWidgets PrintSupport LinguistTools Test)
 
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
-)
-
-if(WIN32)
-    list(APPEND PROJECT_SOURCES app.rc)
-endif()
-
-if(APPLE)
-    list(APPEND PROJECT_SOURCES macos_utils.h macos_utils.mm)
-    set(MACOSX_BUNDLE_ICON_FILE patch_scene.icns)
-    set(app_icon_macos "${CMAKE_CURRENT_SOURCE_DIR}/resources/patch_scene.icns")
-    set_source_files_properties(${app_icon_macos} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
-
-    # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-    # If you are developing for iOS or macOS you should consider setting an
-    # explicit, fixed bundle identifier manually though.
-    if(${QT_VERSION} VERSION_LESS 6.1.0)
-        set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER space.ceam.patch_scene)
-    endif()
-
-    set(MACOSX_BUNDLE_BUNDLE_NAME "PatchScene")
-    set(MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION})
-    set(MACOSX_BUNDLE_COPYRIGHT "ceam.space")
-    set(MACOSX_BUNDLE_GUI_IDENTIFIER "PatchScene")
-    set(MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION})
-    set(MACOSX_BUNDLE_LONG_VERSION_STRING ${PROJECT_VERSION})
-endif()
-
-qt_add_executable(patch_scene
-    MANUAL_FINALIZATION
-    MACOSX_BUNDLE
-    ${PROJECT_SOURCES}
-    ${app_icon_macos}
+    mainwindow.cpp
+    mainwindow.h
+    mainwindow.ui
     about_window.h about_window.cpp about_window.ui
     app_settings.h app_settings.cpp
     application.h application.cpp
@@ -91,7 +58,39 @@ qt_add_executable(patch_scene
     tablecellcheckbox.h tablecellcheckbox.cpp
     tablecellconnector.h tablecellconnector.cpp
     undo_commands.h undo_commands.cpp
-    #tests/test_device_data.h tests/test_device_data.cpp
+)
+
+if(WIN32)
+    list(APPEND PROJECT_SOURCES app.rc)
+endif()
+
+if(APPLE)
+    list(APPEND PROJECT_SOURCES macos_utils.h macos_utils.mm)
+    set(MACOSX_BUNDLE_ICON_FILE patch_scene.icns)
+    set(app_icon_macos "${CMAKE_CURRENT_SOURCE_DIR}/resources/patch_scene.icns")
+    set_source_files_properties(${app_icon_macos} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+
+    # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
+    # If you are developing for iOS or macOS you should consider setting an
+    # explicit, fixed bundle identifier manually though.
+    if(${QT_VERSION} VERSION_LESS 6.1.0)
+        set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER space.ceam.patch_scene)
+    endif()
+
+    set(MACOSX_BUNDLE_BUNDLE_NAME "PatchScene")
+    set(MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION})
+    set(MACOSX_BUNDLE_COPYRIGHT "ceam.space")
+    set(MACOSX_BUNDLE_GUI_IDENTIFIER "PatchScene")
+    set(MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION})
+    set(MACOSX_BUNDLE_LONG_VERSION_STRING ${PROJECT_VERSION})
+endif()
+
+qt_add_executable(patch_scene
+    MANUAL_FINALIZATION
+    MACOSX_BUNDLE
+    main.cpp
+    ${PROJECT_SOURCES}
+    ${app_icon_macos}
 )
 
 target_include_directories(patch_scene PRIVATE ${PROJECT_BINARY_DIR})
