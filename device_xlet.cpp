@@ -19,7 +19,6 @@
 using namespace ceam;
 
 namespace {
-constexpr const char* KEY_LEVEL = "level";
 constexpr const char* KEY_NAME = "name";
 constexpr const char* KEY_PHANTOM = "phantom";
 constexpr const char* KEY_VISIBLE = "visible";
@@ -87,7 +86,6 @@ QJsonObject XletData::toJson() const
     QJsonObject j;
 
     j[KEY_NAME] = name;
-    j[KEY_LEVEL] = level;
     j[KEY_PHANTOM] = phantom_power;
     j[KEY_VISIBLE] = visible;
     j[KEY_MODEL] = connectorJsonName(model);
@@ -110,7 +108,6 @@ std::optional<XletData> XletData::fromJson(const QJsonValue& j)
     data.name = obj.value(KEY_NAME).toString();
     data.visible = obj.value(KEY_VISIBLE).toBool(true);
     data.phantom_power = obj.value(KEY_PHANTOM).toBool(false);
-    data.level = obj.value(KEY_LEVEL).toString();
     data.model = findConnectorByJsonName(obj.value(KEY_MODEL).toString());
     data.type = connector_type(obj.value(KEY_SOCKET).toString(""));
     auto power_type = powerTypeFromString(obj.value(KEY_POWER_TYPE).toString({}));

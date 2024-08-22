@@ -2,6 +2,7 @@ qt_add_executable(psc_tests
     test_suite.h test_suite.cpp
     test_main.cpp
     test_connection.h test_connection.cpp
+    test_xlet.h test_xlet.cpp
 )
 
 target_include_directories(psc_tests

@@ -27,7 +27,6 @@ struct XletData {
     bool visible { true };
     bool phantom_power { false };
     PowerType power_type { PowerType::None };
-    QString level;
 
     QString modelString() const;
     QString typeString() const;

@@ -11,19 +11,22 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#ifndef TEST_CONNECTION_H
-#define TEST_CONNECTION_H
+#include "test_xlet.h"
+#include "device_xlet.h"
 
-#include "test_suite.h"
+#include <QTest>
 
-class TestConnection : public TestSuite {
-    Q_OBJECT
-private slots:
-    void dataInit();
-    void dataJson();
-    void dataHash();
-    void testConnection();
-    void findConnected();
-};
+using namespace ceam;
 
-#endif // TEST_CONNECTION_H
+void TestXlet::init()
+{
+    XletData data;
+    QCOMPARE(data.name, QString {});
+    QCOMPARE(data.model, ConnectorModel::UNKNOWN);
+    QCOMPARE(data.phantom_power, false);
+    QCOMPARE(data.power_type, PowerType::None);
+    QCOMPARE(data.type, ConnectorType::Plug_Female);
+    QCOMPARE(data.visible, true);
+}
+
+static TestXlet test;
