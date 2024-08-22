@@ -728,7 +728,7 @@ QJsonObject Diagram::toJson() const
 
     QJsonArray cons;
     for (auto c : connections()) {
-        if (c->checkValid()) {
+        if (c->checkConnectedElements()) {
             cons.append(c->toJson());
         } else { // remove invalid connections on save
             delete c;

@@ -107,7 +107,11 @@ public:
 
     QJsonObject toJson() const;
 
-    bool checkValid() const;
+    /**
+     * check if connected elements are exists on scene
+     * @complexity O(n)
+     */
+    bool checkConnectedElements() const;
 
 private:
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;

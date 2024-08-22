@@ -103,12 +103,16 @@ QJsonObject Connection::toJson() const
     return data_.toJson();
 }
 
-bool Connection::checkValid() const
+bool Connection::checkConnectedElements() const
 {
+    auto sc = scene();
+    if (!sc)
+        return false;
+
     Device* src = nullptr;
     Device* dest = nullptr;
 
-    for (auto it : scene()->items()) {
+    for (auto it : sc->items()) {
         auto dev = qgraphicsitem_cast<Device*>(it);
         if (dev) {
             if (dev->id() == data_.src) {

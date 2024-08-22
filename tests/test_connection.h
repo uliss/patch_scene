@@ -20,9 +20,10 @@ class TestConnection : public TestSuite {
     Q_OBJECT
 public:
 private slots:
-    void testInit();
-    void fromJson();
-    void testHash();
+    void dataInit();
+    void dataJson();
+    void dataHash();
+    void testConnection();
 };
 
 #endif // TEST_CONNECTION_H

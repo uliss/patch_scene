@@ -20,7 +20,7 @@
 
 using namespace ceam;
 
-void TestConnection::testInit()
+void TestConnection::dataInit()
 {
     ConnectionData cd(0, 0, 0, 0);
     QVERIFY(!cd.isValid());
@@ -31,7 +31,7 @@ void TestConnection::testInit()
     QCOMPARE(cd, ConnectionData(0, 0, 0, 0));
 }
 
-void TestConnection::fromJson()
+void TestConnection::dataJson()
 {
     ConnectionData cd(0, 0, 0, 0);
     QVERIFY(!ConnectionData::fromJson({}, cd));
@@ -48,13 +48,23 @@ void TestConnection::fromJson()
     QCOMPARE(cd3, cd);
 }
 
-void TestConnection::testHash()
+void TestConnection::dataHash()
 {
     QCOMPARE_EQ(qHash(ConnectionData(0, 0, 0, 0)), qHash(ConnectionData(0, 0, 0, 0)));
     QCOMPARE_NE(qHash(ConnectionData(0, 0, 0, 0)), qHash(ConnectionData(1, 0, 0, 0)));
     QCOMPARE_NE(qHash(ConnectionData(0, 0, 0, 0)), qHash(ConnectionData(0, 1, 0, 0)));
     QCOMPARE_NE(qHash(ConnectionData(0, 0, 0, 0)), qHash(ConnectionData(0, 0, 1, 0)));
     QCOMPARE_NE(qHash(ConnectionData(0, 0, 0, 0)), qHash(ConnectionData(0, 0, 0, 1)));
+}
+
+void TestConnection::testConnection()
+{
+    Connection conn(ConnectionData(1, 2, 3, 4));
+    QCOMPARE_EQ(conn.source(), 1);
+    QCOMPARE_EQ(conn.sourceOutput(), 2);
+    QCOMPARE_EQ(conn.destination(), 3);
+    QCOMPARE_EQ(conn.destinationInput(), 4);
+    QVERIFY(!conn.checkConnectedElements());
 }
 
 static TestConnection conn;
