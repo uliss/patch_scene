@@ -370,45 +370,54 @@ bool DeviceData::setXletJson(const QJsonValue& v, QList<XletData>& xlets)
 
     auto arr = v.toArray();
     for (const auto& x : arr) {
-        XletData data;
-        if (XletData::fromJson(x, data))
-            xlets.push_back(data);
+        auto data = XletData::fromJson(x);
+        if (data)
+            xlets.push_back(data.value());
     }
 
     return true;
 }
 
 namespace {
-// clang-format off
-const QMap<BatteryType, std::pair<const char*, const char*>> BATTERY_NAMES_MAP = {
-    { BatteryType::None,        { "None",         "none" } },
-    { BatteryType::AA,          { "AA",           "aa" } },
-    { BatteryType::AAA,         { "AAA",          "aaa" } },
-    { BatteryType::AAAA,        { "AAAA",         "aaaa" } },
-    { BatteryType::B,           { "B",            "b" } },
-    { BatteryType::C,           { "C",            "c" } },
-    { BatteryType::A23,         { "A23",          "a23" } },
-    { BatteryType::A27,         { "A27",          "a27" } },
-    { BatteryType::PP3_Krona,   { "PP3 (Krona)",  "krona" } },
-};
-// clang-format on
+
+using BatteryMapType = QMap<BatteryType, std::pair<const char*, const char*>>;
+const BatteryMapType& batteryNameMap()
+{
+    // clang-format off
+    static const BatteryMapType map_ = {
+        { BatteryType::None,        { "None",         "none" } },
+        { BatteryType::AA,          { "AA",           "aa" } },
+        { BatteryType::AAA,         { "AAA",          "aaa" } },
+        { BatteryType::AAAA,        { "AAAA",         "aaaa" } },
+        { BatteryType::B,           { "B",            "b" } },
+        { BatteryType::C,           { "C",            "c" } },
+        { BatteryType::A23,         { "A23",          "a23" } },
+        { BatteryType::A27,         { "A27",          "a27" } },
+        { BatteryType::PP3_Krona,   { "PP3 (Krona)",  "krona" } },
+    };
+    // clang-format on
+    return map_;
 }
+
+}
+
+// clang-format on
 
 const char* ceam::toString(BatteryType type)
 {
-    auto it = BATTERY_NAMES_MAP.find(type);
-    return (it == BATTERY_NAMES_MAP.end()) ? "?" : it->first;
+    auto it = batteryNameMap().find(type);
+    return (it == batteryNameMap().end()) ? "?" : it->first;
 }
 
 const char* ceam::toJsonString(BatteryType type)
 {
-    auto it = BATTERY_NAMES_MAP.find(type);
-    return (it == BATTERY_NAMES_MAP.end()) ? "?" : it->second;
+    auto it = batteryNameMap().find(type);
+    return (it == batteryNameMap().end()) ? "?" : it->second;
 }
 
 BatteryType ceam::fromJsonString(const QString& str)
 {
-    for (auto it = BATTERY_NAMES_MAP.keyValueBegin(); it != BATTERY_NAMES_MAP.keyValueEnd(); ++it) {
+    for (auto it = batteryNameMap().keyValueBegin(); it != batteryNameMap().keyValueEnd(); ++it) {
         if (it->second.second == str.toLower())
             return it->first;
     }

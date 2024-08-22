@@ -97,13 +97,14 @@ QJsonObject XletData::toJson() const
     return j;
 }
 
-bool XletData::fromJson(const QJsonValue& j, XletData& data)
+std::optional<XletData> XletData::fromJson(const QJsonValue& j)
 {
     if (!j.isObject()) {
         qWarning() << __FILE__ << __FUNCTION__ << "json object expected, got:" << j;
-        return false;
+        return {};
     }
 
+    XletData data;
     auto obj = j.toObject();
 
     data.name = obj.value(KEY_NAME).toString();
@@ -116,7 +117,7 @@ bool XletData::fromJson(const QJsonValue& j, XletData& data)
     if (power_type)
         data.power_type = power_type.value();
 
-    return true;
+    return data;
 }
 
 bool XletData::isSocket() const

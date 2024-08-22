@@ -34,7 +34,7 @@ struct XletData {
 
     QJsonObject toJson() const;
 
-    static bool fromJson(const QJsonValue& j, XletData& data);
+    static std::optional<XletData> fromJson(const QJsonValue& j);
 
     bool isSocket() const;
     bool isPlug() const;
