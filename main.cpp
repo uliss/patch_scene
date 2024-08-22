@@ -11,11 +11,14 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-
+#include "app_version.h"
 #include "application.h"
 
 int main(int argc, char* argv[])
 {
+    QCoreApplication::setApplicationName("PatchScene");
+    QCoreApplication::setApplicationVersion(ceam::app_version());
+
     ceam::PatchSceneApp app(argc, argv);
     return app.exec();
 }
