@@ -181,10 +181,6 @@ if(WIN32)
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     )
 
-    qt6_generate_deploy_app_script(
-        TARGET patch_scene
-        OUTPUT_SCRIPT deploy_script
-        NO_UNSUPPORTED_PLATFORM_ERROR
-    )
-    install(SCRIPT ${deploy_script})
+    configure_file(scripts/mingw_deploy.sh ${PROJECT_BINARY_DIR}/mingw_deploy.sh @ONLY)
+    install(SCRIPT ${PROJECT_BINARY_DIR}/mingw_deploy.cmake)
 endif()
