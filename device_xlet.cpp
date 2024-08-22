@@ -60,6 +60,22 @@ ConnectorType connector_type(const QString& type)
 }
 }
 
+XletData::XletData(ConnectorModel model)
+    : model_(model)
+{
+}
+
+XletData::XletData(const QString& name, ConnectorModel model)
+    : name_(name)
+    , model_(model)
+{
+}
+
+bool XletData::supportsPhantomPower() const
+{
+    return ceam::connectSupportsPhantomPower(model_);
+}
+
 QString XletData::modelString() const
 {
     return connectorName(model_);
@@ -79,6 +95,11 @@ QString XletData::typeString() const
     default:
         return "";
     }
+}
+
+QString XletData::iconPath() const
+{
+    return xlet_icon_path(model_, type_);
 }
 
 QJsonObject XletData::toJson() const
@@ -138,14 +159,14 @@ bool XletData::isPlug() const
 }
 
 DeviceXlet::DeviceXlet(const XletData& data, XletType type, QGraphicsItem* parentItem)
-    : QGraphicsSvgItem(xlet_icon_path(data.model_, data.type_), parentItem)
+    : QGraphicsSvgItem(data.iconPath(), parentItem)
     , data_ { data }
     , type_ { type }
 {
-    if (!data.name_.isEmpty())
-        setToolTip(connectorName(data.model_) + ": " + data.name_);
+    if (!data.name().isEmpty())
+        setToolTip(data.modelString() + ": " + data.name());
     else
-        setToolTip(connectorName(data.model_));
+        setToolTip(data.modelString());
 }
 
 const XletData& DeviceXlet::xletData() const
@@ -155,7 +176,7 @@ const XletData& DeviceXlet::xletData() const
 
 QString DeviceXlet::iconPath() const
 {
-    return xlet_icon_path(data_.model_, data_.type_);
+    return data_.iconPath();
 }
 
 void DeviceXlet::setConnectPoint(const QPointF& pos)

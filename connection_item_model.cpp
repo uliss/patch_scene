@@ -64,17 +64,6 @@ bool ConnectionItemModel::addConnection(const ConnectionData& data,
     const SharedDeviceData& dest,
     const XletData& dest_in)
 {
-    auto conn2str = [](ConnectorType t) {
-        switch (t) {
-        case ConnectorType::Socket_Male:
-            return tr("female");
-        case ConnectorType::Socket_Female:
-            return tr("male");
-        default:
-            return QString {};
-        }
-    };
-
     if (!src || !dest)
         return false;
 
@@ -84,7 +73,7 @@ bool ConnectionItemModel::addConnection(const ConnectionData& data,
     src_name->setEditable(false);
     auto src_model = new QStandardItem(src_out.modelString());
     src_model->setEditable(false);
-    auto src_plug = new QStandardItem(conn2str(src_out.type_));
+    auto src_plug = new QStandardItem(src_out.typeString());
     src_plug->setEditable(false);
 
     auto dest_name = new QStandardItem(dest->title());
@@ -93,7 +82,7 @@ bool ConnectionItemModel::addConnection(const ConnectionData& data,
     dest_name->setEditable(false);
     auto dest_model = new QStandardItem(dest_in.modelString());
     dest_model->setEditable(false);
-    auto dest_plug = new QStandardItem(conn2str(dest_in.type_));
+    auto dest_plug = new QStandardItem(dest_in.typeString());
     dest_plug->setEditable(false);
 
     appendRow({ src_name, src_model, src_plug, dest_name, dest_model, dest_plug });

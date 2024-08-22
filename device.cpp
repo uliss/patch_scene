@@ -58,17 +58,17 @@ QRectF powerRectInlet(const QPointF& pos, qreal wd = 2)
 QRectF powerRectOutlet(const QPointF& pos, qreal wd = 2)
 {
     return QRectF(pos.x() - (XLET_W / 2 - (wd * 0.5)),
-                  pos.y() - (wd * 0.5),
-                  XLET_W - wd,
-                  - XLET_H - wd);
+        pos.y() - (wd * 0.5),
+        XLET_W - wd,
+        -XLET_H - wd);
 }
 
 SharedDeviceData makeDeviceData()
 {
     QSharedDataPointer data(new DeviceData(DEV_NULL_ID));
     data->setTitle("Device");
-    data->appendInput(XletData { "", ConnectorModel::XLR });
-    data->appendInput(XletData { "", ConnectorModel::XLR });
+    data->appendInput(XletData { ConnectorModel::XLR });
+    data->appendInput(XletData { ConnectorModel::XLR });
     data->appendInput(XletData { "MIDI", ConnectorModel::DIN_MIDI });
     data->appendInput(XletData { "USB", ConnectorModel::USB_C });
 
@@ -291,7 +291,7 @@ void Device::paintInlets(QPainter* painter)
     data_->foreachVisInput([this, painter](XletIndex idx, const XletData& inlet) {
         auto pos = inletPos(idx);
 
-        switch (inlet.power_type_) {
+        switch (inlet.powerType()) {
         case PowerType::DC_Positive:
             painter->setBrush(Qt::red);
             painter->setPen(Qt::NoPen);
@@ -322,7 +322,7 @@ void Device::paintInlets(QPainter* painter)
             break;
         }
 
-        if (inlet.phantom_power_) {
+        if (inlet.isPhantomOn()) {
             painter->setBrush(Qt::red);
             painter->setPen(QPen(Qt::red, 1));
         } else {
@@ -345,7 +345,7 @@ void Device::paintOutlets(QPainter* painter)
 
         const auto pos = outletPos(idx);
 
-        switch (outlet.power_type_) {
+        switch (outlet.powerType()) {
         case PowerType::DC_Positive:
             painter->setBrush(Qt::red);
             painter->setPen(Qt::NoPen);
@@ -377,7 +377,7 @@ void Device::paintOutlets(QPainter* painter)
         }
 
         painter->setBrush(Qt::black);
-         painter->setPen(QPen(Qt::black, 1));
+        painter->setPen(QPen(Qt::black, 1));
         painter->drawRect(pos.x() - (XLET_BOX_W / 2), pos.y() - XLET_BOX_H, XLET_BOX_W, XLET_BOX_H);
     });
 }
@@ -476,7 +476,7 @@ void Device::createXlets()
 
     int in_idx = 0;
     for (auto& data : data_->inputs()) {
-        if (data.visible_) {
+        if (data.isVisible()) {
             auto xlet = new DeviceXlet(data, XletType::In, this);
             xlet->setConnectPoint(inletPos(in_idx++));
         }
@@ -484,7 +484,7 @@ void Device::createXlets()
 
     int out_idx = 0;
     for (auto& data : data_->outputs()) {
-        if (data.visible_) {
+        if (data.isVisible()) {
             auto xlet = new DeviceXlet(data, XletType::Out, this);
             xlet->setConnectPoint(outletPos(out_idx++));
         }

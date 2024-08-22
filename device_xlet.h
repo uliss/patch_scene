@@ -20,7 +20,7 @@
 
 namespace ceam {
 
-struct XletData {
+class XletData {
     QString name_;
     ConnectorModel model_ { ConnectorModel::UNKNOWN };
     ConnectorType type_ { ConnectorType::Socket_Female };
@@ -28,8 +28,32 @@ struct XletData {
     bool phantom_power_ { false };
     PowerType power_type_ { PowerType::None };
 
+public:
+    XletData() { }
+    explicit XletData(ConnectorModel model);
+    XletData(const QString& name, ConnectorModel model);
+
+    const QString& name() const { return name_; }
+    void setName(const QString& name) { name_ = name; }
+
+    ConnectorModel connectorModel() const { return model_; }
+    void setConnectorModel(ConnectorModel model) { model_ = model; }
+
+    ConnectorType connectorType() const { return type_; }
+    void setConnectorType(ConnectorType type) { type_ = type; }
+
+    bool isVisible() const { return visible_; }
+    void setVisible(bool value) { visible_ = value; }
+
+    bool supportsPhantomPower() const;
+    bool isPhantomOn() const { return phantom_power_; }
+    void setPhantom(bool on) { phantom_power_ = on; }
+
+    PowerType powerType() const { return power_type_; }
+
     QString modelString() const;
     QString typeString() const;
+    QString iconPath() const;
 
     QJsonObject toJson() const;
 

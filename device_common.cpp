@@ -120,13 +120,13 @@ DeviceData::DeviceData(DeviceId id)
 size_t DeviceData::visInputCount() const
 {
     return std::count_if(inputs_.begin(), inputs_.end(),
-        [](const XletData& x) { return x.visible_; });
+        [](const XletData& x) { return x.isVisible(); });
 }
 
 size_t DeviceData::visOutputCount() const
 {
     return std::count_if(outputs_.begin(), outputs_.end(),
-        [](const XletData& x) { return x.visible_; });
+        [](const XletData& x) { return x.isVisible(); });
 }
 
 bool DeviceData::hasVisInputs() const
@@ -300,7 +300,7 @@ void DeviceData::foreachVisInput(std::function<void(XletIndex, const XletData&)>
 {
     XletIndex idx = 0;
     for (auto& x : inputs_) {
-        if (x.visible_)
+        if (x.isVisible())
             fn(idx++, x);
     }
 }
@@ -314,7 +314,7 @@ void DeviceData::foreachVisOutput(std::function<void(XletIndex, const XletData&)
 {
     XletIndex idx = 0;
     for (auto& x : outputs_) {
-        if (x.visible_)
+        if (x.isVisible())
             fn(idx++, x);
     }
 }
