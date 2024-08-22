@@ -18,16 +18,23 @@
 #include <QJsonObject>
 #include <QPainter>
 
+namespace {
+constexpr const char* KEY_SRC = "src";
+constexpr const char* KEY_DEST = "dest";
+constexpr const char* KEY_SRC_OUT = "out";
+constexpr const char* KEY_DEST_IN = "in";
+}
+
 using namespace ceam;
 
 QJsonObject ConnectionData::toJson() const
 {
     QJsonObject j;
 
-    j["src"] = static_cast<int>(src_);
-    j["dest"] = static_cast<int>(dest_);
-    j["in"] = static_cast<int>(in_);
-    j["out"] = static_cast<int>(out_);
+    j[KEY_SRC] = static_cast<int>(src_);
+    j[KEY_DEST] = static_cast<int>(dest_);
+    j[KEY_DEST_IN] = static_cast<int>(in_);
+    j[KEY_SRC_OUT] = static_cast<int>(out_);
 
     return j;
 }
@@ -39,19 +46,19 @@ std::optional<ConnectionData> ConnectionData::fromJson(const QJsonValue& j)
 
     ConnectionData data(0, 0, 0, 0);
     auto obj = j.toObject();
-    auto src = obj.value("src").toInt(-1);
+    auto src = obj.value(KEY_SRC).toInt(-1);
     if (src >= 0)
         data.src_ = src;
 
-    auto dest = obj.value("dest").toInt(-1);
+    auto dest = obj.value(KEY_DEST).toInt(-1);
     if (dest >= 0)
         data.dest_ = dest;
 
-    auto in = obj.value("in").toInt(-1);
+    auto in = obj.value(KEY_DEST_IN).toInt(-1);
     if (in >= 0)
         data.in_ = in;
 
-    auto out = obj.value("out").toInt(-1);
+    auto out = obj.value(KEY_SRC_OUT).toInt(-1);
     if (out >= 0)
         data.out_ = out;
 

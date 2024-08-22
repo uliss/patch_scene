@@ -47,6 +47,8 @@ void TestConnection::dataJson()
     ConnectionData cd3(1, 2, 3, 4);
     QCOMPARE(cd2, cd3);
     QVERIFY(ConnectionData::fromJson(cd2.toJson()).value() == cd2);
+
+    QCOMPARE(ConnectionData::fromJson(QJsonObject {}).value(), ConnectionData(0, 0, 0, 0));
 }
 
 void TestConnection::dataHash()
