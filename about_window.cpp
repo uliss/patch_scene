@@ -16,8 +16,23 @@
 #include "ui_about_window.h"
 
 #include <QTextBrowser>
+#include <QWheelEvent>
 
 using namespace ceam;
+
+class PSCTextBrowser : public QTextBrowser {
+public:
+    explicit PSCTextBrowser(QWidget* parent)
+        : QTextBrowser(parent)
+    {
+    }
+
+    void wheelEvent(QWheelEvent* event) final
+    {
+        // prevent zooming with mouse wheel
+        event->accept();
+    }
+};
 
 AboutWindow::AboutWindow(QWidget* parent)
     : QDialog(parent)
@@ -25,7 +40,7 @@ AboutWindow::AboutWindow(QWidget* parent)
 {
     ui->setupUi(this);
 
-    auto general = new QTextBrowser(this);
+    auto general = new PSCTextBrowser(this);
     ui->tabWidget->addTab(general, tr("General"));
 
     general->setStyleSheet("background: palette(window)");
@@ -36,7 +51,7 @@ AboutWindow::AboutWindow(QWidget* parent)
                             "Copyright: Serge Poltavski, 2024\n\n")
                              .arg(app_version(), app_git_version()));
 
-    auto license = new QTextBrowser(this);
+    auto license = new PSCTextBrowser(this);
     ui->tabWidget->addTab(license, tr("License"));
 
     license->setStyleSheet("background: palette(window)");
@@ -45,7 +60,7 @@ AboutWindow::AboutWindow(QWidget* parent)
                             "- commons.wikimedia.org\n"
                             "- https://www.svgrepo.com/\n"));
 
-    auto thanks = new QTextBrowser(this);
+    auto thanks = new PSCTextBrowser(this);
     ui->tabWidget->addTab(thanks, tr("Thanks"));
 
     thanks->setStyleSheet("background: palette(window)");
@@ -55,7 +70,7 @@ AboutWindow::AboutWindow(QWidget* parent)
                            "**Translations:**\n\n"
                            "_to Russian:_ Serge Poltavski"));
 
-    auto contacts = new QTextBrowser(this);
+    auto contacts = new PSCTextBrowser(this);
     ui->tabWidget->addTab(contacts, tr("Contacts"));
 
     contacts->setStyleSheet("background: palette(window)");
