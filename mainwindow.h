@@ -81,8 +81,6 @@ private slots:
     void onConnectionRemove(ConnectionData data);
     void onSceneChange();
 
-    void onNSAlert(int code);
-
 private:
     void initActions();
     void initConnectionList();
