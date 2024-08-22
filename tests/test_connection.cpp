@@ -75,6 +75,9 @@ void TestConnection::testConnection()
     QVERIFY(!conn.updateCachedPos());
 
     QVERIFY(!conn.findConnectedElements());
+
+    QCOMPARE(conn.sourceInfo(), XletInfo(1, 2, XletType::Out));
+    QCOMPARE(conn.destinationInfo(), XletInfo(3, 4, XletType::In));
 }
 
 void TestConnection::findConnected()
