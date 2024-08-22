@@ -181,6 +181,7 @@ if(WIN32)
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     )
 
+    configure_file(cmake/mingw_deploy.cmake.in ${PROJECT_BINARY_DIR}/mingw_deploy.cmake @ONLY)
     configure_file(scripts/mingw_deploy.sh ${PROJECT_BINARY_DIR}/mingw_deploy.sh @ONLY)
     install(SCRIPT ${PROJECT_BINARY_DIR}/mingw_deploy.cmake)
 endif()
