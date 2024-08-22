@@ -14,3 +14,18 @@ ${MINGW_LDD} "${APP_EXE}" --dll-lookup-dirs "${BIN_DIR}" ${MINGW_BIN_DIR} \
     do
         cp -v "$x" "${BIN_DIR}/"
     done
+
+cat << 'EOF' > ${BIN_DIR}/qt.conf
+[Paths]
+Prefix = .
+Documentation = .
+Headers	= .
+Libraries = .
+LibraryExecutables = .
+Binaries = .
+Plugins	= .
+QmlImports = .
+ArchData = .
+Data = .
+Translations = .
+EOF
