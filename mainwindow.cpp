@@ -46,10 +46,6 @@ MainWindow::MainWindow(QWidget* parent)
     ui->setupUi(this);
     setStatusBar(new QStatusBar);
 
-#ifdef Q_OS_DARWIN
-    connect(&alert_proxy_, SIGNAL(emitAlertClose(int)), this, SLOT(onNSAlert(int)), Qt::QueuedConnection);
-#endif
-
     // createToolbarScaleView();
 
     setupDockTitle(ui->libraryDock);
@@ -551,11 +547,6 @@ void MainWindow::onConnectionRemove(ConnectionData data)
 void MainWindow::onSceneChange()
 {
     setWindowModified(true);
-}
-
-void MainWindow::onNSAlert(int code)
-{
-    qDebug() << code;
 }
 
 void MainWindow::setProjectName(const QString& fileName)
