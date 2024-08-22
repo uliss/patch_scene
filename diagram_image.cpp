@@ -129,7 +129,11 @@ bool DiagramImage::setImagePath(const QString& path)
     } else if (path.endsWith(".png", Qt::CaseInsensitive)
         || path.endsWith(".jpg", Qt::CaseInsensitive)
         || path.endsWith(".jpeg", Qt::CaseInsensitive)) {
-        return setPixmap(QPixmap(path));
+        QPixmap p(path);
+        if(p.isNull())
+            qWarning() << __FUNCTION__ << "invalid pixmap:" << p;
+
+        return setPixmap(p);
     } else {
         qWarning() << "unknown image format:" << path;
         return false;

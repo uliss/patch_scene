@@ -449,13 +449,15 @@ bool Diagram::setBackground(const QString& path)
     if (!background_) {
         background_ = new DiagramImage(path);
         background_->setZValue(ZVALUE_BACKGROUND);
-        scene->addItem(background_);
         background_->setPos(0, 0);
+        scene->addItem(background_);
         if (!background_->isEmpty()) {
             emit sceneChanged();
             return true;
-        } else
+        } else {
+            qWarning() << __FUNCTION__ << "can't set background image:" << path;
             return false;
+        }
     } else {
         auto res = background_->setImagePath(path);
         if (res)
@@ -1010,7 +1012,7 @@ void Diagram::dropEvent(QDropEvent* event)
     } else if (event->mimeData()->hasUrls()) {
         auto files = event->mimeData()->urls();
         if (files.size() == 1) {
-            if (setBackground(files.front().path()))
+            if (setBackground(files.front().toLocalFile()))
                 event->acceptProposedAction();
         } else {
             qDebug() << __FUNCTION__ << "single image file expected, got:" << files;
