@@ -49,12 +49,17 @@ PatchSceneApp::PatchSceneApp(int& argc, char** argv, int flags)
 
     parser.process(*this);
 
-    if (parser.isSet(verbose_opt))
+    if (parser.isSet(verbose_opt)) {
         QLoggingCategory::setFilterRules("*.info=true;");
+        QLoggingCategory::setFilterRules("qt*=false");
+    } else
+        QLoggingCategory::setFilterRules("*.info=false;");
 
     if (parser.isSet(debug_opt)) {
         QLoggingCategory::setFilterRules("*.debug=true");
         QLoggingCategory::setFilterRules("qt*=false");
+    } else {
+        QLoggingCategory::setFilterRules("*.debug=false");
     }
 
     if (qt_translator_.load(QLocale::system(), "qt", "_",
