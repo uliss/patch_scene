@@ -22,12 +22,12 @@ using namespace ceam;
 void TestXlet::init()
 {
     XletData data;
-    QCOMPARE(data.name, QString {});
-    QCOMPARE(data.model, ConnectorModel::UNKNOWN);
-    QCOMPARE(data.phantom_power, false);
-    QCOMPARE(data.power_type, PowerType::None);
-    QCOMPARE(data.type, ConnectorType::Socket_Female);
-    QCOMPARE(data.visible, true);
+    QCOMPARE(data.name_, QString {});
+    QCOMPARE(data.model_, ConnectorModel::UNKNOWN);
+    QCOMPARE(data.phantom_power_, false);
+    QCOMPARE(data.power_type_, PowerType::None);
+    QCOMPARE(data.type_, ConnectorType::Socket_Female);
+    QCOMPARE(data.visible_, true);
     QCOMPARE(data.isPlug(), false);
     QCOMPARE(data.isSocket(), true);
     QCOMPARE(data.typeString(), "female");
@@ -44,7 +44,7 @@ void TestXlet::json()
 
     QCOMPARE(data1.toJson().count(), 6);
 
-    data1.name = "Xlet";
+    data1.name_ = "Xlet";
     QCOMPARE_NE(data1, data2);
     QCOMPARE_NE(data1.toJson(), data2.toJson());
 

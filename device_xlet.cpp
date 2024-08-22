@@ -62,12 +62,12 @@ ConnectorType connector_type(const QString& type)
 
 QString XletData::modelString() const
 {
-    return connectorName(model);
+    return connectorName(model_);
 }
 
 QString XletData::typeString() const
 {
-    switch (type) {
+    switch (type_) {
     case ConnectorType::Socket_Male:
         return SOCKET_MALE;
     case ConnectorType::Socket_Female:
@@ -85,12 +85,12 @@ QJsonObject XletData::toJson() const
 {
     QJsonObject j;
 
-    j[KEY_NAME] = name;
-    j[KEY_PHANTOM] = phantom_power;
-    j[KEY_VISIBLE] = visible;
-    j[KEY_MODEL] = connectorJsonName(model);
+    j[KEY_NAME] = name_;
+    j[KEY_PHANTOM] = phantom_power_;
+    j[KEY_VISIBLE] = visible_;
+    j[KEY_MODEL] = connectorJsonName(model_);
     j[KEY_SOCKET] = typeString();
-    j[KEY_POWER_TYPE] = powerTypeToString(power_type);
+    j[KEY_POWER_TYPE] = powerTypeToString(power_type_);
 
     return j;
 }
@@ -105,47 +105,47 @@ std::optional<XletData> XletData::fromJson(const QJsonValue& j)
     XletData data;
     auto obj = j.toObject();
 
-    data.name = obj.value(KEY_NAME).toString();
-    data.visible = obj.value(KEY_VISIBLE).toBool(true);
-    data.phantom_power = obj.value(KEY_PHANTOM).toBool(false);
-    data.model = findConnectorByJsonName(obj.value(KEY_MODEL).toString());
-    data.type = connector_type(obj.value(KEY_SOCKET).toString(""));
+    data.name_ = obj.value(KEY_NAME).toString();
+    data.visible_ = obj.value(KEY_VISIBLE).toBool(true);
+    data.phantom_power_ = obj.value(KEY_PHANTOM).toBool(false);
+    data.model_ = findConnectorByJsonName(obj.value(KEY_MODEL).toString());
+    data.type_ = connector_type(obj.value(KEY_SOCKET).toString(""));
     auto power_type = powerTypeFromString(obj.value(KEY_POWER_TYPE).toString({}));
     if (power_type)
-        data.power_type = power_type.value();
+        data.power_type_ = power_type.value();
 
     return data;
 }
 
 bool XletData::operator==(const XletData& data) const
 {
-    return name == data.name
-        && model == data.model
-        && type == data.type
-        && visible == data.visible
-        && phantom_power == data.phantom_power
-        && power_type == data.power_type;
+    return name_ == data.name_
+        && model_ == data.model_
+        && type_ == data.type_
+        && visible_ == data.visible_
+        && phantom_power_ == data.phantom_power_
+        && power_type_ == data.power_type_;
 }
 
 bool XletData::isSocket() const
 {
-    return connectorIsSocket(type);
+    return connectorIsSocket(type_);
 }
 
 bool XletData::isPlug() const
 {
-    return connectorIsPlug(type);
+    return connectorIsPlug(type_);
 }
 
 DeviceXlet::DeviceXlet(const XletData& data, XletType type, QGraphicsItem* parentItem)
-    : QGraphicsSvgItem(xlet_icon_path(data.model, data.type), parentItem)
+    : QGraphicsSvgItem(xlet_icon_path(data.model_, data.type_), parentItem)
     , data_ { data }
     , type_ { type }
 {
-    if (!data.name.isEmpty())
-        setToolTip(connectorName(data.model) + ": " + data.name);
+    if (!data.name_.isEmpty())
+        setToolTip(connectorName(data.model_) + ": " + data.name_);
     else
-        setToolTip(connectorName(data.model));
+        setToolTip(connectorName(data.model_));
 }
 
 const XletData& DeviceXlet::xletData() const
@@ -155,7 +155,7 @@ const XletData& DeviceXlet::xletData() const
 
 QString DeviceXlet::iconPath() const
 {
-    return xlet_icon_path(data_.model, data_.type);
+    return xlet_icon_path(data_.model_, data_.type_);
 }
 
 void DeviceXlet::setConnectPoint(const QPointF& pos)

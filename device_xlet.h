@@ -21,12 +21,12 @@
 namespace ceam {
 
 struct XletData {
-    QString name;
-    ConnectorModel model { ConnectorModel::UNKNOWN };
-    ConnectorType type { ConnectorType::Socket_Female };
-    bool visible { true };
-    bool phantom_power { false };
-    PowerType power_type { PowerType::None };
+    QString name_;
+    ConnectorModel model_ { ConnectorModel::UNKNOWN };
+    ConnectorType type_ { ConnectorType::Socket_Female };
+    bool visible_ { true };
+    bool phantom_power_ { false };
+    PowerType power_type_ { PowerType::None };
 
     QString modelString() const;
     QString typeString() const;

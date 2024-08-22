@@ -291,7 +291,7 @@ void Device::paintInlets(QPainter* painter)
     data_->foreachVisInput([this, painter](XletIndex idx, const XletData& inlet) {
         auto pos = inletPos(idx);
 
-        switch (inlet.power_type) {
+        switch (inlet.power_type_) {
         case PowerType::DC_Positive:
             painter->setBrush(Qt::red);
             painter->setPen(Qt::NoPen);
@@ -322,7 +322,7 @@ void Device::paintInlets(QPainter* painter)
             break;
         }
 
-        if (inlet.phantom_power) {
+        if (inlet.phantom_power_) {
             painter->setBrush(Qt::red);
             painter->setPen(QPen(Qt::red, 1));
         } else {
@@ -345,7 +345,7 @@ void Device::paintOutlets(QPainter* painter)
 
         const auto pos = outletPos(idx);
 
-        switch (outlet.power_type) {
+        switch (outlet.power_type_) {
         case PowerType::DC_Positive:
             painter->setBrush(Qt::red);
             painter->setPen(Qt::NoPen);
@@ -476,7 +476,7 @@ void Device::createXlets()
 
     int in_idx = 0;
     for (auto& data : data_->inputs()) {
-        if (data.visible) {
+        if (data.visible_) {
             auto xlet = new DeviceXlet(data, XletType::In, this);
             xlet->setConnectPoint(inletPos(in_idx++));
         }
@@ -484,7 +484,7 @@ void Device::createXlets()
 
     int out_idx = 0;
     for (auto& data : data_->outputs()) {
-        if (data.visible) {
+        if (data.visible_) {
             auto xlet = new DeviceXlet(data, XletType::Out, this);
             xlet->setConnectPoint(outletPos(out_idx++));
         }

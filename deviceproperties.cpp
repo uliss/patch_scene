@@ -152,28 +152,28 @@ void DeviceProperties::insertXlet(QTableWidget* tab, int row, const XletData& da
 {
     // xlet name
     auto name = new QTableWidgetItem();
-    name->setText(data.name);
+    name->setText(data.name_);
     tab->setItem(row, COL_NAME, name);
 
     // model choose
     auto model = new TableCellConnector(tab);
-    model->setConnectorModel(data.model);
+    model->setConnectorModel(data.model_);
     tab->setCellWidget(row, COL_MODEL, model);
 
     // show/hide
-    auto show = new TableCellCheckBox(data.visible);
+    auto show = new TableCellCheckBox(data.visible_);
     tab->setCellWidget(row, COL_VISIBLE, show);
 
     // socket
     auto socket = new QComboBox();
     socket->addItem(tr("Female"), static_cast<int>(ConnectorType::Socket_Female));
     socket->addItem(tr("Male"), static_cast<int>(ConnectorType::Socket_Male));
-    socket->setCurrentIndex(data.type != ConnectorType::Socket_Female);
+    socket->setCurrentIndex(data.type_ != ConnectorType::Socket_Female);
     tab->setCellWidget(row, COL_SOCKET, socket);
 
     // phantom power
-    auto phantom = new TableCellCheckBox(data.phantom_power);
-    phantom->setEnabled(connectSupportsPhantomPower(data.model));
+    auto phantom = new TableCellCheckBox(data.phantom_power_);
+    phantom->setEnabled(connectSupportsPhantomPower(data.model_));
     tab->setCellWidget(row, COL_PHANTOM, phantom);
 
     connect(model, &TableCellConnector::currentIndexChanged, this, [tab, row, phantom](int idx) {
@@ -341,22 +341,22 @@ bool DeviceProperties::getXletData(const QTableWidget* table, int row, XletData&
     if (row < 0 || row >= table->rowCount())
         return false;
 
-    data.name = table->item(row, COL_NAME)->text();
+    data.name_ = table->item(row, COL_NAME)->text();
     auto chk = qobject_cast<TableCellCheckBox*>(table->cellWidget(row, COL_VISIBLE));
     if (chk)
-        data.visible = chk->isChecked();
+        data.visible_ = chk->isChecked();
 
     auto model = qobject_cast<TableCellConnector*>(table->cellWidget(row, COL_MODEL));
     if (model)
-        data.model = model->connectorModel();
+        data.model_ = model->connectorModel();
 
     auto phantom = qobject_cast<TableCellCheckBox*>(table->cellWidget(row, COL_PHANTOM));
-    if (phantom && connectSupportsPhantomPower(data.model))
-        data.phantom_power = phantom->isChecked();
+    if (phantom && connectSupportsPhantomPower(data.model_))
+        data.phantom_power_ = phantom->isChecked();
 
     auto socket_type = qobject_cast<QComboBox*>(table->cellWidget(row, COL_SOCKET));
     if (socket_type)
-        data.type = static_cast<ConnectorType>(socket_type->currentData().toInt());
+        data.type_ = static_cast<ConnectorType>(socket_type->currentData().toInt());
     return true;
 }
 
