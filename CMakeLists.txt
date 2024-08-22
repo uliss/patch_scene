@@ -215,6 +215,15 @@ if(WIN32)
     set(INNO_INSTALLER_NAME "PatchScene-${PROJECT_VERSION}-setup")
     configure_file(${PROJECT_SOURCE_DIR}/patch_scene.iss ${PROJECT_BINARY_DIR}/patch_scene.iss @ONLY)
 
+    if(GITHUB_CLI)
+        add_custom_target(dev_upload
+            COMMAND ${GITHUB_CLI} release upload --clobber "v${PROJECT_VERSION}" ${APP_ZIP_NAME}
+            COMMAND ${GITHUB_CLI} release upload --clobber "v${PROJECT_VERSION}" "${INNO_INSTALLER_NAME}.exe"
+            WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
+            USES_TERMINAL
+        )
+    endif()
+
     find_program(ISCC_PATH
         NAMES ISCC.exe
         PATHS "$ENV{PROGRAMFILES}/Inno Setup 5"
