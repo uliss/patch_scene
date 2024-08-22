@@ -196,10 +196,6 @@ if(APPLE)
 endif()
 
 if(WIN32)
-    qt_import_plugins(patch_scene
-        INCLUDE_BY_TYPE imageformats Qt::QJpegPlugin Qt::QGifPlugin
-    )
-
     target_sources(patch_scene PRIVATE ${PROJECT_BINARY_DIR}/patch_scene_win.rc)
     set(CMAKE_INSTALL_PREFIX ${PROJECT_BINARY_DIR}/dist)
 
