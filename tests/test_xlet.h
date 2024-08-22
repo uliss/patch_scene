@@ -21,6 +21,7 @@ class TestXlet : public TestSuite {
 
 private slots:
     void init();
+    void json();
 };
 
 #endif // TEST_XLET_H

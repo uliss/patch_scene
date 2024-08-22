@@ -28,4 +28,6 @@ int main(int argc, char* argv[])
     for (auto& x : TestSuite::suite()) {
         runTest(x);
     }
+
+    return status;
 }

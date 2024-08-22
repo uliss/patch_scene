@@ -35,6 +35,9 @@ struct XletData {
 
     static std::optional<XletData> fromJson(const QJsonValue& j);
 
+    bool operator==(const XletData& data) const;
+    bool operator!=(const XletData& data) const { return !operator==(data); };
+
     bool isSocket() const;
     bool isPlug() const;
 };

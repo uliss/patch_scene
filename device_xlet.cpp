@@ -117,6 +117,16 @@ std::optional<XletData> XletData::fromJson(const QJsonValue& j)
     return data;
 }
 
+bool XletData::operator==(const XletData& data) const
+{
+    return name == data.name
+        && model == data.model
+        && type == data.type
+        && visible == data.visible
+        && phantom_power == data.phantom_power
+        && power_type == data.power_type;
+}
+
 bool XletData::isSocket() const
 {
     return connectorIsSocket(type);

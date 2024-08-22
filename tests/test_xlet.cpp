@@ -14,6 +14,7 @@
 #include "test_xlet.h"
 #include "device_xlet.h"
 
+#include <QJsonObject>
 #include <QTest>
 
 using namespace ceam;
@@ -25,8 +26,32 @@ void TestXlet::init()
     QCOMPARE(data.model, ConnectorModel::UNKNOWN);
     QCOMPARE(data.phantom_power, false);
     QCOMPARE(data.power_type, PowerType::None);
-    QCOMPARE(data.type, ConnectorType::Plug_Female);
+    QCOMPARE(data.type, ConnectorType::Socket_Female);
     QCOMPARE(data.visible, true);
+    QCOMPARE(data.isPlug(), false);
+    QCOMPARE(data.isSocket(), true);
+    QCOMPARE(data.typeString(), "female");
+    QCOMPARE(data.modelString(), "Unknown");
+}
+
+void TestXlet::json()
+{
+    XletData data1;
+    XletData data2;
+
+    QCOMPARE(data1, data2);
+    QCOMPARE(data1.toJson(), data2.toJson());
+
+    QCOMPARE(data1.toJson().count(), 6);
+
+    data1.name = "Xlet";
+    QCOMPARE_NE(data1, data2);
+    QCOMPARE_NE(data1.toJson(), data2.toJson());
+
+    QVERIFY(!XletData::fromJson({}));
+    auto data3 = XletData::fromJson(data1.toJson());
+    QVERIFY(data3);
+    QCOMPARE_EQ(data1, data3.value());
 }
 
 static TestXlet test;
