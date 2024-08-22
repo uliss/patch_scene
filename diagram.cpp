@@ -704,7 +704,7 @@ void Diagram::wheelEvent(QWheelEvent* event)
                 factor = 0.98;
             }
         } else if (!numDegrees.isNull()) {
-            if (numPixels.y() > 0) {
+            if (numDegrees.y() > 0) {
                 factor = 1.01;
             } else {
                 factor = 0.99;
