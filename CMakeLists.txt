@@ -136,6 +136,8 @@ include(jq_format)
 include(summary)
 include(InstallRequiredSystemLibraries)
 
+add_subdirectory(tests)
+
 find_program(GITHUB_CLI gh gh.exe)
 if(GITHUB_CLI)
     message(STATUS "GitHub command line found: ${GITHUB_CLI}")
@@ -217,8 +219,6 @@ if(WIN32)
             COMMAND ${ISCC_PATH} "${PROJECT_BINARY_DIR}/patch_scene.iss"
             USES_TERMINAL)
     endif()
-
-
 
     configure_file(cmake/mingw_deploy.cmake.in ${PROJECT_BINARY_DIR}/mingw_deploy.cmake @ONLY)
     configure_file(scripts/mingw_deploy.sh ${PROJECT_BINARY_DIR}/mingw_deploy.sh @ONLY)
