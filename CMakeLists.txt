@@ -51,7 +51,6 @@ set(PROJECT_SOURCES
     favorites_widget.h favorites_widget.cpp
     furniture_item_model.h furniture_item_model.cpp
     preferences_dialog.h preferences_dialog.cpp preferences_dialog.ui
-    resources/patch_scene_resources.qrc
     return_item_model.h return_item_model.cpp
     send_item_model.h send_item_model.cpp
     socket.h socket.cpp
@@ -85,20 +84,32 @@ if(APPLE)
     set(MACOSX_BUNDLE_LONG_VERSION_STRING ${PROJECT_VERSION})
 endif()
 
+add_library(patch_scene_lib STATIC ${PROJECT_SOURCES})
+target_include_directories(patch_scene_lib PRIVATE ${PROJECT_BINARY_DIR})
+target_link_libraries(patch_scene_lib
+    PRIVATE
+        Qt${QT_VERSION_MAJOR}::Widgets
+        Qt${QT_VERSION_MAJOR}::PrintSupport
+        Qt${QT_VERSION_MAJOR}::SvgWidgets
+)
+
 qt_add_executable(patch_scene
     MANUAL_FINALIZATION
     MACOSX_BUNDLE
     main.cpp
-    ${PROJECT_SOURCES}
+    resources/patch_scene_resources.qrc
     ${app_icon_macos}
 )
 
-target_include_directories(patch_scene PRIVATE ${PROJECT_BINARY_DIR})
 add_dependencies(patch_scene git_version)
 
 target_link_libraries(patch_scene
     PRIVATE
-    Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::PrintSupport Qt${QT_VERSION_MAJOR}::SvgWidgets)
+        patch_scene_lib
+        Qt${QT_VERSION_MAJOR}::Widgets
+        Qt${QT_VERSION_MAJOR}::PrintSupport
+        Qt${QT_VERSION_MAJOR}::SvgWidgets
+)
 
 set_target_properties(patch_scene PROPERTIES
     ${BUNDLE_ID_OPTION}
