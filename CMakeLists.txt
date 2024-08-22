@@ -176,10 +176,51 @@ if(APPLE)
 endif()
 
 if(WIN32)
+    set(CMAKE_INSTALL_PREFIX ${PROJECT_BINARY_DIR}/dist)
+
     install(TARGETS patch_scene
         BUNDLE  DESTINATION .
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     )
+
+    find_program(7Z_EXE
+        NAMES "7z" "7z.exe"
+        PATH_SUFFIXES "7-Zip"
+    )
+    if(7Z_EXE)
+        message(STATUS "7z found at: ${7Z_EXE}")
+    endif()
+
+    find_program(GITHUB_CLI NAMES gh gh.exe)
+    if(GITHUB_CLI)
+        message(STATUS "GitHub command line found: ${GITHUB_CLI}")
+    endif()
+
+    if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+        set(PATCH_SCENE_DISTRIB_ARCH "x86_64")
+    elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
+        set(PATCH_SCENE_DISTRIB_ARCH "i686")
+    endif()
+
+    set(INNO_INSTALLER_NAME "PatchScene-${PROJECT_VERSION}-win-${PATCH_SCENE_DISTRIB_ARCH}-setup")
+    configure_file(${PROJECT_SOURCE_DIR}/patch_scene.iss ${PROJECT_BINARY_DIR}/patch_scene.iss @ONLY)
+
+    find_program(ISCC_PATH
+        NAMES ISCC.exe
+        PATHS "$ENV{PROGRAMFILES}/Inno Setup 5"
+              "C:/Program Files (x86)/Inno Setup 5"
+              "$ENV{PROGRAMFILES}/Inno Setup 6"
+              "C:/Program Files (x86)/Inno Setup 6")
+
+    if(ISCC_PATH)
+        message(STATUS "Inno Setup Installed found: ${ISCC_PATH}")
+        message(STATUS "     You could type `make inno` after `make install` to build installer package")
+        add_custom_target(inno
+            COMMAND ${ISCC_PATH} "${PROJECT_BINARY_DIR}/patch_scene.iss"
+            USES_TERMINAL)
+    endif()
+
+
 
     configure_file(cmake/mingw_deploy.cmake.in ${PROJECT_BINARY_DIR}/mingw_deploy.cmake @ONLY)
     configure_file(scripts/mingw_deploy.sh ${PROJECT_BINARY_DIR}/mingw_deploy.sh @ONLY)

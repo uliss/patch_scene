@@ -6,7 +6,7 @@ if(ImageMagick_FOUND)
     set(ICO_ICON ${PROJECT_SOURCE_DIR}/resources/app_icon_win.ico)
     add_custom_command(
         OUTPUT  ${ICO_ICON}
-        COMMAND ${ImageMagick_EXECUTABLE_DIR}/convert ${SVG_APP_ICON} -resize 256x256 ${ICO_ICON}
+        COMMAND ${ImageMagick_EXECUTABLE_DIR}/convert -background none ${SVG_APP_ICON} -resize 256x256 ${ICO_ICON}
         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/resources
         DEPENDS ${SVG_APP_ICON}
         USES_TERMINAL
