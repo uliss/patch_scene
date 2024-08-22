@@ -13,12 +13,12 @@
  *****************************************************************************/
 #include "mainwindow.h"
 #include "about_window.h"
+#include "app_version.h"
 #include "device_item_model.h"
 #include "device_library.h"
 #include "diagram_item_model.h"
 #include "diagram_meta_dialog.h"
 #include "export_document.h"
-#include "patch_scene_version.h"
 #include "ui_mainwindow.h"
 
 #include <QCloseEvent>
@@ -746,7 +746,7 @@ QTextDocument* MainWindow::exportToDocument(const QSizeF& pageSize)
         ceam::doc::insert_table(cursor, battery_model_);
     }
 
-    ceam::doc::insert_paragraph(cursor, tr("Created with PatchScene v%1").arg(PATCH_SCENE_VERSION), Qt::AlignRight);
+    ceam::doc::insert_paragraph(cursor, tr("Created with PatchScene v%1").arg(app_version()), Qt::AlignRight);
 
     return doc;
 }
@@ -941,8 +941,8 @@ void MainWindow::exportToPdf()
     QPrinter printer(QPrinter::HighResolution);
 
     printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setCreator(QString("PatchScene v%1").arg(PATCH_SCENE_VERSION));
-    printer.setPrintProgram(QString("PatchScene v%1").arg(PATCH_SCENE_VERSION));
+    printer.setCreator(QString("PatchScene v%1").arg(app_version()));
+    printer.setPrintProgram(QString("PatchScene v%1").arg(app_version()));
     printer.setFontEmbeddingEnabled(true);
     printer.setOutputFileName(pdf_file);
 

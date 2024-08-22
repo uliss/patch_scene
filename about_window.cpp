@@ -12,7 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "about_window.h"
-#include "patch_scene_version.h"
+#include "app_version.h"
 #include "ui_about_window.h"
 
 #include <QTextBrowser>
@@ -33,7 +33,8 @@ AboutWindow::AboutWindow(QWidget* parent)
                             "**PatchScene** - software for drawing stage schemes and connections\n\n"
                             "Developed in **CEAM** (Center of electroacoustic music in Moscow Conservetory)\n\n"
                             "Version: %1 (build %2)\n\n"
-                            "Copyright: Serge Poltavski, 2024\n\n").arg(PATCH_SCENE_VERSION, PATCH_SCENE_GIT_VERSION));
+                            "Copyright: Serge Poltavski, 2024\n\n")
+                             .arg(app_version(), app_git_version()));
 
     auto license = new QTextBrowser(this);
     ui->tabWidget->addTab(license, tr("License"));

@@ -25,9 +25,9 @@
 #include <QPrinter>
 #include <QSvgGenerator>
 
+#include "app_version.h"
 #include "device.h"
 #include "deviceproperties.h"
-#include "patch_scene_version.h"
 #include "undo_commands.h"
 
 using namespace ceam;
@@ -505,7 +505,7 @@ bool Diagram::loadJson(const QString& path)
 
         auto fmt_vers = app.value(JSON_KEY_FORMAT_VERSION).toInt();
 
-        if (fmt_vers > PATCH_SCENE_VERSION_INT) {
+        if (fmt_vers > app_file_format_version()) {
             qWarning() << "the document was created with more recent version, then the current one, "
                           "some feature can be missing...";
         }
@@ -1278,7 +1278,7 @@ std::pair<QByteArray, QSize> Diagram::toSvg() const
     svg_gen.setViewBox(QRect { 0, 0, box.width(), box.height() });
     svg_gen.setTitle("PatchScheme connection diagram");
     svg_gen.setResolution(72);
-    svg_gen.setDescription(QString("create with PatchScene v%1").arg(PATCH_SCENE_VERSION));
+    svg_gen.setDescription(QString("create with PatchScene v%1").arg(app_version()));
 
     QPainter painter(&svg_gen);
 
@@ -1365,12 +1365,12 @@ QJsonValue Diagram::appInfoJson() const
 {
     QJsonObject obj;
 
-    obj[JSON_KEY_VERSION] = PATCH_SCENE_VERSION;
-    obj[JSON_KEY_VERSION_MAJOR] = PATCH_SCENE_VERSION_MAJOR;
-    obj[JSON_KEY_VERSION_MINOR] = PATCH_SCENE_VERSION_MAJOR;
-    obj[JSON_KEY_VERSION_PATCH] = PATCH_SCENE_VERSION_PATCH;
-    obj[JSON_KEY_VERSION_GIT] = PATCH_SCENE_GIT_VERSION;
-    obj[JSON_KEY_FORMAT_VERSION] = PATCH_SCENE_FILE_FORMAT_VERSION;
+    obj[JSON_KEY_VERSION] = app_version();
+    obj[JSON_KEY_VERSION_MAJOR] = app_version_major();
+    obj[JSON_KEY_VERSION_MINOR] = app_version_minor();
+    obj[JSON_KEY_VERSION_PATCH] = app_version_patch();
+    obj[JSON_KEY_VERSION_GIT] = app_git_version();
+    obj[JSON_KEY_FORMAT_VERSION] = app_file_format_version();
 
     return obj;
 }

@@ -30,6 +30,7 @@ set(PROJECT_SOURCES
     mainwindow.ui
     about_window.h about_window.cpp about_window.ui
     app_settings.h app_settings.cpp
+    app_version.h app_version.cpp
     application.h application.cpp
     battery_item_model.h battery_item_model.cpp
     connection.h connection.cpp
@@ -96,9 +97,9 @@ target_link_libraries(patch_scene_lib
 qt_add_executable(patch_scene
     MANUAL_FINALIZATION
     MACOSX_BUNDLE
+    ${app_icon_macos}
     main.cpp
     resources/patch_scene_resources.qrc
-    ${app_icon_macos}
 )
 
 add_dependencies(patch_scene git_version)
