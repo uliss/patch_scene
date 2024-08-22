@@ -17,7 +17,10 @@
 
 int main(int argc, char* argv[])
 {
+#ifndef Q_OS_WIN
     setenv("LANG", "C", 1);
+#endif
+
     QApplication app(argc, argv);
 
     int status = 0;
