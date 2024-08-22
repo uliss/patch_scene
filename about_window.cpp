@@ -30,8 +30,12 @@ public:
 
     void wheelEvent(QWheelEvent* event) final
     {
-        // prevent zooming with mouse wheel
-        event->accept();
+        if (event->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier)) {
+            // prevent zooming with mouse wheel
+            event->accept();
+        } else {
+            QTextBrowser::wheelEvent(event);
+        }
     }
 };
 
