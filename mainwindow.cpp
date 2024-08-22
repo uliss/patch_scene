@@ -352,10 +352,10 @@ void MainWindow::initReturnList()
 void MainWindow::updateTitle()
 {
     if (project_name_.isEmpty()) {
-        setWindowTitle(tr("New Project - PatchScene"));
+        setWindowTitle(tr("New Project[*] - PatchScene"));
         setWindowModified(true);
     } else {
-        setWindowTitle(tr("%1 - PatchScene").arg(project_name_));
+        setWindowTitle(tr("%1[*] - PatchScene").arg(QFileInfo(file_name_).fileName()));
     }
 }
 
