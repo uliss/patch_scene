@@ -98,7 +98,7 @@ QRectF Connection::boundingRect() const
 
 XletInfo Connection::destinationInfo() const
 {
-    return { data_.destination(), XletType::In, data_.destinationInput() };
+    return { data_.destination(), data_.destinationInput(), XletType::In };
 }
 
 std::optional<std::pair<Device*, Device*>> Connection::findConnectedElements() const
@@ -129,7 +129,7 @@ std::optional<std::pair<Device*, Device*>> Connection::findConnectedElements() c
 
 XletInfo Connection::sourceInfo() const
 {
-    return { data_.source(), XletType::Out, data_.sourceOutput() };
+    return { data_.source(), data_.sourceOutput(), XletType::Out };
 }
 
 bool Connection::checkConnectedElements() const

@@ -57,6 +57,8 @@ public:
             && data.out_ == out_;
     }
 
+    bool operator!=(const ConnectionData& data) const { return !operator==(data); }
+
     bool relatesToId(DeviceId id) const
     {
         return src_ == id || dest_ == id;
@@ -86,20 +88,33 @@ public:
     static std::optional<ConnectionData> fromJson(const QJsonValue& j);
 };
 
-struct XletInfo {
-    DeviceId id { 0 };
-    XletType type { XletType::None };
+class XletInfo {
+    DeviceId id_ { 0 };
+    XletType type_ { XletType::None };
+    int index_ { -1 };
 
-    int index { -1 };
+public:
+    XletInfo() { }
+
+    XletInfo(DeviceId id, int index, XletType type)
+        : id_(id)
+        , type_(type)
+        , index_(index)
+    {
+    }
 
     bool operator==(const XletInfo& xi) const
     {
-        return xi.id == id && xi.type == type && xi.index == index;
+        return xi.id_ == id_ && xi.type_ == type_ && xi.index_ == index_;
     }
 
     bool operator!=(const XletInfo& xi) const { return !operator==(xi); }
 
-    static XletInfo none() { return { 0, XletType::None, -1 }; }
+    DeviceId id() const { return id_; }
+    XletType type() const { return type_; }
+    XletIndex index() const { return index_; }
+
+    static XletInfo none() { return { 0, -1, XletType::None }; }
 };
 
 class Connection : public QGraphicsItem {

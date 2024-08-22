@@ -878,10 +878,10 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
             if (!isValidConnection(conn_start_, xlet))
                 return;
 
-            if (xlet.type == XletType::Out)
-                cmdConnectDevices(ConnectionData(xlet.id, xlet.index, conn_start_.id, conn_start_.index));
-            else if (xlet.type == XletType::In)
-                cmdConnectDevices(ConnectionData(conn_start_.id, conn_start_.index, xlet.id, xlet.index));
+            if (xlet.type() == XletType::Out)
+                cmdConnectDevices(ConnectionData(xlet.id(), xlet.index(), conn_start_.id(), conn_start_.index()));
+            else if (xlet.type() == XletType::In)
+                cmdConnectDevices(ConnectionData(conn_start_.id(), conn_start_.index(), xlet.id(), xlet.index()));
         }
 
         conn_start_ = XletInfo::none();
@@ -1142,12 +1142,12 @@ XletInfo Diagram::hoverDeviceXlet(const QList<QGraphicsItem*>& devs, const QPoin
 
     auto in = dev->inletAt(mapToScene(pt));
     if (in >= 0) {
-        return { dev->id(), XletType::In, in };
+        return { dev->id(), in, XletType::In };
     }
 
     auto out = dev->outletAt(mapToScene(pt));
     if (out >= 0) {
-        return { dev->id(), XletType::Out, out };
+        return { dev->id(), out, XletType::Out };
     }
 
     return XletInfo::none();
@@ -1309,19 +1309,19 @@ void Diagram::updateZoom(qreal zoom)
 
 bool Diagram::isValidConnection(const XletInfo& src, const XletInfo& dest) const
 {
-    if (src.id == dest.id) {
+    if (src.id() == dest.id()) {
         qWarning() << "self connection attempt";
         return false;
     }
 
-    if (src.type == dest.type) {
+    if (src.type() == dest.type()) {
         qWarning() << "same xlet type connection attempt";
         return false;
     }
 
-    auto data = (src.type == XletType::Out)
-        ? ConnectionData(src.id, src.index, dest.id, dest.index)
-        : ConnectionData(dest.id, dest.index, src.id, src.index);
+    auto data = (src.type() == XletType::Out)
+        ? ConnectionData(src.id(), src.index(), dest.id(), dest.index())
+        : ConnectionData(dest.id(), dest.index(), src.id(), src.index());
 
     for (auto x : scene->items()) {
         auto conn = qgraphicsitem_cast<Connection*>(x);
