@@ -15,6 +15,7 @@
 #include "app_version.h"
 #include "ui_about_window.h"
 
+#include <QLibraryInfo>
 #include <QTextBrowser>
 #include <QWheelEvent>
 
@@ -76,6 +77,30 @@ AboutWindow::AboutWindow(QWidget* parent)
     contacts->setStyleSheet("background: palette(window)");
     contacts->setMarkdown(tr("__Mail__\n\nserge.poltavski@gmail.com\n\n"
                              "__CEAM__\n\nhttp://ceam.space"));
+
+    setWindowFlag(Qt::Tool, true);
+
+    auto about_qt = new PSCTextBrowser(this);
+
+#define QT_PATH_STR(p) QString("\n**" #p     \
+                               "**: %1\n\n") \
+                           .arg(QLibraryInfo::path(QLibraryInfo::p))
+
+    about_qt->setStyleSheet("background: palette(window)");
+    about_qt->setMarkdown(QT_PATH_STR(PrefixPath)
+        + QT_PATH_STR(DocumentationPath)
+        + QT_PATH_STR(HeadersPath)
+        + QT_PATH_STR(LibrariesPath)
+        + QT_PATH_STR(HeadersPath)
+        + QT_PATH_STR(LibraryExecutablesPath)
+        + QT_PATH_STR(BinariesPath)
+        + QT_PATH_STR(PluginsPath)
+        + QT_PATH_STR(ArchDataPath)
+        + QT_PATH_STR(DataPath)
+        + QT_PATH_STR(TranslationsPath)
+        + QT_PATH_STR(SettingsPath));
+
+    ui->tabWidget->addTab(about_qt, tr("About Qt"));
 
     setWindowFlag(Qt::Tool, true);
     // setModal(true);
