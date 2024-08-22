@@ -74,14 +74,18 @@ void ceam::macos::NativeAlertDialog::execDeferred(const QString& message, const 
 
 void ceam::macos::NativeAlertDialog::execNow()
 {
+    auto txt_yes = tr("Yes");
+    auto txt_no = tr("No");
+    auto txt_cancel = tr("Cancel");
+
     QMutexLocker<QMutex> lock(&mtx_);
 
     NSAlert* alert = [[NSAlert alloc] init];
     [alert setMessageText:message_.toNSString()];
     [alert setInformativeText:info_.toNSString()];
-    [alert addButtonWithTitle:@"Yes"];
-    [alert addButtonWithTitle:@"No"];
-    [alert addButtonWithTitle:@"Cancel"];
+    [alert addButtonWithTitle:txt_yes.toNSString()];
+    [alert addButtonWithTitle:txt_no.toNSString()];
+    [alert addButtonWithTitle:txt_cancel.toNSString()];
     [alert setAlertStyle:NSAlertStyleCritical];
     auto res = [alert runModal];
     emit alertDone(res);

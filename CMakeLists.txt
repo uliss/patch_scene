@@ -137,6 +137,9 @@ if(QT_VERSION_MAJOR EQUAL 6)
 
     qt_add_translations(
         patch_scene
+        TARGETS patch_scene patch_scene_lib
+        SOURCE_TARGETS patch_scene patch_scene_lib
+        SOURCES ${PROJECT_SOURCES}
         TS_FILES patch_scene_ru.ts
     )
 endif()

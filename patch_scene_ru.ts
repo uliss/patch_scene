@@ -5,7 +5,6 @@
     <name>AboutWindow</name>
     <message>
         <location filename="about_window.ui" line="14"/>
-        <location filename="build/patch_scene_autogen/include/ui_about_window.h" line="51"/>
         <source>About PatchScene</source>
         <oldsource>About Cables</oldsource>
         <translation>О PatchScene</translation>
@@ -107,7 +106,6 @@
     <name>DevicePixmap</name>
     <message>
         <location filename="device_pixmap.ui" line="12"/>
-        <location filename="build/patch_scene_autogen/include/ui_device_pixmap.h" line="71"/>
         <source>Choose device pixmap</source>
         <translation>Выберите изображение для устройства</translation>
     </message>
@@ -116,13 +114,11 @@
     <name>DeviceProperties</name>
     <message>
         <location filename="deviceproperties.ui" line="14"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="383"/>
         <source>Device Properties</source>
         <translation>Свойства элемента</translation>
     </message>
     <message>
         <location filename="deviceproperties.ui" line="22"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="384"/>
         <source>Name</source>
         <translation>Название</translation>
     </message>
@@ -135,99 +131,83 @@
         <translation type="vanished">Размер</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="88"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="388"/>
+        <location filename="deviceproperties.ui" line="89"/>
         <source>Inputs</source>
         <translation>Входы</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="209"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="395"/>
+        <location filename="deviceproperties.ui" line="181"/>
         <source>Outputs</source>
         <translation>Выходы</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="327"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="402"/>
+        <location filename="deviceproperties.ui" line="261"/>
         <source>Image</source>
         <translation>Изображение</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="352"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="403"/>
+        <location filename="deviceproperties.ui" line="285"/>
         <source>...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="359"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="405"/>
+        <location filename="deviceproperties.ui" line="292"/>
         <source>choose device image</source>
         <translation>выбрать изображение устройства</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="362"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="407"/>
+        <location filename="deviceproperties.ui" line="295"/>
         <source>Choose</source>
         <translation>Выбрать</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="382"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="408"/>
+        <location filename="deviceproperties.ui" line="318"/>
         <source>Scale</source>
         <translation>Масштаб</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="436"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="409"/>
+        <location filename="deviceproperties.ui" line="371"/>
         <source>Batteries</source>
         <translation>Батарейки</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="491"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="410"/>
+        <location filename="deviceproperties.ui" line="37"/>
         <source>Show</source>
         <oldsource>Show Title</oldsource>
         <translation>Показывать</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="180"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="390"/>
+        <location filename="deviceproperties.ui" line="153"/>
         <source>add input</source>
         <translation>добавить вход</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="32"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="385"/>
+        <location filename="deviceproperties.ui" line="46"/>
         <source>Vendor</source>
         <translation>Производитель</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="47"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="386"/>
+        <location filename="deviceproperties.ui" line="61"/>
         <source>Model</source>
         <translation>Модель</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="196"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="393"/>
+        <location filename="deviceproperties.ui" line="169"/>
         <source>remove input</source>
         <translation>удалить вход</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="298"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="397"/>
+        <location filename="deviceproperties.ui" line="233"/>
         <source>add output</source>
         <translation>добавить выход</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="314"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="400"/>
+        <location filename="deviceproperties.ui" line="249"/>
         <source>remove output</source>
         <translation>удалить выход</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="75"/>
-        <location filename="build/patch_scene_autogen/include/ui_deviceproperties.h" line="387"/>
+        <location filename="deviceproperties.ui" line="76"/>
         <source>Category</source>
         <translation>Категория</translation>
     </message>
@@ -303,55 +283,46 @@
     <name>DiagramMetaDialog</name>
     <message>
         <location filename="diagram_meta_dialog.ui" line="23"/>
-        <location filename="build/patch_scene_autogen/include/ui_diagram_meta_dialog.h" line="178"/>
         <source>Project Information</source>
         <translation>Информация о проекте</translation>
     </message>
     <message>
         <location filename="diagram_meta_dialog.ui" line="35"/>
-        <location filename="build/patch_scene_autogen/include/ui_diagram_meta_dialog.h" line="179"/>
         <source>Contacts</source>
         <translation>Контакты</translation>
     </message>
     <message>
         <location filename="diagram_meta_dialog.ui" line="45"/>
-        <location filename="build/patch_scene_autogen/include/ui_diagram_meta_dialog.h" line="180"/>
         <source>Event date</source>
         <translation>Дата события</translation>
     </message>
     <message>
         <location filename="diagram_meta_dialog.ui" line="55"/>
-        <location filename="build/patch_scene_autogen/include/ui_diagram_meta_dialog.h" line="181"/>
         <source>Enter event title</source>
         <translation>Введите название события</translation>
     </message>
     <message>
         <location filename="diagram_meta_dialog.ui" line="80"/>
-        <location filename="build/patch_scene_autogen/include/ui_diagram_meta_dialog.h" line="182"/>
         <source>Enter event additional information</source>
         <translation>Введите описание проекта</translation>
     </message>
     <message>
         <location filename="diagram_meta_dialog.ui" line="87"/>
-        <location filename="build/patch_scene_autogen/include/ui_diagram_meta_dialog.h" line="183"/>
         <source>Title</source>
         <translation>Название</translation>
     </message>
     <message>
         <location filename="diagram_meta_dialog.ui" line="131"/>
-        <location filename="build/patch_scene_autogen/include/ui_diagram_meta_dialog.h" line="185"/>
         <source>Information</source>
         <translation>Информация</translation>
     </message>
     <message>
         <location filename="diagram_meta_dialog.ui" line="168"/>
-        <location filename="build/patch_scene_autogen/include/ui_diagram_meta_dialog.h" line="187"/>
         <source>Add contact</source>
         <translation>Добавить контакт</translation>
     </message>
     <message>
         <location filename="diagram_meta_dialog.ui" line="187"/>
-        <location filename="build/patch_scene_autogen/include/ui_diagram_meta_dialog.h" line="190"/>
         <source>Delete contact</source>
         <translation>Удалить контакт</translation>
     </message>
@@ -391,423 +362,365 @@
     <name>MainWindow</name>
     <message>
         <location filename="mainwindow.ui" line="14"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="505"/>
         <source>PatchScene</source>
         <translation></translation>
     </message>
     <message>
+        <location filename="mainwindow.ui" line="724"/>
+        <source>Maximize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="870"/>
+        <source>Fullscreen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="873"/>
+        <source>Ctrl+Shift+F</source>
+        <translation></translation>
+    </message>
+    <message>
         <location filename="mainwindow.ui" line="49"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="615"/>
         <source>Main toolbar</source>
         <oldsource>toolBar</oldsource>
         <translation>Основная панель инструментов</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="90"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="616"/>
         <source>&amp;File</source>
         <translation>&amp;Файл</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="94"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="617"/>
         <source>Recent files</source>
         <translation>Недавние файлы</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="118"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="619"/>
         <source>&amp;View</source>
         <translation>&amp;Вид</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="129"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="620"/>
+        <location filename="mainwindow.ui" line="131"/>
         <source>Edit</source>
         <translation>Правка</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="144"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="621"/>
+        <location filename="mainwindow.ui" line="147"/>
         <source>Help</source>
         <translation>Справка</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="151"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="622"/>
+        <location filename="mainwindow.ui" line="154"/>
         <source>Window</source>
         <translation>Окно</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="158"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="623"/>
+        <location filename="mainwindow.ui" line="161"/>
         <source>Objects</source>
         <translation>Объекты</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="178"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="624"/>
+        <location filename="mainwindow.ui" line="181"/>
         <source>Library</source>
         <translation>Библиотека</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="212"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="625"/>
+        <location filename="mainwindow.ui" line="209"/>
         <source>search</source>
         <translation>искать</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="237"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="626"/>
+        <location filename="mainwindow.ui" line="234"/>
         <source>Equipment</source>
         <translation>Оборудование</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="280"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="627"/>
+        <location filename="mainwindow.ui" line="277"/>
         <source>Devices</source>
         <translation>Устройства</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="318"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="628"/>
+        <location filename="mainwindow.ui" line="315"/>
         <source>Connections</source>
         <translation>Соединения</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="356"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="629"/>
+        <location filename="mainwindow.ui" line="353"/>
         <source>Batteries</source>
         <translation>Батарейки</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="394"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="630"/>
+        <location filename="mainwindow.ui" line="391"/>
         <source>Furniture</source>
         <translation>Инвентарь</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="429"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="631"/>
+        <location filename="mainwindow.ui" line="426"/>
         <source>Sends</source>
         <translation>Посылы</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="464"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="632"/>
+        <location filename="mainwindow.ui" line="461"/>
         <source>Returns</source>
         <translation>Возвраты</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="514"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="633"/>
+        <location filename="mainwindow.ui" line="511"/>
         <source>Favorites</source>
         <translation>Избранное</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="538"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="506"/>
+        <location filename="mainwindow.ui" line="539"/>
         <source>&amp;Open</source>
         <translation>&amp;Открыть</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="541"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="508"/>
+        <location filename="mainwindow.ui" line="542"/>
         <source>Ctrl+O</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="550"/>
-        <location filename="mainwindow.ui" line="553"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="510"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="512"/>
+        <location filename="mainwindow.ui" line="551"/>
+        <location filename="mainwindow.ui" line="554"/>
         <source>Zoom In</source>
         <translation>Увеличить</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="556"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="515"/>
+        <location filename="mainwindow.ui" line="557"/>
         <source>+</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="565"/>
-        <location filename="mainwindow.ui" line="568"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="517"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="519"/>
+        <location filename="mainwindow.ui" line="566"/>
+        <location filename="mainwindow.ui" line="569"/>
         <source>Zoom Out</source>
         <translation>Уменьшить</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="571"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="522"/>
+        <location filename="mainwindow.ui" line="572"/>
         <source>-</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="576"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="524"/>
+        <location filename="mainwindow.ui" line="581"/>
         <source>Zoom Normal</source>
         <translation>По умолчанию</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="579"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="526"/>
+        <location filename="mainwindow.ui" line="584"/>
         <source>Ctrl+0</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="587"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="528"/>
+        <location filename="mainwindow.ui" line="593"/>
         <source>Print</source>
         <translation>Печать</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="590"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="530"/>
+        <location filename="mainwindow.ui" line="596"/>
         <source>Ctrl+P</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="595"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="532"/>
+        <location filename="mainwindow.ui" line="605"/>
         <source>Select All</source>
         <translation>Выбрать всё</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="598"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="534"/>
+        <location filename="mainwindow.ui" line="608"/>
         <source>Ctrl+A</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="603"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="536"/>
+        <location filename="mainwindow.ui" line="617"/>
         <source>Quit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="606"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="538"/>
+        <location filename="mainwindow.ui" line="620"/>
         <source>Ctrl+Q</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="614"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="540"/>
+        <location filename="mainwindow.ui" line="632"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="617"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="542"/>
+        <location filename="mainwindow.ui" line="635"/>
         <source>Ctrl+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="622"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="544"/>
+        <location filename="mainwindow.ui" line="644"/>
         <source>Duplicate</source>
         <translation>Дублировать</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="625"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="546"/>
+        <location filename="mainwindow.ui" line="647"/>
         <source>Ctrl+D</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="630"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="548"/>
+        <location filename="mainwindow.ui" line="656"/>
         <source>Save As...</source>
         <translation>Сохранить как...</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="633"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="550"/>
+        <location filename="mainwindow.ui" line="659"/>
         <source>Ctrl+Shift+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="638"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="552"/>
+        <location filename="mainwindow.ui" line="668"/>
         <source>About PatchScene</source>
         <oldsource>About Cables</oldsource>
         <translation>О PatchScene</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="646"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="553"/>
+        <location filename="mainwindow.ui" line="676"/>
         <source>Preferences</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="654"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="554"/>
+        <location filename="mainwindow.ui" line="684"/>
         <source>Contact</source>
         <translation>Контакты</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="666"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="555"/>
+        <location filename="mainwindow.ui" line="696"/>
         <source>Undo</source>
         <translation>Отмена</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="669"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="557"/>
+        <location filename="mainwindow.ui" line="699"/>
         <source>Ctrl+Z</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="681"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="559"/>
+        <location filename="mainwindow.ui" line="711"/>
         <source>Redo</source>
         <translation>Повторить</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="684"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="561"/>
+        <location filename="mainwindow.ui" line="714"/>
         <source>Ctrl+Shift+Z</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="689"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="563"/>
+        <location filename="mainwindow.ui" line="719"/>
         <source>Minimize</source>
         <translation>Минимизировать</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="694"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="564"/>
         <source>Show</source>
-        <translation>Показать</translation>
+        <translation type="vanished">Показать</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="699"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="565"/>
+        <location filename="mainwindow.ui" line="733"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="702"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="567"/>
+        <location filename="mainwindow.ui" line="736"/>
         <source>Ctrl+C</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="707"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="569"/>
+        <location filename="mainwindow.ui" line="745"/>
         <source>Cut</source>
         <translation>Вырезать</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="710"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="571"/>
+        <location filename="mainwindow.ui" line="748"/>
         <source>Ctrl+X</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="715"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="573"/>
+        <location filename="mainwindow.ui" line="757"/>
         <source>Paste</source>
         <translation>Выставить</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="718"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="575"/>
+        <location filename="mainwindow.ui" line="760"/>
         <source>Ctrl+V</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="733"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="577"/>
+        <location filename="mainwindow.ui" line="775"/>
         <source>Cables</source>
         <translation>Соединения</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="736"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="579"/>
+        <location filename="mainwindow.ui" line="778"/>
         <source>Show/Hide cables</source>
         <translation>Показать/Скрыть соединения</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="739"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="582"/>
+        <location filename="mainwindow.ui" line="781"/>
         <source>show/hide cables</source>
         <translation>показать/скрыть соединения</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="809"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="611"/>
+        <location filename="mainwindow.ui" line="855"/>
         <source>Export to PDF</source>
         <translation>Экспорт в PDF</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="812"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="613"/>
+        <location filename="mainwindow.ui" line="858"/>
         <source>Ctrl+E</source>
         <translation></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="99"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="618"/>
         <source>Export</source>
         <translation>Экспортировать</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="801"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="607"/>
+        <location filename="mainwindow.ui" line="843"/>
         <source>Export to ODF</source>
         <translation>Экспорт в ODF</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="804"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="609"/>
+        <location filename="mainwindow.ui" line="846"/>
         <source>Ctrl+Shift+E</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="744"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="584"/>
+        <location filename="mainwindow.ui" line="786"/>
         <source>Add device</source>
         <translation>Добавить устройство</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="747"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="586"/>
+        <location filename="mainwindow.ui" line="789"/>
         <source>Ctrl+1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="752"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="588"/>
+        <location filename="mainwindow.ui" line="794"/>
         <source>Set background</source>
         <translation>Установить фоновое изображение</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="770"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="592"/>
+        <location filename="mainwindow.ui" line="812"/>
         <source>Background</source>
         <translation>Фоновое изображение</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="785"/>
-        <location filename="mainwindow.ui" line="788"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="599"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="601"/>
+        <location filename="mainwindow.ui" line="827"/>
+        <location filename="mainwindow.ui" line="830"/>
         <source>Project Information</source>
         <translation>Информация о проекте</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="791"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="604"/>
+        <location filename="mainwindow.ui" line="833"/>
         <source>Ctrl+I</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="796"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="606"/>
+        <location filename="mainwindow.ui" line="838"/>
         <source>Clear</source>
         <translation>Очистить</translation>
     </message>
@@ -816,8 +729,7 @@
         <translation type="vanished">Добавить изображение</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="755"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="590"/>
+        <location filename="mainwindow.ui" line="797"/>
         <source>Ctrl+2</source>
         <translation></translation>
     </message>
@@ -826,15 +738,13 @@
         <translation type="vanished">Изображения</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="773"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="594"/>
+        <location filename="mainwindow.ui" line="815"/>
         <source>Show/Hide background</source>
         <oldsource>Show/Hide images</oldsource>
         <translation>Показать/Скрыть фон</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="776"/>
-        <location filename="build/patch_scene_autogen/include/ui_mainwindow.h" line="597"/>
+        <location filename="mainwindow.ui" line="818"/>
         <source>show/hide background</source>
         <oldsource>show/hide images</oldsource>
         <translation>показать/скрыть фон</translation>
@@ -1014,7 +924,6 @@ Do you wan&apos;t to save it before closing?</source>
     <name>PreferencesDialog</name>
     <message>
         <location filename="preferences_dialog.ui" line="17"/>
-        <location filename="build/patch_scene_autogen/include/ui_preferences_dialog.h" line="52"/>
         <source>Preferences</source>
         <translation>Настройки</translation>
     </message>
@@ -1171,14 +1080,12 @@ http://ceam.space</source>
         <translation>Назначение</translation>
     </message>
     <message>
-        <location filename="connection_item_model.cpp" line="70"/>
         <source>female</source>
-        <translation>мама</translation>
+        <translation type="vanished">мама</translation>
     </message>
     <message>
-        <location filename="connection_item_model.cpp" line="72"/>
         <source>male</source>
-        <translation>папа</translation>
+        <translation type="vanished">папа</translation>
     </message>
 </context>
 <context>
@@ -1207,37 +1114,37 @@ http://ceam.space</source>
         <translation>Свойства &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="198"/>
+        <location filename="deviceproperties.cpp" line="111"/>
         <source>Type</source>
         <translation>Тип</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="198"/>
+        <location filename="deviceproperties.cpp" line="111"/>
         <source>Show</source>
         <translation>Показывать</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="198"/>
+        <location filename="deviceproperties.cpp" line="111"/>
         <source>Name</source>
         <translation>Название</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="198"/>
+        <location filename="deviceproperties.cpp" line="111"/>
         <source>Socket</source>
         <translation>Гнездо</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="198"/>
+        <location filename="deviceproperties.cpp" line="111"/>
         <source>Phantom</source>
         <translation>Фантом</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="244"/>
+        <location filename="deviceproperties.cpp" line="170"/>
         <source>Female</source>
         <translation>Мама</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="245"/>
+        <location filename="deviceproperties.cpp" line="171"/>
         <source>Male</source>
         <translation>Папа</translation>
     </message>
@@ -1250,47 +1157,47 @@ http://ceam.space</source>
         <translation>Новый проект</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="882"/>
+        <location filename="diagram.cpp" line="908"/>
         <source>Duplicate</source>
         <translation>Дублировать</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="886"/>
+        <location filename="diagram.cpp" line="912"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="890"/>
+        <location filename="diagram.cpp" line="916"/>
         <source>Add to favorites</source>
         <translation>Добавить в избранное</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="894"/>
+        <location filename="diagram.cpp" line="920"/>
         <source>Properties</source>
         <translation>Свойства</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="916"/>
+        <location filename="diagram.cpp" line="942"/>
         <source>Delete selected</source>
         <translation>Удалить выбранные</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="920"/>
+        <location filename="diagram.cpp" line="946"/>
         <source>Align vertical</source>
         <translation>Выровнять по вертикали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="924"/>
+        <location filename="diagram.cpp" line="950"/>
         <source>Align horizontal</source>
         <translation>Выровнять по горизонтали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="935"/>
+        <location filename="diagram.cpp" line="961"/>
         <source>&amp;Add device</source>
         <translation>&amp;Добавить элемент</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="939"/>
+        <location filename="diagram.cpp" line="965"/>
         <source>&amp;Clear background</source>
         <translation>&amp;Удалить фоновое изображение</translation>
     </message>
@@ -1315,7 +1222,7 @@ http://ceam.space</source>
     <message>
         <location filename="diagram_meta_dialog.cpp" line="80"/>
         <source>Email</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="diagram_meta_dialog.cpp" line="110"/>
@@ -1330,7 +1237,7 @@ http://ceam.space</source>
     <message>
         <location filename="diagram_meta_dialog.cpp" line="116"/>
         <source>+7XXX XXX-XX-XX</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1349,12 +1256,12 @@ http://ceam.space</source>
 <context>
     <name>ceam::FurnitureItemModel</name>
     <message>
-        <location filename="furniture_item_model.cpp" line="26"/>
+        <location filename="furniture_item_model.cpp" line="47"/>
         <source>Title</source>
         <translation>Название</translation>
     </message>
     <message>
-        <location filename="furniture_item_model.cpp" line="26"/>
+        <location filename="furniture_item_model.cpp" line="47"/>
         <source>Count</source>
         <translation>Количество</translation>
     </message>
@@ -1362,190 +1269,190 @@ http://ceam.space</source>
 <context>
     <name>ceam::MainWindow</name>
     <message>
-        <location filename="mainwindow.cpp" line="116"/>
+        <location filename="mainwindow.cpp" line="136"/>
         <source>Zoom %1%</source>
         <translation>Масштаб %1%</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="216"/>
+        <location filename="mainwindow.cpp" line="236"/>
         <source>search in library</source>
         <translation>поиск в библиотеке</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="338"/>
+        <location filename="mainwindow.cpp" line="359"/>
         <source>New Project - PatchScene</source>
         <translation>Новый проект - PatchScene</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="341"/>
-        <source>%1 - PatchScene</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.cpp" line="358"/>
+        <location filename="mainwindow.cpp" line="379"/>
         <source>Open image</source>
         <translation>Открыть изображение</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="360"/>
+        <location filename="mainwindow.cpp" line="381"/>
         <source>Image files (*.JPG *.jpg *.jpeg *.PNG *.png *.SVG *.svg)</source>
         <translation>Изображения (*.JPG *.jpg *.jpeg *.PNG *.png *.SVG *.svg)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="385"/>
+        <location filename="mainwindow.cpp" line="612"/>
         <source>Warning</source>
         <translation>Внимание</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="386"/>
+        <location filename="mainwindow.cpp" line="604"/>
         <source>Document is not saved!
 Do you wan&apos;t to save it before closing?</source>
         <translation>Документ не сохранен!
 Сохранить его перед закрытием?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="602"/>
+        <location filename="mainwindow.cpp" line="362"/>
+        <source>%1 - PatchScene</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="641"/>
         <source>devices</source>
         <translation>устройства</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="607"/>
+        <location filename="mainwindow.cpp" line="646"/>
         <source>instruments</source>
         <translation>инструменты</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="612"/>
+        <location filename="mainwindow.cpp" line="651"/>
         <source>sends</source>
         <translation>посылы</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="617"/>
+        <location filename="mainwindow.cpp" line="656"/>
         <source>returns</source>
         <translation>возвраты</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="622"/>
+        <location filename="mainwindow.cpp" line="661"/>
         <source>furniture</source>
         <translation>инвентарь</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="627"/>
+        <location filename="mainwindow.cpp" line="666"/>
         <source>humans</source>
         <translation>люди</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="675"/>
+        <location filename="mainwindow.cpp" line="714"/>
         <source>Event date: %1</source>
         <translation>Дата события %1</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="678"/>
+        <location filename="mainwindow.cpp" line="717"/>
         <source>Information</source>
         <translation>Информация</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="682"/>
+        <location filename="mainwindow.cpp" line="721"/>
         <source>Contacts</source>
         <translation>Контакты</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="684"/>
+        <location filename="mainwindow.cpp" line="723"/>
         <source>Name</source>
         <translation>Имя</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="684"/>
+        <location filename="mainwindow.cpp" line="723"/>
         <source>Work</source>
         <translation>Должность</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="684"/>
+        <location filename="mainwindow.cpp" line="723"/>
         <source>Phone</source>
         <translation>Телефон</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="684"/>
+        <location filename="mainwindow.cpp" line="723"/>
         <source>Email</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="690"/>
+        <location filename="mainwindow.cpp" line="729"/>
         <source>Scheme</source>
         <translation>Схема</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="693"/>
+        <location filename="mainwindow.cpp" line="732"/>
         <source>Devices</source>
         <translation>Устройства</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="696"/>
+        <location filename="mainwindow.cpp" line="735"/>
         <source>Connections</source>
         <translation>Соединения</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="699"/>
+        <location filename="mainwindow.cpp" line="738"/>
         <source>Sends</source>
         <translation>Посылы</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="702"/>
+        <location filename="mainwindow.cpp" line="741"/>
         <source>Returns</source>
         <translation>Возвраты</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="706"/>
+        <location filename="mainwindow.cpp" line="745"/>
         <source>Batteries</source>
         <translation>Батарейки</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="710"/>
+        <location filename="mainwindow.cpp" line="749"/>
         <source>Created with PatchScene v%1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="777"/>
+        <location filename="mainwindow.cpp" line="816"/>
         <source>Clear</source>
         <translation>Очистить</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="838"/>
+        <location filename="mainwindow.cpp" line="877"/>
         <source>Save project</source>
         <translation>Сохранить проект</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="838"/>
-        <location filename="mainwindow.cpp" line="922"/>
+        <location filename="mainwindow.cpp" line="877"/>
+        <location filename="mainwindow.cpp" line="961"/>
         <source>PatchScene projects (*.psc)</source>
         <translation>Проекты PatchScene (*.psc)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="866"/>
+        <location filename="mainwindow.cpp" line="905"/>
         <source>Export to OpenDocument format</source>
         <translation>Экспорт в OpenDocument формат</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="866"/>
+        <location filename="mainwindow.cpp" line="905"/>
         <source>OpenDocument format (*.odt)</source>
         <translation>OpenDocument формат (*.odt)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="895"/>
+        <location filename="mainwindow.cpp" line="934"/>
         <source>Export to PDF format</source>
         <translation>Экспорт в PDF формат</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="895"/>
+        <location filename="mainwindow.cpp" line="934"/>
         <source>PDF format (*.pdf)</source>
         <translation>PDF формат (*.pdf)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="922"/>
+        <location filename="mainwindow.cpp" line="961"/>
         <source>Open project</source>
         <translation>Открыть проект</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="932"/>
+        <location filename="mainwindow.cpp" line="971"/>
         <source>Load &apos;%1&apos;</source>
         <translation>Загружен &apos;%1&apos;</translation>
     </message>
@@ -1594,6 +1501,24 @@ Do you wan&apos;t to save it before closing?</source>
         <location filename="send_item_model.cpp" line="51"/>
         <source>Output</source>
         <translation>Выход</translation>
+    </message>
+</context>
+<context>
+    <name>ceam::macos::NativeAlertDialog</name>
+    <message>
+        <location filename="macos_utils.mm" line="77"/>
+        <source>Yes</source>
+        <translation>Да</translation>
+    </message>
+    <message>
+        <location filename="macos_utils.mm" line="78"/>
+        <source>No</source>
+        <translation>Нет</translation>
+    </message>
+    <message>
+        <location filename="macos_utils.mm" line="79"/>
+        <source>Cancel</source>
+        <translation>Отмена</translation>
     </message>
 </context>
 </TS>
