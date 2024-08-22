@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "PatchScene"
-#define MyAppID "F480F394-5E58-47F7-A329-BD83FA4B953B-@PATCH_SCENE_DISTRIB_ARCH@"
+#define MyAppID "723BFA9F-7AFD-4552-8B37-E5AF3D0CA4A1-@PATCH_SCENE_DISTRIB_ARCH@"
 #define MyAppVerName "PatchScene"
 #define MyAppVersion "@PROJECT_VERSION@"
 #define MyAppPublisher "ceam"
@@ -42,30 +42,14 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 Source: "{#AppRoot}/bin/*";   DestDir: "{app}/bin"; Flags: ignoreversion recursesubdirs
 ;Source: "{#AppRoot}/LICENSE.txt"; DestDir: "{app}";
-;Source: "{#AppRoot}/po/*.msg"; DestDir: "{app}/po";
-;Source: "{#AppRoot}/tcl/*.tcl"; DestDir: "{app}/tcl"; Flags: ignoreversion recursesubdirs
-; completion files
-;Source: "{#AppRoot}/tcl/*.txt"; DestDir: "{app}/tcl"; Flags: ignoreversion recursesubdirs
-;Source: "{#AppRoot}/tcl/*.cfg"; DestDir: "{app}/tcl"; Flags: ignoreversion recursesubdirs
-;Source: "{#AppRoot}/tcl/pd.ico"; DestDir: "{app}/tcl";
-;Source: "{#AppRoot}/tcl/pd_ceammc.ico"; DestDir: "{app}/tcl";
-;Source: "{#AppRoot}/tcl/tkdnd/*"; DestDir: "{app}/tcl/tkdnd"; Flags: ignoreversion recursesubdirs
-;Source: "{#AppRoot}/lib/*"; DestDir: "{app}/lib"; Flags: ignoreversion recursesubdirs
-;Source: "{#AppRoot}/extra/*"; Excludes: "*.a"; DestDir: "{app}/extra"; Flags: ignoreversion recursesubdirs
-;Source: "{#AppRoot}/doc/*"; DestDir: "{app}/doc"; Flags: ignoreversion recursesubdirs
-;Source: "{#AppRoot}/include/*.h"; DestDir: "{app}/include";
-; Source: "{#AppRoot}/fonts/DejaVuSerif.ttf"; DestDir: "{fonts}"; FontInstall: "DejaVu Serif"; Flags: onlyifdoesntexist uninsneveruninstall
-;Source: "{#AppRoot}/fonts/DejaVuSansMono.ttf"; DestDir: "{commonfonts}"; FontInstall: "DejaVu Sans Mono"; Flags: onlyifdoesntexist uninsneveruninstall
-
-; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
 Name: "{commonprograms}\{#MyAppVerName}"; Filename: "{app}\{#MyAppExeName}"
-Name: "{commondesktop}\{#MyAppVerName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+Name: "{commondesktop}\{#MyAppVerName}";  Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppVerName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
-Filename: "{app}\README.TXT"; Description: "View the README file"; Flags: postinstall shellexec skipifsilent unchecked
+;Filename: "{app}\README.TXT"; Description: "View the README file"; Flags: postinstall shellexec skipifsilent unchecked
 
 [Registry]
 Root: HKCR; Subkey: ".psc";                                ValueData: "{#MyAppVerName}";         Flags: uninsdeletevalue; ValueType: string;  ValueName: ""
