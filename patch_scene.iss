@@ -4,7 +4,6 @@
 #define MyAppName "PatchScene"
 #define MyAppID "F480F394-5E58-47F7-A329-BD83FA4B953B-@PATCH_SCENE_DISTRIB_ARCH@"
 #define MyAppVerName "PatchScene"
-#define MyAppArch "@PATCH_SCENE_DISTRIB_ARCH@"
 #define MyAppVersion "@PROJECT_VERSION@"
 #define MyAppPublisher "ceam"
 #define MyAppURL "https://github.com/uliss/patch_scene"
@@ -31,10 +30,7 @@ OutputBaseFilename={#MyAppInstallerName}
 Compression=lzma
 SolidCompression=yes
 ChangesAssociations=yes
-
-#if MyAppArch == "x86_64"
 ArchitecturesInstallIn64BitMode = x64
-#endif
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"

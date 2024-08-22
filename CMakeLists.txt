@@ -189,6 +189,12 @@ if(WIN32)
     )
     if(7Z_EXE)
         message(STATUS "7z found at: ${7Z_EXE}")
+        message(STATUS "app-zip is target available")
+        set(APP_ZIP_NAME "PatchScene-${PROJECT_VERSION}.zip")
+
+        add_custom_target(app-zip
+            COMMAND ${7Z_EXE} a ${APP_ZIP_NAME} "${CMAKE_INSTALL_PREFIX}/bin/*"
+            USES_TERMINAL)
     endif()
 
     find_program(GITHUB_CLI NAMES gh gh.exe)
@@ -196,13 +202,7 @@ if(WIN32)
         message(STATUS "GitHub command line found: ${GITHUB_CLI}")
     endif()
 
-    if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-        set(PATCH_SCENE_DISTRIB_ARCH "x86_64")
-    elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
-        set(PATCH_SCENE_DISTRIB_ARCH "i686")
-    endif()
-
-    set(INNO_INSTALLER_NAME "PatchScene-${PROJECT_VERSION}-win-${PATCH_SCENE_DISTRIB_ARCH}-setup")
+    set(INNO_INSTALLER_NAME "PatchScene-${PROJECT_VERSION}-setup")
     configure_file(${PROJECT_SOURCE_DIR}/patch_scene.iss ${PROJECT_BINARY_DIR}/patch_scene.iss @ONLY)
 
     find_program(ISCC_PATH
@@ -219,8 +219,6 @@ if(WIN32)
             COMMAND ${ISCC_PATH} "${PROJECT_BINARY_DIR}/patch_scene.iss"
             USES_TERMINAL)
     endif()
-
-
 
     configure_file(cmake/mingw_deploy.cmake.in ${PROJECT_BINARY_DIR}/mingw_deploy.cmake @ONLY)
     configure_file(scripts/mingw_deploy.sh ${PROJECT_BINARY_DIR}/mingw_deploy.sh @ONLY)
