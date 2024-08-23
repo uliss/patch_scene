@@ -747,8 +747,7 @@
       },
       {
         "vendor": "Apple",
-        "model": "",
-        "title": "Macbook Air M1",
+        "model": "Macbook Air M1",
         "category": "computer",
         "image": "laptop_1",
         "outputs": [
@@ -801,7 +800,7 @@
         "zoom": 0.5,
         "outputs": [
           {
-            "model": "jack_trs"
+            "model": "jack_mini_trs"
           }
         ],
         "inputs": [
