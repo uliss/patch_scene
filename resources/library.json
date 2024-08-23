@@ -2109,6 +2109,12 @@
         ]
       },
       {
+        "title": "Viola da gamba",
+        "title-ru": "Виола да гамба",
+        "image": "gamba_1",
+        "zoom": 1.6
+      },
+      {
         "title": "Gong",
         "title-ru": "Гонг",
         "image": "gong_1"
