@@ -137,5 +137,6 @@
         <file>devices/gamba_1.svg</file>
         <file>devices/human_gamba_1.svg</file>
         <file>devices/amore_1.svg</file>
+        <file>devices/human_amore_1.svg</file>
     </qresource>
 </RCC>

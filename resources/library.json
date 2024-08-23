@@ -2553,6 +2553,11 @@
         "title": "Viola da Gamba player",
         "title-ru": "Гамбист",
         "image": "human_gamba_1"
+      },
+      {
+        "title": "Viola d'Amore player",
+        "title-ru": "Исполнитель на виоле д'аморе",
+        "image": "human_amore_1"
       }
     ]
   }
