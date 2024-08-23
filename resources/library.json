@@ -2115,6 +2115,12 @@
         "zoom": 1.6
       },
       {
+        "title": "Viola d'amore",
+        "title-ru": "Виола д'аморе",
+        "image": "amore_1",
+        "zoom": 1
+      },
+      {
         "title": "Gong",
         "title-ru": "Гонг",
         "image": "gong_1"

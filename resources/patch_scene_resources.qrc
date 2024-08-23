@@ -136,5 +136,6 @@
         <file>ceam_logo_color.png</file>
         <file>devices/gamba_1.svg</file>
         <file>devices/human_gamba_1.svg</file>
+        <file>devices/amore_1.svg</file>
     </qresource>
 </RCC>
