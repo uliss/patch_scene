@@ -2542,6 +2542,11 @@
         "title": "Acoustic guitar player",
         "title-ru": "Гитарист (акустика)",
         "image": "human_guitar_1"
+      },
+      {
+        "title": "Viola da Gamba player",
+        "title-ru": "Гамбист",
+        "image": "human_gamba_1"
       }
     ]
   }
