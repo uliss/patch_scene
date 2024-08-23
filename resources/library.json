@@ -2501,12 +2501,12 @@
       },
       {
         "title": "Balalaika player",
-        "title-ru": "Балалаешник",
+        "title-ru": "Балалаечник",
         "image": "human_balalaika_1"
       },
       {
         "title": "Balalaika Bass player",
-        "title-ru": "Бас-балалаешник",
+        "title-ru": "Бас-балалаечник",
         "image": "human_balalaika_bass"
       },
       {
@@ -2557,6 +2557,11 @@
         "title": "Viola d'Amore player",
         "title-ru": "Исполнитель на виоле д'аморе",
         "image": "human_amore_1"
+      },
+      {
+        "title": "Composer",
+        "title-ru": "Композитор",
+        "image": "human_composer_1"
       }
     ]
   }
