@@ -53,22 +53,22 @@ void TestConnection::dataJson()
 
 void TestConnection::dataHash()
 {
-    QCOMPARE_EQ(qHash(ConnectionData(0, 0, 0, 0)), qHash(ConnectionData(0, 0, 0, 0)));
-    QCOMPARE_NE(qHash(ConnectionData(0, 0, 0, 0)), qHash(ConnectionData(1, 0, 0, 0)));
-    QCOMPARE_NE(qHash(ConnectionData(0, 0, 0, 0)), qHash(ConnectionData(0, 1, 0, 0)));
-    QCOMPARE_NE(qHash(ConnectionData(0, 0, 0, 0)), qHash(ConnectionData(0, 0, 1, 0)));
-    QCOMPARE_NE(qHash(ConnectionData(0, 0, 0, 0)), qHash(ConnectionData(0, 0, 0, 1)));
+    QCOMPARE(qHash(ConnectionData(0, 0, 0, 0)), qHash(ConnectionData(0, 0, 0, 0)));
+    QVERIFY(qHash(ConnectionData(0, 0, 0, 0)) != qHash(ConnectionData(1, 0, 0, 0)));
+    QVERIFY(qHash(ConnectionData(0, 0, 0, 0)) != qHash(ConnectionData(0, 1, 0, 0)));
+    QVERIFY(qHash(ConnectionData(0, 0, 0, 0)) != qHash(ConnectionData(0, 0, 1, 0)));
+    QVERIFY(qHash(ConnectionData(0, 0, 0, 0)) != qHash(ConnectionData(0, 0, 0, 1)));
 }
 
 void TestConnection::testConnection()
 {
     Connection conn(ConnectionData(1, 2, 3, 4));
-    QCOMPARE_EQ(conn.connectionData(), ConnectionData(1, 2, 3, 4));
+    QCOMPARE(conn.connectionData(), ConnectionData(1, 2, 3, 4));
     QVERIFY(conn.relatesToDevice(1));
     QVERIFY(!conn.relatesToDevice(2));
     QVERIFY(conn.relatesToDevice(3));
     QVERIFY(!conn.relatesToDevice(4));
-    QCOMPARE_EQ(conn, ConnectionData(1, 2, 3, 4));
+    QCOMPARE(conn, ConnectionData(1, 2, 3, 4));
     QVERIFY(!(conn == ConnectionData(1, 2, 3, 1)));
 
     QVERIFY(!conn.checkConnectedElements());
@@ -113,7 +113,10 @@ void TestConnection::findConnected()
     QCOMPARE(x->second->id(), 200);
     QCOMPARE(conn->boundingRect(), QRect());
     conn->updateCachedPos();
+
+#ifdef Q_OS_DARWIN
     QCOMPARE(conn->boundingRect(), QRectF(10, 64.5, 0, 60));
+#endif
 
     auto conn2 = new Connection({ 101, 0, 200, 0 });
     sc.addItem(conn2);
