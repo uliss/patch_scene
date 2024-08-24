@@ -2614,6 +2614,11 @@
         "title": "Harpsicord Player",
         "title-ru": "Клавесинист",
         "image": "human_harpsichord_1"
+      },
+      {
+        "title": " Alto Saxophone Player",
+        "title-ru": "Саксофонист (альт)",
+        "image": "human_alto_sax_1"
       }
     ]
   }
