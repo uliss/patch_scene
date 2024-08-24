@@ -148,5 +148,6 @@
         <file>devices/human_choir_2.svg</file>
         <file>devices/human_singer_2.svg</file>
         <file>devices/harpsichord_1.svg</file>
+        <file>devices/human_harpsichord_1.svg</file>
     </qresource>
 </RCC>

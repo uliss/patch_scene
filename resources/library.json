@@ -2173,7 +2173,7 @@
         "title": "Harpsichord",
         "title-ru": "Клавесин",
         "image": "harpsichord_1",
-        "zoom": 2
+        "zoom": 1
       }
     ],
     "sends": [
@@ -2603,6 +2603,11 @@
         "title": "Male choir",
         "title-ru": "Мужской хор",
         "image": "human_choir_2"
+      },
+      {
+        "title": "Harpsicord Player",
+        "title-ru": "Клавесинист",
+        "image": "human_harpsichord_1"
       }
     ]
   }
