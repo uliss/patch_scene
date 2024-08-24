@@ -2579,9 +2579,14 @@
         "image": "human_singer_1"
       },
       {
-        "title": "Women choir",
+        "title": "Female choir",
         "title-ru": "Женский хор",
         "image": "human_choir_1"
+      },
+      {
+        "title": "Male choir",
+        "title-ru": "Мужской хор",
+        "image": "human_choir_2"
       }
     ]
   }

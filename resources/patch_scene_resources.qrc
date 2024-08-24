@@ -145,5 +145,6 @@
         <file>devices/human_composer_3.svg</file>
         <file>devices/human_singer_1.svg</file>
         <file>devices/human_choir_1.svg</file>
+        <file>devices/human_choir_2.svg</file>
     </qresource>
 </RCC>
