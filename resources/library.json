@@ -2561,7 +2561,17 @@
       {
         "title": "Composer",
         "title-ru": "Композитор",
-        "image": "human_composer_1"
+        "image": "human_composer_2"
+      },
+      {
+        "title": "Service man",
+        "title-ru": "Техник",
+        "image": "human_technik_1"
+      },
+      {
+        "title": "Sound Engineer",
+        "title-ru": "Звукорежиссёр",
+        "image": "human_sound_enginer_1"
       }
     ]
   }

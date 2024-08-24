@@ -139,5 +139,8 @@
         <file>devices/amore_1.svg</file>
         <file>devices/human_amore_1.svg</file>
         <file>devices/human_composer_1.svg</file>
+        <file>devices/human_technik_1.svg</file>
+        <file>devices/human_composer_2.svg</file>
+        <file>devices/human_sound_enginer_1.svg</file>
     </qresource>
 </RCC>
