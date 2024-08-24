@@ -2077,6 +2077,12 @@
         "zoom": 0.75
       },
       {
+        "title": "Alto Saxophone",
+        "title-ru": "Саксофон альт",
+        "image": "saxophone_alto_1",
+        "zoom": 1
+      },
+      {
         "title": "Harp",
         "title-ru": "Арфа",
         "image": "harp_1",
