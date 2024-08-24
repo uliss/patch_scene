@@ -2168,6 +2168,12 @@
         "title-ru": "Банджо",
         "image": "banjo_1",
         "zoom": 1
+      },
+      {
+        "title": "Harpsichord",
+        "title-ru": "Клавесин",
+        "image": "harpsichord_1",
+        "zoom": 2
       }
     ],
     "sends": [
@@ -2572,6 +2578,16 @@
         "title": "Sound Engineer",
         "title-ru": "Звукорежиссёр",
         "image": "human_sound_enginer_1"
+      },
+      {
+        "title": "Female Opera Singer",
+        "title-ru": "Оперная певица",
+        "image": "human_singer_1"
+      },
+      {
+        "title": "Male Opera Singer",
+        "title-ru": "Оперный певец",
+        "image": "human_singer_2"
       },
       {
         "title": "Singer female",
