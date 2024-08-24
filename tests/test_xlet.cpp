@@ -47,13 +47,13 @@ void TestXlet::json()
     QCOMPARE(data1.toJson().count(), 6);
 
     data1.setName("Xlet");
-    QCOMPARE_NE(data1, data2);
-    QCOMPARE_NE(data1.toJson(), data2.toJson());
+    QVERIFY(data1 != data2);
+    QVERIFY(data1.toJson() != data2.toJson());
 
     QVERIFY(!XletData::fromJson({}));
     auto data3 = XletData::fromJson(data1.toJson());
     QVERIFY(data3);
-    QCOMPARE_EQ(data1, data3.value());
+    QCOMPARE(data1, data3.value());
 }
 
 static TestXlet test;
