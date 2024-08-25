@@ -100,7 +100,7 @@ qt_add_executable(patch_scene
     ${app_icon_macos}
     main.cpp
     resources/patch_scene_resources.qrc
-    resources/ceam_logo_color.png
+    table_cell_power.h table_cell_power.cpp
 )
 
 add_dependencies(patch_scene git_version)

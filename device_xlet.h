@@ -50,6 +50,7 @@ public:
     void setPhantom(bool on) { phantom_power_ = on; }
 
     PowerType powerType() const { return power_type_; }
+    void setPowerType(PowerType type) { power_type_ = type; }
 
     QString modelString() const;
     QString typeString() const;

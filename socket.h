@@ -16,6 +16,8 @@
 
 #include <QObject>
 
+#include <functional>
+
 namespace ceam {
 
 enum class ConnectorModel : std::uint8_t {
@@ -104,8 +106,6 @@ enum class ConnectorModel : std::uint8_t {
     CONNECTOR_MAX,
 };
 
-bool connectSupportsPhantomPower(ConnectorModel model);
-
 const QString& connectorSvgName(ConnectorModel model);
 const QString& connectorJsonName(ConnectorModel model);
 const QString& connectorName(ConnectorModel model);
@@ -136,10 +136,13 @@ enum class PowerType : std::uint8_t {
     AC,
     AC_DC,
     Phantom,
+    //
+    MaxPowerType,
 };
 
 QString powerTypeToString(PowerType type);
 std::optional<PowerType> powerTypeFromString(const QString& str);
+void foreachPowerType(const std::function<void(PowerType, int /*idx*/)>& fn);
 
 }
 

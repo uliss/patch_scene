@@ -185,18 +185,6 @@ QString ceam::connectorTypeName(ConnectorType type)
     }
 }
 
-bool ceam::connectSupportsPhantomPower(ConnectorModel model)
-{
-    switch (model) {
-    case ConnectorModel::XLR:
-    case ConnectorModel::XLR_JACK_COMBO:
-    case ConnectorModel::XLR_MINI:
-        return true;
-    default:
-        return false;
-    }
-}
-
 bool ceam::connectorIsSocket(ConnectorType type)
 {
     return type == ConnectorType::Socket_Female || type == ConnectorType::Socket_Male;
@@ -245,4 +233,13 @@ std::optional<PowerType> ceam::powerTypeFromString(const QString& str)
         return PowerType::Phantom;
     else
         return {};
+}
+
+void ceam::foreachPowerType(const std::function<void(PowerType, int)>& fn)
+{
+    for (int i = static_cast<int>(PowerType::None);
+         i < static_cast<int>(PowerType::MaxPowerType);
+         i++) {
+        fn(static_cast<PowerType>(i), i);
+    }
 }

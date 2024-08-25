@@ -73,7 +73,7 @@ XletData::XletData(const QString& name, ConnectorModel model)
 
 bool XletData::supportsPhantomPower() const
 {
-    return ceam::connectSupportsPhantomPower(model_);
+    return power_type_ == PowerType::Phantom;
 }
 
 QString XletData::modelString() const

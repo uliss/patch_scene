@@ -325,49 +325,49 @@
             "model": "xlr_jack",
             "socket": "female",
             "name": "1",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr_jack",
             "socket": "female",
             "name": "2",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr_jack",
             "socket": "female",
             "name": "3",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr_jack",
             "socket": "female",
             "name": "4",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr_jack",
             "socket": "female",
             "name": "5",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr_jack",
             "socket": "female",
             "name": "6",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr_jack",
             "socket": "female",
             "name": "7",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr_jack",
             "socket": "female",
             "name": "8",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "midi",
@@ -499,25 +499,25 @@
             "model": "xlr",
             "socket": "female",
             "name": "Mic/Line 1",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "socket": "female",
             "name": "Mic/Line 2",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "socket": "female",
             "name": "Mic/Line 3",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "socket": "female",
             "name": "Mic/Line 4",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "jack_ts",
@@ -960,8 +960,7 @@
           },
           {
             "model": "xlr",
-            "power": "phantom",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "power_dc_5.5x2.1",
@@ -979,97 +978,97 @@
             "model": "xlr_jack",
             "socket": "female",
             "name": "1",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr_jack",
             "socket": "female",
             "name": "2",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr_jack",
             "socket": "female",
             "name": "3",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr_jack",
             "socket": "female",
             "name": "4",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr_jack",
             "socket": "female",
             "name": "5",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr_jack",
             "socket": "female",
             "name": "6",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr_jack",
             "socket": "female",
             "name": "7",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr_jack",
             "socket": "female",
             "name": "8",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr_jack",
             "socket": "female",
             "name": "9",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr_jack",
             "socket": "female",
             "name": "10",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr_jack",
             "socket": "female",
             "name": "11",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr_jack",
             "socket": "female",
             "name": "12",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr_jack",
             "socket": "female",
             "name": "13",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr_jack",
             "socket": "female",
             "name": "14",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr_jack",
             "socket": "female",
             "name": "15",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr_jack",
             "socket": "female",
             "name": "16",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "ethernet",
@@ -1842,7 +1841,7 @@
           {
             "model": "xlr_jack",
             "name": "In Right",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "jack_ts",
@@ -2189,12 +2188,12 @@
           {
             "model": "xlr",
             "name": "Send #1",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "name": "Send #2",
-            "phantom": true
+            "power": "phantom"
           }
         ]
       },
@@ -2204,22 +2203,22 @@
           {
             "model": "xlr",
             "name": "Send #1",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "name": "Send #2",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "name": "Send #3",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "name": "Send #4",
-            "phantom": true
+            "power": "phantom"
           }
         ]
       },
@@ -2229,42 +2228,42 @@
           {
             "model": "xlr",
             "name": "Send #1",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "name": "Send #2",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "name": "Send #3",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "name": "Send #4",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "name": "Send #5",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "name": "Send #6",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "name": "Send #7",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "name": "Send #8",
-            "phantom": true
+            "power": "phantom"
           }
         ]
       },
@@ -2274,82 +2273,82 @@
           {
             "model": "xlr",
             "name": "Send #1",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "name": "Send #2",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "name": "Send #3",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "name": "Send #4",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "name": "Send #5",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "name": "Send #6",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "name": "Send #7",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "name": "Send #8",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "name": "Send #9",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "name": "Send #10",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "name": "Send #11",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "name": "Send #12",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "name": "Send #13",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "name": "Send #14",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "name": "Send #15",
-            "phantom": true
+            "power": "phantom"
           },
           {
             "model": "xlr",
             "name": "Send #16",
-            "phantom": true
+            "power": "phantom"
           }
         ]
       }

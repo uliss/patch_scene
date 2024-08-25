@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include "deviceproperties.h"
 #include "device_pixmap.h"
+#include "table_cell_power.h"
 #include "tablecellcheckbox.h"
 #include "tablecellconnector.h"
 #include "ui_deviceproperties.h"
@@ -25,6 +26,7 @@ enum {
     COL_VISIBLE,
     COL_NAME,
     COL_SOCKET,
+    COL_POWER_TYPE,
     COL_PHANTOM,
 };
 
@@ -109,7 +111,7 @@ void DeviceProperties::setupXletTable(QTableWidget* tab, size_t rows)
     tab->setRowCount(rows);
     tab->setSelectionBehavior(QAbstractItemView::SelectRows);
     tab->setSelectionMode(QTableWidget::ContiguousSelection);
-    tab->setHorizontalHeaderLabels({ tr("Type"), tr("Show"), tr("Name"), tr("Socket"), tr("Phantom") });
+    tab->setHorizontalHeaderLabels({ tr("Type"), tr("Show"), tr("Name"), tr("Socket"), tr("Power"), tr("Phantom") });
     tab->setColumnWidth(COL_MODEL, 100);
     // tab->setColumnWidth(COL_NAME, 100);
     // tab->setColumnWidth(COL_VISIBLE, 60);
@@ -173,15 +175,19 @@ void DeviceProperties::insertXlet(QTableWidget* tab, int row, const XletData& da
     socket->setCurrentIndex(data.connectorType() != ConnectorType::Socket_Female);
     tab->setCellWidget(row, COL_SOCKET, socket);
 
+    // power
+    auto power = new TableCellPower(data.powerType(), this);
+    tab->setCellWidget(row, COL_POWER_TYPE, power);
+
     // phantom power
     auto phantom = new TableCellCheckBox(data.isPhantomOn());
     phantom->setEnabled(data.supportsPhantomPower());
     tab->setCellWidget(row, COL_PHANTOM, phantom);
 
-    connect(model, &TableCellConnector::currentIndexChanged, this, [tab, row, phantom](int idx) {
-        auto model = qobject_cast<TableCellConnector*>(tab->cellWidget(row, COL_MODEL));
-        if (model)
-            phantom->setEnabled(connectSupportsPhantomPower(model->connectorModel()));
+    connect(power, &TableCellConnector::currentIndexChanged, this, [tab, row, phantom](int idx) {
+        auto power = qobject_cast<TableCellPower*>(tab->cellWidget(row, COL_POWER_TYPE));
+        if (power)
+            phantom->setEnabled(power->powerType() == PowerType::Phantom);
     });
 
     auto nrows = std::max<int>(2, tab->rowCount());
@@ -453,6 +459,10 @@ bool DeviceProperties::getXletData(const QTableWidget* table, int row, XletData&
     auto model = qobject_cast<TableCellConnector*>(table->cellWidget(row, COL_MODEL));
     if (model)
         data.setConnectorModel(model->connectorModel());
+
+    auto power = qobject_cast<TableCellPower*>(table->cellWidget(row, COL_POWER_TYPE));
+    if (power)
+        data.setPowerType(power->powerType());
 
     auto phantom = qobject_cast<TableCellCheckBox*>(table->cellWidget(row, COL_PHANTOM));
     if (phantom && data.supportsPhantomPower())
