@@ -108,7 +108,7 @@ void DeviceProperties::setupXletTable(QTableWidget* tab, size_t rows)
 
     tab->setRowCount(rows);
     tab->setSelectionBehavior(QAbstractItemView::SelectRows);
-    tab->setSelectionMode(QTableWidget::NoSelection);
+    tab->setSelectionMode(QTableWidget::ContiguousSelection);
     tab->setHorizontalHeaderLabels({ tr("Type"), tr("Show"), tr("Name"), tr("Socket"), tr("Phantom") });
     tab->setColumnWidth(COL_MODEL, 100);
     // tab->setColumnWidth(COL_NAME, 100);
@@ -240,21 +240,32 @@ void DeviceProperties::enableCategoryWidgets(bool value, ItemCategory cat)
     adjustSize();
 }
 
+void DeviceProperties::enableInputButtons(int currentRow)
+{
+    ui->removeInlet->setEnabled(true);
+    ui->moveInletDown->setEnabled(currentRow + 1 != ui->inlets->rowCount());
+    ui->moveInletUp->setEnabled(currentRow != 0);
+}
+
+void DeviceProperties::enableOutputButtons(int currentRow)
+{
+    ui->removeOutlet->setEnabled(true);
+    ui->moveOutletDown->setEnabled(currentRow + 1 != ui->outlets->rowCount());
+    ui->moveOutletUp->setEnabled(currentRow != 0);
+}
+
 void DeviceProperties::setupXlets(const SharedDeviceData& data)
 {
     connect(ui->addInlet, &QToolButton::clicked, this, [this](bool) {
         auto row = ui->inlets->currentRow();
         if (row >= 0) {
-            if (duplicateXlet(ui->inlets, row)) {
-                auto idx = ui->inlets->model()->index(row, 0);
-                ui->inlets->selectRow(row + 1);
-                ui->inlets->scrollTo(idx);
-            }
+            if (duplicateXlet(ui->inlets, row))
+                selectXletRow(ui->inlets, row + 1);
         } else { // no selection
             auto nrows = ui->inlets->rowCount();
             if (nrows > 0) {
                 if (duplicateXlet(ui->inlets, nrows - 1))
-                    ui->inlets->scrollToBottom();
+                    selectXletRow(ui->inlets, nrows);
             } else {
                 ui->inlets->setRowCount(1);
                 insertXlet(ui->inlets, 0, XletData { {}, ConnectorModel::XLR });
@@ -265,14 +276,17 @@ void DeviceProperties::setupXlets(const SharedDeviceData& data)
     connect(ui->removeInlet, &QToolButton::clicked, this, [this](bool) {
         auto row = ui->inlets->currentRow();
         if (row >= 0) {
-            removeXlet(ui->inlets, row);
+            if (removeXlet(ui->inlets, row))
+                selectXletRow(ui->inlets, row);
         } else { // no selection
             auto nrows = ui->inlets->rowCount();
-            if (nrows > 0) {
-                removeXlet(ui->inlets, nrows - 1);
+            if (nrows > 0) { // remove last inlet
+                if (removeXlet(ui->inlets, nrows - 1))
+                    selectXletRow(ui->inlets, nrows - 2);
             }
         }
 
+        // remove inlet button
         ui->removeInlet->setEnabled(ui->inlets->rowCount() > 0);
     });
     connect(ui->moveInletUp, &QToolButton::clicked, this, [this](bool) {
@@ -284,25 +298,30 @@ void DeviceProperties::setupXlets(const SharedDeviceData& data)
     connect(ui->addOutlet, &QToolButton::clicked, this, [this](bool) {
         auto row = ui->outlets->currentRow();
         if (row >= 0) {
-            duplicateXlet(ui->outlets, row);
+            if (duplicateXlet(ui->outlets, row))
+                selectXletRow(ui->outlets, row + 1);
         } else { // no selection
             auto nrows = ui->outlets->rowCount();
             if (nrows > 0) {
-                duplicateXlet(ui->outlets, nrows - 1);
+                if (duplicateXlet(ui->outlets, nrows - 1))
+                    selectXletRow(ui->outlets, nrows);
             } else {
                 ui->outlets->setRowCount(1);
                 insertXlet(ui->outlets, 0, XletData { {}, ConnectorModel::XLR });
+                ui->outlets->selectRow(0);
             }
         }
     });
     connect(ui->removeOutlet, &QToolButton::clicked, this, [this](bool) {
         auto row = ui->outlets->currentRow();
         if (row >= 0) {
-            removeXlet(ui->outlets, row);
+            if (removeXlet(ui->outlets, row))
+                selectXletRow(ui->outlets, row);
         } else { // no selection
             auto nrows = ui->outlets->rowCount();
             if (nrows > 0) {
-                removeXlet(ui->outlets, nrows - 1);
+                if (removeXlet(ui->outlets, nrows - 1))
+                    selectXletRow(ui->outlets, nrows - 2);
             }
         }
 
@@ -327,17 +346,9 @@ void DeviceProperties::setupXlets(const SharedDeviceData& data)
     ui->moveOutletUp->setEnabled(false);
 
     connect(ui->inlets, &QTableWidget::currentCellChanged, this,
-        [this](int curRow, int, int, int) {
-            ui->removeInlet->setEnabled(true);
-            ui->moveInletDown->setEnabled(curRow + 1 != ui->inlets->rowCount());
-            ui->moveInletUp->setEnabled(curRow != 0);
-        });
+        [this](int curRow, int, int, int) { enableInputButtons(curRow); });
     connect(ui->outlets, &QTableWidget::currentCellChanged, this,
-        [this](int curRow, int curCol, int, int) {
-            ui->removeOutlet->setEnabled(true);
-            ui->moveOutletDown->setEnabled(curRow + 1 != ui->inlets->rowCount());
-            ui->moveOutletUp->setEnabled(curRow != 0);
-        });
+        [this](int curRow, int curCol, int, int) { enableOutputButtons(curRow); });
 
     int in_idx = 0;
     for (auto& in : data->inputs()) {
@@ -381,6 +392,22 @@ void DeviceProperties::syncXlets(const QTableWidget* table, QList<XletData>& xle
     }
 }
 
+bool DeviceProperties::selectXletRow(QTableWidget* table, int row)
+{
+    if (!table || row < 0 || row >= table->rowCount())
+        return false;
+
+    auto model = table->model();
+    if (!model)
+        return false;
+
+    table->selectRow(row);
+    auto idx = model->index(row, 0);
+    table->scrollTo(idx);
+    emit table->currentCellChanged(row, 0, -1, -1);
+    return true;
+}
+
 bool DeviceProperties::moveXlet(QTableWidget* table, int row, bool up)
 {
     if (up) {
@@ -392,8 +419,8 @@ bool DeviceProperties::moveXlet(QTableWidget* table, int row, bool up)
                 insertXlet(table, row, prev_data, false);
             }
 
+            selectXletRow(table, row - 1);
             return true;
-
         } else
             return false;
     } else {
@@ -405,6 +432,7 @@ bool DeviceProperties::moveXlet(QTableWidget* table, int row, bool up)
                 insertXlet(table, row, next_data, false);
             }
 
+            selectXletRow(table, row + 1);
             return true;
 
         } else

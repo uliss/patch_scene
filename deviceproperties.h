@@ -55,11 +55,15 @@ private:
     void updateImagePreview();
 
     void enableCategoryWidgets(bool value, ItemCategory cat);
+    void enableInputButtons(int currentRow);
+    void enableOutputButtons(int currentRow);
 
 private:
     static bool getXletData(const QTableWidget* table, int row, XletData& data);
     static bool removeXlet(QTableWidget* table, int row);
     static void syncXlets(const QTableWidget* table, QList<XletData>& xlets);
+    static bool selectXletRow(QTableWidget* table, int row);
+
     bool moveXlet(QTableWidget* table, int row, bool up);
 
 private:
