@@ -25,6 +25,7 @@ class DeviceProperties;
 
 class QComboBox;
 class QTableWidget;
+class QTableWidgetItem;
 
 namespace ceam {
 
@@ -59,6 +60,7 @@ private:
     static bool getXletData(const QTableWidget* table, int row, XletData& data);
     static bool removeXlet(QTableWidget* table, int row);
     static void syncXlets(const QTableWidget* table, QList<XletData>& xlets);
+    bool moveXlet(QTableWidget* table, int row, bool up);
 
 private:
     Ui::DeviceProperties* ui;

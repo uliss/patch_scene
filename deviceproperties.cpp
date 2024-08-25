@@ -269,6 +269,12 @@ void DeviceProperties::setupXlets(const SharedDeviceData& data)
 
         ui->removeInlet->setEnabled(ui->inlets->rowCount() > 0);
     });
+    connect(ui->moveInletUp, &QToolButton::clicked, this, [this](bool) {
+        moveXlet(ui->inlets, ui->inlets->currentRow(), true);
+    });
+    connect(ui->moveInletDown, &QToolButton::clicked, this, [this](bool) {
+        moveXlet(ui->inlets, ui->inlets->currentRow(), false);
+    });
     connect(ui->addOutlet, &QToolButton::clicked, this, [this](bool) {
         auto row = ui->outlets->currentRow();
         if (row >= 0) {
@@ -296,14 +302,34 @@ void DeviceProperties::setupXlets(const SharedDeviceData& data)
 
         ui->removeOutlet->setEnabled(ui->outlets->rowCount() > 0);
     });
+    connect(ui->moveOutletUp, &QToolButton::clicked, this, [this](bool) {
+        moveXlet(ui->outlets, ui->outlets->currentRow(), true);
+    });
+    connect(ui->moveOutletDown, &QToolButton::clicked, this, [this](bool) {
+        moveXlet(ui->outlets, ui->outlets->currentRow(), false);
+    });
 
     setupXletTable(ui->inlets, data->inputs().size());
     setupXletTable(ui->outlets, data->outputs().size());
 
     ui->removeInlet->setEnabled(false);
+    ui->moveInletDown->setEnabled(false);
+    ui->moveInletUp->setEnabled(false);
+
     ui->removeOutlet->setEnabled(false);
-    connect(ui->inlets, &QTableWidget::currentCellChanged, this, [this]() { ui->removeInlet->setEnabled(true); });
-    connect(ui->outlets, &QTableWidget::currentCellChanged, this, [this]() { ui->removeOutlet->setEnabled(true); });
+    ui->moveOutletDown->setEnabled(false);
+    ui->moveOutletUp->setEnabled(false);
+
+    connect(ui->inlets, &QTableWidget::currentCellChanged, this, [this]() {
+        ui->removeInlet->setEnabled(true);
+        ui->moveInletDown->setEnabled(true);
+        ui->moveInletUp->setEnabled(true);
+    });
+    connect(ui->outlets, &QTableWidget::currentCellChanged, this, [this]() {
+        ui->removeOutlet->setEnabled(true);
+        ui->moveOutletDown->setEnabled(true);
+        ui->moveOutletUp->setEnabled(true);
+    });
 
     int in_idx = 0;
     for (auto& in : data->inputs()) {
@@ -344,6 +370,37 @@ void DeviceProperties::syncXlets(const QTableWidget* table, QList<XletData>& xle
         XletData data;
         if (getXletData(table, i, data))
             xlets.push_back(data);
+    }
+}
+
+bool DeviceProperties::moveXlet(QTableWidget* table, int row, bool up)
+{
+    if (up) {
+        if (row > 0 && row < table->rowCount()) {
+            XletData prev_data;
+            if (getXletData(table, row - 1, prev_data)) {
+                table->removeRow(row - 1);
+                table->insertRow(row);
+                insertXlet(table, row, prev_data, false);
+            }
+
+            return true;
+
+        } else
+            return false;
+    } else {
+        if (row >= 0 && (row + 1) < table->rowCount()) {
+            XletData next_data;
+            if (getXletData(table, row + 1, next_data)) {
+                table->removeRow(row + 1);
+                table->insertRow(row);
+                insertXlet(table, row, next_data, false);
+            }
+
+            return true;
+
+        } else
+            return false;
     }
 }
 

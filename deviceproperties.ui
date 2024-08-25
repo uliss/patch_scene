@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>690</width>
-    <height>470</height>
+    <width>693</width>
+    <height>515</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -173,6 +173,38 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QToolButton" name="moveInletUp">
+         <property name="maximumSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Move input up</string>
+         </property>
+         <property name="text">
+          <string notr="true">↑</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="moveInletDown">
+         <property name="maximumSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Move input down</string>
+         </property>
+         <property name="text">
+          <string notr="true">↓</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
      <item row="5" column="0">
@@ -250,6 +282,38 @@
          </property>
          <property name="text">
           <string notr="true">-</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="moveOutletUp">
+         <property name="maximumSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Move output up</string>
+         </property>
+         <property name="text">
+          <string notr="true">↑</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="moveOutletDown">
+         <property name="maximumSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Move output down</string>
+         </property>
+         <property name="text">
+          <string notr="true">↓</string>
          </property>
         </widget>
        </item>
