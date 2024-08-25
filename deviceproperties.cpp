@@ -320,16 +320,18 @@ void DeviceProperties::setupXlets(const SharedDeviceData& data)
     ui->moveOutletDown->setEnabled(false);
     ui->moveOutletUp->setEnabled(false);
 
-    connect(ui->inlets, &QTableWidget::currentCellChanged, this, [this]() {
-        ui->removeInlet->setEnabled(true);
-        ui->moveInletDown->setEnabled(true);
-        ui->moveInletUp->setEnabled(true);
-    });
-    connect(ui->outlets, &QTableWidget::currentCellChanged, this, [this]() {
-        ui->removeOutlet->setEnabled(true);
-        ui->moveOutletDown->setEnabled(true);
-        ui->moveOutletUp->setEnabled(true);
-    });
+    connect(ui->inlets, &QTableWidget::currentCellChanged, this,
+        [this](int curRow, int, int, int) {
+            ui->removeInlet->setEnabled(true);
+            ui->moveInletDown->setEnabled(curRow + 1 != ui->inlets->rowCount());
+            ui->moveInletUp->setEnabled(curRow != 0);
+        });
+    connect(ui->outlets, &QTableWidget::currentCellChanged, this,
+        [this](int curRow, int curCol, int, int) {
+            ui->removeOutlet->setEnabled(true);
+            ui->moveOutletDown->setEnabled(curRow + 1 != ui->inlets->rowCount());
+            ui->moveOutletUp->setEnabled(curRow != 0);
+        });
 
     int in_idx = 0;
     for (auto& in : data->inputs()) {
