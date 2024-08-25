@@ -48,6 +48,8 @@ public:
     SharedDeviceData deviceData() const;
     void setDeviceData(const SharedDeviceData& data);
 
+    void randomizePos(qint64 delta);
+
 private:
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
     void paintTitleBox(QPainter* painter);

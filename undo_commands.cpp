@@ -375,6 +375,7 @@ void PasteFromClipBuffer::redo()
     added_.clear();
     for (const auto& data : data_) {
         auto dev = new Device(data);
+        dev->randomizePos(50);
         // dev->setSelected(true);
         added_.push_back(dev->id());
         doc_->addDevice(dev);

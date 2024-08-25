@@ -21,6 +21,7 @@
 #include <QMenu>
 #include <QPainter>
 #include <QPen>
+#include <QRandomGenerator>
 #include <QStyleOptionGraphicsItem>
 #include <QTextDocument>
 
@@ -731,4 +732,13 @@ void Device::setDeviceData(const SharedDeviceData& data)
 
     data_ = data;
     syncRect();
+}
+
+void Device::randomizePos(qint64 delta)
+{
+    auto value = qAbs(delta);
+    auto dx = QRandomGenerator::global()->bounded(-value, value);
+    auto dy = QRandomGenerator::global()->bounded(-value, value);
+
+    setPos(x() + dx, y() + dy);
 }
