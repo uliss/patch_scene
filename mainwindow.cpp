@@ -889,6 +889,10 @@ void MainWindow::duplicateSelection()
 void MainWindow::exportItemData(const DeviceData& data)
 {
     auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, "", QStandardPaths::LocateDirectory);
+    auto dev_title = data.title();
+    if (!dev_title.isEmpty())
+        path = QDir(path).filePath(dev_title);
+
     auto json_file = QFileDialog::getSaveFileName(this, tr("Export element to JSON format"), path, tr("JSON format (*.json)"));
     if (json_file.isEmpty())
         return;
