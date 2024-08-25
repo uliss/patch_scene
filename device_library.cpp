@@ -18,6 +18,7 @@
 #include <QJsonDocument>
 
 namespace {
+constexpr const char* JSON_KEY_LIBRARY = "library";
 constexpr const char* JSON_KEY_DEVICES = "devices";
 constexpr const char* JSON_KEY_INSTRUMENTS = "instruments";
 constexpr const char* JSON_KEY_SENDS = "sends";
@@ -81,6 +82,58 @@ bool DeviceLibrary::readFile(const QString& filename)
     return true;
 }
 
+bool DeviceLibrary::writeFile(const QString& filename)
+{
+    QFile file(filename);
+    if (!file.open(QIODeviceBase::WriteOnly))
+        return false;
+
+    QJsonObject lib;
+    writeItems(lib, devices_, ItemCategory::Device);
+    writeItems(lib, instruments_, ItemCategory::Instrument);
+    writeItems(lib, humans_, ItemCategory::Human);
+    writeItems(lib, furniture_, ItemCategory::Furniture);
+    writeItems(lib, sends_, ItemCategory::Send);
+    writeItems(lib, returns_, ItemCategory::Return);
+
+    QJsonObject root;
+    root[JSON_KEY_LIBRARY] = lib;
+    QJsonDocument doc(root);
+
+    return file.write(doc.toJson()) > 0;
+}
+
+void DeviceLibrary::addItems(const QList<SharedDeviceData>& items)
+{
+    for (auto& x : items) {
+        if (!x)
+            continue;
+
+        switch (x->category()) {
+        case ItemCategory::Device:
+            devices_.push_back(x);
+            break;
+        case ItemCategory::Instrument:
+            instruments_.push_back(x);
+            break;
+        case ItemCategory::Human:
+            humans_.push_back(x);
+            break;
+        case ItemCategory::Furniture:
+            furniture_.push_back(x);
+            break;
+        case ItemCategory::Send:
+            sends_.push_back(x);
+            break;
+        case ItemCategory::Return:
+            returns_.push_back(x);
+            break;
+        default:
+            break;
+        }
+    }
+}
+
 bool DeviceLibrary::readItems(const QJsonValue& value, QList<SharedDeviceData>& items, ItemCategory cat)
 {
     if (value.isUndefined())
@@ -100,5 +153,38 @@ bool DeviceLibrary::readItems(const QJsonValue& value, QList<SharedDeviceData>& 
         }
     }
 
+    return true;
+}
+
+bool DeviceLibrary::writeItems(QJsonObject& value, const QList<SharedDeviceData>& items, ItemCategory cat)
+{
+    QJsonArray arr;
+    for (auto& x : items) {
+        if (!x)
+            continue;
+
+        arr.append(x->toJson());
+    }
+
+    auto cat2key = [](ItemCategory cat) {
+        switch (cat) {
+        case ItemCategory::Device:
+            return JSON_KEY_DEVICES;
+        case ItemCategory::Instrument:
+            return JSON_KEY_INSTRUMENTS;
+        case ItemCategory::Human:
+            return JSON_KEY_HUMANS;
+        case ItemCategory::Furniture:
+            return JSON_KEY_FURNITURE;
+        case ItemCategory::Send:
+            return JSON_KEY_SENDS;
+        case ItemCategory::Return:
+            return JSON_KEY_RETURNS;
+        case ItemCategory::MaxCategory:
+            return "?";
+        }
+    };
+
+    value[cat2key(cat)] = arr;
     return true;
 }

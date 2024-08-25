@@ -26,6 +26,7 @@ public:
     DeviceLibrary();
 
     bool readFile(const QString& filename);
+    bool writeFile(const QString& filename);
 
     const QList<SharedDeviceData>& devices() const { return devices_; }
     const QList<SharedDeviceData>& furniture() const { return furniture_; }
@@ -34,8 +35,11 @@ public:
     const QList<SharedDeviceData>& returns() const { return returns_; }
     const QList<SharedDeviceData>& sends() const { return sends_; }
 
+    void addItems(const QList<SharedDeviceData>& items);
+
 private:
     static bool readItems(const QJsonValue& value, QList<SharedDeviceData>& items, ItemCategory cat);
+    static bool writeItems(QJsonObject& value, const QList<SharedDeviceData>& items, ItemCategory cat);
 
 private:
     QList<SharedDeviceData> devices_, instruments_, sends_, returns_, humans_, furniture_;
