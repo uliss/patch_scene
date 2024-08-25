@@ -245,14 +245,20 @@ void DeviceProperties::setupXlets(const SharedDeviceData& data)
     connect(ui->addInlet, &QToolButton::clicked, this, [this](bool) {
         auto row = ui->inlets->currentRow();
         if (row >= 0) {
-            duplicateXlet(ui->inlets, row);
+            if (duplicateXlet(ui->inlets, row)) {
+                auto idx = ui->inlets->model()->index(row, 0);
+                ui->inlets->selectRow(row + 1);
+                ui->inlets->scrollTo(idx);
+            }
         } else { // no selection
             auto nrows = ui->inlets->rowCount();
             if (nrows > 0) {
-                duplicateXlet(ui->inlets, nrows - 1);
+                if (duplicateXlet(ui->inlets, nrows - 1))
+                    ui->inlets->scrollToBottom();
             } else {
                 ui->inlets->setRowCount(1);
                 insertXlet(ui->inlets, 0, XletData { {}, ConnectorModel::XLR });
+                ui->inlets->selectRow(0);
             }
         }
     });
