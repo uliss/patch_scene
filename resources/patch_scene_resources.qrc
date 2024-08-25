@@ -151,5 +151,6 @@
         <file>devices/human_harpsichord_1.svg</file>
         <file>devices/saxophone_alto_1.svg</file>
         <file>devices/human_alto_sax_1.svg</file>
+        <file>devices/piano_2.svg</file>
     </qresource>
 </RCC>

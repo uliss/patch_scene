@@ -2067,8 +2067,8 @@
       {
         "title": "Piano",
         "title-ru": "Фортепиано",
-        "image": "piano_1",
-        "zoom": 2
+        "image": "piano_2",
+        "zoom": 1.25
       },
       {
         "title": "Balalaika",
@@ -2498,10 +2498,6 @@
         "image": "human_cello_2"
       },
       {
-        "title": "Cembalo player",
-        "image": "human_piano_1"
-      },
-      {
         "title": "Violin player",
         "title-ru": "Скрипач",
         "image": "human_violin_2"
@@ -2616,9 +2612,14 @@
         "image": "human_harpsichord_1"
       },
       {
-        "title": " Alto Saxophone Player",
+        "title": "Alto Saxophone Player",
         "title-ru": "Саксофонист (альт)",
         "image": "human_alto_sax_1"
+      },
+      {
+        "title": "Paino Player",
+        "title-ru": "Пианист",
+        "image": "human_piano_1"
       }
     ]
   }
