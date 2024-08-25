@@ -53,15 +53,13 @@ MainWindow::MainWindow(QWidget* parent)
     setupDockTitle(ui->favoritesDock);
     setUnifiedTitleAndToolBarOnMac(true);
 
-    favorites_ = new FavoritesWidget(ui->favoritesDock);
-    ui->favoritesHBox->layout()->addWidget(favorites_);
-
     initDeviceList();
     initConnectionList();
     initBatteryList();
     initSendList();
     initReturnList();
     initFurnitureList();
+    initFavorites();
 
     setupExpandButton(ui->deviceListBtn, ui->deviceList, ui->deviceListLine);
     setupExpandButton(ui->connectionListBtn, ui->connectionList, ui->connectionListLine);
@@ -92,7 +90,6 @@ MainWindow::MainWindow(QWidget* parent)
     updateTitle();
 
     loadLibrary();
-    loadFavorites();
 
     readPositionSettings();
     readRecentFiles();
@@ -101,6 +98,15 @@ MainWindow::MainWindow(QWidget* parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::initFavorites()
+{
+    favorites_ = new FavoritesWidget(ui->favoritesDock);
+    ui->favoritesHBox->layout()->addWidget(favorites_);
+
+    favorites_->setFromVariant(settings_.readFavorites());
+    connect(favorites_, SIGNAL(requestItemExport(DeviceData)), this, SLOT(exportItemData(DeviceData)));
 }
 
 void MainWindow::initDiagram()
@@ -661,11 +667,6 @@ void MainWindow::loadLibrary()
     loadSection(humans, dev_lib.humans());
 }
 
-void MainWindow::loadFavorites()
-{
-    favorites_->setFromVariant(settings_.readFavorites());
-}
-
 void MainWindow::createToolbarScaleView()
 {
     auto w = new QComboBox(this);
@@ -883,6 +884,30 @@ bool MainWindow::saveDocumentAs()
 void MainWindow::duplicateSelection()
 {
     diagram_->cmdDuplicateSelection();
+}
+
+void MainWindow::exportItemData(const DeviceData& data)
+{
+    auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, "", QStandardPaths::LocateDirectory);
+    auto json_file = QFileDialog::getSaveFileName(this, tr("Export element to JSON format"), path, tr("JSON format (*.json)"));
+    if (json_file.isEmpty())
+        return;
+
+    QFile file(json_file);
+    if (!file.open(QIODeviceBase::WriteOnly)) {
+        QMessageBox::critical(this,
+            tr("JSON export error"),
+            tr("Can't open file to writing: '%1'").arg(json_file));
+
+        return;
+    }
+
+    QJsonDocument doc(data.toJson());
+    if (file.write(doc.toJson()) < 0) {
+        QMessageBox::critical(this,
+            tr("JSON export error"),
+            tr("Can't write to file: '%1'").arg(json_file));
+    }
 }
 
 void MainWindow::exportToOdf()

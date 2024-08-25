@@ -122,6 +122,19 @@ void FavoritesWidget::initContextMenu()
                     model_->removeRow(item_idx.row());
                 });
             menu.addAction(removeAct);
+
+            auto exportAct = new QAction(tr("Export"), this);
+            connect(exportAct, &QAction::triggered, this,
+                [this, item_idx]() {
+                    auto dev = model_->deviceItem(item_idx.row(), item_idx.column());
+                    if (dev) {
+                        auto data = dev->deviceData();
+                        data.setId(DEV_NULL_ID);
+                        emit requestItemExport(data);
+                    }
+                });
+            menu.addAction(exportAct);
+
             menu.exec(mapToGlobal(pos));
         }
     });

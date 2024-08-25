@@ -31,6 +31,9 @@ public:
     void setFromVariant(const QList<QVariant>& items);
     QList<QVariant> toVariant() const;
 
+signals:
+    void requestItemExport(const DeviceData& data);
+
 private:
     DiagramItemModel* model_ { nullptr };
     void initContextMenu();

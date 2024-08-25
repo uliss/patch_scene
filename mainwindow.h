@@ -52,20 +52,21 @@ public:
     ~MainWindow();
 
 public slots:
+    bool openDocument(const QString& path);
     bool saveDocument();
     bool saveDocumentAs();
+    void documentProperties();
     void duplicateSelection();
+    void exportItemData(const DeviceData& data);
     void exportToOdf();
     void exportToPdf();
     void openDocument();
-    bool openDocument(const QString& path);
     void printScheme();
     void selectAll();
     void setBackground();
     void showAbout();
     void showPreferences();
     void updateTitle();
-    void documentProperties();
 
 protected:
     void closeEvent(QCloseEvent* event) override;
@@ -83,14 +84,15 @@ private slots:
 
 private:
     void initActions();
-    void initConnectionList();
     void initBatteryList();
+    void initConnectionList();
     void initDeviceList();
     void initDiagram();
+    void initFavorites();
+    void initFurnitureList();
     void initLibrarySearch();
     void initReturnList();
     void initSendList();
-    void initFurnitureList();
 
     void setProjectName(const QString& fileName);
     bool doSave();
@@ -106,7 +108,6 @@ private:
     void writePositionSettings() const;
 
     void loadLibrary();
-    void loadFavorites();
     void writeFavorites() const;
 
     void addRecentFile(const QUrl& file);
