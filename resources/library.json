@@ -2620,6 +2620,11 @@
         "title": "Paino Player",
         "title-ru": "Пианист",
         "image": "human_piano_1"
+      },
+      {
+        "title": "Drummer 1",
+        "title-ru": "Ударник",
+        "image": "human_drummer_1"
       }
     ]
   }
