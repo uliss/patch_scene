@@ -21,6 +21,7 @@
 
 using namespace ceam;
 
+namespace {
 class PSCTextBrowser : public QTextBrowser {
 public:
     explicit PSCTextBrowser(QWidget* parent)
@@ -38,6 +39,7 @@ public:
         }
     }
 };
+}
 
 AboutWindow::AboutWindow(QWidget* parent)
     : QDialog(parent)
