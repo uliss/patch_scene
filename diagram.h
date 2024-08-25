@@ -186,19 +186,20 @@ public:
 signals:
     void addToFavorites(SharedDeviceData data);
     void batteryChanged(const BatteryChange& data);
-    void sceneChanged(); // for document changes
-    void sceneClearAll();
     void canRedoChanged(bool);
     void canUndoChanged(bool);
-    void showCablesChanged(bool);
-    void showBackgroundChanged(bool);
-    void zoomChanged(qreal);
+    void connectionAdded(ConnectionData data);
+    void connectionRemoved(ConnectionData data);
     void deviceAdded(SharedDeviceData data);
     void deviceRemoved(SharedDeviceData data);
     void deviceTitleUpdated(DeviceId id, const QString& title);
     void deviceUpdated(SharedDeviceData data);
-    void connectionAdded(ConnectionData data);
-    void connectionRemoved(ConnectionData data);
+    void requestBackgroundChange();
+    void sceneChanged(); // for document changes
+    void sceneClearAll();
+    void showBackgroundChanged(bool);
+    void showCablesChanged(bool);
+    void zoomChanged(qreal);
 
 public slots:
     void clearUndoStack();

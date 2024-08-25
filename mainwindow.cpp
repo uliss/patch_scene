@@ -131,6 +131,7 @@ void MainWindow::initDiagram()
     connect(diagram_, &Diagram::zoomChanged, this, [this](qreal z) {
         statusBar()->showMessage(tr("Zoom %1%").arg(qRound(z * 100)), 1000);
     });
+    connect(diagram_, SIGNAL(requestBackgroundChange()), this, SLOT(setBackground()));
 }
 
 void MainWindow::initDeviceList()

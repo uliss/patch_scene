@@ -962,17 +962,27 @@ void Diagram::contextMenuEvent(QContextMenuEvent* event)
             menu.exec(mapToGlobal(pos));
         }
     } else {
-        auto addAct = new QAction(tr("&Add device"), this);
-        connect(addAct, &QAction::triggered, this,
+        auto add_act = new QAction(tr("&Add device"), this);
+        connect(add_act, &QAction::triggered, this,
             [this, pos]() { cmdCreateDevice(mapToScene(pos)); });
 
-        auto clearBgAct = new QAction(tr("&Clear background"), this);
-        connect(clearBgAct, &QAction::triggered, this,
-            [this, pos]() { clearBackground(); });
-
         QMenu menu(this);
-        menu.addAction(addAct);
-        menu.addAction(clearBgAct);
+        menu.addAction(add_act);
+
+        if (background_ && !background_->isEmpty()) {
+            auto clear_bg = new QAction(tr("&Clear background"), this);
+            connect(clear_bg, &QAction::triggered, this,
+                [this, pos]() { clearBackground(); });
+
+            menu.addAction(clear_bg);
+        } else {
+            auto set_bg = new QAction(tr("&Set background"), this);
+            connect(set_bg, &QAction::triggered, this,
+                [this, pos]() { emit requestBackgroundChange(); });
+
+            menu.addAction(set_bg);
+        }
+
         menu.exec(mapToGlobal(pos));
     }
 }
