@@ -107,6 +107,7 @@ void DeviceProperties::setupXletTable(QTableWidget* tab, size_t rows)
     }
 
     tab->setRowCount(rows);
+    tab->setSelectionBehavior(QAbstractItemView::SelectRows);
     tab->setSelectionMode(QTableWidget::NoSelection);
     tab->setHorizontalHeaderLabels({ tr("Type"), tr("Show"), tr("Name"), tr("Socket"), tr("Phantom") });
     tab->setColumnWidth(COL_MODEL, 100);
@@ -265,6 +266,8 @@ void DeviceProperties::setupXlets(const SharedDeviceData& data)
                 removeXlet(ui->inlets, nrows - 1);
             }
         }
+
+        ui->removeInlet->setEnabled(ui->inlets->rowCount() > 0);
     });
     connect(ui->addOutlet, &QToolButton::clicked, this, [this](bool) {
         auto row = ui->outlets->currentRow();
@@ -290,10 +293,17 @@ void DeviceProperties::setupXlets(const SharedDeviceData& data)
                 removeXlet(ui->outlets, nrows - 1);
             }
         }
+
+        ui->removeOutlet->setEnabled(ui->outlets->rowCount() > 0);
     });
 
     setupXletTable(ui->inlets, data->inputs().size());
     setupXletTable(ui->outlets, data->outputs().size());
+
+    ui->removeInlet->setEnabled(false);
+    ui->removeOutlet->setEnabled(false);
+    connect(ui->inlets, &QTableWidget::currentCellChanged, this, [this]() { ui->removeInlet->setEnabled(true); });
+    connect(ui->outlets, &QTableWidget::currentCellChanged, this, [this]() { ui->removeOutlet->setEnabled(true); });
 
     int in_idx = 0;
     for (auto& in : data->inputs()) {
