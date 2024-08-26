@@ -53,8 +53,8 @@ public:
 private:
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
     void paintTitleBox(QPainter* painter);
-    void paintInlets(QPainter* painter);
-    void paintOutlets(QPainter* painter);
+    void paintInlets(QPainter* painter, qreal levelOfDetails);
+    void paintOutlets(QPainter* painter, qreal levelOfDetails);
 
     void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
     void mousePressEvent(QGraphicsSceneMouseEvent* event) override;

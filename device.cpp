@@ -261,9 +261,8 @@ void Device::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
 
     const qreal lod = option->levelOfDetailFromTransform(painter->worldTransform());
     if (lod >= 0.5) {
-        paintInlets(painter);
-        paintOutlets(painter);
-    }
+    paintInlets(painter, lod);
+    paintOutlets(painter, lod);
 }
 
 void Device::paintTitleBox(QPainter* painter)
@@ -288,11 +287,11 @@ void Device::paintTitleBox(QPainter* painter)
     painter->drawRoundedRect(title_box.adjusted(4, 3, -4, -4), 5, 5);
 }
 
-void Device::paintInlets(QPainter* painter)
+void Device::paintInlets(QPainter* painter, qreal levelOfDetails)
 {
     painter->setPen(QPen(Qt::black, 0.5));
 
-    data_->foreachVisInput([this, painter](XletIndex idx, const XletData& inlet) {
+    data_->foreachVisInput([this, painter, levelOfDetails](XletIndex idx, const XletData& inlet) {
         auto pos = inletPos(idx);
 
         switch (inlet.powerType()) {
@@ -326,24 +325,26 @@ void Device::paintInlets(QPainter* painter)
             break;
         }
 
-        if (inlet.isPhantomOn()) {
-            painter->setBrush(Qt::red);
-            painter->setPen(QPen(Qt::red, 1));
-        } else {
-            painter->setBrush(Qt::black);
-            painter->setPen(QPen(Qt::black, 1));
-        }
+        if (levelOfDetails >= 0.5) {
+            if (inlet.isPhantomOn()) {
+                painter->setBrush(Qt::red);
+                painter->setPen(QPen(Qt::red, 1));
+            } else {
+                painter->setBrush(Qt::black);
+                painter->setPen(QPen(Qt::black, 1));
+            }
 
-        painter->drawRect(pos.x() - (XLET_BOX_W / 2), pos.y(), XLET_BOX_W, XLET_BOX_H);
+            painter->drawRect(pos.x() - (XLET_BOX_W / 2), pos.y(), XLET_BOX_W, XLET_BOX_H);
+        }
     });
 }
 
-void Device::paintOutlets(QPainter* painter)
+void Device::paintOutlets(QPainter* painter, qreal levelOfDetails)
 {
     painter->setPen(QPen(Qt::black, 0.5));
     painter->setBrush(Qt::black);
 
-    data_->foreachVisOutput([this, painter](XletIndex idx, const XletData& outlet) {
+    data_->foreachVisOutput([this, painter, levelOfDetails](XletIndex idx, const XletData& outlet) {
         if (outlet.isPlug())
             return;
 
@@ -380,9 +381,11 @@ void Device::paintOutlets(QPainter* painter)
             break;
         }
 
-        painter->setBrush(Qt::black);
-        painter->setPen(QPen(Qt::black, 1));
-        painter->drawRect(pos.x() - (XLET_BOX_W / 2), pos.y() - XLET_BOX_H, XLET_BOX_W, XLET_BOX_H);
+        if (levelOfDetails >= 0.5) {
+            painter->setBrush(Qt::black);
+            painter->setPen(QPen(Qt::black, 1));
+            painter->drawRect(pos.x() - (XLET_BOX_W / 2), pos.y() - XLET_BOX_H, XLET_BOX_W, XLET_BOX_H);
+        }
     });
 }
 
