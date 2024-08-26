@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>650</width>
-    <height>662</height>
+    <height>682</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -82,7 +82,7 @@
      <x>0</x>
      <y>0</y>
      <width>650</width>
-     <height>22</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -161,6 +161,7 @@
      <string>Objects</string>
     </property>
     <addaction name="actionAddDevice"/>
+    <addaction name="actionAddZone"/>
     <addaction name="actionSetBackground"/>
    </widget>
    <addaction name="menuFile"/>
@@ -532,8 +533,7 @@
   </widget>
   <action name="actionOpen">
    <property name="icon">
-    <iconset theme="document-open">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="document-open"/>
    </property>
    <property name="text">
     <string>&amp;Open</string>
@@ -544,7 +544,7 @@
   </action>
   <action name="actionZoomIn">
    <property name="icon">
-    <iconset theme="zoom-in" resource="resources/patch_scene_resources.qrc">
+    <iconset theme="zoom-in">
      <normaloff>:/icons/zoom_in_02.svg</normaloff>:/icons/zoom_in_02.svg</iconset>
    </property>
    <property name="text">
@@ -559,7 +559,7 @@
   </action>
   <action name="actionZoomOut">
    <property name="icon">
-    <iconset theme="zoom-out" resource="resources/patch_scene_resources.qrc">
+    <iconset theme="zoom-out">
      <normaloff>:/icons/zoom_out_02.svg</normaloff>:/icons/zoom_out_02.svg</iconset>
    </property>
    <property name="text">
@@ -574,8 +574,7 @@
   </action>
   <action name="actionZoomNormal">
    <property name="icon">
-    <iconset theme="zoom-original">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="zoom-original"/>
    </property>
    <property name="text">
     <string>Zoom Normal</string>
@@ -586,8 +585,7 @@
   </action>
   <action name="actionPrint">
    <property name="icon">
-    <iconset theme="printer">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="printer"/>
    </property>
    <property name="text">
     <string>Print</string>
@@ -598,8 +596,7 @@
   </action>
   <action name="actionSelectAll">
    <property name="icon">
-    <iconset theme="edit-select-all">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="edit-select-all"/>
    </property>
    <property name="text">
     <string>Select All</string>
@@ -610,8 +607,7 @@
   </action>
   <action name="actionQuit">
    <property name="icon">
-    <iconset theme="application-exit">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="application-exit"/>
    </property>
    <property name="text">
     <string>Quit</string>
@@ -625,8 +621,7 @@
   </action>
   <action name="actionSave">
    <property name="icon">
-    <iconset theme="document-save">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="document-save"/>
    </property>
    <property name="text">
     <string>Save</string>
@@ -637,8 +632,7 @@
   </action>
   <action name="actionDuplicate">
    <property name="icon">
-    <iconset theme="edit-duplicate">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="edit-duplicate"/>
    </property>
    <property name="text">
     <string>Duplicate</string>
@@ -649,8 +643,7 @@
   </action>
   <action name="actionSaveAs">
    <property name="icon">
-    <iconset theme="document-save-as">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="document-save-as"/>
    </property>
    <property name="text">
     <string>Save As...</string>
@@ -661,8 +654,7 @@
   </action>
   <action name="actionAboutApp">
    <property name="icon">
-    <iconset theme="help-about">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="help-about"/>
    </property>
    <property name="text">
     <string>About PatchScene</string>
@@ -689,7 +681,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset theme="undo" resource="resources/patch_scene_resources.qrc">
+    <iconset theme="undo">
      <normaloff>:/icons/undo.svg</normaloff>:/icons/undo.svg</iconset>
    </property>
    <property name="text">
@@ -704,7 +696,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset theme="redo" resource="resources/patch_scene_resources.qrc">
+    <iconset theme="redo">
      <normaloff>:/icons/redo.svg</normaloff>:/icons/redo.svg</iconset>
    </property>
    <property name="text">
@@ -726,8 +718,7 @@
   </action>
   <action name="actionCopy">
    <property name="icon">
-    <iconset theme="edit-copy">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="edit-copy"/>
    </property>
    <property name="text">
     <string>Copy</string>
@@ -738,8 +729,7 @@
   </action>
   <action name="actionCut">
    <property name="icon">
-    <iconset theme="edit-cut">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="edit-cut"/>
    </property>
    <property name="text">
     <string>Cut</string>
@@ -750,8 +740,7 @@
   </action>
   <action name="actionPaste">
    <property name="icon">
-    <iconset theme="edit-paste">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="edit-paste"/>
    </property>
    <property name="text">
     <string>Paste</string>
@@ -768,7 +757,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="resources/patch_scene_resources.qrc">
+    <iconset>
      <normaloff>:/icons/cable.svg</normaloff>:/icons/cable.svg</iconset>
    </property>
    <property name="text">
@@ -794,7 +783,7 @@
     <string>Set background</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+2</string>
+    <string>Ctrl+3</string>
    </property>
   </action>
   <action name="actionShowBackground">
@@ -805,7 +794,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset theme="image-x-generic" resource="resources/patch_scene_resources.qrc">
+    <iconset theme="image-x-generic">
      <normaloff>:/icons/image.svg</normaloff>:/icons/image.svg</iconset>
    </property>
    <property name="text">
@@ -820,7 +809,7 @@
   </action>
   <action name="actionProjectInfo">
    <property name="icon">
-    <iconset theme="document-properties" resource="resources/patch_scene_resources.qrc">
+    <iconset theme="document-properties">
      <normaloff>:/icons/info.svg</normaloff>:/icons/info.svg</iconset>
    </property>
    <property name="text">
@@ -848,8 +837,7 @@
   </action>
   <action name="actionExportToPdf">
    <property name="icon">
-    <iconset theme="application-pdf">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="application-pdf"/>
    </property>
    <property name="text">
     <string>Export to PDF</string>
@@ -863,8 +851,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset theme="view-fullscreen">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="view-fullscreen"/>
    </property>
    <property name="text">
     <string>Fullscreen</string>
@@ -873,9 +860,15 @@
     <string>Ctrl+Shift+F</string>
    </property>
   </action>
+  <action name="actionAddZone">
+   <property name="text">
+    <string>Add zone</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+2</string>
+   </property>
+  </action>
  </widget>
- <resources>
-  <include location="resources/patch_scene_resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

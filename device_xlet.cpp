@@ -13,7 +13,9 @@
  *****************************************************************************/
 #include "device_xlet.h"
 
+#include <QContextMenuEvent>
 #include <QJsonObject>
+#include <QMenu>
 #include <QPainter>
 
 using namespace ceam;
@@ -138,4 +140,11 @@ void DeviceXlet::setConnectPoint(const QPointF& pos)
         setPos(pos + QPointF(-wd / 2, PAD));
     else
         setPos(pos + QPointF(-wd / 2, -(bbox.height() + PAD)));
+}
+
+void DeviceXlet::contextMenuEvent(QContextMenuEvent* event, const QPoint& globalPos)
+{
+    QMenu menu;
+    menu.addAction(new QAction("Context"));
+    menu.exec(globalPos);
 }

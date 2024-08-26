@@ -19,6 +19,8 @@
 
 #include <QGraphicsSvgItem>
 
+class QContextMenuEvent;
+
 namespace ceam {
 
 class XletData {
@@ -81,6 +83,8 @@ public:
 
     bool isInlet() const { return type_ == XletType::In; }
     bool isOutlet() const { return type_ == XletType::Out; }
+
+    void contextMenuEvent(QContextMenuEvent* event, const QPoint& globalPos);
 
 private:
     XletData data_;
