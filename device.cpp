@@ -260,7 +260,6 @@ void Device::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
     Q_UNUSED(widget);
 
     const qreal lod = option->levelOfDetailFromTransform(painter->worldTransform());
-    if (lod >= 0.5) {
     paintInlets(painter, lod);
     paintOutlets(painter, lod);
 }
