@@ -19,7 +19,7 @@
      <item row="0" column="0">
       <widget class="QLabel" name="deviceNameLabel">
        <property name="text">
-        <string>Name</string>
+        <string>&amp;Name</string>
        </property>
        <property name="buddy">
         <cstring>deviceName</cstring>
@@ -34,7 +34,7 @@
        <item>
         <widget class="QCheckBox" name="showTitle">
          <property name="text">
-          <string>Show</string>
+          <string>&amp;Show</string>
          </property>
         </widget>
        </item>
@@ -58,7 +58,7 @@
        <item>
         <widget class="QLabel" name="modelLabel">
          <property name="text">
-          <string>Model</string>
+          <string>&amp;Model</string>
          </property>
          <property name="buddy">
           <cstring>model</cstring>
@@ -73,7 +73,7 @@
      <item row="2" column="0">
       <widget class="QLabel" name="categoryLabel">
        <property name="text">
-        <string>Category</string>
+        <string>&amp;Category</string>
        </property>
        <property name="buddy">
         <cstring>category</cstring>
@@ -86,7 +86,7 @@
      <item row="3" column="0">
       <widget class="QLabel" name="inletsLabel">
        <property name="text">
-        <string>Inputs</string>
+        <string>&amp;Inputs</string>
        </property>
        <property name="buddy">
         <cstring>inlets</cstring>
@@ -211,7 +211,7 @@
      <item row="5" column="0">
       <widget class="QLabel" name="outletsLabel">
        <property name="text">
-        <string>Outputs</string>
+        <string>&amp;Outputs</string>
        </property>
        <property name="buddy">
         <cstring>outlets</cstring>
@@ -434,7 +434,7 @@
      <item row="8" column="0">
       <widget class="QLabel" name="batteryLabel">
        <property name="text">
-        <string>Batteries</string>
+        <string>&amp;Batteries</string>
        </property>
        <property name="buddy">
         <cstring>batteryType</cstring>
@@ -491,9 +491,13 @@
   <tabstop>inlets</tabstop>
   <tabstop>addInlet</tabstop>
   <tabstop>removeInlet</tabstop>
+  <tabstop>moveInletUp</tabstop>
+  <tabstop>moveInletDown</tabstop>
   <tabstop>outlets</tabstop>
   <tabstop>addOutlet</tabstop>
   <tabstop>removeOutlet</tabstop>
+  <tabstop>moveOutletUp</tabstop>
+  <tabstop>moveOutletDown</tabstop>
   <tabstop>imageChooseButton</tabstop>
   <tabstop>zoom</tabstop>
   <tabstop>batteryType</tabstop>
