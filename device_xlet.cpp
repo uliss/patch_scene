@@ -142,9 +142,9 @@ void DeviceXlet::setConnectPoint(const QPointF& pos)
         setPos(pos + QPointF(-wd / 2, -(bbox.height() + PAD)));
 }
 
-void DeviceXlet::contextMenuEvent(QContextMenuEvent* event, const QPoint& globalPos)
+void DeviceXlet::contextMenuEvent(QContextMenuEvent* event)
 {
     QMenu menu;
     menu.addAction(new QAction("Context"));
-    menu.exec(globalPos);
+    menu.exec(event->globalPos());
 }

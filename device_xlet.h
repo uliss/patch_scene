@@ -84,7 +84,7 @@ public:
     bool isInlet() const { return type_ == XletType::In; }
     bool isOutlet() const { return type_ == XletType::Out; }
 
-    void contextMenuEvent(QContextMenuEvent* event, const QPoint& globalPos);
+    void contextMenuEvent(QContextMenuEvent* event);
 
 private:
     XletData data_;

@@ -900,7 +900,17 @@ void Diagram::contextMenuEvent(QContextMenuEvent* event)
 {
     event->accept();
     auto pos = event->pos();
-    auto dev = deviceAt(pos);
+    auto elements = items(pos);
+
+    if (elements.size() > 0 && qgraphicsitem_cast<DeviceXlet*>(elements.front())) {
+        auto xlet = qgraphicsitem_cast<DeviceXlet*>(elements.front());
+        if (xlet)
+            xlet->contextMenuEvent(event);
+
+        return;
+    }
+
+    auto dev = deviceIn(elements);
 
     if (dev) {
         auto selected = scene->selectedItems();
@@ -1357,9 +1367,9 @@ bool Diagram::isValidConnection(const XletInfo& src, const XletInfo& dest) const
     return true;
 }
 
-Device* Diagram::deviceAt(const QPoint& pos) const
+Device* Diagram::deviceIn(const QList<QGraphicsItem*>& items) const
 {
-    for (auto x : items(pos)) {
+    for (auto x : items) {
         auto dev = qgraphicsitem_cast<Device*>(x);
         if (dev)
             return dev;
