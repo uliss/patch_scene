@@ -167,6 +167,9 @@ DeviceXlet::DeviceXlet(const XletData& data, XletType type, QGraphicsItem* paren
         setToolTip(data.modelString() + ": " + data.name());
     else
         setToolTip(data.modelString());
+
+    if (connectorIsPlug(data.connectorType()) && type == XletType::In)
+        setTransform(QTransform().scale(1, -1).translate(0, -16));
 }
 
 const XletData& DeviceXlet::xletData() const

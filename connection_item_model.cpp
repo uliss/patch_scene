@@ -64,7 +64,7 @@ bool ConnectionItemModel::addConnection(const ConnectionData& data,
     const SharedDeviceData& dest,
     const XletData& dest_in)
 {
-    if (!src || !dest)
+    if (!src || !dest || src_out.isPlug() || dest_in.isPlug())
         return false;
 
     auto src_name = new QStandardItem(src->title());
