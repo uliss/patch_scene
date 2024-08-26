@@ -259,8 +259,11 @@ void Device::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    paintInlets(painter);
-    paintOutlets(painter);
+    const qreal lod = option->levelOfDetailFromTransform(painter->worldTransform());
+    if (lod >= 0.5) {
+        paintInlets(painter);
+        paintOutlets(painter);
+    }
 }
 
 void Device::paintTitleBox(QPainter* painter)
