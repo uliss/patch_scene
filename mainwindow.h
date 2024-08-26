@@ -57,10 +57,11 @@ public slots:
     bool saveDocumentAs();
     void documentProperties();
     void duplicateSelection();
-    void exportItemData(const SharedDeviceData& data);
     void exportAllItems(const QList<SharedDeviceData>& data);
+    void exportItemData(const SharedDeviceData& data);
     void exportToOdf();
     void exportToPdf();
+    void importFavorites();
     void openDocument();
     void printScheme();
     void selectAll();
@@ -118,6 +119,7 @@ private:
     void updateDeviceView(const SharedDeviceData& data, int idx);
 
     void loadSection(QStandardItem* parent, const QList<SharedDeviceData>& data);
+    void importFavorites(const QString& filename);
 
     QMessageBox::StandardButton showNonSavedDocAlert();
 

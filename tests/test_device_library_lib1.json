@@ -1,4 +1,7 @@
 {
+    "meta": {
+        "title": "LIBRARY"
+    },
     "library": {
         "devices": [
             {

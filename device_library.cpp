@@ -68,12 +68,6 @@ bool DeviceLibrary::readFile(const QString& filename)
     }
 
     auto root = doc.object();
-    auto keys = root.keys();
-    if (keys != QStringList { "library" }) {
-        qCritical() << __FUNCTION__ << "invalid key in library:" << keys;
-        return false;
-    }
-
     auto lib = root.value("library");
     if (!lib.isObject()) {
         qCritical() << __FUNCTION__ << "'library' expected to be an object, got type:" << lib.type();

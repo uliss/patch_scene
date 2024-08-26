@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include "favorites_widget.h"
 #include "device_common.h"
+#include "device_library.h"
 #include "deviceproperties.h"
 
 #include <QHeaderView>
@@ -88,6 +89,31 @@ QList<QVariant> FavoritesWidget::toVariant() const
     return items;
 }
 
+bool FavoritesWidget::importElements(const QString& filename)
+{
+    DeviceLibrary lib;
+    auto ok = lib.readFile(filename);
+    if (!ok)
+        return false;
+
+    for (auto& x : lib.devices())
+        model_->addDeviceItem(x);
+
+    for (auto& x : lib.instruments())
+        model_->addDeviceItem(x);
+
+    for (auto& x : lib.humans())
+        model_->addDeviceItem(x);
+
+    for (auto& x : lib.returns())
+        model_->addDeviceItem(x);
+
+    for (auto& x : lib.sends())
+        model_->addDeviceItem(x);
+
+    return true;
+}
+
 void FavoritesWidget::initContextMenu()
 {
     setContextMenuPolicy(Qt::CustomContextMenu);
@@ -137,9 +163,7 @@ void FavoritesWidget::initContextMenu()
             menu.addAction(exportToLib);
             auto exportFromLib = new QAction(tr("Import from library file"), this);
             connect(exportFromLib, &QAction::triggered, this,
-                [this, item_idx]() {
-
-                });
+                [this, item_idx]() { emit requestImportAll(); });
             menu.addAction(exportFromLib);
 
             menu.exec(mapToGlobal(pos));

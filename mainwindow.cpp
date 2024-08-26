@@ -115,6 +115,11 @@ void MainWindow::initFavorites()
         SIGNAL(requestExportAll(QList<SharedDeviceData>)),
         this,
         SLOT(exportAllItems(QList<SharedDeviceData>)));
+
+    connect(favorites_,
+        SIGNAL(requestImportAll()),
+        this,
+        SLOT(importFavorites()));
 }
 
 void MainWindow::initDiagram()
@@ -605,6 +610,14 @@ void MainWindow::loadSection(QStandardItem* parent, const QList<SharedDeviceData
     }
 }
 
+void MainWindow::importFavorites(const QString& filename)
+{
+    if (!favorites_)
+        return;
+
+    favorites_->importElements(filename);
+}
+
 QMessageBox::StandardButton MainWindow::showNonSavedDocAlert()
 {
     const auto msg = tr("Document is not saved!\n"
@@ -1002,6 +1015,13 @@ void MainWindow::exportToPdf()
         return;
 
     doc->print(&printer);
+}
+
+void MainWindow::importFavorites()
+{
+    auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, "", QStandardPaths::LocateDirectory);
+    auto file_name = QFileDialog::getOpenFileName(this, tr("Import favorites"), path, tr("Favorites collection (*.json)"));
+    importFavorites(file_name);
 }
 
 void MainWindow::openDocument()

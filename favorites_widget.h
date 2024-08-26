@@ -31,9 +31,12 @@ public:
     void setFromVariant(const QList<QVariant>& items);
     QList<QVariant> toVariant() const;
 
+    bool importElements(const QString& filename);
+
 signals:
-    void requestItemExport(const SharedDeviceData& data);
     void requestExportAll(const QList<SharedDeviceData>& data);
+    void requestImportAll();
+    void requestItemExport(const SharedDeviceData& data);
 
 private:
     DiagramItemModel* model_ { nullptr };
