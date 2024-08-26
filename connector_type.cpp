@@ -22,7 +22,7 @@ constexpr const char* PLUG_MALE = "plug_male";
 constexpr const char* PLUG_FEMALE = "plug_female";
 }
 
-namespace ceam {
+using namespace ceam;
 
 const ConnectorType ConnectorType::socket_female(ConnectorType::SocketFemale);
 const ConnectorType ConnectorType::socket_male(ConnectorType::SocketMale);
@@ -142,5 +142,3 @@ void ConnectorType::foreachType(const std::function<void(const ConnectorType&)> 
     for (int i = SocketMale; i < MaxConnectorType; i++)
         fn(ConnectorType(static_cast<Type>(i)));
 }
-
-} // namespace ceam
