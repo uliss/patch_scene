@@ -284,3 +284,19 @@ QString ceam::connectorTypeIconName(ConnectorType type)
         return {};
     }
 }
+
+ConnectorType ceam::connectorTypeComplement(ConnectorType type)
+{
+    switch (type) {
+    case ConnectorType::SocketMale:
+        return ConnectorType::PlugFemale;
+    case ConnectorType::SocketFemale:
+        return ConnectorType::PlugMale;
+    case ConnectorType::PlugMale:
+        return ConnectorType::SocketFemale;
+    case ConnectorType::PlugFemale:
+        return ConnectorType::SocketMale;
+    default:
+        return ConnectorType::MaxConnectorType;
+    }
+}

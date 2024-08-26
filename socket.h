@@ -131,6 +131,7 @@ QString connectorTypeJsonName(ConnectorType type);
 QString connectorTypeName(ConnectorType type);
 bool connectorIsSocket(ConnectorType type);
 bool connectorIsPlug(ConnectorType type);
+ConnectorType connectorTypeComplement(ConnectorType type);
 void foreachConnectorType(const std::function<void(ConnectorType, int /*idx*/)>& fn);
 
 enum class PowerType : std::uint8_t {

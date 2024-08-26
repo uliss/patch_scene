@@ -131,4 +131,27 @@ void TestConnection::findConnected()
     QVERIFY(!conn4->checkConnectedElements());
 }
 
+void TestConnection::connectorType()
+{
+    QVERIFY(connectorIsPlug(ConnectorType::PlugFemale));
+    QVERIFY(connectorIsPlug(ConnectorType::PlugMale));
+    QVERIFY(!connectorIsPlug(ConnectorType::SocketFemale));
+    QVERIFY(!connectorIsPlug(ConnectorType::SocketMale));
+
+    QVERIFY(!connectorIsSocket(ConnectorType::PlugFemale));
+    QVERIFY(!connectorIsSocket(ConnectorType::PlugMale));
+    QVERIFY(connectorIsSocket(ConnectorType::SocketFemale));
+    QVERIFY(connectorIsSocket(ConnectorType::SocketMale));
+
+    QCOMPARE(connectorTypeComplement(ConnectorType::SocketMale), ConnectorType::PlugFemale);
+    QCOMPARE(connectorTypeComplement(ConnectorType::SocketFemale), ConnectorType::PlugMale);
+    QCOMPARE(connectorTypeComplement(ConnectorType::PlugMale), ConnectorType::SocketFemale);
+    QCOMPARE(connectorTypeComplement(ConnectorType::PlugFemale), ConnectorType::SocketMale);
+
+    foreachConnectorType([](ConnectorType t, int i) {
+        QCOMPARE(static_cast<int>(t), i);
+        QCOMPARE(t, connectorTypeComplement(connectorTypeComplement(t)));
+    });
+}
+
 static TestConnection conn;
