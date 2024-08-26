@@ -239,10 +239,6 @@ void MainWindow::initActions()
 
     connect(ui->actionRedo, SIGNAL(triggered()), diagram_, SLOT(redo()));
     connect(ui->actionUndo, SIGNAL(triggered()), diagram_, SLOT(undo()));
-
-    connect(ui->actionAddZone, &QAction::triggered, this, [this]() {
-        diagram_->addZone(QPoint());
-    });
 }
 
 void MainWindow::initLibrarySearch()
