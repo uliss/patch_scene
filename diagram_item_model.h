@@ -27,7 +27,7 @@ constexpr int DATA_CONNECTION = Qt::UserRole + 3;
 class DiagramDataItem : public QStandardItem {
 public:
     DiagramDataItem(const SharedDeviceData& data);
-    DeviceData deviceData() const;
+    SharedDeviceData deviceData() const;
     void setDeviceData(const SharedDeviceData& data);
 };
 
@@ -36,8 +36,10 @@ public:
     DiagramItemModel(QObject* parent = nullptr);
     QMimeData* mimeData(const QModelIndexList& indexes) const override;
 
-    DiagramDataItem* deviceItem(int row, int column);
+    DiagramDataItem* deviceItem(int row, int column) const;
     void addDeviceItem(const SharedDeviceData& data);
+
+    QList<SharedDeviceData> allDeviceData() const;
 };
 }
 

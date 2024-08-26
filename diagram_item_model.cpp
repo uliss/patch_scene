@@ -37,7 +37,7 @@ QMimeData* DiagramItemModel::mimeData(const QModelIndexList& indexes) const
     return data;
 }
 
-DiagramDataItem* DiagramItemModel::deviceItem(int row, int column)
+DiagramDataItem* DiagramItemModel::deviceItem(int row, int column) const
 {
     return static_cast<DiagramDataItem*>(item(row, column));
 }
@@ -46,6 +46,20 @@ void DiagramItemModel::addDeviceItem(const SharedDeviceData& data)
 {
     if (data)
         appendRow(new DiagramDataItem(data));
+}
+
+QList<SharedDeviceData> DiagramItemModel::allDeviceData() const
+{
+    QList<SharedDeviceData> res;
+
+    for (int row = 0; row < rowCount(); row++) {
+        for (int col = 0; col < columnCount(); col++) {
+            auto dev = deviceItem(row, col);
+            res << dev->deviceData();
+        }
+    }
+
+    return res;
 }
 
 DiagramDataItem::DiagramDataItem(const SharedDeviceData& data)
@@ -57,12 +71,14 @@ DiagramDataItem::DiagramDataItem(const SharedDeviceData& data)
     setDeviceData(data);
 }
 
-DeviceData DiagramDataItem::deviceData() const
+SharedDeviceData DiagramDataItem::deviceData() const
 {
-    DeviceData dev(DEV_NULL_ID);
+    auto dev = SharedDeviceData(new DeviceData(DEV_NULL_ID));
+    dev->setId(DEV_NULL_ID);
+
     auto var = data(DATA_DEVICE_DATA);
     if (var.canConvert<QByteArray>())
-        dev.setJson(var.toByteArray());
+        dev->setJson(var.toByteArray());
 
     return dev;
 }

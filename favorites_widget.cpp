@@ -118,22 +118,29 @@ void FavoritesWidget::initContextMenu()
 
             auto removeAct = new QAction(tr("Remove"), this);
             connect(removeAct, &QAction::triggered, this,
-                [this, item_idx]() {
-                    model_->removeRow(item_idx.row());
-                });
+                [this, item_idx]() { model_->removeRow(item_idx.row()); });
             menu.addAction(removeAct);
 
             auto exportAct = new QAction(tr("Export"), this);
             connect(exportAct, &QAction::triggered, this,
                 [this, item_idx]() {
                     auto dev = model_->deviceItem(item_idx.row(), item_idx.column());
-                    if (dev) {
-                        auto data = dev->deviceData();
-                        data.setId(DEV_NULL_ID);
-                        emit requestItemExport(data);
-                    }
+                    if (dev)
+                        emit requestItemExport(dev->deviceData());
                 });
             menu.addAction(exportAct);
+            menu.addSeparator();
+
+            auto exportToLib = new QAction(tr("Export to library file"), this);
+            connect(exportToLib, &QAction::triggered, this,
+                [this, item_idx]() { emit requestExportAll(model_->allDeviceData()); });
+            menu.addAction(exportToLib);
+            auto exportFromLib = new QAction(tr("Import from library file"), this);
+            connect(exportFromLib, &QAction::triggered, this,
+                [this, item_idx]() {
+
+                });
+            menu.addAction(exportFromLib);
 
             menu.exec(mapToGlobal(pos));
         }

@@ -57,7 +57,8 @@ public slots:
     bool saveDocumentAs();
     void documentProperties();
     void duplicateSelection();
-    void exportItemData(const DeviceData& data);
+    void exportItemData(const SharedDeviceData& data);
+    void exportAllItems(const QList<SharedDeviceData>& data);
     void exportToOdf();
     void exportToPdf();
     void openDocument();

@@ -106,7 +106,15 @@ void MainWindow::initFavorites()
     ui->favoritesHBox->layout()->addWidget(favorites_);
 
     favorites_->setFromVariant(settings_.readFavorites());
-    connect(favorites_, SIGNAL(requestItemExport(DeviceData)), this, SLOT(exportItemData(DeviceData)));
+    connect(favorites_,
+        SIGNAL(requestItemExport(SharedDeviceData)),
+        this,
+        SLOT(exportItemData(SharedDeviceData)));
+
+    connect(favorites_,
+        SIGNAL(requestExportAll(QList<SharedDeviceData>)),
+        this,
+        SLOT(exportAllItems(QList<SharedDeviceData>)));
 }
 
 void MainWindow::initDiagram()
@@ -886,10 +894,13 @@ void MainWindow::duplicateSelection()
     diagram_->cmdDuplicateSelection();
 }
 
-void MainWindow::exportItemData(const DeviceData& data)
+void MainWindow::exportItemData(const SharedDeviceData& data)
 {
+    if (!data)
+        return;
+
     auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, "", QStandardPaths::LocateDirectory);
-    auto dev_title = data.title();
+    auto dev_title = data->title();
     if (!dev_title.isEmpty())
         path = QDir(path).filePath(dev_title);
 
@@ -906,8 +917,25 @@ void MainWindow::exportItemData(const DeviceData& data)
         return;
     }
 
-    QJsonDocument doc(data.toJson());
+    QJsonDocument doc(data->toJson());
     if (file.write(doc.toJson()) < 0) {
+        QMessageBox::critical(this,
+            tr("JSON export error"),
+            tr("Can't write to file: '%1'").arg(json_file));
+    }
+}
+
+void MainWindow::exportAllItems(const QList<SharedDeviceData>& data)
+{
+    auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, "", QStandardPaths::LocateDirectory);
+
+    auto json_file = QFileDialog::getSaveFileName(this, tr("Export elements to library"), path, tr("JSON format (*.json)"));
+    if (json_file.isEmpty())
+        return;
+
+    DeviceLibrary lib;
+    lib.addItems(data);
+    if (!lib.writeFile(json_file)) {
         QMessageBox::critical(this,
             tr("JSON export error"),
             tr("Can't write to file: '%1'").arg(json_file));

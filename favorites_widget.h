@@ -32,7 +32,8 @@ public:
     QList<QVariant> toVariant() const;
 
 signals:
-    void requestItemExport(const DeviceData& data);
+    void requestItemExport(const SharedDeviceData& data);
+    void requestExportAll(const QList<SharedDeviceData>& data);
 
 private:
     DiagramItemModel* model_ { nullptr };
