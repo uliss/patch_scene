@@ -53,6 +53,17 @@ void TestConnectorType::testInit()
     ConnectorType::foreachType([](ConnectorType t) {
         QCOMPARE(t, t.complement().complement());
     });
+
+    QVERIFY(ConnectorType::fromInt(ConnectorType::plug_female.toInt()));
+    QVERIFY(ConnectorType::fromInt(ConnectorType::plug_male.toInt()));
+    QVERIFY(ConnectorType::fromInt(ConnectorType::socket_female.toInt()));
+    QVERIFY(ConnectorType::fromInt(ConnectorType::socket_male.toInt()));
+
+    QCOMPARE(ConnectorType::fromInt(ConnectorType::plug_female.toInt()).value(), ConnectorType::plug_female);
+    QCOMPARE(ConnectorType::fromInt(ConnectorType::plug_male.toInt()), ConnectorType::plug_male);
+    QCOMPARE(ConnectorType::fromInt(ConnectorType::socket_female.toInt()), ConnectorType::socket_female);
+    QCOMPARE(ConnectorType::fromInt(ConnectorType::socket_male.toInt()), ConnectorType::socket_male);
+
 }
 
 static TestConnectorType test_connector_type;
