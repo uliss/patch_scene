@@ -119,8 +119,18 @@ void FavoritesWidget::initContextMenu()
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, &QTreeView::customContextMenuRequested, this, [this](const QPoint& pos) {
         auto item_idx = indexAt(pos);
+
+        QMenu menu(this);
+
+        auto exportToLib = new QAction(tr("Export to library file"), this);
+        connect(exportToLib, &QAction::triggered, this,
+            [this, item_idx]() { emit requestExportAll(model_->allDeviceData()); });
+        auto exportFromLib = new QAction(tr("Import from library file"), this);
+        connect(exportFromLib, &QAction::triggered, this,
+            [this, item_idx]() { emit requestImportAll(); });
+
         if (item_idx.isValid()) {
-            QMenu menu(this);
+
             auto editAct = new QAction(tr("Edit"), this);
             connect(editAct, &QAction::triggered, this,
                 [this, item_idx]() {
@@ -156,17 +166,10 @@ void FavoritesWidget::initContextMenu()
                 });
             menu.addAction(exportAct);
             menu.addSeparator();
-
-            auto exportToLib = new QAction(tr("Export to library file"), this);
-            connect(exportToLib, &QAction::triggered, this,
-                [this, item_idx]() { emit requestExportAll(model_->allDeviceData()); });
-            menu.addAction(exportToLib);
-            auto exportFromLib = new QAction(tr("Import from library file"), this);
-            connect(exportFromLib, &QAction::triggered, this,
-                [this, item_idx]() { emit requestImportAll(); });
-            menu.addAction(exportFromLib);
-
-            menu.exec(mapToGlobal(pos));
         }
+
+        menu.addAction(exportToLib);
+        menu.addAction(exportFromLib);
+        menu.exec(mapToGlobal(pos));
     });
 }
