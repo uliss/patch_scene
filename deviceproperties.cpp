@@ -106,7 +106,7 @@ void DeviceProperties::setupXletTable(QTableWidget* tab, size_t rows)
 {
     auto header = tab->horizontalHeader();
     if (header) {
-        header->setMinimumSectionSize(80);
+        header->setMinimumSectionSize(70);
     }
 
     tab->setRowCount(rows);
