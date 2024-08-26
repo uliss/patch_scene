@@ -12,6 +12,7 @@ add_custom_target(test_src
     test_device_library_1.json
     test_device_library_2.json
     test_device_library_3.json
+    test_device_library_lib1.json
 )
 
 target_compile_definitions(psc_tests

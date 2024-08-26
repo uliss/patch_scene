@@ -73,3 +73,24 @@ void TestDeviceLibrary::addItems()
     QVERIFY(lib.sends().isEmpty());
     QVERIFY(lib.returns().isEmpty());
 }
+
+void TestDeviceLibrary::readLibrary()
+{
+    DeviceLibrary lib;
+    QVERIFY(!lib.readFile(""));
+    QVERIFY(lib.readFile(make_test_filename("test_device_library_lib1.json")));
+
+    QCOMPARE(lib.devices().count(), 1);
+    QCOMPARE(lib.instruments().count(), 1);
+    QCOMPARE(lib.humans().count(), 1);
+    QCOMPARE(lib.furniture().count(), 1);
+    QCOMPARE(lib.sends().count(), 1);
+    QCOMPARE(lib.returns().count(), 1);
+
+    QCOMPARE(lib.devices().front()->title(), "Device 1");
+    QCOMPARE(lib.instruments().front()->title(), "Instrument");
+    QCOMPARE(lib.humans().front()->title(), "Alice");
+    QCOMPARE(lib.furniture().front()->title(), "Furniture 1");
+    QCOMPARE(lib.sends().front()->title(), "Send 1");
+    QCOMPARE(lib.returns().front()->title(), "Return 1");
+}

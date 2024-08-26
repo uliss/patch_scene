@@ -21,6 +21,7 @@ class TestDeviceLibrary : public TestSuite {
 
 private slots:
     void addItems();
+    void readLibrary();
 };
 
 #endif // TEST_DEVICE_LIBRARY_H

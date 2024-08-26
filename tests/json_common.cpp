@@ -21,7 +21,7 @@ using namespace ceam;
 
 QJsonObject read_json_file_object(const QString& filename)
 {
-    auto path = QDir(TEST_DATA_DIR).filePath(QFileInfo(filename).fileName());
+    auto path = make_test_filename(filename);
     QFile f(path);
     if (!f.open(QFile::ReadOnly)) {
         qWarning() << "can't open file:" << path;
@@ -44,4 +44,14 @@ SharedDeviceData read_device_json_file(const QString& filename)
         qWarning() << "can't set device JSON from file:";
 
     return data;
+}
+
+bool compare_json_files(const QString& file1, const QString& file2)
+{
+    return read_json_file_object(file1) == read_json_file_object(file2);
+}
+
+QString make_test_filename(const QString& filename)
+{
+    return QDir(TEST_DATA_DIR).filePath(QFileInfo(filename).fileName());
 }

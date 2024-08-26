@@ -18,7 +18,11 @@
 
 #include <QJsonObject>
 
+QString make_test_filename(const QString& filename);
+
 QJsonObject read_json_file_object(const QString& filename);
 ceam::SharedDeviceData read_device_json_file(const QString& filename);
+
+bool compare_json_files(const QString& file1, const QString& file2);
 
 #endif // JSON_COMMON_H

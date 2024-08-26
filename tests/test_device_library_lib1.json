@@ -1,0 +1,34 @@
+{
+    "library": {
+        "devices": [
+            {
+                "title": "Device 1"
+            }
+        ],
+        "instruments": [
+            {
+                "title": "Instrument"
+            }
+        ],
+        "humans": [
+            {
+                "title": "Alice"
+            }
+        ],
+        "sends": [
+            {
+                "title": "Send 1"
+            }
+        ],
+        "returns": [
+            {
+                "title": "Return 1"
+            }
+        ],
+        "furniture": [
+            {
+                "title": "Furniture 1"
+            }
+        ]
+    }
+}
