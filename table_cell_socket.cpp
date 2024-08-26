@@ -18,7 +18,7 @@ using namespace ceam;
 TableCellConnectorType::TableCellConnectorType(ConnectorType type, QWidget* parent)
 {
     foreachConnectorType([this, type](ConnectorType t, int int_type) {
-        addItem(connectorTypeName(t), int_type);
+        addItem(QIcon(connectorTypeIconName(t)), connectorTypeName(t), int_type);
 
         if (type == t)
             setCurrentIndex(int_type);

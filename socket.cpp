@@ -245,18 +245,20 @@ void ceam::foreachPowerType(const std::function<void(PowerType, int)>& fn)
     }
 }
 
+#define ceam_tr(name) QCoreApplication::translate("static", name)
+
 QString ceam::connectorTypeName(ConnectorType type)
 {
     switch (type) {
     case ConnectorType::SocketFemale:
-        return QCoreApplication::translate("socket", "Socket Female");
+        return ceam_tr(QT_TRANSLATE_NOOP("static", "Female"));
     case ConnectorType::PlugMale:
-        return QCoreApplication::translate("socket", "Plug Male");
+        return ceam_tr(QT_TRANSLATE_NOOP("static", "Male"));
     case ConnectorType::PlugFemale:
-        return QCoreApplication::translate("socket", "Plug Female");
+        return ceam_tr(QT_TRANSLATE_NOOP("static", "Female"));
     case ConnectorType::SocketMale:
     default:
-        return QCoreApplication::translate("socket", "Socket Male");
+        return ceam_tr(QT_TRANSLATE_NOOP("static", "Male"));
     }
 }
 
@@ -266,5 +268,19 @@ void ceam::foreachConnectorType(const std::function<void(ConnectorType, int)>& f
          i < static_cast<int>(ConnectorType::MaxConnectorType);
          i++) {
         fn(static_cast<ConnectorType>(i), i);
+    }
+}
+
+QString ceam::connectorTypeIconName(ConnectorType type)
+{
+    switch (type) {
+    case ConnectorType::SocketMale:
+    case ConnectorType::SocketFemale:
+        return ":/connectors/conn_socket.svg";
+    case ConnectorType::PlugMale:
+    case ConnectorType::PlugFemale:
+        return ":/connectors/conn_plug.svg";
+    default:
+        return {};
     }
 }

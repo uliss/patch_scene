@@ -153,5 +153,7 @@
         <file>devices/human_alto_sax_1.svg</file>
         <file>devices/piano_2.svg</file>
         <file>devices/human_drummer_1.svg</file>
+        <file>connectors/conn_plug.svg</file>
+        <file>connectors/conn_socket.svg</file>
     </qresource>
 </RCC>

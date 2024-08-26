@@ -126,6 +126,7 @@ enum class XletType : std::uint8_t {
     Out,
 };
 
+QString connectorTypeIconName(ConnectorType type);
 QString connectorTypeJsonName(ConnectorType type);
 QString connectorTypeName(ConnectorType type);
 bool connectorIsSocket(ConnectorType type);

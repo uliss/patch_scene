@@ -1134,49 +1134,47 @@ http://ceam.space</source>
 <context>
     <name>ceam::DeviceProperties</name>
     <message>
-        <location filename="deviceproperties.cpp" line="45"/>
+        <location filename="deviceproperties.cpp" line="46"/>
         <source>&apos;%1&apos; properties</source>
         <translation>Свойства &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="114"/>
+        <location filename="deviceproperties.cpp" line="115"/>
         <source>Type</source>
         <translation>Тип</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="114"/>
+        <location filename="deviceproperties.cpp" line="115"/>
         <source>Show</source>
         <translation>Показывать</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="114"/>
+        <location filename="deviceproperties.cpp" line="115"/>
         <source>Name</source>
         <translation>Название</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="114"/>
+        <location filename="deviceproperties.cpp" line="115"/>
         <source>Socket</source>
         <translation>Гнездо</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="114"/>
+        <location filename="deviceproperties.cpp" line="115"/>
         <source>Phantom</source>
         <translation>Фантом</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="114"/>
+        <location filename="deviceproperties.cpp" line="115"/>
         <source>Power</source>
         <translation>Питание</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="173"/>
         <source>Female</source>
-        <translation>Мама</translation>
+        <translation type="vanished">Мама</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="174"/>
         <source>Male</source>
-        <translation>Папа</translation>
+        <translation type="vanished">Папа</translation>
     </message>
 </context>
 <context>
@@ -1640,6 +1638,34 @@ Do you wan&apos;t to save it before closing?</source>
         <location filename="macos_utils.mm" line="79"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
+    </message>
+</context>
+<context>
+    <name>static</name>
+    <message>
+        <source>Socket Female</source>
+        <translation type="vanished">гнездо мама</translation>
+    </message>
+    <message>
+        <location filename="socket.cpp" line="254"/>
+        <location filename="socket.cpp" line="258"/>
+        <source>Female</source>
+        <oldsource>Plug Male</oldsource>
+        <translation>мама</translation>
+    </message>
+    <message>
+        <location filename="socket.cpp" line="256"/>
+        <location filename="socket.cpp" line="261"/>
+        <source>Male</source>
+        <translation>папа</translation>
+    </message>
+    <message>
+        <source>Plug Female</source>
+        <translation type="vanished">вилка мама</translation>
+    </message>
+    <message>
+        <source>Socket Male</source>
+        <translation type="vanished">гнездо папа</translation>
     </message>
 </context>
 </TS>
