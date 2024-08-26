@@ -81,6 +81,21 @@
     </message>
 </context>
 <context>
+    <name>ConnectorType</name>
+    <message>
+        <location filename="connector_type.cpp" line="50"/>
+        <location filename="connector_type.cpp" line="54"/>
+        <source>Female</source>
+        <translation>Мама</translation>
+    </message>
+    <message>
+        <location filename="connector_type.cpp" line="52"/>
+        <location filename="connector_type.cpp" line="57"/>
+        <source>Male</source>
+        <translation>Папа</translation>
+    </message>
+</context>
+<context>
     <name>DeviceData</name>
     <message>
         <source>Device</source>
@@ -119,8 +134,9 @@
     </message>
     <message>
         <location filename="deviceproperties.ui" line="22"/>
-        <source>Name</source>
-        <translation>Название</translation>
+        <source>&amp;Name</source>
+        <oldsource>Name</oldsource>
+        <translation>&amp;Название</translation>
     </message>
     <message>
         <source>device name</source>
@@ -132,8 +148,9 @@
     </message>
     <message>
         <location filename="deviceproperties.ui" line="89"/>
-        <source>Inputs</source>
-        <translation>Входы</translation>
+        <source>&amp;Inputs</source>
+        <oldsource>Inputs</oldsource>
+        <translation>&amp;Входы</translation>
     </message>
     <message>
         <location filename="deviceproperties.ui" line="186"/>
@@ -147,8 +164,9 @@
     </message>
     <message>
         <location filename="deviceproperties.ui" line="214"/>
-        <source>Outputs</source>
-        <translation>Выходы</translation>
+        <source>&amp;Outputs</source>
+        <oldsource>Outputs</oldsource>
+        <translation>В&amp;ыходы</translation>
     </message>
     <message>
         <location filename="deviceproperties.ui" line="299"/>
@@ -187,14 +205,15 @@
     </message>
     <message>
         <location filename="deviceproperties.ui" line="437"/>
-        <source>Batteries</source>
-        <translation>Батарейки</translation>
+        <source>&amp;Batteries</source>
+        <oldsource>Batteries</oldsource>
+        <translation>&amp;Батарейки</translation>
     </message>
     <message>
         <location filename="deviceproperties.ui" line="37"/>
-        <source>Show</source>
-        <oldsource>Show Title</oldsource>
-        <translation>Показывать</translation>
+        <source>&amp;Show</source>
+        <oldsource>Show</oldsource>
+        <translation>&amp;Показывать</translation>
     </message>
     <message>
         <location filename="deviceproperties.ui" line="154"/>
@@ -208,8 +227,9 @@
     </message>
     <message>
         <location filename="deviceproperties.ui" line="61"/>
-        <source>Model</source>
-        <translation>Модель</translation>
+        <source>&amp;Model</source>
+        <oldsource>Model</oldsource>
+        <translation>&amp;Модель</translation>
     </message>
     <message>
         <location filename="deviceproperties.ui" line="170"/>
@@ -228,8 +248,9 @@
     </message>
     <message>
         <location filename="deviceproperties.ui" line="76"/>
-        <source>Category</source>
-        <translation>Категория</translation>
+        <source>&amp;Category</source>
+        <oldsource>Category</oldsource>
+        <translation>&amp;Категория</translation>
     </message>
     <message>
         <source>&apos;%1&apos; properties</source>
@@ -1096,8 +1117,12 @@ http://ceam.space</source>
     </message>
     <message>
         <location filename="connection_item_model.cpp" line="35"/>
+        <source>Connector</source>
+        <translation>Коннектор</translation>
+    </message>
+    <message>
         <source>Plug</source>
-        <translation>Вилка</translation>
+        <translation type="vanished">Вилка</translation>
     </message>
     <message>
         <location filename="connection_item_model.cpp" line="35"/>
@@ -1647,17 +1672,13 @@ Do you wan&apos;t to save it before closing?</source>
         <translation type="vanished">гнездо мама</translation>
     </message>
     <message>
-        <location filename="socket.cpp" line="254"/>
-        <location filename="socket.cpp" line="258"/>
         <source>Female</source>
         <oldsource>Plug Male</oldsource>
-        <translation>мама</translation>
+        <translation type="vanished">мама</translation>
     </message>
     <message>
-        <location filename="socket.cpp" line="256"/>
-        <location filename="socket.cpp" line="261"/>
         <source>Male</source>
-        <translation>папа</translation>
+        <translation type="vanished">папа</translation>
     </message>
     <message>
         <source>Plug Female</source>
