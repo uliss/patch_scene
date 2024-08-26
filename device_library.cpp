@@ -18,13 +18,27 @@
 #include <QJsonDocument>
 
 namespace {
-constexpr const char* JSON_KEY_LIBRARY = "library";
+
+constexpr int FORMAT_VERSION_MAJOR = 1;
+constexpr int FORMAT_VERSION_MINOR = 0;
+
+constexpr const char* JSON_KEY_META = "meta";
+constexpr const char* JSON_KEY_META_FORMAT_MAJOR = "format-major";
+constexpr const char* JSON_KEY_META_FORMAT_MINOR = "format-minor";
+constexpr const char* JSON_KEY_META_TITLE = "title";
+constexpr const char* JSON_KEY_META_AUTHOR = "author";
+constexpr const char* JSON_KEY_META_VERSION = "version";
+constexpr const char* JSON_KEY_META_DATE = "date";
+
 constexpr const char* JSON_KEY_DEVICES = "devices";
-constexpr const char* JSON_KEY_INSTRUMENTS = "instruments";
-constexpr const char* JSON_KEY_SENDS = "sends";
-constexpr const char* JSON_KEY_RETURNS = "returns";
-constexpr const char* JSON_KEY_HUMANS = "humans";
+constexpr const char* JSON_KEY_FORMAT = "format";
 constexpr const char* JSON_KEY_FURNITURE = "furniture";
+constexpr const char* JSON_KEY_HUMANS = "humans";
+constexpr const char* JSON_KEY_INSTRUMENTS = "instruments";
+constexpr const char* JSON_KEY_LIBRARY = "library";
+constexpr const char* JSON_KEY_RETURNS = "returns";
+constexpr const char* JSON_KEY_SENDS = "sends";
+
 }
 
 using namespace ceam;
@@ -96,7 +110,16 @@ bool DeviceLibrary::writeFile(const QString& filename)
     writeItems(lib, sends_, ItemCategory::Send);
     writeItems(lib, returns_, ItemCategory::Return);
 
+    QJsonObject meta;
+    meta[JSON_KEY_META_AUTHOR] = "auto_export";
+    meta[JSON_KEY_META_TITLE] = "my favorites";
+    meta[JSON_KEY_META_FORMAT_MAJOR] = FORMAT_VERSION_MAJOR;
+    meta[JSON_KEY_META_FORMAT_MINOR] = FORMAT_VERSION_MINOR;
+    meta[JSON_KEY_META_VERSION] = 0;
+    meta[JSON_KEY_META_DATE] = QDateTime::currentDateTime().toLocalTime().toString();
+
     QJsonObject root;
+    root[JSON_KEY_META] = meta;
     root[JSON_KEY_LIBRARY] = lib;
     QJsonDocument doc(root);
 
