@@ -26,14 +26,13 @@ void TestXlet::init()
     QCOMPARE(data.connectorModel(), ConnectorModel::UNKNOWN);
     QCOMPARE(data.isPhantomOn(), false);
     QCOMPARE(data.powerType(), PowerType::None);
-    QCOMPARE(data.connectorType(), ConnectorType::SocketFemale);
+    QCOMPARE(data.connectorType(), ConnectorType::socket_female);
     QCOMPARE(data.isVisible(), true);
     QCOMPARE(data.isPlug(), false);
     QCOMPARE(data.isSocket(), true);
-    QCOMPARE(data.typeString(), "female");
     QCOMPARE(data.modelString(), "Unknown");
     QCOMPARE(data.supportsPhantomPower(), false);
-    QCOMPARE(data.iconPath(), QString(":/connectors/unknown_socket.svg"));
+    QCOMPARE(data.iconPath(), QString(":/connectors/unknown_socket_female.svg"));
 }
 
 void TestXlet::json()

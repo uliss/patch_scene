@@ -11,19 +11,15 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#ifndef TEST_CONNECTION_H
-#define TEST_CONNECTION_H
+#ifndef TEST_CONNECTOR_TYPE_H
+#define TEST_CONNECTOR_TYPE_H
 
 #include "test_suite.h"
 
-class TestConnection : public TestSuite {
+class TestConnectorType : public TestSuite {
     Q_OBJECT
 private slots:
-    void dataInit();
-    void dataJson();
-    void dataHash();
-    void testConnection();
-    void findConnected();
+    void testInit();
 };
 
-#endif // TEST_CONNECTION_H
+#endif // TEST_CONNECTOR_TYPE_H

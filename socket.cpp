@@ -170,32 +170,6 @@ ConnectorModel ceam::findConnectorByJsonName(const QString& name)
     return ConnectorModel::UNKNOWN;
 }
 
-QString ceam::connectorTypeJsonName(ConnectorType type)
-{
-    switch (type) {
-    case ConnectorType::SocketMale:
-        return "socket_male";
-    case ConnectorType::SocketFemale:
-        return "socket_female";
-    case ConnectorType::PlugMale:
-        return "plug_male";
-    case ConnectorType::PlugFemale:
-        return "plug_female";
-    default:
-        return "???";
-    }
-}
-
-bool ceam::connectorIsSocket(ConnectorType type)
-{
-    return type == ConnectorType::SocketFemale || type == ConnectorType::SocketMale;
-}
-
-bool ceam::connectorIsPlug(ConnectorType type)
-{
-    return type == ConnectorType::PlugFemale || type == ConnectorType::PlugMale;
-}
-
 QString ceam::powerTypeToString(PowerType type)
 {
     switch (type) {
@@ -242,61 +216,5 @@ void ceam::foreachPowerType(const std::function<void(PowerType, int)>& fn)
          i < static_cast<int>(PowerType::MaxPowerType);
          i++) {
         fn(static_cast<PowerType>(i), i);
-    }
-}
-
-#define ceam_tr(name) QCoreApplication::translate("static", name)
-
-QString ceam::connectorTypeName(ConnectorType type)
-{
-    switch (type) {
-    case ConnectorType::SocketFemale:
-        return ceam_tr(QT_TRANSLATE_NOOP("static", "Female"));
-    case ConnectorType::PlugMale:
-        return ceam_tr(QT_TRANSLATE_NOOP("static", "Male"));
-    case ConnectorType::PlugFemale:
-        return ceam_tr(QT_TRANSLATE_NOOP("static", "Female"));
-    case ConnectorType::SocketMale:
-    default:
-        return ceam_tr(QT_TRANSLATE_NOOP("static", "Male"));
-    }
-}
-
-void ceam::foreachConnectorType(const std::function<void(ConnectorType, int)>& fn)
-{
-    for (int i = static_cast<int>(ConnectorType::SocketMale);
-         i < static_cast<int>(ConnectorType::MaxConnectorType);
-         i++) {
-        fn(static_cast<ConnectorType>(i), i);
-    }
-}
-
-QString ceam::connectorTypeIconName(ConnectorType type)
-{
-    switch (type) {
-    case ConnectorType::SocketMale:
-    case ConnectorType::SocketFemale:
-        return ":/connectors/conn_socket.svg";
-    case ConnectorType::PlugMale:
-    case ConnectorType::PlugFemale:
-        return ":/connectors/conn_plug.svg";
-    default:
-        return {};
-    }
-}
-
-ConnectorType ceam::connectorTypeComplement(ConnectorType type)
-{
-    switch (type) {
-    case ConnectorType::SocketMale:
-        return ConnectorType::PlugFemale;
-    case ConnectorType::SocketFemale:
-        return ConnectorType::PlugMale;
-    case ConnectorType::PlugMale:
-        return ConnectorType::SocketFemale;
-    case ConnectorType::PlugFemale:
-        return ConnectorType::SocketMale;
-    default:
-        return ConnectorType::MaxConnectorType;
     }
 }

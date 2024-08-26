@@ -17,26 +17,31 @@ using namespace ceam;
 
 TableCellConnectorType::TableCellConnectorType(ConnectorType type, QWidget* parent)
 {
-    foreachConnectorType([this, type](ConnectorType t, int int_type) {
-        addItem(QIcon(connectorTypeIconName(t)), connectorTypeName(t), int_type);
+    ConnectorType::foreachType([this, type](const ConnectorType& t) {
+        addItem(QIcon(t.iconPath()), t.localizedName(), t.toInt());
 
         if (type == t)
-            setCurrentIndex(int_type);
+            setCurrentIndex(t.toInt());
     });
 }
 
 ConnectorType TableCellConnectorType::connectorType() const
 {
+    auto res = ConnectorType::socket_female;
+
     bool ok = false;
-    auto conn = currentData().toInt(&ok);
+    auto int_type = currentData().toInt(&ok);
     if (!ok)
-        return ConnectorType::SocketFemale;
-    else
-        return static_cast<ConnectorType>(conn);
+        return res;
+
+    auto conn = ConnectorType::fromInt(int_type);
+    if (conn)
+        res = conn.value();
+
+    return res;
 }
 
-void TableCellConnectorType::setConnectorType(ConnectorType type)
+void TableCellConnectorType::setConnectorType(const ConnectorType& type)
 {
-    auto idx = findData(static_cast<int>(type));
-    setCurrentIndex(idx);
+    setCurrentIndex(findData(type.toInt()));
 }

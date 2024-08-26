@@ -112,27 +112,11 @@ const QString& connectorName(ConnectorModel model);
 ConnectorModel findConnectorBySvgName(const QString& name);
 ConnectorModel findConnectorByJsonName(const QString& name);
 
-enum class ConnectorType : std::uint8_t {
-    SocketMale,
-    SocketFemale,
-    PlugMale,
-    PlugFemale,
-    MaxConnectorType,
-};
-
 enum class XletType : std::uint8_t {
     None,
     In,
     Out,
 };
-
-QString connectorTypeIconName(ConnectorType type);
-QString connectorTypeJsonName(ConnectorType type);
-QString connectorTypeName(ConnectorType type);
-bool connectorIsSocket(ConnectorType type);
-bool connectorIsPlug(ConnectorType type);
-ConnectorType connectorTypeComplement(ConnectorType type);
-void foreachConnectorType(const std::function<void(ConnectorType, int /*idx*/)>& fn);
 
 enum class PowerType : std::uint8_t {
     None,

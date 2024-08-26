@@ -14,8 +14,7 @@
 #ifndef TABLE_CELL_SOCKET_H
 #define TABLE_CELL_SOCKET_H
 
-#include "socket.h"
-
+#include "connector_type.h"
 #include <QComboBox>
 
 namespace ceam {
@@ -25,7 +24,7 @@ public:
     TableCellConnectorType(ConnectorType type, QWidget* parent = nullptr);
 
     ConnectorType connectorType() const;
-    void setConnectorType(ConnectorType type);
+    void setConnectorType(const ConnectorType& type);
 };
 }
 

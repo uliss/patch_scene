@@ -9,7 +9,7 @@
         "outputs": [
           {
             "model": "xlr",
-            "socket": "male"
+            "socket": "socket_male"
           }
         ]
       },
@@ -21,7 +21,7 @@
         "outputs": [
           {
             "model": "xlr",
-            "socket": "male"
+            "socket": "socket_male"
           }
         ]
       },
@@ -245,11 +245,11 @@
         "outputs": [
           {
             "model": "xlr",
-            "socket": "male"
+            "socket": "socket_male"
           },
           {
             "model": "xlr",
-            "socket": "male"
+            "socket": "socket_male"
           }
         ]
       },
@@ -293,7 +293,7 @@
           },
           {
             "model": "power_iec_c_13_14",
-            "socket": "male"
+            "socket": "socket_male"
           }
         ]
       },
@@ -312,7 +312,7 @@
           },
           {
             "model": "power_iec_c_13_14",
-            "socket": "male"
+            "socket": "socket_male"
           }
         ]
       },
@@ -323,79 +323,79 @@
         "inputs": [
           {
             "model": "xlr_jack",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "1",
             "power": "phantom"
           },
           {
             "model": "xlr_jack",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "2",
             "power": "phantom"
           },
           {
             "model": "xlr_jack",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "3",
             "power": "phantom"
           },
           {
             "model": "xlr_jack",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "4",
             "power": "phantom"
           },
           {
             "model": "xlr_jack",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "5",
             "power": "phantom"
           },
           {
             "model": "xlr_jack",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "6",
             "power": "phantom"
           },
           {
             "model": "xlr_jack",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "7",
             "power": "phantom"
           },
           {
             "model": "xlr_jack",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "8",
             "power": "phantom"
           },
           {
             "model": "midi",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "MIDI in"
           },
           {
             "model": "usb_b",
-            "socket": "female"
+            "socket": "socket_female"
           },
           {
             "model": "spdif",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "SPDIF in"
           },
           {
             "model": "toslink",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Optical 1-16"
           },
           {
             "model": "toslink",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Optical 17-32"
           },
           {
             "model": "power_iec_c_13_14",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Power plug 220V",
             "power": "~"
           }
@@ -403,87 +403,87 @@
         "outputs": [
           {
             "model": "jack_trs",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Line out 1"
           },
           {
             "model": "jack_trs",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Line out 2"
           },
           {
             "model": "jack_trs",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Line out 3"
           },
           {
             "model": "jack_trs",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Line out 4"
           },
           {
             "model": "jack_trs",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Line out 5"
           },
           {
             "model": "jack_trs",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Line out 6"
           },
           {
             "model": "jack_trs",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Line out 7"
           },
           {
             "model": "jack_trs",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Line out 8"
           },
           {
             "model": "jack_trs",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Line out 9"
           },
           {
             "model": "jack_trs",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Line out 10"
           },
           {
             "model": "jack_trs",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Phones 1"
           },
           {
             "model": "jack_trs",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Phones 2"
           },
           {
             "model": "midi",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "MIDI out"
           },
           {
             "model": "spdif",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "SPDIF out"
           },
           {
             "model": "toslink",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Optical 1-16"
           },
           {
             "model": "toslink",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Optical 17-32"
           },
           {
             "model": "bnc",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "World clock"
           }
         ]
@@ -497,143 +497,143 @@
         "inputs": [
           {
             "model": "xlr",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Mic/Line 1",
             "power": "phantom"
           },
           {
             "model": "xlr",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Mic/Line 2",
             "power": "phantom"
           },
           {
             "model": "xlr",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Mic/Line 3",
             "power": "phantom"
           },
           {
             "model": "xlr",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Mic/Line 4",
             "power": "phantom"
           },
           {
             "model": "jack_ts",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Line 5",
             "level": "-10dBu"
           },
           {
             "model": "jack_ts",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Line 6",
             "level": "-10dBu"
           },
           {
             "model": "rca",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Line 5",
             "color": "#FF0000"
           },
           {
             "model": "rca",
-            "socket": "female",
+            "socket": "socket_female",
             "color": "#0000FF",
             "name": "Line 6"
           },
           {
             "model": "jack_ts",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Line 7",
             "level": "-10dBu"
           },
           {
             "model": "jack_ts",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Line 8",
             "level": "-10dBu"
           },
           {
             "model": "rca",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Line 7"
           },
           {
             "model": "rca",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Line 8"
           },
           {
             "model": "jack_ts",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Line 9",
             "level": "-10dBu"
           },
           {
             "model": "jack_ts",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Line 10",
             "level": "-10dBu"
           },
           {
             "model": "jack_ts",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Foot Switch FX"
           },
           {
             "model": "usb_b",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "USB in 24-bit/192kHz"
           }
         ],
         "outputs": [
           {
             "model": "jack_ts",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Monitor out L",
             "level": "+4dBu"
           },
           {
             "model": "jack_ts",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Monitor out R",
             "level": "+4dBu"
           },
           {
             "model": "jack_trs",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Fx send",
             "level": "+4dBu"
           },
           {
             "model": "jack_ts",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Stereo out L",
             "level": "+4dBu"
           },
           {
             "model": "jack_ts",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Stereo out R",
             "level": "+4dBu"
           },
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Stereo out L",
             "level": "+4dBu"
           },
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Stereo out R",
             "level": "+4dBu"
           },
           {
             "model": "jack_trs",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Phones"
           }
         ]
@@ -647,49 +647,49 @@
         "inputs": [
           {
             "model": "ethernet",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Ethernet"
           },
           {
             "model": "usb_type_c",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Power"
           }
         ],
         "outputs": [
           {
             "model": "usb_a",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "USB 1"
           },
           {
             "model": "usb_a",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "USB 2"
           },
           {
             "model": "usb3_a",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "USB 3"
           },
           {
             "model": "usb3_a",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "USB 4"
           },
           {
             "model": "hdmi_micro",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "HDMI 1"
           },
           {
             "model": "hdmi_micro",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "HDMI 2"
           },
           {
             "model": "jack_mini_trs",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Audio out"
           }
         ]
@@ -703,44 +703,44 @@
         "inputs": [
           {
             "model": "ethernet",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Ethernet"
           },
           {
             "model": "usb_type_c",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Power"
           }
         ],
         "outputs": [
           {
             "model": "usb_a",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "USB 1"
           },
           {
             "model": "usb_a",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "USB 2"
           },
           {
             "model": "usb3_a",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "USB 3"
           },
           {
             "model": "usb3_a",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "USB 4"
           },
           {
             "model": "hdmi_micro",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "HDMI 1"
           },
           {
             "model": "hdmi_micro",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "HDMI 2"
           }
         ]
@@ -753,17 +753,17 @@
         "outputs": [
           {
             "model": "usb_type_c",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "USB/Thunderbolt 1"
           },
           {
             "model": "usb_type_c",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "USB/Thunderbolt 2"
           },
           {
             "model": "jack_mini_trs",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Audio out"
           }
         ]
@@ -951,7 +951,7 @@
           },
           {
             "model": "xlr",
-            "socket": "male"
+            "socket": "socket_male"
           }
         ],
         "inputs": [
@@ -976,112 +976,112 @@
         "inputs": [
           {
             "model": "xlr_jack",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "1",
             "power": "phantom"
           },
           {
             "model": "xlr_jack",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "2",
             "power": "phantom"
           },
           {
             "model": "xlr_jack",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "3",
             "power": "phantom"
           },
           {
             "model": "xlr_jack",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "4",
             "power": "phantom"
           },
           {
             "model": "xlr_jack",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "5",
             "power": "phantom"
           },
           {
             "model": "xlr_jack",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "6",
             "power": "phantom"
           },
           {
             "model": "xlr_jack",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "7",
             "power": "phantom"
           },
           {
             "model": "xlr_jack",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "8",
             "power": "phantom"
           },
           {
             "model": "xlr_jack",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "9",
             "power": "phantom"
           },
           {
             "model": "xlr_jack",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "10",
             "power": "phantom"
           },
           {
             "model": "xlr_jack",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "11",
             "power": "phantom"
           },
           {
             "model": "xlr_jack",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "12",
             "power": "phantom"
           },
           {
             "model": "xlr_jack",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "13",
             "power": "phantom"
           },
           {
             "model": "xlr_jack",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "14",
             "power": "phantom"
           },
           {
             "model": "xlr_jack",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "15",
             "power": "phantom"
           },
           {
             "model": "xlr_jack",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "16",
             "power": "phantom"
           },
           {
             "model": "ethernet",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Remote control"
           },
           {
             "model": "usb_b",
-            "socket": "female"
+            "socket": "socket_female"
           },
           {
             "model": "power_iec_c_13_14",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Power plug 220V",
             "power": "~"
           }
@@ -1089,52 +1089,52 @@
         "outputs": [
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Main L"
           },
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Main R"
           },
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Aux 1"
           },
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Aux 2"
           },
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Aux 3"
           },
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Aux 4"
           },
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Aux 5"
           },
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Aux 6"
           },
           {
             "model": "ethernet",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Ultranet out"
           },
           {
             "model": "jack_trs",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Phones"
           }
         ]
@@ -1172,22 +1172,22 @@
         "outputs": [
           {
             "model": "jack_mini_trs",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Phones 1"
           },
           {
             "model": "jack_mini_trs",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Phones 2"
           },
           {
             "model": "jack_ts",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Line out L"
           },
           {
             "model": "jack_ts",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Line out R"
           }
         ]
@@ -1200,7 +1200,7 @@
         "outputs": [
           {
             "model": "din_5",
-            "socket": "female",
+            "socket": "socket_female",
             "name": "Phones 1"
           }
         ]
@@ -1659,7 +1659,7 @@
         "outputs": [
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Balanced output"
           }
         ]
@@ -1680,12 +1680,12 @@
         "outputs": [
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Balanced output"
           },
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Balanced output"
           }
         ]
@@ -1708,12 +1708,12 @@
         "outputs": [
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "CH 1 OUT"
           },
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "CH 2 OUT"
           }
         ]
@@ -1725,7 +1725,7 @@
         "inputs": [
           {
             "model": "din_5",
-            "socket": "male",
+            "socket": "socket_male",
             "plug-cord": true
           }
         ]
@@ -1743,7 +1743,7 @@
         "inputs": [
           {
             "model": "xlr_mini",
-            "socket": "female",
+            "socket": "socket_female",
             "visible": false
           }
         ]
@@ -1875,7 +1875,7 @@
           },
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "XLR"
           },
           {
@@ -1983,19 +1983,19 @@
         "inputs": [
           {
             "model": "xlr_mini",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "IN L"
           },
           {
             "model": "xlr_mini",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "IN R"
           }
         ],
         "outputs": [
           {
             "model": "xlr",
-            "socket": "male"
+            "socket": "socket_male"
           }
         ]
       },
@@ -2359,7 +2359,7 @@
         "outputs": [
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Return #1"
           }
         ]
@@ -2369,12 +2369,12 @@
         "outputs": [
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Return #1"
           },
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Return #2"
           }
         ]
@@ -2384,22 +2384,22 @@
         "outputs": [
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Return #1"
           },
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Return #2"
           },
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Return #3"
           },
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Return #4"
           }
         ]
@@ -2409,42 +2409,42 @@
         "outputs": [
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Return #1"
           },
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Return #2"
           },
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Return #3"
           },
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Return #4"
           },
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Return #5"
           },
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Return #6"
           },
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Return #7"
           },
           {
             "model": "xlr",
-            "socket": "male",
+            "socket": "socket_male",
             "name": "Return #8"
           }
         ]

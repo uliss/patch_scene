@@ -35,6 +35,7 @@ set(PROJECT_SOURCES
     battery_item_model.h battery_item_model.cpp
     connection.h connection.cpp
     connection_item_model.h connection_item_model.cpp
+    connector_type.h connector_type.cpp
     device.h device.cpp
     device_common.h device_common.cpp
     device_item_model.h device_item_model.cpp

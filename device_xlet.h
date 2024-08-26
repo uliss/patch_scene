@@ -14,6 +14,7 @@
 #ifndef DEVICE_XLET_H
 #define DEVICE_XLET_H
 
+#include "connector_type.h"
 #include "socket.h"
 
 #include <QGraphicsSvgItem>
@@ -23,7 +24,7 @@ namespace ceam {
 class XletData {
     QString name_;
     ConnectorModel model_ { ConnectorModel::UNKNOWN };
-    ConnectorType type_ { ConnectorType::SocketFemale };
+    ConnectorType type_ { ConnectorType::socket_female };
     bool visible_ { true };
     bool phantom_power_ { false };
     PowerType power_type_ { PowerType::None };
@@ -39,7 +40,7 @@ public:
     ConnectorModel connectorModel() const { return model_; }
     void setConnectorModel(ConnectorModel model) { model_ = model; }
 
-    ConnectorType connectorType() const { return type_; }
+    const ConnectorType& connectorType() const { return type_; }
     void setConnectorType(ConnectorType type) { type_ = type; }
 
     bool isVisible() const { return visible_; }
@@ -53,7 +54,6 @@ public:
     void setPowerType(PowerType type) { power_type_ = type; }
 
     QString modelString() const;
-    QString typeString() const;
     QString iconPath() const;
 
     QJsonObject toJson() const;
@@ -63,8 +63,8 @@ public:
     bool operator==(const XletData& data) const;
     bool operator!=(const XletData& data) const { return !operator==(data); };
 
-    bool isSocket() const;
-    bool isPlug() const;
+    bool isSocket() const { return type_.isSocket(); }
+    bool isPlug() const { return type_.isPlug(); }
 };
 
 class DeviceXlet : public QGraphicsSvgItem {

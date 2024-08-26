@@ -32,7 +32,7 @@ using namespace ceam;
 ConnectionItemModel::ConnectionItemModel(QObject* parent)
     : QStandardItemModel(0, DATA_CONN_NCOLS, parent)
 {
-    setHorizontalHeaderLabels({ tr("Source"), tr("Model"), tr("Plug"), tr("Destination"), tr("Model"), tr("Plug") });
+    setHorizontalHeaderLabels({ tr("Source"), tr("Model"), tr("Connector"), tr("Destination"), tr("Model"), tr("Connector") });
 
     proxy_ = new QSortFilterProxyModel(this);
     proxy_->setDynamicSortFilter(true);
@@ -73,7 +73,7 @@ bool ConnectionItemModel::addConnection(const ConnectionData& data,
     src_name->setEditable(false);
     auto src_model = new QStandardItem(src_out.modelString());
     src_model->setEditable(false);
-    auto src_plug = new QStandardItem(src_out.typeString());
+    auto src_plug = new QStandardItem(src_out.connectorType().complement().localizedName());
     src_plug->setEditable(false);
 
     auto dest_name = new QStandardItem(dest->title());
@@ -82,7 +82,7 @@ bool ConnectionItemModel::addConnection(const ConnectionData& data,
     dest_name->setEditable(false);
     auto dest_model = new QStandardItem(dest_in.modelString());
     dest_model->setEditable(false);
-    auto dest_plug = new QStandardItem(dest_in.typeString());
+    auto dest_plug = new QStandardItem(dest_in.connectorType().complement().localizedName());
     dest_plug->setEditable(false);
 
     appendRow({ src_name, src_model, src_plug, dest_name, dest_model, dest_plug });

@@ -39,7 +39,7 @@ public:
         auto it = cache_.find(model);
         if (it == cache_.end()) {
             auto icon_name = connectorSvgName(model);
-            auto icon_path = QString(":/connectors/%1_socket.svg").arg(icon_name);
+            auto icon_path = QString(":/connectors/%1_socket_female.svg").arg(icon_name);
             if (QFile::exists(icon_path)) {
                 QIcon icon(icon_path);
                 cache_[model] = icon;

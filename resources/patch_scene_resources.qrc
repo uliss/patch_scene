@@ -1,30 +1,30 @@
 <RCC>
     <qresource prefix="/">
-        <file>connectors/bnc_socket.svg</file>
-        <file>connectors/ethernet_socket.svg</file>
-        <file>connectors/hdmi_micro_socket.svg</file>
-        <file>connectors/jack_mini_socket.svg</file>
-        <file>connectors/jack_socket.svg</file>
-        <file>connectors/midi_socket.svg</file>
-        <file>connectors/power_dc_socket.svg</file>
-        <file>connectors/power_iec_c_13_14_socket.svg</file>
+        <file>connectors/bnc_socket_female.svg</file>
+        <file>connectors/ethernet_socket_female.svg</file>
+        <file>connectors/hdmi_micro_socket_female.svg</file>
+        <file>connectors/jack_mini_socket_female.svg</file>
+        <file>connectors/jack_socket_female.svg</file>
+        <file>connectors/midi_socket_female.svg</file>
+        <file>connectors/power_dc_socket_female.svg</file>
+        <file>connectors/power_iec_c_13_14_socket_female.svg</file>
         <file>connectors/power_iec_c_13_14_socket_male.svg</file>
-        <file>connectors/power_iec_c_13_14b_socket.svg</file>
+        <file>connectors/power_iec_c_13_14b_socket_female.svg</file>
         <file>connectors/power_iec_c_13_14b_socket_male.svg</file>
-        <file>connectors/power_schuko_socket.svg</file>
-        <file>connectors/ps2_socket.svg</file>
-        <file>connectors/rca_socket.svg</file>
-        <file>connectors/rca_spdif_socket.svg</file>
-        <file>connectors/toslink_socket.svg</file>
-        <file>connectors/unknown_socket.svg</file>
-        <file>connectors/usb3_a_socket.svg</file>
-        <file>connectors/usb_a_socket.svg</file>
-        <file>connectors/usb_b_socket.svg</file>
-        <file>connectors/usb_mini_b_socket.svg</file>
-        <file>connectors/usb_type_c_socket.svg</file>
-        <file>connectors/vga_socket.svg</file>
-        <file>connectors/xlr_jack_socket.svg</file>
-        <file>connectors/xlr_socket.svg</file>
+        <file>connectors/power_schuko_socket_female.svg</file>
+        <file>connectors/ps2_socket_female.svg</file>
+        <file>connectors/rca_socket_female.svg</file>
+        <file>connectors/rca_spdif_socket_female.svg</file>
+        <file>connectors/toslink_socket_female.svg</file>
+        <file>connectors/unknown_socket_female.svg</file>
+        <file>connectors/usb3_a_socket_female.svg</file>
+        <file>connectors/usb_a_socket_female.svg</file>
+        <file>connectors/usb_b_socket_female.svg</file>
+        <file>connectors/usb_mini_b_socket_female.svg</file>
+        <file>connectors/usb_type_c_socket_female.svg</file>
+        <file>connectors/vga_socket_female.svg</file>
+        <file>connectors/xlr_jack_socket_female.svg</file>
+        <file>connectors/xlr_socket_female.svg</file>
         <file>connectors/xlr_socket_male.svg</file>
         <file>devices/accordion_1.svg</file>
         <file>devices/arduino_uno.svg</file>
@@ -106,8 +106,8 @@
         <file>devices/congas_1.svg</file>
         <file>devices/body_pack_1.svg</file>
         <file>devices/akg_sr40_mini_pro.svg</file>
-        <file>connectors/hdmi_socket.svg</file>
-        <file>connectors/xlr_mini_socket.svg</file>
+        <file>connectors/hdmi_socket_female.svg</file>
+        <file>connectors/xlr_mini_socket_female.svg</file>
         <file>connectors/xlr_mini_socket_male.svg</file>
         <file>devices/monitor_1.svg</file>
         <file>devices/guitar_pedal_2.svg</file>
@@ -122,12 +122,12 @@
         <file>connectors/jack_mini_plug_male.svg</file>
         <file>connectors/jack_plug_male.svg</file>
         <file>devices/phones_2.svg</file>
-        <file>connectors/usb_micro_a_socket.svg</file>
+        <file>connectors/usb_micro_a_socket_female.svg</file>
         <file>devices/gameboy_1.svg</file>
         <file>devices/radio_system_uhf_1.svg</file>
         <file>devices/guitar_pedal_3.svg</file>
         <file>devices/audio_recorder_1.svg</file>
-        <file>connectors/jack_micro_socket.svg</file>
+        <file>connectors/jack_micro_socket_female.svg</file>
         <file>devices/human_oboe_1.svg</file>
         <file>devices/human_conductor_1.svg</file>
         <file>devices/light_moving_head_2.svg</file>
