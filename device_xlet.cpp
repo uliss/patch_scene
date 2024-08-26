@@ -34,13 +34,13 @@ constexpr const char* PLUG_FEMALE = "plug_female";
 QString xlet_icon_path(ConnectorModel model, ConnectorType type)
 {
     switch (type) {
-    case ConnectorType::Socket_Male:
+    case ConnectorType::SocketMale:
         return QString(":/connectors/%1_socket_male.svg").arg(connectorSvgName(model));
-    case ConnectorType::Socket_Female:
+    case ConnectorType::SocketFemale:
         return QString(":/connectors/%1_socket.svg").arg(connectorSvgName(model));
-    case ConnectorType::Plug_Male:
+    case ConnectorType::PlugMale:
         return QString(":/connectors/%1_plug_male.svg").arg(connectorSvgName(model));
-    case ConnectorType::Plug_Female:
+    case ConnectorType::PlugFemale:
     default:
         return {};
     }
@@ -49,13 +49,13 @@ QString xlet_icon_path(ConnectorModel model, ConnectorType type)
 ConnectorType connector_type(const QString& type)
 {
     if (type == SOCKET_MALE) {
-        return ConnectorType::Socket_Male;
+        return ConnectorType::SocketMale;
     } else if (type == PLUG_MALE) {
-        return ConnectorType::Plug_Male;
+        return ConnectorType::PlugMale;
     } else if (type == PLUG_FEMALE) {
-        return ConnectorType::Plug_Female;
+        return ConnectorType::PlugFemale;
     } else {
-        return ConnectorType::Socket_Female;
+        return ConnectorType::SocketFemale;
     }
 }
 }
@@ -84,13 +84,13 @@ QString XletData::modelString() const
 QString XletData::typeString() const
 {
     switch (type_) {
-    case ConnectorType::Socket_Male:
+    case ConnectorType::SocketMale:
         return SOCKET_MALE;
-    case ConnectorType::Socket_Female:
+    case ConnectorType::SocketFemale:
         return SOCKET_FEMALE;
-    case ConnectorType::Plug_Male:
+    case ConnectorType::PlugMale:
         return PLUG_MALE;
-    case ConnectorType::Plug_Female:
+    case ConnectorType::PlugFemale:
         return PLUG_FEMALE;
     default:
         return "";

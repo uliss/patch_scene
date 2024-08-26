@@ -14,6 +14,7 @@
 #include "socket.h"
 #include "QtCore/qdebug.h"
 
+#include <QCoreApplication>
 #include <map>
 
 using namespace ceam;
@@ -169,16 +170,16 @@ ConnectorModel ceam::findConnectorByJsonName(const QString& name)
     return ConnectorModel::UNKNOWN;
 }
 
-QString ceam::connectorTypeName(ConnectorType type)
+QString ceam::connectorTypeJsonName(ConnectorType type)
 {
     switch (type) {
-    case ConnectorType::Socket_Male:
+    case ConnectorType::SocketMale:
         return "socket_male";
-    case ConnectorType::Socket_Female:
+    case ConnectorType::SocketFemale:
         return "socket_female";
-    case ConnectorType::Plug_Male:
+    case ConnectorType::PlugMale:
         return "plug_male";
-    case ConnectorType::Plug_Female:
+    case ConnectorType::PlugFemale:
         return "plug_female";
     default:
         return "???";
@@ -187,12 +188,12 @@ QString ceam::connectorTypeName(ConnectorType type)
 
 bool ceam::connectorIsSocket(ConnectorType type)
 {
-    return type == ConnectorType::Socket_Female || type == ConnectorType::Socket_Male;
+    return type == ConnectorType::SocketFemale || type == ConnectorType::SocketMale;
 }
 
 bool ceam::connectorIsPlug(ConnectorType type)
 {
-    return type == ConnectorType::Plug_Female || type == ConnectorType::Plug_Male;
+    return type == ConnectorType::PlugFemale || type == ConnectorType::PlugMale;
 }
 
 QString ceam::powerTypeToString(PowerType type)
@@ -241,5 +242,29 @@ void ceam::foreachPowerType(const std::function<void(PowerType, int)>& fn)
          i < static_cast<int>(PowerType::MaxPowerType);
          i++) {
         fn(static_cast<PowerType>(i), i);
+    }
+}
+
+QString ceam::connectorTypeName(ConnectorType type)
+{
+    switch (type) {
+    case ConnectorType::SocketFemale:
+        return QCoreApplication::translate("socket", "Socket Female");
+    case ConnectorType::PlugMale:
+        return QCoreApplication::translate("socket", "Plug Male");
+    case ConnectorType::PlugFemale:
+        return QCoreApplication::translate("socket", "Plug Female");
+    case ConnectorType::SocketMale:
+    default:
+        return QCoreApplication::translate("socket", "Socket Male");
+    }
+}
+
+void ceam::foreachConnectorType(const std::function<void(ConnectorType, int)>& fn)
+{
+    for (int i = static_cast<int>(ConnectorType::SocketMale);
+         i < static_cast<int>(ConnectorType::MaxConnectorType);
+         i++) {
+        fn(static_cast<ConnectorType>(i), i);
     }
 }

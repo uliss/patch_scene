@@ -55,6 +55,8 @@ set(PROJECT_SOURCES
     return_item_model.h return_item_model.cpp
     send_item_model.h send_item_model.cpp
     socket.h socket.cpp
+    table_cell_power.h table_cell_power.cpp
+    table_cell_socket.h table_cell_socket.cpp
     tablecellcheckbox.h tablecellcheckbox.cpp
     tablecellconnector.h tablecellconnector.cpp
     undo_commands.h undo_commands.cpp
@@ -100,7 +102,6 @@ qt_add_executable(patch_scene
     ${app_icon_macos}
     main.cpp
     resources/patch_scene_resources.qrc
-    table_cell_power.h table_cell_power.cpp
 )
 
 add_dependencies(patch_scene git_version)

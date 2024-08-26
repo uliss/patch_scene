@@ -26,7 +26,7 @@ void TestXlet::init()
     QCOMPARE(data.connectorModel(), ConnectorModel::UNKNOWN);
     QCOMPARE(data.isPhantomOn(), false);
     QCOMPARE(data.powerType(), PowerType::None);
-    QCOMPARE(data.connectorType(), ConnectorType::Socket_Female);
+    QCOMPARE(data.connectorType(), ConnectorType::SocketFemale);
     QCOMPARE(data.isVisible(), true);
     QCOMPARE(data.isPlug(), false);
     QCOMPARE(data.isSocket(), true);

@@ -23,7 +23,7 @@ namespace ceam {
 class XletData {
     QString name_;
     ConnectorModel model_ { ConnectorModel::UNKNOWN };
-    ConnectorType type_ { ConnectorType::Socket_Female };
+    ConnectorType type_ { ConnectorType::SocketFemale };
     bool visible_ { true };
     bool phantom_power_ { false };
     PowerType power_type_ { PowerType::None };

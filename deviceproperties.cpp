@@ -14,6 +14,7 @@
 #include "deviceproperties.h"
 #include "device_pixmap.h"
 #include "table_cell_power.h"
+#include "table_cell_socket.h"
 #include "tablecellcheckbox.h"
 #include "tablecellconnector.h"
 #include "ui_deviceproperties.h"
@@ -22,10 +23,10 @@
 
 namespace {
 enum {
-    COL_MODEL,
+    COL_CONNECTOR,
     COL_VISIBLE,
     COL_NAME,
-    COL_SOCKET,
+    COL_CONNECTOR_TYPE,
     COL_POWER_TYPE,
     COL_PHANTOM,
 };
@@ -112,7 +113,7 @@ void DeviceProperties::setupXletTable(QTableWidget* tab, size_t rows)
     tab->setSelectionBehavior(QAbstractItemView::SelectRows);
     tab->setSelectionMode(QTableWidget::ContiguousSelection);
     tab->setHorizontalHeaderLabels({ tr("Type"), tr("Show"), tr("Name"), tr("Socket"), tr("Power"), tr("Phantom") });
-    tab->setColumnWidth(COL_MODEL, 100);
+    tab->setColumnWidth(COL_CONNECTOR, 100);
     // tab->setColumnWidth(COL_NAME, 100);
     // tab->setColumnWidth(COL_VISIBLE, 60);
     // tab->setColumnWidth(COL_SOCKET, 60);
@@ -161,19 +162,15 @@ void DeviceProperties::insertXlet(QTableWidget* tab, int row, const XletData& da
     // model choose
     auto model = new TableCellConnector(tab);
     model->setConnectorModel(data.connectorModel());
-    tab->setCellWidget(row, COL_MODEL, model);
+    tab->setCellWidget(row, COL_CONNECTOR, model);
 
     // show/hide
     auto show = new TableCellCheckBox(data.isVisible());
     tab->setCellWidget(row, COL_VISIBLE, show);
 
     // socket
-    auto socket = new QComboBox();
-    // TODO
-    socket->addItem(tr("Female"), static_cast<int>(ConnectorType::Socket_Female));
-    socket->addItem(tr("Male"), static_cast<int>(ConnectorType::Socket_Male));
-    socket->setCurrentIndex(data.connectorType() != ConnectorType::Socket_Female);
-    tab->setCellWidget(row, COL_SOCKET, socket);
+    auto socket = new TableCellConnectorType(data.connectorType(), this);
+    tab->setCellWidget(row, COL_CONNECTOR_TYPE, socket);
 
     // power
     auto power = new TableCellPower(data.powerType(), this);
@@ -456,7 +453,7 @@ bool DeviceProperties::getXletData(const QTableWidget* table, int row, XletData&
     if (chk)
         data.setVisible(chk->isChecked());
 
-    auto model = qobject_cast<TableCellConnector*>(table->cellWidget(row, COL_MODEL));
+    auto model = qobject_cast<TableCellConnector*>(table->cellWidget(row, COL_CONNECTOR));
     if (model)
         data.setConnectorModel(model->connectorModel());
 
@@ -468,9 +465,9 @@ bool DeviceProperties::getXletData(const QTableWidget* table, int row, XletData&
     if (phantom && data.supportsPhantomPower())
         data.setPhantom(phantom->isChecked());
 
-    auto socket_type = qobject_cast<QComboBox*>(table->cellWidget(row, COL_SOCKET));
+    auto socket_type = qobject_cast<TableCellConnectorType*>(table->cellWidget(row, COL_CONNECTOR_TYPE));
     if (socket_type)
-        data.setConnectorType(static_cast<ConnectorType>(socket_type->currentData().toInt()));
+        data.setConnectorType(socket_type->connectorType());
     return true;
 }
 
