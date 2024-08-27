@@ -19,6 +19,16 @@
 
 using namespace ceam;
 
+namespace {
+SharedDeviceData make_dev(DeviceId id, const QPointF& pos)
+{
+    auto data = new DeviceData(id);
+    data->setPos(pos);
+    return SharedDeviceData(data);
+}
+
+}
+
 void TestDiagram::addDevice()
 {
     Diagram dia(100, 100);
@@ -46,6 +56,37 @@ void TestDiagram::addDevice()
 
     auto json3 = dia.toJson();
     QCOMPARE(json1, json3);
+}
+
+void TestDiagram::removeDevice()
+{
+    Diagram dia(100, 100);
+
+    dia.devices().add(make_dev(100, { 50, 100 }));
+    QCOMPARE(dia.devices().count(), 1);
+    dia.devices().add(make_dev(101, { 100, 200 }));
+    QCOMPARE(dia.devices().count(), 2);
+
+    dia.cmdRemoveDevice(dia.devices().findData(100));
+    QCOMPARE(dia.devices().count(), 1);
+    dia.cmdRemoveDevice(dia.devices().findData(101));
+    QCOMPARE(dia.devices().count(), 0);
+
+    dia.undo();
+    QCOMPARE(dia.devices().count(), 1);
+    QCOMPARE(dia.devices().findData(101)->pos(), QPointF(100, 200));
+    dia.undo();
+    QCOMPARE(dia.devices().count(), 2);
+    QCOMPARE(dia.devices().findData(100)->pos(), QPointF(50, 100));
+    QCOMPARE(dia.devices().findData(101)->pos(), QPointF(100, 200));
+
+    dia.redo();
+    QCOMPARE(dia.devices().count(), 1);
+    QCOMPARE(dia.devices().count(), 1);
+    QCOMPARE(dia.devices().findData(101)->pos(), QPointF(100, 200));
+
+    dia.redo();
+    QCOMPARE(dia.devices().count(), 0);
 }
 
 static TestDiagram test_diagram;

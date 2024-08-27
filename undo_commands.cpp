@@ -105,13 +105,13 @@ RemoveDevice::RemoveDevice(Diagram* doc, const SharedDeviceData& data)
     : doc_(doc)
     , data_(data)
 {
-    if (doc_)
-        conn_ = doc_->findDeviceConnections(data->id());
+    if (doc_ && data_)
+        conn_ = doc_->findDeviceConnections(data_->id());
 }
 
 void RemoveDevice::undo()
 {
-    if (doc_) {
+    if (doc_ && data_) {
         doc_->addDevice(data_);
 
         for (auto& conn : conn_)
@@ -121,7 +121,7 @@ void RemoveDevice::undo()
 
 void RemoveDevice::redo()
 {
-    if (doc_)
+    if (doc_ && data_)
         doc_->removeDevice(data_->id());
 }
 

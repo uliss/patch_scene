@@ -18,8 +18,10 @@
 
 class TestDiagram : public TestSuite {
     Q_OBJECT
+
 private slots:
     void addDevice();
+    void removeDevice();
 };
 
 #endif // TEST_DIAGRAM_H
