@@ -50,4 +50,31 @@ void TestSceneConnections::add()
     QCOMPARE(sc.count(), 3);
 }
 
+void TestSceneConnections::remove()
+{
+    SceneConnections sc;
+
+    QVERIFY(!sc.remove(XletInfo { 0, 0, XletType::In }));
+    QGraphicsScene scene;
+    sc.setScene(&scene);
+
+    QVERIFY(sc.add(ConnectionData { 0, 0, 1, 0 }));
+    QCOMPARE(sc.count(), 1);
+    QVERIFY(sc.add(ConnectionData { 1, 0, 0, 0 }));
+    QCOMPARE(sc.count(), 2);
+
+    QVERIFY(!sc.remove({ 0, 1, XletType::In }));
+    QVERIFY(!sc.remove({ 0, 1, XletType::None }));
+    QVERIFY(!sc.remove({ 0, 1, XletType::Out }));
+
+    QVERIFY(sc.remove({ 0, 0, XletType::Out }));
+    QCOMPARE(sc.count(), 1);
+
+    QVERIFY(!sc.remove({ 0, 0, XletType::Out }));
+    QCOMPARE(sc.count(), 1);
+
+    QVERIFY(sc.remove({ 0, 0, XletType::In }));
+    QCOMPARE(sc.count(), 0);
+}
+
 static TestSceneConnections test_scene_connections;

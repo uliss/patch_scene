@@ -18,6 +18,8 @@
 
 using namespace ceam;
 
+#define WARN() qWarning() << metaObject()->className() << __FUNCTION__
+
 SceneConnections::SceneConnections(QObject* parent)
     : QObject(parent)
 {
@@ -47,6 +49,30 @@ bool SceneConnections::add(const ConnectionData& connData)
     } else {
         return false;
     }
+}
+
+bool SceneConnections::remove(const XletInfo& xlet)
+{
+    if (!scene_)
+        return false;
+
+    switch (xlet.type()) {
+    case XletType::In: {
+        auto dest_it = conn_dest_.find(xlet);
+        if (dest_it != conn_dest_.end())
+            return removeConnection(dest_it.value());
+    } break;
+    case XletType::Out: {
+        auto src_it = conn_src_.find(xlet);
+        if (src_it != conn_src_.end())
+            return removeConnection(src_it.value());
+    } break;
+    case XletType::None:
+    default:
+        break;
+    }
+
+    return false;
 }
 
 void SceneConnections::setScene(QGraphicsScene* scene)

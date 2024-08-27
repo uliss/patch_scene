@@ -31,6 +31,7 @@ public:
     SceneConnections(QObject* parent = nullptr);
 
     bool add(const ConnectionData& connData);
+    bool remove(const XletInfo& xlet);
 
     void setScene(QGraphicsScene* scene);
     size_t count() const;

@@ -21,6 +21,7 @@ class TestSceneConnections : public TestSuite {
 
 private slots:
     void add();
+    void remove();
 };
 
 #endif // TEST_SCENE_CONNECTIONS_H
