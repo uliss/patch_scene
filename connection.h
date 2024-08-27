@@ -31,6 +31,33 @@ constexpr qreal ZVALUE_BACKGROUND = -200;
 constexpr qreal ZVALUE_LIVE_CONN = 16000;
 constexpr qreal ZVALUE_SELECTION = 32000;
 
+class XletInfo {
+    DeviceId id_;
+    XletIndex index_;
+    XletType type_;
+
+public:
+    XletInfo(DeviceId id, int index, XletType type)
+        : id_(id)
+        , type_(type)
+        , index_(index)
+    {
+    }
+
+    bool operator==(const XletInfo& xi) const
+    {
+        return xi.id_ == id_ && xi.type_ == type_ && xi.index_ == index_;
+    }
+
+    bool operator!=(const XletInfo& xi) const { return !operator==(xi); }
+
+    DeviceId id() const { return id_; }
+    XletType type() const { return type_; }
+    XletIndex index() const { return index_; }
+};
+
+uint qHash(const XletInfo& key);
+
 class ConnectionData {
     DeviceId src_ { 0 }, dest_ { 0 };
     XletIndex out_ { 0 }, in_ { 0 };
@@ -48,6 +75,9 @@ public:
     DeviceId destination() const { return dest_; }
     XletIndex sourceOutput() const { return out_; }
     XletIndex destinationInput() const { return in_; }
+
+    XletInfo sourceInfo() const { return { src_, out_, XletType::Out }; }
+    XletInfo destinationInfo() const { return { dest_, in_, XletType::In }; }
 
     const bool operator==(const ConnectionData& data) const
     {
@@ -86,31 +116,6 @@ public:
 
 public:
     static std::optional<ConnectionData> fromJson(const QJsonValue& j);
-};
-
-class XletInfo {
-    DeviceId id_;
-    XletIndex index_;
-    XletType type_;
-
-public:
-    XletInfo(DeviceId id, int index, XletType type)
-        : id_(id)
-        , type_(type)
-        , index_(index)
-    {
-    }
-
-    bool operator==(const XletInfo& xi) const
-    {
-        return xi.id_ == id_ && xi.type_ == type_ && xi.index_ == index_;
-    }
-
-    bool operator!=(const XletInfo& xi) const { return !operator==(xi); }
-
-    DeviceId id() const { return id_; }
-    XletType type() const { return type_; }
-    XletIndex index() const { return index_; }
 };
 
 class Connection : public QGraphicsItem {

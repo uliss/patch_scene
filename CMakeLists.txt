@@ -55,6 +55,7 @@ set(PROJECT_SOURCES
     preferences_dialog.h preferences_dialog.cpp preferences_dialog.ui
     return_item_model.h return_item_model.cpp
     send_item_model.h send_item_model.cpp
+    scene_connections.h scene_connections.cpp
     scene_devices.h scene_devices.cpp
     socket.h socket.cpp
     table_cell_power.h table_cell_power.cpp

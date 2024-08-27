@@ -165,3 +165,10 @@ uint ceam::qHash(const ConnectionData& key)
         ^ ::qHash(key.source())
         ^ ::qHash(key.sourceOutput());
 }
+
+uint ceam::qHash(const XletInfo& key)
+{
+    return ::qHash(key.id())
+        ^ ::qHash(key.index())
+        ^ ::qHash(static_cast<int>(key.type()));
+}
