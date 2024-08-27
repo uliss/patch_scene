@@ -407,17 +407,17 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="724"/>
+        <location filename="mainwindow.ui" line="716"/>
         <source>Maximize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="870"/>
+        <location filename="mainwindow.ui" line="857"/>
         <source>Fullscreen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="873"/>
+        <location filename="mainwindow.ui" line="860"/>
         <source>Ctrl+Shift+F</source>
         <translation></translation>
     </message>
@@ -463,52 +463,52 @@
         <translation>Объекты</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="181"/>
+        <location filename="mainwindow.ui" line="182"/>
         <source>Library</source>
         <translation>Библиотека</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="209"/>
+        <location filename="mainwindow.ui" line="210"/>
         <source>search</source>
         <translation>искать</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="234"/>
+        <location filename="mainwindow.ui" line="235"/>
         <source>Equipment</source>
         <translation>Оборудование</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="277"/>
+        <location filename="mainwindow.ui" line="278"/>
         <source>Devices</source>
         <translation>Устройства</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="315"/>
+        <location filename="mainwindow.ui" line="316"/>
         <source>Connections</source>
         <translation>Соединения</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="353"/>
+        <location filename="mainwindow.ui" line="354"/>
         <source>Batteries</source>
         <translation>Батарейки</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="391"/>
+        <location filename="mainwindow.ui" line="392"/>
         <source>Furniture</source>
         <translation>Инвентарь</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="426"/>
+        <location filename="mainwindow.ui" line="427"/>
         <source>Sends</source>
         <translation>Посылы</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="461"/>
+        <location filename="mainwindow.ui" line="462"/>
         <source>Returns</source>
         <translation>Возвраты</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="511"/>
+        <location filename="mainwindow.ui" line="512"/>
         <source>Favorites</source>
         <translation>Избранное</translation>
     </message>
@@ -545,172 +545,182 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="581"/>
+        <location filename="mainwindow.ui" line="580"/>
         <source>Zoom Normal</source>
         <translation>По умолчанию</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="584"/>
+        <location filename="mainwindow.ui" line="583"/>
         <source>Ctrl+0</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="593"/>
+        <location filename="mainwindow.ui" line="591"/>
         <source>Print</source>
         <translation>Печать</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="596"/>
+        <location filename="mainwindow.ui" line="594"/>
         <source>Ctrl+P</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="605"/>
+        <location filename="mainwindow.ui" line="602"/>
         <source>Select All</source>
         <translation>Выбрать всё</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="608"/>
+        <location filename="mainwindow.ui" line="605"/>
         <source>Ctrl+A</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="617"/>
+        <location filename="mainwindow.ui" line="613"/>
         <source>Quit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="620"/>
+        <location filename="mainwindow.ui" line="616"/>
         <source>Ctrl+Q</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="632"/>
+        <location filename="mainwindow.ui" line="627"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="635"/>
+        <location filename="mainwindow.ui" line="630"/>
         <source>Ctrl+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="644"/>
+        <location filename="mainwindow.ui" line="638"/>
         <source>Duplicate</source>
         <translation>Дублировать</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="647"/>
+        <location filename="mainwindow.ui" line="641"/>
         <source>Ctrl+D</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="656"/>
+        <location filename="mainwindow.ui" line="649"/>
         <source>Save As...</source>
         <translation>Сохранить как...</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="659"/>
+        <location filename="mainwindow.ui" line="652"/>
         <source>Ctrl+Shift+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="668"/>
+        <location filename="mainwindow.ui" line="660"/>
         <source>About PatchScene</source>
         <oldsource>About Cables</oldsource>
         <translation>О PatchScene</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="676"/>
+        <location filename="mainwindow.ui" line="668"/>
         <source>Preferences</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="684"/>
+        <location filename="mainwindow.ui" line="676"/>
         <source>Contact</source>
         <translation>Контакты</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="696"/>
+        <location filename="mainwindow.ui" line="688"/>
         <source>Undo</source>
         <translation>Отмена</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="699"/>
+        <location filename="mainwindow.ui" line="691"/>
         <source>Ctrl+Z</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="711"/>
+        <location filename="mainwindow.ui" line="703"/>
         <source>Redo</source>
         <translation>Повторить</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="714"/>
+        <location filename="mainwindow.ui" line="706"/>
         <source>Ctrl+Shift+Z</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="719"/>
+        <location filename="mainwindow.ui" line="711"/>
         <source>Minimize</source>
         <translation>Минимизировать</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="865"/>
+        <source>Add zone</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Show</source>
         <translation type="vanished">Показать</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="733"/>
+        <location filename="mainwindow.ui" line="724"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="736"/>
+        <location filename="mainwindow.ui" line="727"/>
         <source>Ctrl+C</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="745"/>
+        <location filename="mainwindow.ui" line="735"/>
         <source>Cut</source>
         <translation>Вырезать</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="748"/>
+        <location filename="mainwindow.ui" line="738"/>
         <source>Ctrl+X</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="757"/>
+        <location filename="mainwindow.ui" line="746"/>
         <source>Paste</source>
         <translation>Выставить</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="760"/>
+        <location filename="mainwindow.ui" line="749"/>
         <source>Ctrl+V</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="775"/>
+        <location filename="mainwindow.ui" line="764"/>
         <source>Cables</source>
         <translation>Соединения</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="778"/>
+        <location filename="mainwindow.ui" line="767"/>
         <source>Show/Hide cables</source>
         <translation>Показать/Скрыть соединения</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="781"/>
+        <location filename="mainwindow.ui" line="770"/>
         <source>show/hide cables</source>
         <translation>показать/скрыть соединения</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="855"/>
+        <location filename="mainwindow.ui" line="786"/>
+        <source>Ctrl+3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="843"/>
         <source>Export to PDF</source>
         <translation>Экспорт в PDF</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="858"/>
+        <location filename="mainwindow.ui" line="846"/>
         <source>Ctrl+E</source>
         <translation></translation>
     </message>
@@ -720,48 +730,48 @@
         <translation>Экспортировать</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="843"/>
+        <location filename="mainwindow.ui" line="832"/>
         <source>Export to ODF</source>
         <translation>Экспорт в ODF</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="846"/>
+        <location filename="mainwindow.ui" line="835"/>
         <source>Ctrl+Shift+E</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="786"/>
+        <location filename="mainwindow.ui" line="775"/>
         <source>Add device</source>
         <translation>Добавить устройство</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="789"/>
+        <location filename="mainwindow.ui" line="778"/>
         <source>Ctrl+1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="794"/>
+        <location filename="mainwindow.ui" line="783"/>
         <source>Set background</source>
         <translation>Установить фоновое изображение</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="812"/>
+        <location filename="mainwindow.ui" line="801"/>
         <source>Background</source>
         <translation>Фоновое изображение</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="827"/>
-        <location filename="mainwindow.ui" line="830"/>
+        <location filename="mainwindow.ui" line="816"/>
+        <location filename="mainwindow.ui" line="819"/>
         <source>Project Information</source>
         <translation>Информация о проекте</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="833"/>
+        <location filename="mainwindow.ui" line="822"/>
         <source>Ctrl+I</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="838"/>
+        <location filename="mainwindow.ui" line="827"/>
         <source>Clear</source>
         <translation>Очистить</translation>
     </message>
@@ -770,7 +780,7 @@
         <translation type="vanished">Добавить изображение</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="797"/>
+        <location filename="mainwindow.ui" line="868"/>
         <source>Ctrl+2</source>
         <translation></translation>
     </message>
@@ -779,13 +789,13 @@
         <translation type="vanished">Изображения</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="815"/>
+        <location filename="mainwindow.ui" line="804"/>
         <source>Show/Hide background</source>
         <oldsource>Show/Hide images</oldsource>
         <translation>Показать/Скрыть фон</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="818"/>
+        <location filename="mainwindow.ui" line="807"/>
         <source>show/hide background</source>
         <oldsource>show/hide images</oldsource>
         <translation>показать/скрыть фон</translation>
@@ -1139,6 +1149,29 @@ http://ceam.space</source>
     </message>
 </context>
 <context>
+    <name>ceam::Device</name>
+    <message>
+        <location filename="device.cpp" line="309"/>
+        <source>Duplicate</source>
+        <translation>Дублировать</translation>
+    </message>
+    <message>
+        <location filename="device.cpp" line="313"/>
+        <source>Delete</source>
+        <translation>Удалить</translation>
+    </message>
+    <message>
+        <location filename="device.cpp" line="317"/>
+        <source>Add to favorites</source>
+        <translation>Добавить в избранное</translation>
+    </message>
+    <message>
+        <location filename="device.cpp" line="321"/>
+        <source>Properties</source>
+        <translation>Свойства</translation>
+    </message>
+</context>
+<context>
     <name>ceam::DeviceItemModel</name>
     <message>
         <location filename="device_item_model.cpp" line="30"/>
@@ -1203,46 +1236,47 @@ http://ceam.space</source>
     </message>
 </context>
 <context>
+    <name>ceam::DeviceXlet</name>
+    <message>
+        <location filename="device_xlet.cpp" line="162"/>
+        <source>Phantom</source>
+        <translation>Фантом</translation>
+    </message>
+</context>
+<context>
     <name>ceam::Diagram</name>
     <message>
-        <location filename="diagram.cpp" line="86"/>
+        <location filename="diagram.cpp" line="101"/>
         <source>New project</source>
         <translation>Новый проект</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="912"/>
         <source>Duplicate</source>
-        <translation>Дублировать</translation>
+        <translation type="vanished">Дублировать</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="916"/>
         <source>Delete</source>
-        <translation>Удалить</translation>
+        <translation type="vanished">Удалить</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="920"/>
         <source>Add to favorites</source>
-        <translation>Добавить в избранное</translation>
+        <translation type="vanished">Добавить в избранное</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="924"/>
         <source>Properties</source>
-        <translation>Свойства</translation>
+        <translation type="vanished">Свойства</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="946"/>
         <source>Delete selected</source>
-        <translation>Удалить выбранные</translation>
+        <translation type="vanished">Удалить выбранные</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="950"/>
         <source>Align vertical</source>
-        <translation>Выровнять по вертикали</translation>
+        <translation type="vanished">Выровнять по вертикали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="954"/>
         <source>Align horizontal</source>
-        <translation>Выровнять по горизонтали</translation>
+        <translation type="vanished">Выровнять по горизонтали</translation>
     </message>
     <message>
         <location filename="diagram.cpp" line="965"/>
