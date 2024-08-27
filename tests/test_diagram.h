@@ -22,6 +22,8 @@ class TestDiagram : public TestSuite {
 private slots:
     void addDevice();
     void removeDevice();
+    void moveSelectedBy();
+    void moveSelectedFrom();
 };
 
 #endif // TEST_DIAGRAM_H

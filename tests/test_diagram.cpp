@@ -89,4 +89,36 @@ void TestDiagram::removeDevice()
     QCOMPARE(dia.devices().count(), 0);
 }
 
+void TestDiagram::moveSelectedBy()
+{
+    Diagram dia(100, 100);
+    dia.devices().add(make_dev(100, { 50, 100 }));
+    dia.devices().setSelected({ 100 }, true);
+
+    dia.cmdMoveSelectedDevicesBy(10, 20);
+    QCOMPARE(dia.devices().findData(100)->pos(), QPointF(60, 120));
+
+    dia.undo();
+    QCOMPARE(dia.devices().findData(100)->pos(), QPointF(50, 100));
+
+    dia.redo();
+    QCOMPARE(dia.devices().findData(100)->pos(), QPointF(60, 120));
+}
+
+void TestDiagram::moveSelectedFrom()
+{
+    Diagram dia(100, 100);
+    dia.devices().add(make_dev(100, { 50, 100 }));
+    dia.devices().setSelected({ 100 }, true);
+
+    dia.cmdMoveSelectedDevicesFrom({ 0, 0 }, { 100, 50 });
+    QCOMPARE(dia.devices().findData(100)->pos(), QPointF(150, 150));
+
+    dia.undo();
+    QCOMPARE(dia.devices().findData(100)->pos(), QPointF(50, 100));
+
+    dia.redo();
+    QCOMPARE(dia.devices().findData(100)->pos(), QPointF(150, 150));
+}
+
 static TestDiagram test_diagram;

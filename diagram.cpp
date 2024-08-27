@@ -291,11 +291,6 @@ void Diagram::cmdMoveSelectedDevicesFrom(const QPointF& from, const QPointF& to)
         return;
 
     const auto delta = to - from;
-
-    devices_.foreachSelectedDevice([delta, this](Device* dev) {
-        dev->moveBy(delta.x(), delta.y());
-    });
-
     auto move_by = new MoveSelected(this, delta.x(), delta.y());
     undo_stack_->push(move_by);
 }
@@ -881,7 +876,14 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
     switch (state_machine_.state()) {
     case DiagramState::Move: { // finish item moving
         state_machine_.setState(DiagramState::Init);
-        cmdMoveSelectedDevicesFrom(prev_click_pos_, mapToScene(event->pos()));
+
+        auto dest_pos = mapToScene(event->pos());
+        auto delta = prev_click_pos_ - dest_pos;
+        devices_.foreachSelectedDevice([delta](Device* dev) {
+            dev->moveBy(delta.x(), delta.y());
+        });
+
+        cmdMoveSelectedDevicesFrom(prev_click_pos_, dest_pos);
     } break;
     case DiagramState::SelectionRect: { // finish selection
         auto bbox = selection_->mapRectToScene(selection_->rect());
