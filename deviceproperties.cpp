@@ -18,8 +18,11 @@
 #include "tablecellcheckbox.h"
 #include "tablecellconnector.h"
 #include "ui_deviceproperties.h"
+#include "vendor_list.h"
 
+#include <QCompleter>
 #include <QFileInfo>
+#include <QStandardItemModel>
 
 namespace {
 enum {
@@ -32,6 +35,7 @@ enum {
 };
 
 constexpr int IMG_PREVIEW_SIZE = 30;
+
 }
 
 using namespace ceam;
@@ -45,6 +49,10 @@ DeviceProperties::DeviceProperties(const SharedDeviceData& data, QWidget* parent
 
     setWindowTitle(tr("'%1' properties").arg(data->title()));
     ui->setupUi(this);
+
+    auto vend_comp = new QCompleter(VendorList::instance().all(), this);
+    vend_comp->setCaseSensitivity(Qt::CaseInsensitive);
+    ui->vendor->setCompleter(vend_comp);
 
     connect(ui->imageChooseButton, SIGNAL(clicked()), this, SLOT(chooseImageDialog()));
     ui->currentImage->setStyleSheet("background-color: white;");

@@ -62,6 +62,7 @@ set(PROJECT_SOURCES
     tablecellcheckbox.h tablecellcheckbox.cpp
     tablecellconnector.h tablecellconnector.cpp
     undo_commands.h undo_commands.cpp
+    vendor_list.h vendor_list.cpp
 )
 
 if(WIN32)
