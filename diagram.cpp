@@ -132,10 +132,10 @@ void Diagram::initSelectionRect()
 
 void Diagram::initLiveConnection()
 {
-    connection_ = new QGraphicsLineItem();
-    connection_->setZValue(ZVALUE_LIVE_CONN);
-    connection_->setVisible(false);
-    scene_->addItem(connection_);
+    tmp_connection_ = new QGraphicsLineItem();
+    tmp_connection_->setZValue(ZVALUE_LIVE_CONN);
+    tmp_connection_->setVisible(false);
+    scene_->addItem(tmp_connection_);
 }
 
 void Diagram::initScene(int w, int h)
@@ -155,6 +155,7 @@ void Diagram::initScene(int w, int h)
     createGrid(rect);
 
     devices_.setScene(scene_);
+    connections_.setScene(scene_);
 }
 
 bool Diagram::removeDevice(DeviceId id)
@@ -726,14 +727,14 @@ void Diagram::startSelectionAt(const QPoint& pos)
 
 void Diagram::startConnectionAt(const QPoint& pos)
 {
-    connection_->setLine(QLineF {});
-    connection_->setPos(mapToScene(pos));
-    connection_->setVisible(true);
+    tmp_connection_->setLine(QLineF {});
+    tmp_connection_->setPos(mapToScene(pos));
+    tmp_connection_->setVisible(true);
 }
 
 void Diagram::drawConnectionTo(const QPoint& pos)
 {
-    connection_->setLine(QLineF(QPointF {}, connection_->mapFromScene(mapToScene(pos))));
+    tmp_connection_->setLine(QLineF(QPointF {}, tmp_connection_->mapFromScene(mapToScene(pos))));
 }
 
 void Diagram::drawSelectionTo(const QPoint& pos)
@@ -836,7 +837,7 @@ void Diagram::mousePressEvent(QMouseEvent* event)
         }
     } break;
     case DiagramState::ConnectDevice: {
-        connection_->setVisible(false);
+        tmp_connection_->setVisible(false);
         state_machine_.setState(DiagramState::Init);
     } break;
     case DiagramState::SelectionRect: {
@@ -896,7 +897,7 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
         state_machine_.setState(DiagramState::Init);
     } break;
     case DiagramState::ConnectDevice: { // finish connection
-        connection_->setVisible(false);
+        tmp_connection_->setVisible(false);
         state_machine_.setState(DiagramState::Init);
 
         auto xlet = hoverDeviceXlet(items(event->pos()), event->pos());

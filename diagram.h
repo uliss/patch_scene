@@ -19,6 +19,7 @@
 #include "diagram_image.h"
 #include "diagram_meta.h"
 #include "diagram_state_machine.h"
+#include "scene_connections.h"
 #include "scene_devices.h"
 
 #include <QGraphicsItemGroup>
@@ -231,13 +232,14 @@ private:
 private:
     QGraphicsScene* scene_;
     QGraphicsRectItem* selection_ { nullptr };
-    QGraphicsLineItem* connection_ { nullptr };
+    QGraphicsLineItem* tmp_connection_ { nullptr };
     DiagramImage* background_ { nullptr };
     QGraphicsItemGroup* grid_ { nullptr };
     QUndoStack* undo_stack_ { nullptr };
     QPointF prev_event_pos_;
     QPointF prev_click_pos_;
     SceneDevices devices_;
+    SceneConnections connections_;
 
     DiagramStateMachine state_machine_;
     std::optional<XletInfo> conn_start_;
