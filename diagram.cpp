@@ -127,7 +127,7 @@ void Diagram::initSelectionRect()
     pen.setDashPattern({ 2, 2 });
     selection_->setPen(pen);
     selection_->setVisible(false);
-    scene->addItem(selection_);
+    scene_->addItem(selection_);
 }
 
 void Diagram::initLiveConnection()
@@ -135,17 +135,17 @@ void Diagram::initLiveConnection()
     connection_ = new QGraphicsLineItem();
     connection_->setZValue(ZVALUE_LIVE_CONN);
     connection_->setVisible(false);
-    scene->addItem(connection_);
+    scene_->addItem(connection_);
 }
 
 void Diagram::initScene(int w, int h)
 {
-    scene = new MyScene();
+    scene_ = new MyScene();
     // scene->setItemIndexMethod(QGraphicsScene::NoIndex);
-    scene->setSceneRect(-w / 2, -h / 2, w, h);
+    scene_->setSceneRect(-w / 2, -h / 2, w, h);
     // scene->setBackgroundBrush(QColor(252, 252, 252));
     // scene->setMinimumRenderSize(0.5);
-    setScene(scene);
+    setScene(scene_);
 
     QPen pen(QColor(100, 100, 100));
     pen.setWidth(0);
@@ -155,12 +155,12 @@ void Diagram::initScene(int w, int h)
     auto l0 = new QGraphicsLineItem;
     l0->setPen(pen);
     l0->setLine(QLine(QPoint(rect.left(), 0), QPoint(rect.right(), 0)));
-    scene->addItem(l0);
+    scene_->addItem(l0);
 
     auto l1 = new QGraphicsLineItem;
     l1->setPen(pen);
     l1->setLine(QLine(QPoint(0, rect.top()), QPoint(0, rect.bottom())));
-    scene->addItem(l1);
+    scene_->addItem(l1);
 
     for (int i = 0; i < rect.width() / 50; i++) {
         auto x = 50 * (int(rect.left() + i * 50) / 50);
@@ -169,7 +169,7 @@ void Diagram::initScene(int w, int h)
         auto l1 = new QGraphicsLineItem;
         l1->setPen(pen);
         l1->setLine(QLine(p0, p1));
-        scene->addItem(l1);
+        scene_->addItem(l1);
     }
 
     for (int i = 0; i < rect.height() / 50; i++) {
@@ -179,7 +179,7 @@ void Diagram::initScene(int w, int h)
         auto l1 = new QGraphicsLineItem;
         l1->setPen(pen);
         l1->setLine(QLine(p0, p1));
-        scene->addItem(l1);
+        scene_->addItem(l1);
     }
 
     // setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
@@ -189,7 +189,7 @@ bool Diagram::removeDevice(DeviceId id)
 {
     ChangeEmitter ch(this);
 
-    for (auto x : scene->items()) {
+    for (auto x : scene_->items()) {
         auto conn = qgraphicsitem_cast<Connection*>(x);
         if (conn && conn->relatesToDevice(id)) {
             emit connectionRemoved(conn->connectionData());
@@ -420,7 +420,7 @@ bool Diagram::addDevice(Device* dev)
     connect(dev, SIGNAL(removeDevice(SharedDeviceData)), this, SLOT(cmdRemoveDevice(SharedDeviceData)));
     connect(dev, SIGNAL(updateDevice(SharedDeviceData)), this, SLOT(cmdUpdateDevice(SharedDeviceData)));
 
-    scene->addItem(dev);
+    scene_->addItem(dev);
     emit sceneChanged();
     emit deviceAdded(dev->deviceData());
     return true;
@@ -431,7 +431,7 @@ bool Diagram::addConnection(Connection* conn)
     if (!conn)
         return false;
 
-    scene->addItem(conn);
+    scene_->addItem(conn);
     emit sceneChanged();
     emit connectionAdded(conn->connectionData());
     return true;
@@ -447,7 +447,7 @@ QList<DeviceId> Diagram::allDeviceIds() const
 {
     QList<DeviceId> res;
 
-    for (auto x : scene->items()) {
+    for (auto x : scene_->items()) {
         auto dev = qgraphicsitem_cast<Device*>(x);
         if (dev)
             res.push_back(dev->id());
@@ -507,7 +507,7 @@ bool Diagram::setBackground(const QString& path)
         background_ = new DiagramImage(path);
         background_->setZValue(ZVALUE_BACKGROUND);
         background_->setPos(-background_->boundingRect().width() / 2, -background_->boundingRect().height() / 2);
-        scene->addItem(background_);
+        scene_->addItem(background_);
         if (!background_->isEmpty()) {
             emit sceneChanged();
             return true;
@@ -598,7 +598,7 @@ bool Diagram::loadJson(const QString& path)
         auto bg_img = DiagramImage::fromJson(root.value(JSON_KEY_BACKGROUND));
         if (bg_img) {
             background_ = bg_img.release();
-            scene->addItem(background_);
+            scene_->addItem(background_);
         } else {
             qWarning() << "can't load bg";
         }
@@ -623,7 +623,7 @@ bool Diagram::findConnectionXletData(const ConnectionData& data, XletData& src, 
 {
     int count = 0;
 
-    for (auto x : scene->items()) {
+    for (auto x : scene_->items()) {
         auto dev = qgraphicsitem_cast<Device*>(x);
         if (!dev)
             continue;
@@ -708,21 +708,21 @@ void Diagram::printScheme() const
 {
     QPrinter printer;
     if (QPrintDialog(&printer).exec() == QDialog::Accepted) {
-        for (auto x : scene->items())
+        for (auto x : scene_->items())
             x->setCacheMode(QGraphicsItem::NoCache);
 
         QPainter painter(&printer);
         painter.setRenderHint(QPainter::Antialiasing);
-        // save scene rect
-        auto scene_rect = scene->sceneRect();
+        // save scene_ rect
+        auto scene_rect = scene_->sceneRect();
         // update scene rect
-        scene->setSceneRect(scene->itemsBoundingRect());
+        scene_->setSceneRect(scene_->itemsBoundingRect());
         // render
-        scene->render(&painter);
+        scene_->render(&painter);
         // restore scene rect
-        scene->setSceneRect(scene_rect);
+        scene_->setSceneRect(scene_rect);
 
-        for (auto x : scene->items())
+        for (auto x : scene_->items())
             x->setCacheMode(QGraphicsItem::DeviceCoordinateCache);
     }
 }
@@ -866,7 +866,7 @@ void Diagram::mousePressEvent(QMouseEvent* event)
             } else
                 selectTopDevice(devs);
 
-            if (scene->selectedItems().empty()) {
+            if (scene_->selectedItems().empty()) {
                 state_machine_.setState(DiagramState::Init);
             } else {
                 saveClickPos(event->pos());
@@ -1109,7 +1109,7 @@ QList<Device*> Diagram::devices() const
 
 QList<Device*> Diagram::selectedDevices() const
 {
-    auto sel_devs = scene->selectedItems();
+    auto sel_devs = scene_->selectedItems();
 
     QList<Device*> res;
     res.reserve(sel_devs.size());
@@ -1208,7 +1208,7 @@ void Diagram::moveSelectedItemsBy(qreal dx, qreal dy)
 {
     ChangeEmitter ch(this);
 
-    for (auto dev : scene->selectedItems()) {
+    for (auto dev : scene_->selectedItems()) {
         ch.trigger();
         dev->moveBy(dx, dy);
     }
@@ -1252,22 +1252,22 @@ void Diagram::setClipBuffer(const QList<SharedDeviceData>& data)
 
 QImage Diagram::toImage() const
 {
-    QImage image(scene->itemsBoundingRect().size().toSize() * 4, QImage::Format_RGB32);
+    QImage image(scene_->itemsBoundingRect().size().toSize() * 4, QImage::Format_RGB32);
     QPainter painter(&image);
     painter.setRenderHint(QPainter::Antialiasing);
 
-    const QSignalBlocker block(scene);
-    // save scene rect
-    auto scene_rect = scene->sceneRect();
-    auto brush = scene->backgroundBrush();
+    const QSignalBlocker block(scene_);
+    // save scene_ rect
+    auto scene_rect = scene_->sceneRect();
+    auto brush = scene_->backgroundBrush();
     // update scene rect
-    scene->setSceneRect(scene->itemsBoundingRect());
-    scene->setBackgroundBrush(Qt::white);
+    scene_->setSceneRect(scene_->itemsBoundingRect());
+    scene_->setBackgroundBrush(Qt::white);
     // render
-    scene->render(&painter);
+    scene_->render(&painter);
     // restore scene rect
-    scene->setSceneRect(scene_rect);
-    scene->setBackgroundBrush(brush);
+    scene_->setSceneRect(scene_rect);
+    scene_->setBackgroundBrush(brush);
     return image;
 }
 
@@ -1282,10 +1282,10 @@ std::pair<QByteArray, QSize> Diagram::toSvg() const
     QSvgGenerator svg_gen;
     svg_gen.setOutputDevice(&buf);
 
-    QSignalBlocker db(scene);
+    QSignalBlocker db(scene_);
 
-    auto box = scene->itemsBoundingRect().toRect();
-    auto old_rect = scene->sceneRect();
+    auto box = scene_->itemsBoundingRect().toRect();
+    auto old_rect = scene_->sceneRect();
 
     svg_gen.setSize(box.size());
     svg_gen.setViewBox(QRect { 0, 0, box.width(), box.height() });
@@ -1295,17 +1295,17 @@ std::pair<QByteArray, QSize> Diagram::toSvg() const
 
     QPainter painter(&svg_gen);
 
-    scene->setSceneRect(box);
-    for (auto x : scene->items())
+    scene_->setSceneRect(box);
+    for (auto x : scene_->items())
         x->setCacheMode(QGraphicsItem::NoCache);
 
-    scene->render(&painter);
+    scene_->render(&painter);
     painter.end();
 
-    for (auto x : scene->items())
+    for (auto x : scene_->items())
         x->setCacheMode(QGraphicsItem::DeviceCoordinateCache);
 
-    scene->setSceneRect(old_rect);
+    scene_->setSceneRect(old_rect);
 
     return { buf.data(), box.size() };
 }
@@ -1342,7 +1342,7 @@ bool Diagram::isValidConnection(const XletInfo& src, const XletInfo& dest) const
         ? ConnectionData(src.id(), src.index(), dest.id(), dest.index())
         : ConnectionData(dest.id(), dest.index(), src.id(), src.index());
 
-    for (auto x : scene->items()) {
+    for (auto x : scene_->items()) {
         auto conn = qgraphicsitem_cast<Connection*>(x);
         if (conn) {
             auto item_data = conn->connectionData();
@@ -1396,7 +1396,7 @@ QJsonValue Diagram::appInfoJson() const
 
 Device* Diagram::findDeviceById(DeviceId id) const
 {
-    for (auto x : scene->items()) {
+    for (auto x : scene_->items()) {
         auto dev = qgraphicsitem_cast<Device*>(x);
         if (dev && dev->id() == id)
             return dev;
@@ -1438,13 +1438,13 @@ QSet<ConnectionData> Diagram::findSelectedConnections() const
     dev_ids.reserve(32);
 
     // fill selected ID's
-    for (auto& x : scene->selectedItems()) {
+    for (auto& x : scene_->selectedItems()) {
         auto dev = qgraphicsitem_cast<Device*>(x);
         if (dev)
             dev_ids.push_back(dev->id());
     }
 
-    for (auto& x : scene->items()) {
+    for (auto& x : scene_->items()) {
         auto conn = qgraphicsitem_cast<Connection*>(x);
         if (conn) {
             for (auto id : dev_ids) {

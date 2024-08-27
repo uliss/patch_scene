@@ -184,6 +184,17 @@ public slots:
     void cmdCutSelected();
     void cmdPaste();
 
+    void clearUndoStack();
+    void copySelected();
+    void cutSelected();
+    void paste();
+    void redo();
+    void undo();
+    void updateConnectionsPos();
+    void zoomIn();
+    void zoomNormal();
+    void zoomOut();
+
 signals:
     void addToFavorites(SharedDeviceData data);
     void batteryChanged(const BatteryChange& data);
@@ -202,18 +213,6 @@ signals:
     void showCablesChanged(bool);
     void zoomChanged(qreal);
 
-public slots:
-    void clearUndoStack();
-    void copySelected();
-    void cutSelected();
-    void paste();
-    void redo();
-    void undo();
-    void updateConnectionsPos();
-    void zoomIn();
-    void zoomNormal();
-    void zoomOut();
-
 protected:
     void contextMenuEvent(QContextMenuEvent* event) override;
     void dragEnterEvent(QDragEnterEvent* event) override;
@@ -224,9 +223,6 @@ protected:
     void mousePressEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;
     void wheelEvent(QWheelEvent* event) final;
-
-private:
-    QGraphicsScene* scene;
 
 private:
     bool addConnection(Connection* conn);
@@ -250,6 +246,7 @@ private:
     QJsonValue appInfoJson() const;
 
 private:
+    QGraphicsScene* scene_;
     QGraphicsRectItem* selection_ { nullptr };
     QGraphicsLineItem* connection_ { nullptr };
     DiagramImage* background_ { nullptr };
