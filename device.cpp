@@ -169,6 +169,7 @@ Device::Device(const SharedDeviceData& data)
     , image_ { nullptr }
 {
     if (data_->isNull() || DeviceIdFactory::instance().isUsed(data_->id())) {
+        qDebug() << "device id is used #id" << data_->id();
         data_->setId(DeviceIdFactory::instance().request());
         qDebug() << "create device with new #id" << data_->id();
     } else {
@@ -433,9 +434,12 @@ void Device::createXlets()
 void Device::createTitle(qreal wd)
 {
     clearTitle();
-    title_ = new QGraphicsTextItem(data_->title(), this);
-    title_->setTextWidth(wd);
-    title_->setToolTip(data_->modelVendor());
+
+    if (data_->showTitle()) {
+        title_ = new QGraphicsTextItem(data_->title(), this);
+        title_->setTextWidth(wd);
+        title_->setToolTip(data_->modelVendor());
+    }
 }
 
 void Device::createImage(qreal wd)
@@ -583,7 +587,12 @@ QJsonObject Device::toJson() const
     return data_json;
 }
 
-std::unique_ptr<Device> Device::fromJson(const QJsonValue& j)
+SharedDeviceData Device::defaultDeviceData()
+{
+    return makeDeviceData();
+}
+
+SharedDeviceData Device::datafromJson(const QJsonValue& j)
 {
     if (!j.isObject()) {
         qWarning() << "not a object" << j;
@@ -601,11 +610,7 @@ std::unique_ptr<Device> Device::fromJson(const QJsonValue& j)
         data->setId(DeviceIdFactory::instance().request());
     }
 
-    std::unique_ptr<Device> dev(new Device(data));
-    auto obj = j.toObject();
-
-    dev->setZValue(obj.value("z").toDouble());
-    return dev;
+    return data;
 }
 
 int Device::inletAt(const QPointF& pt) const

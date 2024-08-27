@@ -170,6 +170,9 @@ public:
     void redo() final;
 
 private:
+    static QMap<DeviceId, QPointF> negate(const QMap<DeviceId, QPointF>& map);
+
+private:
     Diagram* doc_;
     QMap<DeviceId, QPointF> deltas_;
 };

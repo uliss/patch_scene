@@ -159,10 +159,10 @@ void MainWindow::initDeviceList()
     connect(device_model_, &QStandardItemModel::itemChanged, this, [this](QStandardItem* item) {
         auto id = device_model_->deviceId(item);
         if (id) {
-            auto dev = diagram_->findDeviceById(id.value());
-            if (dev) {
-                auto data = device_model_->updateDeviceData(item, dev->deviceData());
-                diagram_->cmdUpdateDevice(data);
+            auto old_data = diagram_->devices().findData(id.value());
+            if (old_data) {
+                auto new_data = device_model_->updateDeviceData(item, old_data);
+                diagram_->cmdUpdateDevice(new_data);
             } else {
                 qWarning() << "device not found:" << (int)id.value();
             }
@@ -239,6 +239,11 @@ void MainWindow::initActions()
 
     connect(ui->actionRedo, SIGNAL(triggered()), diagram_, SLOT(redo()));
     connect(ui->actionUndo, SIGNAL(triggered()), diagram_, SLOT(undo()));
+
+    connect(ui->actionShowGrid, SIGNAL(triggered(bool)), diagram_, SLOT(setGridVisible(bool)));
+    ui->actionShowGrid->setChecked(diagram_->isGridVisible());
+
+    connect(ui->actionZoomFit, SIGNAL(triggered()), diagram_, SLOT(zoomFit()));
 }
 
 void MainWindow::initLibrarySearch()
@@ -535,19 +540,18 @@ void MainWindow::onDeviceUpdate(SharedDeviceData data)
 
 void MainWindow::onConnectionAdd(ConnectionData data)
 {
-    XletData src, dest;
-    Device *src_dev = nullptr, *dest_dev = nullptr;
-    if (diagram_->findConnectionXletData(data, src, dest, &src_dev, &dest_dev)) {
-        if (!src_dev || !dest_dev)
+    auto conn_info = diagram_->devices().find(data);
+    if (conn_info) {
+        if(!conn_info->src_data || !conn_info->dest_data)
             return;
 
-        if (conn_model_->addConnection(data, src_dev->deviceData(), src, dest_dev->deviceData(), dest))
+        if (conn_model_->addConnection(data, conn_info->src_data, conn_info->src_out, conn_info->dest_data, conn_info->dest_in))
             ui->connectionList->resizeColumnsToContents();
 
-        if (send_model_->addConnection(data, src_dev->deviceData(), dest_dev->deviceData()))
+        if (send_model_->addConnection(data, conn_info->src_data, conn_info->dest_data))
             ui->sendList->resizeColumnsToContents();
 
-        if (return_model_->addConnection(data, src_dev->deviceData(), dest_dev->deviceData()))
+        if (return_model_->addConnection(data, conn_info->src_data, conn_info->dest_data))
             ui->returnList->resizeColumnsToContents();
     }
 }

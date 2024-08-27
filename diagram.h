@@ -19,6 +19,7 @@
 #include "diagram_image.h"
 #include "diagram_meta.h"
 #include "diagram_state_machine.h"
+#include "scene_devices.h"
 
 #include <QGraphicsItemGroup>
 #include <QGraphicsScene>
@@ -66,28 +67,11 @@ public:
     bool loadJson(const QString& path);
 
     /**
-     * @brief find connection info
-     * @param src
-     * @param dest
-     * @return true on success, false on error
-     * @note complexity O(N)
-     */
-    bool findConnectionXletData(const ConnectionData& data, XletData& src, XletData& dest, Device** src_dev, Device** dest_dev) const;
-
-    /**
-     * @brief find device by id
-     * @param id - device id
-     * @return pointer to found Device or nullptr
-     * @note complexity O(N)
-     */
-    Device* findDeviceById(DeviceId id) const;
-
-    /**
      * @brief add device into the scheme, emit sceneChanged(), deviceAdded()
-     * @param dev - pointer to device, takes ownership
-     * @return true on success, false on error
+     * @param data - device data
+     * @return pointer to new device or nullptr on error
      */
-    bool addDevice(Device* dev);
+    Device* addDevice(const SharedDeviceData& data);
 
     /**
      * @brief remove device from scheme, emit sceneChanged(), deviceRemoved(), connectionRemoved()
@@ -147,11 +131,8 @@ public:
     bool disconnectDevices(const ConnectionData& data);
 
     QList<Connection*> connections() const;
-    QList<Device*> devices() const;
-    QList<Device*> selectedDevices() const;
 
-    void selectDevices(const QList<DeviceId>& ids, bool value = true);
-    void toggleDevices(const QList<DeviceId>& ids);
+    SceneDevices& devices() { return devices_; }
 
     // clip buffer
     void clearClipBuffer();
@@ -160,6 +141,8 @@ public:
 
     QImage toImage() const;
     std::pair<QByteArray, QSize> toSvg() const;
+
+    bool isGridVisible() const;
 
 public slots:
     // undo/redo commands
@@ -189,11 +172,13 @@ public slots:
     void cutSelected();
     void paste();
     void redo();
+    void setGridVisible(bool value);
     void undo();
     void updateConnectionsPos();
     void zoomIn();
     void zoomNormal();
     void zoomOut();
+    void zoomFit();
 
 signals:
     void addToFavorites(SharedDeviceData data);
@@ -229,6 +214,7 @@ private:
     void saveClickPos(const QPoint& pos);
     QList<DeviceId> allDeviceIds() const;
     void clearAll();
+    void removeDeviceConnections(DeviceId id);
 
 #ifdef __MACH__
     bool viewportEvent(QEvent* event) override;
@@ -239,8 +225,6 @@ private:
     void updateZoom(qreal zoom);
 
     bool isValidConnection(const XletInfo& src, const XletInfo& dest) const;
-
-    Device* deviceIn(const QList<QGraphicsItem*>& items) const;
     bool dropJson(const QPointF& pos, const QByteArray& json);
 
     QJsonValue appInfoJson() const;
@@ -250,9 +234,11 @@ private:
     QGraphicsRectItem* selection_ { nullptr };
     QGraphicsLineItem* connection_ { nullptr };
     DiagramImage* background_ { nullptr };
+    QGraphicsItemGroup* grid_ { nullptr };
     QUndoStack* undo_stack_ { nullptr };
     QPointF prev_event_pos_;
     QPointF prev_click_pos_;
+    SceneDevices devices_;
 
     DiagramStateMachine state_machine_;
     std::optional<XletInfo> conn_start_;

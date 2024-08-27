@@ -120,11 +120,13 @@
     <addaction name="actionZoomIn"/>
     <addaction name="actionZoomOut"/>
     <addaction name="actionZoomNormal"/>
+    <addaction name="actionZoomFit"/>
     <addaction name="separator"/>
     <addaction name="actionFullscreen"/>
     <addaction name="separator"/>
     <addaction name="actionShowCables"/>
     <addaction name="actionShowBackground"/>
+    <addaction name="actionShowGrid"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -866,6 +868,28 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+2</string>
+   </property>
+  </action>
+  <action name="actionShowGrid">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Grid</string>
+   </property>
+   <property name="toolTip">
+    <string>Show Grid</string>
+   </property>
+  </action>
+  <action name="actionZoomFit">
+   <property name="icon">
+    <iconset theme="zoom-fit-best"/>
+   </property>
+   <property name="text">
+    <string>Zoom Fit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+0</string>
    </property>
   </action>
  </widget>

@@ -1,11 +1,13 @@
 qt_add_executable(psc_tests
-    test_suite.h test_suite.cpp
-    test_main.cpp
-    test_connection.h test_connection.cpp
-    test_xlet.h test_xlet.cpp
-    test_device_library.h test_device_library.cpp
     json_common.h json_common.cpp
+    test_main.cpp
+    # tests
+    test_connection.h test_connection.cpp
     test_connector_type.h test_connector_type.cpp
+    test_device_library.h test_device_library.cpp
+    test_scene_devices.h test_scene_devices.cpp
+    test_suite.h test_suite.cpp
+    test_xlet.h test_xlet.cpp
 )
 
 add_custom_target(test_src

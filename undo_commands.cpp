@@ -37,10 +37,11 @@ void CreateDevice::redo()
     if (!doc_)
         return;
 
-    auto dev = new Device();
-    dev->setPos(pos_);
-    id_ = dev->id();
-    doc_->addDevice(dev);
+    auto dev = doc_->addDevice(Device::defaultDeviceData());
+    if (dev) {
+        dev->setPos(pos_);
+        id_ = dev->id();
+    }
 }
 
 AddDeviceSelection::AddDeviceSelection(Diagram* doc, const QList<DeviceId>& ids)
@@ -51,12 +52,14 @@ AddDeviceSelection::AddDeviceSelection(Diagram* doc, const QList<DeviceId>& ids)
 
 void AddDeviceSelection::undo()
 {
-    doc_->selectDevices(ids_, false);
+    if (doc_)
+        doc_->devices().setSelected(ids_, false);
 }
 
 void AddDeviceSelection::redo()
 {
-    doc_->selectDevices(ids_, true);
+    if (doc_)
+        doc_->devices().setSelected(ids_, true);
 }
 
 ConnectDevices::ConnectDevices(Diagram* doc, const ConnectionData& conn)
@@ -109,7 +112,7 @@ RemoveDevice::RemoveDevice(Diagram* doc, const SharedDeviceData& data)
 void RemoveDevice::undo()
 {
     if (doc_) {
-        doc_->addDevice(new Device(data_));
+        doc_->addDevice(data_);
 
         for (auto& conn : conn_)
             doc_->connectDevices(conn);
@@ -128,10 +131,7 @@ RemoveSelected::RemoveSelected(Diagram* doc)
     if (!doc_)
         return;
 
-    // store device data
-    for (auto dev : doc_->selectedDevices())
-        data_.push_back(dev->deviceData());
-
+    data_ = doc_->devices().selectedDataList();
     conn_ = doc_->findSelectedConnections();
 }
 
@@ -141,9 +141,9 @@ void RemoveSelected::undo()
         return;
 
     for (const auto& x : data_) {
-        auto dev = new Device(x);
-        doc_->addDevice(dev);
-        dev->setSelected(true);
+        auto dev = doc_->addDevice(x);
+        if (dev)
+            dev->setSelected(true);
     }
 
     for (auto& c : std::as_const(conn_))
@@ -178,13 +178,13 @@ void DuplicateSelected::redo()
     if (!doc_)
         return;
 
-    for (const auto& dev : doc_->selectedDevices()) {
-        auto clone = new Device(dev->deviceData());
-        clone->moveBy(20, 20);
-        // clone->incrementName();
-        doc_->addDevice(clone);
-        data_.push_back(clone->id());
-    }
+    doc_->devices().foreachSelectedData([this](const SharedDeviceData& data) {
+        auto dev = doc_->addDevice(data);
+        if (dev) {
+            dev->moveBy(20, 20);
+            data_.push_back(dev->id());
+        }
+    });
 }
 
 DuplicateDevice::DuplicateDevice(Diagram* doc, const SharedDeviceData& data)
@@ -208,10 +208,9 @@ void DuplicateDevice::redo()
     if (!doc_)
         return;
 
-    auto clone = new Device(src_data_);
-    clone->moveBy(20, 20);
-    doc_->addDevice(clone);
-    new_id_ = clone->id();
+    auto dev = doc_->addDevice(src_data_);
+    dev->moveBy(20, 20);
+    new_id_ = dev->id();
 }
 
 ToggleDevices::ToggleDevices(Diagram* doc, const QList<DeviceId>& ids)
@@ -223,13 +222,13 @@ ToggleDevices::ToggleDevices(Diagram* doc, const QList<DeviceId>& ids)
 void ToggleDevices::undo()
 {
     if (doc_)
-        doc_->toggleDevices(ids_);
+        doc_->devices().toggleSelected(ids_);
 }
 
 void ToggleDevices::redo()
 {
     if (doc_)
-        doc_->toggleDevices(ids_);
+        doc_->devices().toggleSelected(ids_);
 }
 
 SetDeviceSelection::SetDeviceSelection(Diagram* doc, const QSet<DeviceId>& new_sel)
@@ -237,23 +236,28 @@ SetDeviceSelection::SetDeviceSelection(Diagram* doc, const QSet<DeviceId>& new_s
     , new_sel_(new_sel)
 {
     if (doc_) {
-        for (auto dev : doc_->selectedDevices())
-            prev_sel_.insert(dev->id());
+        doc_->devices().foreachSelectedData([this](const SharedDeviceData& data) {
+            prev_sel_.insert(data->id());
+        });
     }
 }
 
 void SetDeviceSelection::undo()
 {
     if (doc_) {
-        for (auto dev : doc_->devices())
+        doc_->devices().foreachDevice([this](Device* dev) {
             dev->setSelected(prev_sel_.contains(dev->id()));
+        });
     }
 }
 
 void SetDeviceSelection::redo()
 {
-    for (auto dev : doc_->devices())
-        dev->setSelected(new_sel_.contains(dev->id()));
+    if (doc_) {
+        doc_->devices().foreachDevice([this](Device* dev) {
+            dev->setSelected(new_sel_.contains(dev->id()));
+        });
+    }
 }
 
 MoveSelected::MoveSelected(Diagram* doc, qreal dx, qreal dy)
@@ -290,12 +294,7 @@ void MoveByDevices::undo()
     if (!doc_)
         return;
 
-    for (auto dev : doc_->devices()) {
-        auto it = deltas_.constFind(dev->id());
-        if (it != deltas_.cend())
-            dev->moveBy(-it->x(), -it->y());
-    }
-
+    doc_->devices().moveBy(negate(deltas_));
     doc_->updateConnectionsPos();
 }
 
@@ -304,22 +303,27 @@ void MoveByDevices::redo()
     if (!doc_)
         return;
 
-    for (auto dev : doc_->devices()) {
-        auto it = deltas_.constFind(dev->id());
-        if (it != deltas_.cend())
-            dev->moveBy(it->x(), it->y());
+    doc_->devices().moveBy(deltas_);
+    doc_->updateConnectionsPos();
+}
+
+QMap<DeviceId, QPointF> MoveByDevices::negate(const QMap<DeviceId, QPointF>& map)
+{
+    auto res = map;
+
+    for (auto& pt : res) {
+        pt.rx() *= -1;
+        pt.ry() *= -1;
     }
 
-    doc_->updateConnectionsPos();
+    return res;
 }
 
 CutSelected::CutSelected(Diagram* doc)
     : doc_(doc)
 {
-    if (doc_) {
-        for (auto dev : doc_->selectedDevices())
-            data_.push_back(dev->deviceData());
-    }
+    if (doc_)
+        data_ = doc_->devices().selectedDataList();
 }
 
 void CutSelected::undo()
@@ -332,9 +336,9 @@ void CutSelected::undo()
 
     // restore selected
     for (const auto& data : data_) {
-        auto dev = new Device(data);
-        dev->setSelected(true);
-        doc_->addDevice(dev);
+        auto dev = doc_->addDevice(data);
+        if (dev)
+            dev->setSelected(true);
     }
 }
 
@@ -374,11 +378,12 @@ void PasteFromClipBuffer::redo()
 
     added_.clear();
     for (const auto& data : data_) {
-        auto dev = new Device(data);
-        dev->randomizePos(50);
-        // dev->setSelected(true);
-        added_.push_back(dev->id());
-        doc_->addDevice(dev);
+
+        auto dev = doc_->addDevice(data);
+        if (dev) {
+            dev->randomizePos(50);
+            added_.push_back(dev->id());
+        }
     }
 }
 
@@ -402,10 +407,7 @@ void CopySelected::redo()
     if (!doc_)
         return;
 
-    QList<SharedDeviceData> data;
-    for (auto dev : doc_->selectedDevices())
-        data.push_back(dev->deviceData());
-
+    auto data = doc_->devices().selectedDataList();
     if (!data.isEmpty())
         doc_->setClipBuffer(data);
 }
@@ -414,11 +416,8 @@ UpdateDeviceData::UpdateDeviceData(Diagram* doc, const SharedDeviceData& data)
     : doc_(doc)
     , new_data_(data)
 {
-    if (doc_) {
-        auto dev = doc_->findDeviceById(data->id());
-        if (dev)
-            old_data_ = dev->deviceData();
-    }
+    if (doc_ && data)
+        old_data_ = doc_->devices().findData(data->id());
 }
 
 void UpdateDeviceData::undo()

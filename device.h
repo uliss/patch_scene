@@ -46,7 +46,8 @@ public:
 
     QJsonObject toJson() const;
 
-    static std::unique_ptr<Device> fromJson(const QJsonValue& j);
+    static SharedDeviceData defaultDeviceData();
+    static SharedDeviceData datafromJson(const QJsonValue& j);
 
     int inletAt(const QPointF& pt) const;
     int outletAt(const QPointF& pt) const;
