@@ -141,6 +141,7 @@ void Diagram::initLiveConnection()
 void Diagram::initScene(int w, int h)
 {
     scene_ = new MyScene();
+    scene_->setParent(this);
     scene_->setSceneRect(-w / 2, -h / 2, w, h);
     setScene(scene_);
 
@@ -236,7 +237,7 @@ void Diagram::cmdDuplicateSelection()
 
 void Diagram::cmdSelectAll()
 {
-    auto sel = new AddDeviceSelection(this, allDeviceIds());
+    auto sel = new AddDeviceSelection(this, devices_.idList());
     undo_stack_->push(sel);
 }
 
@@ -385,11 +386,6 @@ void Diagram::saveClickPos(const QPoint& pos)
 {
     prev_event_pos_ = mapToScene(pos);
     prev_click_pos_ = prev_event_pos_;
-}
-
-QList<DeviceId> Diagram::allDeviceIds() const
-{
-    return devices_.idList();
 }
 
 bool Diagram::setDeviceData(const SharedDeviceData& data)

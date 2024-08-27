@@ -212,7 +212,6 @@ protected:
 private:
     bool addConnection(Connection* conn);
     void saveClickPos(const QPoint& pos);
-    QList<DeviceId> allDeviceIds() const;
     void clearAll();
     void removeDeviceConnections(DeviceId id);
 

@@ -169,7 +169,9 @@ Device::Device(const SharedDeviceData& data)
     , image_ { nullptr }
 {
     if (data_->isNull() || DeviceIdFactory::instance().isUsed(data_->id())) {
-        qDebug() << "device id is used #id" << data_->id();
+        if (!data_->isNull())
+            qDebug() << "device id is used #id" << data_->id();
+
         data_->setId(DeviceIdFactory::instance().request());
         qDebug() << "create device with new #id" << data_->id();
     } else {
