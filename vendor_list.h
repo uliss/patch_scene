@@ -22,6 +22,8 @@ namespace ceam {
 class VendorList {
     VendorList();
     QSet<QString> mics_;
+    QSet<QString> phones_;
+    QSet<QString> mix_;
 
 public:
     static VendorList& instance();
