@@ -115,7 +115,7 @@ void TestConnection::findConnected()
     conn->updateCachedPos();
 
 #ifdef Q_OS_DARWIN
-    QCOMPARE(conn->boundingRect(), QRectF(10, 64.5, 0, 60));
+    QCOMPARE(conn->boundingRect(), QRectF(10, 64, 0, 60));
 #endif
 
     auto conn2 = new Connection({ 101, 0, 200, 0 });
