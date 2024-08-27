@@ -288,6 +288,9 @@ private:
      * @param pos - position in view coordinates
      */
     void drawSelectionTo(const QPoint& pos);
+
+    void createAxis(const QRectF& rect);
+    void createGrid(const QRectF& rect);
 };
 
 }
