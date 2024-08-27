@@ -17,9 +17,10 @@
 #include "connector_type.h"
 #include "socket.h"
 
-#include <QGraphicsSvgItem>
+#include <QGraphicsRectItem>
 
 class QContextMenuEvent;
+class QGraphicsSvgItem;
 
 namespace ceam {
 
@@ -69,26 +70,36 @@ public:
     bool isPlug() const { return type_.isPlug(); }
 };
 
-class DeviceXlet : public QGraphicsSvgItem {
+class DeviceXlet : public QGraphicsObject {
+    Q_OBJECT
 public:
-    DeviceXlet(const XletData& data, XletType type, QGraphicsItem* parentItem);
-
     enum { Type = QGraphicsItem::UserType + 3 };
     int type() const override { return Type; }
 
+public:
+    DeviceXlet(const XletData& data, XletType type, QGraphicsItem* parentItem);
+
+    QRectF boundingRect() const final;
+
     const XletData& xletData() const;
     XletType xletType() const { return type_; }
-    QString iconPath() const;
-    void setConnectPoint(const QPointF& pos);
 
     bool isInlet() const { return type_ == XletType::In; }
     bool isOutlet() const { return type_ == XletType::Out; }
 
-    void contextMenuEvent(QContextMenuEvent* event);
+    void setConnectPoint(const QPointF& pos);
+
+signals:
+    void xletDataChanged();
+
+protected:
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) final;
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) final;
 
 private:
     XletData data_;
     XletType type_ { XletType::In };
+    QGraphicsSvgItem* icon_ { nullptr };
 };
 
 }

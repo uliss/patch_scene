@@ -123,13 +123,13 @@ public:
 
     QList<XletData>& inputs() { return inputs_; }
     const QList<XletData>& inputs() const { return inputs_; }
-    void foreachVisInput(std::function<void(XletIndex, const XletData&)> fn);
+    void foreachVisInput(std::function<void(XletIndex, XletData&)> fn);
     const XletData& inputAt(XletIndex n) const;
     void appendInput(const XletData& x) { inputs_.append(x); }
 
     QList<XletData>& outputs() { return outputs_; }
     const QList<XletData>& outputs() const { return outputs_; }
-    void foreachVisOutput(std::function<void(XletIndex, const XletData&)> fn);
+    void foreachVisOutput(std::function<void(XletIndex, XletData&)> fn);
     const XletData& outputAt(XletIndex n) const { return outputs_.at(n); }
     void appendOutput(const XletData& x) { outputs_.append(x); }
 

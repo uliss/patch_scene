@@ -36,7 +36,7 @@ constexpr int IMG_PREVIEW_SIZE = 30;
 
 using namespace ceam;
 
-DeviceProperties::DeviceProperties(QWidget* parent, const SharedDeviceData& data)
+DeviceProperties::DeviceProperties(const SharedDeviceData& data, QWidget* parent)
     : QDialog(parent)
     , ui(new Ui::DeviceProperties)
     , data_(data)

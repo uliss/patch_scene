@@ -33,7 +33,7 @@ class DeviceProperties : public QDialog {
     Q_OBJECT
 
 public:
-    explicit DeviceProperties(QWidget* parent, const SharedDeviceData& data);
+    explicit DeviceProperties(const SharedDeviceData& data, QWidget* parent = nullptr);
     ~DeviceProperties();
 
 signals:

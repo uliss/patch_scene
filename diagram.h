@@ -130,28 +130,6 @@ public:
      */
     void setMeta(const DiagramMeta& meta) { meta_ = meta; }
 
-    // undo/redo commands
-    void cmdCreateDevice(const QPointF& pos);
-    void cmdDuplicateDevice(const SharedDeviceData& data);
-    void cmdDuplicateSelection();
-    void cmdRemoveSelected();
-    void cmdRemoveDevice(const SharedDeviceData& data);
-    void cmdUpdateDevice(const SharedDeviceData& data);
-    void cmdSelectAll();
-    void cmdAddToSelection(const QRectF& sel);
-    void cmdAddToSelection(const QList<QGraphicsItem*>& items);
-    void cmdSelectDevices(const QRectF& sel);
-    void cmdSelectUnique(DeviceId id);
-    void cmdToggleDevices(const QList<QGraphicsItem*>& items);
-    void cmdConnectDevices(const ConnectionData& conn);
-    void cmdDisconnectXlet(const XletInfo& xi);
-    void cmdMoveSelectedDevicesBy(qreal dx, qreal dy);
-    void cmdMoveSelectedDevicesFrom(const QPointF& from, const QPointF& to);
-    void cmdAlignVSelected();
-    void cmdAlignHSelected();
-    void cmdCutSelected();
-    void cmdPaste();
-
     void moveSelectedItemsBy(qreal dx, qreal dy);
 
     /**
@@ -182,6 +160,29 @@ public:
 
     QImage toImage() const;
     std::pair<QByteArray, QSize> toSvg() const;
+
+public slots:
+    // undo/redo commands
+    void cmdCreateDevice(const QPointF& pos);
+    void cmdDuplicateDevice(const SharedDeviceData& data);
+    void cmdDuplicateSelection();
+    void cmdRemoveSelected();
+    void cmdRemoveDevice(const SharedDeviceData& data);
+    void cmdUpdateDevice(const SharedDeviceData& data);
+    void cmdSelectAll();
+    void cmdAddToSelection(const QRectF& sel);
+    void cmdAddToSelection(const QList<QGraphicsItem*>& items);
+    void cmdSelectDevices(const QRectF& sel);
+    void cmdSelectUnique(DeviceId id);
+    void cmdToggleDevices(const QList<QGraphicsItem*>& items);
+    void cmdConnectDevices(const ConnectionData& conn);
+    void cmdDisconnectXlet(const XletInfo& xi);
+    void cmdMoveSelectedDevicesBy(qreal dx, qreal dy);
+    void cmdMoveSelectedDevicesFrom(const QPointF& from, const QPointF& to);
+    void cmdAlignVSelected();
+    void cmdAlignHSelected();
+    void cmdCutSelected();
+    void cmdPaste();
 
 signals:
     void addToFavorites(SharedDeviceData data);

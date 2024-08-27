@@ -12,6 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "device.h"
+#include "deviceproperties.h"
 
 #include <QCursor>
 #include <QGraphicsSceneMouseEvent>
@@ -187,6 +188,11 @@ Device::~Device()
     DeviceIdFactory::instance().release(data_->id());
 }
 
+QRectF Device::boundingRect() const
+{
+    return rect_;
+}
+
 QPointF Device::inletPos(int i, bool map) const
 {
     const auto NUM_IN = visInletCount();
@@ -229,8 +235,7 @@ QRect Device::outletRect(int i) const
     return QRect(pos.x() - (XLET_W / 2), pos.y() - XLET_H, XLET_W, XLET_H);
 }
 
-void Device::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
-    QWidget* widget)
+void Device::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     paintTitleBox(painter);
 
@@ -258,10 +263,6 @@ void Device::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
 
     Q_UNUSED(option);
     Q_UNUSED(widget);
-
-    const qreal lod = option->levelOfDetailFromTransform(painter->worldTransform());
-    paintInlets(painter, lod);
-    paintOutlets(painter, lod);
 }
 
 void Device::paintTitleBox(QPainter* painter)
@@ -286,108 +287,6 @@ void Device::paintTitleBox(QPainter* painter)
     painter->drawRoundedRect(title_box.adjusted(4, 3, -4, -4), 5, 5);
 }
 
-void Device::paintInlets(QPainter* painter, qreal levelOfDetails)
-{
-    painter->setPen(QPen(Qt::black, 0.5));
-
-    data_->foreachVisInput([this, painter, levelOfDetails](XletIndex idx, const XletData& inlet) {
-        auto pos = inletPos(idx);
-
-        switch (inlet.powerType()) {
-        case PowerType::DC_Positive:
-            painter->setBrush(Qt::red);
-            painter->setPen(Qt::NoPen);
-            painter->drawRect(powerRectInlet(pos, 0));
-            break;
-        case PowerType::DC_Negative:
-            painter->setBrush(Qt::blue);
-            painter->setPen(Qt::NoPen);
-            painter->drawRect(powerRectInlet(pos, 0));
-            break;
-        case PowerType::AC:
-            painter->setBrush(QColor(255, 127, 0));
-            painter->setPen(Qt::NoPen);
-            painter->drawRect(powerRectInlet(pos, 0));
-            break;
-        case PowerType::AC_DC:
-            painter->setBrush(Qt::darkMagenta);
-            painter->setPen(Qt::NoPen);
-            painter->drawRect(powerRectInlet(pos, 0));
-            break;
-        case PowerType::Phantom:
-            painter->setBrush(Qt::NoBrush);
-            painter->setPen(QPen(Qt::darkRed, 2));
-            painter->drawRect(powerRectInlet(pos, 2));
-            break;
-        case PowerType::None:
-        default:
-            break;
-        }
-
-        if (levelOfDetails >= 0.5) {
-            if (inlet.isPhantomOn()) {
-                painter->setBrush(Qt::red);
-                painter->setPen(QPen(Qt::red, 1));
-            } else {
-                painter->setBrush(Qt::black);
-                painter->setPen(QPen(Qt::black, 1));
-            }
-
-            painter->drawRect(pos.x() - (XLET_BOX_W / 2), pos.y(), XLET_BOX_W, XLET_BOX_H);
-        }
-    });
-}
-
-void Device::paintOutlets(QPainter* painter, qreal levelOfDetails)
-{
-    painter->setPen(QPen(Qt::black, 0.5));
-    painter->setBrush(Qt::black);
-
-    data_->foreachVisOutput([this, painter, levelOfDetails](XletIndex idx, const XletData& outlet) {
-        if (outlet.isPlug())
-            return;
-
-        const auto pos = outletPos(idx);
-
-        switch (outlet.powerType()) {
-        case PowerType::DC_Positive:
-            painter->setBrush(Qt::red);
-            painter->setPen(Qt::NoPen);
-            painter->drawRect(powerRectOutlet(pos, 0));
-            break;
-        case PowerType::DC_Negative:
-            painter->setBrush(Qt::blue);
-            painter->setPen(Qt::NoPen);
-            painter->drawRect(powerRectOutlet(pos, 0));
-            break;
-        case PowerType::AC:
-            painter->setBrush(QColor(255, 127, 0));
-            painter->setPen(Qt::NoPen);
-            painter->drawRect(powerRectOutlet(pos, 0));
-            break;
-        case PowerType::AC_DC:
-            painter->setBrush(Qt::darkMagenta);
-            painter->setPen(Qt::NoPen);
-            painter->drawRect(powerRectOutlet(pos, 0));
-            break;
-        case PowerType::Phantom:
-            painter->setBrush(Qt::NoBrush);
-            painter->setPen(QPen(Qt::darkRed, 2));
-            painter->drawRect(powerRectOutlet(pos, 2));
-            break;
-        case PowerType::None:
-        default:
-            break;
-        }
-
-        if (levelOfDetails >= 0.5) {
-            painter->setBrush(Qt::black);
-            painter->setPen(QPen(Qt::black, 1));
-            painter->drawRect(pos.x() - (XLET_BOX_W / 2), pos.y() - XLET_BOX_H, XLET_BOX_W, XLET_BOX_H);
-        }
-    });
-}
-
 void Device::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
     Q_UNUSED(event);
@@ -405,8 +304,36 @@ void Device::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 {
-    qDebug() << __FUNCTION__;
-    Q_UNUSED(event);
+    QMenu menu;
+
+    auto duplicateAct = new QAction(tr("Duplicate"), &menu);
+    connect(duplicateAct, &QAction::triggered, this,
+        [this]() { emit duplicateDevice(data_); });
+
+    auto removeAct = new QAction(tr("Delete"), &menu);
+    connect(removeAct, &QAction::triggered, this,
+        [this]() { emit removeDevice(data_); });
+
+    auto addToFavoritesAct = new QAction(tr("Add to favorites"), &menu);
+    connect(addToFavoritesAct, &QAction::triggered, this,
+        [this]() { emit addToFavorites(data_); });
+
+    auto propertiesAct = new QAction(tr("Properties"), &menu);
+    connect(propertiesAct, &QAction::triggered, this,
+        [this]() {
+            std::unique_ptr<DeviceProperties> dialog(new DeviceProperties(data_));
+            connect(dialog.get(), SIGNAL(acceptData(SharedDeviceData)), this, SIGNAL(updateDevice(SharedDeviceData)));
+            dialog->exec();
+        });
+
+    menu.addAction(duplicateAct);
+    menu.addAction(removeAct);
+    menu.addSeparator();
+    menu.addAction(addToFavoritesAct);
+    menu.addAction(propertiesAct);
+    menu.exec(event->screenPos());
+
+    event->accept();
 }
 
 size_t Device::visInletCount() const
@@ -453,11 +380,15 @@ void Device::clearOutlets()
 
 void Device::clearXlets()
 {
-    for (auto x : childItems()) {
-        auto xlet = qgraphicsitem_cast<DeviceXlet*>(x);
-        if (xlet)
-            delete xlet;
-    }
+    for (auto x : inputs_)
+        delete x;
+
+    inputs_.clear();
+
+    for (auto x : outputs_)
+        delete x;
+
+    outputs_.clear();
 }
 
 void Device::clearTitle()
@@ -485,6 +416,7 @@ void Device::createXlets()
         if (data.isVisible()) {
             auto xlet = new DeviceXlet(data, XletType::In, this);
             xlet->setConnectPoint(inletPos(in_idx++));
+            inputs_.push_back(xlet);
         }
     }
 
@@ -493,6 +425,7 @@ void Device::createXlets()
         if (data.isVisible()) {
             auto xlet = new DeviceXlet(data, XletType::Out, this);
             xlet->setConnectPoint(outletPos(out_idx++));
+            outputs_.push_back(xlet);
         }
     }
 }
@@ -523,7 +456,7 @@ void Device::syncRect()
     createImage(calc_wd);
 
     auto calc_ht = calcHeight();
-    setRect(-calc_wd * 0.5, 0, calc_wd, calc_ht);
+    rect_.setRect(-calc_wd * 0.5, 0, calc_wd, calc_ht);
 
     updateTitlePos();
     updateImagePos();
@@ -566,20 +499,11 @@ void Device::updateXletsPos()
     int in_idx = 0;
     int out_idx = 0;
 
-    for (auto x : childItems()) {
-        auto xlet = qgraphicsitem_cast<DeviceXlet*>(x);
-        if (xlet) {
-            if (xlet->isInlet() && xlet->isVisible()) {
-                xlet->setConnectPoint(inletPos(in_idx++));
-                continue;
-            }
+    for (auto x : inputs_)
+        x->setConnectPoint(inletPos(in_idx++));
 
-            if (xlet->isOutlet() && xlet->isVisible()) {
-                xlet->setConnectPoint(outletPos(out_idx++));
-                continue;
-            }
-        }
-    }
+    for (auto x : outputs_)
+        x->setConnectPoint(outletPos(out_idx++));
 }
 
 QRectF Device::titleRect() const
@@ -602,11 +526,6 @@ QRectF Device::xletRect() const
     const auto bbox = boundingRect();
     const auto xoff = (bbox.width() - w) * 0.5;
     return QRectF(bbox.left() + xoff, bbox.bottom() - h, w, h);
-}
-
-qreal Device::centerXOff() const
-{
-    return -boundingRect().width() * 0.5;
 }
 
 int Device::calcWidth() const
@@ -643,24 +562,17 @@ int Device::calcHeight() const
     return h;
 }
 
-void Device::incrementName()
+void Device::syncXlets()
 {
-    auto parts = data_->title().split(' ', Qt::SkipEmptyParts);
-    if (parts.size() > 1) {
-        bool ok = false;
-        auto num = parts.back().toInt(&ok);
-        if (!ok) {
-            data_->title() += " 1";
-        } else {
-            auto prefix = parts.sliced(0, parts.size() - 1).join(' ');
-            data_->setTitle(QString("%1 %2").arg(prefix).arg(num + 1));
-        }
-    } else {
-        auto title = QString("%1 1").arg(data_->title());
-        data_->setTitle(title);
-    }
+    data_->foreachVisInput([this](XletIndex idx, XletData& data) {
+        if (idx < inputs_.size())
+            data = inputs_[idx]->xletData();
+    });
 
-    syncRect();
+    data_->foreachVisOutput([this](XletIndex idx, XletData& data) {
+        if (idx < outputs_.size())
+            data = outputs_[idx]->xletData();
+    });
 }
 
 QJsonObject Device::toJson() const

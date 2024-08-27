@@ -296,7 +296,7 @@ QJsonObject DeviceData::toJson() const
     return json;
 }
 
-void DeviceData::foreachVisInput(std::function<void(XletIndex, const XletData&)> fn)
+void DeviceData::foreachVisInput(std::function<void(XletIndex, XletData&)> fn)
 {
     XletIndex idx = 0;
     for (auto& x : inputs_) {
@@ -310,7 +310,7 @@ const XletData& DeviceData::inputAt(XletIndex n) const
     return inputs_.at(n);
 }
 
-void DeviceData::foreachVisOutput(std::function<void(XletIndex, const XletData&)> fn)
+void DeviceData::foreachVisOutput(std::function<void(XletIndex, XletData&)> fn)
 {
     XletIndex idx = 0;
     for (auto& x : outputs_) {

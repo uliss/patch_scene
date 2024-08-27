@@ -15,6 +15,7 @@
 
 #include <QBuffer>
 #include <QFile>
+#include <QGraphicsSceneContextMenuEvent>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -27,7 +28,6 @@
 
 #include "app_version.h"
 #include "device.h"
-#include "deviceproperties.h"
 #include "undo_commands.h"
 
 using namespace ceam;
@@ -47,6 +47,21 @@ constexpr const char* JSON_KEY_VERSION_GIT = "version-git";
 constexpr const char* JSON_KEY_VERSION_MAJOR = "version-major";
 constexpr const char* JSON_KEY_VERSION_MINOR = "version-minor";
 constexpr const char* JSON_KEY_VERSION_PATCH = "version-patch";
+
+class MyScene : public QGraphicsScene {
+public:
+    MyScene()
+    {
+
+        //     pen.setWidth(0);
+        //     painter->setPen(pen);
+
+        // painter->drawLine(QPoint(rect.left(), 0), QPoint(rect.right(), 0));
+        // painter->drawLine(QPoint(0, rect.top()), QPoint(0, rect.bottom()));
+        // painter->drawLine(QPoint(rect.left(), 0), QPoint(rect.right(), 0));
+        // painter->drawLine(QPoint(0, rect.top()), QPoint(0, rect.bottom()));
+    }
+};
 
 class ChangeEmitter {
     Diagram* diagram_;
@@ -125,12 +140,49 @@ void Diagram::initLiveConnection()
 
 void Diagram::initScene(int w, int h)
 {
-    scene = new QGraphicsScene();
-    scene->setItemIndexMethod(QGraphicsScene::NoIndex);
+    scene = new MyScene();
+    // scene->setItemIndexMethod(QGraphicsScene::NoIndex);
     scene->setSceneRect(-w / 2, -h / 2, w, h);
-    scene->setBackgroundBrush(QColor(252, 252, 252));
-    scene->setMinimumRenderSize(0.5);
+    // scene->setBackgroundBrush(QColor(252, 252, 252));
+    // scene->setMinimumRenderSize(0.5);
     setScene(scene);
+
+    QPen pen(QColor(100, 100, 100));
+    pen.setWidth(0);
+
+    auto rect = sceneRect();
+
+    auto l0 = new QGraphicsLineItem;
+    l0->setPen(pen);
+    l0->setLine(QLine(QPoint(rect.left(), 0), QPoint(rect.right(), 0)));
+    scene->addItem(l0);
+
+    auto l1 = new QGraphicsLineItem;
+    l1->setPen(pen);
+    l1->setLine(QLine(QPoint(0, rect.top()), QPoint(0, rect.bottom())));
+    scene->addItem(l1);
+
+    for (int i = 0; i < rect.width() / 50; i++) {
+        auto x = 50 * (int(rect.left() + i * 50) / 50);
+        auto p0 = QPoint(x, rect.top());
+        auto p1 = QPoint(x, rect.bottom());
+        auto l1 = new QGraphicsLineItem;
+        l1->setPen(pen);
+        l1->setLine(QLine(p0, p1));
+        scene->addItem(l1);
+    }
+
+    for (int i = 0; i < rect.height() / 50; i++) {
+        auto y = 50 * (int(rect.top() + i * 50) / 50);
+        auto p0 = QPoint(rect.left(), y);
+        auto p1 = QPoint(rect.right(), y);
+        auto l1 = new QGraphicsLineItem;
+        l1->setPen(pen);
+        l1->setLine(QLine(p0, p1));
+        scene->addItem(l1);
+    }
+
+    // setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
 }
 
 bool Diagram::removeDevice(DeviceId id)
@@ -363,6 +415,11 @@ bool Diagram::addDevice(Device* dev)
     if (!dev)
         return false;
 
+    connect(dev, SIGNAL(addToFavorites(SharedDeviceData)), this, SIGNAL(addToFavorites(SharedDeviceData)));
+    connect(dev, SIGNAL(duplicateDevice(SharedDeviceData)), this, SLOT(cmdDuplicateDevice(SharedDeviceData)));
+    connect(dev, SIGNAL(removeDevice(SharedDeviceData)), this, SLOT(cmdRemoveDevice(SharedDeviceData)));
+    connect(dev, SIGNAL(updateDevice(SharedDeviceData)), this, SLOT(cmdUpdateDevice(SharedDeviceData)));
+
     scene->addItem(dev);
     emit sceneChanged();
     emit deviceAdded(dev->deviceData());
@@ -449,7 +506,7 @@ bool Diagram::setBackground(const QString& path)
     if (!background_) {
         background_ = new DiagramImage(path);
         background_->setZValue(ZVALUE_BACKGROUND);
-        background_->setPos(0, 0);
+        background_->setPos(-background_->boundingRect().width() / 2, -background_->boundingRect().height() / 2);
         scene->addItem(background_);
         if (!background_->isEmpty()) {
             emit sceneChanged();
@@ -898,103 +955,35 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
 
 void Diagram::contextMenuEvent(QContextMenuEvent* event)
 {
-    event->accept();
-    auto pos = event->pos();
-    auto elements = items(pos);
-
-    if (elements.size() > 0 && qgraphicsitem_cast<DeviceXlet*>(elements.front())) {
-        auto xlet = qgraphicsitem_cast<DeviceXlet*>(elements.front());
-        if (xlet)
-            xlet->contextMenuEvent(event);
-
+    QGraphicsView::contextMenuEvent(event);
+    if (event->isAccepted())
         return;
-    }
 
-    auto dev = deviceIn(elements);
+    auto pos = event->pos();
+    event->accept();
 
-    if (dev) {
-        auto selected = scene->selectedItems();
+    auto add_act = new QAction(tr("&Add device"), this);
+    connect(add_act, &QAction::triggered, this,
+        [this, pos]() { cmdCreateDevice(mapToScene(pos)); });
 
-        if (selected.size() <= 1) {
-            auto id = dev->id();
-            auto data = dev->deviceData();
+    QMenu menu(this);
+    menu.addAction(add_act);
 
-            auto duplicateAct = new QAction(tr("Duplicate"), this);
-            connect(duplicateAct, &QAction::triggered, this,
-                [this, data]() { cmdDuplicateDevice(data); });
+    if (background_ && !background_->isEmpty()) {
+        auto clear_bg = new QAction(tr("&Clear background"), this);
+        connect(clear_bg, &QAction::triggered, this,
+            [this]() { clearBackground(); });
 
-            auto removeAct = new QAction(tr("Delete"), this);
-            connect(removeAct, &QAction::triggered, this,
-                [this, data]() { cmdRemoveDevice(data); });
-
-            auto addToFavoritesAct = new QAction(tr("Add to favorites"), this);
-            connect(addToFavoritesAct, &QAction::triggered, this,
-                [this, data]() { emit addToFavorites(data); });
-
-            auto propertiesAct = new QAction(tr("Properties"), this);
-            connect(propertiesAct, &QAction::triggered, this,
-                [this, id]() {
-                    auto dev = findDeviceById(id);
-                    if (!dev)
-                        return;
-
-                    auto dialog = new DeviceProperties(this, dev->deviceData());
-                    connect(dialog, &DeviceProperties::acceptData, this, [this](const SharedDeviceData& data) {
-                        cmdUpdateDevice(data);
-                    });
-                    dialog->exec();
-                });
-
-            QMenu menu(this);
-            menu.addAction(duplicateAct);
-            menu.addAction(removeAct);
-            menu.addSeparator();
-            menu.addAction(addToFavoritesAct);
-            menu.addAction(propertiesAct);
-            menu.exec(mapToGlobal(pos));
-        } else {
-            auto deleteSelectedAct = new QAction(tr("Delete selected"), this);
-            connect(deleteSelectedAct, &QAction::triggered, this,
-                [this]() { cmdRemoveSelected(); });
-
-            auto alignVerticalAct = new QAction(tr("Align vertical"), this);
-            connect(alignVerticalAct, &QAction::triggered, this,
-                [this]() { cmdAlignVSelected(); });
-
-            auto alignHorizontalAct = new QAction(tr("Align horizontal"), this);
-            connect(alignHorizontalAct, &QAction::triggered, this,
-                [this]() { cmdAlignHSelected(); });
-
-            QMenu menu(this);
-            menu.addAction(deleteSelectedAct);
-            menu.addAction(alignVerticalAct);
-            menu.addAction(alignHorizontalAct);
-            menu.exec(mapToGlobal(pos));
-        }
+        menu.addAction(clear_bg);
     } else {
-        auto add_act = new QAction(tr("&Add device"), this);
-        connect(add_act, &QAction::triggered, this,
-            [this, pos]() { cmdCreateDevice(mapToScene(pos)); });
+        auto set_bg = new QAction(tr("&Set background"), this);
+        connect(set_bg, &QAction::triggered, this,
+            [this]() { emit requestBackgroundChange(); });
 
-        QMenu menu(this);
-        menu.addAction(add_act);
-
-        if (background_ && !background_->isEmpty()) {
-            auto clear_bg = new QAction(tr("&Clear background"), this);
-            connect(clear_bg, &QAction::triggered, this,
-                [this, pos]() { clearBackground(); });
-
-            menu.addAction(clear_bg);
-        } else {
-            auto set_bg = new QAction(tr("&Set background"), this);
-            connect(set_bg, &QAction::triggered, this,
-                [this, pos]() { emit requestBackgroundChange(); });
-
-            menu.addAction(set_bg);
-        }
-
-        menu.exec(mapToGlobal(pos));
+        menu.addAction(set_bg);
     }
+
+    menu.exec(event->globalPos());
 }
 
 void Diagram::dragEnterEvent(QDragEnterEvent* event)

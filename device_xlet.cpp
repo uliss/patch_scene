@@ -12,11 +12,15 @@
  * this file belongs to.
  *****************************************************************************/
 #include "device_xlet.h"
+#include "device.h"
 
 #include <QContextMenuEvent>
+#include <QGraphicsSceneContextMenuEvent>
+#include <QGraphicsSvgItem>
 #include <QJsonObject>
 #include <QMenu>
 #include <QPainter>
+#include <QStyleOptionGraphicsItem>
 
 using namespace ceam;
 
@@ -27,6 +31,15 @@ constexpr const char* KEY_VISIBLE = "visible";
 constexpr const char* KEY_SOCKET = "socket";
 constexpr const char* KEY_MODEL = "model";
 constexpr const char* KEY_POWER_TYPE = "power";
+
+constexpr int ICON_W = 16;
+constexpr int ICON_H = 16;
+
+constexpr qreal XLET_W = 22;
+constexpr qreal XLET_H = 20;
+
+constexpr qreal XLET_BOX_W = 8;
+constexpr qreal XLET_BOX_H = 3;
 }
 
 XletData::XletData(ConnectorModel model)
@@ -106,17 +119,24 @@ bool XletData::operator==(const XletData& data) const
 }
 
 DeviceXlet::DeviceXlet(const XletData& data, XletType type, QGraphicsItem* parentItem)
-    : QGraphicsSvgItem(data.iconPath(), parentItem)
+    : QGraphicsObject(parentItem)
     , data_ { data }
     , type_ { type }
+    , icon_(new QGraphicsSvgItem(data_.iconPath(), this))
 {
+    icon_->setPos((XLET_W - ICON_W) * 0.5, 2);
+    if (data.isPlug() && type == XletType::In)
+        icon_->setTransform(QTransform().scale(1, -1).translate(0, -ICON_H));
+
     if (!data.name().isEmpty())
         setToolTip(data.modelString() + ": " + data.name());
     else
         setToolTip(data.modelString());
+}
 
-    if (data.isPlug() && type == XletType::In)
-        setTransform(QTransform().scale(1, -1).translate(0, -16));
+QRectF DeviceXlet::boundingRect() const
+{
+    return { 0, 0, XLET_W, XLET_H };
 }
 
 const XletData& DeviceXlet::xletData() const
@@ -124,27 +144,91 @@ const XletData& DeviceXlet::xletData() const
     return data_;
 }
 
-QString DeviceXlet::iconPath() const
-{
-    return data_.iconPath();
-}
-
 void DeviceXlet::setConnectPoint(const QPointF& pos)
 {
-    constexpr auto PAD = 2;
-    auto wd = 16;
-    auto ht = 16;
-    auto bbox = boundingRect();
+    const auto x = pos.x() - (XLET_W / 2);
 
     if (type_ == XletType::In)
-        setPos(pos + QPointF(-wd / 2, PAD));
+        setPos(x, pos.y());
     else
-        setPos(pos + QPointF(-wd / 2, -(bbox.height() + PAD)));
+        setPos(x, pos.y() - XLET_H);
 }
 
-void DeviceXlet::contextMenuEvent(QContextMenuEvent* event)
+void DeviceXlet::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 {
-    QMenu menu;
-    menu.addAction(new QAction("Context"));
-    menu.exec(event->globalPos());
+    if (data_.supportsPhantomPower()) {
+        QMenu menu;
+
+        auto phantom_on = new QAction(tr("Phantom"), &menu);
+        phantom_on->setCheckable(true);
+        phantom_on->setChecked(data_.isPhantomOn());
+
+        connect(phantom_on, &QAction::triggered, this, [this](bool checked) {
+            data_.setPhantom(checked);
+            update(boundingRect());
+            auto dev = qgraphicsitem_cast<Device*>(parentItem());
+            if (dev)
+                dev->syncXlets();
+        });
+
+        menu.addAction(phantom_on);
+        menu.exec(event->screenPos());
+        event->accept();
+    } else
+        event->ignore();
+}
+
+void DeviceXlet::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+{
+    const auto bbox = boundingRect();
+    painter->setPen(Qt::NoPen);
+
+    switch (data_.powerType()) {
+    case PowerType::DC_Positive:
+        painter->setBrush(Qt::red);
+        painter->drawRect(bbox);
+        break;
+    case PowerType::DC_Negative:
+        painter->setBrush(Qt::blue);
+        painter->drawRect(bbox);
+        break;
+    case PowerType::AC:
+        painter->setBrush(QColor(255, 127, 0));
+        painter->drawRect(bbox);
+        break;
+    case PowerType::AC_DC:
+        painter->setBrush(Qt::darkMagenta);
+        painter->drawRect(bbox);
+        break;
+    case PowerType::Phantom: {
+        painter->setBrush(Qt::NoBrush);
+        QPen pen(Qt::darkRed, 1);
+        pen.setJoinStyle(Qt::MiterJoin);
+        painter->setPen(pen);
+        painter->drawRect(bbox.adjusted(1, 1, -1, -1));
+    } break;
+    case PowerType::None:
+    default:
+        break;
+    }
+
+    const qreal lod = option->levelOfDetailFromTransform(painter->worldTransform());
+    if (lod >= 0.5) {
+        painter->setBrush(Qt::black);
+        painter->setPen(Qt::NoPen);
+
+        switch (type_) {
+        case XletType::In:
+            if (data_.isPhantomOn())
+                painter->setBrush(Qt::red);
+
+            painter->drawRect((bbox.width() - XLET_BOX_W) * 0.5, 0, XLET_BOX_W, XLET_BOX_H);
+            break;
+        case XletType::Out:
+            painter->drawRect((bbox.width() - XLET_BOX_W) * 0.5, bbox.bottom() - XLET_BOX_H, XLET_BOX_W, XLET_BOX_H);
+            break;
+        default:
+            break;
+        }
+    }
 }

@@ -16,15 +16,26 @@
 
 #include "device_common.h"
 
-#include <QGraphicsItem>
+#include <QGraphicsObject>
+
+class QGraphicsSvgItem;
 
 namespace ceam {
 
-class Device : public QGraphicsRectItem {
+class DeviceXlet;
+
+class Device : public QGraphicsObject {
+    Q_OBJECT
 public:
-    explicit Device();
+    enum { Type = QGraphicsItem::UserType + 1 };
+    int type() const override { return Type; }
+
+public:
+    Device();
     explicit Device(const SharedDeviceData& data);
     ~Device();
+
+    QRectF boundingRect() const final;
 
     QPointF inletPos(int i, bool map = false) const;
     QPointF outletPos(int i, bool map = false) const;
@@ -32,11 +43,6 @@ public:
     QRect outletRect(int i) const;
 
     DeviceId id() const { return data_->id(); }
-
-    enum { Type = QGraphicsItem::UserType + 1 };
-    int type() const override { return Type; }
-
-    void incrementName();
 
     QJsonObject toJson() const;
 
@@ -50,11 +56,15 @@ public:
 
     void randomizePos(qint64 delta);
 
+signals:
+    void addToFavorites(SharedDeviceData data);
+    void duplicateDevice(SharedDeviceData data);
+    void removeDevice(SharedDeviceData data);
+    void updateDevice(SharedDeviceData data);
+
 private:
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
     void paintTitleBox(QPainter* painter);
-    void paintInlets(QPainter* painter, qreal levelOfDetails);
-    void paintOutlets(QPainter* painter, qreal levelOfDetails);
 
     void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
     void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
@@ -78,6 +88,7 @@ private:
     void createImage(qreal wd);
 
     void syncRect();
+    void syncXlets();
 
     void updateTitlePos();
     void updateImagePos();
@@ -86,13 +97,18 @@ private:
     QRectF titleRect() const;
     QRectF xletRect() const;
 
-    qreal centerXOff() const;
     int calcWidth() const;
     int calcHeight() const;
 
+private:
+    friend class DeviceXlet;
+
+private:
     QGraphicsTextItem* title_;
     QGraphicsSvgItem* image_;
     mutable SharedDeviceData data_;
+    QRectF rect_;
+    QList<DeviceXlet*> inputs_, outputs_;
 };
 }
 
