@@ -25,29 +25,28 @@ SceneConnections::SceneConnections(QObject* parent)
 {
 }
 
-bool SceneConnections::add(const ConnectionData& connData)
+Connection* SceneConnections::add(const ConnectionData& connData)
 {
     if (!scene_ || !connData.isValid())
-        return false;
+        return nullptr;
 
     auto src_it = conn_src_.find(connData.sourceInfo());
     if (src_it != conn_src_.end()) {
         qWarning() << "connection already exists";
-        return false;
+        return nullptr;
     }
 
     auto dest_it = conn_dest_.find(connData.destinationInfo());
     if (dest_it != conn_dest_.end()) {
         qWarning() << "connection already exists";
-        return false;
+        return nullptr;
     }
 
     std::unique_ptr<Connection> conn(new Connection(connData));
     if (addConnection(conn.get())) {
-        conn.release();
-        return true;
+        return conn.release();
     } else {
-        return false;
+        return nullptr;
     }
 }
 
