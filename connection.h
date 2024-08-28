@@ -54,6 +54,9 @@ public:
     DeviceId id() const { return id_; }
     XletType type() const { return type_; }
     XletIndex index() const { return index_; }
+
+    static XletInfo inlet(DeviceId id, XletIndex idx) { return XletInfo { id, idx, XletType::In }; }
+    static XletInfo outlet(DeviceId id, XletIndex idx) { return XletInfo { id, idx, XletType::Out }; }
 };
 
 uint qHash(const XletInfo& key);
@@ -146,12 +149,7 @@ public:
      */
     bool checkConnectedElements() const;
 
-    /**
-     * updates connection positions
-     * @complexity O(n)
-     * @return true on success
-     */
-    bool updateCachedPos();
+    void setPoints(const QPointF& p0, const QPointF& p1);
 
 protected:
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;

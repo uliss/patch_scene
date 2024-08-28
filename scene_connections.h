@@ -32,6 +32,34 @@ public:
 
     Connection* add(const ConnectionData& connData);
     bool remove(const XletInfo& xlet);
+    bool removeAll(DeviceId id);
+
+    void foreachData(std::function<void(const ConnectionData& data)> fn) const;
+
+    /**
+     * find all incoming/outcoming connection to/from devices
+     * @complexity Amort. O(1) (worst case: O(n))
+     */
+    QList<Connection*> findConnections(DeviceId id) const;
+
+    /**
+     * find all incoming/outcoming connection data to/from devices
+     * @complexity Amort. O(1) (worst case: O(n))
+     */
+    QList<ConnectionData> findConnectionsData(DeviceId id) const;
+
+    /**
+     * find connection by specified xlet
+     * @param xlet
+     * @return connection data or null if not found
+     */
+    std::optional<ConnectionData> findConnection(const XletInfo& xlet) const;
+
+    /**
+     * Set connection visible
+     * @complexity O(n)
+     */
+    void setVisible(bool value);
 
     void setScene(QGraphicsScene* scene);
     size_t count() const;
@@ -44,6 +72,7 @@ private:
     QGraphicsScene* scene_ { nullptr };
     std::unordered_set<Connection*> conn_;
     QHash<XletInfo, Connection*> conn_src_, conn_dest_;
+    QHash<DeviceId, QList<Connection*>> conn_dev_;
 };
 
 }

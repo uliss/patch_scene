@@ -77,4 +77,17 @@ void TestSceneConnections::remove()
     QCOMPARE(sc.count(), 0);
 }
 
+void TestSceneConnections::findConnection()
+{
+    SceneConnections sc;
+    QGraphicsScene scene;
+    sc.setScene(&scene);
+
+    QVERIFY(sc.add(ConnectionData { 0, 0, 1, 0 }));
+    QVERIFY(sc.findConnection(XletInfo::outlet(0, 0)));
+    QVERIFY(sc.findConnection(XletInfo::inlet(1, 0)));
+    QVERIFY(!sc.findConnection(XletInfo::outlet(1, 0)));
+    QVERIFY(!sc.findConnection(XletInfo::inlet(0, 0)));
+}
+
 static TestSceneConnections test_scene_connections;

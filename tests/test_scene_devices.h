@@ -25,6 +25,7 @@ private slots:
     void toggleSelected();
     void boundingRect();
     void findConnectionInfo();
+    void checkConnection();
 };
 
 #endif // TEST_SCENE_DEVICES_H

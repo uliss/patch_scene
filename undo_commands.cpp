@@ -84,9 +84,9 @@ DisconnectXlet::DisconnectXlet(Diagram* doc, const XletInfo& xi)
     : doc_(doc)
     , conn_(0, 0, 0, 0)
 {
-    auto conn = doc->findConnectionByXlet(xi);
+    auto conn = doc->connections().findConnection(xi);
     if (conn)
-        conn_ = conn->connectionData();
+        conn_ = conn.value();
 }
 
 void DisconnectXlet::undo()
@@ -106,7 +106,7 @@ RemoveDevice::RemoveDevice(Diagram* doc, const SharedDeviceData& data)
     , data_(data)
 {
     if (doc_ && data_)
-        conn_ = doc_->findDeviceConnections(data_->id());
+        conn_ = doc_->connections().findConnectionsData(data->id());
 }
 
 void RemoveDevice::undo()
@@ -283,7 +283,7 @@ void MoveSelected::redo()
     doc_->moveSelectedItemsBy(dx_, dy_);
 }
 
-MoveByDevices::MoveByDevices(Diagram* doc, const QMap<DeviceId, QPointF>& deltas)
+MoveByDevices::MoveByDevices(Diagram* doc, const QHash<DeviceId, QPointF>& deltas)
     : doc_(doc)
     , deltas_(deltas)
 {
@@ -294,8 +294,7 @@ void MoveByDevices::undo()
     if (!doc_)
         return;
 
-    doc_->devices().moveBy(negate(deltas_));
-    doc_->updateConnectionsPos();
+    doc_->moveItemsBy(negate(deltas_));
 }
 
 void MoveByDevices::redo()
@@ -303,11 +302,10 @@ void MoveByDevices::redo()
     if (!doc_)
         return;
 
-    doc_->devices().moveBy(deltas_);
-    doc_->updateConnectionsPos();
+    doc_->moveItemsBy(deltas_);
 }
 
-QMap<DeviceId, QPointF> MoveByDevices::negate(const QMap<DeviceId, QPointF>& map)
+QHash<DeviceId, QPointF> MoveByDevices::negate(const QHash<DeviceId, QPointF>& map)
 {
     auto res = map;
 

@@ -92,7 +92,7 @@ SharedDeviceData SceneDevices::findData(DeviceId id) const
         : it->second->deviceData();
 }
 
-std::optional<ConnectionFullInfo> SceneDevices::find(const ConnectionData& conn) const
+std::optional<ConnectionFullInfo> SceneDevices::connectionInfo(const ConnectionData& conn) const
 {
     std::optional<ConnectionFullInfo> res = ConnectionFullInfo();
     int count = 0;
@@ -129,6 +129,44 @@ std::optional<ConnectionFullInfo> SceneDevices::find(const ConnectionData& conn)
         return res;
     else
         return {};
+}
+
+std::optional<std::pair<QPointF, QPointF>> SceneDevices::connectionPoints(const ConnectionData& conn) const
+{
+    auto src_it = devices_.find(conn.source());
+    if (src_it != devices_.end())
+        return {};
+
+    auto dest_it = devices_.find(conn.destination());
+    if (dest_it != devices_.end())
+        return {};
+
+    auto p0 = src_it->second->outletPos(conn.sourceOutput(), true);
+    auto p1 = dest_it->second->inletPos(conn.destinationInput(), true);
+
+    return std::pair { p0, p1 };
+}
+
+bool SceneDevices::checkConnection(const ConnectionData& conn) const
+{
+    if (!conn.isValid())
+        return false;
+
+    auto src_it = devices_.find(conn.source());
+    if (src_it != devices_.end())
+        return false;
+
+    if (conn.sourceOutput() >= src_it->second->deviceData()->visOutputCount())
+        return false;
+
+    auto dest_it = devices_.find(conn.destination());
+    if (dest_it != devices_.end())
+        return false;
+
+    if (conn.destinationInput() >= dest_it->second->deviceData()->visInputCount())
+        return false;
+
+    return true;
 }
 
 bool SceneDevices::hasSelected() const
@@ -317,7 +355,7 @@ QList<DeviceId> SceneDevices::intersectedList(const QRectF& rect) const
     return res;
 }
 
-void SceneDevices::moveBy(const QMap<DeviceId, QPointF>& deltas)
+void SceneDevices::moveBy(const QHash<DeviceId, QPointF>& deltas)
 {
     for (auto kv : deltas.asKeyValueRange()) {
         auto it = devices_.find(kv.first);

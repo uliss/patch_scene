@@ -47,13 +47,32 @@ public:
     const Device* find(DeviceId id) const;
     SharedDeviceData findData(DeviceId id) const;
 
-    std::optional<ConnectionFullInfo> find(const ConnectionData& conn) const;
+    std::optional<ConnectionFullInfo> connectionInfo(const ConnectionData& conn) const;
+
+    /**
+     * return connection points in the scene coords
+     * @param conn - connection data
+     * @return pair of point, or null on error
+     * @complexity O(1)
+     */
+    std::optional<std::pair<QPointF, QPointF>> connectionPoints(const ConnectionData& conn) const;
+
+    /**
+     * check if connection data is valid
+     * @param conn - connection data
+     * @complexity O(1)
+     */
+    bool checkConnection(const ConnectionData& conn) const;
 
     bool hasSelected() const;
     void setSelected(const QList<DeviceId>& ids, bool value);
     void toggleSelected(const QList<DeviceId>& ids);
 
-    void moveBy(const QMap<DeviceId, QPointF>& deltas);
+    void moveBy(const QHash<DeviceId, QPointF>& deltas);
+
+    /**
+     * @complexity O(n)
+     */
     bool moveSelectedBy(int dx, int dy);
 
     void clear();

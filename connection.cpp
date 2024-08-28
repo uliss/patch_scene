@@ -137,25 +137,18 @@ bool Connection::checkConnectedElements() const
     return findConnectedElements().has_value();
 }
 
-bool Connection::updateCachedPos()
+void Connection::setPoints(const QPointF& p0, const QPointF& p1)
 {
-    auto conn = findConnectedElements();
-    if (!conn.has_value())
-        return false;
-
-    auto p0 = conn->first->outletPos(data_.sourceOutput(), true);
-    auto p1 = conn->second->inletPos(data_.destinationInput(), true);
-
     prepareGeometryChange();
+
     line_.clear();
     line_.moveTo(p0);
 
     auto bezy = (std::abs(p0.x() - p1.x()) < 20) ? 20 : 40;
 
     line_.cubicTo(p0 + QPointF(0, bezy), p1 + QPointF(0, -bezy), p1);
-    update();
 
-    return true;
+    update(boundingRect());
 }
 
 uint ceam::qHash(const ConnectionData& key)

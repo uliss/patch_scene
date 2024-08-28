@@ -71,9 +71,6 @@ void TestConnection::testConnection()
     QCOMPARE(conn, ConnectionData(1, 2, 3, 4));
     QVERIFY(!(conn == ConnectionData(1, 2, 3, 1)));
 
-    QVERIFY(!conn.checkConnectedElements());
-    QVERIFY(!conn.updateCachedPos());
-
     QVERIFY(!conn.findConnectedElements());
 
     QCOMPARE(conn.sourceInfo(), XletInfo(1, 2, XletType::Out));
@@ -103,32 +100,22 @@ void TestConnection::findConnected()
     QCOMPARE(d2->id(), 200);
 
     auto conn = new Connection({ 100, 0, 200, 0 });
-    QVERIFY(!conn->checkConnectedElements());
     sc.addItem(conn);
 
-    QVERIFY(conn->checkConnectedElements());
     auto x = conn->findConnectedElements();
     QVERIFY(x);
     QCOMPARE(x->first->id(), 100);
     QCOMPARE(x->second->id(), 200);
     QCOMPARE(conn->boundingRect(), QRect());
-    conn->updateCachedPos();
-
-#ifdef Q_OS_DARWIN
-    QCOMPARE(conn->boundingRect(), QRectF(10, 64, 0, 60));
-#endif
 
     auto conn2 = new Connection({ 101, 0, 200, 0 });
     sc.addItem(conn2);
-    QVERIFY(!conn2->checkConnectedElements());
 
     auto conn3 = new Connection({ 100, 0, 201, 0 });
     sc.addItem(conn3);
-    QVERIFY(!conn3->checkConnectedElements());
 
     auto conn4 = new Connection({ 101, 0, 201, 0 });
     sc.addItem(conn4);
-    QVERIFY(!conn4->checkConnectedElements());
 }
 
 static TestConnection conn;

@@ -162,7 +162,7 @@ bool Diagram::removeDevice(DeviceId id)
 {
     auto data = devices_.remove(id);
     if (data) {
-        removeDeviceConnections(id);
+        connections_.removeAll(id);
         emit deviceRemoved(data);
         emit sceneChanged();
     }
@@ -170,14 +170,20 @@ bool Diagram::removeDevice(DeviceId id)
     return true;
 }
 
-void Diagram::updateConnectionsPos()
+void Diagram::updateConnectionPos(Connection* conn)
 {
-    for (auto c : connections()) {
-        if (c->updateCachedPos())
-            c->update(c->boundingRect());
-        else
-            delete c;
-    }
+    if (!conn)
+        return;
+
+    auto conn_pos = devices_.connectionPoints(conn->connectionData());
+    if (conn_pos)
+        conn->setPoints(conn_pos->first, conn_pos->second);
+}
+
+void Diagram::updateConnectionPos(DeviceId id)
+{
+    for (auto conn : connections_.findConnections(id))
+        updateConnectionPos(conn);
 }
 
 void Diagram::cmdRemoveSelected()
@@ -308,7 +314,7 @@ void Diagram::cmdAlignVSelected()
     }
     x /= sel_data.size();
 
-    QMap<DeviceId, QPointF> deltas;
+    QHash<DeviceId, QPointF> deltas;
     for (auto& data : sel_data) {
         deltas.insert(data->id(), QPointF(x - data->pos().x(), 0));
     }
@@ -329,7 +335,7 @@ void Diagram::cmdAlignHSelected()
     }
     y /= sel_data.size();
 
-    QMap<DeviceId, QPointF> deltas;
+    QHash<DeviceId, QPointF> deltas;
     for (auto& data : sel_data) {
         deltas.insert(data->id(), QPointF(0, y - data->pos().y()));
     }
@@ -367,17 +373,6 @@ Device* Diagram::addDevice(const SharedDeviceData& data)
     return dev;
 }
 
-bool Diagram::addConnection(Connection* conn)
-{
-    if (!conn)
-        return false;
-
-    scene_->addItem(conn);
-    emit sceneChanged();
-    emit connectionAdded(conn->connectionData());
-    return true;
-}
-
 void Diagram::saveClickPos(const QPoint& pos)
 {
     prev_event_pos_ = mapToScene(pos);
@@ -409,7 +404,7 @@ bool Diagram::setDeviceData(const SharedDeviceData& data)
     if (title_update)
         emit deviceTitleUpdated(data->id(), data->title());
 
-    updateConnectionsPos();
+    updateConnectionPos(data->id());
 
     return true;
 }
@@ -417,9 +412,7 @@ bool Diagram::setDeviceData(const SharedDeviceData& data)
 void Diagram::setShowCables(bool value)
 {
     show_cables_ = value;
-    for (auto c : connections())
-        c->setVisible(value);
-
+    connections_.setVisible(value);
     emit showCablesChanged(value);
 }
 
@@ -515,11 +508,11 @@ bool Diagram::loadJson(const QString& path)
         auto arr = cons.toArray();
         for (const auto& j : arr) {
             auto conn_data = ConnectionData::fromJson(j);
-            if (conn_data)
-                addConnection(new Connection(conn_data.value()));
+            if (conn_data) {
+                auto conn = connections_.add(conn_data.value());
+                updateConnectionPos(conn);
+            }
         }
-
-        updateConnectionsPos();
     }
 
     if (root.contains(JSON_KEY_BACKGROUND)) {
@@ -651,16 +644,6 @@ void Diagram::clearAll()
     emit sceneClearAll();
 }
 
-void Diagram::removeDeviceConnections(DeviceId id)
-{
-    for (auto conn : connections()) {
-        if (conn) {
-            scene_->removeItem(conn);
-            delete conn;
-        }
-    }
-}
-
 void Diagram::wheelEvent(QWheelEvent* event)
 {
     if (event->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier)) {
@@ -699,13 +682,11 @@ QJsonObject Diagram::toJson() const
     json[JSON_KEY_DEVICES] = devs;
 
     QJsonArray cons;
-    for (auto c : connections()) {
-        if (c->checkConnectedElements()) {
-            cons.append(c->connectionData().toJson());
-        } else { // remove invalid connections on save
-            delete c;
-        }
-    }
+
+    connections_.foreachData([this, &cons](const ConnectionData& conn) {
+        if (devices_.checkConnection(conn))
+            cons.append(conn.toJson());
+    });
 
     json[JSON_KEY_CONNS] = cons;
 
@@ -1048,19 +1029,6 @@ bool Diagram::viewportEvent(QEvent* event)
 }
 #endif
 
-QList<Connection*> Diagram::connections() const
-{
-    QList<Connection*> res;
-    for (auto x : items()) {
-
-        auto conn = qgraphicsitem_cast<Connection*>(x);
-        if (conn)
-            res.push_back(conn);
-    }
-
-    return res;
-}
-
 void Diagram::selectTopDevice(const QList<QGraphicsItem*>& devs)
 {
     auto top = std::max_element(devs.begin(), devs.end(), [](QGraphicsItem* x, QGraphicsItem* y) {
@@ -1106,23 +1074,14 @@ std::optional<XletInfo> Diagram::hoverDeviceXlet(const QList<QGraphicsItem*>& de
 
 bool Diagram::connectDevices(const ConnectionData& data)
 {
-    for (auto x : items()) {
-        auto conn = qgraphicsitem_cast<Connection*>(x);
-        if (conn && *conn == data) {
-            qWarning() << "already connected";
-            return false;
-        }
-    }
-
-    auto conn = new Connection(data);
-    if (addConnection(conn)) {
-        // @TODO??? need update all??
-        updateConnectionsPos();
+    auto conn = connections_.add(data);
+    if (conn) {
+        updateConnectionPos(conn);
+        emit sceneChanged();
+        emit connectionAdded(data);
         return true;
-    } else {
-        delete conn;
+    } else
         return false;
-    }
 }
 
 bool Diagram::disconnectDevices(const ConnectionData& data)
@@ -1144,10 +1103,22 @@ bool Diagram::disconnectDevices(const ConnectionData& data)
 
 void Diagram::moveSelectedItemsBy(qreal dx, qreal dy)
 {
-    if (devices_.moveSelectedBy(dx, dy)) {
+    if (devices_.moveSelectedBy(dx, dy)) { // O(N)
         emit sceneChanged();
-        updateConnectionsPos();
+
+        // O(N)
+        devices_.foreachSelectedData([this](const SharedDeviceData& data) {
+            updateConnectionPos(data->id());
+        });
     }
+}
+
+void Diagram::moveItemsBy(const QHash<DeviceId, QPointF>& deltas)
+{
+    devices_.moveBy(deltas);
+
+    for (auto kv : deltas.asKeyValueRange())
+        updateConnectionPos(kv.first);
 }
 
 void Diagram::clearClipBuffer()
@@ -1301,31 +1272,6 @@ QJsonValue Diagram::appInfoJson() const
     obj[JSON_KEY_FORMAT_VERSION] = app_file_format_version();
 
     return obj;
-}
-
-Connection* Diagram::findConnectionByXlet(const XletInfo& xi) const
-{
-    for (auto c : connections()) {
-        if (xi == c->sourceInfo() || xi == c->destinationInfo())
-            return c;
-    }
-
-    return nullptr;
-}
-
-QList<ConnectionData> Diagram::findDeviceConnections(DeviceId id) const
-{
-    QList<ConnectionData> res;
-
-    for (auto x : items()) {
-        auto conn = qgraphicsitem_cast<Connection*>(x);
-        if (conn) {
-            if (conn->relatesToDevice(id))
-                res.push_back(conn->connectionData());
-        }
-    }
-
-    return res;
 }
 
 QSet<ConnectionData> Diagram::findSelectedConnections() const

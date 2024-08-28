@@ -540,7 +540,7 @@ void MainWindow::onDeviceUpdate(SharedDeviceData data)
 
 void MainWindow::onConnectionAdd(ConnectionData data)
 {
-    auto conn_info = diagram_->devices().find(data);
+    auto conn_info = diagram_->devices().connectionInfo(data);
     if (conn_info) {
         if(!conn_info->src_data || !conn_info->dest_data)
             return;

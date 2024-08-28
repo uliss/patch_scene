@@ -74,6 +74,81 @@ bool SceneConnections::remove(const XletInfo& xlet)
     return false;
 }
 
+bool SceneConnections::removeAll(DeviceId id)
+{
+    auto dev_it = conn_dev_.find(id);
+    if (dev_it != conn_dev_.end()) {
+        // NB: QList copy! to prevent conn_dev_ iterator invalidations
+        const auto connections = dev_it.value();
+        for (auto conn : connections)
+            removeConnection(conn);
+
+        return true;
+    } else
+        return false;
+}
+
+void SceneConnections::foreachData(std::function<void(const ConnectionData&)> fn) const
+{
+    if (!fn)
+        return;
+
+    for (auto c : conn_)
+        fn(c->connectionData());
+}
+
+QList<Connection*> SceneConnections::findConnections(DeviceId id) const
+{
+    auto dev_it = conn_dev_.find(id);
+    if (dev_it != conn_dev_.end()) {
+        return dev_it.value();
+    } else
+        return {};
+}
+
+QList<ConnectionData> SceneConnections::findConnectionsData(DeviceId id) const
+{
+    auto dev_it = conn_dev_.find(id);
+    if (dev_it != conn_dev_.end()) {
+        QList<ConnectionData> res;
+        res.reserve(dev_it.value().size());
+
+        for (auto c : dev_it.value()) {
+            res.append(c->connectionData());
+        }
+
+        return res;
+    } else
+        return {};
+}
+
+std::optional<ConnectionData> SceneConnections::findConnection(const XletInfo& xlet) const
+{
+    switch (xlet.type()) {
+    case XletType::In: {
+        auto dest_it = conn_dest_.find(xlet);
+        if (dest_it != conn_dest_.end())
+            return dest_it.value()->connectionData();
+    } break;
+    case XletType::Out: {
+        auto src_it = conn_src_.find(xlet);
+        if (src_it != conn_src_.end())
+            return src_it.value()->connectionData();
+    } break;
+    case XletType::None:
+    default:
+        break;
+    }
+
+    return {};
+}
+
+void SceneConnections::setVisible(bool value)
+{
+    for (auto c : conn_)
+        c->setVisible(value);
+}
+
 void SceneConnections::setScene(QGraphicsScene* scene)
 {
     scene_ = scene;
@@ -101,6 +176,8 @@ bool SceneConnections::addConnection(Connection* c)
 
     conn_src_[c->sourceInfo()] = c;
     conn_dest_[c->destinationInfo()] = c;
+    conn_dev_[c->sourceInfo().id()] << c;
+    conn_dev_[c->destinationInfo().id()] << c;
     return true;
 }
 
@@ -113,6 +190,15 @@ bool SceneConnections::removeConnection(Connection* c)
     conn_.erase(c);
     conn_src_.remove(c->sourceInfo());
     conn_dest_.remove(c->destinationInfo());
+
+    auto src_it = conn_dev_.find(c->sourceInfo().id());
+    if (src_it != conn_dev_.end())
+        src_it.value().removeAll(c);
+
+    auto dest_it = conn_dev_.find(c->destinationInfo().id());
+    if (dest_it != conn_dev_.end())
+        dest_it.value().removeAll(c);
+
     delete c;
 
     return true;

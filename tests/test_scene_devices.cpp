@@ -210,29 +210,35 @@ void TestSceneDevices::boundingRect()
 void TestSceneDevices::findConnectionInfo()
 {
     SceneDevices dev;
-    auto info = dev.find(ConnectionData { 100, 0, 101, 0 });
+    auto info = dev.connectionInfo(ConnectionData { 100, 0, 101, 0 });
     QVERIFY(!info);
 
     QGraphicsScene scene;
     dev.setScene(&scene);
 
-    info = dev.find(ConnectionData { 100, 0, 101, 0 });
+    info = dev.connectionInfo(ConnectionData { 100, 0, 101, 0 });
     QVERIFY(!info);
 
     QVERIFY(dev.add(data4(100)));
-    info = dev.find(ConnectionData { 100, 0, 101, 0 });
+    info = dev.connectionInfo(ConnectionData { 100, 0, 101, 0 });
     QVERIFY(!info);
 
     QVERIFY(dev.add(data4(101)));
-    info = dev.find(ConnectionData { 100, 0, 101, 0 });
+    info = dev.connectionInfo(ConnectionData { 100, 0, 101, 0 });
     QVERIFY(info);
     QCOMPARE(info->src_data->id(), 100);
     QCOMPARE(info->dest_data->id(), 101);
 
-    info = dev.find(ConnectionData { 101, 0, 100, 0 });
+    info = dev.connectionInfo(ConnectionData { 101, 0, 100, 0 });
     QVERIFY(info);
     QCOMPARE(info->src_data->id(), 101);
     QCOMPARE(info->dest_data->id(), 100);
+}
+
+void TestSceneDevices::checkConnection()
+{
+    SceneDevices dev;
+    QVERIFY(!dev.checkConnection({ 0, 0, 0, 0 }));
 }
 
 static TestSceneDevices test_scene_devices;

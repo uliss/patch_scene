@@ -14,6 +14,7 @@
 #ifndef UNDO_COMMANDS_H
 #define UNDO_COMMANDS_H
 
+#include <QHash>
 #include <QPointF>
 #include <QUndoCommand>
 
@@ -164,17 +165,17 @@ private:
 
 class MoveByDevices : public QUndoCommand {
 public:
-    MoveByDevices(Diagram* doc, const QMap<DeviceId, QPointF>& deltas);
+    MoveByDevices(Diagram* doc, const QHash<DeviceId, QPointF>& deltas);
 
     void undo() final;
     void redo() final;
 
 private:
-    static QMap<DeviceId, QPointF> negate(const QMap<DeviceId, QPointF>& map);
+    static QHash<DeviceId, QPointF> negate(const QHash<DeviceId, QPointF>& map);
 
 private:
     Diagram* doc_;
-    QMap<DeviceId, QPointF> deltas_;
+    QHash<DeviceId, QPointF> deltas_;
 };
 
 class CopySelected : public QUndoCommand {

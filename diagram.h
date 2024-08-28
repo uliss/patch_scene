@@ -41,13 +41,6 @@ public:
 public:
     explicit Diagram(int w, int h, QWidget* parent = nullptr);
 
-    Connection* findConnectionByXlet(const XletInfo& xi) const;
-
-    /**
-     * Returns list of all device connections (in/out)
-     */
-    QList<ConnectionData> findDeviceConnections(DeviceId id) const;
-
     /**
      * Return set of all connections of all selected devices
      */
@@ -115,6 +108,15 @@ public:
      */
     void setMeta(const DiagramMeta& meta) { meta_ = meta; }
 
+    /**
+     * move specified items by different deltas (when align, for example)
+     * @param deltas
+     */
+    void moveItemsBy(const QHash<DeviceId, QPointF>& deltas);
+
+    /**
+     * move selected items by specified same delta
+     */
     void moveSelectedItemsBy(qreal dx, qreal dy);
 
     /**
@@ -131,7 +133,8 @@ public:
      */
     bool disconnectDevices(const ConnectionData& data);
 
-    QList<Connection*> connections() const;
+    SceneConnections& connections() { return connections_; }
+    const SceneConnections& connections() const { return connections_; }
 
     SceneDevices& devices() { return devices_; }
 
@@ -175,7 +178,6 @@ public slots:
     void redo();
     void setGridVisible(bool value);
     void undo();
-    void updateConnectionsPos();
     void zoomIn();
     void zoomNormal();
     void zoomOut();
@@ -211,10 +213,18 @@ protected:
     void wheelEvent(QWheelEvent* event) final;
 
 private:
-    bool addConnection(Connection* conn);
+    /**
+     * @complexity O(1)
+     */
+    void updateConnectionPos(Connection* conn);
+
+    /**
+     * @complexity O(n)
+     */
+    void updateConnectionPos(DeviceId id);
+
     void saveClickPos(const QPoint& pos);
     void clearAll();
-    void removeDeviceConnections(DeviceId id);
 
 #ifdef __MACH__
     bool viewportEvent(QEvent* event) override;
