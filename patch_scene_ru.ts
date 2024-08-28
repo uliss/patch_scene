@@ -671,32 +671,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="881"/>
+        <location filename="mainwindow.ui" line="885"/>
         <source>Grid</source>
         <translation>Сетка</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="884"/>
+        <location filename="mainwindow.ui" line="888"/>
         <source>Show Grid</source>
         <translation>Показать сетку</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="892"/>
+        <location filename="mainwindow.ui" line="896"/>
         <source>Zoom Fit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="895"/>
+        <location filename="mainwindow.ui" line="899"/>
         <source>Ctrl+Shift+0</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="900"/>
+        <location filename="mainwindow.ui" line="904"/>
         <source>Export Scheme to SVG</source>
         <translation>Экспорт схемы в SVG</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="905"/>
+        <location filename="mainwindow.ui" line="909"/>
         <source>Export Scheme to PDF</source>
         <translation>Экспорт схемы в PDF</translation>
     </message>
@@ -1189,24 +1189,34 @@ http://ceam.space</source>
 <context>
     <name>ceam::Device</name>
     <message>
-        <location filename="device.cpp" line="312"/>
+        <location filename="device.cpp" line="313"/>
         <source>Duplicate</source>
         <translation>Дублировать</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="316"/>
+        <location filename="device.cpp" line="317"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="320"/>
+        <location filename="device.cpp" line="321"/>
         <source>Add to favorites</source>
         <translation>Добавить в избранное</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="324"/>
+        <location filename="device.cpp" line="325"/>
         <source>Properties</source>
         <translation>Свойства</translation>
+    </message>
+    <message>
+        <location filename="device.cpp" line="340"/>
+        <source>Align horizontal</source>
+        <translation>Выровнять по горизонтали</translation>
+    </message>
+    <message>
+        <location filename="device.cpp" line="344"/>
+        <source>Align vertical</source>
+        <translation>Выровнять по вертикали</translation>
     </message>
 </context>
 <context>
@@ -1317,19 +1327,29 @@ http://ceam.space</source>
         <translation type="vanished">Выровнять по горизонтали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="798"/>
+        <location filename="diagram.cpp" line="801"/>
         <source>&amp;Add device</source>
         <translation>&amp;Добавить элемент</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="806"/>
+        <location filename="diagram.cpp" line="809"/>
         <source>&amp;Clear background</source>
         <translation>&amp;Удалить фоновое изображение</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="812"/>
+        <location filename="diagram.cpp" line="815"/>
         <source>&amp;Set background</source>
         <translation>&amp;Установить фоновое изображение</translation>
+    </message>
+    <message>
+        <location filename="diagram.cpp" line="825"/>
+        <source>Align &amp;horizontal</source>
+        <translation>Выровнять по &amp;горизонтали</translation>
+    </message>
+    <message>
+        <location filename="diagram.cpp" line="829"/>
+        <source>Align &amp;vertical</source>
+        <translation>Выровнять по &amp;вертикали</translation>
     </message>
 </context>
 <context>
