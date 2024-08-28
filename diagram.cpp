@@ -1071,32 +1071,19 @@ std::pair<QByteArray, QSize> Diagram::toSvg() const
     QSvgGenerator svg_gen;
     svg_gen.setOutputDevice(&buf);
 
-    QSignalBlocker db(scene_);
+    auto items_bbox = scene_->itemsBoundingRect().toRect();
 
-    auto box = scene_->itemsBoundingRect().toRect();
-    auto old_rect = scene_->sceneRect();
-
-    svg_gen.setSize(box.size());
-    svg_gen.setViewBox(QRect { 0, 0, box.width(), box.height() });
+    svg_gen.setSize(items_bbox.size());
+    svg_gen.setViewBox(QRect { 0, 0, items_bbox.width(), items_bbox.height() });
     svg_gen.setTitle("PatchScheme connection diagram");
     svg_gen.setResolution(72);
     svg_gen.setDescription(QString("create with PatchScene v%1").arg(app_version()));
 
     QPainter painter(&svg_gen);
-
-    scene_->setSceneRect(box);
-    for (auto x : scene_->items())
-        x->setCacheMode(QGraphicsItem::NoCache);
-
-    scene_->render(&painter);
+    scene_->renderDiagram(&painter, items_bbox);
     painter.end();
 
-    for (auto x : scene_->items())
-        x->setCacheMode(QGraphicsItem::DeviceCoordinateCache);
-
-    scene_->setSceneRect(old_rect);
-
-    return { buf.data(), box.size() };
+    return { buf.data(), items_bbox.size() };
 }
 
 bool Diagram::gridVisible() const

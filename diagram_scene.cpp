@@ -82,4 +82,25 @@ void DiagramScene::setGridVisible(bool value)
         grid_->setVisible(value);
 }
 
+void DiagramScene::setCacheMode(QGraphicsItem::CacheMode mode)
+{
+    for (auto x : items())
+        x->setCacheMode(mode);
+}
+
+void DiagramScene::renderDiagram(QPainter* painter, const QRect& rect)
+{
+    QSignalBlocker db(this);
+
+    auto old_rect = sceneRect();
+
+    setSceneRect(rect);
+    setCacheMode(QGraphicsItem::NoCache);
+
+    render(painter);
+
+    setCacheMode(QGraphicsItem::DeviceCoordinateCache);
+    setSceneRect(old_rect);
+}
+
 } // namespace ceam

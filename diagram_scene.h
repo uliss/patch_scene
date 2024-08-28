@@ -14,6 +14,7 @@
 #ifndef DIAGRAM_SCENE_H
 #define DIAGRAM_SCENE_H
 
+#include <QGraphicsItem>
 #include <QGraphicsScene>
 
 class QGraphicsItemGroup;
@@ -29,6 +30,10 @@ public:
 
     bool gridVisible() const;
     void setGridVisible(bool value);
+
+    void setCacheMode(QGraphicsItem::CacheMode mode);
+
+    void renderDiagram(QPainter* painter, const QRect& rect);
 
 private:
     QGraphicsItemGroup* grid_ { nullptr };
