@@ -100,6 +100,8 @@ set(PROJECT_SOURCES
     scene_devices.cpp
     send_item_model.h
     send_item_model.cpp
+    svg_render_factory.h
+    svg_render_factory.cpp
     socket.h
     socket.cpp
     table_cell_power.h
