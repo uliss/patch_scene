@@ -101,6 +101,8 @@
      </property>
      <addaction name="actionExportToOdf"/>
      <addaction name="actionExportToPdf"/>
+     <addaction name="actionExportSchemeToSvg"/>
+     <addaction name="actionExportSchemeToPdf"/>
     </widget>
     <addaction name="actionOpen"/>
     <addaction name="menuRecentFiles"/>
@@ -891,6 +893,16 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+0</string>
+   </property>
+  </action>
+  <action name="actionExportSchemeToSvg">
+   <property name="text">
+    <string>Export Scheme to SVG</string>
+   </property>
+  </action>
+  <action name="actionExportSchemeToPdf">
+   <property name="text">
+    <string>Export Scheme to PDF</string>
    </property>
   </action>
  </widget>
