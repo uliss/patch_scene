@@ -89,9 +89,6 @@ public:
 
     void setConnectPoint(const QPointF& pos);
 
-signals:
-    void xletDataChanged();
-
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) final;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) final;
