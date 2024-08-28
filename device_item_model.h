@@ -32,6 +32,8 @@ public:
     bool removeDevice(const SharedDeviceData& data);
     void clearItems();
 
+    void setDeviceData(const QList<SharedDeviceData>& data);
+
     QStandardItem* deviceTitle(int idx);
     QStandardItem* deviceVendor(int idx);
     QStandardItem* deviceModel(int idx);

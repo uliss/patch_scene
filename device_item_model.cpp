@@ -82,6 +82,22 @@ void DeviceItemModel::clearItems()
     removeRows(0, rowCount());
 }
 
+void DeviceItemModel::setDeviceData(const QList<SharedDeviceData>& data)
+{
+    beginResetModel();
+
+    {
+        QSignalBlocker sb(this);
+
+        removeRows(0, rowCount());
+
+        for (auto& dev_data : data)
+            addDevice(dev_data);
+    }
+
+    endResetModel();
+}
+
 QStandardItem* DeviceItemModel::deviceTitle(int idx)
 {
     return item(idx, COL_DEV_TITLE);
