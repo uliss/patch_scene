@@ -200,6 +200,7 @@ signals:
     void requestBackgroundChange();
     void sceneChanged(); // for document changes
     void sceneClearAll();
+    void sceneFullUpdate();
     void showBackgroundChanged(bool);
     void showCablesChanged(bool);
     void zoomChanged(qreal);
