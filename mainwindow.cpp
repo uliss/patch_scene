@@ -28,6 +28,7 @@
 #include <QJsonObject>
 #include <QMessageBox>
 #include <QMimeData>
+#include <QPrintDialog>
 #include <QPrinter>
 #include <QSettings>
 #include <QStandardItemModel>
@@ -207,7 +208,7 @@ void MainWindow::initActions()
     connect(ui->actionDuplicate, SIGNAL(triggered()), this, SLOT(duplicateSelection()));
     connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(openDocument()));
     connect(ui->actionPreferences, SIGNAL(triggered(bool)), this, SLOT(showPreferences()));
-    connect(ui->actionPrint, SIGNAL(triggered()), this, SLOT(printScheme()));
+    connect(ui->actionPrint, SIGNAL(triggered()), this, SLOT(printDocument()));
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
     connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(saveDocument()));
     connect(ui->actionSaveAs, SIGNAL(triggered()), this, SLOT(saveDocumentAs()));
@@ -542,7 +543,7 @@ void MainWindow::onConnectionAdd(ConnectionData data)
 {
     auto conn_info = diagram_->devices().connectionInfo(data);
     if (conn_info) {
-        if(!conn_info->src_data || !conn_info->dest_data)
+        if (!conn_info->src_data || !conn_info->dest_data)
             return;
 
         if (conn_model_->addConnection(data, conn_info->src_data, conn_info->src_out, conn_info->dest_data, conn_info->dest_in))
@@ -871,9 +872,13 @@ void MainWindow::readPositionSettings()
     settings_.readWindowPos(this);
 }
 
-void MainWindow::printScheme()
+void MainWindow::printDocument()
 {
-    diagram_->printScheme();
+    QPrinter printer;
+    if (QPrintDialog(&printer).exec() == QDialog::Accepted) {
+        auto doc = exportToDocument(printer.pageRect(QPrinter::Point).size());
+        doc->print(&printer);
+    }
 }
 
 void MainWindow::selectAll()

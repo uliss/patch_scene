@@ -63,7 +63,7 @@ public slots:
     void exportToPdf();
     void importFavorites();
     void openDocument();
-    void printScheme();
+    void printDocument();
     void selectAll();
     void setBackground();
     void showAbout();
