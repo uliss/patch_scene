@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include "device_xlet.h"
 #include "device.h"
+#include "svg_render_factory.h"
 
 #include <QContextMenuEvent>
 #include <QGraphicsSceneContextMenuEvent>
@@ -122,9 +123,11 @@ DeviceXlet::DeviceXlet(const XletData& data, XletType type, QGraphicsItem* paren
     : QGraphicsObject(parentItem)
     , data_ { data }
     , type_ { type }
-    , icon_(new QGraphicsSvgItem(data_.iconPath(), this))
+    , icon_(new QGraphicsSvgItem(this))
 {
     icon_->setPos((XLET_W - ICON_W) * 0.5, 2);
+    icon_->setSharedRenderer(SvgRenderFactory::instance().getRender(data_.iconPath()));
+
     if (data.isPlug() && type == XletType::In)
         icon_->setTransform(QTransform().scale(1, -1).translate(0, -ICON_H));
 

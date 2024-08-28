@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include "device.h"
 #include "deviceproperties.h"
+#include "svg_render_factory.h"
 
 #include <QCursor>
 #include <QGraphicsScene>
@@ -447,7 +448,8 @@ void Device::createImage(qreal wd)
     clearImage();
 
     if (!data_->image().isEmpty()) {
-        image_ = new QGraphicsSvgItem(data_->imageIconPath(), this);
+        image_ = new QGraphicsSvgItem(this);
+        image_->setSharedRenderer(SvgRenderFactory::instance().getRender(data_->imageIconPath()));
         image_->setScale(data_->zoom());
     }
 }
