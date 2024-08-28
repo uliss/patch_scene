@@ -22,6 +22,8 @@ class QPrinter;
 
 namespace ceam {
 
+class ConnectionData;
+
 class DiagramScene : public QGraphicsScene {
     Q_OBJECT
 public:
@@ -40,6 +42,9 @@ public:
 
     QRectF bestFitRect();
     QGraphicsItemGroup* grid() { return grid_; }
+
+signals:
+    void removeConnection(const ConnectionData&);
 
 private:
     QGraphicsItemGroup* grid_ { nullptr };
