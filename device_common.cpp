@@ -131,12 +131,20 @@ size_t DeviceData::visOutputCount() const
 
 bool DeviceData::hasVisInputs() const
 {
-    return visInputCount() > 0;
+    for (auto& x : inputs_)
+        if (x.isVisible())
+            return true;
+
+    return false;
 }
 
 bool DeviceData::hasVisOutputs() const
 {
-    return visOutputCount() > 0;
+    for (auto& x : outputs_)
+        if (x.isVisible())
+            return true;
+
+    return false;
 }
 
 bool DeviceData::showInDeviceCategory() const
