@@ -57,8 +57,6 @@ public:
 };
 }
 
-using namespace ceam;
-
 void Diagram::initUndoStack()
 {
     undo_stack_ = new QUndoStack(this);
@@ -84,6 +82,7 @@ Diagram::Diagram(int w, int h, QWidget* parent)
     setRenderHint(QPainter::Antialiasing);
 
     initScene(w, h);
+    initSceneConnections();
 
     initLiveConnection();
     initSelectionRect();
@@ -109,16 +108,23 @@ void Diagram::initLiveConnection()
     scene_->addItem(tmp_connection_);
 }
 
+void Diagram::initSceneConnections()
+{
+    connections_.setScene(scene_);
+    connect(&connections_, SIGNAL(added(ConnectionData)), this, SIGNAL(connectionAdded(ConnectionData)));
+    connect(&connections_, SIGNAL(removed(ConnectionData)), this, SIGNAL(connectionRemoved(ConnectionData)));
+}
+
 void Diagram::initScene(int w, int h)
 {
     scene_ = new DiagramScene(w, h, this);
+    connect(scene_, SIGNAL(removeConnection(ConnectionData)), this, SLOT(cmdDisconnectDevices(ConnectionData)));
     setScene(scene_);
 
     // NB: should be called after setScene(scene_)!
     scene_->initGrid();
 
     devices_.setScene(scene_);
-    connections_.setScene(scene_);
 }
 
 bool Diagram::removeDevice(DeviceId id)
@@ -193,6 +199,11 @@ void Diagram::cmdConnectDevices(const ConnectionData& conn)
 {
     auto x = new ConnectDevices(this, conn);
     undo_stack_->push(x);
+}
+
+void Diagram::cmdDisconnectDevices(const ConnectionData& conn)
+{
+    cmdDisconnectXlet(conn.sourceInfo());
 }
 
 void Diagram::cmdDuplicateDevice(const SharedDeviceData& data)
@@ -571,6 +582,8 @@ void Diagram::printScheme() const
 void Diagram::clearAll()
 {
     devices_.clear();
+
+    QSignalBlocker conn_block(&connections_);
     connections_.clear();
 
     if (background_) {
@@ -979,7 +992,6 @@ bool Diagram::connectDevices(const ConnectionData& data)
     if (conn) {
         updateConnectionPos(conn);
         emit sceneChanged();
-        emit connectionAdded(data);
         return true;
     } else
         return false;
@@ -989,7 +1001,6 @@ bool Diagram::disconnectDevices(const ConnectionData& data)
 {
     if (connections_.remove(data.sourceInfo())) {
         emit sceneChanged();
-        emit connectionRemoved(data);
         return true;
     } else
         return false;

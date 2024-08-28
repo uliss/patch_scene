@@ -165,6 +165,7 @@ public slots:
     void cmdSelectUnique(DeviceId id);
     void cmdToggleDevices(const QList<QGraphicsItem*>& items);
     void cmdConnectDevices(const ConnectionData& conn);
+    void cmdDisconnectDevices(const ConnectionData& conn);
     void cmdDisconnectXlet(const XletInfo& xi);
     void cmdMoveSelectedDevicesBy(qreal dx, qreal dy);
     void cmdMoveSelectedDevicesFrom(const QPointF& from, const QPointF& to);
@@ -266,6 +267,7 @@ private:
     void initSelectionRect();
     void initLiveConnection();
     void initScene(int w, int h);
+    void initSceneConnections();
 
     /**
      * @param pos - position in view coordinates
