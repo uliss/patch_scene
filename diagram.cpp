@@ -629,14 +629,7 @@ void Diagram::printScheme() const
 void Diagram::clearAll()
 {
     devices_.clear();
-
-    for (auto x : items()) {
-        auto conn = qgraphicsitem_cast<Connection*>(x);
-        if (conn) {
-            delete conn;
-            continue;
-        }
-    }
+    connections_.clear();
 
     if (background_) {
         delete background_;

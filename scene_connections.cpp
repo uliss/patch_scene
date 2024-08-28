@@ -159,6 +159,19 @@ size_t SceneConnections::count() const
     return conn_.size();
 }
 
+void SceneConnections::clear()
+{
+    for (auto c : conn_) {
+        scene_->removeItem(c);
+        delete c;
+    }
+
+    conn_.clear();
+    conn_src_.clear();
+    conn_dest_.clear();
+    conn_dev_.clear();
+}
+
 bool SceneConnections::addConnection(Connection* c)
 {
     if (!c || !scene_)

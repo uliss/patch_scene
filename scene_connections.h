@@ -65,6 +65,8 @@ public:
     void setScene(QGraphicsScene* scene);
     size_t count() const;
 
+    void clear();
+
 private:
     bool addConnection(Connection* c);
     bool removeConnection(Connection* c);
