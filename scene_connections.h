@@ -89,6 +89,14 @@ public:
     std::optional<ConnectionData> findConnection(const XletInfo& xlet) const;
 
     /**
+     * check if specified xlets can be connected
+     * @param x0
+     * @param x1
+     * @return
+     */
+    bool checkConnection(const XletInfo& x0, const XletInfo& x1) const;
+
+    /**
      * Set connection visible
      * @complexity O(n)
      * @emit visibleChanged()

@@ -205,4 +205,29 @@ void TestSceneConnections::setVisible()
     QCOMPARE(sig_spy.takeLast().at(0).toBool(), true);
 }
 
+void TestSceneConnections::checkConnection()
+{
+    SceneConnections sc;
+    QGraphicsScene scene;
+    sc.setScene(&scene);
+
+    QVERIFY(sc.add(ConnectionData { 100, 0, 101, 0 }));
+    QVERIFY(sc.add(ConnectionData { 100, 1, 101, 1 }));
+
+    // self connect
+    QVERIFY(!sc.checkConnection(XletInfo(100, 0, XletType::In), XletInfo(100, 0, XletType::Out)));
+    // in to in
+    QVERIFY(!sc.checkConnection(XletInfo(100, 0, XletType::In), XletInfo(101, 0, XletType::In)));
+    QVERIFY(!sc.checkConnection(XletInfo(100, 0, XletType::Out), XletInfo(101, 0, XletType::Out)));
+
+    QVERIFY(!sc.checkConnection(XletInfo(100, 0, XletType::Out), XletInfo(101, 0, XletType::In)));
+    QVERIFY(!sc.checkConnection(XletInfo(101, 0, XletType::In), XletInfo(100, 0, XletType::Out)));
+
+    QVERIFY(!sc.checkConnection(XletInfo(100, 0, XletType::None), XletInfo(101, 0, XletType::In)));
+    QVERIFY(!sc.checkConnection(XletInfo(100, 0, XletType::Out), XletInfo(101, 0, XletType::None)));
+
+    QVERIFY(sc.checkConnection(XletInfo(100, 2, XletType::Out), XletInfo(101, 2, XletType::In)));
+    QVERIFY(sc.checkConnection(XletInfo(101, 2, XletType::In), XletInfo(100, 2, XletType::Out)));
+}
+
 static TestSceneConnections test_scene_connections;

@@ -1119,31 +1119,7 @@ void Diagram::updateZoom(qreal zoom)
 
 bool Diagram::isValidConnection(const XletInfo& src, const XletInfo& dest) const
 {
-    if (src.id() == dest.id()) {
-        qWarning() << "self connection attempt";
-        return false;
-    }
-
-    if (src.type() == dest.type()) {
-        qWarning() << "same xlet type connection attempt";
-        return false;
-    }
-
-    auto data = (src.type() == XletType::Out)
-        ? ConnectionData(src.id(), src.index(), dest.id(), dest.index())
-        : ConnectionData(dest.id(), dest.index(), src.id(), src.index());
-
-    if (connections_.findConnection(data.sourceInfo())) {
-        qWarning() << "already connected from this source";
-        return false;
-    }
-
-    if (connections_.findConnection(data.destinationInfo())) {
-        qWarning() << "already connected to this destination";
-        return false;
-    }
-
-    return true;
+    return connections_.checkConnection(src, dest);
 }
 
 bool Diagram::dropJson(const QPointF& pos, const QByteArray& json)

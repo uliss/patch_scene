@@ -27,6 +27,7 @@ private slots:
     void findConnection();
     void findConnections();
     void setVisible();
+    void checkConnection();
 };
 
 #endif // TEST_SCENE_CONNECTIONS_H
