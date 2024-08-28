@@ -28,6 +28,7 @@ set(PROJECT_SOURCES
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
+    resources/patch_scene_resources.qrc
     about_window.h about_window.cpp about_window.ui
     app_settings.h app_settings.cpp
     app_version.h app_version.cpp

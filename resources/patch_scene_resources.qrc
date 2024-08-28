@@ -155,5 +155,6 @@
         <file>devices/human_drummer_1.svg</file>
         <file>connectors/conn_plug.svg</file>
         <file>connectors/conn_socket.svg</file>
+        <file>icons/grid_on.svg</file>
     </qresource>
 </RCC>

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>650</width>
-    <height>682</height>
+    <height>694</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -549,7 +549,7 @@
   </action>
   <action name="actionZoomIn">
    <property name="icon">
-    <iconset theme="zoom-in">
+    <iconset theme="zoom-in" resource="resources/patch_scene_resources.qrc">
      <normaloff>:/icons/zoom_in_02.svg</normaloff>:/icons/zoom_in_02.svg</iconset>
    </property>
    <property name="text">
@@ -564,7 +564,7 @@
   </action>
   <action name="actionZoomOut">
    <property name="icon">
-    <iconset theme="zoom-out">
+    <iconset theme="zoom-out" resource="resources/patch_scene_resources.qrc">
      <normaloff>:/icons/zoom_out_02.svg</normaloff>:/icons/zoom_out_02.svg</iconset>
    </property>
    <property name="text">
@@ -686,7 +686,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset theme="undo">
+    <iconset theme="undo" resource="resources/patch_scene_resources.qrc">
      <normaloff>:/icons/undo.svg</normaloff>:/icons/undo.svg</iconset>
    </property>
    <property name="text">
@@ -701,7 +701,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset theme="redo">
+    <iconset theme="redo" resource="resources/patch_scene_resources.qrc">
      <normaloff>:/icons/redo.svg</normaloff>:/icons/redo.svg</iconset>
    </property>
    <property name="text">
@@ -762,7 +762,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="resources/patch_scene_resources.qrc">
      <normaloff>:/icons/cable.svg</normaloff>:/icons/cable.svg</iconset>
    </property>
    <property name="text">
@@ -799,7 +799,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset theme="image-x-generic">
+    <iconset theme="image-x-generic" resource="resources/patch_scene_resources.qrc">
      <normaloff>:/icons/image.svg</normaloff>:/icons/image.svg</iconset>
    </property>
    <property name="text">
@@ -814,7 +814,7 @@
   </action>
   <action name="actionProjectInfo">
    <property name="icon">
-    <iconset theme="document-properties">
+    <iconset theme="document-properties" resource="resources/patch_scene_resources.qrc">
      <normaloff>:/icons/info.svg</normaloff>:/icons/info.svg</iconset>
    </property>
    <property name="text">
@@ -877,6 +877,10 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset resource="resources/patch_scene_resources.qrc">
+     <normaloff>:/icons/grid_on.svg</normaloff>:/icons/grid_on.svg</iconset>
+   </property>
    <property name="text">
     <string>Grid</string>
    </property>
@@ -906,6 +910,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources/patch_scene_resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
