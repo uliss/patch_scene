@@ -20,6 +20,8 @@
 
 using namespace ceam;
 
+#define WARN() qWarning() << metaObject()->className() << __FUNCTION__
+
 SceneDevices::SceneDevices()
     : scene_(nullptr)
 {
@@ -51,7 +53,7 @@ Device* SceneDevices::add(const SharedDeviceData& data)
     auto id = dev->id();
     auto it = devices_.find(id);
     if (devices_.find(id) != devices_.end()) {
-        qWarning() << "device already with id" << id << "already exists in scene";
+        WARN() << "device already with id" << id << "already exists in scene";
         scene_->removeItem(it->second);
         delete it->second;
         it->second = dev;
@@ -71,7 +73,7 @@ SharedDeviceData SceneDevices::remove(DeviceId id)
 
     auto it = devices_.find(id);
     if (it == devices_.end()) {
-        qWarning() << __FUNCTION__ << "device not found:" << id;
+        WARN() << "device not found:" << id;
         return {};
     }
 
@@ -128,7 +130,7 @@ std::optional<ConnectionFullInfo> SceneDevices::connectionInfo(const ConnectionD
                 res->src_out_idx = conn.sourceOutput();
                 count++;
             } else {
-                qWarning() << "invalid source outlet:" << (int)conn.sourceOutput();
+                WARN() << "invalid source outlet:" << (int)conn.sourceOutput();
             }
         } else if (dev_id == conn.destination()) {
             const auto data = dev->deviceData();
@@ -138,7 +140,7 @@ std::optional<ConnectionFullInfo> SceneDevices::connectionInfo(const ConnectionD
                 res->dest_in_idx = conn.destinationInput();
                 count++;
             } else {
-                qWarning() << "invalid dest inlet:" << (int)conn.destinationInput();
+                WARN() << "invalid dest inlet:" << (int)conn.destinationInput();
             }
         }
     }
@@ -399,6 +401,7 @@ bool SceneDevices::setFromJson(const QJsonValue& v)
 
         return true;
     } else {
+        WARN() << "array expected";
         return false;
     }
 }
