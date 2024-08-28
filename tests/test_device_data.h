@@ -22,6 +22,7 @@ class TestDeviceData : public TestSuite {
 private slots:
     void init();
     void hasVisInputs();
+    void hasVisOutputs();
 };
 
 #endif // TEST_DEVICE_DATA_H
