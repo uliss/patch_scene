@@ -113,6 +113,7 @@ void Diagram::initSceneConnections()
     connections_.setScene(scene_);
     connect(&connections_, SIGNAL(added(ConnectionData)), this, SIGNAL(connectionAdded(ConnectionData)));
     connect(&connections_, SIGNAL(removed(ConnectionData)), this, SIGNAL(connectionRemoved(ConnectionData)));
+    connect(&connections_, SIGNAL(visibleChanged(bool)), this, SIGNAL(showCablesChanged(bool)));
 }
 
 void Diagram::initScene(int w, int h)
@@ -392,7 +393,6 @@ void Diagram::setShowCables(bool value)
 {
     show_cables_ = value;
     connections_.setVisible(value);
-    emit showCablesChanged(value);
 }
 
 void Diagram::setShowBackground(bool value)

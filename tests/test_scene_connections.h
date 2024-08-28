@@ -25,6 +25,7 @@ private slots:
     void clear();
     void removeAll();
     void findConnection();
+    void findConnections();
     void setVisible();
 };
 

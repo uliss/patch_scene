@@ -148,10 +148,33 @@ void TestSceneConnections::findConnection()
     sc.setScene(&scene);
 
     QVERIFY(sc.add(ConnectionData { 0, 0, 1, 0 }));
-    QVERIFY(sc.findConnection(XletInfo::outlet(0, 0)));
-    QVERIFY(sc.findConnection(XletInfo::inlet(1, 0)));
-    QVERIFY(!sc.findConnection(XletInfo::outlet(1, 0)));
-    QVERIFY(!sc.findConnection(XletInfo::inlet(0, 0)));
+    QVERIFY(sc.add(ConnectionData { 0, 1, 1, 1 }));
+    QVERIFY(sc.add(ConnectionData { 0, 2, 1, 2 }));
+    QVERIFY(sc.add(ConnectionData { 2, 0, 0, 3 }));
+    QVERIFY(sc.add(ConnectionData { 3, 1, 1, 3 }));
+    QVERIFY(sc.add(ConnectionData { 3, 2, 1, 4 }));
+    QCOMPARE(sc.count(), 6);
+
+    auto conns = sc.findConnectionsData(0);
+    std::sort(conns.begin(), conns.end(), [](const ConnectionData& a, const ConnectionData& b) {
+        return a.destination() < b.destination();
+    });
+    QCOMPARE(conns.size(), 4);
+    QCOMPARE(conns[0], ConnectionData(2, 0, 0, 3));
+    QCOMPARE(conns[1], ConnectionData(0, 0, 1, 0));
+    QCOMPARE(conns[2], ConnectionData(0, 1, 1, 1));
+    QCOMPARE(conns[3], ConnectionData(0, 2, 1, 2));
+}
+
+void TestSceneConnections::findConnections()
+{
+    SceneConnections sc;
+    QGraphicsScene scene;
+    sc.setScene(&scene);
+
+    QVERIFY(sc.add(ConnectionData { 0, 0, 1, 0 }));
+    QVERIFY(sc.add(ConnectionData { 0, 1, 1, 1 }));
+    QVERIFY(sc.add(ConnectionData { 0, 2, 1, 2 }));
 }
 
 void TestSceneConnections::setVisible()
