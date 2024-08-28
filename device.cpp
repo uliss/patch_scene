@@ -50,22 +50,6 @@ constexpr qreal DEF_IMAGE_WIDTH = 100;
 constexpr DeviceId INIT_ID = 1;
 using DeviceIdMap = std::unordered_map<DeviceId, bool>;
 
-QRectF powerRectInlet(const QPointF& pos, qreal wd = 2)
-{
-    return QRectF(pos.x() - (XLET_W / 2 - (wd * 0.5)),
-        pos.y() + (wd * 0.5),
-        XLET_W - wd,
-        XLET_H - wd);
-}
-
-QRectF powerRectOutlet(const QPointF& pos, qreal wd = 2)
-{
-    return QRectF(pos.x() - (XLET_W / 2 - (wd * 0.5)),
-        pos.y() - (wd * 0.5),
-        XLET_W - wd,
-        -XLET_H - wd);
-}
-
 SharedDeviceData makeDeviceData()
 {
     QSharedDataPointer data(new DeviceData(DEV_NULL_ID));
