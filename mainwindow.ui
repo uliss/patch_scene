@@ -72,6 +72,7 @@
    <addaction name="actionUndo"/>
    <addaction name="actionRedo"/>
    <addaction name="separator"/>
+   <addaction name="actionShowGrid"/>
    <addaction name="actionShowCables"/>
    <addaction name="actionShowBackground"/>
    <addaction name="actionProjectInfo"/>

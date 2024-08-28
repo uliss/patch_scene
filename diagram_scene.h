@@ -18,6 +18,7 @@
 #include <QGraphicsScene>
 
 class QGraphicsItemGroup;
+class QPrinter;
 
 namespace ceam {
 
@@ -33,7 +34,11 @@ public:
 
     void setCacheMode(QGraphicsItem::CacheMode mode);
 
-    void renderDiagram(QPainter* painter, const QRect& rect);
+    void renderDiagram(QPainter* painter, const QRect& rect = {});
+    void printDiagram(QPrinter* printer);
+
+    QRectF bestFitRect();
+    QGraphicsItemGroup* grid() { return grid_; }
 
 private:
     QGraphicsItemGroup* grid_ { nullptr };

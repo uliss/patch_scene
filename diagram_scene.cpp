@@ -14,8 +14,29 @@
 #include "diagram_scene.h"
 
 #include <QGraphicsItemGroup>
+#include <QPainter>
+#include <QPrinter>
 
-namespace ceam {
+using namespace ceam;
+
+namespace {
+struct GridHideShow {
+    DiagramScene* scene { nullptr };
+    QGraphicsItemGroup* grid { nullptr };
+
+    GridHideShow(DiagramScene* sc)
+        : scene(sc)
+    {
+        grid = scene->grid();
+        scene->removeItem(grid);
+    }
+
+    ~GridHideShow()
+    {
+        scene->addItem(grid);
+    }
+};
+}
 
 DiagramScene::DiagramScene(int w, int h, QObject* parent)
     : QGraphicsScene { parent }
@@ -92,15 +113,34 @@ void DiagramScene::renderDiagram(QPainter* painter, const QRect& rect)
 {
     QSignalBlocker db(this);
 
-    auto old_rect = sceneRect();
+    const auto old_rect = sceneRect();
+    const auto new_rect = rect.isNull() ? bestFitRect() : rect;
 
-    setSceneRect(rect);
+    auto selected = selectedItems();
+    clearSelection();
+
+    setSceneRect(new_rect);
     setCacheMode(QGraphicsItem::NoCache);
 
     render(painter);
 
     setCacheMode(QGraphicsItem::DeviceCoordinateCache);
     setSceneRect(old_rect);
+
+    for (auto& x : selected)
+        x->setSelected(true);
 }
 
-} // namespace ceam
+void DiagramScene::printDiagram(QPrinter* printer)
+{
+    QPainter painter(printer);
+    painter.setRenderHint(QPainter::Antialiasing);
+    renderDiagram(&painter);
+    painter.end();
+}
+
+QRectF DiagramScene::bestFitRect()
+{
+    GridHideShow gsh(this);
+    return itemsBoundingRect();
+}

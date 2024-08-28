@@ -570,22 +570,7 @@ void Diagram::printScheme() const
 {
     QPrinter printer;
     if (QPrintDialog(&printer).exec() == QDialog::Accepted) {
-        for (auto x : scene_->items())
-            x->setCacheMode(QGraphicsItem::NoCache);
-
-        QPainter painter(&printer);
-        painter.setRenderHint(QPainter::Antialiasing);
-        // save scene_ rect
-        auto scene_rect = scene_->sceneRect();
-        // update scene rect
-        scene_->setSceneRect(scene_->itemsBoundingRect());
-        // render
-        scene_->render(&painter);
-        // restore scene rect
-        scene_->setSceneRect(scene_rect);
-
-        for (auto x : scene_->items())
-            x->setCacheMode(QGraphicsItem::DeviceCoordinateCache);
+        scene_->printDiagram(&printer);
     }
 }
 
