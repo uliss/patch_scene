@@ -97,7 +97,7 @@ public:
     void setSelected(const QList<DeviceId>& ids, bool value);
     void toggleSelected(const QList<DeviceId>& ids);
 
-    void moveBy(const QHash<DeviceId, QPointF>& deltas);
+    bool moveBy(const QHash<DeviceId, QPointF>& deltas);
 
     /**
      * @complexity O(n)

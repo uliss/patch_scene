@@ -169,14 +169,14 @@ bool SceneDevices::checkConnection(const ConnectionData& conn) const
         return false;
 
     auto src_it = devices_.find(conn.source());
-    if (src_it != devices_.end())
+    if (src_it == devices_.end())
         return false;
 
     if (conn.sourceOutput() >= src_it->second->deviceData()->visOutputCount())
         return false;
 
     auto dest_it = devices_.find(conn.destination());
-    if (dest_it != devices_.end())
+    if (dest_it == devices_.end())
         return false;
 
     if (conn.destinationInput() >= dest_it->second->deviceData()->visInputCount())
@@ -376,13 +376,19 @@ QList<DeviceId> SceneDevices::intersectedList(const QRectF& rect) const
     return res;
 }
 
-void SceneDevices::moveBy(const QHash<DeviceId, QPointF>& deltas)
+bool SceneDevices::moveBy(const QHash<DeviceId, QPointF>& deltas)
 {
+    int count = 0;
+
     for (auto kv : deltas.asKeyValueRange()) {
         auto it = devices_.find(kv.first);
-        if (it != devices_.end())
+        if (it != devices_.end()) {
             it->second->moveBy(kv.second.x(), kv.second.y());
+            count++;
+        }
     }
+
+    return count > 0;
 }
 
 bool SceneDevices::moveSelectedBy(int dx, int dy)
