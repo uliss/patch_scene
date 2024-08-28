@@ -17,37 +17,47 @@
 using namespace ceam;
 
 #include <QGraphicsScene>
+#include <QSignalSpy>
 #include <QTest>
 
 void TestSceneConnections::add()
 {
     SceneConnections sc;
+    QSignalSpy sig_spy(&sc, SIGNAL(added(ConnectionData)));
     QVERIFY(!sc.add(ConnectionData { 0, 0, 0, 0 }));
     QCOMPARE(sc.count(), 0);
+    QCOMPARE(sig_spy.count(), 0);
 
     QGraphicsScene scene;
     sc.setScene(&scene);
 
     QVERIFY(!sc.add(ConnectionData { 0, 0, 0, 0 }));
     QCOMPARE(sc.count(), 0);
+    QCOMPARE(sig_spy.count(), 0);
 
     QVERIFY(sc.add(ConnectionData { 0, 0, 1, 0 }));
     QCOMPARE(sc.count(), 1);
+    QCOMPARE(sig_spy.count(), 1);
 
     QVERIFY(!sc.add(ConnectionData { 0, 0, 1, 0 }));
     QCOMPARE(sc.count(), 1);
+    QCOMPARE(sig_spy.count(), 1);
 
     QVERIFY(!sc.add(ConnectionData { 0, 0, 1, 1 }));
     QCOMPARE(sc.count(), 1);
+    QCOMPARE(sig_spy.count(), 1);
 
     QVERIFY(!sc.add(ConnectionData { 0, 1, 1, 0 }));
     QCOMPARE(sc.count(), 1);
+    QCOMPARE(sig_spy.count(), 1);
 
     QVERIFY(sc.add(ConnectionData { 0, 1, 1, 1 }));
     QCOMPARE(sc.count(), 2);
+    QCOMPARE(sig_spy.count(), 2);
 
     QVERIFY(sc.add(ConnectionData { 1, 0, 0, 0 }));
     QCOMPARE(sc.count(), 3);
+    QCOMPARE(sig_spy.count(), 3);
 }
 
 void TestSceneConnections::remove()

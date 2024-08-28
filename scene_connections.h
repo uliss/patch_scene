@@ -27,12 +27,32 @@ class Connection;
 
 class SceneConnections : public QObject {
     Q_OBJECT
+
 public:
     SceneConnections(QObject* parent = nullptr);
 
+    /**
+     * adds new connection by given data
+     * @param connData - connection data
+     * @return pointer to new Connection on nullptr on error
+     * @emit added()
+     */
     Connection* add(const ConnectionData& connData);
+
+    /**
+     * remove connection from/to specified input/output
+     * @param xlet
+     * @return true if connection was removed
+     * @emit removed()
+     */
     bool remove(const XletInfo& xlet);
-    bool removeAll(DeviceId id);
+
+    /**
+     * remove all connections belonging to the given device id
+     * @param id - target device id
+     * @emit removed()
+     */
+    void removeAll(DeviceId id);
 
     void foreachData(std::function<void(const ConnectionData& data)> fn) const;
 
@@ -62,10 +82,24 @@ public:
      */
     void setVisible(bool value);
 
+    /**
+     * set graphics scene to operate on
+     */
     void setScene(QGraphicsScene* scene);
+
+    /**
+     * returns number of connections
+     */
     size_t count() const;
 
+    /**
+     * @emit removed()
+     */
     void clear();
+
+signals:
+    void added(ConnectionData);
+    void removed(ConnectionData);
 
 private:
     bool addConnection(Connection* c);

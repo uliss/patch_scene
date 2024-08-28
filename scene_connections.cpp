@@ -74,7 +74,7 @@ bool SceneConnections::remove(const XletInfo& xlet)
     return false;
 }
 
-bool SceneConnections::removeAll(DeviceId id)
+void SceneConnections::removeAll(DeviceId id)
 {
     auto dev_it = conn_dev_.find(id);
     if (dev_it != conn_dev_.end()) {
@@ -82,10 +82,7 @@ bool SceneConnections::removeAll(DeviceId id)
         const auto connections = dev_it.value();
         for (auto conn : connections)
             removeConnection(conn);
-
-        return true;
-    } else
-        return false;
+    }
 }
 
 void SceneConnections::foreachData(std::function<void(const ConnectionData&)> fn) const
@@ -163,6 +160,7 @@ void SceneConnections::clear()
 {
     for (auto c : conn_) {
         scene_->removeItem(c);
+        emit removed(c->connectionData());
         delete c;
     }
 
@@ -191,6 +189,9 @@ bool SceneConnections::addConnection(Connection* c)
     conn_dest_[c->destinationInfo()] = c;
     conn_dev_[c->sourceInfo().id()] << c;
     conn_dev_[c->destinationInfo().id()] << c;
+
+    emit added(c->connectionData());
+
     return true;
 }
 
@@ -211,6 +212,8 @@ bool SceneConnections::removeConnection(Connection* c)
     auto dest_it = conn_dev_.find(c->destinationInfo().id());
     if (dest_it != conn_dev_.end())
         dest_it.value().removeAll(c);
+
+    emit removed(c->connectionData());
 
     delete c;
 
