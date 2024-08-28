@@ -20,8 +20,11 @@ class TestSceneDevices : public TestSuite {
     Q_OBJECT
 
 private slots:
+    void initTestCase();
+
     void add();
     void remove();
+    void clear();
     void setSelected();
     void toggleSelected();
     void boundingRect();

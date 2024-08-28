@@ -77,6 +77,8 @@ SharedDeviceData SceneDevices::remove(DeviceId id)
     scene_->removeItem(it->second);
     delete it->second;
     devices_.erase(it);
+
+    emit removed(data);
     return data;
 }
 
@@ -213,6 +215,7 @@ void SceneDevices::clear()
     if (scene_) {
         for (auto& kv : devices_) {
             scene_->removeItem(kv.second);
+            emit removed(kv.second->deviceData());
             delete kv.second;
         }
     }

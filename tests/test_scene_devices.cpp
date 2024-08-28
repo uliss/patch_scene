@@ -71,6 +71,11 @@ QList<T> list(std::initializer_list<T> args) { return QList<T>(args); }
 QList<DeviceId> id_list(std::initializer_list<DeviceId> args) { return list<DeviceId>(args); }
 }
 
+void TestSceneDevices::initTestCase()
+{
+    qRegisterMetaType<SharedDeviceData>();
+}
+
 void TestSceneDevices::add()
 {
     SceneDevices dev;
@@ -129,8 +134,12 @@ void TestSceneDevices::add()
 void TestSceneDevices::remove()
 {
     SceneDevices dev;
+    QSignalSpy sig_spy(&dev, SIGNAL(removed(SharedDeviceData)));
+    QVERIFY(sig_spy.isValid());
+
     QVERIFY(!dev.remove(DEV_NULL_ID));
     QVERIFY(!dev.remove(100));
+    QCOMPARE(sig_spy.count(), 0);
 
     QGraphicsScene scene;
     dev.setScene(&scene);
@@ -145,9 +154,32 @@ void TestSceneDevices::remove()
 
     QVERIFY(dev.remove(100));
     QCOMPARE(dev.idList(), id_list({ 101 }));
+    QCOMPARE(sig_spy.count(), 1);
+    QCOMPARE(qvariant_cast<SharedDeviceData>(sig_spy.at(0).at(0))->id(), 100);
     QVERIFY(dev.remove(101));
     QCOMPARE(dev.idList(), id_list({}));
+    QCOMPARE(sig_spy.count(), 2);
+    QCOMPARE(qvariant_cast<SharedDeviceData>(sig_spy.at(1).at(0))->id(), 101);
     QVERIFY(!dev.remove(102));
+    QCOMPARE(sig_spy.count(), 2);
+}
+
+void TestSceneDevices::clear()
+{
+    SceneDevices dev;
+    QSignalSpy sig_spy(&dev, SIGNAL(removed(SharedDeviceData)));
+    QVERIFY(sig_spy.isValid());
+
+    QGraphicsScene scene;
+    dev.setScene(&scene);
+
+    QVERIFY(dev.add(data1(100)));
+    QVERIFY(dev.add(data1(101)));
+    QVERIFY(dev.add(data1(102)));
+
+    dev.clear();
+
+    QCOMPARE(sig_spy.count(), 3);
 }
 
 void TestSceneDevices::setSelected()

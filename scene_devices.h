@@ -64,9 +64,20 @@ public:
      */
     Device* add(const SharedDeviceData& data);
 
+    /**
+     * remove device from scene
+     * @return removed device data on success or null device data on error
+     * @emit removed(SharedDeviceData)
+     */
     SharedDeviceData remove(DeviceId id);
-    Device* find(DeviceId id);
 
+    /**
+     * remove all devices
+     * @emit removed(SharedDeviceData) for every deleted device
+     */
+    void clear();
+
+    Device* find(DeviceId id);
     const Device* find(DeviceId id) const;
     SharedDeviceData findData(DeviceId id) const;
 
@@ -97,8 +108,6 @@ public:
      * @complexity O(n)
      */
     bool moveSelectedBy(int dx, int dy);
-
-    void clear();
 
     QList<DeviceId> idList() const;
     QList<SharedDeviceData> dataList() const;
