@@ -135,23 +135,10 @@ public:
     XletInfo destinationInfo() const;
     bool relatesToDevice(DeviceId id) const { return data_.relatesToId(id); }
 
-    /**
-     * find connected elements on the graphic scene
-     * @complexity O(n)
-     * @return pair of valid pointers to connected element or null optional
-     */
-    std::optional<std::pair<Device*, Device*>> findConnectedElements() const;
-
-    /**
-     * check if connected elements are exists on the scene
-     * @complexity O(n)
-     * @return true if connected source and destination are exists
-     */
-    bool checkConnectedElements() const;
-
     void setPoints(const QPointF& p0, const QPointF& p1);
 
 protected:
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) final;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
     QPainterPath shape() const override;
 

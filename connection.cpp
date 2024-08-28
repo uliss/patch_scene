@@ -12,10 +12,12 @@
  * this file belongs to.
  *****************************************************************************/
 #include "connection.h"
-#include "device.h"
+#include "diagram_scene.h"
 
 #include <QGraphicsScene>
+#include <QGraphicsSceneContextMenuEvent>
 #include <QJsonObject>
+#include <QMenu>
 #include <QPainter>
 
 namespace {
@@ -101,40 +103,9 @@ XletInfo Connection::destinationInfo() const
     return { data_.destination(), data_.destinationInput(), XletType::In };
 }
 
-std::optional<std::pair<Device*, Device*>> Connection::findConnectedElements() const
-{
-    auto sc = scene();
-    if (!sc)
-        return {};
-
-    Device* src = nullptr;
-    Device* dest = nullptr;
-
-    for (auto it : sc->items()) {
-        auto dev = qgraphicsitem_cast<Device*>(it);
-        if (dev) {
-            if (dev->id() == data_.source()) {
-                src = dev;
-            } else if (dev->id() == data_.destination()) {
-                dest = dev;
-            }
-
-            if (src && dest)
-                return std::pair { src, dest };
-        }
-    }
-
-    return {};
-}
-
 XletInfo Connection::sourceInfo() const
 {
     return { data_.source(), data_.sourceOutput(), XletType::Out };
-}
-
-bool Connection::checkConnectedElements() const
-{
-    return findConnectedElements().has_value();
 }
 
 void Connection::setPoints(const QPointF& p0, const QPointF& p1)
@@ -149,6 +120,22 @@ void Connection::setPoints(const QPointF& p0, const QPointF& p1)
     line_.cubicTo(p0 + QPointF(0, bezy), p1 + QPointF(0, -bezy), p1);
 
     update(boundingRect());
+}
+
+void Connection::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
+{
+    auto dia_scene = qobject_cast<DiagramScene*>(scene());
+    if (!dia_scene)
+        return;
+
+    QMenu menu;
+    auto act = menu.addAction(QAction::tr("Delete"));
+    QAction::connect(act, &QAction::triggered, dia_scene,
+        [this, dia_scene]() {
+            emit dia_scene->removeConnection(data_);
+        });
+    menu.exec(event->screenPos());
+    event->accept();
 }
 
 uint ceam::qHash(const ConnectionData& key)
