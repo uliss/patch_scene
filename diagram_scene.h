@@ -35,6 +35,7 @@ public:
     void setCacheMode(QGraphicsItem::CacheMode mode);
 
     void renderDiagram(QPainter* painter, const QRect& rect = {});
+    QImage renderToImage(qreal scale);
     void printDiagram(QPrinter* printer);
 
     QRectF bestFitRect();

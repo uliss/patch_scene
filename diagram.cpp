@@ -1026,23 +1026,7 @@ void Diagram::setClipBuffer(const QList<SharedDeviceData>& data)
 
 QImage Diagram::toImage() const
 {
-    QImage image(scene_->itemsBoundingRect().size().toSize() * 4, QImage::Format_RGB32);
-    QPainter painter(&image);
-    painter.setRenderHint(QPainter::Antialiasing);
-
-    const QSignalBlocker block(scene_);
-    // save scene_ rect
-    auto scene_rect = scene_->sceneRect();
-    auto brush = scene_->backgroundBrush();
-    // update scene rect
-    scene_->setSceneRect(scene_->itemsBoundingRect());
-    scene_->setBackgroundBrush(Qt::white);
-    // render
-    scene_->render(&painter);
-    // restore scene rect
-    scene_->setSceneRect(scene_rect);
-    scene_->setBackgroundBrush(brush);
-    return image;
+    return scene_->renderToImage(4);
 }
 
 std::pair<QByteArray, QSize> Diagram::toSvg() const

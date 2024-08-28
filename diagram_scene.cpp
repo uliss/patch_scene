@@ -131,6 +131,21 @@ void DiagramScene::renderDiagram(QPainter* painter, const QRect& rect)
         x->setSelected(true);
 }
 
+QImage DiagramScene::renderToImage(qreal scale)
+{
+    auto rect = bestFitRect();
+
+    QImage image(rect.size().toSize() * scale, QImage::Format_RGB32);
+    image.fill(Qt::white);
+
+    QPainter painter(&image);
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    renderDiagram(&painter, rect.toRect());
+    painter.end();
+    return image;
+}
+
 void DiagramScene::printDiagram(QPrinter* printer)
 {
     QPainter painter(printer);
