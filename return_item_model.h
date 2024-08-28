@@ -27,7 +27,7 @@ class ReturnItemModel : public QStandardItemModel {
 public:
     explicit ReturnItemModel(QObject* parent);
 
-    bool addConnection(const ConnectionData& data, const SharedDeviceData& src, const SharedDeviceData& dest);
+    bool addConnection(const ConnectionFullInfo& info);
     bool removeConnection(const ConnectionData& data);
     bool updateDeviceTitle(DeviceId id, const QString& title);
     void clearItems();
@@ -35,6 +35,8 @@ public:
     std::optional<DeviceId> deviceId(const QModelIndex& idx) const;
 
     QSortFilterProxyModel* sortProxy() { return proxy_; }
+
+    void setFullData(const QList<ConnectionFullInfo>& info);
 
 private:
     bool updateDeviceTitle(const QModelIndex& idx, DeviceId id, const QString& title);

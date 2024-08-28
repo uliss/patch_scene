@@ -128,12 +128,15 @@ private:
     QString project_name_;
     QString file_name_;
     QSortFilterProxyModel* library_proxy_;
-    DeviceItemModel* device_model_;
-    ConnectionItemModel* conn_model_;
-    SendItemModel* send_model_;
-    ReturnItemModel* return_model_;
+
+    // models
     BatteryItemModel* battery_model_;
+    ConnectionItemModel* conn_model_;
+    DeviceItemModel* device_model_;
     FurnitureItemModel* furniture_model_;
+    ReturnItemModel* return_model_;
+    SendItemModel* send_model_;
+
     FavoritesWidget* favorites_;
     AppSettings settings_;
     QList<QUrl> recent_files_;

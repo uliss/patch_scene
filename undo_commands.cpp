@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include "undo_commands.h"
 #include "diagram.h"
+#include "diagram_updates_blocker.h"
 
 namespace {
 constexpr int MoveDeviceId = 1000;
@@ -52,14 +53,18 @@ AddDeviceSelection::AddDeviceSelection(Diagram* doc, const QList<DeviceId>& ids)
 
 void AddDeviceSelection::undo()
 {
-    if (doc_)
+    if (doc_) {
+        DiagramUpdatesBlocker ub(doc_);
         doc_->devices().setSelected(ids_, false);
+    }
 }
 
 void AddDeviceSelection::redo()
 {
-    if (doc_)
+    if (doc_) {
+        DiagramUpdatesBlocker ub(doc_);
         doc_->devices().setSelected(ids_, true);
+    }
 }
 
 ConnectDevices::ConnectDevices(Diagram* doc, const ConnectionData& conn)
@@ -169,8 +174,13 @@ void DuplicateSelected::undo()
     if (!doc_)
         return;
 
-    for (auto id : data_)
-        doc_->removeDevice(id);
+    {
+        DiagramUpdatesBlocker ub(doc_);
+        for (auto id : data_)
+            doc_->removeDevice(id);
+    }
+
+    emit doc_->sceneFullUpdate();
 }
 
 void DuplicateSelected::redo()
@@ -178,13 +188,18 @@ void DuplicateSelected::redo()
     if (!doc_)
         return;
 
-    doc_->devices().foreachSelectedData([this](const SharedDeviceData& data) {
-        auto dev = doc_->addDevice(data);
-        if (dev) {
-            dev->moveBy(20, 20);
-            data_.push_back(dev->id());
-        }
-    });
+    {
+        DiagramUpdatesBlocker ub(doc_);
+        doc_->devices().foreachSelectedData([this](const SharedDeviceData& data) {
+            auto dev = doc_->addDevice(data);
+            if (dev) {
+                dev->moveBy(20, 20);
+                data_.push_back(dev->id());
+            }
+        });
+    }
+
+    emit doc_->sceneFullUpdate();
 }
 
 DuplicateDevice::DuplicateDevice(Diagram* doc, const SharedDeviceData& data)

@@ -129,7 +129,7 @@ void MainWindow::initDiagram()
 
     ui->gridLayout->addWidget(diagram_, 1, 1);
 
-    connect(diagram_, &Diagram::sceneChanged, this, [this](bool) { setWindowModified(true); });
+    connect(diagram_, &Diagram::sceneChanged, this, [this]() { setWindowModified(true); });
     connect(diagram_, SIGNAL(deviceAdded(SharedDeviceData)), this, SLOT(onDeviceAdd(SharedDeviceData)));
     connect(diagram_, SIGNAL(deviceRemoved(SharedDeviceData)), this, SLOT(onDeviceRemove(SharedDeviceData)));
     connect(diagram_, SIGNAL(deviceUpdated(SharedDeviceData)), this, SLOT(onDeviceUpdate(SharedDeviceData)));
@@ -146,6 +146,25 @@ void MainWindow::initDiagram()
         conn_model_->clearItems();
         send_model_->clearItems();
         return_model_->clearItems();
+        furniture_model_->clearItems();
+        battery_model_->clearItems();
+    });
+    connect(diagram_, &Diagram::sceneFullUpdate, this, [this]() {
+        auto dev_data = diagram_->devices().dataList();
+        auto all_conn_info = diagram_->connections().infoList(diagram_->devices());
+
+        battery_model_->setFullData(dev_data);
+        conn_model_->setFullData(all_conn_info);
+        device_model_->setDeviceData(dev_data);
+        furniture_model_->setFullData(dev_data);
+        send_model_->setFullData(all_conn_info);
+        return_model_->setFullData(all_conn_info);
+
+        ui->connectionList->resizeColumnsToContents();
+        ui->deviceList->resizeColumnsToContents();
+        ui->furnitureList->resizeColumnsToContents();
+        ui->returnList->resizeColumnsToContents();
+        ui->sendList->resizeColumnsToContents();
     });
     connect(diagram_, SIGNAL(addToFavorites(SharedDeviceData)), this, SLOT(onAddToFavorites(SharedDeviceData)));
     connect(diagram_, &Diagram::zoomChanged, this, [this](qreal z) {
@@ -332,6 +351,12 @@ void MainWindow::initSendList()
     ui->sendList->setSelectionBehavior(QAbstractItemView::SelectItems);
     ui->sendList->setSelectionMode(QAbstractItemView::SingleSelection);
 
+    connect(ui->sendList, &QTableView::clicked, this, [this](const QModelIndex& index) {
+        auto id = send_model_->deviceId(index);
+        if (id)
+            diagram_->cmdSelectUnique(id.value());
+    });
+
     ui->sendList->resizeColumnsToContents();
 }
 
@@ -371,6 +396,13 @@ void MainWindow::initReturnList()
     ui->returnList->setStyleSheet("QTableView::item {padding: 0px}");
     ui->returnList->setSelectionBehavior(QAbstractItemView::SelectItems);
     ui->returnList->setSelectionMode(QAbstractItemView::SingleSelection);
+
+    connect(ui->returnList, &QTableView::clicked, this, [this](const QModelIndex& index) {
+        auto id = return_model_->deviceId(index);
+        if (id)
+            diagram_->cmdSelectUnique(id.value());
+    });
+
 
     ui->returnList->resizeColumnsToContents();
 }
@@ -546,13 +578,13 @@ void MainWindow::onConnectionAdd(ConnectionData data)
         if (!conn_info->src_data || !conn_info->dest_data)
             return;
 
-        if (conn_model_->addConnection(data, conn_info->src_data, conn_info->src_out, conn_info->dest_data, conn_info->dest_in))
+        if (conn_model_->addConnection(conn_info.value()))
             ui->connectionList->resizeColumnsToContents();
 
-        if (send_model_->addConnection(data, conn_info->src_data, conn_info->dest_data))
+        if (send_model_->addConnection(conn_info.value()))
             ui->sendList->resizeColumnsToContents();
 
-        if (return_model_->addConnection(data, conn_info->src_data, conn_info->dest_data))
+        if (return_model_->addConnection(conn_info.value()))
             ui->returnList->resizeColumnsToContents();
     }
 }

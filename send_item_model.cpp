@@ -54,28 +54,26 @@ SendItemModel::SendItemModel(QObject* parent)
     proxy_->setSourceModel(this);
 }
 
-bool SendItemModel::addConnection(const ConnectionData& data,
-    const SharedDeviceData& src,
-    const SharedDeviceData& dest)
+bool SendItemModel::addConnection(const ConnectionFullInfo& info)
 {
-    if (!src || !dest || dest->category() != ItemCategory::Send)
+    if (!info.isValid() || info.dest_data->category() != ItemCategory::Send)
         return false;
 
-    auto src_name = new QStandardItem(src->title());
-    src_name->setData(QVariant::fromValue(data), DATA_CONNECTION);
-    src_name->setData(data.source(), DATA_DEVICE_ID);
+    auto src_name = new QStandardItem(info.src_data->title());
+    src_name->setData(QVariant::fromValue(info.data()), DATA_CONNECTION);
+    src_name->setData(info.src_data->id(), DATA_DEVICE_ID);
     src_name->setEditable(false);
 
-    auto dest_name = new QStandardItem(dest->title());
-    dest_name->setData(QVariant::fromValue(data), DATA_CONNECTION);
-    dest_name->setData(data.destination(), DATA_DEVICE_ID);
+    auto dest_name = new QStandardItem(info.dest_data->title());
+    dest_name->setData(QVariant::fromValue(info.data()), DATA_CONNECTION);
+    dest_name->setData(info.dest_data->id(), DATA_DEVICE_ID);
     dest_name->setEditable(false);
 
-    auto src_idx = new QStandardItem(QString("%1").arg((int)data.sourceOutput() + 1));
+    auto src_idx = new QStandardItem(QString("%1").arg(info.src_out_idx + 1));
     src_idx->setEditable(false);
-    src_idx->setData(data.sourceOutput(), SEND_SORT_ROLE);
-    auto dest_idx = new QStandardItem(QString("%1").arg((int)data.destinationInput() + 1));
-    dest_idx->setData(data.destinationInput(), SEND_SORT_ROLE);
+    src_idx->setData(info.src_out_idx, SEND_SORT_ROLE);
+    auto dest_idx = new QStandardItem(QString("%1").arg(info.dest_in_idx + 1));
+    dest_idx->setData(info.dest_in_idx, SEND_SORT_ROLE);
     dest_idx->setEditable(false);
 
     appendRow({ dest_name, dest_idx, src_name, src_idx });
@@ -132,6 +130,21 @@ std::optional<DeviceId> SendItemModel::deviceId(const QModelIndex& idx) const
     }
 
     return {};
+}
+
+void SendItemModel::setFullData(const QList<ConnectionFullInfo>& info)
+{
+    beginResetModel();
+
+    {
+        QSignalBlocker sb(this);
+
+        removeRows(0, rowCount());
+        for (auto& i : info)
+            addConnection(i);
+    }
+
+    endResetModel();
 }
 
 bool SendItemModel::updateDeviceTitle(const QModelIndex& idx, DeviceId id, const QString& title)
