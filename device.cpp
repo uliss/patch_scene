@@ -249,7 +249,6 @@ void Device::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
         painter->drawRect(xletRect());
     }
 
-    Q_UNUSED(option);
     Q_UNUSED(widget);
 }
 
