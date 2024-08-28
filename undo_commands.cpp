@@ -260,6 +260,7 @@ SetDeviceSelection::SetDeviceSelection(Diagram* doc, const QSet<DeviceId>& new_s
 void SetDeviceSelection::undo()
 {
     if (doc_) {
+        DiagramUpdatesBlocker ub(doc_);
         doc_->devices().foreachDevice([this](Device* dev) {
             dev->setSelected(prev_sel_.contains(dev->id()));
         });
@@ -269,6 +270,7 @@ void SetDeviceSelection::undo()
 void SetDeviceSelection::redo()
 {
     if (doc_) {
+        DiagramUpdatesBlocker ub(doc_);
         doc_->devices().foreachDevice([this](Device* dev) {
             dev->setSelected(new_sel_.contains(dev->id()));
         });
