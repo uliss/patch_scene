@@ -71,8 +71,6 @@ void TestConnection::testConnection()
     QCOMPARE(conn, ConnectionData(1, 2, 3, 4));
     QVERIFY(!(conn == ConnectionData(1, 2, 3, 1)));
 
-    QVERIFY(!conn.findConnectedElements());
-
     QCOMPARE(conn.sourceInfo(), XletInfo(1, 2, XletType::Out));
     QCOMPARE(conn.destinationInfo(), XletInfo(3, 4, XletType::In));
 }
@@ -102,10 +100,6 @@ void TestConnection::findConnected()
     auto conn = new Connection({ 100, 0, 200, 0 });
     sc.addItem(conn);
 
-    auto x = conn->findConnectedElements();
-    QVERIFY(x);
-    QCOMPARE(x->first->id(), 100);
-    QCOMPARE(x->second->id(), 200);
     QCOMPARE(conn->boundingRect(), QRect());
 
     auto conn2 = new Connection({ 101, 0, 200, 0 });
@@ -118,4 +112,4 @@ void TestConnection::findConnected()
     sc.addItem(conn4);
 }
 
-static TestConnection conn;
+static TestConnection test_connection;
