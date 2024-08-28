@@ -82,6 +82,7 @@ public:
     /**
      * Set connection visible
      * @complexity O(n)
+     * @emit visibleChanged()
      */
     void setVisible(bool value);
 
@@ -103,6 +104,7 @@ public:
 signals:
     void added(ConnectionData);
     void removed(ConnectionData);
+    void visibleChanged(bool);
 
 private:
     bool addConnection(Connection* c);

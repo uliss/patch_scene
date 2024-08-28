@@ -24,6 +24,7 @@ void TestSceneConnections::add()
 {
     SceneConnections sc;
     QSignalSpy sig_spy(&sc, SIGNAL(added(ConnectionData)));
+    QVERIFY(sig_spy.isValid());
     QVERIFY(!sc.add(ConnectionData { 0, 0, 0, 0 }));
     QCOMPARE(sc.count(), 0);
     QCOMPARE(sig_spy.count(), 0);
@@ -64,6 +65,7 @@ void TestSceneConnections::remove()
 {
     SceneConnections sc;
     QSignalSpy sig_spy(&sc, SIGNAL(removed(ConnectionData)));
+    QVERIFY(sig_spy.isValid());
     QVERIFY(!sc.remove(XletInfo { 0, 0, XletType::In }));
     QCOMPARE(sig_spy.count(), 0);
 
@@ -98,6 +100,7 @@ void TestSceneConnections::clear()
 {
     SceneConnections sc;
     QSignalSpy sig_spy(&sc, SIGNAL(removed(ConnectionData)));
+    QVERIFY(sig_spy.isValid());
     QGraphicsScene scene;
     sc.setScene(&scene);
 
@@ -113,6 +116,7 @@ void TestSceneConnections::removeAll()
 {
     SceneConnections sc;
     QSignalSpy sig_spy(&sc, SIGNAL(removed(ConnectionData)));
+    QVERIFY(sig_spy.isValid());
     QGraphicsScene scene;
     sc.setScene(&scene);
 
@@ -148,6 +152,34 @@ void TestSceneConnections::findConnection()
     QVERIFY(sc.findConnection(XletInfo::inlet(1, 0)));
     QVERIFY(!sc.findConnection(XletInfo::outlet(1, 0)));
     QVERIFY(!sc.findConnection(XletInfo::inlet(0, 0)));
+}
+
+void TestSceneConnections::setVisible()
+{
+    SceneConnections sc;
+    QGraphicsScene scene;
+    sc.setScene(&scene);
+    QSignalSpy sig_spy(&sc, SIGNAL(visibleChanged(bool)));
+    QVERIFY(sig_spy.isValid());
+
+    sc.setVisible(true);
+    sc.setVisible(false);
+    QCOMPARE(sig_spy.count(), 0);
+
+    QVERIFY(sc.add(ConnectionData { 0, 0, 1, 0 }));
+    QVERIFY(sc.add(ConnectionData { 0, 1, 1, 1 }));
+    QVERIFY(sc.add(ConnectionData { 0, 2, 1, 2 }));
+
+    sc.setVisible(true);
+    QCOMPARE(sig_spy.count(), 0);
+
+    sc.setVisible(false);
+    QCOMPARE(sig_spy.count(), 1);
+    QCOMPARE(sig_spy.takeLast().at(0).toBool(), false);
+
+    sc.setVisible(true);
+    QCOMPARE(sig_spy.count(), 1);
+    QCOMPARE(sig_spy.takeLast().at(0).toBool(), true);
 }
 
 static TestSceneConnections test_scene_connections;

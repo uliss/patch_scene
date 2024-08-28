@@ -142,8 +142,17 @@ std::optional<ConnectionData> SceneConnections::findConnection(const XletInfo& x
 
 void SceneConnections::setVisible(bool value)
 {
-    for (auto c : conn_)
-        c->setVisible(value);
+    int counter = 0;
+
+    for (auto c : conn_) {
+        if (c->isVisible() != value) {
+            c->setVisible(value);
+            counter++;
+        }
+    }
+
+    if (counter > 0)
+        emit visibleChanged(value);
 }
 
 void SceneConnections::setScene(QGraphicsScene* scene)
