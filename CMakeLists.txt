@@ -81,6 +81,8 @@ set(PROJECT_SOURCES
     diagram_scene.cpp
     diagram_state_machine.h
     diagram_state_machine.cpp
+    diagram_updates_blocker.h
+    diagram_updates_blocker.cpp
     export_document.h
     export_document.cpp
     favorites_widget.h
