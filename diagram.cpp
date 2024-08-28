@@ -28,6 +28,7 @@
 
 #include "app_version.h"
 #include "device.h"
+#include "diagram_scene.h"
 #include "undo_commands.h"
 
 using namespace ceam;
@@ -110,19 +111,11 @@ void Diagram::initLiveConnection()
 
 void Diagram::initScene(int w, int h)
 {
-    scene_ = new MyScene();
-    scene_->setParent(this);
-    scene_->setSceneRect(-w / 2, -h / 2, w, h);
+    scene_ = new DiagramScene(w, h, this);
     setScene(scene_);
 
-    if (!grid_) {
-        grid_ = new QGraphicsItemGroup;
-        scene_->addItem(grid_);
-    }
-
-    auto rect = sceneRect();
-    createAxis(rect);
-    createGrid(rect);
+    // NB: should be called after setScene(scene_)!
+    scene_->initGrid();
 
     devices_.setScene(scene_);
     connections_.setScene(scene_);
@@ -524,19 +517,19 @@ void Diagram::zoomOut()
 
 void Diagram::zoomFit()
 {
-    auto grid_show = grid_->isVisible();
+    auto grid_show = scene_->gridVisible();
     if (grid_show)
-        grid_->setVisible(false);
+        scene_->setGridVisible(false);
 
     fitInView(devices_.boundingRect(), Qt::KeepAspectRatio);
 
     if (grid_show)
-        grid_->setVisible(true);
+        scene_->setGridVisible(true);
 }
 
 void Diagram::setGridVisible(bool value)
 {
-    grid_->setVisible(value);
+    scene_->setGridVisible(value);
 }
 
 void Diagram::zoomNormal()
@@ -687,54 +680,6 @@ void Diagram::drawSelectionTo(const QPoint& pos)
 {
     QRectF rect(QPointF {}, selection_->mapFromScene(mapToScene(pos)));
     selection_->setRect(rect.normalized());
-}
-
-void Diagram::createAxis(const QRectF& rect)
-{
-    if (!grid_)
-        return;
-
-    QPen pen(QColor(100, 100, 100));
-    pen.setWidth(0);
-
-    auto x_axis = new QGraphicsLineItem;
-    x_axis->setPen(pen);
-    x_axis->setLine(QLine(QPoint(rect.left(), 0), QPoint(rect.right(), 0)));
-    grid_->addToGroup(x_axis);
-
-    auto y_axis = new QGraphicsLineItem;
-    y_axis->setPen(pen);
-    y_axis->setLine(QLine(QPoint(0, rect.top()), QPoint(0, rect.bottom())));
-    grid_->addToGroup(y_axis);
-}
-
-void Diagram::createGrid(const QRectF& rect)
-{
-    if (!grid_)
-        return;
-
-    QPen pen(QColor(100, 100, 100, 100));
-    pen.setWidth(0);
-
-    for (int i = 0; i < rect.width() / 50; i++) {
-        auto x = 50 * (int(rect.left() + i * 50) / 50);
-        auto p0 = QPoint(x, rect.top());
-        auto p1 = QPoint(x, rect.bottom());
-        auto line = new QGraphicsLineItem;
-        line->setPen(pen);
-        line->setLine(QLine(p0, p1));
-        grid_->addToGroup(line);
-    }
-
-    for (int i = 0; i < rect.height() / 50; i++) {
-        auto y = 50 * (int(rect.top() + i * 50) / 50);
-        auto p0 = QPoint(rect.left(), y);
-        auto p1 = QPoint(rect.right(), y);
-        auto line = new QGraphicsLineItem;
-        line->setPen(pen);
-        line->setLine(QLine(p0, p1));
-        grid_->addToGroup(line);
-    }
 }
 
 void Diagram::mousePressEvent(QMouseEvent* event)
@@ -1154,9 +1099,9 @@ std::pair<QByteArray, QSize> Diagram::toSvg() const
     return { buf.data(), box.size() };
 }
 
-bool Diagram::isGridVisible() const
+bool Diagram::gridVisible() const
 {
-    return (grid_ && grid_->isVisible());
+    return scene_->gridVisible();
 }
 
 void Diagram::clearUndoStack()

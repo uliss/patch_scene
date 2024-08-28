@@ -241,7 +241,7 @@ void MainWindow::initActions()
     connect(ui->actionUndo, SIGNAL(triggered()), diagram_, SLOT(undo()));
 
     connect(ui->actionShowGrid, SIGNAL(triggered(bool)), diagram_, SLOT(setGridVisible(bool)));
-    ui->actionShowGrid->setChecked(diagram_->isGridVisible());
+    ui->actionShowGrid->setChecked(diagram_->gridVisible());
 
     connect(ui->actionZoomFit, SIGNAL(triggered()), diagram_, SLOT(zoomFit()));
 }

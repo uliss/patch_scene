@@ -31,6 +31,8 @@
 
 namespace ceam {
 
+class DiagramScene;
+
 class Diagram : public QGraphicsView {
     Q_OBJECT
 
@@ -146,7 +148,7 @@ public:
     QImage toImage() const;
     std::pair<QByteArray, QSize> toSvg() const;
 
-    bool isGridVisible() const;
+    bool gridVisible() const;
 
 public slots:
     // undo/redo commands
@@ -240,11 +242,10 @@ private:
     QJsonValue appInfoJson() const;
 
 private:
-    QGraphicsScene* scene_;
+    DiagramScene* scene_ { nullptr };
     QGraphicsRectItem* selection_ { nullptr };
     QGraphicsLineItem* tmp_connection_ { nullptr };
     DiagramImage* background_ { nullptr };
-    QGraphicsItemGroup* grid_ { nullptr };
     QUndoStack* undo_stack_ { nullptr };
     QPointF prev_event_pos_;
     QPointF prev_click_pos_;
@@ -285,9 +286,6 @@ private:
      * @param pos - position in view coordinates
      */
     void drawSelectionTo(const QPoint& pos);
-
-    void createAxis(const QRectF& rect);
-    void createGrid(const QRectF& rect);
 };
 
 }

@@ -48,15 +48,16 @@ set(PROJECT_SOURCES
     diagram_item_model.h diagram_item_model.cpp
     diagram_meta.h diagram_meta.cpp
     diagram_meta_dialog.h diagram_meta_dialog.cpp diagram_meta_dialog.ui
+    diagram_scene.h diagram_scene.cpp
     diagram_state_machine.h diagram_state_machine.cpp
     export_document.h export_document.cpp
     favorites_widget.h favorites_widget.cpp
     furniture_item_model.h furniture_item_model.cpp
     preferences_dialog.h preferences_dialog.cpp preferences_dialog.ui
     return_item_model.h return_item_model.cpp
-    send_item_model.h send_item_model.cpp
     scene_connections.h scene_connections.cpp
     scene_devices.h scene_devices.cpp
+    send_item_model.h send_item_model.cpp
     socket.h socket.cpp
     table_cell_power.h table_cell_power.cpp
     table_cell_socket.h table_cell_socket.cpp
