@@ -91,7 +91,23 @@ bool FurnitureItemModel::removeFurniture(const SharedDeviceData& data)
 
 void FurnitureItemModel::clearItems()
 {
+    furniture_map_.clear();
     removeRows(0, rowCount());
+}
+
+void FurnitureItemModel::setFullData(const QList<SharedDeviceData>& data)
+{
+    beginResetModel();
+
+    {
+        QSignalBlocker sb(this);
+
+        clearItems();
+        for (auto& x : data)
+            addFurniture(x);
+    }
+
+    endResetModel();
 }
 
 void FurnitureItemModel::updateData()

@@ -33,8 +33,10 @@ public:
 
     void clearItems();
 
+    void setFullData(const QList<SharedDeviceData>& data);
+
 private:
-    QMap<size_t, std::pair<QString, int>> furniture_map_;
+    QHash<size_t, std::pair<QString, int>> furniture_map_;
     QSortFilterProxyModel* proxy_;
 
 private:
