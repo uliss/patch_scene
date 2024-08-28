@@ -89,6 +89,11 @@ bool FurnitureItemModel::removeFurniture(const SharedDeviceData& data)
     }
 }
 
+void FurnitureItemModel::clearItems()
+{
+    removeRows(0, rowCount());
+}
+
 void FurnitureItemModel::updateData()
 {
     setRowCount(furniture_map_.size());

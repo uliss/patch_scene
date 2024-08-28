@@ -31,6 +31,8 @@ public:
 
     QSortFilterProxyModel* proxyModel() { return proxy_; }
 
+    void clearItems();
+
 private:
     QMap<size_t, std::pair<QString, int>> furniture_map_;
     QSortFilterProxyModel* proxy_;
