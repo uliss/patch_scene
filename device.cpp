@@ -15,6 +15,7 @@
 #include "deviceproperties.h"
 
 #include <QCursor>
+#include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsSvgItem>
 #include <QJsonArray>
@@ -331,6 +332,20 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 
     menu.addAction(duplicateAct);
     menu.addAction(removeAct);
+
+    auto sc = scene();
+    if (sc && sc->selectedItems().count() >= 2) {
+        menu.addSeparator();
+
+        auto hAlign = new QAction(tr("Align horizontal"), &menu);
+        connect(hAlign, SIGNAL(triggered(bool)), this, SIGNAL(alignHorizontal()));
+        menu.addAction(hAlign);
+
+        auto vAlign = new QAction(tr("Align vertical"), &menu);
+        connect(vAlign, SIGNAL(triggered(bool)), this, SIGNAL(alignVertical()));
+        menu.addAction(vAlign);
+    }
+
     menu.addSeparator();
     menu.addAction(addToFavoritesAct);
     menu.addAction(propertiesAct);

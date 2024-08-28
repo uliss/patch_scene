@@ -59,6 +59,8 @@ public:
 
 signals:
     void addToFavorites(SharedDeviceData data);
+    void alignHorizontal();
+    void alignVertical();
     void duplicateDevice(SharedDeviceData data);
     void removeDevice(SharedDeviceData data);
     void updateDevice(SharedDeviceData data);

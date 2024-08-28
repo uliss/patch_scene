@@ -332,6 +332,9 @@ Device* Diagram::addDevice(const SharedDeviceData& data)
     connect(dev, SIGNAL(removeDevice(SharedDeviceData)), this, SLOT(cmdRemoveDevice(SharedDeviceData)));
     connect(dev, SIGNAL(updateDevice(SharedDeviceData)), this, SLOT(cmdUpdateDevice(SharedDeviceData)));
 
+    connect(dev, SIGNAL(alignHorizontal()), this, SLOT(cmdAlignHSelected()));
+    connect(dev, SIGNAL(alignVertical()), this, SLOT(cmdAlignVSelected()));
+
     emit sceneChanged();
     emit deviceAdded(dev->deviceData());
 
