@@ -94,6 +94,17 @@ void SceneConnections::foreachData(std::function<void(const ConnectionData&)> fn
         fn(c->connectionData());
 }
 
+QList<ConnectionData> SceneConnections::dataList() const
+{
+    QList<ConnectionData> res;
+    res.reserve(conn_.size());
+
+    for (auto& kv : conn_)
+        res.append(kv->connectionData());
+
+    return res;
+}
+
 QList<Connection*> SceneConnections::findConnections(DeviceId id) const
 {
     auto dev_it = conn_dev_.find(id);

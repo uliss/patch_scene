@@ -60,6 +60,11 @@ public:
     void foreachData(std::function<void(const ConnectionData& data)> fn) const;
 
     /**
+     * return all connection data as list
+     */
+    QList<ConnectionData> dataList() const;
+
+    /**
      * find all incoming/outcoming connection to/from devices
      * @complexity Amort. O(1) (worst case: O(n))
      */
