@@ -96,7 +96,7 @@ public:
     size_t count() const;
 
     /**
-     * @emit removed()
+     * @emit removed() for every connection
      */
     void clear();
 
