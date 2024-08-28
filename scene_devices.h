@@ -26,11 +26,6 @@ namespace ceam {
 
 class Device;
 
-struct ConnectionFullInfo {
-    SharedDeviceData src_data, dest_data;
-    XletData src_out, dest_in;
-};
-
 class SceneDevices : public QObject {
     Q_OBJECT
 

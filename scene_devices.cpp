@@ -123,6 +123,7 @@ std::optional<ConnectionFullInfo> SceneDevices::connectionInfo(const ConnectionD
             if (data && conn.sourceOutput() < data->outputs().size()) {
                 res->src_out = data->outputAt(conn.sourceOutput());
                 res->src_data = data;
+                res->src_out_idx = conn.sourceOutput();
                 count++;
             } else {
                 qWarning() << "invalid source outlet:" << (int)conn.sourceOutput();
@@ -132,6 +133,7 @@ std::optional<ConnectionFullInfo> SceneDevices::connectionInfo(const ConnectionD
             if (data && conn.destinationInput() < data->inputs().size()) {
                 res->dest_in = data->inputAt(conn.destinationInput());
                 res->dest_data = data;
+                res->dest_in_idx = conn.destinationInput();
                 count++;
             } else {
                 qWarning() << "invalid dest inlet:" << (int)conn.destinationInput();
