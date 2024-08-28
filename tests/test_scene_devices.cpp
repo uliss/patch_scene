@@ -283,6 +283,24 @@ void TestSceneDevices::checkConnection()
 {
     SceneDevices dev;
     QVERIFY(!dev.checkConnection({ 0, 0, 0, 0 }));
+
+    QGraphicsScene scene;
+    dev.setScene(&scene);
+
+    dev.add(data4(100));
+    dev.add(data4(101));
+
+    QVERIFY(dev.checkConnection({ 100, 0, 101, 0 }));
+    QVERIFY(dev.checkConnection({ 101, 0, 100, 0 }));
+
+    QVERIFY(!dev.checkConnection({ 100, 0, 100, 0 }));
+    QVERIFY(!dev.checkConnection({ 100, 0, 102, 0 }));
+    QVERIFY(!dev.checkConnection({ 102, 0, 100, 0 }));
+
+    QVERIFY(!dev.checkConnection({ 101, 1, 100, 0 }));
+    QVERIFY(!dev.checkConnection({ 101, 0, 100, 1 }));
+    QVERIFY(!dev.checkConnection({ 101, 1, 100, 1 }));
+    QVERIFY(dev.checkConnection({ 101, 0, 100, 0 }));
 }
 
 void TestSceneDevices::findConnectionPoints()
