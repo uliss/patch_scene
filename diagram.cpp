@@ -1276,16 +1276,11 @@ QJsonValue Diagram::appInfoJson() const
 
 QSet<ConnectionData> Diagram::findSelectedConnections() const
 {
-    auto dev_ids = devices_.selectedIdList();
     QSet<ConnectionData> res;
 
-    for (auto& x : scene_->items()) {
-        auto conn = qgraphicsitem_cast<Connection*>(x);
-        if (conn) {
-            for (auto id : dev_ids) {
-                if (conn->relatesToDevice(id))
-                    res.insert(conn->connectionData());
-            }
+    for (auto id : devices_.selectedIdList()) {
+        for (auto& data : connections_.findConnectionsData(id)) {
+            res << data;
         }
     }
 
