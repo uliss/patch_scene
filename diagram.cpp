@@ -29,6 +29,7 @@
 #include "app_version.h"
 #include "device.h"
 #include "diagram_scene.h"
+#include "diagram_updates_blocker.h"
 #include "undo_commands.h"
 
 using namespace ceam;
@@ -159,6 +160,8 @@ void Diagram::updateConnectionPos(Connection* conn)
 
 void Diagram::updateConnectionPos(DeviceId id)
 {
+    DiagramUpdatesBlocker ub(this);
+
     for (auto conn : connections_.findConnections(id))
         updateConnectionPos(conn);
 }
@@ -638,8 +641,11 @@ QJsonObject Diagram::toJson() const
     QJsonArray cons;
 
     connections_.foreachData([this, &cons](const ConnectionData& conn) {
-        if (devices_.checkConnection(conn))
+        if (devices_.checkConnection(conn)) {
             cons.append(conn.toJson());
+        } else {
+            qWarning() << "invalid connection";
+        }
     });
 
     json[JSON_KEY_CONNS] = cons;
@@ -1012,22 +1018,41 @@ bool Diagram::disconnectDevices(const ConnectionData& data)
 
 void Diagram::moveSelectedItemsBy(qreal dx, qreal dy)
 {
-    if (devices_.moveSelectedBy(dx, dy)) { // O(N)
-        emit sceneChanged();
+    bool notify = false;
 
-        // O(N)
-        devices_.foreachSelectedData([this](const SharedDeviceData& data) {
-            updateConnectionPos(data->id());
-        });
+    {
+        DiagramUpdatesBlocker ub(this);
+        if (devices_.moveSelectedBy(dx, dy)) { // O(N)
+            notify = true;
+
+            // O(N)
+            devices_.foreachSelectedData([this](const SharedDeviceData& data) {
+                updateConnectionPos(data->id());
+            });
+        }
     }
+
+    if (notify)
+        emit sceneChanged();
 }
 
 void Diagram::moveItemsBy(const QHash<DeviceId, QPointF>& deltas)
 {
-    devices_.moveBy(deltas);
+    bool notify = false;
 
-    for (auto kv : deltas.asKeyValueRange())
-        updateConnectionPos(kv.first);
+    {
+        DiagramUpdatesBlocker ub(this);
+
+        if (devices_.moveBy(deltas)) {
+            notify = true;
+
+            for (auto kv : deltas.asKeyValueRange())
+                updateConnectionPos(kv.first);
+        }
+    }
+
+    if (notify)
+        emit sceneChanged();
 }
 
 void Diagram::clearClipBuffer()
