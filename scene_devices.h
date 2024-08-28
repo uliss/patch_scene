@@ -17,6 +17,7 @@
 #include "connection.h"
 #include "device_common.h"
 
+#include <QObject>
 #include <unordered_map>
 
 class QGraphicsScene;
@@ -30,7 +31,10 @@ struct ConnectionFullInfo {
     XletData src_out, dest_in;
 };
 
-class SceneDevices {
+class SceneDevices : public QObject {
+    Q_OBJECT
+
+private:
     QGraphicsScene* scene_;
     std::unordered_map<DeviceId, Device*> devices_;
 
