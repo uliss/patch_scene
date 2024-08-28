@@ -41,11 +41,29 @@ private:
 public:
     SceneDevices();
 
+    /**
+     * set scene to operate on
+     */
     void setScene(QGraphicsScene* scene);
+
+    /**
+     * return number of all devices
+     */
     size_t count() const { return devices_.size(); }
+
+    /**
+     * return number of selected devices
+     * @complexity O(n)
+     */
     size_t selectedCount() const;
 
+    /**
+     * create new device and add it to the scene
+     * @return pointer to new device or nullptr on error
+     * @emit added(SharedDeviceData)
+     */
     Device* add(const SharedDeviceData& data);
+
     SharedDeviceData remove(DeviceId id);
     Device* find(DeviceId id);
 
@@ -109,6 +127,10 @@ public:
      * @param rect
      */
     QList<DeviceId> intersectedList(const QRectF& rect) const;
+
+signals:
+    void added(SharedDeviceData);
+    void removed(SharedDeviceData);
 };
 
 }

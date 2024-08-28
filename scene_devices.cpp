@@ -57,6 +57,8 @@ Device* SceneDevices::add(const SharedDeviceData& data)
         devices_.insert(it, { dev->id(), dev });
     }
 
+    emit added(dev->deviceData());
+
     return dev;
 }
 

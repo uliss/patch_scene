@@ -16,6 +16,7 @@
 #include "scene_devices.h"
 
 #include <QGraphicsScene>
+#include <QSignalSpy>
 #include <QTest>
 
 using namespace ceam;
@@ -73,10 +74,15 @@ QList<DeviceId> id_list(std::initializer_list<DeviceId> args) { return list<Devi
 void TestSceneDevices::add()
 {
     SceneDevices dev;
+    QSignalSpy sig_spy(&dev, SIGNAL(added(SharedDeviceData)));
+    QVERIFY(sig_spy.isValid());
+    QCOMPARE(sig_spy.count(), 0);
+
     QCOMPARE(dev.count(), 0);
     QVERIFY(!dev.add({}));
     QVERIFY(!dev.add(Device::defaultDeviceData()));
     QCOMPARE(dev.count(), 0);
+    QCOMPARE(sig_spy.count(), 0);
 
     QGraphicsScene scene;
     dev.setScene(&scene);
@@ -86,15 +92,19 @@ void TestSceneDevices::add()
     QVERIFY(!dev.add({}));
     QVERIFY(!dev.find(100));
     QCOMPARE(scene.items().size(), 0);
+    QCOMPARE(sig_spy.count(), 0);
+
     QVERIFY(dev.add(data1(100)));
     QCOMPARE(scene.items().size(), 1);
     QCOMPARE(dev.count(), 1);
     QCOMPARE(dev.idList(), id_list({ 100 }));
+    QCOMPARE(sig_spy.count(), 1);
 
     QVERIFY(dev.add(data2(100)));
     QCOMPARE(dev.count(), 2);
     QCOMPARE(scene.items().size(), 2);
     QVERIFY(dev.find(100));
+    QCOMPARE(sig_spy.count(), 2);
 
     dev.clear();
     QCOMPARE(dev.count(), 0);
@@ -105,6 +115,8 @@ void TestSceneDevices::add()
     QCOMPARE(dev.count(), 3);
     QCOMPARE(scene.items().size(), 3);
     QCOMPARE(sorted(dev.idList()), id_list({ 100, 101, 102 }));
+    QCOMPARE(sig_spy.count(), 5);
+
     QVERIFY(dev.find(100));
     QCOMPARE(dev.find(100)->id(), 100);
     QVERIFY(dev.find(101));

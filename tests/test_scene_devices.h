@@ -18,6 +18,7 @@
 
 class TestSceneDevices : public TestSuite {
     Q_OBJECT
+
 private slots:
     void add();
     void remove();
