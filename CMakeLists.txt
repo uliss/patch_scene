@@ -110,7 +110,7 @@ qt_add_executable(patch_scene
     resources/patch_scene_resources.qrc
 )
 
-add_dependencies(patch_scene git_version)
+add_dependencies(patch_scene_lib git_version)
 
 target_link_libraries(patch_scene
     PRIVATE
