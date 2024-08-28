@@ -517,14 +517,7 @@ void Diagram::zoomOut()
 
 void Diagram::zoomFit()
 {
-    auto grid_show = scene_->gridVisible();
-    if (grid_show)
-        scene_->setGridVisible(false);
-
-    fitInView(devices_.boundingRect(), Qt::KeepAspectRatio);
-
-    if (grid_show)
-        scene_->setGridVisible(true);
+    fitInView(scene_->bestFitRect(), Qt::KeepAspectRatio);
 }
 
 void Diagram::setGridVisible(bool value)
