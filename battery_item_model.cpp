@@ -76,7 +76,24 @@ void BatteryItemModel::updateDeviceData(const BatteryChange& data)
 
 void BatteryItemModel::clearItems()
 {
+    batteries_.clear();
     removeRows(0, rowCount());
+}
+
+void BatteryItemModel::setFullData(const QList<SharedDeviceData>& data)
+{
+    beginResetModel();
+
+    {
+        QSignalBlocker sb(this);
+
+        clearItems();
+
+        for (auto& x : data)
+            addDeviceData(x);
+    }
+
+    endResetModel();
 }
 
 void BatteryItemModel::updateData()

@@ -35,6 +35,8 @@ public:
 
     void clearItems();
 
+    void setFullData(const QList<SharedDeviceData>& data);
+
 private:
     void updateData();
 
