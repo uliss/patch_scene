@@ -52,37 +52,7 @@ class MyScene : public QGraphicsScene {
 public:
     MyScene()
     {
-
-        //     pen.setWidth(0);
-        //     painter->setPen(pen);
-
-        // painter->drawLine(QPoint(rect.left(), 0), QPoint(rect.right(), 0));
-        // painter->drawLine(QPoint(0, rect.top()), QPoint(0, rect.bottom()));
-        // painter->drawLine(QPoint(rect.left(), 0), QPoint(rect.right(), 0));
-        // painter->drawLine(QPoint(0, rect.top()), QPoint(0, rect.bottom()));
     }
-};
-
-class ChangeEmitter {
-    Diagram* diagram_;
-    bool changed_;
-
-public:
-    ChangeEmitter(Diagram* diagram)
-        : diagram_ { diagram }
-        , changed_ { false }
-    {
-    }
-
-    ~ChangeEmitter()
-    {
-        if (diagram_ && changed_)
-            emit diagram_->sceneChanged();
-    }
-
-    void trigger() { changed_ = true; }
-
-    operator bool() const { return changed_; }
 };
 }
 
@@ -1081,19 +1051,12 @@ bool Diagram::connectDevices(const ConnectionData& data)
 
 bool Diagram::disconnectDevices(const ConnectionData& data)
 {
-    ChangeEmitter ch(this);
-
-    for (auto x : items()) {
-        auto conn = qgraphicsitem_cast<Connection*>(x);
-        if (conn && *conn == data) {
-            ch.trigger();
-            emit connectionRemoved(data);
-            delete conn;
-            return true;
-        }
-    }
-
-    return false;
+    if (connections_.remove(data.sourceInfo())) {
+        emit sceneChanged();
+        emit connectionRemoved(data);
+        return true;
+    } else
+        return false;
 }
 
 void Diagram::moveSelectedItemsBy(qreal dx, qreal dy)
