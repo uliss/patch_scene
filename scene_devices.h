@@ -39,6 +39,7 @@ public:
 
     void setScene(QGraphicsScene* scene);
     size_t count() const { return devices_.size(); }
+    size_t selectedCount() const;
 
     Device* add(const SharedDeviceData& data);
     SharedDeviceData remove(DeviceId id);

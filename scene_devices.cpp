@@ -28,6 +28,16 @@ void SceneDevices::setScene(QGraphicsScene* scene)
     scene_ = scene;
 }
 
+size_t SceneDevices::selectedCount() const
+{
+    size_t res = 0;
+
+    for (auto& kv : devices_)
+        res += kv.second->isSelected();
+
+    return res;
+}
+
 Device* SceneDevices::add(const SharedDeviceData& data)
 {
     if (!scene_ || !data)

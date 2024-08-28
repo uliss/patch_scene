@@ -816,6 +816,18 @@ void Diagram::contextMenuEvent(QContextMenuEvent* event)
         menu.addAction(set_bg);
     }
 
+    if (devices_.selectedCount() >= 2) {
+        menu.addSeparator();
+
+        auto hor_align = new QAction(tr("Align &horizontal"), this);
+        connect(hor_align, SIGNAL(triggered(bool)), this, SLOT(cmdAlignHSelected()));
+        menu.addAction(hor_align);
+
+        auto ver_align = new QAction(tr("Align &vertical"), this);
+        connect(ver_align, SIGNAL(triggered(bool)), this, SLOT(cmdAlignVSelected()));
+        menu.addAction(ver_align);
+    }
+
     menu.exec(event->globalPos());
 }
 
