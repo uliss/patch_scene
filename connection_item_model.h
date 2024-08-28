@@ -15,7 +15,6 @@
 #define CONNECTION_ITEM_MODEL_H
 
 #include "connection.h"
-#include "device_common.h"
 
 #include <QSortFilterProxyModel>
 #include <QStandardItemModel>
@@ -23,6 +22,7 @@
 namespace ceam {
 
 class ConnectionData;
+class ConnectionFullInfo;
 class XletData;
 
 class ConnectionItemModel : public QStandardItemModel {
@@ -30,11 +30,7 @@ class ConnectionItemModel : public QStandardItemModel {
 public:
     ConnectionItemModel(QObject* parent);
 
-    bool addConnection(const ConnectionData& data,
-        const SharedDeviceData& src,
-        const XletData& src_out,
-        const SharedDeviceData& dest,
-        const XletData& dest_in);
+    bool addConnection(const ConnectionFullInfo& info);
 
     /**
      * @complexity: O(n)
@@ -52,6 +48,8 @@ public:
     void clearItems();
 
     QSortFilterProxyModel* sortProxy() { return proxy_; }
+
+    void setFullData(const QList<ConnectionFullInfo>& conn);
 
 private:
     bool updateDeviceTitle(const QModelIndex& idx, DeviceId id, const QString& title);

@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include "connection_item_model.h"
 #include "diagram_item_model.h"
+#include "scene_devices.h"
 
 namespace {
 enum ConnColumnOrder {
@@ -58,31 +59,29 @@ bool ConnectionItemModel::updateDeviceTitle(DeviceId id, const QString& title)
     return update_num > 0;
 }
 
-bool ConnectionItemModel::addConnection(const ConnectionData& data,
-    const SharedDeviceData& src,
-    const XletData& src_out,
-    const SharedDeviceData& dest,
-    const XletData& dest_in)
+bool ConnectionItemModel::addConnection(const ConnectionFullInfo& info)
 {
-    if (!src || !dest || src_out.isPlug() || dest_in.isPlug())
+    if (!info.isValid() || info.src_out.isPlug() || info.dest_in.isPlug())
         return false;
 
-    auto src_name = new QStandardItem(src->title());
-    src_name->setData(QVariant::fromValue(data), DATA_CONNECTION);
-    src_name->setData(data.source(), DATA_DEVICE_ID);
+    auto conn = QVariant::fromValue(info.data());
+
+    auto src_name = new QStandardItem(info.src_data->title());
+    src_name->setData(conn, DATA_CONNECTION);
+    src_name->setData(info.src_data->id(), DATA_DEVICE_ID);
     src_name->setEditable(false);
-    auto src_model = new QStandardItem(src_out.modelString());
+    auto src_model = new QStandardItem(info.src_out.modelString());
     src_model->setEditable(false);
-    auto src_plug = new QStandardItem(src_out.connectorType().complement().localizedName());
+    auto src_plug = new QStandardItem(info.src_out.connectorType().complement().localizedName());
     src_plug->setEditable(false);
 
-    auto dest_name = new QStandardItem(dest->title());
-    dest_name->setData(QVariant::fromValue(data), DATA_CONNECTION);
-    dest_name->setData(data.destination(), DATA_DEVICE_ID);
+    auto dest_name = new QStandardItem(info.dest_data->title());
+    dest_name->setData(conn, DATA_CONNECTION);
+    dest_name->setData(info.dest_data->id(), DATA_DEVICE_ID);
     dest_name->setEditable(false);
-    auto dest_model = new QStandardItem(dest_in.modelString());
+    auto dest_model = new QStandardItem(info.dest_in.modelString());
     dest_model->setEditable(false);
-    auto dest_plug = new QStandardItem(dest_in.connectorType().complement().localizedName());
+    auto dest_plug = new QStandardItem(info.dest_in.connectorType().complement().localizedName());
     dest_plug->setEditable(false);
 
     appendRow({ src_name, src_model, src_plug, dest_name, dest_model, dest_plug });
@@ -120,6 +119,22 @@ std::optional<DeviceId> ConnectionItemModel::deviceId(const QModelIndex& idx) co
 void ConnectionItemModel::clearItems()
 {
     removeRows(0, rowCount());
+}
+
+void ConnectionItemModel::setFullData(const QList<ConnectionFullInfo>& conn)
+{
+    beginResetModel();
+
+    {
+        QSignalBlocker sb(this);
+
+        removeRows(0, rowCount());
+
+        for (auto& info : conn)
+            addConnection(info);
+    }
+
+    endResetModel();
 }
 
 bool ConnectionItemModel::updateDeviceTitle(const QModelIndex& idx, DeviceId id, const QString& title)
