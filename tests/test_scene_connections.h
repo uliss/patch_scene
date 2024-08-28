@@ -22,6 +22,8 @@ class TestSceneConnections : public TestSuite {
 private slots:
     void add();
     void remove();
+    void clear();
+    void removeAll();
     void findConnection();
 };
 

@@ -54,6 +54,9 @@ public:
      */
     void removeAll(DeviceId id);
 
+    /**
+     * iterate all connections with given function
+     */
     void foreachData(std::function<void(const ConnectionData& data)> fn) const;
 
     /**
