@@ -1040,7 +1040,7 @@ std::pair<QByteArray, QSize> Diagram::toSvg() const
     QSvgGenerator svg_gen;
     svg_gen.setOutputDevice(&buf);
 
-    auto items_bbox = scene_->itemsBoundingRect().toRect();
+    auto items_bbox = scene_->bestFitRect().toRect();
 
     svg_gen.setSize(items_bbox.size());
     svg_gen.setViewBox(QRect { 0, 0, items_bbox.width(), items_bbox.height() });
