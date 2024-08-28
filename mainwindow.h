@@ -82,7 +82,6 @@ private slots:
     void onDeviceUpdate(SharedDeviceData data);
     void onConnectionAdd(ConnectionData data);
     void onConnectionRemove(ConnectionData data);
-    void onSceneChange();
 
 private:
     void initActions();

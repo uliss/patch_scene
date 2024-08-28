@@ -129,7 +129,7 @@ void MainWindow::initDiagram()
 
     ui->gridLayout->addWidget(diagram_, 1, 1);
 
-    connect(diagram_, SIGNAL(sceneChanged()), this, SLOT(onSceneChange()));
+    connect(diagram_, &Diagram::sceneChanged, this, [this](bool) { setWindowModified(true); });
     connect(diagram_, SIGNAL(deviceAdded(SharedDeviceData)), this, SLOT(onDeviceAdd(SharedDeviceData)));
     connect(diagram_, SIGNAL(deviceRemoved(SharedDeviceData)), this, SLOT(onDeviceRemove(SharedDeviceData)));
     connect(diagram_, SIGNAL(deviceUpdated(SharedDeviceData)), this, SLOT(onDeviceUpdate(SharedDeviceData)));
@@ -567,11 +567,6 @@ void MainWindow::onConnectionRemove(ConnectionData data)
 
     if (return_model_->removeConnection(data))
         ui->returnList->resizeColumnsToContents();
-}
-
-void MainWindow::onSceneChange()
-{
-    setWindowModified(true);
 }
 
 void MainWindow::setProjectName(const QString& fileName)
