@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include "scene_connections.h"
 #include "connection.h"
+#include "scene_devices.h"
 
 #include <QGraphicsScene>
 
@@ -101,6 +102,21 @@ QList<ConnectionData> SceneConnections::dataList() const
 
     for (auto& kv : conn_)
         res.append(kv->connectionData());
+
+    return res;
+}
+
+QList<ConnectionFullInfo> SceneConnections::infoList(const SceneDevices& devices) const
+{
+    QList<ConnectionFullInfo> res;
+    res.reserve(conn_.size());
+
+    for (auto conn : conn_) {
+        auto& data = conn->connectionData();
+        auto info = devices.connectionInfo(data);
+        if (info)
+            res.append(info.value());
+    }
 
     return res;
 }

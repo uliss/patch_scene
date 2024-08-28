@@ -15,6 +15,7 @@
 #define SCENE_CONNECTIONS_H
 
 #include "connection.h"
+#include "device_common.h"
 
 #include <QHash>
 #include <QObject>
@@ -24,6 +25,7 @@
 namespace ceam {
 
 class Connection;
+class SceneDevices;
 
 class SceneConnections : public QObject {
     Q_OBJECT
@@ -63,6 +65,8 @@ public:
      * return all connection data as list
      */
     QList<ConnectionData> dataList() const;
+
+    QList<ConnectionFullInfo> infoList(const SceneDevices& devices) const;
 
     /**
      * find all incoming/outcoming connection to/from devices
