@@ -10,6 +10,7 @@ qt_add_executable(psc_tests
     test_suite.h test_suite.cpp
     test_xlet.h test_xlet.cpp
     test_scene_connections.h test_scene_connections.cpp
+    test_device_data.h test_device_data.cpp
 )
 
 add_custom_target(test_src
