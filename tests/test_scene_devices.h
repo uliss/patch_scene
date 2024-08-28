@@ -26,6 +26,7 @@ private slots:
     void boundingRect();
     void findConnectionInfo();
     void checkConnection();
+    void findConnectionPoints();
 };
 
 #endif // TEST_SCENE_DEVICES_H

@@ -134,11 +134,11 @@ std::optional<ConnectionFullInfo> SceneDevices::connectionInfo(const ConnectionD
 std::optional<std::pair<QPointF, QPointF>> SceneDevices::connectionPoints(const ConnectionData& conn) const
 {
     auto src_it = devices_.find(conn.source());
-    if (src_it != devices_.end())
+    if (src_it == devices_.end())
         return {};
 
     auto dest_it = devices_.find(conn.destination());
-    if (dest_it != devices_.end())
+    if (dest_it == devices_.end())
         return {};
 
     auto p0 = src_it->second->outletPos(conn.sourceOutput(), true);

@@ -241,4 +241,45 @@ void TestSceneDevices::checkConnection()
     QVERIFY(!dev.checkConnection({ 0, 0, 0, 0 }));
 }
 
+void TestSceneDevices::findConnectionPoints()
+{
+    SceneDevices dev;
+    QVERIFY(!dev.connectionPoints({ 0, 0, 0, 0 }));
+
+    QGraphicsScene scene;
+    dev.setScene(&scene);
+
+    auto dev1 = dev.add(data1(100));
+    auto dev2 = dev.add(data1(101));
+    dev1->setPos(100, 200);
+    dev2->setPos(300, 400);
+
+    auto pts = dev.connectionPoints({ 100, 0, 101, 0 });
+    QVERIFY(pts);
+    QCOMPARE(pts->first, QPointF {});
+    QCOMPARE(pts->second, QPointF {});
+
+    pts = dev.connectionPoints({ 101, 0, 100, 0 });
+    QVERIFY(pts);
+    QCOMPARE(pts->first, QPointF {});
+    QCOMPARE(pts->second, QPointF {});
+
+    dev.clear();
+
+    dev1 = dev.add(data4(100));
+    dev2 = dev.add(data4(101));
+    dev1->setPos(100, 200);
+    dev2->setPos(300, 400);
+
+    pts = dev.connectionPoints({ 100, 0, 101, 0 });
+    QVERIFY(pts);
+    QCOMPARE(pts->first, QPointF(100, 264));
+    QCOMPARE(pts->second, QPointF(300, 424));
+
+    pts = dev.connectionPoints({ 101, 0, 100, 0 });
+    QVERIFY(pts);
+    QCOMPARE(pts->first, QPointF(300, 464));
+    QCOMPARE(pts->second, QPointF(100, 224));
+}
+
 static TestSceneDevices test_scene_devices;

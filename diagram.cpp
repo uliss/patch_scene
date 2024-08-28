@@ -178,6 +178,8 @@ void Diagram::updateConnectionPos(Connection* conn)
     auto conn_pos = devices_.connectionPoints(conn->connectionData());
     if (conn_pos)
         conn->setPoints(conn_pos->first, conn_pos->second);
+    else
+        qWarning() << __FUNCTION__ << "connection points not found";
 }
 
 void Diagram::updateConnectionPos(DeviceId id)
@@ -1233,15 +1235,14 @@ bool Diagram::isValidConnection(const XletInfo& src, const XletInfo& dest) const
         ? ConnectionData(src.id(), src.index(), dest.id(), dest.index())
         : ConnectionData(dest.id(), dest.index(), src.id(), src.index());
 
-    for (auto x : scene_->items()) {
-        auto conn = qgraphicsitem_cast<Connection*>(x);
-        if (conn) {
-            auto item_data = conn->connectionData();
-            if (data.isSameDestimation(item_data) || data.isSameSource(item_data)) {
-                qWarning() << "already connected";
-                return false;
-            }
-        }
+    if (connections_.findConnection(data.sourceInfo())) {
+        qWarning() << "already connected from this source";
+        return false;
+    }
+
+    if (connections_.findConnection(data.destinationInfo())) {
+        qWarning() << "already connected to this destination";
+        return false;
     }
 
     return true;
