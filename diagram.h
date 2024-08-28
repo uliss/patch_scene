@@ -227,6 +227,10 @@ private:
     void updateConnectionPos(DeviceId id);
 
     void saveClickPos(const QPoint& pos);
+
+    /**
+     * @emit sceneClearAll()
+     */
     void clearAll();
 
 #ifdef __MACH__
@@ -268,6 +272,7 @@ private:
     void initLiveConnection();
     void initScene(int w, int h);
     void initSceneConnections();
+    void initSceneDevices();
 
     /**
      * @param pos - position in view coordinates

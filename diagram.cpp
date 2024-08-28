@@ -83,6 +83,7 @@ Diagram::Diagram(int w, int h, QWidget* parent)
 
     initScene(w, h);
     initSceneConnections();
+    initSceneDevices();
 
     initLiveConnection();
     initSelectionRect();
@@ -116,6 +117,13 @@ void Diagram::initSceneConnections()
     connect(&connections_, SIGNAL(visibleChanged(bool)), this, SIGNAL(showCablesChanged(bool)));
 }
 
+void Diagram::initSceneDevices()
+{
+    devices_.setScene(scene_);
+    connect(&devices_, SIGNAL(added(SharedDeviceData)), this, SIGNAL(deviceAdded(SharedDeviceData)));
+    connect(&devices_, SIGNAL(removed(SharedDeviceData)), this, SIGNAL(deviceRemoved(SharedDeviceData)));
+}
+
 void Diagram::initScene(int w, int h)
 {
     scene_ = new DiagramScene(w, h, this);
@@ -124,8 +132,6 @@ void Diagram::initScene(int w, int h)
 
     // NB: should be called after setScene(scene_)!
     scene_->initGrid();
-
-    devices_.setScene(scene_);
 }
 
 bool Diagram::removeDevice(DeviceId id)
@@ -133,7 +139,6 @@ bool Diagram::removeDevice(DeviceId id)
     auto data = devices_.remove(id);
     if (data) {
         connections_.removeAll(id);
-        emit deviceRemoved(data);
         emit sceneChanged();
     }
 
@@ -348,7 +353,6 @@ Device* Diagram::addDevice(const SharedDeviceData& data)
     connect(dev, SIGNAL(alignVertical()), this, SLOT(cmdAlignVSelected()));
 
     emit sceneChanged();
-    emit deviceAdded(dev->deviceData());
 
     return dev;
 }
