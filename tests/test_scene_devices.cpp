@@ -14,11 +14,12 @@
 #include "test_scene_devices.h"
 #include "device.h"
 #include "scene_devices.h"
+#include "tests/json_common.h"
 
 #include <QGraphicsScene>
+#include <QJsonObject>
 #include <QSignalSpy>
 #include <QTest>
-#include <QJsonObject>
 
 using namespace ceam;
 
@@ -345,11 +346,9 @@ void TestSceneDevices::findConnectionPoints()
     QCOMPARE(pts->second, QPointF(100, 224));
 }
 
-void TestSceneDevices::json()
+void TestSceneDevices::toJson()
 {
     SceneDevices dev;
-    QVERIFY(!dev.connectionPoints({ 0, 0, 0, 0 }));
-
     QGraphicsScene scene;
     dev.setScene(&scene);
 
@@ -369,6 +368,24 @@ void TestSceneDevices::json()
     QCOMPARE(o2["zoom"].toDouble(), 1);
     QCOMPARE(o1["category"].toString(), "device");
     QCOMPARE(o2["category"].toString(), "device");
+}
+
+void TestSceneDevices::setFromJson()
+{
+    SceneDevices sc;
+    QGraphicsScene scene;
+    sc.setScene(&scene);
+
+    QVERIFY(!sc.setFromJson({}));
+
+    auto arr = read_json_file_array("test_scene_devices_1.json");
+    QVERIFY(!arr.isEmpty());
+
+    QVERIFY(sc.setFromJson(arr));
+    QCOMPARE(sc.count(), 2);
+
+    QVERIFY(sc.setFromJson(arr));
+    QCOMPARE(sc.count(), 2);
 }
 
 static TestSceneDevices test_scene_devices;

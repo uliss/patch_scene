@@ -55,3 +55,20 @@ QString make_test_filename(const QString& filename)
 {
     return QDir(TEST_DATA_DIR).filePath(QFileInfo(filename).fileName());
 }
+
+QJsonArray read_json_file_array(const QString& filename)
+{
+    auto path = make_test_filename(filename);
+    QFile f(path);
+    if (!f.open(QFile::ReadOnly)) {
+        qWarning() << "can't open file:" << path;
+        return {};
+    }
+
+    QJsonParseError err;
+    auto doc = QJsonDocument::fromJson(f.readAll(), &err);
+    if (doc.isNull())
+        qWarning() << "json parse error:" << err.errorString();
+
+    return doc.array();
+}
