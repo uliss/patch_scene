@@ -169,6 +169,12 @@ private:
 
 using SharedDeviceData = QSharedDataPointer<DeviceData>;
 
+struct ConnectionFullInfo {
+    SharedDeviceData src_data, dest_data;
+    XletData src_out, dest_in;
+    XletIndex src_out_idx, dest_in_idx;
+};
+
 }
 
 QDebug operator<<(QDebug debug, const ceam::DeviceData& data);
