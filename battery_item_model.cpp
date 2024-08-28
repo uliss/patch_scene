@@ -74,6 +74,11 @@ void BatteryItemModel::updateDeviceData(const BatteryChange& data)
     }
 }
 
+void BatteryItemModel::clearItems()
+{
+    removeRows(0, rowCount());
+}
+
 void BatteryItemModel::updateData()
 {
     setRowCount(batteries_.size());

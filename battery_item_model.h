@@ -33,6 +33,8 @@ public:
 
     QSortFilterProxyModel* sortProxy() { return proxy_; }
 
+    void clearItems();
+
 private:
     void updateData();
 
