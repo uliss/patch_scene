@@ -464,7 +464,7 @@ bool Diagram::loadJson(const QString& path)
     if (devs.isArray()) {
         auto arr = devs.toArray();
         for (const auto& j : arr)
-            devices_.add(Device::datafromJson(j));
+            addDevice(Device::datafromJson(j));
     }
 
     // load connections
@@ -473,10 +473,8 @@ bool Diagram::loadJson(const QString& path)
         auto arr = cons.toArray();
         for (const auto& j : arr) {
             auto conn_data = ConnectionData::fromJson(j);
-            if (conn_data) {
-                auto conn = connections_.add(conn_data.value());
-                updateConnectionPos(conn);
-            }
+            if (conn_data)
+                connectDevices(conn_data.value());
         }
     }
 
