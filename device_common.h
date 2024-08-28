@@ -173,6 +173,16 @@ struct ConnectionFullInfo {
     SharedDeviceData src_data, dest_data;
     XletData src_out, dest_in;
     XletIndex src_out_idx, dest_in_idx;
+
+    bool isValid() const
+    {
+        return src_data && dest_data;
+    }
+
+    ConnectionData data() const
+    {
+        return { src_data->id(), src_out_idx, dest_data->id(), dest_in_idx };
+    }
 };
 
 }
