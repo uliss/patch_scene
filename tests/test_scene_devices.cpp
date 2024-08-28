@@ -18,6 +18,7 @@
 #include <QGraphicsScene>
 #include <QSignalSpy>
 #include <QTest>
+#include <QJsonObject>
 
 using namespace ceam;
 
@@ -342,6 +343,32 @@ void TestSceneDevices::findConnectionPoints()
     QVERIFY(pts);
     QCOMPARE(pts->first, QPointF(300, 464));
     QCOMPARE(pts->second, QPointF(100, 224));
+}
+
+void TestSceneDevices::json()
+{
+    SceneDevices dev;
+    QVERIFY(!dev.connectionPoints({ 0, 0, 0, 0 }));
+
+    QGraphicsScene scene;
+    dev.setScene(&scene);
+
+    auto dev1 = dev.add(data1(100));
+    auto dev2 = dev.add(data1(101));
+    dev1->setPos(100, 200);
+    dev2->setPos(300, 400);
+
+    auto json = dev.toJson();
+    QVERIFY(json.isArray());
+    QCOMPARE(json.toArray().count(), 2);
+    auto arr = json.toArray();
+    auto o1 = arr[0].toObject();
+    auto o2 = arr[1].toObject();
+
+    QCOMPARE(o1["zoom"].toDouble(), 1);
+    QCOMPARE(o2["zoom"].toDouble(), 1);
+    QCOMPARE(o1["category"].toString(), "device");
+    QCOMPARE(o2["category"].toString(), "device");
 }
 
 static TestSceneDevices test_scene_devices;

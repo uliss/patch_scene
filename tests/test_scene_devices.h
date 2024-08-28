@@ -31,6 +31,7 @@ private slots:
     void findConnectionInfo();
     void checkConnection();
     void findConnectionPoints();
+    void json();
 };
 
 #endif // TEST_SCENE_DEVICES_H

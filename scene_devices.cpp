@@ -15,6 +15,8 @@
 #include "device.h"
 
 #include <QGraphicsScene>
+#include <QJsonArray>
+#include <QJsonObject>
 
 using namespace ceam;
 
@@ -372,6 +374,16 @@ QList<DeviceId> SceneDevices::intersectedList(const QRectF& rect) const
         if (scene_bbox.intersects(rect))
             res << kv.first;
     }
+
+    return res;
+}
+
+QJsonValue SceneDevices::toJson() const
+{
+    QJsonArray res;
+
+    for (auto& kv : devices_)
+        res << kv.second->toJson();
 
     return res;
 }

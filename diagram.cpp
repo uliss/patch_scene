@@ -631,12 +631,7 @@ QJsonObject Diagram::toJson() const
 {
     QJsonObject json;
 
-    QJsonArray devs;
-    devices_.foreachDevice([&devs](const Device* dev) {
-        devs.append(dev->toJson());
-    });
-
-    json[JSON_KEY_DEVICES] = devs;
+    json[JSON_KEY_DEVICES] = devices_.toJson();
 
     QJsonArray cons;
 
