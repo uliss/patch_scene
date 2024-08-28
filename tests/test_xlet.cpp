@@ -55,4 +55,4 @@ void TestXlet::json()
     QCOMPARE(data1, data3.value());
 }
 
-static TestXlet test;
+static TestXlet test_xlet;

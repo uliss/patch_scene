@@ -18,7 +18,7 @@
 #include <QJsonDocument>
 #include <QTest>
 
-static TestDeviceLibrary dev_lib;
+static TestDeviceLibrary test_device_library;
 
 using namespace ceam;
 
