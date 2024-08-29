@@ -54,5 +54,3 @@ void TestXlet::json()
     QVERIFY(data3);
     QCOMPARE(data1, data3.value());
 }
-
-static TestXlet test_xlet;

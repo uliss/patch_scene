@@ -14,9 +14,9 @@
 #ifndef TEST_XLET_H
 #define TEST_XLET_H
 
-#include "tests/test_suite.h"
+#include <QObject>
 
-class TestXlet : public TestSuite {
+class TestXlet : public QObject {
     Q_OBJECT
 
 private slots:

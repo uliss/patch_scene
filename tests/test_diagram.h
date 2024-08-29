@@ -14,9 +14,9 @@
 #ifndef TEST_DIAGRAM_H
 #define TEST_DIAGRAM_H
 
-#include "test_suite.h"
+#include <QObject>
 
-class TestDiagram : public TestSuite {
+class TestDiagram : public QObject {
     Q_OBJECT
 
 private slots:

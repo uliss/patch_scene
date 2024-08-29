@@ -65,5 +65,3 @@ void TestConnectorType::testInit()
     QCOMPARE(ConnectorType::fromInt(ConnectorType::socket_male.toInt()), ConnectorType::socket_male);
 
 }
-
-static TestConnectorType test_connector_type;

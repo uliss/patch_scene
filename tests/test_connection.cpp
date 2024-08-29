@@ -111,5 +111,3 @@ void TestConnection::findConnected()
     auto conn4 = new Connection({ 101, 0, 201, 0 });
     sc.addItem(conn4);
 }
-
-static TestConnection test_connection;

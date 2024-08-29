@@ -382,5 +382,3 @@ void TestSceneDevices::compare()
     QCOMPARE(sc, sc);
     QVERIFY(!(sc != sc));
 }
-
-static TestSceneDevices test_scene_devices;

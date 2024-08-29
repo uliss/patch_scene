@@ -120,5 +120,3 @@ void TestDiagram::moveSelectedFrom()
     dia.redo();
     QCOMPARE(dia.devices().findData(100)->pos(), QPointF(150, 150));
 }
-
-static TestDiagram test_diagram;

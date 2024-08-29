@@ -113,5 +113,3 @@ void TestDeviceData::visOutputAt()
     data.outputs().last().setVisible(true);
     QVERIFY(data.visOutputAt(1));
 }
-
-static TestDeviceData test_device_data;

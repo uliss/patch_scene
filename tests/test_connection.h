@@ -14,10 +14,11 @@
 #ifndef TEST_CONNECTION_H
 #define TEST_CONNECTION_H
 
-#include "test_suite.h"
+#include <QObject>
 
-class TestConnection : public TestSuite {
+class TestConnection : public QObject {
     Q_OBJECT
+
 private slots:
     void dataInit();
     void dataJson();

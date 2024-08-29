@@ -14,9 +14,9 @@
 #ifndef TEST_SCENE_DEVICES_H
 #define TEST_SCENE_DEVICES_H
 
-#include "tests/test_suite.h"
+#include <QObject>
 
-class TestSceneDevices : public TestSuite {
+class TestSceneDevices : public QObject {
     Q_OBJECT
 
 private slots:

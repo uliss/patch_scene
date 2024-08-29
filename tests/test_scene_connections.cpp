@@ -229,5 +229,3 @@ void TestSceneConnections::checkConnection()
     QVERIFY(sc.checkConnection(XletInfo(100, 2, XletType::Out), XletInfo(101, 2, XletType::In)));
     QVERIFY(sc.checkConnection(XletInfo(101, 2, XletType::In), XletInfo(100, 2, XletType::Out)));
 }
-
-static TestSceneConnections test_scene_connections;

@@ -14,8 +14,6 @@ qt_add_executable(
     test_diagram.cpp
     test_scene_devices.h
     test_scene_devices.cpp
-    test_suite.h
-    test_suite.cpp
     test_xlet.h
     test_xlet.cpp
     test_scene_connections.h

@@ -80,5 +80,3 @@ void TestConnectionDatabase::exists()
 {
 
 }
-
-static TestConnectionDatabase test_connection_database;

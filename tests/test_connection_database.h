@@ -14,11 +14,11 @@
 #ifndef TEST_CONNECTION_DATABASE_H
 #define TEST_CONNECTION_DATABASE_H
 
-#include "test_suite.h"
+#include <QObject>
 
-class TestConnectionDatabase : public TestSuite {
-
+class TestConnectionDatabase : public QObject {
     Q_OBJECT
+
 private slots:
     void jackPair();
     void init();

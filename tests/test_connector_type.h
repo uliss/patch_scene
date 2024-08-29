@@ -14,10 +14,11 @@
 #ifndef TEST_CONNECTOR_TYPE_H
 #define TEST_CONNECTOR_TYPE_H
 
-#include "test_suite.h"
+#include <QObject>
 
-class TestConnectorType : public TestSuite {
+class TestConnectorType : public QObject {
     Q_OBJECT
+
 private slots:
     void testInit();
 };

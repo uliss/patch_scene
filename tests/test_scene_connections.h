@@ -14,9 +14,9 @@
 #ifndef TEST_SCENE_CONNECTIONS_H
 #define TEST_SCENE_CONNECTIONS_H
 
-#include "test_suite.h"
+#include <QObject>
 
-class TestSceneConnections : public TestSuite {
+class TestSceneConnections : public QObject {
     Q_OBJECT
 
 private slots:
