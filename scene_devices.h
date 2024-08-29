@@ -36,6 +36,9 @@ private:
 public:
     SceneDevices();
 
+    bool operator==(const SceneDevices& sc) const;
+    bool operator!=(const SceneDevices& sc) const { return !operator==(sc); }
+
     /**
      * set scene to operate on
      */
@@ -150,5 +153,7 @@ signals:
 };
 
 }
+QDebug operator<<(QDebug debug, const ceam::SceneDevices& sc);
+
 
 #endif // SCENE_DEVICES_H

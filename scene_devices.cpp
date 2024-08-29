@@ -17,6 +17,7 @@
 #include <QGraphicsScene>
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QSet>
 
 using namespace ceam;
 
@@ -25,6 +26,31 @@ using namespace ceam;
 SceneDevices::SceneDevices()
     : scene_(nullptr)
 {
+}
+
+bool SceneDevices::operator==(const SceneDevices& sc) const
+{
+    if (this == &sc)
+        return true;
+
+    if (devices_.size() != sc.devices_.size())
+        return false;
+
+    QSet<DeviceData> d0, d1;
+
+    for (auto& kv : devices_) {
+        auto data = kv.second->deviceData();
+        data->setId(DEV_NULL_ID);
+        d0.insert(*data);
+    }
+
+    for (auto& kv : sc.devices_) {
+        auto data = kv.second->deviceData();
+        data->setId(DEV_NULL_ID);
+        d1.insert(*data);
+    }
+
+    return d0 == d1;
 }
 
 void SceneDevices::setScene(QGraphicsScene* scene)
@@ -434,4 +460,13 @@ bool SceneDevices::moveSelectedBy(int dx, int dy)
     }
 
     return res;
+}
+
+QDebug operator<<(QDebug debug, const ceam::SceneDevices& sc)
+{
+    sc.foreachData([&debug](const SharedDeviceData& data) {
+        if (data)
+            debug << *data << "\n";
+    });
+    return debug;
 }
