@@ -24,6 +24,8 @@ class QGraphicsSvgItem;
 
 namespace ceam {
 
+class Device;
+
 class XletData {
     QString name_;
     ConnectorModel model_ { ConnectorModel::UNKNOWN };
@@ -91,6 +93,8 @@ public:
 
     XletIndex index() const { return index_; }
     void setIndex(XletIndex idx);
+
+    const Device* parentDevice() const;
 
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) final;

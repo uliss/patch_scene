@@ -161,6 +161,11 @@ void DeviceXlet::setIndex(XletIndex idx)
     updateTooltip();
 }
 
+const Device* DeviceXlet::parentDevice() const
+{
+    return qgraphicsitem_cast<Device*>(parentItem());
+}
+
 void DeviceXlet::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 {
     if (data_.supportsPhantomPower()) {
