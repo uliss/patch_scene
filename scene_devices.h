@@ -90,6 +90,14 @@ public:
     std::optional<std::pair<QPointF, QPointF>> connectionPoints(const ConnectionData& conn) const;
 
     /**
+     * return connection endpoint data
+     * @param conn - connection data
+     * @return pair of XletData, or null on error
+     * @complexity O(1)
+     */
+    std::optional<std::pair<XletData, XletData>> connectionData(const ConnectionData& conn) const;
+
+    /**
      * check if connection data is valid
      * @param conn - connection data
      * @complexity O(1)
@@ -154,6 +162,5 @@ signals:
 
 }
 QDebug operator<<(QDebug debug, const ceam::SceneDevices& sc);
-
 
 #endif // SCENE_DEVICES_H
