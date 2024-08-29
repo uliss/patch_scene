@@ -12,6 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "connection.h"
+#include "connection_database.h"
 #include "diagram_scene.h"
 
 #include <QGraphicsScene>
@@ -20,14 +21,21 @@
 #include <QMenu>
 #include <QPainter>
 
+using namespace ceam;
+
 namespace {
 constexpr const char* KEY_SRC = "src";
 constexpr const char* KEY_DEST = "dest";
 constexpr const char* KEY_SRC_OUT = "out";
 constexpr const char* KEY_DEST_IN = "in";
+
+ConnectionDatabase& conn_db()
+{
+    static ConnectionDatabase db_;
+    return db_;
 }
 
-using namespace ceam;
+}
 
 QJsonObject ConnectionData::toJson() const
 {

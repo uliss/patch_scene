@@ -20,9 +20,6 @@
 
 namespace ceam {
 
-using DeviceId = std::uint32_t;
-using XletIndex = std::uint8_t;
-
 class Device;
 
 constexpr DeviceId DEV_NULL_ID = 0;
@@ -145,6 +142,8 @@ protected:
 private:
     ConnectionData data_;
     QPainterPath line_;
+    QColor color_;
+    float pen_width_ { 1.5 };
 };
 
 uint qHash(const ConnectionData& key);
