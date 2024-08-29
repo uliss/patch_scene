@@ -21,6 +21,7 @@ ConnectionStyleDatabase::ConnectionStyleDatabase()
     pen_width_[ConnectionStyle::Audio] = 2;
     pen_width_[ConnectionStyle::Computer] = 1;
 
+    color_[ConnectionStyle::Audio] = Qt::black;
     color_[ConnectionStyle::Invalid] = Qt::red;
     color_[ConnectionStyle::Network] = Qt::darkCyan;
     color_[ConnectionStyle::Computer] = Qt::darkBlue;
