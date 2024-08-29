@@ -142,7 +142,9 @@ if(APPLE)
     set(MACOSX_BUNDLE_LONG_VERSION_STRING ${PROJECT_VERSION})
 endif()
 
-add_library(patch_scene_lib STATIC ${PROJECT_SOURCES})
+add_library(patch_scene_lib STATIC ${PROJECT_SOURCES}
+    connection_style.h connection_style.cpp
+    connection_database.h connection_database.cpp)
 target_include_directories(patch_scene_lib PRIVATE ${PROJECT_BINARY_DIR})
 target_link_libraries(
     patch_scene_lib PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::PrintSupport

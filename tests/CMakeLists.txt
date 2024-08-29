@@ -21,7 +21,8 @@ qt_add_executable(
     test_scene_connections.h
     test_scene_connections.cpp
     test_device_data.h
-    test_device_data.cpp)
+    test_device_data.cpp
+    test_connection_database.h test_connection_database.cpp)
 
 add_custom_target(
     test_src
