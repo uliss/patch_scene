@@ -328,6 +328,14 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
         auto vAlign = new QAction(tr("Align vertical"), &menu);
         connect(vAlign, SIGNAL(triggered(bool)), this, SIGNAL(alignVertical()));
         menu.addAction(vAlign);
+
+        auto hDist = new QAction(tr("Distribute horizontal"), &menu);
+        connect(hDist, SIGNAL(triggered(bool)), this, SIGNAL(distributeHorizontal()));
+        menu.addAction(hDist);
+
+        auto vDist = new QAction(tr("Distribute vertical"), &menu);
+        connect(vDist, SIGNAL(triggered(bool)), this, SIGNAL(distributeVertical()));
+        menu.addAction(vDist);
     }
 
     menu.addSeparator();

@@ -292,6 +292,74 @@ void Diagram::cmdDisconnectXlet(const XletInfo& xi)
     undo_stack_->push(xconn);
 }
 
+void Diagram::cmdDistributeHSelected()
+{
+    int count = 0;
+    qreal min_x = std::numeric_limits<qreal>::max();
+    qreal max_x = std::numeric_limits<qreal>::lowest();
+    std::vector<std::pair<DeviceId, qreal>> sel_data;
+    devices_.foreachSelectedDevice([&count, &min_x, &max_x, &sel_data](const Device* dev) {
+        const auto pos = dev->pos();
+        min_x = std::min(min_x, pos.x());
+        max_x = std::max(max_x, pos.x());
+        sel_data.push_back({ dev->id(), pos.x() });
+
+        count++;
+    });
+    if (count < 3)
+        return;
+
+    qreal dist_wd = max_x - min_x;
+    qreal step = dist_wd / (count - 1);
+    std::sort(sel_data.begin(), sel_data.end(),
+        [](const std::pair<DeviceId, qreal>& a, const std::pair<DeviceId, qreal>& b) { return a.second < b.second; });
+
+    QHash<DeviceId, QPointF> deltas;
+    for (auto i = 0; i < sel_data.size(); i++) {
+        auto id = sel_data[i].first;
+        auto old_x = sel_data[i].second - min_x;
+        auto new_x = step * i - old_x;
+        deltas[id] = { new_x, 0 };
+    }
+
+    auto move_by = new MoveByDevices(this, deltas);
+    undo_stack_->push(move_by);
+}
+
+void Diagram::cmdDistributeVSelected()
+{
+    int count = 0;
+    qreal min_y = std::numeric_limits<qreal>::max();
+    qreal max_y = std::numeric_limits<qreal>::lowest();
+    std::vector<std::pair<DeviceId, qreal>> sel_data;
+    devices_.foreachSelectedDevice([&count, &min_y, &max_y, &sel_data](const Device* dev) {
+        const auto pos = dev->pos();
+        min_y = std::min(min_y, pos.y());
+        max_y = std::max(max_y, pos.y());
+        sel_data.push_back({ dev->id(), pos.y() });
+
+        count++;
+    });
+    if (count < 3)
+        return;
+
+    qreal dist_height = max_y - min_y;
+    qreal step = dist_height / (count - 1);
+    std::sort(sel_data.begin(), sel_data.end(),
+        [](const std::pair<DeviceId, qreal>& a, const std::pair<DeviceId, qreal>& b) { return a.second < b.second; });
+
+    QHash<DeviceId, QPointF> deltas;
+    for (auto i = 0; i < sel_data.size(); i++) {
+        auto id = sel_data[i].first;
+        auto old_y = sel_data[i].second - min_y;
+        auto new_y = step * i - old_y;
+        deltas[id] = { 0, new_y };
+    }
+
+    auto move_by = new MoveByDevices(this, deltas);
+    undo_stack_->push(move_by);
+}
+
 void Diagram::cmdMoveSelectedDevicesBy(qreal dx, qreal dy)
 {
     auto move_by = new MoveSelected(this, dx, dy);
@@ -381,6 +449,9 @@ Device* Diagram::addDevice(const SharedDeviceData& data)
 
     connect(dev, SIGNAL(alignHorizontal()), this, SLOT(cmdAlignHSelected()));
     connect(dev, SIGNAL(alignVertical()), this, SLOT(cmdAlignVSelected()));
+
+    connect(dev, SIGNAL(distributeHorizontal()), this, SLOT(cmdDistributeHSelected()));
+    connect(dev, SIGNAL(distributeVertical()), this, SLOT(cmdDistributeVSelected()));
 
     emit sceneChanged();
 

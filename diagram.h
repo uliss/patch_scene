@@ -162,6 +162,8 @@ public slots:
     void cmdCutSelected();
     void cmdDisconnectDevices(const ConnectionData& conn);
     void cmdDisconnectXlet(const XletInfo& xi);
+    void cmdDistributeHSelected();
+    void cmdDistributeVSelected();
     void cmdDuplicateDevice(const SharedDeviceData& data);
     void cmdDuplicateSelection();
     void cmdMoveSelectedDevicesBy(qreal dx, qreal dy);
