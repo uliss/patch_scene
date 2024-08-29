@@ -319,9 +319,9 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
         showTitle->setText(data_->showTitle() ? tr("Hide title") : tr("Show title"));
         connect(showTitle, &QAction::triggered, this,
             [this](bool checked) {
-                auto show_title = data_->showTitle();
-                data_->setShowTitle(!show_title);
-                syncRect();
+                auto data = data_;
+                data->setShowTitle(!data_->showTitle());
+                emit updateDevice(data);
             });
 
         auto duplicateAct = new QAction(tr("Duplicate"), &menu);
