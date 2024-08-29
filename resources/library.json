@@ -50,6 +50,17 @@
         ]
       },
       {
+        "title": "TV",
+        "title-ru": "Телевизор",
+        "image": "tv_1",
+        "zoom": 1,
+        "inputs": [
+          {
+            "model": "hdmi"
+          }
+        ]
+      },
+      {
         "vendor": "M-Audio",
         "model": "MIDISPORT 2x2",
         "inputs": [
