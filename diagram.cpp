@@ -341,6 +341,12 @@ void Diagram::cmdPaste()
     undo_stack_->push(paste);
 }
 
+void Diagram::cmdReconnectDevice(const ConnectionData& old_conn, const ConnectionData& new_conn)
+{
+    auto recon = new ReconnectDevice(this, old_conn, new_conn);
+    undo_stack_->push(recon);
+}
+
 Device* Diagram::addDevice(const SharedDeviceData& data)
 {
     auto dev = devices_.add(data);
@@ -786,13 +792,25 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
 
         auto xlet = hoverDeviceXlet(items(event->pos()), event->pos());
         if (xlet && conn_start_) {
-            if (!isValidConnection(conn_start_.value(), xlet.value()))
-                return;
+            if (event->modifiers().testFlag(Qt::ShiftModifier)
+                && xlet->id() == conn_start_->id()
+                && xlet->type() == conn_start_->type()) { // reconnect to other xlet of same device
 
-            if (xlet->type() == XletType::Out)
-                cmdConnectDevices(ConnectionData(xlet->id(), xlet->index(), conn_start_->id(), conn_start_->index()));
-            else if (xlet->type() == XletType::In)
-                cmdConnectDevices(ConnectionData(conn_start_->id(), conn_start_->index(), xlet->id(), xlet->index()));
+                auto prev_conn = connections_.findConnection(*conn_start_);
+                if (prev_conn) {
+                    auto new_conn = *prev_conn;
+                    if (new_conn.setEndPoint(xlet.value())) {
+                        cmdReconnectDevice(*prev_conn, new_conn);
+                    }
+                }
+            } else {
+                if (!isValidConnection(conn_start_.value(), xlet.value()))
+                    return;
+
+                auto conn = ConnectionData::fromXletPair(*xlet, *conn_start_);
+                if (conn)
+                    cmdConnectDevices(conn.value());
+            }
         }
 
         conn_start_ = {};

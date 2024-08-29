@@ -152,27 +152,28 @@ public:
 
 public slots:
     // undo/redo commands
+    void cmdAddToSelection(const QList<QGraphicsItem*>& items);
+    void cmdAddToSelection(const QRectF& sel);
+    void cmdAlignHSelected();
+    void cmdAlignVSelected();
+    void cmdConnectDevices(const ConnectionData& conn);
     void cmdCreateDevice(const QPointF& pos);
+    void cmdCutSelected();
+    void cmdDisconnectDevices(const ConnectionData& conn);
+    void cmdDisconnectXlet(const XletInfo& xi);
     void cmdDuplicateDevice(const SharedDeviceData& data);
     void cmdDuplicateSelection();
-    void cmdRemoveSelected();
+    void cmdMoveSelectedDevicesBy(qreal dx, qreal dy);
+    void cmdMoveSelectedDevicesFrom(const QPointF& from, const QPointF& to);
+    void cmdPaste();
+    void cmdReconnectDevice(const ConnectionData& old_conn, const ConnectionData& new_conn);
     void cmdRemoveDevice(const SharedDeviceData& data);
-    void cmdUpdateDevice(const SharedDeviceData& data);
+    void cmdRemoveSelected();
     void cmdSelectAll();
-    void cmdAddToSelection(const QRectF& sel);
-    void cmdAddToSelection(const QList<QGraphicsItem*>& items);
     void cmdSelectDevices(const QRectF& sel);
     void cmdSelectUnique(DeviceId id);
     void cmdToggleDevices(const QList<QGraphicsItem*>& items);
-    void cmdConnectDevices(const ConnectionData& conn);
-    void cmdDisconnectDevices(const ConnectionData& conn);
-    void cmdDisconnectXlet(const XletInfo& xi);
-    void cmdMoveSelectedDevicesBy(qreal dx, qreal dy);
-    void cmdMoveSelectedDevicesFrom(const QPointF& from, const QPointF& to);
-    void cmdAlignVSelected();
-    void cmdAlignHSelected();
-    void cmdCutSelected();
-    void cmdPaste();
+    void cmdUpdateDevice(const SharedDeviceData& data);
 
     void clearUndoStack();
     void copySelected();
