@@ -76,8 +76,25 @@ public:
      */
     void clear();
 
+    /**
+     * find device by given device id
+     * @return pointer to device or nullptr if not found
+     * @complexity O(1)
+     */
     Device* find(DeviceId id);
+
+    /**
+     * find device by given device id
+     * @return pointer to device or nullptr if not found
+     * @complexity O(1)
+     */
     const Device* find(DeviceId id) const;
+
+    /**
+     * find device data by given device id
+     * @return device data or empty data if not found
+     * @complexity O(1)
+     */
     SharedDeviceData findData(DeviceId id) const;
 
     std::optional<ConnectionFullInfo> connectionInfo(const ConnectionData& conn) const;
