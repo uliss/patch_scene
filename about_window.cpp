@@ -64,7 +64,7 @@ AboutWindow::AboutWindow(QWidget* parent)
     license->setStyleSheet("background: palette(window)");
     license->setMarkdown(tr("Distrubuted under GPLv3 license\n\n"
                             "**SVG icons used from:**\n\n"
-                            "- commons.wikimedia.org\n"
+                            "- https://commons.wikimedia.org\n"
                             "- https://www.svgrepo.com/\n"));
 
     auto thanks = new PSCTextBrowser(this);
@@ -72,8 +72,8 @@ AboutWindow::AboutWindow(QWidget* parent)
 
     thanks->setStyleSheet("background: palette(window)");
     thanks->setMarkdown(tr("**Thanks to:**\n\n"
-                           "- Serge Poltavski\n"
                            "- Natasha Plotnikova\n\n"
+                           "- Alex Nadzharov\n\n"
                            "**Translations:**\n\n"
                            "_to Russian:_ Serge Poltavski"));
 
