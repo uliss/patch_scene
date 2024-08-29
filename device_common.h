@@ -82,6 +82,8 @@ public:
 public:
     explicit DeviceData(DeviceId id);
 
+    bool operator==(const DeviceData& data) const;
+
     bool isNull() const { return id_ == DEV_NULL_ID; }
     DeviceId id() const { return id_; }
     void setId(DeviceId id) { id_ = id; }
@@ -184,6 +186,8 @@ struct ConnectionFullInfo {
         return { src_data->id(), src_out_idx, dest_data->id(), dest_in_idx };
     }
 };
+
+size_t qHash(const DeviceData& data);
 
 }
 

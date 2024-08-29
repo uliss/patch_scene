@@ -443,6 +443,24 @@ void ceam::foreachBatteryType(std::function<void(const char*, int)> fn)
     }
 }
 
+bool DeviceData::operator==(const DeviceData& data) const
+{
+    if (this == &data)
+        return true;
+
+    return inputs_ == data.inputs_
+        && outputs_ == data.outputs_
+        && model_ == data.model_
+        && vendor_ == data.vendor_
+        && title_ == data.title_
+        && pos_ == data.pos_
+        && zoom_ == data.zoom_
+        && battery_count_ == data.battery_count_
+        && battery_type_ == data.battery_type_
+        && category_ == data.category_
+        && show_title_ == data.show_title_;
+}
+
 BatteryChange::BatteryChange(BatteryType typeA, int countA, BatteryType typeB, int countB)
 {
     typeA_ = typeA;
@@ -456,9 +474,59 @@ BatteryChange::operator bool() const
     return typeA_ != typeB_ || countA_ != countB_;
 }
 
+size_t ceam::qHash(const ceam::DeviceData& data)
+{
+    return ::qHash(data.inputs())
+           ^ ::qHash(data.outputs())
+           ^ ::qHash(data.model())
+           ^ ::qHash(data.vendor())
+           ^ ::qHash(data.title())
+           ^ ::qHash(data.pos().toPoint())
+           ^ ::qHash(data.zoom())
+           ^ ::qHash(data.batteryCount())
+           ^ ::qHash((int)data.batteryType())
+           ^ ::qHash((int)data.category())
+           ^ ::qHash(data.showTitle());
+}
+
 QDebug operator<<(QDebug debug, const ceam::DeviceData& data)
 {
     QDebugStateSaver saver(debug);
-    debug.nospace() << data.toJson();
+
+#define PRINT_LINE(name, value) debug.nospace() << " - " << name << ": " << value << "\n";
+
+    debug << "Device #" << data.id() << "\n";
+    PRINT_LINE("pos", data.pos());
+    if (!data.title().isEmpty())
+        PRINT_LINE(JSON_KEY_TITLE, data.title());
+
+    PRINT_LINE(JSON_KEY_SHOW_TITLE, data.showTitle());
+
+    if (!data.vendor().isEmpty())
+        PRINT_LINE(JSON_KEY_VENDOR, data.vendor());
+
+    if (!data.model().isEmpty())
+        PRINT_LINE(JSON_KEY_MODEL, data.model());
+
+    if (data.zoom() != 1)
+        PRINT_LINE(JSON_KEY_ZOOM, data.zoom());
+
+    if (!data.image().isEmpty())
+        PRINT_LINE(JSON_KEY_IMAGE, data.image());
+
+    PRINT_LINE(JSON_KEY_CATEGORY, toString(data.category()));
+    if (data.batteryCount() > 0) {
+        PRINT_LINE(JSON_KEY_BATTERY_COUNT, data.batteryCount());
+        PRINT_LINE(JSON_KEY_BATTERY_TYPE, toJsonString(data.batteryType()));
+    }
+
+    if (!data.inputs().empty()) {
+        PRINT_LINE(JSON_KEY_INPUTS, data.inputs().size());
+    }
+
+    if (!data.outputs().empty()) {
+        PRINT_LINE(JSON_KEY_OUTPUTS, data.outputs().size());
+    }
+
     return debug;
 }
