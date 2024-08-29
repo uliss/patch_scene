@@ -101,6 +101,32 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+bool MainWindow::newDocument()
+{
+    if (isWindowModified()) {
+        auto btn = showNonSavedDocAlert();
+
+        switch (btn) {
+        case QMessageBox::Yes:
+            if (!saveDocument())
+                return false;
+
+            break;
+        case QMessageBox::No:
+            break;
+        default:
+            return false;
+        }
+    }
+
+    diagram_->clearAll();
+    project_name_.clear();
+    file_name_.clear();
+    updateTitle();
+    setWindowModified(false);
+    return true;
+}
+
 void MainWindow::initFavorites()
 {
     favorites_ = new FavoritesWidget(ui->favoritesDock);
@@ -223,17 +249,18 @@ void MainWindow::initActions()
     connect(ui->actionAboutApp, SIGNAL(triggered(bool)), this, SLOT(showAbout()));
     connect(ui->actionCopy, SIGNAL(triggered()), diagram_, SLOT(copySelected()));
     connect(ui->actionCut, SIGNAL(triggered()), diagram_, SLOT(cutSelected()));
-    connect(ui->actionPaste, SIGNAL(triggered()), diagram_, SLOT(paste()));
     connect(ui->actionDuplicate, SIGNAL(triggered()), this, SLOT(duplicateSelection()));
+    connect(ui->actionNew, SIGNAL(triggered(bool)), this, SLOT(newDocument()));
     connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(openDocument()));
+    connect(ui->actionPaste, SIGNAL(triggered()), diagram_, SLOT(paste()));
     connect(ui->actionPreferences, SIGNAL(triggered(bool)), this, SLOT(showPreferences()));
     connect(ui->actionPrint, SIGNAL(triggered()), this, SLOT(printDocument()));
+    connect(ui->actionProjectInfo, SIGNAL(triggered(bool)), this, SLOT(documentProperties()));
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
     connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(saveDocument()));
     connect(ui->actionSaveAs, SIGNAL(triggered()), this, SLOT(saveDocumentAs()));
     connect(ui->actionSelectAll, SIGNAL(triggered()), this, SLOT(selectAll()));
     connect(ui->actionSetBackground, SIGNAL(triggered(bool)), this, SLOT(setBackground()));
-    connect(ui->actionProjectInfo, SIGNAL(triggered(bool)), this, SLOT(documentProperties()));
 
     connect(ui->actionShowCables, &QAction::triggered, diagram_, [this](bool value) {
         diagram_->setShowCables(value);
@@ -402,7 +429,6 @@ void MainWindow::initReturnList()
         if (id)
             diagram_->cmdSelectUnique(id.value());
     });
-
 
     ui->returnList->resizeColumnsToContents();
 }

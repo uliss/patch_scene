@@ -52,6 +52,7 @@ public:
     ~MainWindow();
 
 public slots:
+    bool newDocument();
     bool openDocument(const QString& path);
     bool saveDocument();
     bool saveDocumentAs();

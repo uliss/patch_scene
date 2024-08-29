@@ -698,6 +698,8 @@ void Diagram::clearAll()
         background_ = nullptr;
     }
 
+    undo_stack_->clear();
+
     emit sceneClearAll();
 }
 

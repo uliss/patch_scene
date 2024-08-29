@@ -146,10 +146,28 @@ public:
     const QList<SharedDeviceData>& clipBuffer() const;
     void setClipBuffer(const QList<SharedDeviceData>& data);
 
+    /**
+     * render diagram as image
+     * @return QImage or null image on error
+     */
     QImage toImage() const;
+
+    /**
+     * render diagram as SVG image
+     * @return svg text content and size
+     */
     std::pair<QByteArray, QSize> toSvg() const;
 
+    /**
+     * check if grid is visible
+     */
     bool gridVisible() const;
+
+    /**
+     * Clear all items and undo stack
+     * @emit sceneClearAll()
+     */
+    void clearAll();
 
 public slots:
     // undo/redo commands
@@ -237,11 +255,6 @@ private:
     void updateConnectionStyle(Connection* conn);
 
     void saveClickPos(const QPoint& pos);
-
-    /**
-     * @emit sceneClearAll()
-     */
-    void clearAll();
 
 #ifdef __MACH__
     bool viewportEvent(QEvent* event) override;
