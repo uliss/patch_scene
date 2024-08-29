@@ -293,7 +293,9 @@
           },
           {
             "model": "power_iec_c_13_14",
-            "socket": "socket_male"
+            "socket": "socket_male",
+            "power": "~",
+            "name": "220V"
           }
         ]
       },
@@ -312,7 +314,9 @@
           },
           {
             "model": "power_iec_c_13_14",
-            "socket": "socket_male"
+            "socket": "socket_male",
+            "power": "~",
+            "name": "220V"
           }
         ]
       },
@@ -1310,7 +1314,7 @@
         "vendor": "Phenyx Pro",
         "model": "UHF Bodypack",
         "image": "body_pack_1",
-        "zoom": 0.75,
+        "zoom": 0.5,
         "battery-type": "aa",
         "battery-count": 2,
         "outputs": [
