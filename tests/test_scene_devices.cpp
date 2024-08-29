@@ -287,6 +287,39 @@ void TestSceneDevices::findConnectionInfo()
     QCOMPARE(info->dest_data->id(), 100);
 }
 
+void TestSceneDevices::findConnectionPair()
+{
+    SceneDevices dev;
+    auto pair = dev.connectionPair(ConnectionData { 100, 0, 101, 0 });
+    QVERIFY(!pair);
+
+    QGraphicsScene scene;
+    dev.setScene(&scene);
+
+    auto data = data0(100);
+    data->setId(100);
+    data->appendInput(XletData::createSocket(ConnectorModel::XLR, true));
+    data->appendOutput(XletData::createSocket(ConnectorModel::XLR, false));
+    QVERIFY(dev.add(data));
+    data->setId(101);
+    QVERIFY(dev.add(data));
+    data->setId(102);
+    QVERIFY(dev.add(data));
+    data->setId(103);
+    QVERIFY(dev.add(data));
+
+    pair = dev.connectionPair(ConnectionData { 100, 0, 101, 0 });
+    QVERIFY(pair);
+    QCOMPARE(pair->p0.model, ConnectorModel::XLR);
+    QCOMPARE(pair->p0.type, ConnectorType::plug_female);
+    QCOMPARE(pair->p1.model, ConnectorModel::XLR);
+    QCOMPARE(pair->p1.type, ConnectorType::plug_male);
+
+    {
+        QBENCHMARK(dev.connectionPair(ConnectionData { 100, 0, 101, 0 }));
+    }
+}
+
 void TestSceneDevices::checkConnection()
 {
     SceneDevices dev;

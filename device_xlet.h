@@ -64,6 +64,7 @@ public:
     QJsonObject toJson() const;
 
     static std::optional<XletData> fromJson(const QJsonValue& j);
+    static XletData createSocket(ConnectorModel model, bool female = true);
 
     bool operator==(const XletData& data) const;
     bool operator!=(const XletData& data) const { return !operator==(data); };

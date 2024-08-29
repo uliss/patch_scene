@@ -23,16 +23,17 @@ private slots:
     void initTestCase();
 
     void add();
-    void remove();
-    void clear();
-    void setSelected();
-    void toggleSelected();
     void boundingRect();
-    void findConnectionInfo();
     void checkConnection();
-    void findConnectionPoints();
-    void toJson();
+    void clear();
     void compare();
+    void findConnectionInfo();
+    void findConnectionPair();
+    void findConnectionPoints();
+    void remove();
+    void setSelected();
+    void toJson();
+    void toggleSelected();
 };
 
 #endif // TEST_SCENE_DEVICES_H

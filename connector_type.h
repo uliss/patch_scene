@@ -80,4 +80,6 @@ size_t qHash(const ConnectorType& ctype);
 
 } // namespace ceam
 
+QDebug operator<<(QDebug debug, const ceam::ConnectorType& type);
+
 #endif // CONNECTOR_TYPE_H

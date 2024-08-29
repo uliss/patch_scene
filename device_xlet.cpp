@@ -109,6 +109,13 @@ std::optional<XletData> XletData::fromJson(const QJsonValue& j)
     return data;
 }
 
+XletData XletData::createSocket(ConnectorModel model, bool female)
+{
+    XletData res { model };
+    res.setConnectorType(female ? ConnectorType::socket_female : ConnectorType::socket_male);
+    return res;
+}
+
 bool XletData::operator==(const XletData& data) const
 {
     return name_ == data.name_

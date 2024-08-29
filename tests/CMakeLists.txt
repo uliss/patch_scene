@@ -3,6 +3,7 @@ qt_add_executable(
     json_common.h
     json_common.cpp
     test_main.cpp
+    ../resources/patch_scene_resources.qrc
     # tests
     test_connection.h
     test_connection.cpp

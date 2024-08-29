@@ -147,3 +147,9 @@ size_t ceam::qHash(const ConnectorType& ctype)
 {
     return ::qHash(ctype.toInt());
 }
+
+QDebug operator<<(QDebug debug, const ceam::ConnectorType& type)
+{
+    debug << "ConnectorType" << type.toJsonString() << "\n";
+    return debug;
+}
