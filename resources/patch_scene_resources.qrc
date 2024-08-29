@@ -156,5 +156,9 @@
         <file>connectors/conn_plug.svg</file>
         <file>connectors/conn_socket.svg</file>
         <file>icons/grid_on.svg</file>
+        <file>devices/mic_on_stand_6.svg</file>
+        <file>devices/mic_on_stand_5.svg</file>
+        <file>devices/mic_on_stand_4.svg</file>
+        <file>devices/mic_on_stand_3.svg</file>
     </qresource>
 </RCC>
