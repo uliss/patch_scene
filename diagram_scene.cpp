@@ -71,7 +71,7 @@ void DiagramScene::initGrid()
     pen.setColor(QColor(100, 100, 100, 100));
     pen.setWidth(0);
 
-    for (int i = 0; i < rect.width() / 50; i++) {
+    for (int i = 0; i <= rect.width() / 50; i++) {
         auto x = 50 * (int(rect.left() + i * 50) / 50);
         auto p0 = QPoint(x, rect.top());
         auto p1 = QPoint(x, rect.bottom());
@@ -81,7 +81,7 @@ void DiagramScene::initGrid()
         grid_->addToGroup(line);
     }
 
-    for (int i = 0; i < rect.height() / 50; i++) {
+    for (int i = 0; i <= rect.height() / 50; i++) {
         auto y = 50 * (int(rect.top() + i * 50) / 50);
         auto p0 = QPoint(rect.left(), y);
         auto p1 = QPoint(rect.right(), y);
