@@ -256,3 +256,13 @@ void DeviceXlet::updateTooltip()
     else
         setToolTip(prefix + data_.modelString());
 }
+
+size_t ceam::qHash(const XletData& data)
+{
+    return ::qHash(data.name())
+        ^ ::qHash((int)data.connectorModel())
+        ^ ::qHash(data.connectorType().toInt())
+        ^ ::qHash(data.isVisible())
+        ^ ::qHash(data.isPhantomOn())
+        ^ ::qHash((int)data.powerType());
+}

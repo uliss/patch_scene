@@ -72,6 +72,8 @@ public:
     bool isPlug() const { return type_.isPlug(); }
 };
 
+size_t qHash(const XletData& data);
+
 class DeviceXlet : public QGraphicsObject {
     Q_OBJECT
 public:
