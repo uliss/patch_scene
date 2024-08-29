@@ -318,6 +318,21 @@ const XletData& DeviceData::inputAt(XletIndex n) const
     return inputs_.at(n);
 }
 
+std::optional<XletData> DeviceData::visInputAt(XletIndex n) const
+{
+    XletIndex idx = 0;
+    for (auto& x : inputs_) {
+        if (x.isVisible()) {
+            if (idx == n)
+                return x;
+
+            idx++;
+        }
+    }
+
+    return {};
+}
+
 void DeviceData::foreachVisOutput(std::function<void(XletIndex, XletData&)> fn)
 {
     XletIndex idx = 0;
@@ -325,6 +340,21 @@ void DeviceData::foreachVisOutput(std::function<void(XletIndex, XletData&)> fn)
         if (x.isVisible())
             fn(idx++, x);
     }
+}
+
+std::optional<XletData> DeviceData::visOutputAt(XletIndex n) const
+{
+    XletIndex idx = 0;
+    for (auto& x : outputs_) {
+        if (x.isVisible()) {
+            if (idx == n)
+                return x;
+
+            idx++;
+        }
+    }
+
+    return {};
 }
 
 void DeviceData::setBatteryCount(int v)
@@ -477,16 +507,16 @@ BatteryChange::operator bool() const
 size_t ceam::qHash(const ceam::DeviceData& data)
 {
     return ::qHash(data.inputs())
-           ^ ::qHash(data.outputs())
-           ^ ::qHash(data.model())
-           ^ ::qHash(data.vendor())
-           ^ ::qHash(data.title())
-           ^ ::qHash(data.pos().toPoint())
-           ^ ::qHash(data.zoom())
-           ^ ::qHash(data.batteryCount())
-           ^ ::qHash((int)data.batteryType())
-           ^ ::qHash((int)data.category())
-           ^ ::qHash(data.showTitle());
+        ^ ::qHash(data.outputs())
+        ^ ::qHash(data.model())
+        ^ ::qHash(data.vendor())
+        ^ ::qHash(data.title())
+        ^ ::qHash(data.pos().toPoint())
+        ^ ::qHash(data.zoom())
+        ^ ::qHash(data.batteryCount())
+        ^ ::qHash((int)data.batteryType())
+        ^ ::qHash((int)data.category())
+        ^ ::qHash(data.showTitle());
 }
 
 QDebug operator<<(QDebug debug, const ceam::DeviceData& data)

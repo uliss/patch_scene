@@ -74,4 +74,44 @@ void TestDeviceData::hasVisOutputs()
     QVERIFY(data.hasVisOutputs());
 }
 
+void TestDeviceData::visInputAt()
+{
+    DeviceData data(1);
+    QVERIFY(!data.visInputAt(0));
+    QVERIFY(!data.visInputAt(1));
+
+    data.appendInput(XletData());
+    QVERIFY(data.visInputAt(0));
+    QVERIFY(!data.visInputAt(1));
+
+    data.appendInput(XletData());
+    data.inputs().last().setVisible(false);
+
+    QVERIFY(data.visInputAt(0));
+    QVERIFY(!data.visInputAt(1));
+
+    data.inputs().last().setVisible(true);
+    QVERIFY(data.visInputAt(1));
+}
+
+void TestDeviceData::visOutputAt()
+{
+    DeviceData data(1);
+    QVERIFY(!data.visOutputAt(0));
+    QVERIFY(!data.visOutputAt(1));
+
+    data.appendOutput(XletData());
+    QVERIFY(data.visOutputAt(0));
+    QVERIFY(!data.visOutputAt(1));
+
+    data.appendOutput(XletData());
+    data.outputs().last().setVisible(false);
+
+    QVERIFY(data.visOutputAt(0));
+    QVERIFY(!data.visOutputAt(1));
+
+    data.outputs().last().setVisible(true);
+    QVERIFY(data.visOutputAt(1));
+}
+
 static TestDeviceData test_device_data;
