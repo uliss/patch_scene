@@ -75,6 +75,16 @@ std::optional<ConnectionData> ConnectionData::fromJson(const QJsonValue& j)
     return data;
 }
 
+std::optional<ConnectionData> ConnectionData::fromXletPair(const XletInfo& x0, const XletInfo& x1)
+{
+    if (x0.type() == XletType::In && x1.type() == XletType::Out)
+        return ConnectionData { x1.id(), x1.index(), x0.id(), x0.index() };
+    else if (x0.type() == XletType::Out && x1.type() == XletType::In)
+        return ConnectionData { x0.id(), x0.index(), x1.id(), x1.index() };
+    else
+        return {};
+}
+
 Connection::Connection(const ConnectionData& data)
     : data_(data)
 {

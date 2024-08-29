@@ -116,6 +116,7 @@ public:
 
 public:
     static std::optional<ConnectionData> fromJson(const QJsonValue& j);
+    static std::optional<ConnectionData> fromXletPair(const XletInfo& x0, const XletInfo& x1);
 };
 
 class Connection : public QGraphicsItem {
