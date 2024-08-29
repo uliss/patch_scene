@@ -27,7 +27,7 @@
      id="g6">
     <g
        id="g1"
-       transform="translate(-5.6446938,0.51109728)">
+       transform="translate(-11.459718,1.9894379)">
       <g
          transform="matrix(1.8596122,0.54985386,0.54985386,-1.8596122,-35.180109,46.963604)"
          id="g5">
@@ -72,7 +72,7 @@
     <rect
        width="18.177999"
        height="3.0780001"
-       x="-1.0617576"
+       x="-7.3088784"
        y="65.444"
        rx="0.35800001"
        ry="0.35800001"
@@ -81,12 +81,12 @@
        id="rect1" />
     <path
        style="fill:#000000;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.7"
-       d="M 6.5308248,-4.4250821 C -8.9279887,-65.232026 -8.9279887,-65.232026 -8.9279887,-65.232026"
+       d="M 0.71580037,-2.9467415 C -14.743012,-63.753686 -14.743012,-63.753686 -14.743012,-63.753686"
        id="path1" />
     <circle
        style="fill:#000000;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.7"
        id="path3"
-       cx="-7.5440445"
+       cx="-1.5440445"
        cy="11.667735"
        r="2.6435902"
        transform="rotate(165.736)" />

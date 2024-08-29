@@ -633,6 +633,7 @@ void MainWindow::loadSection(QStandardItem* parent, const QList<SharedDeviceData
     for (auto& x : data) {
         auto item = new QStandardItem(x->title());
         item->setEditable(false);
+        item->setToolTip(x->title());
 
         QJsonDocument doc(x->toJson());
         item->setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);

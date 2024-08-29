@@ -26,6 +26,30 @@
         ]
       },
       {
+        "title": "Mic instrumental on crane stand",
+        "title-ru": "Микрофон инструментальный на угловой стойке",
+        "image": "mic_on_stand_3",
+        "zoom": 1,
+        "outputs": [
+          {
+            "model": "xlr",
+            "socket": "socket_male"
+          }
+        ]
+      },
+      {
+        "title": "Mic instrumental on crane stand low",
+        "title-ru": "Микрофон инструментальный на угловой стойке низкий",
+        "image": "mic_on_stand_5",
+        "zoom": 1,
+        "outputs": [
+          {
+            "model": "xlr",
+            "socket": "socket_male"
+          }
+        ]
+      },
+      {
         "vendor": "M-Audio",
         "model": "MIDISPORT 2x2",
         "inputs": [
