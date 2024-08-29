@@ -14,7 +14,6 @@
 #include "test_scene_devices.h"
 #include "device.h"
 #include "scene_devices.h"
-#include "tests/json_common.h"
 
 #include <QGraphicsScene>
 #include <QJsonObject>
