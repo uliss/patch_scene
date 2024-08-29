@@ -964,27 +964,21 @@ void Diagram::selectTopDevice(const QList<QGraphicsItem*>& devs)
 
 std::optional<XletInfo> Diagram::hoverDeviceXlet(const QList<QGraphicsItem*>& devs, const QPoint& pt) const
 {
-    Device* dev = nullptr;
+    DeviceXlet* xlet = nullptr;
     for (auto x : devs) {
-        dev = qgraphicsitem_cast<Device*>(x);
-        if (dev)
+        xlet = qgraphicsitem_cast<DeviceXlet*>(x);
+        if (xlet)
             break;
     }
 
+    if (!xlet)
+        return {};
+
+    auto dev = xlet->parentDevice();
     if (!dev)
         return {};
 
-    auto in = dev->inletAt(mapToScene(pt));
-    if (in >= 0) {
-        return XletInfo { dev->id(), in, XletType::In };
-    }
-
-    auto out = dev->outletAt(mapToScene(pt));
-    if (out >= 0) {
-        return XletInfo { dev->id(), out, XletType::Out };
-    }
-
-    return {};
+    return XletInfo { dev->id(), xlet->index(), xlet->xletType() };
 }
 
 bool Diagram::connectDevices(const ConnectionData& data)
