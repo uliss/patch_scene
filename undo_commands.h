@@ -74,7 +74,7 @@ public:
 
 private:
     Diagram* doc_;
-    QList<DeviceId> data_;
+    QList<DeviceId> new_devs_, sel_devs_;
 };
 
 class ToggleDevices : public QUndoCommand {

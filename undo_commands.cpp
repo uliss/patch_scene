@@ -175,9 +175,17 @@ void DuplicateSelected::undo()
         return;
 
     {
+        // remove duplicated devices
         DiagramUpdatesBlocker ub(doc_);
-        for (auto id : data_)
+        for (auto id : new_devs_)
             doc_->removeDevice(id);
+
+        // restore selection
+        for (auto id : sel_devs_) {
+            auto dev = doc_->devices().find(id);
+            if (dev)
+                dev->setSelected(true);
+        }
     }
 
     emit doc_->sceneFullUpdate();
@@ -190,11 +198,14 @@ void DuplicateSelected::redo()
 
     {
         DiagramUpdatesBlocker ub(doc_);
-        doc_->devices().foreachSelectedData([this](const SharedDeviceData& data) {
-            auto dev = doc_->addDevice(data);
-            if (dev) {
-                dev->moveBy(20, 20);
-                data_.push_back(dev->id());
+        doc_->devices().foreachSelectedDevice([this](Device* dev) {
+            auto new_dev = doc_->addDevice(dev->deviceData());
+            if (new_dev) {
+                new_dev->moveBy(20, 20);
+                new_dev->setSelected(true);
+                new_devs_.push_back(new_dev->id());
+                sel_devs_.push_back(dev->id());
+                dev->setSelected(false);
             }
         });
     }
