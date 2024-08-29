@@ -9,7 +9,7 @@ endif()
 
 project(
     patch_scene
-    VERSION 0.2.6
+    VERSION 0.3.0
     LANGUAGES ${LANGS})
 # cmake search path
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
