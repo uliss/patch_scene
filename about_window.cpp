@@ -27,6 +27,8 @@ public:
     explicit PSCTextBrowser(QWidget* parent)
         : QTextBrowser(parent)
     {
+        setOpenExternalLinks(true);
+        setOpenLinks(true);
     }
 
     void wheelEvent(QWheelEvent* event) final
