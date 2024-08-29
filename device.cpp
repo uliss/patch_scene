@@ -479,6 +479,8 @@ void Device::createImage(qreal wd)
 
 void Device::syncRect()
 {
+    prepareGeometryChange();
+
     // should be called first
     auto calc_wd = calcWidth();
     createTitle(calc_wd - 10);
