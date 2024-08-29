@@ -15,7 +15,7 @@
 
 namespace ceam {
 
-size_t qHash(const Jack& key)
+size_t qHash(const ConnectionJack& key)
 {
     auto m = static_cast<std::uint16_t>(key.model);
     auto t = key.type.toInt();
@@ -28,11 +28,11 @@ void ConnectionDatabase::initDefault()
 {
 }
 
-bool ConnectionDatabase::add(JackPair t, JackCategory cat)
+bool ConnectionDatabase::add(ConnectionPair t, ConnectionStyle cat)
 {
     switch (cat) {
-    case JackCategory::Auto:
-    case JackCategory::NotFound:
+    case ConnectionStyle::Auto:
+    case ConnectionStyle::NotFound:
         return false;
     // case ConnectionCategory::Unknown:
     // case ConnectionCategory::Invalid:
@@ -47,23 +47,23 @@ bool ConnectionDatabase::add(JackPair t, JackCategory cat)
     }
 }
 
-JackCategory ConnectionDatabase::search(JackPair t) const
+ConnectionStyle ConnectionDatabase::search(ConnectionPair t) const
 {
     auto it = db_.find(t);
-    return it == db_.end() ? JackCategory::NotFound : it.value();
+    return it == db_.end() ? ConnectionStyle::NotFound : it.value();
 }
 
-bool ConnectionDatabase::contains(JackPair t) const
+bool ConnectionDatabase::contains(ConnectionPair t) const
 {
-    return search(t) != JackCategory::NotFound;
+    return search(t) != ConnectionStyle::NotFound;
 }
 
-size_t qHash(const JackPair& key)
+size_t qHash(const ConnectionPair& key)
 {
     return qHash(key.p0) ^ qHash(key.p1);
 }
 
-bool JackPair::operator==(const JackPair& type) const
+bool ConnectionPair::operator==(const ConnectionPair& type) const
 {
     return (p0 == type.p0 && p1 == type.p1)
         || (p0 == type.p1 && p1 == type.p0);

@@ -15,28 +15,28 @@
 
 using namespace ceam;
 
-ConnectionStyle::ConnectionStyle()
+ConnectionStyleDatabase::ConnectionStyleDatabase()
 {
-    pen_width_[JackCategory::Power] = 4;
-    color_[JackCategory::Power] = Qt::darkGray;
-    color_[JackCategory::Invalid] = Qt::red;
-    color_[JackCategory::Network] = Qt::darkGreen;
-    color_[JackCategory::Light] = Qt::darkBlue;
+    pen_width_[ConnectionStyle::Power] = 4;
+    color_[ConnectionStyle::Power] = Qt::darkGray;
+    color_[ConnectionStyle::Invalid] = Qt::red;
+    color_[ConnectionStyle::Network] = Qt::darkGreen;
+    color_[ConnectionStyle::Light] = Qt::darkBlue;
 }
 
-ConnectionStyle& ConnectionStyle::instance()
+ConnectionStyleDatabase& ConnectionStyleDatabase::instance()
 {
-    static ConnectionStyle instance_;
+    static ConnectionStyleDatabase instance_;
     return instance_;
 }
 
-float ConnectionStyle::penWidth(JackCategory cat, float def) const
+float ConnectionStyleDatabase::penWidth(ConnectionStyle cat, float def) const
 {
     auto it = pen_width_.find(cat);
     return it == pen_width_.end() ? def : it.value();
 }
 
-QColor ConnectionStyle::color(JackCategory cat, const QColor& def) const
+QColor ConnectionStyleDatabase::color(ConnectionStyle cat, const QColor& def) const
 {
     auto it = color_.find(cat);
     return it == color_.end() ? def : it.value();

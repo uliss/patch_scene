@@ -21,27 +21,27 @@
 
 namespace ceam {
 
-struct Jack {
+struct ConnectionJack {
     ConnectorModel model;
     ConnectorType type;
 
-    bool operator==(const Jack& jack) const
+    bool operator==(const ConnectionJack& jack) const
     {
         return model == jack.model && type == jack.type;
     }
 };
 
-size_t qHash(const Jack& key);
+size_t qHash(const ConnectionJack& key);
 
-struct JackPair {
-    Jack p0, p1;
+struct ConnectionPair {
+    ConnectionJack p0, p1;
 
-    bool operator==(const JackPair& type) const;
+    bool operator==(const ConnectionPair& type) const;
 };
 
-size_t qHash(const JackPair& key);
+size_t qHash(const ConnectionPair& key);
 
-enum class JackCategory {
+enum class ConnectionStyle {
     Unknown,
     Invalid,
     Audio,
@@ -54,7 +54,7 @@ enum class JackCategory {
 };
 
 class ConnectionDatabase {
-    QHash<JackPair, JackCategory> db_;
+    QHash<ConnectionPair, ConnectionStyle> db_;
 
 public:
     ConnectionDatabase();
@@ -63,9 +63,15 @@ public:
 
     qsizetype count() const { return db_.count(); }
 
-    bool add(JackPair t, JackCategory cat);
-    JackCategory search(JackPair t) const;
-    bool contains(JackPair t) const;
+    bool add(ConnectionPair t, ConnectionStyle cat);
+
+    /**
+     * Search connection pair style
+     * @complexity amort O(1)
+     * @return ConnectionStyle or NotFound
+     */
+    ConnectionStyle search(ConnectionPair t) const;
+    bool contains(ConnectionPair t) const;
 };
 
 } // namespace ceam

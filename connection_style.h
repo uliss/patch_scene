@@ -21,18 +21,18 @@
 
 namespace ceam {
 
-class ConnectionStyle {
+class ConnectionStyleDatabase {
 
-    ConnectionStyle();
+    ConnectionStyleDatabase();
 
-    QHash<JackCategory, float> pen_width_;
-    QHash<JackCategory, QColor> color_;
+    QHash<ConnectionStyle, float> pen_width_;
+    QHash<ConnectionStyle, QColor> color_;
 
 public:
-    static ConnectionStyle& instance();
+    static ConnectionStyleDatabase& instance();
 
-    float penWidth(JackCategory cat, float def = 1.0) const;
-    QColor color(JackCategory cat, const QColor& def = {}) const;
+    float penWidth(ConnectionStyle cat, float def = 1.0) const;
+    QColor color(ConnectionStyle cat, const QColor& def = {}) const;
 };
 
 }
