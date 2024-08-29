@@ -49,6 +49,22 @@ QJsonObject ConnectionData::toJson() const
     return j;
 }
 
+bool ConnectionData::setEndPoint(const XletInfo& ep)
+{
+    switch (ep.type()) {
+    case XletType::In:
+        in_ = ep.index();
+        dest_ = ep.id();
+        return true;
+    case XletType::Out:
+        out_ = ep.index();
+        src_ = ep.id();
+        return true;
+    default:
+        return false;
+    }
+}
+
 std::optional<ConnectionData> ConnectionData::fromJson(const QJsonValue& j)
 {
     if (!j.isObject())
@@ -169,4 +185,17 @@ uint ceam::qHash(const XletInfo& key)
     return ::qHash(key.id())
         ^ ::qHash(key.index())
         ^ ::qHash(static_cast<int>(key.type()));
+}
+
+QDebug ceam::operator<<(QDebug debug, const ConnectionData& c)
+{
+    QDebugStateSaver saver(debug);
+    debug.nospace()
+        << '['
+        << c.source() << ':' << (int)c.sourceOutput()
+        << "->"
+        << c.destination() << ':' << (int)c.destinationInput()
+        << ']';
+
+    return debug;
 }

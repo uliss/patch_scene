@@ -114,10 +114,14 @@ public:
      */
     QJsonObject toJson() const;
 
+    bool setEndPoint(const XletInfo& ep);
+
 public:
     static std::optional<ConnectionData> fromJson(const QJsonValue& j);
     static std::optional<ConnectionData> fromXletPair(const XletInfo& x0, const XletInfo& x1);
 };
+
+QDebug operator<<(QDebug debug, const ConnectionData& c);
 
 class Connection : public QGraphicsItem {
 public:
