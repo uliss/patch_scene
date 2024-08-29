@@ -142,3 +142,8 @@ void ConnectorType::foreachType(const std::function<void(const ConnectorType&)> 
     for (int i = SocketMale; i < MaxConnectorType; i++)
         fn(ConnectorType(static_cast<Type>(i)));
 }
+
+size_t ceam::qHash(const ConnectorType& ctype)
+{
+    return ::qHash(ctype.toInt());
+}

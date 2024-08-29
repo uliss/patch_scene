@@ -76,6 +76,8 @@ private:
     Type type_;
 };
 
+size_t qHash(const ConnectorType& ctype);
+
 } // namespace ceam
 
 #endif // CONNECTOR_TYPE_H
