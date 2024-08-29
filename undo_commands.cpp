@@ -446,3 +446,26 @@ void UpdateDeviceData::redo()
     if (doc_)
         doc_->setDeviceData(new_data_);
 }
+
+ReconnectDevice::ReconnectDevice(Diagram* doc, const ConnectionData& old_conn, const ConnectionData& new_conn)
+    : doc_(doc)
+    , old_conn_(old_conn)
+    , new_conn_(new_conn)
+{
+}
+
+void ReconnectDevice::undo()
+{
+    if (doc_) {
+        doc_->disconnectDevices(new_conn_);
+        doc_->connectDevices(old_conn_);
+    }
+}
+
+void ReconnectDevice::redo()
+{
+    if (doc_) {
+        doc_->disconnectDevices(old_conn_);
+        doc_->connectDevices(new_conn_);
+    }
+}

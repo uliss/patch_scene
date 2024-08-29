@@ -227,6 +227,18 @@ private:
     SharedDeviceData old_data_, new_data_;
 };
 
+class ReconnectDevice : public QUndoCommand {
+public:
+    ReconnectDevice(Diagram* doc, const ConnectionData& old_conn, const ConnectionData& new_conn);
+
+    void undo() final;
+    void redo() final;
+
+private:
+    Diagram* doc_;
+    ConnectionData old_conn_, new_conn_;
+};
+
 }
 
 #endif // UNDO_COMMANDS_H
