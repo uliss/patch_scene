@@ -424,7 +424,6 @@ void MainWindow::updateTitle()
 {
     if (project_name_.isEmpty()) {
         setWindowTitle(tr("New Project[*] - PatchScene"));
-        setWindowModified(true);
     } else {
         setWindowTitle(tr("%1[*] - PatchScene").arg(QFileInfo(file_name_).fileName()));
     }
@@ -668,7 +667,7 @@ QMessageBox::StandardButton MainWindow::showNonSavedDocAlert()
 
 NonSavedDocAction MainWindow::checkNonSavedDoc()
 {
-    if (isWindowModified() || file_name_.isEmpty()) {
+    if (isWindowModified()) {
         auto btn = showNonSavedDocAlert();
 
         switch (btn) {
@@ -1093,6 +1092,9 @@ void MainWindow::openDocument()
 
 bool MainWindow::openDocument(const QString& path)
 {
+    if (checkNonSavedDoc() == NonSavedDocAction::Abort)
+        return false;
+
     if (diagram_->loadJson(path)) {
         setProjectName(path);
         updateTitle();
