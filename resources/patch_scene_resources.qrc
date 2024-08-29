@@ -161,5 +161,7 @@
         <file>devices/mic_on_stand_4.svg</file>
         <file>devices/mic_on_stand_3.svg</file>
         <file>devices/tv_1.svg</file>
+        <file>devices/guitar_amp_2.svg</file>
+        <file>devices/guitar_amp_1.svg</file>
     </qresource>
 </RCC>

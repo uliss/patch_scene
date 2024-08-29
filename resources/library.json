@@ -61,6 +61,24 @@
         ]
       },
       {
+        "title": "Guitar Amp",
+        "title-ru": "Гитарный усилитель",
+        "image": "guitar_amp_1",
+        "zoom": 0.7,
+        "inputs": [
+          {
+            "model": "jack_ts"
+          },
+          {
+            "model": "power_iec_c_13_14",
+            "power": "~",
+            "socket": "socket_male"
+          }
+        ],
+        "outputs": [
+        ]
+      },
+      {
         "vendor": "M-Audio",
         "model": "MIDISPORT 2x2",
         "inputs": [
