@@ -304,6 +304,22 @@
         ]
       },
       {
+        "title": "Speaker",
+        "title-ru": "Акустическая система",
+        "image": "speaker_1",
+        "inputs": [
+          {
+            "model": "xlr_jack",
+            "name": "balanced input"
+          },
+          {
+            "model": "power_iec_c_13_14",
+            "socket": "socket_male",
+            "power": "~"
+          }
+        ]
+      },
+      {
         "model": "305P MKII",
         "vendor": "JBL",
         "image": "speaker_1",
