@@ -320,7 +320,9 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
         connect(showTitle, &QAction::triggered, this,
             [this](bool checked) {
                 auto data = data_;
-                data->setShowTitle(!data_->showTitle());
+                auto show_title = data_->showTitle();
+                data.detach();
+                data->setShowTitle(!show_title);
                 emit updateDevice(data);
             });
 
