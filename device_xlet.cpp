@@ -131,10 +131,7 @@ DeviceXlet::DeviceXlet(const XletData& data, XletType type, QGraphicsItem* paren
     if (data.isPlug() && type == XletType::In)
         icon_->setTransform(QTransform().scale(1, -1).translate(0, -ICON_H));
 
-    if (!data.name().isEmpty())
-        setToolTip(data.modelString() + ": " + data.name());
-    else
-        setToolTip(data.modelString());
+    updateTooltip();
 }
 
 QRectF DeviceXlet::boundingRect() const
@@ -155,6 +152,12 @@ void DeviceXlet::setConnectPoint(const QPointF& pos)
         setPos(x, pos.y());
     else
         setPos(x, pos.y() - XLET_H);
+}
+
+void DeviceXlet::setIndex(XletIndex idx)
+{
+    index_ = idx;
+    updateTooltip();
 }
 
 void DeviceXlet::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
@@ -234,4 +237,18 @@ void DeviceXlet::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
             break;
         }
     }
+}
+
+void DeviceXlet::updateTooltip()
+{
+    QString prefix;
+    if (index_ != XLET_INDEX_NONE)
+        prefix = QString("[%1] ").arg((int)index_);
+
+    if (!data_.name().isEmpty())
+        setToolTip(QString("%1%2: %3").arg(prefix, data_.modelString(), data_.name()));
+    else
+        setToolTip(prefix + data_.modelString());
+
+    qWarning() << toolTip();
 }

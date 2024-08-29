@@ -89,14 +89,21 @@ public:
 
     void setConnectPoint(const QPointF& pos);
 
+    XletIndex index() const { return index_; }
+    void setIndex(XletIndex idx);
+
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) final;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) final;
 
 private:
+    void updateTooltip();
+
+private:
     XletData data_;
-    XletType type_ { XletType::In };
     QGraphicsSvgItem* icon_ { nullptr };
+    XletType type_ { XletType::In };
+    XletIndex index_ { XLET_INDEX_NONE };
 };
 
 }
