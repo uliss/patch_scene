@@ -1199,12 +1199,12 @@ http://ceam.space</source>
     <message>
         <location filename="device.cpp" line="309"/>
         <source>Distribute horizontal</source>
-        <translation>Распределить вертикально</translation>
+        <translation>Распределить горизонтально</translation>
     </message>
     <message>
         <location filename="device.cpp" line="313"/>
         <source>Distribute vertical</source>
-        <translation>Распределить горизонтально</translation>
+        <translation>Распределить вертикально</translation>
     </message>
     <message>
         <location filename="device.cpp" line="319"/>
