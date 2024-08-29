@@ -103,21 +103,8 @@ MainWindow::~MainWindow()
 
 bool MainWindow::newDocument()
 {
-    if (isWindowModified()) {
-        auto btn = showNonSavedDocAlert();
-
-        switch (btn) {
-        case QMessageBox::Yes:
-            if (!saveDocument())
-                return false;
-
-            break;
-        case QMessageBox::No:
-            break;
-        default:
-            return false;
-        }
-    }
+    if (checkNonSavedDoc() == NonSavedDocAction::Abort)
+        return false;
 
     diagram_->clearAll();
     project_name_.clear();
@@ -476,23 +463,8 @@ void MainWindow::showPreferences()
 
 void MainWindow::closeEvent(QCloseEvent* event)
 {
-    if (isWindowModified()) {
-        auto btn = showNonSavedDocAlert();
-
-        switch (btn) {
-        case QMessageBox::Yes:
-            if (!saveDocument())
-                return event->ignore();
-
-            break;
-        case QMessageBox::No:
-            break;
-        default:
-            event->ignore();
-            return;
-        }
-        event->ignore();
-    }
+    if (checkNonSavedDoc() == NonSavedDocAction::Abort)
+        return event->ignore();
 
     writePositionSettings();
     writeRecentFiles();
@@ -692,6 +664,31 @@ QMessageBox::StandardButton MainWindow::showNonSavedDocAlert()
         QMessageBox::StandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel));
 
 #endif
+}
+
+NonSavedDocAction MainWindow::checkNonSavedDoc()
+{
+    if (isWindowModified() || file_name_.isEmpty()) {
+        auto btn = showNonSavedDocAlert();
+
+        switch (btn) {
+        case QMessageBox::Yes:
+
+            // refuse to save or save error
+            if (!saveDocument())
+                return NonSavedDocAction::Abort;
+            else
+                return NonSavedDocAction::Continue;
+
+            break;
+        case QMessageBox::No:
+            return NonSavedDocAction::Continue;
+        default:
+            return NonSavedDocAction::Abort;
+        }
+    }
+
+    return NonSavedDocAction::Continue;
 }
 
 void MainWindow::loadLibrary()

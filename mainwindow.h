@@ -44,6 +44,12 @@ class MainWindow;
 QT_END_NAMESPACE
 
 namespace ceam {
+
+enum class NonSavedDocAction {
+    Continue,
+    Abort
+};
+
 class MainWindow : public QMainWindow {
     Q_OBJECT
 
@@ -122,6 +128,7 @@ private:
     void importFavorites(const QString& filename);
 
     QMessageBox::StandardButton showNonSavedDocAlert();
+    NonSavedDocAction checkNonSavedDoc();
 
 private:
     Ui::MainWindow* ui;
