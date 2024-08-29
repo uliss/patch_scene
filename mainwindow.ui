@@ -104,6 +104,7 @@
      <addaction name="actionExportSchemeToSvg"/>
      <addaction name="actionExportSchemeToPdf"/>
     </widget>
+    <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
     <addaction name="menuRecentFiles"/>
     <addaction name="actionSave"/>
@@ -590,7 +591,8 @@
   </action>
   <action name="actionPrint">
    <property name="icon">
-    <iconset theme="printer"/>
+    <iconset theme="printer" resource="resources/patch_scene_resources.qrc">
+     <normaloff>:/icons/print.svg</normaloff>:/icons/print.svg</iconset>
    </property>
    <property name="text">
     <string>Print</string>
@@ -907,6 +909,17 @@
   <action name="actionExportSchemeToPdf">
    <property name="text">
     <string>Export Scheme to PDF</string>
+   </property>
+  </action>
+  <action name="actionNew">
+   <property name="icon">
+    <iconset theme="document-new"/>
+   </property>
+   <property name="text">
+    <string>New</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
    </property>
   </action>
  </widget>
