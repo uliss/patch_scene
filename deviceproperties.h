@@ -37,7 +37,7 @@ public:
     ~DeviceProperties();
 
 signals:
-    void acceptData(const SharedDeviceData& data);
+    void acceptData(SharedDeviceData data);
 
 public Q_SLOTS:
     void accept() override;

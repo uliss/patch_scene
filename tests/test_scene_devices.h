@@ -32,7 +32,6 @@ private slots:
     void checkConnection();
     void findConnectionPoints();
     void toJson();
-    void setFromJson();
     void compare();
 };
 

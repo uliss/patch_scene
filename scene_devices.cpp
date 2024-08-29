@@ -437,22 +437,6 @@ QJsonValue SceneDevices::toJson() const
     return res;
 }
 
-bool SceneDevices::setFromJson(const QJsonValue& v)
-{
-    clear();
-
-    if (v.isArray()) {
-        auto arr = v.toArray();
-        for (const auto& j : arr)
-            add(Device::datafromJson(j));
-
-        return true;
-    } else {
-        WARN() << "array expected";
-        return false;
-    }
-}
-
 bool SceneDevices::moveBy(const QHash<DeviceId, QPointF>& deltas)
 {
     int count = 0;

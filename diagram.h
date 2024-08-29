@@ -176,7 +176,7 @@ public slots:
     void cmdSelectDevices(const QRectF& sel);
     void cmdSelectUnique(DeviceId id);
     void cmdToggleDevices(const QList<QGraphicsItem*>& items);
-    void cmdUpdateDevice(const SharedDeviceData& data);
+    void cmdUpdateDevice(SharedDeviceData data);
 
     void clearUndoStack();
     void copySelected();

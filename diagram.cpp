@@ -199,8 +199,10 @@ void Diagram::cmdRemoveDevice(const SharedDeviceData& data)
     undo_stack_->push(rem);
 }
 
-void Diagram::cmdUpdateDevice(const SharedDeviceData& data)
+void Diagram::cmdUpdateDevice(SharedDeviceData data)
 {
+    if (!data)
+        return;
     auto up = new UpdateDeviceData(this, data);
     undo_stack_->push(up);
 }
@@ -580,7 +582,11 @@ bool Diagram::loadJson(const QString& path)
 
     // load devices
     auto devs = root.value(JSON_KEY_DEVICES);
-    devices_.setFromJson(devs);
+    if (devs.isArray()) {
+        auto arr = devs.toArray();
+        for (const auto& j : arr)
+            addDevice(Device::datafromJson(j));
+    }
 
     // load connections
     auto cons = root.value(JSON_KEY_CONNS);

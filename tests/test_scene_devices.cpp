@@ -376,38 +376,6 @@ void TestSceneDevices::toJson()
     QCOMPARE(o2["category"].toString(), "device");
 }
 
-void TestSceneDevices::setFromJson()
-{
-    SceneDevices sc;
-    QGraphicsScene scene;
-    sc.setScene(&scene);
-
-    QVERIFY(!sc.setFromJson({}));
-
-    auto arr = read_json_file_array("test_scene_devices_1.json");
-    QVERIFY(!arr.isEmpty());
-
-    QVERIFY(sc.setFromJson(arr));
-    QCOMPARE(sc.count(), 2);
-
-    QVERIFY(sc.setFromJson(arr));
-    QCOMPARE(sc.count(), 2);
-
-    QVERIFY(data0(5) != data0(5));
-    QVERIFY(*data0(5) == *data0(5));
-
-    SceneDevices sc2;
-    QGraphicsScene scene2;
-    sc2.setScene(&scene2);
-    auto data = data0(100);
-    data->setShowTitle(true);
-    QCOMPARE(data, data);
-    sc2.add(data);
-    sc2.add(data);
-
-    QCOMPARE(sc, sc2);
-}
-
 void TestSceneDevices::compare()
 {
     SceneDevices sc;

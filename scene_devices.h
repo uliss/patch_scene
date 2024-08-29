@@ -149,13 +149,6 @@ public:
      */
     QJsonValue toJson() const;
 
-    /**
-     * remove all current scene devices and set new from specified json array
-     * @return true on success, false on error
-     * @emit removed(), added()
-     */
-    bool setFromJson(const QJsonValue& v);
-
 signals:
     void added(SharedDeviceData);
     void removed(SharedDeviceData);
