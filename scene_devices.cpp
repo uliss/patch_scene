@@ -193,7 +193,7 @@ std::optional<std::pair<QPointF, QPointF>> SceneDevices::connectionPoints(const 
     return std::pair { p0, p1 };
 }
 
-std::optional<std::pair<XletData, XletData>> SceneDevices::connectionData(const ConnectionData& conn) const
+std::optional<ConnectionPair> SceneDevices::connectionPair(const ConnectionData& conn) const
 {
     auto src_it = devices_.find(conn.source());
     if (src_it == devices_.end())
@@ -206,7 +206,10 @@ std::optional<std::pair<XletData, XletData>> SceneDevices::connectionData(const 
     auto d0 = src_it->second->deviceData()->visOutputAt(conn.sourceOutput());
     auto d1 = dest_it->second->deviceData()->visInputAt(conn.destinationInput());
     if (d0 && d1)
-        return std::pair { *d0, *d1 };
+        return ConnectionPair {
+            ConnectionEndPoint { d0->connectorModel(), d0->connectorType().complement() },
+            ConnectionEndPoint { d1->connectorModel(), d1->connectorType().complement() },
+        };
     else
         return {};
 }

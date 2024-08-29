@@ -12,7 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "connection.h"
-#include "connection_database.h"
+#include "connection_style.h"
 #include "diagram_scene.h"
 
 #include <QGraphicsScene>
@@ -114,8 +114,8 @@ bool Connection::operator==(const ConnectionData& data) const
 
 void Connection::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    QPen p(QColor(50, 50, 50));
-    p.setWidthF(1.5);
+    QPen p(color_);
+    p.setWidthF(pen_width_);
     painter->setPen(p);
     painter->drawPath(line_);
     Q_UNUSED(option);
@@ -153,6 +153,13 @@ void Connection::setPoints(const QPointF& p0, const QPointF& p1)
 
     line_.cubicTo(p0 + QPointF(0, bezy), p1 + QPointF(0, -bezy), p1);
 
+    update(boundingRect());
+}
+
+void Connection::setStyle(ConnectionStyle style)
+{
+    pen_width_ = ConnectionStyleDatabase::instance().penWidth(style, 1.5);
+    color_ = ConnectionStyleDatabase::instance().color(style, Qt::darkGray);
     update(boundingRect());
 }
 

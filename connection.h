@@ -14,6 +14,7 @@
 #ifndef CONNECTION_H
 #define CONNECTION_H
 
+#include "connection_database.h"
 #include "socket.h"
 
 #include <QGraphicsLineItem>
@@ -139,6 +140,8 @@ public:
 
     void setPoints(const QPointF& p0, const QPointF& p1);
 
+    void setStyle(ConnectionStyle style);
+
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) final;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
@@ -147,7 +150,7 @@ protected:
 private:
     ConnectionData data_;
     QPainterPath line_;
-    QColor color_;
+    QColor color_ { Qt::black };
     float pen_width_ { 1.5 };
 };
 

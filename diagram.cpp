@@ -89,6 +89,8 @@ Diagram::Diagram(int w, int h, QWidget* parent)
     initLiveConnection();
     initSelectionRect();
     initUndoStack();
+
+    conn_database_.initDefault();
 }
 
 void Diagram::initSelectionRect()
@@ -164,6 +166,25 @@ void Diagram::updateConnectionPos(DeviceId id)
 
     for (auto conn : connections_.findConnections(id))
         updateConnectionPos(conn);
+}
+
+void Diagram::updateConnectionStyle(Connection* conn)
+{
+    if (!conn)
+        return;
+
+    auto pair = devices_.connectionPair(conn->connectionData());
+    if (!pair) {
+        qWarning() << "connection pair not found";
+        return;
+    }
+
+    auto style = conn_database_.search(*pair);
+    if (style != ConnectionStyle::NotFound) {
+        conn->setStyle(style);
+    } else {
+        qWarning() << "style not found";
+    }
 }
 
 void Diagram::cmdRemoveSelected()
@@ -1003,6 +1024,7 @@ bool Diagram::connectDevices(const ConnectionData& data)
 {
     auto conn = connections_.add(data);
     if (conn) {
+        updateConnectionStyle(conn);
         updateConnectionPos(conn);
         emit sceneChanged();
         return true;

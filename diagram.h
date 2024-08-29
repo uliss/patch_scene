@@ -15,6 +15,7 @@
 #define DIAGRAM_H
 
 #include "connection.h"
+#include "connection_database.h"
 #include "device.h"
 #include "diagram_image.h"
 #include "diagram_meta.h"
@@ -228,6 +229,11 @@ private:
      */
     void updateConnectionPos(DeviceId id);
 
+    /**
+     * @complexity O(n)
+     */
+    void updateConnectionStyle(Connection* conn);
+
     void saveClickPos(const QPoint& pos);
 
     /**
@@ -267,6 +273,7 @@ private:
 
     QList<SharedDeviceData> clip_buffer_;
     DiagramMeta meta_;
+    ConnectionDatabase conn_database_;
 
 private:
     void initUndoStack();

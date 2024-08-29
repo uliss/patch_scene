@@ -21,20 +21,20 @@
 
 namespace ceam {
 
-struct ConnectionJack {
+struct ConnectionEndPoint {
     ConnectorModel model;
     ConnectorType type;
 
-    bool operator==(const ConnectionJack& jack) const
+    bool operator==(const ConnectionEndPoint& jack) const
     {
         return model == jack.model && type == jack.type;
     }
 };
 
-size_t qHash(const ConnectionJack& key);
+size_t qHash(const ConnectionEndPoint& key);
 
 struct ConnectionPair {
-    ConnectionJack p0, p1;
+    ConnectionEndPoint p0, p1;
 
     bool operator==(const ConnectionPair& type) const;
 };

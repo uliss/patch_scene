@@ -15,6 +15,7 @@
 #define SCENE_DEVICES_H
 
 #include "connection.h"
+#include "connection_database.h"
 #include "device_common.h"
 
 #include <QObject>
@@ -95,7 +96,7 @@ public:
      * @return pair of XletData, or null on error
      * @complexity O(1)
      */
-    std::optional<std::pair<XletData, XletData>> connectionData(const ConnectionData& conn) const;
+    std::optional<ConnectionPair> connectionPair(const ConnectionData& conn) const;
 
     /**
      * check if connection data is valid
