@@ -119,10 +119,11 @@ bool XletData::operator==(const XletData& data) const
         && power_type_ == data.power_type_;
 }
 
-DeviceXlet::DeviceXlet(const XletData& data, XletType type, QGraphicsItem* parentItem)
+DeviceXlet::DeviceXlet(const XletData& data, XletType type, XletIndex idx, QGraphicsItem* parentItem)
     : QGraphicsObject(parentItem)
     , data_ { data }
     , type_ { type }
+    , index_(idx)
     , icon_(new QGraphicsSvgItem(this))
 {
     icon_->setPos((XLET_W - ICON_W) * 0.5, 2);
@@ -243,12 +244,10 @@ void DeviceXlet::updateTooltip()
 {
     QString prefix;
     if (index_ != XLET_INDEX_NONE)
-        prefix = QString("[%1] ").arg((int)index_);
+        prefix = QString("[%1] ").arg(index_ + 1);
 
     if (!data_.name().isEmpty())
         setToolTip(QString("%1%2: %3").arg(prefix, data_.modelString(), data_.name()));
     else
         setToolTip(prefix + data_.modelString());
-
-    qWarning() << toolTip();
 }

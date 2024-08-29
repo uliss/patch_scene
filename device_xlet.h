@@ -77,7 +77,7 @@ public:
     int type() const override { return Type; }
 
 public:
-    DeviceXlet(const XletData& data, XletType type, QGraphicsItem* parentItem);
+    DeviceXlet(const XletData& data, XletType type, XletIndex idx, QGraphicsItem* parentItem);
 
     QRectF boundingRect() const final;
 

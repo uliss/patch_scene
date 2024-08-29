@@ -416,7 +416,7 @@ void Device::createXlets()
     int in_idx = 0;
     for (auto& data : data_->inputs()) {
         if (data.isVisible()) {
-            auto xlet = new DeviceXlet(data, XletType::In, this);
+            auto xlet = new DeviceXlet(data, XletType::In, in_idx, this);
             xlet->setConnectPoint(inletPos(in_idx++));
             inputs_.push_back(xlet);
         }
@@ -425,7 +425,7 @@ void Device::createXlets()
     int out_idx = 0;
     for (auto& data : data_->outputs()) {
         if (data.isVisible()) {
-            auto xlet = new DeviceXlet(data, XletType::Out, this);
+            auto xlet = new DeviceXlet(data, XletType::Out, out_idx, this);
             xlet->setConnectPoint(outletPos(out_idx++));
             outputs_.push_back(xlet);
         }
