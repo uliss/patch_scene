@@ -294,29 +294,6 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 {
     QMenu menu;
 
-    auto duplicateAct = new QAction(tr("Duplicate"), &menu);
-    connect(duplicateAct, &QAction::triggered, this,
-        [this]() { emit duplicateDevice(data_); });
-
-    auto removeAct = new QAction(tr("Delete"), &menu);
-    connect(removeAct, &QAction::triggered, this,
-        [this]() { emit removeDevice(data_); });
-
-    auto addToFavoritesAct = new QAction(tr("Add to favorites"), &menu);
-    connect(addToFavoritesAct, &QAction::triggered, this,
-        [this]() { emit addToFavorites(data_); });
-
-    auto propertiesAct = new QAction(tr("Properties"), &menu);
-    connect(propertiesAct, &QAction::triggered, this,
-        [this]() {
-            std::unique_ptr<DeviceProperties> dialog(new DeviceProperties(data_));
-            connect(dialog.get(), SIGNAL(acceptData(SharedDeviceData)), this, SIGNAL(updateDevice(SharedDeviceData)));
-            dialog->exec();
-        });
-
-    menu.addAction(duplicateAct);
-    menu.addAction(removeAct);
-
     auto sc = scene();
     if (sc && sc->selectedItems().count() >= 2) {
         menu.addSeparator();
@@ -336,11 +313,47 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
         auto vDist = new QAction(tr("Distribute vertical"), &menu);
         connect(vDist, SIGNAL(triggered(bool)), this, SIGNAL(distributeVertical()));
         menu.addAction(vDist);
+    } else {
+        auto showTitle = new QAction(&menu);
+        showTitle->setChecked(data_->showTitle());
+        showTitle->setText(data_->showTitle() ? tr("Hide title") : tr("Show title"));
+        connect(showTitle, &QAction::triggered, this,
+            [this](bool checked) {
+                auto show_title = data_->showTitle();
+                data_->setShowTitle(!show_title);
+                syncRect();
+            });
+
+        auto duplicateAct = new QAction(tr("Duplicate"), &menu);
+        connect(duplicateAct, &QAction::triggered, this,
+            [this]() { emit duplicateDevice(data_); });
+
+        auto removeAct = new QAction(tr("Delete"), &menu);
+        connect(removeAct, &QAction::triggered, this,
+            [this]() { emit removeDevice(data_); });
+
+        auto addToFavoritesAct = new QAction(tr("Add to favorites"), &menu);
+        connect(addToFavoritesAct, &QAction::triggered, this,
+            [this]() { emit addToFavorites(data_); });
+
+        auto propertiesAct = new QAction(tr("Properties"), &menu);
+        connect(propertiesAct, &QAction::triggered, this,
+            [this]() {
+                std::unique_ptr<DeviceProperties> dialog(new DeviceProperties(data_));
+                connect(dialog.get(), SIGNAL(acceptData(SharedDeviceData)), this, SIGNAL(updateDevice(SharedDeviceData)));
+                dialog->exec();
+            });
+
+        menu.addAction(showTitle);
+        menu.addSeparator();
+        menu.addAction(duplicateAct);
+        menu.addAction(removeAct);
+
+        menu.addSeparator();
+        menu.addAction(addToFavoritesAct);
+        menu.addAction(propertiesAct);
     }
 
-    menu.addSeparator();
-    menu.addAction(addToFavoritesAct);
-    menu.addAction(propertiesAct);
     menu.exec(event->screenPos());
 
     event->accept();
