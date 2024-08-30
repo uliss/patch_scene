@@ -18,7 +18,7 @@
 
 using namespace ceam;
 
-void TestDeviceData::init()
+void TestDeviceData::construct()
 {
     DeviceData data(DEV_NULL_ID);
     QVERIFY(data.isNull());

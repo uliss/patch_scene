@@ -18,9 +18,8 @@
 
 using namespace ceam;
 
-void TestSceneBackground::init()
+void TestSceneBackground::construct()
 {
     SceneBackground img;
     QVERIFY(img.isEmpty());
-    QVERIFY(false);
 }

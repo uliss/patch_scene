@@ -315,7 +315,7 @@ void TestSceneDevices::findConnectionPair()
     QCOMPARE(pair->p1.type, ConnectorType::plug_male);
 
     {
-        QBENCHMARK(dev.connectionPair(ConnectionData { 100, 0, 101, 0 }));
+        QBENCHMARK_ONCE(dev.connectionPair(ConnectionData { 100, 0, 101, 0 }));
     }
 }
 

@@ -20,7 +20,7 @@ class TestSceneBackground : public QObject {
     Q_OBJECT
 
 private slots:
-    void init();
+    void construct();
 };
 
 #endif // TEST_SCENE_BACKGROUND_H

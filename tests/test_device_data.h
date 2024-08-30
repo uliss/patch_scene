@@ -20,7 +20,7 @@ class TestDeviceData : public QObject {
     Q_OBJECT
 
 private slots:
-    void init();
+    void construct();
     void hasVisInputs();
     void hasVisOutputs();
     void visInputAt();

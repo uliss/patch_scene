@@ -20,10 +20,10 @@ class TestConnectionDatabase : public QObject {
     Q_OBJECT
 
 private slots:
-    void jackPair();
-    void init();
     void add();
+    void construct();
     void exists();
+    void jackPair();
 };
 
 #endif // TEST_CONNECTION_DATABASE_H

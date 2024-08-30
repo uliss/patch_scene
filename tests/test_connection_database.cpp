@@ -37,7 +37,7 @@ void TestConnectionDatabase::jackPair()
     QCOMPARE(jp10, jp01);
 }
 
-void TestConnectionDatabase::init()
+void TestConnectionDatabase::construct()
 {
     ConnectionDatabase db;
     QCOMPARE(db.count(), 0);

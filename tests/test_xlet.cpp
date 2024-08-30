@@ -19,7 +19,7 @@
 
 using namespace ceam;
 
-void TestXlet::init()
+void TestXlet::construct()
 {
     XletData data;
     QCOMPARE(data.name(), QString {});
