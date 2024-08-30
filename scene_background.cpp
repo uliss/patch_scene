@@ -11,7 +11,7 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#include "diagram_image.h"
+#include "scene_background.h"
 
 #include <QBuffer>
 #include <QFile>

@@ -19,7 +19,7 @@
 #include "tests/test_device_data.h"
 #include "tests/test_device_library.h"
 #include "tests/test_diagram.h"
-#include "tests/test_diagram_image.h"
+#include "tests/test_scene_background.h"
 #include "tests/test_scene_connections.h"
 #include "tests/test_scene_devices.h"
 #include "tests/test_xlet.h"
@@ -61,8 +61,8 @@ int main(int argc, char* argv[])
     TestXlet test_xlet;
     status |= QTest::qExec(&test_xlet, argc, argv);
 
-    TestDiagramImage test_diagram_image;
-    status |= QTest::qExec(&test_diagram_image, argc, argv);
+    TestSceneBackground test_scene_background;
+    status |= QTest::qExec(&test_scene_background, argc, argv);
 
     return status;
 }

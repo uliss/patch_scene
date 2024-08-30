@@ -11,15 +11,16 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#include "test_diagram_image.h"
-#include "diagram_image.h"
+#include "test_scene_background.h"
+#include "scene_background.h"
 
 #include <QTest>
 
 using namespace ceam;
 
-void TestDiagramImage::init()
+void TestSceneBackground::init()
 {
     SceneBackground img;
-    QVERIFY(!img.isEmpty());
+    QVERIFY(img.isEmpty());
+    QVERIFY(false);
 }

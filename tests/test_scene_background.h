@@ -11,16 +11,16 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#ifndef TEST_DIAGRAM_IMAGE_H
-#define TEST_DIAGRAM_IMAGE_H
+#ifndef TEST_SCENE_BACKGROUND_H
+#define TEST_SCENE_BACKGROUND_H
 
 #include <QObject>
 
-class TestDiagramImage : public QObject {
+class TestSceneBackground : public QObject {
     Q_OBJECT
 
 private slots:
     void init();
 };
 
-#endif // TEST_DIAGRAM_IMAGE_H
+#endif // TEST_SCENE_BACKGROUND_H

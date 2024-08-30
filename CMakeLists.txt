@@ -68,8 +68,6 @@ set(PROJECT_SOURCES
     deviceproperties.ui
     diagram.h
     diagram.cpp
-    diagram_image.h
-    diagram_image.cpp
     diagram_item_model.h
     diagram_item_model.cpp
     diagram_meta.h
@@ -94,6 +92,8 @@ set(PROJECT_SOURCES
     preferences_dialog.ui
     return_item_model.h
     return_item_model.cpp
+    scene_background.h
+    scene_background.cpp
     scene_connections.h
     scene_connections.cpp
     scene_devices.h

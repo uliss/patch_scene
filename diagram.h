@@ -17,7 +17,7 @@
 #include "connection.h"
 #include "connection_database.h"
 #include "device.h"
-#include "diagram_image.h"
+#include "scene_background.h"
 #include "diagram_meta.h"
 #include "diagram_state_machine.h"
 #include "scene_connections.h"

@@ -11,8 +11,8 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#ifndef DIAGRAM_IMAGE_H
-#define DIAGRAM_IMAGE_H
+#ifndef SCENE_BACKGROUND_H
+#define SCENE_BACKGROUND_H
 
 #include <QGraphicsPixmapItem>
 #include <QGraphicsSvgItem>
@@ -68,4 +68,4 @@ private:
 
 }
 
-#endif // DIAGRAM_IMAGE_H
+#endif // SCENE_BACKGROUND_H

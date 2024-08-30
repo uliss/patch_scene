@@ -22,7 +22,7 @@ qt_add_executable(
     test_device_data.h
     test_device_data.cpp
     test_connection_database.h test_connection_database.cpp
-    test_diagram_image.h test_diagram_image.cpp)
+    test_scene_background.h test_scene_background.cpp)
 
 add_custom_target(
     test_src
