@@ -50,6 +50,7 @@ public:
     void setVisible(bool value);
 
     QRectF boundingRect() const;
+    void setPos(const QPointF& pos);
 
     QJsonValue toJson() const;
     bool setFromJson(const QJsonValue& v);

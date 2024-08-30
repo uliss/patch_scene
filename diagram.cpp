@@ -720,7 +720,6 @@ QJsonObject Diagram::toJson() const
 
     json[JSON_KEY_CONNS] = cons;
 
-
     json[JSON_KEY_BACKGROUND] = background_.toJson();
 
     json[JSON_KEY_APP] = appInfoJson();
@@ -916,6 +915,12 @@ void Diagram::contextMenuEvent(QContextMenuEvent* event)
             [this]() { clearBackground(); });
 
         menu.addAction(clear_bg);
+
+        auto replace_bg = new QAction(tr("&Replace background"), this);
+        connect(replace_bg, &QAction::triggered, this,
+            [this]() { emit requestBackgroundChange(); });
+
+        menu.addAction(replace_bg);
     } else {
         auto set_bg = new QAction(tr("&Set background"), this);
         connect(set_bg, &QAction::triggered, this,

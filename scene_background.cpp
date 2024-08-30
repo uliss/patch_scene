@@ -12,6 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "scene_background.h"
+#include "connection.h"
 
 #include <QBuffer>
 #include <QFile>
@@ -47,13 +48,6 @@ using namespace ceam;
 
 SceneBackground::SceneBackground()
 {
-    // setAcceptDrops(false);
-    // setAcceptHoverEvents(false);
-    // setFlag(QGraphicsItem::ItemIsSelectable, false);
-    // setFlag(QGraphicsItem::ItemIsMovable, false);
-    // setFlag(QGraphicsItem::ItemIsFocusable, false);
-
-    // loadImage(path);
 }
 
 void SceneBackground::setScene(QGraphicsScene* scene)
@@ -71,6 +65,9 @@ bool SceneBackground::setPixmap(const QPixmap& pixmap)
 
     clear();
     pixmap_ = new QGraphicsPixmapItem(pixmap);
+    auto bbox = pixmap_->boundingRect();
+    pixmap_->setPos(-bbox.width() / 2, -bbox.height() / 2);
+    pixmap_->setZValue(ZVALUE_BACKGROUND);
     scene_->addItem(pixmap_);
     return true;
 }
@@ -105,6 +102,9 @@ bool SceneBackground::setSvg(const QByteArray& content)
     clear();
     svg_ = new QGraphicsSvgItem();
     svg_->setSharedRenderer(&svg_renderer_);
+    auto bbox = svg_->boundingRect();
+    svg_->setPos(-bbox.width() / 2, -bbox.height() / 2);
+    svg_->setZValue(ZVALUE_BACKGROUND);
     scene_->addItem(svg_);
     svg_bin_content_ = qCompress(content);
     return true;
@@ -164,6 +164,18 @@ QRectF SceneBackground::boundingRect() const
         return svg_->boundingRect();
 
     return {};
+}
+
+void SceneBackground::setPos(const QPointF& pos)
+{
+    if (!scene_)
+        return;
+
+    if (pixmap_)
+        return pixmap_->setPos(pos);
+
+    if (svg_)
+        return svg_->setPos(pos);
 }
 
 bool SceneBackground::isEmpty() const
