@@ -21,6 +21,7 @@ class TestSceneBackground : public QObject {
 
 private slots:
     void construct();
+    void pixmapTest();
 };
 
 #endif // TEST_SCENE_BACKGROUND_H

@@ -46,8 +46,10 @@ public:
      */
     bool loadImage(const QString& path);
 
-    bool isVisible() const { return visible_; }
+    bool isVisible() const;
     void setVisible(bool value);
+
+    QRectF boundingRect() const;
 
     QJsonValue toJson() const;
     bool setFromJson(const QJsonValue& v);

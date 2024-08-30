@@ -14,6 +14,8 @@
 #include "test_scene_background.h"
 #include "scene_background.h"
 
+#include <QGraphicsScene>
+#include <QJsonValue>
 #include <QTest>
 
 using namespace ceam;
@@ -22,4 +24,40 @@ void TestSceneBackground::construct()
 {
     SceneBackground img;
     QVERIFY(img.isEmpty());
+    QVERIFY(!img.isVisible());
+
+    img.clear();
+    QVERIFY(img.toJson().isNull());
+}
+
+void TestSceneBackground::pixmapTest()
+{
+    SceneBackground img;
+    QVERIFY(!img.loadImage(":/ceam_logo_color.jpg"));
+
+    QGraphicsScene sc;
+    img.setScene(&sc);
+    QCOMPARE(img.boundingRect(), QRectF());
+    QVERIFY(img.toJson().isNull());
+    QVERIFY(img.isVisible());
+
+    QVERIFY(img.loadImage(":/ceam_logo_color.jpg"));
+    QCOMPARE(img.boundingRect(), QRectF(0, 0, 100, 100));
+    QVERIFY(!img.toJson().isNull());
+
+    QVERIFY(!img.loadImage(":/not-exists"));
+    QCOMPARE(img.boundingRect(), QRectF(0, 0, 100, 100));
+    QVERIFY(!img.toJson().isNull());
+
+    QVERIFY(img.loadImage(":/ceam_logo_color.png"));
+    QCOMPARE(img.boundingRect(), QRectF(0, 0, 100, 100));
+    QVERIFY(!img.toJson().isNull());
+
+    QVERIFY(img.loadImage(":/app_icon.svg"));
+    QCOMPARE(img.boundingRect(), QRectF(0, 0, 512, 512));
+    QVERIFY(!img.toJson().isNull());
+
+    QVERIFY(!img.loadImage(":/not-exists"));
+    QCOMPARE(img.boundingRect(), QRectF(0, 0, 512, 512));
+    QVERIFY(!img.toJson().isNull());
 }

@@ -135,6 +135,14 @@ bool SceneBackground::loadImage(const QString& path)
     }
 }
 
+bool SceneBackground::isVisible() const
+{
+    if (!scene_)
+        return false;
+
+    return visible_;
+}
+
 void SceneBackground::setVisible(bool value)
 {
     if (pixmap_)
@@ -144,6 +152,20 @@ void SceneBackground::setVisible(bool value)
         svg_->setVisible(value);
 }
 
+QRectF SceneBackground::boundingRect() const
+{
+    if (!scene_)
+        return {};
+
+    if (pixmap_)
+        return pixmap_->boundingRect();
+
+    if (svg_)
+        return svg_->boundingRect();
+
+    return {};
+}
+
 bool SceneBackground::isEmpty() const
 {
     return !svg_ && !pixmap_;
@@ -151,6 +173,9 @@ bool SceneBackground::isEmpty() const
 
 QJsonValue SceneBackground::toJson() const
 {
+    if (!scene_)
+        return {};
+
     if (pixmap_) {
         QJsonObject js;
         js[JSON_KEY_DATA] = jsonFromPixmap(pixmap_->pixmap());
@@ -167,6 +192,9 @@ QJsonValue SceneBackground::toJson() const
 
 bool SceneBackground::setFromJson(const QJsonValue& v)
 {
+    if (!scene_)
+        return false;
+
     if (!v.isObject()) {
         qWarning() << "object expected";
         return false;
