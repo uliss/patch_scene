@@ -18,8 +18,6 @@
 #include <QJsonDocument>
 #include <QTest>
 
-static TestDeviceLibrary test_device_library;
-
 using namespace ceam;
 
 void TestDeviceLibrary::addItems()

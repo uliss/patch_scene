@@ -39,7 +39,6 @@ class Diagram : public QGraphicsView {
 
 public:
     Q_PROPERTY(bool showCables READ showCables WRITE setShowCables NOTIFY showCablesChanged)
-    Q_PROPERTY(bool showBackground READ showBackground WRITE setShowBackground NOTIFY showBackgroundChanged)
 
 public:
     explicit Diagram(int w, int h, QWidget* parent = nullptr);
@@ -86,7 +85,6 @@ public:
 
     bool showCables() const { return show_cables_; }
     void setShowCables(bool value);
-    bool showBackground() const { return show_background_; }
     void setShowBackground(bool value);
 
     /**
@@ -273,18 +271,17 @@ private:
     DiagramScene* scene_ { nullptr };
     QGraphicsRectItem* selection_ { nullptr };
     QGraphicsLineItem* tmp_connection_ { nullptr };
-    DiagramImage* background_ { nullptr };
     QUndoStack* undo_stack_ { nullptr };
     QPointF prev_event_pos_;
     QPointF prev_click_pos_;
     SceneDevices devices_;
     SceneConnections connections_;
+    SceneBackground background_;
 
     DiagramStateMachine state_machine_;
     std::optional<XletInfo> conn_start_;
     qreal zoom_ { 1 };
     bool show_cables_ { true };
-    bool show_background_ { true };
 
     QList<SharedDeviceData> clip_buffer_;
     DiagramMeta meta_;

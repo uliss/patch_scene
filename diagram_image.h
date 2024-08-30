@@ -16,35 +16,54 @@
 
 #include <QGraphicsPixmapItem>
 #include <QGraphicsSvgItem>
+#include <QObject>
+#include <QSvgRenderer>
 
 namespace ceam {
 
-class DiagramImage : public QGraphicsItem {
+class SceneBackground : public QObject {
+    Q_OBJECT
+
 public:
-    DiagramImage(const QString& path = {}, QGraphicsItem* parent = nullptr);
+    SceneBackground();
 
-    enum { Type = QGraphicsItem::UserType + 4 };
-    int type() const override { return Type; }
+    void setScene(QGraphicsScene* scene);
 
-    QRectF boundingRect() const final;
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) final;
-
-    void clearImage();
-    bool setImagePath(const QString& path);
-
+    /**
+     * checks if no image content
+     */
     bool isEmpty() const;
 
+    /**
+     * clear background image
+     */
+    void clear();
+
+    /**
+     * try load background image from file
+     * @param path
+     * @return true on success, false on error
+     */
+    bool loadImage(const QString& path);
+
+    bool isVisible() const { return visible_; }
+    void setVisible(bool value);
+
     QJsonValue toJson() const;
-    static std::unique_ptr<DiagramImage> fromJson(const QJsonValue& v);
+    bool setFromJson(const QJsonValue& v);
 
 private:
     bool setPixmap(const QPixmap& pixmap);
     bool setSvg(const QString& path);
+    bool setSvg(const QByteArray& contents);
 
 private:
+    QGraphicsScene* scene_ { nullptr };
     QGraphicsPixmapItem* pixmap_ { nullptr };
     QGraphicsSvgItem* svg_ { nullptr };
-    QByteArray svg_content_;
+    QByteArray svg_bin_content_;
+    QSvgRenderer svg_renderer_;
+    bool visible_ { true };
 };
 
 }

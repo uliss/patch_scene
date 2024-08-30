@@ -86,6 +86,8 @@ Diagram::Diagram(int w, int h, QWidget* parent)
     initSceneConnections();
     initSceneDevices();
 
+    background_.setScene(scene_);
+
     initLiveConnection();
     initSelectionRect();
     initUndoStack();
@@ -504,40 +506,23 @@ void Diagram::setShowCables(bool value)
 
 void Diagram::setShowBackground(bool value)
 {
-    show_background_ = value;
-    if (background_)
-        background_->setVisible(value);
-
+    background_.setVisible(value);
     emit showBackgroundChanged(value);
 }
 
 bool Diagram::setBackground(const QString& path)
 {
-    if (!background_) {
-        background_ = new DiagramImage(path);
-        background_->setZValue(ZVALUE_BACKGROUND);
-        background_->setPos(-background_->boundingRect().width() / 2, -background_->boundingRect().height() / 2);
-        scene_->addItem(background_);
-        if (!background_->isEmpty()) {
-            emit sceneChanged();
-            return true;
-        } else {
-            qWarning() << __FUNCTION__ << "can't set background image:" << path;
-            return false;
-        }
-    } else {
-        auto res = background_->setImagePath(path);
-        if (res)
-            emit sceneChanged();
-
-        return res;
-    }
+    if (background_.loadImage(path)) {
+        emit sceneChanged();
+        return true;
+    } else
+        return false;
 }
 
 void Diagram::clearBackground()
 {
-    if (background_ && !background_->isEmpty()) {
-        background_->clearImage();
+    if (!background_.isEmpty()) {
+        background_.clear();
         emit sceneChanged();
     }
 }
@@ -600,16 +585,8 @@ bool Diagram::loadJson(const QString& path)
     }
 
     if (root.contains(JSON_KEY_BACKGROUND)) {
-        auto bg_img = DiagramImage::fromJson(root.value(JSON_KEY_BACKGROUND));
-        if (bg_img) {
-            background_ = bg_img.release();
-            scene_->addItem(background_);
-        } else {
+        if (!background_.setFromJson(root.value(JSON_KEY_BACKGROUND)))
             qWarning() << "can't load bg";
-        }
-    } else {
-        delete background_;
-        background_ = nullptr;
     }
 
     auto meta = DiagramMeta::fromJson(root.value(JSON_KEY_META));
@@ -692,11 +669,7 @@ void Diagram::clearAll()
 
     QSignalBlocker conn_block(&connections_);
     connections_.clear();
-
-    if (background_) {
-        delete background_;
-        background_ = nullptr;
-    }
+    background_.clear();
 
     undo_stack_->clear();
 
@@ -747,8 +720,8 @@ QJsonObject Diagram::toJson() const
 
     json[JSON_KEY_CONNS] = cons;
 
-    if (background_)
-        json[JSON_KEY_BACKGROUND] = background_->toJson();
+
+    json[JSON_KEY_BACKGROUND] = background_.toJson();
 
     json[JSON_KEY_APP] = appInfoJson();
     json[JSON_KEY_META] = meta_.toJson();
@@ -937,7 +910,7 @@ void Diagram::contextMenuEvent(QContextMenuEvent* event)
     QMenu menu(this);
     menu.addAction(add_act);
 
-    if (background_ && !background_->isEmpty()) {
+    if (!background_.isEmpty()) {
         auto clear_bg = new QAction(tr("&Clear background"), this);
         connect(clear_bg, &QAction::triggered, this,
             [this]() { clearBackground(); });

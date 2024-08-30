@@ -15,6 +15,7 @@
 
 #include <QBuffer>
 #include <QFile>
+#include <QGraphicsScene>
 #include <QJsonObject>
 #include <QTemporaryFile>
 
@@ -44,49 +45,41 @@ QJsonValue jsonFromPixmap(const QPixmap& p)
 
 using namespace ceam;
 
-DiagramImage::DiagramImage(const QString& path, QGraphicsItem* parent)
-    : QGraphicsItem(parent)
+SceneBackground::SceneBackground()
 {
-    setAcceptDrops(false);
-    setAcceptHoverEvents(false);
-    setFlag(QGraphicsItem::ItemIsSelectable, false);
-    setFlag(QGraphicsItem::ItemIsMovable, false);
-    setFlag(QGraphicsItem::ItemIsFocusable, false);
+    // setAcceptDrops(false);
+    // setAcceptHoverEvents(false);
+    // setFlag(QGraphicsItem::ItemIsSelectable, false);
+    // setFlag(QGraphicsItem::ItemIsMovable, false);
+    // setFlag(QGraphicsItem::ItemIsFocusable, false);
 
-    setImagePath(path);
+    // loadImage(path);
 }
 
-QRectF DiagramImage::boundingRect() const
+void SceneBackground::setScene(QGraphicsScene* scene)
 {
-    if (svg_)
-        return svg_->boundingRect();
-    else if (pixmap_)
-        return pixmap_->boundingRect();
-    else
-        return {};
+    if (scene_)
+        clear();
+
+    scene_ = scene;
 }
 
-void DiagramImage::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+bool SceneBackground::setPixmap(const QPixmap& pixmap)
 {
-    if (svg_)
-        svg_->paint(painter, option, widget);
-
-    if (pixmap_)
-        pixmap_->paint(painter, option, widget);
-}
-
-bool DiagramImage::setPixmap(const QPixmap& pixmap)
-{
-    if (!pixmap)
+    if (!scene_ || !pixmap)
         return false;
 
-    clearImage();
-    pixmap_ = new QGraphicsPixmapItem(pixmap, this);
+    clear();
+    pixmap_ = new QGraphicsPixmapItem(pixmap);
+    scene_->addItem(pixmap_);
     return true;
 }
 
-bool DiagramImage::setSvg(const QString& path)
+bool SceneBackground::setSvg(const QString& path)
 {
+    if (!scene_)
+        return false;
+
     if (path.isEmpty()) {
         qWarning() << "empty SVG filename";
         return false;
@@ -98,29 +91,30 @@ bool DiagramImage::setSvg(const QString& path)
         return false;
     }
 
-    auto svg = std::make_unique<QGraphicsSvgItem>(new QGraphicsSvgItem(path, this));
-    auto svg_bbox = svg->boundingRect();
-    qWarning() << svg_bbox;
-    // if (!svg_bbox.isValid()) {
-    //     qWarning() << "invalid SVG file:" << file.readAll();
-    //     return false;
-    // }
+    return setSvg(file.readAll());
+}
 
-    auto content = qCompress(file.readAll());
-    if (content.isEmpty()) {
-        qWarning() << "SVG compression error:" << path;
-        return false;
+bool SceneBackground::setSvg(const QByteArray& content)
+{
+    {
+        QSignalBlocker sb(&svg_renderer_);
+        if (!scene_ || !svg_renderer_.load(content))
+            return false;
     }
 
-    clearImage();
-    svg_ = svg.release();
-    svg_->setParentItem(this);
-    svg_content_ = content;
+    clear();
+    svg_ = new QGraphicsSvgItem();
+    svg_->setSharedRenderer(&svg_renderer_);
+    scene_->addItem(svg_);
+    svg_bin_content_ = qCompress(content);
     return true;
 }
 
-bool DiagramImage::setImagePath(const QString& path)
+bool SceneBackground::loadImage(const QString& path)
 {
+    if (!scene_)
+        return false;
+
     if (path.isEmpty())
         return false;
 
@@ -129,8 +123,9 @@ bool DiagramImage::setImagePath(const QString& path)
     } else if (path.endsWith(".png", Qt::CaseInsensitive)
         || path.endsWith(".jpg", Qt::CaseInsensitive)
         || path.endsWith(".jpeg", Qt::CaseInsensitive)) {
+
         QPixmap p(path);
-        if(p.isNull())
+        if (p.isNull())
             qWarning() << __FUNCTION__ << "invalid pixmap:" << p;
 
         return setPixmap(p);
@@ -140,12 +135,21 @@ bool DiagramImage::setImagePath(const QString& path)
     }
 }
 
-bool DiagramImage::isEmpty() const
+void SceneBackground::setVisible(bool value)
+{
+    if (pixmap_)
+        pixmap_->setVisible(value);
+
+    if (svg_)
+        svg_->setVisible(value);
+}
+
+bool SceneBackground::isEmpty() const
 {
     return !svg_ && !pixmap_;
 }
 
-QJsonValue DiagramImage::toJson() const
+QJsonValue SceneBackground::toJson() const
 {
     if (pixmap_) {
         QJsonObject js;
@@ -154,77 +158,68 @@ QJsonValue DiagramImage::toJson() const
         return js;
     } else if (svg_) {
         QJsonObject js;
-        js[JSON_KEY_DATA] = QLatin1String { svg_content_.toBase64() };
+        js[JSON_KEY_DATA] = QLatin1String { svg_bin_content_.toBase64() };
         js[JSON_KEY_TYPE] = JSON_SVG;
         return js;
     } else
         return QJsonValue();
 }
 
-std::unique_ptr<DiagramImage> DiagramImage::fromJson(const QJsonValue& v)
+bool SceneBackground::setFromJson(const QJsonValue& v)
 {
     if (!v.isObject()) {
         qWarning() << "object expected";
-        return {};
+        return false;
     }
 
     auto obj = v.toObject();
     auto type = obj.value(JSON_KEY_TYPE).toString();
+
     if (type == JSON_PIXMAP) {
         auto data = obj.value(JSON_KEY_DATA);
         if (!data.isString()) {
             qWarning() << __FILE__ << __FUNCTION__ << "data key expected";
-            return {};
+            return false;
         }
 
-        std::unique_ptr<DiagramImage> res(new DiagramImage());
-        if (res->setPixmap(pixmapFromJson(data)))
-            return res;
-        else
-            return {};
+        return setPixmap(pixmapFromJson(data));
+
     } else if (type == JSON_SVG) {
         auto data = obj.value(JSON_KEY_DATA);
         if (!data.isString()) {
             qWarning() << __FILE__ << __FUNCTION__ << "data key expected";
-            return {};
+            return false;
         }
 
-        auto compressed_data = QByteArray::fromBase64(data.toString().toLatin1());
-        if (compressed_data.isEmpty()) {
+        auto bin_data = QByteArray::fromBase64(data.toString().toLatin1());
+        if (bin_data.isEmpty()) {
             qWarning() << __FILE__ << __FUNCTION__ << "invalid SVG compressed data";
-            return {};
+            return false;
         }
 
-        QTemporaryFile tmp;
-        if (!tmp.open()) {
-            qWarning() << __FILE__ << __FUNCTION__ << "can't open tmp SVG file";
-            return {};
-        }
-        auto nbytes = tmp.write(qUncompress(compressed_data));
-        if (nbytes <= 0) {
-            qWarning() << __FILE__ << __FUNCTION__ << "can't write to tmp SVG file";
-            return {};
-        }
-        tmp.flush();
-        tmp.close();
-        std::unique_ptr<DiagramImage> res(new DiagramImage());
-        if (res->setSvg(tmp.fileName()))
-            return res;
-        else
-            return {};
+        return setSvg(qUncompress(bin_data));
     } else {
         qWarning() << "unknown background image type:" << type;
-        return {};
+        return false;
     }
 }
 
-void DiagramImage::clearImage()
+void SceneBackground::clear()
 {
-    delete pixmap_;
-    delete svg_;
+    if (!scene_)
+        return;
 
-    pixmap_ = nullptr;
-    svg_ = nullptr;
+    if (pixmap_) {
+        scene_->removeItem(pixmap_);
+        delete pixmap_;
+        pixmap_ = nullptr;
+    }
 
-    svg_content_.clear();
+    if (svg_) {
+        scene_->removeItem(svg_);
+        delete svg_;
+        svg_ = nullptr;
+    }
+
+    svg_bin_content_.clear();
 }
