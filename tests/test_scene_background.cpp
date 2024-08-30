@@ -61,3 +61,39 @@ void TestSceneBackground::pixmapTest()
     QCOMPARE(img.boundingRect(), QRectF(0, 0, 512, 512));
     QVERIFY(!img.toJson().isNull());
 }
+
+void TestSceneBackground::json()
+{
+    SceneBackground img;
+    QGraphicsScene sc;
+    img.setScene(&sc);
+    QVERIFY(img.loadImage(":/ceam_logo_color.jpg"));
+    QVERIFY(!img.isEmpty());
+
+    auto json_img = img.toJson();
+    QVERIFY(json_img.isObject());
+
+    img.clear();
+    QVERIFY(img.isEmpty());
+    QVERIFY(img.isVisible());
+    QVERIFY(img.toJson().isNull());
+
+    QVERIFY(img.setFromJson(json_img));
+    QCOMPARE(img.boundingRect(), QRectF(0, 0, 100, 100));
+    QVERIFY(!img.isEmpty());
+
+    QVERIFY(img.loadImage(":/app_icon.svg"));
+    QCOMPARE(img.boundingRect(), QRectF(0, 0, 512, 512));
+    json_img = img.toJson();
+    QVERIFY(json_img.isObject());
+
+    img.clear();
+    QVERIFY(img.isEmpty());
+    QVERIFY(img.isVisible());
+    QVERIFY(img.toJson().isNull());
+    QCOMPARE(img.boundingRect(), QRectF());
+
+    QVERIFY(img.setFromJson(json_img));
+    QCOMPARE(img.boundingRect(), QRectF(0, 0, 512, 512));
+    QVERIFY(!img.isEmpty());
+}
