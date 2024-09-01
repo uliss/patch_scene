@@ -22,6 +22,9 @@
 
 using namespace ceam;
 
+constexpr int XW = 22;
+constexpr int XH = 20;
+
 namespace {
 
 SharedDeviceData data0(DeviceId id)
@@ -251,11 +254,11 @@ void TestSceneDevices::boundingRect()
     dev.setScene(&scene);
     auto dev1 = dev.add(data3(100));
     QCOMPARE(dev1->deviceData()->title(), "DATA3");
-    QCOMPARE(dev.boundingRect(), QRectF(-40, 0, 80, 24));
+    QCOMPARE(dev.boundingRect(), QRectF(-2*XW, 0, 4 * XW, 24));
 
     auto dev2 = dev.add(data3(100));
     dev2->setPos(0, 100);
-    QCOMPARE(dev.boundingRect(), QRectF(-40, 0, 80, 124));
+    QCOMPARE(dev.boundingRect(), QRectF(-2*XW, 0, 4 * XW, 124));
 }
 
 void TestSceneDevices::findConnectionInfo()

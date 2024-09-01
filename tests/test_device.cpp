@@ -18,8 +18,24 @@
 
 using namespace ceam;
 
+constexpr int XW = 22;
+constexpr int XH = 20;
+
 void TestDevice::create()
 {
     Device dev;
     QVERIFY(dev.id() != DEV_NULL_ID);
+    QCOMPARE(dev.deviceData()->inputs().count(), 4);
+    QCOMPARE(dev.deviceData()->outputs().count(), 2);
+
+    QCOMPARE(dev.boundingRect(), QRectF(-2 * XW, 0, 4 * XW, 2 * XH + 24));
+
+    QCOMPARE(dev.inletPos(0), QPointF(0 * XW + 11, 24));
+    QCOMPARE(dev.inletPos(1), QPointF(1 * XW + 11, 24));
+    QCOMPARE(dev.inletPos(2), QPointF(2 * XW + 11, 24));
+    QCOMPARE(dev.inletPos(3), QPointF(3 * XW + 11, 24));
+    QCOMPARE(dev.inletPos(4), QPointF());
+
+    QCOMPARE(dev.outletPos(0), QPointF(0 * XW + 11, 2 * XH + 24));
+    QCOMPARE(dev.outletPos(1), QPointF(1 * XW + 11, 2 * XH + 24));
 }

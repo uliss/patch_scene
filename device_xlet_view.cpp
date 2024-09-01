@@ -116,7 +116,7 @@ std::optional<XletIndex> DeviceXletView::cellToIndex(CellIndex cellIdx) const
 
 std::optional<CellIndex> DeviceXletView::indexToCell(int index) const
 {
-    if (index < 0 || index >= xlets_.count())
+    if (index >= xlets_.count())
         return {};
 
     return std::make_pair(index / maxColumnCount(), index % maxColumnCount());
@@ -141,7 +141,7 @@ std::optional<CellIndex> DeviceXletView::posToCell(const QPoint& pos) const
 
 QPointF DeviceXletView::connectionPoint(XletIndex index) const
 {
-    if (index < 0 || index >= xlets_.count())
+    if (index >= xlets_.count())
         return {};
     else {
         auto xlet = xlets_[index];
