@@ -63,6 +63,8 @@ set(PROJECT_SOURCES
     device_pixmap.ui
     device_xlet.h
     device_xlet.cpp
+    device_xlet_view.h
+    device_xlet_view.cpp
     deviceproperties.h
     deviceproperties.cpp
     deviceproperties.ui

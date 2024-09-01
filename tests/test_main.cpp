@@ -18,6 +18,7 @@
 #include "tests/test_connector_type.h"
 #include "tests/test_device_data.h"
 #include "tests/test_device_library.h"
+#include "tests/test_device_xlet_view.h"
 #include "tests/test_diagram.h"
 #include "tests/test_scene_background.h"
 #include "tests/test_scene_connections.h"
@@ -63,6 +64,9 @@ int main(int argc, char* argv[])
 
     TestSceneBackground test_scene_background;
     status |= QTest::qExec(&test_scene_background, argc, argv);
+
+    TestDeviceXletView test_device_xlet_view;
+    status |= QTest::qExec(&test_device_xlet_view, argc, argv);
 
     return status;
 }
