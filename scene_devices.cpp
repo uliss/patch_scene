@@ -187,10 +187,15 @@ std::optional<std::pair<QPointF, QPointF>> SceneDevices::connectionPoints(const 
     if (dest_it == devices_.end())
         return {};
 
-    auto p0 = src_it->second->outletPos(conn.sourceOutput(), true);
-    auto p1 = dest_it->second->inletPos(conn.destinationInput(), true);
+    auto p0 = src_it->second->outConnectionPoint(conn.sourceOutput(), true);
+    if (!p0)
+        return {};
 
-    return std::pair { p0, p1 };
+    auto p1 = dest_it->second->inConnectionPoint(conn.destinationInput(), true);
+    if (!p1)
+        return {};
+
+    return std::pair { *p0, *p1 };
 }
 
 std::optional<ConnectionPair> SceneDevices::connectionPair(const ConnectionData& conn) const
@@ -223,14 +228,14 @@ bool SceneDevices::checkConnection(const ConnectionData& conn) const
     if (src_it == devices_.end())
         return false;
 
-    if (conn.sourceOutput() >= src_it->second->deviceData()->visOutputCount())
+    if (conn.sourceOutput() >= src_it->second->deviceData()->inputs().size())
         return false;
 
     auto dest_it = devices_.find(conn.destination());
     if (dest_it == devices_.end())
         return false;
 
-    if (conn.destinationInput() >= dest_it->second->deviceData()->visInputCount())
+    if (conn.destinationInput() >= dest_it->second->deviceData()->outputs().size())
         return false;
 
     return true;

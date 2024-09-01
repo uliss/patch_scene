@@ -24,6 +24,8 @@ private slots:
     void createNoTitle();
     void inletRect();
     void outletRect();
+    void titleRect();
+    void xletRect();
 };
 
 #endif // TEST_DEVICE_H

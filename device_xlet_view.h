@@ -109,10 +109,10 @@ public:
     std::optional<CellIndex> posToCell(const QPoint& pos) const;
 
     /**
-     * @return connection point relative to parent Device graphics item
-     * @note xlets should be placed, return real DeviceXlet scene position!
+     * @return connection point in device coords
+     * @note xlets should be placed
      */
-    QPointF connectionPoint(XletIndex index) const;
+    std::optional<QPointF> connectionPoint(XletIndex index) const;
 
     /**
      * @return calculated xlet bounding rectangle

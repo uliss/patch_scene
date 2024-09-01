@@ -117,40 +117,10 @@ DeviceData::DeviceData(DeviceId id)
 {
 }
 
-size_t DeviceData::visInputCount() const
-{
-    return std::count_if(inputs_.begin(), inputs_.end(),
-        [](const XletData& x) { return x.isVisible(); });
-}
-
-size_t DeviceData::visOutputCount() const
-{
-    return std::count_if(outputs_.begin(), outputs_.end(),
-        [](const XletData& x) { return x.isVisible(); });
-}
-
-bool DeviceData::hasVisInputs() const
-{
-    for (auto& x : inputs_)
-        if (x.isVisible())
-            return true;
-
-    return false;
-}
-
-bool DeviceData::hasVisOutputs() const
-{
-    for (auto& x : outputs_)
-        if (x.isVisible())
-            return true;
-
-    return false;
-}
-
 bool DeviceData::showInDeviceCategory() const
 {
     return category_ == ItemCategory::Device
-        || (category_ == ItemCategory::Instrument && (visInputCount() > 0 || hasVisOutputs() > 0));
+        || (category_ == ItemCategory::Instrument && (inputs_.size() > 0 || outputs_.size() > 0));
 }
 
 void DeviceData::setZoom(qreal z)
@@ -304,15 +274,6 @@ QJsonObject DeviceData::toJson() const
     return json;
 }
 
-void DeviceData::foreachVisInput(std::function<void(XletIndex, XletData&)> fn)
-{
-    XletIndex idx = 0;
-    for (auto& x : inputs_) {
-        if (x.isVisible())
-            fn(idx++, x);
-    }
-}
-
 const XletData& DeviceData::inputAt(XletIndex n) const
 {
     return inputs_.at(n);
@@ -331,15 +292,6 @@ std::optional<XletData> DeviceData::visInputAt(XletIndex n) const
     }
 
     return {};
-}
-
-void DeviceData::foreachVisOutput(std::function<void(XletIndex, XletData&)> fn)
-{
-    XletIndex idx = 0;
-    for (auto& x : outputs_) {
-        if (x.isVisible())
-            fn(idx++, x);
-    }
 }
 
 std::optional<XletData> DeviceData::visOutputAt(XletIndex n) const
@@ -383,6 +335,15 @@ size_t DeviceData::calcModelId() const
         ^ ::qHash(static_cast<int>(category_))
         ^ ::qHash(static_cast<int>(battery_type_))
         ^ ::qHash(battery_count_);
+}
+
+bool DeviceData::setMaxColumnCount(int n)
+{
+    if (n < MIN_COL_COUNT || n > MAX_COL_COUNT)
+        return false;
+
+    max_column_count_ = n;
+    return true;
 }
 
 QJsonArray DeviceData::xletToJson(const QList<XletData>& xlets)

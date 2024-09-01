@@ -78,6 +78,9 @@ class DeviceData : public QSharedData {
 public:
     constexpr static const qreal MIN_ZOOM = 0.25;
     constexpr static const qreal MAX_ZOOM = 4;
+    constexpr static int MAX_COL_COUNT = 24;
+    constexpr static int MIN_COL_COUNT = 2;
+    constexpr static int DEF_COL_COUNT = 8;
 
 public:
     explicit DeviceData(DeviceId id);
@@ -87,11 +90,6 @@ public:
     bool isNull() const { return id_ == DEV_NULL_ID; }
     DeviceId id() const { return id_; }
     void setId(DeviceId id) { id_ = id; }
-
-    size_t visInputCount() const;
-    size_t visOutputCount() const;
-    bool hasVisInputs() const;
-    bool hasVisOutputs() const;
 
     bool showInDeviceCategory() const;
 
@@ -125,14 +123,12 @@ public:
 
     QList<XletData>& inputs() { return inputs_; }
     const QList<XletData>& inputs() const { return inputs_; }
-    void foreachVisInput(std::function<void(XletIndex, XletData&)> fn);
     const XletData& inputAt(XletIndex n) const;
     std::optional<XletData> visInputAt(XletIndex n) const;
     void appendInput(const XletData& x) { inputs_.append(x); }
 
     QList<XletData>& outputs() { return outputs_; }
     const QList<XletData>& outputs() const { return outputs_; }
-    void foreachVisOutput(std::function<void(XletIndex, XletData&)> fn);
     const XletData& outputAt(XletIndex n) const { return outputs_.at(n); }
     std::optional<XletData> visOutputAt(XletIndex n) const;
     void appendOutput(const XletData& x) { outputs_.append(x); }
@@ -152,6 +148,9 @@ public:
     bool showTitle() const { return show_title_; }
     void setShowTitle(bool value) { show_title_ = value; }
 
+    int maxColumnCount() const { return max_column_count_; }
+    bool setMaxColumnCount(int n);
+
 private:
     static QJsonArray xletToJson(const QList<XletData>& xlets);
     static bool setXletJson(const QJsonValue& v, QList<XletData>& xlets);
@@ -162,6 +161,7 @@ private:
     QString model_, vendor_, title_;
     QString image_;
     QPointF pos_;
+    int max_column_count_ { DEF_COL_COUNT };
     float zoom_ = { 1 };
     float zvalue_ = { 1 };
     DeviceId id_ { 0 };

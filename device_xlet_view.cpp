@@ -12,14 +12,12 @@
  * this file belongs to.
  *****************************************************************************/
 #include "device_xlet_view.h"
+#include "device_common.h"
 #include "device_xlet.h"
 
 #include <QGraphicsScene>
 
 namespace {
-constexpr int MAX_COL_COUNT = 24;
-constexpr int MIN_COL_COUNT = 2;
-constexpr int DEF_COL_COUNT = 4;
 
 constexpr qreal XLET_W = 22;
 constexpr qreal XLET_H = 20;
@@ -30,7 +28,7 @@ constexpr qreal XLET_BOX_H = 2;
 namespace ceam {
 
 DeviceXletView::DeviceXletView()
-    : max_cols_(DEF_COL_COUNT)
+    : max_cols_(DeviceData::DEF_COL_COUNT)
 {
 }
 
@@ -87,7 +85,7 @@ int DeviceXletView::rowCount() const
 
 bool DeviceXletView::setMaxColumnCount(int n)
 {
-    if (n < MIN_COL_COUNT || n > MAX_COL_COUNT)
+    if (n < DeviceData::MIN_COL_COUNT || n > DeviceData::MAX_COL_COUNT)
         return false;
 
     max_cols_ = n;
@@ -139,7 +137,7 @@ std::optional<CellIndex> DeviceXletView::posToCell(const QPoint& pos) const
         return {};
 }
 
-QPointF DeviceXletView::connectionPoint(XletIndex index) const
+std::optional<QPointF> DeviceXletView::connectionPoint(XletIndex index) const
 {
     if (index >= xlets_.count())
         return {};

@@ -30,48 +30,6 @@ void TestDeviceData::construct()
     QCOMPARE(data.pos(), QPointF());
     QCOMPARE(data.zoom(), 1);
     QCOMPARE(data.category(), ItemCategory::Device);
-    QVERIFY(!data.hasVisInputs());
-    QVERIFY(!data.hasVisOutputs());
-}
-
-void TestDeviceData::hasVisInputs()
-{
-    DeviceData data(1);
-    QVERIFY(!data.isNull());
-    QCOMPARE(data.id(), 1);
-
-    data.appendInput(XletData());
-    QVERIFY(data.hasVisInputs());
-
-    data.inputs().clear();
-    QVERIFY(!data.hasVisInputs());
-
-    data.appendInput(XletData());
-    data.inputs().last().setVisible(false);
-    QVERIFY(!data.hasVisInputs());
-
-    data.appendInput(XletData());
-    QVERIFY(data.hasVisInputs());
-}
-
-void TestDeviceData::hasVisOutputs()
-{
-    DeviceData data(1);
-    QVERIFY(!data.isNull());
-    QCOMPARE(data.id(), 1);
-
-    data.appendOutput(XletData());
-    QVERIFY(data.hasVisOutputs());
-
-    data.outputs().clear();
-    QVERIFY(!data.hasVisOutputs());
-
-    data.appendOutput(XletData());
-    data.outputs().last().setVisible(false);
-    QVERIFY(!data.hasVisOutputs());
-
-    data.appendOutput(XletData());
-    QVERIFY(data.hasVisOutputs());
 }
 
 void TestDeviceData::visInputAt()

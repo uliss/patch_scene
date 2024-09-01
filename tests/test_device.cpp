@@ -23,12 +23,14 @@ namespace {
 constexpr int XW = 22;
 constexpr int XH = 20;
 constexpr int MIN_TXT_WD = 80;
+constexpr int MIN_TITLE_WD = 70;
 constexpr int DEF_TXT_HT = 24;
 
 SharedDeviceData make_data(DeviceId id, int numIn = 0, int numOut = 0, const QString& title = {})
 {
     auto data = new DeviceData(id);
     data->setShowTitle(!title.isEmpty());
+    data->setMaxColumnCount(4);
 
     for (auto i = 0; i < numIn; i++)
         data->appendInput({});
@@ -49,18 +51,17 @@ void TestDevice::createDefault()
 
     QCOMPARE(dev.boundingRect(), QRectF(-2 * XW, 0, 4 * XW, 2 * XH + DEF_TXT_HT));
     QCOMPARE(dev.inletsRect().width(), 4 * XW);
-    QCOMPARE(dev.inletsYOff(), DEF_TXT_HT);
     QCOMPARE(dev.inletsRect(), QRect(-2 * XW, DEF_TXT_HT, 4 * XW, XH));
 
     QCOMPARE(dev.inConnectionPoint(0), QPointF(-1.5 * XW, DEF_TXT_HT));
     QCOMPARE(dev.inConnectionPoint(1), QPointF(-0.5 * XW, DEF_TXT_HT));
     QCOMPARE(dev.inConnectionPoint(2), QPointF(0.5 * XW, DEF_TXT_HT));
     QCOMPARE(dev.inConnectionPoint(3), QPointF(1.5 * XW, DEF_TXT_HT));
-    QCOMPARE(dev.inConnectionPoint(4), QPointF());
+    QVERIFY(!dev.inConnectionPoint(4));
 
     QCOMPARE(dev.outConnectionPoint(0), QPointF(-0.5 * XW, 2 * XH + DEF_TXT_HT));
     QCOMPARE(dev.outConnectionPoint(1), QPointF(0.5 * XW, 2 * XH + DEF_TXT_HT));
-    QCOMPARE(dev.outConnectionPoint(2), QPointF());
+    QVERIFY(!dev.outConnectionPoint(2));
 }
 
 void TestDevice::createNoTitle()
@@ -76,7 +77,7 @@ void TestDevice::createNoTitle()
         QCOMPARE(dev.inletsRect(), QRect(-1 * XW, 0, 2 * XW, XH));
         QCOMPARE(dev.inConnectionPoint(0), QPointF(-0.5 * XW, 0));
         QCOMPARE(dev.inConnectionPoint(1), QPointF(0.5 * XW, 0));
-        QCOMPARE(dev.outConnectionPoint(0), QPointF());
+        QVERIFY(!dev.outConnectionPoint(0));
     }
 
     {
@@ -84,8 +85,8 @@ void TestDevice::createNoTitle()
 
         QCOMPARE(dev.boundingRect(), QRectF(-0.5 * XW, 0, XW, XH));
         QCOMPARE(dev.inletsRect(), QRect(0, 0, 0, 0));
-        QCOMPARE(dev.inConnectionPoint(0), QPointF());
-        QCOMPARE(dev.inConnectionPoint(1), QPointF());
+        QVERIFY(!dev.inConnectionPoint(0));
+        QVERIFY(!dev.inConnectionPoint(1));
         QCOMPARE(dev.outConnectionPoint(0), QPointF(0, XH));
     }
 
@@ -148,5 +149,71 @@ void TestDevice::outletRect()
     {
         Device dev(make_data(100, 7, 5, {}));
         QCOMPARE(dev.outletsRect(), QRectF(-2 * XW, 2 * XH, 4 * XW, 2 * XH));
+    }
+}
+
+void TestDevice::titleRect()
+{
+    {
+        Device dev(make_data(100, 0, 0, {}));
+        QCOMPARE(dev.titleRect(), QRect());
+    }
+
+    {
+        Device dev(make_data(100, 0, 0, "..."));
+        QCOMPARE(dev.titleRect(), QRectF(-0.5 * MIN_TITLE_WD, 0, MIN_TITLE_WD, DEF_TXT_HT));
+    }
+}
+
+void TestDevice::xletRect()
+{
+    {
+        Device dev(make_data(100, 0, 0, {}));
+        QCOMPARE(dev.xletRect(), QRect());
+    }
+
+    {
+        Device dev(make_data(100, 1, 0, {}));
+        QCOMPARE(dev.xletRect(), QRect(-0.5 * XW, 0, XW, XH));
+    }
+
+    {
+        Device dev(make_data(100, 2, 0, {}));
+        QCOMPARE(dev.xletRect(), QRect(-XW, 0, 2 * XW, XH));
+    }
+
+    {
+        Device dev(make_data(100, 5, 0, {}));
+        QCOMPARE(dev.xletRect(), QRect(-2 * XW, 0, 4 * XW, 2 * XH));
+    }
+
+    {
+        Device dev(make_data(100, 0, 1, {}));
+        QCOMPARE(dev.xletRect(), QRect(-0.5 * XW, 0, XW, XH));
+    }
+
+    {
+        Device dev(make_data(100, 0, 2, {}));
+        QCOMPARE(dev.xletRect(), QRect(-XW, 0, 2 * XW, XH));
+    }
+
+    {
+        Device dev(make_data(100, 0, 5, {}));
+        QCOMPARE(dev.xletRect(), QRect(-2 * XW, 0, 4 * XW, 2 * XH));
+    }
+
+    {
+        Device dev(make_data(100, 2, 2, {}));
+        QCOMPARE(dev.xletRect(), QRect(-XW, 0, 2 * XW, 2 * XH));
+    }
+
+    {
+        Device dev(make_data(100, 2, 1, {}));
+        QCOMPARE(dev.xletRect(), QRect(-XW, 0, 2 * XW, 2 * XH));
+    }
+
+    {
+        Device dev(make_data(100, 1, 2, {}));
+        QCOMPARE(dev.xletRect(), QRect(-XW, 0, 2 * XW, 2 * XH));
     }
 }

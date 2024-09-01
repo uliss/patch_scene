@@ -18,8 +18,10 @@
 
 #include <QTest>
 
+namespace {
 constexpr int XW = 22;
 constexpr int XH = 20;
+}
 
 using namespace ceam;
 
@@ -28,7 +30,7 @@ void TestDeviceXletView::create()
     DeviceXletView xv;
     QCOMPARE(xv.count(), 0);
     QCOMPARE(xv.cellCount(), 0);
-    QCOMPARE(xv.maxColumnCount(), 4);
+    QCOMPARE(xv.maxColumnCount(), 8);
     QCOMPARE(xv.rowCount(), 0);
     QCOMPARE(xv.boundingRect(), QRectF(0, 0, 0, 0));
 }
@@ -36,6 +38,7 @@ void TestDeviceXletView::create()
 void TestDeviceXletView::indexToCell()
 {
     DeviceXletView xv;
+    xv.setMaxColumnCount(4);
     QVERIFY(!xv.indexToCell(0));
 
     xv.add({}, XletType::In, nullptr);
@@ -63,6 +66,7 @@ void TestDeviceXletView::indexToCell()
 void TestDeviceXletView::boundingRect()
 {
     DeviceXletView xv;
+    xv.setMaxColumnCount(4);
     QCOMPARE(xv.boundingRect(), QRectF(0, 0, 0, 0));
 
     xv.add({}, XletType::In, nullptr);
@@ -120,6 +124,7 @@ void TestDeviceXletView::clear()
 void TestDeviceXletView::place()
 {
     DeviceXletView xv;
+    xv.setMaxColumnCount(4);
     xv.placeXlets({});
     QCOMPARE(xv.boundingRect(), QRectF(0, 0, 0, 0));
 
@@ -165,6 +170,7 @@ void TestDeviceXletView::place()
 void TestDeviceXletView::posToCell()
 {
     DeviceXletView xv;
+    xv.setMaxColumnCount(4);
     xv.add({}, XletType::In, nullptr);
     xv.add({}, XletType::In, nullptr);
     xv.add({}, XletType::In, nullptr);
@@ -187,6 +193,7 @@ void TestDeviceXletView::posToCell()
 void TestDeviceXletView::posToIndex()
 {
     DeviceXletView xv;
+    xv.setMaxColumnCount(4);
     xv.add({}, XletType::In, nullptr);
     xv.add({}, XletType::In, nullptr);
     xv.add({}, XletType::In, nullptr);
@@ -208,6 +215,7 @@ void TestDeviceXletView::posToIndex()
 void TestDeviceXletView::xletRect()
 {
     DeviceXletView xv;
+    xv.setMaxColumnCount(4);
     QCOMPARE(xv.xletRect(0), QRect());
     QCOMPARE(xv.xletRect(1), QRect());
 
@@ -237,12 +245,13 @@ void TestDeviceXletView::xletRect()
 void TestDeviceXletView::inletConnectionPoint()
 {
     DeviceXletView xv;
-    QCOMPARE(xv.connectionPoint(0), QPointF());
-    QCOMPARE(xv.connectionPoint(1), QPointF());
+    xv.setMaxColumnCount(4);
+    QVERIFY(!xv.connectionPoint(0));
+    QVERIFY(!xv.connectionPoint(1));
 
     xv.add({}, XletType::In, nullptr);
     QCOMPARE(xv.connectionPoint(0), QPointF(11, 0));
-    QCOMPARE(xv.connectionPoint(1), QPointF());
+    QVERIFY(!xv.connectionPoint(1));
 
     xv.add({}, XletType::In, nullptr);
     QCOMPARE(xv.connectionPoint(0), QPointF(11, 0));
@@ -250,7 +259,7 @@ void TestDeviceXletView::inletConnectionPoint()
     xv.placeXlets({});
     QCOMPARE(xv.connectionPoint(0), QPointF(11, 0));
     QCOMPARE(xv.connectionPoint(1), QPointF(33, 0));
-    QCOMPARE(xv.connectionPoint(2), QPointF());
+    QVERIFY(!xv.connectionPoint(2));
 
     xv.add({}, XletType::In, nullptr);
     xv.placeXlets(QPoint(10, 0));
@@ -277,12 +286,13 @@ void TestDeviceXletView::inletConnectionPoint()
 void TestDeviceXletView::outletConnectionPoint()
 {
     DeviceXletView xv;
-    QCOMPARE(xv.connectionPoint(0), QPointF());
-    QCOMPARE(xv.connectionPoint(1), QPointF());
+    xv.setMaxColumnCount(4);
+    QVERIFY(!xv.connectionPoint(0));
+    QVERIFY(!xv.connectionPoint(1));
 
     xv.add({}, XletType::Out, nullptr);
     QCOMPARE(xv.connectionPoint(0), QPointF(11, XH));
-    QCOMPARE(xv.connectionPoint(1), QPointF());
+    QVERIFY(!xv.connectionPoint(1));
 
     xv.add({}, XletType::Out, nullptr);
     QCOMPARE(xv.connectionPoint(0), QPointF(11, XH));
@@ -290,7 +300,7 @@ void TestDeviceXletView::outletConnectionPoint()
     xv.placeXlets({});
     QCOMPARE(xv.connectionPoint(0), QPointF(11, XH));
     QCOMPARE(xv.connectionPoint(1), QPointF(33, XH));
-    QCOMPARE(xv.connectionPoint(2), QPointF());
+    QVERIFY(!xv.connectionPoint(2));
 
     xv.add({}, XletType::Out, nullptr);
     xv.placeXlets(QPoint(10, 0));

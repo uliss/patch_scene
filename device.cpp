@@ -33,10 +33,6 @@
 using namespace ceam;
 
 namespace {
-constexpr qreal XLET_W = 22;
-constexpr qreal XLET_H = 20;
-constexpr qreal XLET_BOX_W = 8;
-constexpr qreal XLET_BOX_H = 2;
 
 constexpr int MIN_WIDTH = 16;
 constexpr int MIN_HEIGHT = 16;
@@ -170,6 +166,8 @@ Device::Device(const SharedDeviceData& data)
     setFlag(QGraphicsItem::ItemIsSelectable);
 
     syncRect();
+
+    setCacheMode(DeviceCoordinateCache);
 }
 
 Device::~Device()
@@ -182,46 +180,36 @@ QRectF Device::boundingRect() const
     return rect_;
 }
 
-QPointF Device::inletPos(int i, bool map) const
+QRectF Device::inletsRect() const
 {
-    const auto NUM_IN = visInletCount();
-    if (NUM_IN == 0)
-        return {};
-
-    const auto bbox = xletRect();
-    const auto xstep = bbox.width() / NUM_IN;
-    const auto xoff = (i + 0.5) * xstep;
-
-    const auto pos = QPointF(bbox.left() + xoff, bbox.top());
-
-    return map ? mapToScene(pos) : pos;
+    auto bbox = inputs_.boundingRect();
+    bbox.translate(centerAlignedLeftPos(bbox.width()), inletsYOff());
+    return bbox;
 }
 
-QPointF Device::outletPos(int i, bool map) const
+QRectF Device::outletsRect() const
 {
-    const auto NUM_OUT = visOutletCount();
-    if (NUM_OUT == 0)
-        return {};
-
-    const auto bbox = xletRect();
-    const auto xstep = bbox.width() / NUM_OUT;
-    const auto xoff = (i + 0.5) * xstep;
-
-    const auto pos = QPointF(bbox.left() + xoff, bbox.bottom());
-
-    return map ? mapToScene(pos) : pos;
+    auto bbox = outputs_.boundingRect();
+    bbox.translate(centerAlignedLeftPos(bbox.width()), outletsYOff());
+    return bbox;
 }
 
-QRect Device::inletRect(int i) const
+std::optional<QPointF> Device::inConnectionPoint(XletIndex i, bool map) const
 {
-    auto pos = inletPos(i);
-    return QRect(pos.x() - (XLET_W / 2), pos.y(), XLET_W, XLET_H);
+    auto pos = inputs_.connectionPoint(i);
+    if (!pos)
+        return pos;
+
+    return map ? mapToScene(*pos) : *pos;
 }
 
-QRect Device::outletRect(int i) const
+std::optional<QPointF> Device::outConnectionPoint(XletIndex i, bool map) const
 {
-    auto pos = outletPos(i);
-    return QRect(pos.x() - (XLET_W / 2), pos.y() - XLET_H, XLET_W, XLET_H);
+    auto pos = outputs_.connectionPoint(i);
+    if (!pos)
+        return pos;
+
+    return map ? mapToScene(*pos) : *pos;
 }
 
 void Device::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
@@ -234,20 +222,33 @@ void Device::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
         pen.setColor(Qt::blue);
         painter->setPen(pen);
 
-        if (!noXlets()) {
+        if (hasXlets()) {
+            auto xrect = xletRect();
             painter->setBrush(QColor(255, 255, 255));
-            painter->drawRect(xletRect());
+            painter->drawRect(xrect);
+
+            if ((inputs_.rowCount() * outputs_.rowCount()) > 1) {
+                auto out_y = outletsYOff();
+                painter->drawLine(xrect.left(), out_y, xrect.right(), out_y);
+            }
         }
 
         pen.setStyle(Qt::DotLine);
         painter->setBrush(Qt::NoBrush);
         painter->setPen(pen);
         painter->drawRect(boundingRect());
-    } else if (!noXlets()) { // draw xlet box
+    } else if (hasXlets()) { // draw xlet box
+        auto xrect = xletRect();
+
         pen.setColor(Qt::black);
         painter->setPen(pen);
         painter->setBrush(QColor(255, 255, 255));
         painter->drawRect(xletRect());
+
+        if ((inputs_.rowCount() * outputs_.rowCount()) > 1) {
+            auto out_y = outletsYOff();
+            painter->drawLine(xrect.left(), out_y, xrect.right(), out_y);
+        }
     }
 
     Q_UNUSED(widget);
@@ -361,19 +362,9 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
     event->accept();
 }
 
-size_t Device::visInletCount() const
+bool Device::hasXlets() const
 {
-    return data_->visInputCount();
-}
-
-size_t Device::visOutletCount() const
-{
-    return data_->visOutputCount();
-}
-
-bool Device::noXlets() const
-{
-    return !data_->hasVisInputs() && !data_->hasVisOutputs();
+    return inputs_.count() > 0 || outputs_.count() > 0;
 }
 
 QJsonArray Device::xletToJson(const QList<XletData>& xlets) const
@@ -405,14 +396,7 @@ void Device::clearOutlets()
 
 void Device::clearXlets()
 {
-    for (auto x : inputs_)
-        delete x;
-
     inputs_.clear();
-
-    for (auto x : outputs_)
-        delete x;
-
     outputs_.clear();
 }
 
@@ -436,22 +420,16 @@ void Device::createXlets()
 {
     clearXlets();
 
-    int in_idx = 0;
+    inputs_.setMaxColumnCount(data_->maxColumnCount());
     for (auto& data : data_->inputs()) {
-        if (data.isVisible()) {
-            auto xlet = new DeviceXlet(data, XletType::In, in_idx, this);
-            xlet->setConnectPoint(inletPos(in_idx++));
-            inputs_.push_back(xlet);
-        }
+        if (data.isVisible())
+            inputs_.add(data, XletType::In, this);
     }
 
-    int out_idx = 0;
+    outputs_.setMaxColumnCount(data_->maxColumnCount());
     for (auto& data : data_->outputs()) {
-        if (data.isVisible()) {
-            auto xlet = new DeviceXlet(data, XletType::Out, out_idx, this);
-            xlet->setConnectPoint(outletPos(out_idx++));
-            outputs_.push_back(xlet);
-        }
+        if (data.isVisible())
+            outputs_.add(data, XletType::Out, this);
     }
 }
 
@@ -466,14 +444,15 @@ void Device::createTitle(qreal wd)
     }
 }
 
-void Device::createImage(qreal wd)
+void Device::createImage()
 {
     clearImage();
 
     if (!data_->image().isEmpty()) {
-        image_ = new QGraphicsSvgItem(this);
+        image_ = new QGraphicsSvgItem;
         image_->setSharedRenderer(SvgRenderFactory::instance().getRender(data_->imageIconPath()));
         image_->setScale(data_->zoom());
+        image_->setParentItem(this);
     }
 }
 
@@ -481,18 +460,19 @@ void Device::syncRect()
 {
     prepareGeometryChange();
 
-    // should be called first
+    createXlets();
+    createImage();
+
+    // should be called after xlets and image creation
     auto calc_wd = calcWidth();
     createTitle(calc_wd - 10);
-    createImage(calc_wd);
 
     auto calc_ht = calcHeight();
     rect_.setRect(-calc_wd * 0.5, 0, calc_wd, calc_ht);
 
     updateTitlePos();
-    updateImagePos();
-
-    createXlets();
+    updateImagePos(rect_);
+    updateXletsPos(rect_);
 }
 
 void Device::updateTitlePos()
@@ -511,7 +491,7 @@ void Device::updateTitlePos()
     title_->setPos(title_bbox.left(), 0);
 }
 
-void Device::updateImagePos()
+void Device::updateImagePos(const QRectF& bbox)
 {
     if (!image_)
         return;
@@ -520,60 +500,44 @@ void Device::updateImagePos()
     if (title_ && data_->showTitle())
         yoff += title_->boundingRect().height();
 
-    auto bbox = boundingRect();
     auto image_wd = image_->boundingRect().width() * image_->scale();
     image_->setPos(bbox.left() + (bbox.width() - image_wd) * 0.5, yoff);
 }
 
-void Device::updateXletsPos()
+void Device::updateXletsPos(const QRectF& bbox)
 {
-    int in_idx = 0;
-    int out_idx = 0;
-
-    for (auto x : inputs_)
-        x->setConnectPoint(inletPos(in_idx++));
-
-    for (auto x : outputs_)
-        x->setConnectPoint(outletPos(out_idx++));
+    inputs_.placeXlets(QPoint(centerAlignedLeftPos(inputs_.width()), inletsYOff()));
+    outputs_.placeXlets(QPoint(centerAlignedLeftPos(outputs_.width()), outletsYOff()));
 }
 
 QRectF Device::titleRect() const
 {
-    auto bbox = boundingRect();
+    if (!title_ || !data_->showTitle())
+        return {};
+
     auto title_box = title_->boundingRect();
-    auto xoff = (bbox.width() - title_box.width()) * 0.5;
-    return QRectF(bbox.left() + xoff, 0, title_box.width(), title_box.height());
+    title_box.translate(centerAlignedLeftPos(title_box.width()), 0);
+    return title_box;
 }
 
 QRectF Device::xletRect() const
 {
-    const auto NUM_IN = data_->visInputCount();
-    const auto NUM_OUT = data_->visOutputCount();
-
-    int h = 0;
-    h += ((NUM_IN > 0) * XLET_H);
-    h += ((NUM_OUT > 0) * XLET_H);
-    const auto w = qMax(NUM_IN, NUM_OUT) * XLET_W;
-    const auto bbox = boundingRect();
-    const auto xoff = (bbox.width() - w) * 0.5;
-    return QRectF(bbox.left() + xoff, bbox.bottom() - h, w, h);
+    return inletsRect().united(outletsRect());
 }
 
 int Device::calcWidth() const
 {
-    const auto NUM_IN = data_->visInputCount();
-    const auto NUM_OUT = data_->visOutputCount();
     const auto TITLE_SIZE = data_->title().size();
 
-    int w = qMax(NUM_IN, NUM_OUT) * XLET_W;
+    int w = qMax(inputs_.width(), outputs_.width());
 
     if (TITLE_SIZE > 0 && data_->showTitle()) {
         auto txt_wd = qBound<int>(TITLE_MIN_CHAR_WIDTH, TITLE_SIZE, TITLE_MAX_CHAR_WIDTH);
         w = qMax<int>(w, txt_wd * TITLE_CHAR_WIDTH);
     }
 
-    if (!data_->image().isEmpty())
-        w = qMax<int>(w, DEF_IMAGE_WIDTH * data_->zoom());
+    if (image_)
+        w = qMax<int>(w, image_->boundingRect().width());
 
     return w;
 }
@@ -587,23 +551,48 @@ int Device::calcHeight() const
     if (image_)
         h += image_->boundingRect().height() * image_->scale();
 
-    h += (data_->hasVisInputs() * XLET_H);
-    h += (data_->hasVisOutputs() * XLET_H);
+    h += inputs_.boundingRect().height();
+    h += outputs_.boundingRect().height();
 
     return h;
 }
 
-void Device::syncXlets()
+int Device::inletsYOff() const
 {
-    data_->foreachVisInput([this](XletIndex idx, XletData& data) {
-        if (idx < inputs_.size())
-            data = inputs_[idx]->xletData();
-    });
+    qreal yoff = 0;
+    if (title_ && data_->showTitle())
+        yoff += title_->boundingRect().height();
 
-    data_->foreachVisOutput([this](XletIndex idx, XletData& data) {
-        if (idx < outputs_.size())
-            data = outputs_[idx]->xletData();
-    });
+    if (image_)
+        yoff += image_->boundingRect().height() * image_->scale();
+
+    return qRound(yoff);
+}
+
+int Device::outletsYOff() const
+{
+    return inletsYOff() + inputs_.boundingRect().height();
+}
+
+void Device::syncXletData()
+{
+    {
+        XletIndex in_idx = 0;
+        for (auto& data : data_->inputs()) {
+            auto xlet = inputs_.xletAtIndex(in_idx++);
+            if (xlet)
+                data = xlet->xletData();
+        }
+    }
+
+    {
+        XletIndex out_idx = 0;
+        for (auto& data : data_->outputs()) {
+            auto xlet = outputs_.xletAtIndex(out_idx++);
+            if (xlet)
+                data = xlet->xletData();
+        }
+    }
 }
 
 QJsonObject Device::toJson() const
@@ -638,28 +627,6 @@ SharedDeviceData Device::datafromJson(const QJsonValue& j)
     }
 
     return data;
-}
-
-int Device::inletAt(const QPointF& pt) const
-{
-    auto pos = mapFromScene(pt).toPoint();
-    for (int i = 0; i < data_->visInputCount(); i++) {
-        if (inletRect(i).contains(pos))
-            return i;
-    }
-
-    return -1;
-}
-
-int Device::outletAt(const QPointF& pt) const
-{
-    auto pos = mapFromScene(pt).toPoint();
-    for (int i = 0; i < data_->visOutputCount(); i++) {
-        if (outletRect(i).contains(pos))
-            return i;
-    }
-
-    return -1;
 }
 
 SharedDeviceData Device::deviceData() const

@@ -15,6 +15,7 @@
 #define DEVICE_H
 
 #include "device_common.h"
+#include "device_xlet_view.h"
 
 #include <QGraphicsObject>
 
@@ -35,27 +36,69 @@ public:
     explicit Device(const SharedDeviceData& data);
     ~Device();
 
-    QRectF boundingRect() const final;
-
-    QPointF inletPos(int i, bool map = false) const;
-    QPointF outletPos(int i, bool map = false) const;
-    QRect inletRect(int i) const;
-    QRect outletRect(int i) const;
-
+    /**
+     * @return device id
+     */
     DeviceId id() const { return data_->id(); }
 
-    QJsonObject toJson() const;
+    /**
+     * return bounding rect in device coordinates
+     */
+    QRectF boundingRect() const final;
 
-    static SharedDeviceData defaultDeviceData();
-    static SharedDeviceData datafromJson(const QJsonValue& j);
+    /**
+     * @return inlets bounding rect in device coordinates
+     */
+    QRectF inletsRect() const;
 
-    int inletAt(const QPointF& pt) const;
-    int outletAt(const QPointF& pt) const;
+    /**
+     * @return outlets bounding rect in device coordinates
+     */
+    QRectF outletsRect() const;
+
+    /**
+     * @return title bounding rect in device coordinates
+     */
+    QRectF titleRect() const;
+
+    /**
+     * @return if device has inputs or outputs
+     */
+    bool hasXlets() const;
+
+    /**
+     * @return all inputs/outputs boundinge rect in device coords
+     */
+    QRectF xletRect() const;
+
+    /**
+     * @return input connection point in device or scene coords
+     */
+    std::optional<QPointF> inConnectionPoint(XletIndex i, bool map = false) const;
+
+    /**
+     * @return output connection point in device or scene coords
+     */
+    std::optional<QPointF> outConnectionPoint(XletIndex i, bool map = false) const;
 
     SharedDeviceData deviceData() const;
     void setDeviceData(const SharedDeviceData& data);
 
+    /**
+     * move device into random neighborhood within the specified delta
+     */
     void randomizePos(qint64 delta);
+
+    const DeviceXletView& inlets() const { return inputs_; }
+    const DeviceXletView& outputs() const { return outputs_; }
+
+    /**
+     * export device state/data to json
+     */
+    QJsonObject toJson() const;
+
+    static SharedDeviceData defaultDeviceData();
+    static SharedDeviceData datafromJson(const QJsonValue& j);
 
 signals:
     void addToFavorites(SharedDeviceData data);
@@ -68,19 +111,18 @@ signals:
     void updateDevice(SharedDeviceData data);
 
 private:
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) final;
     void paintTitleBox(QPainter* painter);
 
-    void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
-    void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
-    void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) override;
-
-    size_t visInletCount() const;
-    size_t visOutletCount() const;
-    bool noXlets() const;
+    void mouseMoveEvent(QGraphicsSceneMouseEvent* event) final;
+    void mousePressEvent(QGraphicsSceneMouseEvent* event) final;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) final;
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) final;
 
     QJsonArray xletToJson(const QList<XletData>& xlets) const;
+
+    int inletsYOff() const;
+    int outletsYOff() const;
 
     void clearInlets();
     void clearOutlets();
@@ -90,20 +132,22 @@ private:
 
     void createXlets();
     void createTitle(qreal wd);
-    void createImage(qreal wd);
+    void createImage();
 
     void syncRect();
-    void syncXlets();
+    void syncXletData();
 
     void updateTitlePos();
-    void updateImagePos();
-    void updateXletsPos();
-
-    QRectF titleRect() const;
-    QRectF xletRect() const;
+    void updateImagePos(const QRectF& bbox);
+    void updateXletsPos(const QRectF& bbox);
 
     int calcWidth() const;
     int calcHeight() const;
+
+    qreal centerAlignedLeftPos(qreal width) const
+    {
+        return rect_.left() + (rect_.width() - width) * 0.5;
+    }
 
 private:
     friend class DeviceXlet;
@@ -113,7 +157,7 @@ private:
     QGraphicsSvgItem* image_;
     mutable SharedDeviceData data_;
     QRectF rect_;
-    QList<DeviceXlet*> inputs_, outputs_;
+    DeviceXletView inputs_, outputs_;
 };
 }
 

@@ -22,10 +22,13 @@
 
 using namespace ceam;
 
+namespace {
+
 constexpr int XW = 22;
 constexpr int XH = 20;
-
-namespace {
+constexpr int MIN_TXT_WD = 80;
+constexpr int MIN_TITLE_WD = 70;
+constexpr int DEF_TXT_HT = 24;
 
 SharedDeviceData data0(DeviceId id)
 {
@@ -254,11 +257,11 @@ void TestSceneDevices::boundingRect()
     dev.setScene(&scene);
     auto dev1 = dev.add(data3(100));
     QCOMPARE(dev1->deviceData()->title(), "DATA3");
-    QCOMPARE(dev.boundingRect(), QRectF(-2*XW, 0, 4 * XW, 24));
+    QCOMPARE(dev.boundingRect(), QRectF(-0.5 * MIN_TXT_WD, 0, MIN_TXT_WD, DEF_TXT_HT));
 
     auto dev2 = dev.add(data3(100));
     dev2->setPos(0, 100);
-    QCOMPARE(dev.boundingRect(), QRectF(-2*XW, 0, 4 * XW, 124));
+    QCOMPARE(dev.boundingRect(), QRectF(-0.5 * MIN_TXT_WD, 0, MIN_TXT_WD, 100 + DEF_TXT_HT));
 }
 
 void TestSceneDevices::findConnectionInfo()
@@ -356,14 +359,10 @@ void TestSceneDevices::findConnectionPoints()
     dev2->setPos(300, 400);
 
     auto pts = dev.connectionPoints({ 100, 0, 101, 0 });
-    QVERIFY(pts);
-    QCOMPARE(pts->first, QPointF {});
-    QCOMPARE(pts->second, QPointF {});
+    QVERIFY(!pts);
 
     pts = dev.connectionPoints({ 101, 0, 100, 0 });
-    QVERIFY(pts);
-    QCOMPARE(pts->first, QPointF {});
-    QCOMPARE(pts->second, QPointF {});
+    QVERIFY(!pts);
 
     dev.clear();
 

@@ -187,7 +187,7 @@ void DeviceXlet::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
             update(boundingRect());
             auto dev = qgraphicsitem_cast<Device*>(parentItem());
             if (dev)
-                dev->syncXlets();
+                dev->syncXletData();
         });
 
         menu.addAction(phantom_on);
