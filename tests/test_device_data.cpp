@@ -51,5 +51,6 @@ void TestDeviceData::toJson()
     QVERIFY(j.contains("inputs"));
     QVERIFY(j.contains("outputs"));
     QVERIFY(j.contains("show-title"));
-    QVERIFY(j.contains("xlet-columns"));
+    QVERIFY(j.contains("input-columns"));
+    QVERIFY(j.contains("output-columns"));
 }

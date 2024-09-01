@@ -41,7 +41,8 @@ constexpr const char* JSON_KEY_CATEGORY = "category";
 constexpr const char* JSON_KEY_BATTERY_TYPE = "battery-type";
 constexpr const char* JSON_KEY_BATTERY_COUNT = "battery-count";
 constexpr const char* JSON_KEY_SHOW_TITLE = "show-title";
-constexpr const char* JSON_KEY_XLET_COLUMNS = "xlet-columns";
+constexpr const char* JSON_KEY_INPUT_COLUMNS = "input-columns";
+constexpr const char* JSON_KEY_OUTPUT_COLUMNS = "output-columns";
 
 constexpr int MAX_BATTERIES_COUNT = 10;
 
@@ -227,7 +228,8 @@ bool DeviceData::setJson(const QJsonValue& v)
     battery_type_ = fromJsonString(obj.value(JSON_KEY_BATTERY_TYPE).toString());
 
     show_title_ = obj[JSON_KEY_SHOW_TITLE].toBool(true);
-    max_column_count_ = qBound<int>(MIN_COL_COUNT, obj[JSON_KEY_XLET_COLUMNS].toInt(DEF_COL_COUNT), MAX_COL_COUNT);
+    max_input_column_count_ = qBound<int>(MIN_COL_COUNT, obj[JSON_KEY_INPUT_COLUMNS].toInt(DEF_COL_COUNT), MAX_COL_COUNT);
+    max_output_column_count_ = qBound<int>(MIN_COL_COUNT, obj[JSON_KEY_OUTPUT_COLUMNS].toInt(DEF_COL_COUNT), MAX_COL_COUNT);
 
     return true;
 }
@@ -272,7 +274,8 @@ QJsonObject DeviceData::toJson() const
     json[JSON_KEY_INPUTS] = xletToJson(inputs_);
     json[JSON_KEY_OUTPUTS] = xletToJson(outputs_);
     json[JSON_KEY_SHOW_TITLE] = show_title_;
-    json[JSON_KEY_XLET_COLUMNS] = max_column_count_;
+    json[JSON_KEY_INPUT_COLUMNS] = max_input_column_count_;
+    json[JSON_KEY_OUTPUT_COLUMNS] = max_output_column_count_;
 
     return json;
 }
@@ -310,12 +313,21 @@ size_t DeviceData::calcModelId() const
         ^ ::qHash(battery_count_);
 }
 
-bool DeviceData::setMaxColumnCount(int n)
+bool DeviceData::setMaxInputColumnCount(int n)
 {
     if (n < MIN_COL_COUNT || n > MAX_COL_COUNT)
         return false;
 
-    max_column_count_ = n;
+    max_input_column_count_ = n;
+    return true;
+}
+
+bool DeviceData::setMaxOutputColumnCount(int n)
+{
+    if (n < MIN_COL_COUNT || n > MAX_COL_COUNT)
+        return false;
+
+    max_output_column_count_ = n;
     return true;
 }
 

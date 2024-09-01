@@ -420,13 +420,13 @@ void Device::createXlets()
 {
     clearXlets();
 
-    inputs_.setMaxColumnCount(data_->maxColumnCount());
+    inputs_.setMaxColumnCount(data_->maxInputColumnCount());
     for (auto& data : data_->inputs()) {
         if (data.isVisible())
             inputs_.add(data, XletType::In, this);
     }
 
-    outputs_.setMaxColumnCount(data_->maxColumnCount());
+    outputs_.setMaxColumnCount(data_->maxInputColumnCount());
     for (auto& data : data_->outputs()) {
         if (data.isVisible())
             outputs_.add(data, XletType::Out, this);

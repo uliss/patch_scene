@@ -21,7 +21,7 @@
 #include <functional>
 
 #include "battery.h"
-#include "connection.h"
+#include "connection_data.h"
 #include "device_xlet.h"
 
 namespace ceam {
@@ -113,8 +113,11 @@ public:
     bool showTitle() const { return show_title_; }
     void setShowTitle(bool value) { show_title_ = value; }
 
-    int maxColumnCount() const { return max_column_count_; }
-    bool setMaxColumnCount(int n);
+    int maxInputColumnCount() const { return max_input_column_count_; }
+    bool setMaxInputColumnCount(int n);
+
+    int maxOutputColumnCount() const { return max_output_column_count_; }
+    bool setMaxOutputColumnCount(int n);
 
 private:
     static QJsonArray xletToJson(const QList<XletData>& xlets);
@@ -126,7 +129,8 @@ private:
     QString model_, vendor_, title_;
     QString image_;
     QPointF pos_;
-    int max_column_count_ { DEF_COL_COUNT };
+    int max_input_column_count_ { DEF_COL_COUNT };
+    int max_output_column_count_ { DEF_COL_COUNT };
     float zoom_ = { 1 };
     float zvalue_ = { 1 };
     DeviceId id_ { 0 };
