@@ -181,7 +181,12 @@ void DeviceXletView::clear()
 
 QRectF DeviceXletView::boundingRect() const
 {
-    return QRectF { 0, 0, max_cols_ * XLET_W, rowCount() * XLET_H };
+    return QRectF { 0, 0, width(), rowCount() * XLET_H };
+}
+
+qreal DeviceXletView::width() const
+{
+    return std::min<int>(max_cols_, xlets_.count()) * XLET_W;
 }
 
 } // namespace ceam

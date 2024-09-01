@@ -137,6 +137,11 @@ public:
      */
     QRectF boundingRect() const;
 
+    /**
+     * @brief xlets_
+     */
+    qreal width() const;
+
 private:
     QList<DeviceXlet*> xlets_;
     int max_cols_;

@@ -22,6 +22,8 @@ class TestDevice : public QObject {
 private slots:
     void createDefault();
     void createNoTitle();
+    void inletRect();
+    void outletRect();
 };
 
 #endif // TEST_DEVICE_H

@@ -30,7 +30,7 @@ void TestDeviceXletView::create()
     QCOMPARE(xv.cellCount(), 0);
     QCOMPARE(xv.maxColumnCount(), 4);
     QCOMPARE(xv.rowCount(), 0);
-    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 4 * XW, 0));
+    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 0, 0));
 }
 
 void TestDeviceXletView::indexToCell()
@@ -63,20 +63,26 @@ void TestDeviceXletView::indexToCell()
 void TestDeviceXletView::boundingRect()
 {
     DeviceXletView xv;
-    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 4 * XW, 0));
+    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 0, 0));
 
     xv.add({}, XletType::In, nullptr);
+    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 1 * XW, XH));
+
+    xv.add({}, XletType::In, nullptr);
+    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 2 * XW, XH));
+    xv.add({}, XletType::In, nullptr);
+    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 3 * XW, XH));
+    xv.add({}, XletType::In, nullptr);
     QCOMPARE(xv.boundingRect(), QRectF(0, 0, 4 * XW, XH));
 
     xv.add({}, XletType::In, nullptr);
-    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 4 * XW, XH));
-    xv.add({}, XletType::In, nullptr);
-    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 4 * XW, XH));
-    xv.add({}, XletType::In, nullptr);
-    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 4 * XW, XH));
+    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 4 * XW, 2 * XH));
 
-    xv.add({}, XletType::In, nullptr);
-    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 4 * XW, 40));
+    QVERIFY(xv.setMaxColumnCount(5));
+    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 5 * XW, XH));
+
+    QVERIFY(xv.setMaxColumnCount(2));
+    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 2 * XW, 3 * XH));
 }
 
 void TestDeviceXletView::cellToIndex()
@@ -115,7 +121,7 @@ void TestDeviceXletView::place()
 {
     DeviceXletView xv;
     xv.placeXlets({});
-    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 4 * XW, 0));
+    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 0, 0));
 
     xv.add({}, XletType::In, nullptr);
     QCOMPARE(xv.count(), 1);
