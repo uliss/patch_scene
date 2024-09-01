@@ -42,6 +42,8 @@ public:
      */
     qsizetype count() const { return xlets_.count(); }
 
+    bool isEmpty() const { return xlets_.isEmpty(); }
+
     /**
      * Number of view cells
      */

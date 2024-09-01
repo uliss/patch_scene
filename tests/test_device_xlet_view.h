@@ -20,12 +20,17 @@ class TestDeviceXletView : public QObject {
     Q_OBJECT
 
 private slots:
-    void create();
     void boundingRect();
-    void place();
-    void xletRect();
+    void cellToIndex();
+    void clear();
+    void create();
+    void indexToCell();
     void inletConnectionPoint();
     void outletConnectionPoint();
+    void place();
+    void posToCell();
+    void posToIndex();
+    void xletRect();
 };
 
 #endif // TEST_DEVICE_XLET_VIEW_H

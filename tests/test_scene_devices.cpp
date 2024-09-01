@@ -313,10 +313,6 @@ void TestSceneDevices::findConnectionPair()
     QCOMPARE(pair->p0.type, ConnectorType::plug_female);
     QCOMPARE(pair->p1.model, ConnectorModel::XLR);
     QCOMPARE(pair->p1.type, ConnectorType::plug_male);
-
-    {
-        QBENCHMARK_ONCE(dev.connectionPair(ConnectionData { 100, 0, 101, 0 }));
-    }
 }
 
 void TestSceneDevices::checkConnection()

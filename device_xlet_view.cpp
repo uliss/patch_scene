@@ -124,8 +124,10 @@ std::optional<CellIndex> DeviceXletView::indexToCell(int index) const
 
 std::optional<int> DeviceXletView::posToIndex(const QPoint& pos) const
 {
-    int row = pos.x() / (int)XLET_H;
-    int col = pos.y() / (int)XLET_W;
+    int col = pos.x() / (int)XLET_W;
+    int row = pos.y() / (int)XLET_H;
+
+    qDebug() << row << col;
 
     return cellToIndex(row, col);
 }

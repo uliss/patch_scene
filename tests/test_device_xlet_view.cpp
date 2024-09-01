@@ -33,6 +33,34 @@ void TestDeviceXletView::create()
     QCOMPARE(xv.boundingRect(), QRectF(0, 0, 4 * XW, 0));
 }
 
+void TestDeviceXletView::indexToCell()
+{
+    DeviceXletView xv;
+    QVERIFY(!xv.indexToCell(0));
+
+    xv.add({}, XletType::In, nullptr);
+    QVERIFY(!xv.indexToCell(-1));
+    QVERIFY(!xv.indexToCell(1));
+    QVERIFY(xv.indexToCell(0));
+    QCOMPARE(*xv.indexToCell(0), CellIndex(0, 0));
+
+    xv.add({}, XletType::In, nullptr);
+    xv.add({}, XletType::In, nullptr);
+    xv.add({}, XletType::In, nullptr);
+    xv.add({}, XletType::In, nullptr);
+    xv.add({}, XletType::In, nullptr);
+    xv.add({}, XletType::In, nullptr);
+    xv.add({}, XletType::In, nullptr);
+
+    QCOMPARE(*xv.indexToCell(1), CellIndex(0, 1));
+    QCOMPARE(*xv.indexToCell(2), CellIndex(0, 2));
+    QCOMPARE(*xv.indexToCell(3), CellIndex(0, 3));
+    QCOMPARE(*xv.indexToCell(4), CellIndex(1, 0));
+    QCOMPARE(*xv.indexToCell(5), CellIndex(1, 1));
+    QCOMPARE(*xv.indexToCell(6), CellIndex(1, 2));
+    QCOMPARE(*xv.indexToCell(7), CellIndex(1, 3));
+}
+
 void TestDeviceXletView::boundingRect()
 {
     DeviceXletView xv;
@@ -50,6 +78,38 @@ void TestDeviceXletView::boundingRect()
 
     xv.add({}, XletType::In, nullptr);
     QCOMPARE(xv.boundingRect(), QRectF(0, 0, 4 * XW, 40));
+}
+
+void TestDeviceXletView::cellToIndex()
+{
+    DeviceXletView xv;
+
+    QVERIFY(!xv.cellToIndex(0, 0));
+    QVERIFY(!xv.cellToIndex(1, 0));
+
+    xv.add({}, XletType::In, nullptr);
+    QVERIFY(xv.cellToIndex(0, 0));
+    QCOMPARE(*xv.cellToIndex(0, 0), 0);
+    QVERIFY(!xv.cellToIndex(1, 0));
+    QVERIFY(!xv.cellToIndex(0, 1));
+
+    xv.add({}, XletType::In, nullptr);
+    QVERIFY(xv.cellToIndex(0, 0));
+    QVERIFY(xv.cellToIndex(0, 1));
+    QCOMPARE(*xv.cellToIndex(0, 0), 0);
+    QCOMPARE(*xv.cellToIndex(0, 1), 1);
+    QVERIFY(!xv.cellToIndex(1, 0));
+}
+
+void TestDeviceXletView::clear()
+{
+    DeviceXletView xv;
+    xv.clear();
+    xv.add({}, XletType::In, nullptr);
+    xv.add({}, XletType::In, nullptr);
+    QCOMPARE(xv.count(), 2);
+    xv.clear();
+    QCOMPARE(xv.count(), 0);
 }
 
 void TestDeviceXletView::place()
@@ -95,6 +155,49 @@ void TestDeviceXletView::place()
     QCOMPARE(xv.xletAtIndex(2)->pos(), QPoint(44, 0));
     QCOMPARE(xv.xletAtIndex(3)->pos(), QPoint(66, 0));
     QCOMPARE(xv.xletAtIndex(4)->pos(), QPoint(0, XH));
+}
+
+void TestDeviceXletView::posToCell()
+{
+    DeviceXletView xv;
+    xv.add({}, XletType::In, nullptr);
+    xv.add({}, XletType::In, nullptr);
+    xv.add({}, XletType::In, nullptr);
+    xv.add({}, XletType::In, nullptr);
+    xv.add({}, XletType::In, nullptr);
+    xv.add({}, XletType::In, nullptr);
+    xv.add({}, XletType::In, nullptr);
+
+    QCOMPARE(*xv.posToCell(QPoint(0, 0)), CellIndex(0, 0));
+    QCOMPARE(*xv.posToCell(QPoint(XW, 0)), CellIndex(0, 1));
+    QCOMPARE(*xv.posToCell(QPoint(2 * XW, 0)), CellIndex(0, 2));
+    QCOMPARE(*xv.posToCell(QPoint(3 * XW, 0)), CellIndex(0, 3));
+
+    QCOMPARE(*xv.posToCell(QPoint(0, XH)), CellIndex(1, 0));
+    QCOMPARE(*xv.posToCell(QPoint(XW, XH)), CellIndex(1, 1));
+    QCOMPARE(*xv.posToCell(QPoint(2 * XW, XH)), CellIndex(1, 2));
+    QVERIFY(!xv.posToCell(QPoint(3 * XW, XH)));
+}
+
+void TestDeviceXletView::posToIndex()
+{
+    DeviceXletView xv;
+    xv.add({}, XletType::In, nullptr);
+    xv.add({}, XletType::In, nullptr);
+    xv.add({}, XletType::In, nullptr);
+    xv.add({}, XletType::In, nullptr);
+    xv.add({}, XletType::In, nullptr);
+    xv.add({}, XletType::In, nullptr);
+    xv.add({}, XletType::In, nullptr);
+
+    QCOMPARE(*xv.posToIndex(QPoint(0, 0)), 0);
+    QCOMPARE(*xv.posToIndex(QPoint(XW, 0)), 1);
+    QCOMPARE(*xv.posToIndex(QPoint(2 * XW, 0)), 2);
+    QCOMPARE(*xv.posToIndex(QPoint(3 * XW, 0)), 3);
+    QCOMPARE(*xv.posToIndex(QPoint(0, XH)), 4);
+    QCOMPARE(*xv.posToIndex(QPoint(XW, XH)), 5);
+    QCOMPARE(*xv.posToIndex(QPoint(2 * XW, XH)), 6);
+    QVERIFY(!xv.posToIndex(QPoint(3 * XW, XH)));
 }
 
 void TestDeviceXletView::xletRect()
