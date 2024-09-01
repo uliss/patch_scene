@@ -16,6 +16,7 @@
 #include "tests/test_connection.h"
 #include "tests/test_connection_database.h"
 #include "tests/test_connector_type.h"
+#include "tests/test_device.h"
 #include "tests/test_device_data.h"
 #include "tests/test_device_library.h"
 #include "tests/test_device_xlet_view.h"
@@ -67,6 +68,9 @@ int main(int argc, char* argv[])
 
     TestDeviceXletView test_device_xlet_view;
     status |= QTest::qExec(&test_device_xlet_view, argc, argv);
+
+    TestDevice test_device;
+    status |= QTest::qExec(&test_device, argc, argv);
 
     return status;
 }
