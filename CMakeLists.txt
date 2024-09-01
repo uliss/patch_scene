@@ -33,93 +33,102 @@ set(PROJECT_SOURCES
     mainwindow.h
     mainwindow.ui
     resources/patch_scene_resources.qrc
-    about_window.h
     about_window.cpp
+    about_window.h
     about_window.ui
-    app_settings.h
     app_settings.cpp
-    app_version.h
+    app_settings.h
     app_version.cpp
-    application.h
+    app_version.h
     application.cpp
-    battery.h
+    application.h
     battery.cpp
-    battery_item_model.h
+    battery.h
     battery_item_model.cpp
-    connection.h
+    battery_item_model.h
     connection.cpp
-    connection_item_model.h
+    connection.h
+    connection_data.cpp
+    connection_data.h
+    connection_database.cpp
+    connection_database.h
     connection_item_model.cpp
-    connector_type.h
+    connection_item_model.h
+    connection_style.cpp
+    connection_style.h
     connector_type.cpp
-    device.h
+    connector_type.h
     device.cpp
-    device_common.h
+    device.h
     device_common.cpp
-    device_item_model.h
+    device_common.h
     device_item_model.cpp
-    device_library.h
+    device_item_model.h
     device_library.cpp
-    device_pixmap.h
+    device_library.h
     device_pixmap.cpp
+    device_pixmap.h
     device_pixmap.ui
-    device_xlet.h
     device_xlet.cpp
-    device_xlet_view.h
+    device_xlet.h
     device_xlet_view.cpp
-    deviceproperties.h
+    device_xlet_view.h
     deviceproperties.cpp
+    deviceproperties.h
     deviceproperties.ui
-    diagram.h
     diagram.cpp
-    diagram_item_model.h
+    diagram.h
     diagram_item_model.cpp
-    diagram_meta.h
+    diagram_item_model.h
     diagram_meta.cpp
-    diagram_meta_dialog.h
+    diagram_meta.h
     diagram_meta_dialog.cpp
+    diagram_meta_dialog.h
     diagram_meta_dialog.ui
-    diagram_scene.h
     diagram_scene.cpp
-    diagram_state_machine.h
+    diagram_scene.h
     diagram_state_machine.cpp
-    diagram_updates_blocker.h
+    diagram_state_machine.h
     diagram_updates_blocker.cpp
-    export_document.h
+    diagram_updates_blocker.h
     export_document.cpp
-    favorites_widget.h
+    export_document.h
     favorites_widget.cpp
-    furniture_item_model.h
+    favorites_widget.h
     furniture_item_model.cpp
-    preferences_dialog.h
+    furniture_item_model.h
     preferences_dialog.cpp
+    preferences_dialog.h
     preferences_dialog.ui
-    return_item_model.h
     return_item_model.cpp
-    scene_background.h
+    return_item_model.h
     scene_background.cpp
-    scene_connections.h
+    scene_background.h
     scene_connections.cpp
-    scene_devices.h
+    scene_connections.h
     scene_devices.cpp
-    send_item_model.h
+    scene_devices.h
     send_item_model.cpp
-    svg_render_factory.h
-    svg_render_factory.cpp
-    socket.h
+    send_item_model.h
     socket.cpp
-    table_cell_power.h
+    socket.h
+    svg_render_factory.cpp
+    svg_render_factory.h
     table_cell_power.cpp
-    table_cell_socket.h
+    table_cell_power.h
     table_cell_socket.cpp
-    tablecellcheckbox.h
+    table_cell_socket.h
     tablecellcheckbox.cpp
-    tablecellconnector.h
+    tablecellcheckbox.h
     tablecellconnector.cpp
-    undo_commands.h
+    tablecellconnector.h
     undo_commands.cpp
+    undo_commands.h
+    vendor_list.cpp
     vendor_list.h
-    vendor_list.cpp)
+    xlet_info.cpp
+    xlet_info.h
+)
 
 if(WIN32)
     configure_file(patch_scene_win.rc ${PROJECT_BINARY_DIR}/patch_scene_win.rc @ONLY)
@@ -146,9 +155,12 @@ if(APPLE)
     set(MACOSX_BUNDLE_LONG_VERSION_STRING ${PROJECT_VERSION})
 endif()
 
+# add_subdirectory(3rd-party/QSimpleUpdater)
+# target_compile_definitions(QSimpleUpdater PUBLIC QSU_INCLUDE_MOC)
+
 add_library(patch_scene_lib STATIC ${PROJECT_SOURCES}
-    connection_style.h connection_style.cpp
-    connection_database.h connection_database.cpp)
+#    app_updater_window.h app_updater_window.cpp app_updater_window.ui
+)
 target_include_directories(patch_scene_lib PRIVATE ${PROJECT_BINARY_DIR})
 target_link_libraries(
     patch_scene_lib PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::PrintSupport
@@ -160,8 +172,14 @@ qt_add_executable(patch_scene MANUAL_FINALIZATION MACOSX_BUNDLE ${app_icon_macos
 add_dependencies(patch_scene_lib git_version)
 
 target_link_libraries(
-    patch_scene PRIVATE patch_scene_lib Qt${QT_VERSION_MAJOR}::Widgets
-                        Qt${QT_VERSION_MAJOR}::PrintSupport Qt${QT_VERSION_MAJOR}::SvgWidgets)
+    patch_scene
+    PRIVATE
+        patch_scene_lib
+        # QSimpleUpdater
+        Qt${QT_VERSION_MAJOR}::Widgets
+        Qt${QT_VERSION_MAJOR}::PrintSupport
+        Qt${QT_VERSION_MAJOR}::SvgWidgets
+)
 
 set_target_properties(
     patch_scene
@@ -194,6 +212,10 @@ if(QT_VERSION_MAJOR EQUAL 6)
         patch_scene_lib
         SOURCES
         ${PROJECT_SOURCES}
+        # 3rd-party/QSimpleUpdater/src/Downloader.cpp
+        # 3rd-party/QSimpleUpdater/src/Downloader.ui
+        # 3rd-party/QSimpleUpdater/src/QSimpleUpdater.cpp
+        # 3rd-party/QSimpleUpdater/src/Updater.cpp
         TS_FILES
         patch_scene_ru.ts)
 endif()

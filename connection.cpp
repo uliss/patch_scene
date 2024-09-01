@@ -24,10 +24,6 @@
 using namespace ceam;
 
 namespace {
-constexpr const char* KEY_SRC = "src";
-constexpr const char* KEY_DEST = "dest";
-constexpr const char* KEY_SRC_OUT = "out";
-constexpr const char* KEY_DEST_IN = "in";
 
 ConnectionDatabase& conn_db()
 {
@@ -37,74 +33,11 @@ ConnectionDatabase& conn_db()
 
 }
 
-QJsonObject ConnectionData::toJson() const
-{
-    QJsonObject j;
-
-    j[KEY_SRC] = static_cast<int>(src_);
-    j[KEY_DEST] = static_cast<int>(dest_);
-    j[KEY_DEST_IN] = static_cast<int>(in_);
-    j[KEY_SRC_OUT] = static_cast<int>(out_);
-
-    return j;
-}
-
-bool ConnectionData::setEndPoint(const XletInfo& ep)
-{
-    switch (ep.type()) {
-    case XletType::In:
-        in_ = ep.index();
-        dest_ = ep.id();
-        return true;
-    case XletType::Out:
-        out_ = ep.index();
-        src_ = ep.id();
-        return true;
-    default:
-        return false;
-    }
-}
-
-std::optional<ConnectionData> ConnectionData::fromJson(const QJsonValue& j)
-{
-    if (!j.isObject())
-        return {};
-
-    ConnectionData data(0, 0, 0, 0);
-    auto obj = j.toObject();
-    auto src = obj.value(KEY_SRC).toInt(-1);
-    if (src >= 0)
-        data.src_ = src;
-
-    auto dest = obj.value(KEY_DEST).toInt(-1);
-    if (dest >= 0)
-        data.dest_ = dest;
-
-    auto in = obj.value(KEY_DEST_IN).toInt(-1);
-    if (in >= 0)
-        data.in_ = in;
-
-    auto out = obj.value(KEY_SRC_OUT).toInt(-1);
-    if (out >= 0)
-        data.out_ = out;
-
-    return data;
-}
-
-std::optional<ConnectionData> ConnectionData::fromXletPair(const XletInfo& x0, const XletInfo& x1)
-{
-    if (x0.type() == XletType::In && x1.type() == XletType::Out)
-        return ConnectionData { x1.id(), x1.index(), x0.id(), x0.index() };
-    else if (x0.type() == XletType::Out && x1.type() == XletType::In)
-        return ConnectionData { x0.id(), x0.index(), x1.id(), x1.index() };
-    else
-        return {};
-}
-
 Connection::Connection(const ConnectionData& data)
     : data_(data)
 {
     setZValue(ZVALUE_CONN);
+    setCacheMode(DeviceCoordinateCache);
 }
 
 bool Connection::operator==(const ConnectionData& data) const
@@ -120,6 +53,8 @@ void Connection::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
     painter->drawPath(line_);
     Q_UNUSED(option);
     Q_UNUSED(widget);
+
+    qWarning() << __FUNCTION__;
 }
 
 QPainterPath Connection::shape() const
@@ -177,32 +112,4 @@ void Connection::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
         });
     menu.exec(event->screenPos());
     event->accept();
-}
-
-uint ceam::qHash(const ConnectionData& key)
-{
-    return ::qHash(key.destination())
-        ^ ::qHash(key.destinationInput())
-        ^ ::qHash(key.source())
-        ^ ::qHash(key.sourceOutput());
-}
-
-uint ceam::qHash(const XletInfo& key)
-{
-    return ::qHash(key.id())
-        ^ ::qHash(key.index())
-        ^ ::qHash(static_cast<int>(key.type()));
-}
-
-QDebug ceam::operator<<(QDebug debug, const ConnectionData& c)
-{
-    QDebugStateSaver saver(debug);
-    debug.nospace()
-        << '['
-        << c.source() << ':' << (int)c.sourceOutput()
-        << "->"
-        << c.destination() << ':' << (int)c.destinationInput()
-        << ']';
-
-    return debug;
 }

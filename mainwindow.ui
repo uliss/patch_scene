@@ -154,6 +154,7 @@
     </property>
     <addaction name="actionAboutApp"/>
     <addaction name="actionContact"/>
+    <addaction name="actionCheckUpdates"/>
    </widget>
    <widget class="QMenu" name="menuWindow">
     <property name="title">
@@ -920,6 +921,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionCheckUpdates">
+   <property name="text">
+    <string>Check for updates</string>
    </property>
   </action>
  </widget>

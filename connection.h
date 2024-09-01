@@ -14,10 +14,11 @@
 #ifndef CONNECTION_H
 #define CONNECTION_H
 
+#include "connection_data.h"
 #include "connection_database.h"
 #include "socket.h"
 
-#include <QGraphicsLineItem>
+#include <QGraphicsItem>
 
 namespace ceam {
 
@@ -25,101 +26,6 @@ constexpr qreal ZVALUE_CONN = 100;
 constexpr qreal ZVALUE_BACKGROUND = -200;
 constexpr qreal ZVALUE_LIVE_CONN = 16000;
 constexpr qreal ZVALUE_SELECTION = 32000;
-
-class XletInfo {
-    DeviceId id_;
-    XletIndex index_;
-    XletType type_;
-
-public:
-    XletInfo(DeviceId id, int index, XletType type)
-        : id_(id)
-        , type_(type)
-        , index_(index)
-    {
-    }
-
-    bool operator==(const XletInfo& xi) const
-    {
-        return xi.id_ == id_ && xi.type_ == type_ && xi.index_ == index_;
-    }
-
-    bool operator!=(const XletInfo& xi) const { return !operator==(xi); }
-
-    DeviceId id() const { return id_; }
-    XletType type() const { return type_; }
-    XletIndex index() const { return index_; }
-
-    static XletInfo inlet(DeviceId id, XletIndex idx) { return XletInfo { id, idx, XletType::In }; }
-    static XletInfo outlet(DeviceId id, XletIndex idx) { return XletInfo { id, idx, XletType::Out }; }
-};
-
-uint qHash(const XletInfo& key);
-
-class ConnectionData {
-    DeviceId src_ { 0 }, dest_ { 0 };
-    XletIndex out_ { 0 }, in_ { 0 };
-
-public:
-    ConnectionData(DeviceId src, XletIndex out, DeviceId dest, XletIndex in)
-        : src_(src)
-        , out_(out)
-        , dest_(dest)
-        , in_(in)
-    {
-    }
-
-    DeviceId source() const { return src_; }
-    DeviceId destination() const { return dest_; }
-    XletIndex sourceOutput() const { return out_; }
-    XletIndex destinationInput() const { return in_; }
-
-    XletInfo sourceInfo() const { return { src_, out_, XletType::Out }; }
-    XletInfo destinationInfo() const { return { dest_, in_, XletType::In }; }
-
-    const bool operator==(const ConnectionData& data) const
-    {
-        return data.src_ == src_
-            && data.dest_ == dest_
-            && data.in_ == in_
-            && data.out_ == out_;
-    }
-
-    bool operator!=(const ConnectionData& data) const { return !operator==(data); }
-
-    bool relatesToId(DeviceId id) const
-    {
-        return src_ == id || dest_ == id;
-    }
-
-    bool isValid() const
-    {
-        return src_ != dest_;
-    }
-
-    bool isSameSource(const ConnectionData& conn) const
-    {
-        return src_ == conn.src_ && out_ == conn.out_;
-    }
-
-    bool isSameDestimation(const ConnectionData& conn) const
-    {
-        return dest_ == conn.dest_ && in_ == conn.in_;
-    }
-
-    /**
-     * converts to Json object
-     */
-    QJsonObject toJson() const;
-
-    bool setEndPoint(const XletInfo& ep);
-
-public:
-    static std::optional<ConnectionData> fromJson(const QJsonValue& j);
-    static std::optional<ConnectionData> fromXletPair(const XletInfo& x0, const XletInfo& x1);
-};
-
-QDebug operator<<(QDebug debug, const ConnectionData& c);
 
 class Connection : public QGraphicsItem {
 public:
@@ -151,10 +57,6 @@ private:
     float pen_width_ { 1.5 };
 };
 
-uint qHash(const ConnectionData& key);
-
 }
-
-Q_DECLARE_METATYPE(ceam::ConnectionData)
 
 #endif // CONNECTION_H
