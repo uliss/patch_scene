@@ -51,17 +51,17 @@ qsizetype DeviceXletView::cellCount() const
     return rowCount() * max_cols_;
 }
 
-DeviceXlet* DeviceXletView::xletAtIndex(int index)
+DeviceXlet* DeviceXletView::xletAtIndex(XletIndex index)
 {
-    if (index < 0 || index >= xlets_.count())
+    if (index >= xlets_.count())
         return nullptr;
     else
         return xlets_[index];
 }
 
-const DeviceXlet* DeviceXletView::xletAtIndex(int index) const
+const DeviceXlet* DeviceXletView::xletAtIndex(XletIndex index) const
 {
-    if (index < 0 || index >= xlets_.count())
+    if (index >= xlets_.count())
         return nullptr;
     else
         return xlets_[index];
@@ -94,7 +94,7 @@ bool DeviceXletView::setMaxColumnCount(int n)
     return true;
 }
 
-std::optional<int> DeviceXletView::cellToIndex(int row, int col) const
+std::optional<XletIndex> DeviceXletView::cellToIndex(int row, int col) const
 {
     if (row < 0
         || row >= rowCount()
@@ -109,7 +109,7 @@ std::optional<int> DeviceXletView::cellToIndex(int row, int col) const
         return {};
 }
 
-std::optional<int> DeviceXletView::cellToIndex(CellIndex cellIdx) const
+std::optional<XletIndex> DeviceXletView::cellToIndex(CellIndex cellIdx) const
 {
     return cellToIndex(cellIdx.first, cellIdx.second);
 }
@@ -122,12 +122,10 @@ std::optional<CellIndex> DeviceXletView::indexToCell(int index) const
     return std::make_pair(index / maxColumnCount(), index % maxColumnCount());
 }
 
-std::optional<int> DeviceXletView::posToIndex(const QPoint& pos) const
+std::optional<XletIndex> DeviceXletView::posToIndex(const QPoint& pos) const
 {
     int col = pos.x() / (int)XLET_W;
     int row = pos.y() / (int)XLET_H;
-
-    qDebug() << row << col;
 
     return cellToIndex(row, col);
 }
@@ -141,7 +139,7 @@ std::optional<CellIndex> DeviceXletView::posToCell(const QPoint& pos) const
         return {};
 }
 
-QPointF DeviceXletView::connectionPoint(int index) const
+QPointF DeviceXletView::connectionPoint(XletIndex index) const
 {
     if (index < 0 || index >= xlets_.count())
         return {};
@@ -151,7 +149,7 @@ QPointF DeviceXletView::connectionPoint(int index) const
     }
 }
 
-QRect DeviceXletView::xletRect(int index) const
+QRect DeviceXletView::xletRect(XletIndex index) const
 {
     auto cell_pos = indexToCell(index);
     if (!cell_pos)

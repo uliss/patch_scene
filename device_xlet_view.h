@@ -52,8 +52,8 @@ public:
     /**
      * @return pointer to device xlet or nullptr if notfound
      */
-    DeviceXlet* xletAtIndex(int index);
-    const DeviceXlet* xletAtIndex(int index) const;
+    DeviceXlet* xletAtIndex(XletIndex index);
+    const DeviceXlet* xletAtIndex(XletIndex index) const;
 
     /**
      * @return pointer to device xlet by given cell index or nullptr if notfound
@@ -80,12 +80,12 @@ public:
     /**
      * convert cell index to linear xlet index
      */
-    std::optional<int> cellToIndex(int row, int col) const;
+    std::optional<XletIndex> cellToIndex(int row, int col) const;
 
     /**
      * convert cell index to linear xlet index
      */
-    std::optional<int> cellToIndex(CellIndex cellIdx) const;
+    std::optional<XletIndex> cellToIndex(CellIndex cellIdx) const;
 
     /**
      * convert linear xlet index to cell index (row, col)
@@ -98,7 +98,7 @@ public:
      * @note index is calculated, no DeviceXlet scene position is checked!
      * @return xlet index or empty
      */
-    std::optional<int> posToIndex(const QPoint& pos) const;
+    std::optional<XletIndex> posToIndex(const QPoint& pos) const;
 
     /**
      * convert point position to cell xlet index
@@ -112,14 +112,14 @@ public:
      * @return connection point relative to parent Device graphics item
      * @note xlets should be placed, return real DeviceXlet scene position!
      */
-    QPointF connectionPoint(int index) const;
+    QPointF connectionPoint(XletIndex index) const;
 
     /**
      * @return calculated xlet bounding rectangle
      * @param index - xlet linear index
      * @return rect, relative to QPoint(0, 0)
      */
-    QRect xletRect(int index) const;
+    QRect xletRect(XletIndex index) const;
 
     /**
      * place xlet DeviceXlet graphics item relative to given origin point

@@ -39,7 +39,6 @@ void TestDeviceXletView::indexToCell()
     QVERIFY(!xv.indexToCell(0));
 
     xv.add({}, XletType::In, nullptr);
-    QVERIFY(!xv.indexToCell(-1));
     QVERIFY(!xv.indexToCell(1));
     QVERIFY(xv.indexToCell(0));
     QCOMPARE(*xv.indexToCell(0), CellIndex(0, 0));
@@ -204,14 +203,12 @@ void TestDeviceXletView::xletRect()
 {
     DeviceXletView xv;
     QCOMPARE(xv.xletRect(0), QRect());
-    QCOMPARE(xv.xletRect(-1), QRect());
     QCOMPARE(xv.xletRect(1), QRect());
 
     xv.add({}, XletType::In, nullptr);
     xv.add({}, XletType::In, nullptr);
     xv.add({}, XletType::In, nullptr);
 
-    QCOMPARE(xv.xletRect(-1), QRect());
     QCOMPARE(xv.xletRect(0), QRect(0, 0, 22, XH));
     QCOMPARE(xv.xletRect(1), QRect(22, 0, 22, XH));
     QCOMPARE(xv.xletRect(2), QRect(44, 0, 22, XH));
@@ -234,7 +231,6 @@ void TestDeviceXletView::xletRect()
 void TestDeviceXletView::inletConnectionPoint()
 {
     DeviceXletView xv;
-    QCOMPARE(xv.connectionPoint(-1), QPointF());
     QCOMPARE(xv.connectionPoint(0), QPointF());
     QCOMPARE(xv.connectionPoint(1), QPointF());
 
@@ -275,7 +271,6 @@ void TestDeviceXletView::inletConnectionPoint()
 void TestDeviceXletView::outletConnectionPoint()
 {
     DeviceXletView xv;
-    QCOMPARE(xv.connectionPoint(-1), QPointF());
     QCOMPARE(xv.connectionPoint(0), QPointF());
     QCOMPARE(xv.connectionPoint(1), QPointF());
 
