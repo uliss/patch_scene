@@ -20,7 +20,8 @@ class TestDevice : public QObject {
     Q_OBJECT
 
 private slots:
-    void create();
+    void createDefault();
+    void createNoTitle();
 };
 
 #endif // TEST_DEVICE_H

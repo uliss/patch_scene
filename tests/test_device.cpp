@@ -18,10 +18,26 @@
 
 using namespace ceam;
 
+namespace {
+
 constexpr int XW = 22;
 constexpr int XH = 20;
 
-void TestDevice::create()
+SharedDeviceData data_no_title(DeviceId id, int numIn = 0, int numOut = 0)
+{
+    auto data = new DeviceData(id);
+    data->setShowTitle(false);
+    for (auto i = 0; i < numIn; i++)
+        data->appendInput({});
+
+    for (auto i = 0; i < numOut; i++)
+        data->appendOutput({});
+
+    return SharedDeviceData { data };
+}
+}
+
+void TestDevice::createDefault()
 {
     Device dev;
     QVERIFY(dev.id() != DEV_NULL_ID);
@@ -38,4 +54,47 @@ void TestDevice::create()
 
     QCOMPARE(dev.outletPos(0), QPointF(0 * XW + 11, 2 * XH + 24));
     QCOMPARE(dev.outletPos(1), QPointF(1 * XW + 11, 2 * XH + 24));
+    QCOMPARE(dev.outletPos(2), QPointF());
+}
+
+void TestDevice::createNoTitle()
+{
+    {
+        Device dev(data_no_title(100, 2, 0));
+        QCOMPARE(dev.id(), 100);
+
+        QCOMPARE(dev.deviceData()->inputs().count(), 2);
+        QCOMPARE(dev.deviceData()->outputs().count(), 0);
+
+        QCOMPARE(dev.boundingRect(), QRectF(-2 * XW, 0, 4 * XW, XH));
+        QCOMPARE(dev.inletPos(0), QPointF(0 * XW + 11, 0));
+        QCOMPARE(dev.inletPos(1), QPointF(1 * XW + 11, 0));
+        QCOMPARE(dev.outletPos(0), QPointF());
+    }
+
+    {
+        Device dev(data_no_title(100, 0, 1));
+        QCOMPARE(dev.id(), 100);
+
+        QCOMPARE(dev.deviceData()->inputs().count(), 0);
+        QCOMPARE(dev.deviceData()->outputs().count(), 1);
+
+        QCOMPARE(dev.boundingRect(), QRectF(-2 * XW, 0, 4 * XW, XH));
+        QCOMPARE(dev.inletPos(0), QPointF());
+        QCOMPARE(dev.inletPos(1), QPointF());
+        QCOMPARE(dev.outletPos(0), QPointF(0 * XW + 11, XH));
+    }
+
+    {
+        Device dev(data_no_title(100, 2, 1));
+        QCOMPARE(dev.id(), 100);
+
+        QCOMPARE(dev.deviceData()->inputs().count(), 2);
+        QCOMPARE(dev.deviceData()->outputs().count(), 1);
+
+        QCOMPARE(dev.boundingRect(), QRectF(-2 * XW, 0, 4 * XW, 2 * XH));
+        QCOMPARE(dev.inletPos(0), QPointF(0 * XW + 11, 0));
+        QCOMPARE(dev.inletPos(1), QPointF(1 * XW + 11, 0));
+        QCOMPARE(dev.outletPos(0), QPointF(0 * XW + 11, 2 * XH));
+    }
 }
