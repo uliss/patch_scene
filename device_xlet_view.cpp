@@ -17,10 +17,9 @@
 #include <QGraphicsScene>
 
 namespace {
-constexpr int MAX_ROW_COUNT = 8;
-constexpr int MIN_ROW_COUNT = 1;
 constexpr int MAX_COL_COUNT = 24;
 constexpr int MIN_COL_COUNT = 2;
+constexpr int DEF_COL_COUNT = 4;
 
 constexpr qreal XLET_W = 22;
 constexpr qreal XLET_H = 20;
@@ -30,19 +29,14 @@ constexpr qreal XLET_BOX_H = 2;
 
 namespace ceam {
 
-DeviceXletView::DeviceXletView() { }
+DeviceXletView::DeviceXletView()
+    : max_cols_(DEF_COL_COUNT)
+{
+}
 
 DeviceXletView::~DeviceXletView()
 {
-    for (auto x : xlets_) {
-        auto scene = x->scene();
-        if (scene) {
-            scene->removeItem(x);
-            delete x;
-        }
-    }
-
-    xlets_.clear();
+    clear();
 }
 
 bool DeviceXletView::add(const XletData& data, XletType type, QGraphicsItem* parent)
@@ -54,7 +48,7 @@ bool DeviceXletView::add(const XletData& data, XletType type, QGraphicsItem* par
 
 qsizetype DeviceXletView::cellCount() const
 {
-    return nrows_ * ncols_;
+    return rowCount() * max_cols_;
 }
 
 DeviceXlet* DeviceXletView::xletAtIndex(int index)
@@ -85,27 +79,18 @@ const DeviceXlet* DeviceXletView::xletAtCell(int row, int col) const
     return idx ? xlets_[*idx] : nullptr;
 }
 
-int DeviceXletView::realRowCount() const
+int DeviceXletView::rowCount() const
 {
     auto n = xlets_.count();
-    return n / ncols_ + (n % ncols_ > 0);
+    return n / max_cols_ + (n % max_cols_ > 0);
 }
 
-bool DeviceXletView::setRowCount(int n)
-{
-    if (n < MIN_ROW_COUNT || n > MAX_ROW_COUNT)
-        return false;
-
-    nrows_ = n;
-    return true;
-}
-
-bool DeviceXletView::setColumnCount(int n)
+bool DeviceXletView::setMaxColumnCount(int n)
 {
     if (n < MIN_COL_COUNT || n > MAX_COL_COUNT)
         return false;
 
-    ncols_ = n;
+    max_cols_ = n;
     return true;
 }
 
@@ -114,10 +99,10 @@ std::optional<int> DeviceXletView::cellToIndex(int row, int col) const
     if (row < 0
         || row >= rowCount()
         || col < 0
-        || col >= columnCount())
+        || col >= maxColumnCount())
         return {};
 
-    int idx = row * columnCount() + col;
+    int idx = row * maxColumnCount() + col;
     if (idx < xlets_.count())
         return idx;
     else
@@ -134,7 +119,7 @@ std::optional<CellIndex> DeviceXletView::indexToCell(int index) const
     if (index < 0 || index >= xlets_.count())
         return {};
 
-    return std::make_pair(index / columnCount(), index % columnCount());
+    return std::make_pair(index / maxColumnCount(), index % maxColumnCount());
 }
 
 std::optional<int> DeviceXletView::posToIndex(const QPoint& pos) const
@@ -170,30 +155,33 @@ QRect DeviceXletView::xletRect(int index) const
     if (!cell_pos)
         return {};
 
-    qWarning() << __FUNCTION__ << *cell_pos;
-
     return QRect(cell_pos->second * XLET_W, cell_pos->first * XLET_H, XLET_W, XLET_H);
 }
 
-void DeviceXletView::placeXlets(const QPointF& pos)
+void DeviceXletView::placeXlets(const QPointF& origin)
 {
     for (int i = 0; i < xlets_.count(); i++) {
-        auto pt = pos + xletRect(i).topLeft();
+        auto pt = origin + xletRect(i).topLeft();
         xlets_[i]->setPos(pt);
     }
 }
 
 void DeviceXletView::clear()
 {
-    for (auto x : xlets_)
-        delete x;
+    for (auto x : xlets_) {
+        auto scene = x->scene();
+        if (scene) {
+            scene->removeItem(x);
+            delete x;
+        }
+    }
 
     xlets_.clear();
 }
 
 QRectF DeviceXletView::boundingRect() const
 {
-    return QRectF { 0, 0, ncols_ * XLET_W, realRowCount() * XLET_H };
+    return QRectF { 0, 0, max_cols_ * XLET_W, rowCount() * XLET_H };
 }
 
 } // namespace ceam

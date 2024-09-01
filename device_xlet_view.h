@@ -43,43 +43,101 @@ public:
     qsizetype count() const { return xlets_.count(); }
 
     /**
-     * Number ov fiew cells
+     * Number of view cells
      */
     qsizetype cellCount() const;
 
+    /**
+     * @return pointer to device xlet or nullptr if notfound
+     */
     DeviceXlet* xletAtIndex(int index);
     const DeviceXlet* xletAtIndex(int index) const;
 
+    /**
+     * @return pointer to device xlet by given cell index or nullptr if notfound
+     */
     DeviceXlet* xletAtCell(int row, int col);
     const DeviceXlet* xletAtCell(int row, int col) const;
 
-    int rowCount() const { return nrows_; }
-    int columnCount() const { return ncols_; }
+    /**
+     * @return max number of xlets in row
+     */
+    int maxColumnCount() const { return max_cols_; }
 
-    int realRowCount() const;
+    /**
+     * Set max number of columns in row
+     * @note you should call placeXlets() to update xlet positions
+     */
+    bool setMaxColumnCount(int n);
 
-    bool setRowCount(int n);
-    bool setColumnCount(int n);
+    /**
+     * @return current number of filled rows
+     */
+    int rowCount() const;
 
+    /**
+     * convert cell index to linear xlet index
+     */
     std::optional<int> cellToIndex(int row, int col) const;
+
+    /**
+     * convert cell index to linear xlet index
+     */
     std::optional<int> cellToIndex(CellIndex cellIdx) const;
+
+    /**
+     * convert linear xlet index to cell index (row, col)
+     */
     std::optional<CellIndex> indexToCell(int index) const;
+
+    /**
+     * convert point position to linear xlet index
+     * @param pos - point position. First xlet starts at QPoint(0, 0)
+     * @note index is calculated, no DeviceXlet scene position is checked!
+     * @return xlet index or empty
+     */
     std::optional<int> posToIndex(const QPoint& pos) const;
+
+    /**
+     * convert point position to cell xlet index
+     * @param pos - point position. First xlet starts at QPoint(0, 0)
+     * @note index is calculated, no DeviceXlet scene position is checked!
+     * @return xlet index or empty
+     */
     std::optional<CellIndex> posToCell(const QPoint& pos) const;
 
+    /**
+     * @return connection point relative to parent Device graphics item
+     * @note xlets should be placed, return real DeviceXlet scene position!
+     */
     QPointF connectionPoint(int index) const;
 
+    /**
+     * @return calculated xlet bounding rectangle
+     * @param index - xlet linear index
+     * @return rect, relative to QPoint(0, 0)
+     */
     QRect xletRect(int index) const;
 
-    void placeXlets(const QPointF& pos);
+    /**
+     * place xlet DeviceXlet graphics item relative to given origin point
+     * @param origin - origin point, relative to parent Device
+     */
+    void placeXlets(const QPointF& origin);
 
+    /**
+     * remove all xlets
+     */
     void clear();
 
+    /**
+     * @return bounding rect of all xlets relative to QPoint(0, 0)
+     */
     QRectF boundingRect() const;
 
 private:
     QList<DeviceXlet*> xlets_;
-    int nrows_ { 1 }, ncols_ { 4 };
+    int max_cols_;
 };
 
 } // namespace ceam

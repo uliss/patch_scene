@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright 2024 Serge Poltavski. All rights reserved.
+ * Copyright XH24 Serge Poltavski. All rights reserved.
  *
  * This file may be distributed under the terms of GNU Public License version
  * 3 (GPL v3) as defined by the Free Software Foundation (FSF). A copy of the
@@ -18,49 +18,53 @@
 
 #include <QTest>
 
+constexpr int XW = 22;
+constexpr int XH = 20;
+
 using namespace ceam;
 
 void TestDeviceXletView::create()
 {
     DeviceXletView xv;
     QCOMPARE(xv.count(), 0);
-    QCOMPARE(xv.cellCount(), 4);
-    QCOMPARE(xv.columnCount(), 4);
-    QCOMPARE(xv.rowCount(), 1);
+    QCOMPARE(xv.cellCount(), 0);
+    QCOMPARE(xv.maxColumnCount(), 4);
+    QCOMPARE(xv.rowCount(), 0);
+    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 4 * XW, 0));
 }
 
 void TestDeviceXletView::boundingRect()
 {
     DeviceXletView xv;
-    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 88, 0));
+    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 4 * XW, 0));
 
     xv.add({}, XletType::In, nullptr);
-    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 88, 20));
+    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 4 * XW, XH));
 
     xv.add({}, XletType::In, nullptr);
-    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 88, 20));
+    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 4 * XW, XH));
     xv.add({}, XletType::In, nullptr);
-    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 88, 20));
+    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 4 * XW, XH));
     xv.add({}, XletType::In, nullptr);
-    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 88, 20));
+    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 4 * XW, XH));
 
     xv.add({}, XletType::In, nullptr);
-    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 88, 40));
+    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 4 * XW, 40));
 }
 
 void TestDeviceXletView::place()
 {
     DeviceXletView xv;
     xv.placeXlets({});
-    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 88, 0));
+    QCOMPARE(xv.boundingRect(), QRectF(0, 0, 4 * XW, 0));
 
     xv.add({}, XletType::In, nullptr);
     QCOMPARE(xv.count(), 1);
     xv.placeXlets({});
     QCOMPARE(xv.xletAtIndex(0)->pos(), QPoint());
 
-    xv.placeXlets(QPoint(10, 20));
-    QCOMPARE(xv.xletAtIndex(0)->pos(), QPoint(10, 20));
+    xv.placeXlets(QPoint(10, XH));
+    QCOMPARE(xv.xletAtIndex(0)->pos(), QPoint(10, XH));
 
     xv.add({}, XletType::In, nullptr);
     QCOMPARE(xv.count(), 2);
@@ -90,7 +94,7 @@ void TestDeviceXletView::place()
     QCOMPARE(xv.xletAtIndex(1)->pos(), QPoint(22, 0));
     QCOMPARE(xv.xletAtIndex(2)->pos(), QPoint(44, 0));
     QCOMPARE(xv.xletAtIndex(3)->pos(), QPoint(66, 0));
-    QCOMPARE(xv.xletAtIndex(4)->pos(), QPoint(0, 20));
+    QCOMPARE(xv.xletAtIndex(4)->pos(), QPoint(0, XH));
 }
 
 void TestDeviceXletView::xletRect()
@@ -105,23 +109,23 @@ void TestDeviceXletView::xletRect()
     xv.add({}, XletType::In, nullptr);
 
     QCOMPARE(xv.xletRect(-1), QRect());
-    QCOMPARE(xv.xletRect(0), QRect(0, 0, 22, 20));
-    QCOMPARE(xv.xletRect(1), QRect(22, 0, 22, 20));
-    QCOMPARE(xv.xletRect(2), QRect(44, 0, 22, 20));
+    QCOMPARE(xv.xletRect(0), QRect(0, 0, 22, XH));
+    QCOMPARE(xv.xletRect(1), QRect(22, 0, 22, XH));
+    QCOMPARE(xv.xletRect(2), QRect(44, 0, 22, XH));
     QCOMPARE(xv.xletRect(3), QRect());
 
     xv.add({}, XletType::In, nullptr);
-    QCOMPARE(xv.xletRect(0), QRect(0, 0, 22, 20));
-    QCOMPARE(xv.xletRect(1), QRect(22, 0, 22, 20));
-    QCOMPARE(xv.xletRect(2), QRect(44, 0, 22, 20));
-    QCOMPARE(xv.xletRect(3), QRect(66, 0, 22, 20));
+    QCOMPARE(xv.xletRect(0), QRect(0, 0, 22, XH));
+    QCOMPARE(xv.xletRect(1), QRect(22, 0, 22, XH));
+    QCOMPARE(xv.xletRect(2), QRect(44, 0, 22, XH));
+    QCOMPARE(xv.xletRect(3), QRect(66, 0, 22, XH));
 
     xv.add({}, XletType::In, nullptr);
-    QCOMPARE(xv.xletRect(0), QRect(0, 0, 22, 20));
-    QCOMPARE(xv.xletRect(1), QRect(22, 0, 22, 20));
-    QCOMPARE(xv.xletRect(2), QRect(44, 0, 22, 20));
-    QCOMPARE(xv.xletRect(3), QRect(66, 0, 22, 20));
-    QCOMPARE(xv.xletRect(4), QRect(0, 20, 22, 20));
+    QCOMPARE(xv.xletRect(0), QRect(0, 0, 22, XH));
+    QCOMPARE(xv.xletRect(1), QRect(22, 0, 22, XH));
+    QCOMPARE(xv.xletRect(2), QRect(44, 0, 22, XH));
+    QCOMPARE(xv.xletRect(3), QRect(66, 0, 22, XH));
+    QCOMPARE(xv.xletRect(4), QRect(0, XH, 22, XH));
 }
 
 void TestDeviceXletView::inletConnectionPoint()
@@ -173,22 +177,22 @@ void TestDeviceXletView::outletConnectionPoint()
     QCOMPARE(xv.connectionPoint(1), QPointF());
 
     xv.add({}, XletType::Out, nullptr);
-    QCOMPARE(xv.connectionPoint(0), QPointF(11, 20));
+    QCOMPARE(xv.connectionPoint(0), QPointF(11, XH));
     QCOMPARE(xv.connectionPoint(1), QPointF());
 
     xv.add({}, XletType::Out, nullptr);
-    QCOMPARE(xv.connectionPoint(0), QPointF(11, 20));
-    QCOMPARE(xv.connectionPoint(1), QPointF(11, 20));
+    QCOMPARE(xv.connectionPoint(0), QPointF(11, XH));
+    QCOMPARE(xv.connectionPoint(1), QPointF(11, XH));
     xv.placeXlets({});
-    QCOMPARE(xv.connectionPoint(0), QPointF(11, 20));
-    QCOMPARE(xv.connectionPoint(1), QPointF(33, 20));
+    QCOMPARE(xv.connectionPoint(0), QPointF(11, XH));
+    QCOMPARE(xv.connectionPoint(1), QPointF(33, XH));
     QCOMPARE(xv.connectionPoint(2), QPointF());
 
     xv.add({}, XletType::Out, nullptr);
     xv.placeXlets(QPoint(10, 0));
-    QCOMPARE(xv.connectionPoint(0), QPointF(21, 20));
-    QCOMPARE(xv.connectionPoint(1), QPointF(43, 20));
-    QCOMPARE(xv.connectionPoint(2), QPointF(65, 20));
+    QCOMPARE(xv.connectionPoint(0), QPointF(21, XH));
+    QCOMPARE(xv.connectionPoint(1), QPointF(43, XH));
+    QCOMPARE(xv.connectionPoint(2), QPointF(65, XH));
 
     xv.add({}, XletType::Out, nullptr);
     xv.placeXlets(QPoint(0, 10));
