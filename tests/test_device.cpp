@@ -46,15 +46,15 @@ void TestDevice::createDefault()
 
     QCOMPARE(dev.boundingRect(), QRectF(-2 * XW, 0, 4 * XW, 2 * XH + 24));
 
-    QCOMPARE(dev.inletPos(0), QPointF(0 * XW + 11, 24));
-    QCOMPARE(dev.inletPos(1), QPointF(1 * XW + 11, 24));
-    QCOMPARE(dev.inletPos(2), QPointF(2 * XW + 11, 24));
-    QCOMPARE(dev.inletPos(3), QPointF(3 * XW + 11, 24));
-    QCOMPARE(dev.inletPos(4), QPointF());
+    QCOMPARE(dev.inConnectionPoint(0), QPointF(0 * XW + 11, 24));
+    QCOMPARE(dev.inConnectionPoint(1), QPointF(1 * XW + 11, 24));
+    QCOMPARE(dev.inConnectionPoint(2), QPointF(2 * XW + 11, 24));
+    QCOMPARE(dev.inConnectionPoint(3), QPointF(3 * XW + 11, 24));
+    QCOMPARE(dev.inConnectionPoint(4), QPointF());
 
-    QCOMPARE(dev.outletPos(0), QPointF(0 * XW + 11, 2 * XH + 24));
-    QCOMPARE(dev.outletPos(1), QPointF(1 * XW + 11, 2 * XH + 24));
-    QCOMPARE(dev.outletPos(2), QPointF());
+    QCOMPARE(dev.outConnectionPoint(0), QPointF(0 * XW + 11, 2 * XH + 24));
+    QCOMPARE(dev.outConnectionPoint(1), QPointF(1 * XW + 11, 2 * XH + 24));
+    QCOMPARE(dev.outConnectionPoint(2), QPointF());
 }
 
 void TestDevice::createNoTitle()
@@ -67,9 +67,9 @@ void TestDevice::createNoTitle()
         QCOMPARE(dev.deviceData()->outputs().count(), 0);
 
         QCOMPARE(dev.boundingRect(), QRectF(-2 * XW, 0, 4 * XW, XH));
-        QCOMPARE(dev.inletPos(0), QPointF(0 * XW + 11, 0));
-        QCOMPARE(dev.inletPos(1), QPointF(1 * XW + 11, 0));
-        QCOMPARE(dev.outletPos(0), QPointF());
+        QCOMPARE(dev.inConnectionPoint(0), QPointF(0 * XW + 11, 0));
+        QCOMPARE(dev.inConnectionPoint(1), QPointF(1 * XW + 11, 0));
+        QCOMPARE(dev.outConnectionPoint(0), QPointF());
     }
 
     {
@@ -80,9 +80,9 @@ void TestDevice::createNoTitle()
         QCOMPARE(dev.deviceData()->outputs().count(), 1);
 
         QCOMPARE(dev.boundingRect(), QRectF(-2 * XW, 0, 4 * XW, XH));
-        QCOMPARE(dev.inletPos(0), QPointF());
-        QCOMPARE(dev.inletPos(1), QPointF());
-        QCOMPARE(dev.outletPos(0), QPointF(0 * XW + 11, XH));
+        QCOMPARE(dev.inConnectionPoint(0), QPointF());
+        QCOMPARE(dev.inConnectionPoint(1), QPointF());
+        QCOMPARE(dev.outConnectionPoint(0), QPointF(0 * XW + 11, XH));
     }
 
     {
@@ -93,8 +93,8 @@ void TestDevice::createNoTitle()
         QCOMPARE(dev.deviceData()->outputs().count(), 1);
 
         QCOMPARE(dev.boundingRect(), QRectF(-2 * XW, 0, 4 * XW, 2 * XH));
-        QCOMPARE(dev.inletPos(0), QPointF(0 * XW + 11, 0));
-        QCOMPARE(dev.inletPos(1), QPointF(1 * XW + 11, 0));
-        QCOMPARE(dev.outletPos(0), QPointF(0 * XW + 11, 2 * XH));
+        QCOMPARE(dev.inConnectionPoint(0), QPointF(0 * XW + 11, 0));
+        QCOMPARE(dev.inConnectionPoint(1), QPointF(1 * XW + 11, 0));
+        QCOMPARE(dev.outConnectionPoint(0), QPointF(0 * XW + 11, 2 * XH));
     }
 }
