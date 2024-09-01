@@ -53,8 +53,6 @@ void Connection::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
     painter->drawPath(line_);
     Q_UNUSED(option);
     Q_UNUSED(widget);
-
-    qWarning() << __FUNCTION__;
 }
 
 QPainterPath Connection::shape() const
