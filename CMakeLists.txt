@@ -42,6 +42,8 @@ set(PROJECT_SOURCES
     app_version.cpp
     application.h
     application.cpp
+    battery.h
+    battery.cpp
     battery_item_model.h
     battery_item_model.cpp
     connection.h

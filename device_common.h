@@ -20,6 +20,7 @@
 
 #include <functional>
 
+#include "battery.h"
 #include "connection.h"
 #include "device_xlet.h"
 
@@ -39,40 +40,6 @@ enum class ItemCategory : std::uint8_t {
 const char* toString(ItemCategory cat);
 std::optional<ItemCategory> fromQString(const QString& str);
 void foreachItemCategory(std::function<void(const char*, int)> fn);
-
-enum class BatteryType : std::uint8_t {
-    None,
-    AA,
-    AAA,
-    AAAA,
-    PP3_Krona,
-    B,
-    C,
-    A23,
-    A27,
-    MaxBattery_,
-};
-
-const char* toString(BatteryType type);
-const char* toJsonString(BatteryType type);
-BatteryType fromJsonString(const QString& str);
-void foreachBatteryType(std::function<void(const char*, int)> fn);
-
-class BatteryChange {
-    BatteryType typeA_ { BatteryType::None }, typeB_ { BatteryType::None };
-    int countA_ { 0 }, countB_ { 0 };
-
-public:
-    BatteryChange() { }
-    BatteryChange(BatteryType typeA, int countA, BatteryType typeB, int countB);
-
-    int typeADelta() const { return countA_; }
-    int typeBDelta() const { return countB_; }
-    BatteryType typeA() const { return typeA_; }
-    BatteryType typeB() const { return typeB_; }
-
-    operator bool() const;
-};
 
 class DeviceData : public QSharedData {
 public:
@@ -124,13 +91,11 @@ public:
     QList<XletData>& inputs() { return inputs_; }
     const QList<XletData>& inputs() const { return inputs_; }
     const XletData& inputAt(XletIndex n) const;
-    std::optional<XletData> visInputAt(XletIndex n) const;
     void appendInput(const XletData& x) { inputs_.append(x); }
 
     QList<XletData>& outputs() { return outputs_; }
     const QList<XletData>& outputs() const { return outputs_; }
     const XletData& outputAt(XletIndex n) const { return outputs_.at(n); }
-    std::optional<XletData> visOutputAt(XletIndex n) const;
     void appendOutput(const XletData& x) { outputs_.append(x); }
 
     const QPointF& pos() const { return pos_; }

@@ -41,6 +41,7 @@ constexpr const char* JSON_KEY_CATEGORY = "category";
 constexpr const char* JSON_KEY_BATTERY_TYPE = "battery-type";
 constexpr const char* JSON_KEY_BATTERY_COUNT = "battery-count";
 constexpr const char* JSON_KEY_SHOW_TITLE = "show-title";
+constexpr const char* JSON_KEY_XLET_COLUMNS = "xlet-columns";
 
 constexpr int MAX_BATTERIES_COUNT = 10;
 
@@ -226,6 +227,7 @@ bool DeviceData::setJson(const QJsonValue& v)
     battery_type_ = fromJsonString(obj.value(JSON_KEY_BATTERY_TYPE).toString());
 
     show_title_ = obj[JSON_KEY_SHOW_TITLE].toBool(true);
+    max_column_count_ = qBound<int>(MIN_COL_COUNT, obj[JSON_KEY_XLET_COLUMNS].toInt(DEF_COL_COUNT), MAX_COL_COUNT);
 
     return true;
 }
@@ -270,6 +272,7 @@ QJsonObject DeviceData::toJson() const
     json[JSON_KEY_INPUTS] = xletToJson(inputs_);
     json[JSON_KEY_OUTPUTS] = xletToJson(outputs_);
     json[JSON_KEY_SHOW_TITLE] = show_title_;
+    json[JSON_KEY_XLET_COLUMNS] = max_column_count_;
 
     return json;
 }
@@ -277,36 +280,6 @@ QJsonObject DeviceData::toJson() const
 const XletData& DeviceData::inputAt(XletIndex n) const
 {
     return inputs_.at(n);
-}
-
-std::optional<XletData> DeviceData::visInputAt(XletIndex n) const
-{
-    XletIndex idx = 0;
-    for (auto& x : inputs_) {
-        if (x.isVisible()) {
-            if (idx == n)
-                return x;
-
-            idx++;
-        }
-    }
-
-    return {};
-}
-
-std::optional<XletData> DeviceData::visOutputAt(XletIndex n) const
-{
-    XletIndex idx = 0;
-    for (auto& x : outputs_) {
-        if (x.isVisible()) {
-            if (idx == n)
-                return x;
-
-            idx++;
-        }
-    }
-
-    return {};
 }
 
 void DeviceData::setBatteryCount(int v)
@@ -377,63 +350,6 @@ bool DeviceData::setXletJson(const QJsonValue& v, QList<XletData>& xlets)
     return true;
 }
 
-namespace {
-
-using BatteryMapType = QMap<BatteryType, std::pair<const char*, const char*>>;
-const BatteryMapType& batteryNameMap()
-{
-    // clang-format off
-    static const BatteryMapType map_ = {
-        { BatteryType::None,        { "None",         "none" } },
-        { BatteryType::AA,          { "AA",           "aa" } },
-        { BatteryType::AAA,         { "AAA",          "aaa" } },
-        { BatteryType::AAAA,        { "AAAA",         "aaaa" } },
-        { BatteryType::B,           { "B",            "b" } },
-        { BatteryType::C,           { "C",            "c" } },
-        { BatteryType::A23,         { "A23",          "a23" } },
-        { BatteryType::A27,         { "A27",          "a27" } },
-        { BatteryType::PP3_Krona,   { "PP3 (Krona)",  "krona" } },
-    };
-    // clang-format on
-    return map_;
-}
-
-}
-
-// clang-format on
-
-const char* ceam::toString(BatteryType type)
-{
-    auto it = batteryNameMap().find(type);
-    return (it == batteryNameMap().end()) ? "?" : it->first;
-}
-
-const char* ceam::toJsonString(BatteryType type)
-{
-    auto it = batteryNameMap().find(type);
-    return (it == batteryNameMap().end()) ? "?" : it->second;
-}
-
-BatteryType ceam::fromJsonString(const QString& str)
-{
-    for (auto it = batteryNameMap().keyValueBegin(); it != batteryNameMap().keyValueEnd(); ++it) {
-        if (it->second.second == str.toLower())
-            return it->first;
-    }
-
-    return BatteryType::None;
-}
-
-void ceam::foreachBatteryType(std::function<void(const char*, int)> fn)
-{
-    for (int i = static_cast<int>(BatteryType::None);
-         i < static_cast<int>(BatteryType::MaxBattery_);
-         i++) //
-    {
-        fn(toString(static_cast<BatteryType>(i)), i);
-    }
-}
-
 bool DeviceData::operator==(const DeviceData& data) const
 {
     if (this == &data)
@@ -450,19 +366,6 @@ bool DeviceData::operator==(const DeviceData& data) const
         && battery_type_ == data.battery_type_
         && category_ == data.category_
         && show_title_ == data.show_title_;
-}
-
-BatteryChange::BatteryChange(BatteryType typeA, int countA, BatteryType typeB, int countB)
-{
-    typeA_ = typeA;
-    typeB_ = typeB;
-    countA_ = countA;
-    countB_ = countB;
-}
-
-BatteryChange::operator bool() const
-{
-    return typeA_ != typeB_ || countA_ != countB_;
 }
 
 size_t ceam::qHash(const ceam::DeviceData& data)

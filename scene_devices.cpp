@@ -208,15 +208,19 @@ std::optional<ConnectionPair> SceneDevices::connectionPair(const ConnectionData&
     if (dest_it == devices_.end())
         return {};
 
-    auto d0 = src_it->second->deviceData()->visOutputAt(conn.sourceOutput());
-    auto d1 = dest_it->second->deviceData()->visInputAt(conn.destinationInput());
-    if (d0 && d1)
-        return ConnectionPair {
-            ConnectionEndPoint { d0->connectorModel(), d0->connectorType().complement() },
-            ConnectionEndPoint { d1->connectorModel(), d1->connectorType().complement() },
-        };
-    else
+    if (conn.sourceOutput() >= src_it->second->deviceData()->outputs().count())
         return {};
+
+    if (conn.destinationInput() >= dest_it->second->deviceData()->inputs().count())
+        return {};
+
+    auto& d0 = src_it->second->deviceData()->outputAt(conn.sourceOutput());
+    auto& d1 = dest_it->second->deviceData()->inputAt(conn.destinationInput());
+
+    return ConnectionPair {
+        ConnectionEndPoint { d0.connectorModel(), d0.connectorType().complement() },
+        ConnectionEndPoint { d1.connectorModel(), d1.connectorType().complement() },
+    };
 }
 
 bool SceneDevices::checkConnection(const ConnectionData& conn) const
