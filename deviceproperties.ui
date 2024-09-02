@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>793</width>
-    <height>515</height>
+    <width>795</width>
+    <height>596</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,40 +16,6 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0">
-      <widget class="QLabel" name="deviceNameLabel">
-       <property name="text">
-        <string>&amp;Name</string>
-       </property>
-       <property name="buddy">
-        <cstring>deviceName</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <layout class="QHBoxLayout" name="nameLayout">
-       <item>
-        <widget class="QLineEdit" name="deviceName"/>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="showTitle">
-         <property name="text">
-          <string>&amp;Show</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="vendorLabel">
-       <property name="text">
-        <string>Vendor</string>
-       </property>
-       <property name="buddy">
-        <cstring>vendor</cstring>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="0,0,0">
        <item>
@@ -70,30 +36,55 @@
        </item>
       </layout>
      </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="categoryLabel">
-       <property name="text">
-        <string>&amp;Category</string>
-       </property>
-       <property name="buddy">
-        <cstring>category</cstring>
-       </property>
-      </widget>
+     <item row="0" column="1">
+      <layout class="QHBoxLayout" name="nameLayout">
+       <item>
+        <widget class="QLineEdit" name="deviceName"/>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="showTitle">
+         <property name="text">
+          <string>&amp;Show</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
-     <item row="2" column="1">
-      <widget class="QComboBox" name="category"/>
+     <item row="7" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="QSpinBox" name="outletsColumns">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>0</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="outletsColumnsLabel">
+         <property name="text">
+          <string>columns in raw</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
      </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="inletsLabel">
-       <property name="text">
-        <string>&amp;Inputs</string>
-       </property>
-       <property name="buddy">
-        <cstring>inlets</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
+     <item row="4" column="1">
       <widget class="QTableWidget" name="inlets">
        <property name="minimumSize">
         <size>
@@ -108,13 +99,16 @@
         <number>1</number>
        </property>
        <property name="columnCount">
-        <number>6</number>
+        <number>5</number>
        </property>
        <attribute name="horizontalHeaderDefaultSectionSize">
         <number>70</number>
        </attribute>
        <attribute name="horizontalHeaderHighlightSections">
         <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderStretchLastSection">
+        <bool>true</bool>
        </attribute>
        <attribute name="verticalHeaderHighlightSections">
         <bool>false</bool>
@@ -125,23 +119,67 @@
        <column/>
        <column/>
        <column/>
-       <column/>
       </widget>
      </item>
-     <item row="4" column="1">
+     <item row="12" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QComboBox" name="batteryType"/>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="batteryCount">
+         <property name="maximum">
+          <number>10</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_6">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="vendorLabel">
+       <property name="text">
+        <string>Vendor</string>
+       </property>
+       <property name="buddy">
+        <cstring>vendor</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="0">
+      <widget class="QLabel" name="batteryLabel">
+       <property name="text">
+        <string>&amp;Batteries</string>
+       </property>
+       <property name="buddy">
+        <cstring>batteryType</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="1">
+      <widget class="QFrame" name="outletsHLine">
+       <property name="frameShape">
+        <enum>QFrame::HLine</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
       <layout class="QHBoxLayout" name="inletContainer">
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
        <item>
         <widget class="QToolButton" name="addInlet">
          <property name="maximumSize">
@@ -208,143 +246,55 @@
        </item>
       </layout>
      </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="outletsLabel">
-       <property name="text">
-        <string>&amp;Outputs</string>
-       </property>
-       <property name="buddy">
-        <cstring>outlets</cstring>
-       </property>
-      </widget>
+     <item row="2" column="1">
+      <widget class="QComboBox" name="category"/>
      </item>
-     <item row="5" column="1">
-      <widget class="QTableWidget" name="outlets">
-       <property name="minimumSize">
-        <size>
-         <width>700</width>
-         <height>100</height>
-        </size>
-       </property>
-       <property name="sizeAdjustPolicy">
-        <enum>QAbstractScrollArea::AdjustToContents</enum>
-       </property>
-       <property name="rowCount">
-        <number>1</number>
-       </property>
-       <property name="columnCount">
-        <number>6</number>
-       </property>
-       <attribute name="horizontalHeaderDefaultSectionSize">
-        <number>70</number>
-       </attribute>
-       <attribute name="horizontalHeaderHighlightSections">
-        <bool>false</bool>
-       </attribute>
-       <attribute name="verticalHeaderHighlightSections">
-        <bool>false</bool>
-       </attribute>
-       <row/>
-       <column/>
-       <column/>
-       <column/>
-       <column/>
-       <column/>
-       <column/>
-      </widget>
-     </item>
-     <item row="6" column="1">
-      <layout class="QHBoxLayout" name="outletContainer">
+     <item row="3" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
-        <widget class="QToolButton" name="addOutlet">
-         <property name="maximumSize">
+        <widget class="QSpinBox" name="inletsColumns">
+         <property name="minimumSize">
           <size>
-           <width>16</width>
-           <height>16</height>
+           <width>50</width>
+           <height>0</height>
           </size>
-         </property>
-         <property name="toolTip">
-          <string>add output</string>
-         </property>
-         <property name="text">
-          <string notr="true">+</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QToolButton" name="removeOutlet">
-         <property name="maximumSize">
-          <size>
-           <width>16</width>
-           <height>16</height>
-          </size>
-         </property>
-         <property name="toolTip">
-          <string>remove output</string>
-         </property>
+        <widget class="QLabel" name="inletsColumnsLabel">
          <property name="text">
-          <string notr="true">-</string>
+          <string>columns in raw</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QToolButton" name="moveOutletUp">
-         <property name="maximumSize">
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
           <size>
-           <width>16</width>
-           <height>16</height>
+           <width>40</width>
+           <height>20</height>
           </size>
          </property>
-         <property name="toolTip">
-          <string>Move output up</string>
-         </property>
-         <property name="text">
-          <string notr="true">↑</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QToolButton" name="moveOutletDown">
-         <property name="maximumSize">
-          <size>
-           <width>16</width>
-           <height>16</height>
-          </size>
-         </property>
-         <property name="toolTip">
-          <string>Move output down</string>
-         </property>
-         <property name="text">
-          <string notr="true">↓</string>
-         </property>
-        </widget>
+        </spacer>
        </item>
       </layout>
      </item>
-     <item row="7" column="0">
-      <widget class="QLabel" name="imageLabel">
+     <item row="0" column="0">
+      <widget class="QLabel" name="deviceNameLabel">
        <property name="text">
-        <string>Image</string>
+        <string>&amp;Name</string>
        </property>
        <property name="buddy">
-        <cstring>imageChooseButton</cstring>
+        <cstring>deviceName</cstring>
        </property>
       </widget>
      </item>
-     <item row="7" column="1">
+     <item row="11" column="1">
       <layout class="QHBoxLayout" name="imageLayout">
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
        <item>
         <widget class="QLabel" name="currentImage">
          <property name="text">
@@ -431,42 +381,166 @@
        </item>
       </layout>
      </item>
-     <item row="8" column="0">
-      <widget class="QLabel" name="batteryLabel">
-       <property name="text">
-        <string>&amp;Batteries</string>
-       </property>
-       <property name="buddy">
-        <cstring>batteryType</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout">
+     <item row="9" column="1">
+      <layout class="QHBoxLayout" name="outletContainer">
        <item>
-        <widget class="QComboBox" name="batteryType"/>
-       </item>
-       <item>
-        <widget class="QSpinBox" name="batteryCount">
-         <property name="maximum">
-          <number>10</number>
+        <widget class="QToolButton" name="addOutlet">
+         <property name="maximumSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>add output</string>
+         </property>
+         <property name="text">
+          <string notr="true">+</string>
          </property>
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer_6">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
+        <widget class="QToolButton" name="removeOutlet">
+         <property name="maximumSize">
           <size>
-           <width>40</width>
-           <height>20</height>
+           <width>16</width>
+           <height>16</height>
           </size>
          </property>
-        </spacer>
+         <property name="toolTip">
+          <string>remove output</string>
+         </property>
+         <property name="text">
+          <string notr="true">-</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="moveOutletUp">
+         <property name="maximumSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Move output up</string>
+         </property>
+         <property name="text">
+          <string notr="true">↑</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="moveOutletDown">
+         <property name="maximumSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Move output down</string>
+         </property>
+         <property name="text">
+          <string notr="true">↓</string>
+         </property>
+        </widget>
        </item>
       </layout>
+     </item>
+     <item row="7" column="0" rowspan="4">
+      <widget class="QLabel" name="outletsLabel">
+       <property name="text">
+        <string>&amp;Outputs</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+       </property>
+       <property name="buddy">
+        <cstring>outlets</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="0">
+      <widget class="QLabel" name="imageLabel">
+       <property name="text">
+        <string>Image</string>
+       </property>
+       <property name="buddy">
+        <cstring>imageChooseButton</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="categoryLabel">
+       <property name="text">
+        <string>&amp;Category</string>
+       </property>
+       <property name="buddy">
+        <cstring>category</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="1">
+      <widget class="QTableWidget" name="outlets">
+       <property name="minimumSize">
+        <size>
+         <width>700</width>
+         <height>100</height>
+        </size>
+       </property>
+       <property name="sizeAdjustPolicy">
+        <enum>QAbstractScrollArea::AdjustToContents</enum>
+       </property>
+       <property name="rowCount">
+        <number>1</number>
+       </property>
+       <property name="columnCount">
+        <number>5</number>
+       </property>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>70</number>
+       </attribute>
+       <attribute name="horizontalHeaderHighlightSections">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderStretchLastSection">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="verticalHeaderHighlightSections">
+        <bool>false</bool>
+       </attribute>
+       <row/>
+       <column/>
+       <column/>
+       <column/>
+       <column/>
+       <column/>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="QFrame" name="inletsHLine">
+       <property name="frameShape">
+        <enum>QFrame::HLine</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0" rowspan="4">
+      <widget class="QLabel" name="inletsLabel">
+       <property name="text">
+        <string>&amp;Inputs</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+       </property>
+       <property name="buddy">
+        <cstring>inlets</cstring>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

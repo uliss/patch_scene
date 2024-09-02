@@ -31,6 +31,7 @@ SharedDeviceData make_data(DeviceId id, int numIn = 0, int numOut = 0, const QSt
     auto data = new DeviceData(id);
     data->setShowTitle(!title.isEmpty());
     data->setMaxInputColumnCount(4);
+    data->setMaxOutputColumnCount(4);
 
     for (auto i = 0; i < numIn; i++)
         data->appendInput({});

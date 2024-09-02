@@ -27,7 +27,6 @@
 namespace {
 enum {
     COL_CONNECTOR,
-    COL_VISIBLE,
     COL_NAME,
     COL_CONNECTOR_TYPE,
     COL_POWER_TYPE,
@@ -78,6 +77,18 @@ DeviceProperties::DeviceProperties(const SharedDeviceData& data, QWidget* parent
         data_->setShowTitle(state == Qt::Checked);
     });
 
+    ui->inletsColumns->setRange(DeviceData::MIN_COL_COUNT, DeviceData::MAX_COL_COUNT);
+    ui->inletsColumns->setValue(data_->maxInputColumnCount());
+    connect(ui->inletsColumns, &QSpinBox::valueChanged, this, [this](int value) {
+        data_->setMaxInputColumnCount(value);
+    });
+
+    ui->outletsColumns->setRange(DeviceData::MIN_COL_COUNT, DeviceData::MAX_COL_COUNT);
+    ui->outletsColumns->setValue(data_->maxOutputColumnCount());
+    connect(ui->outletsColumns, &QSpinBox::valueChanged, this, [this](int value) {
+        data_->setMaxOutputColumnCount(value);
+    });
+
     setupCategories();
     setupXlets(data);
     setupBattery(data);
@@ -120,7 +131,7 @@ void DeviceProperties::setupXletTable(QTableWidget* tab, size_t rows)
     tab->setRowCount(rows);
     tab->setSelectionBehavior(QAbstractItemView::SelectRows);
     tab->setSelectionMode(QTableWidget::ContiguousSelection);
-    tab->setHorizontalHeaderLabels({ tr("Type"), tr("Show"), tr("Name"), tr("Socket"), tr("Power"), tr("Phantom") });
+    tab->setHorizontalHeaderLabels({ tr("Type"), tr("Name"), tr("Socket"), tr("Power"), tr("Phantom") });
     tab->setColumnWidth(COL_CONNECTOR, 100);
     // tab->setColumnWidth(COL_NAME, 100);
     // tab->setColumnWidth(COL_VISIBLE, 60);
@@ -171,10 +182,6 @@ void DeviceProperties::insertXlet(QTableWidget* tab, int row, const XletData& da
     auto model = new TableCellConnector(tab);
     model->setConnectorModel(data.connectorModel());
     tab->setCellWidget(row, COL_CONNECTOR, model);
-
-    // show/hide
-    auto show = new TableCellCheckBox(data.isVisible());
-    tab->setCellWidget(row, COL_VISIBLE, show);
 
     // socket
     auto socket = new TableCellConnectorType(data.connectorType(), this);
@@ -457,9 +464,6 @@ bool DeviceProperties::getXletData(const QTableWidget* table, int row, XletData&
         return false;
 
     data.setName(table->item(row, COL_NAME)->text());
-    auto chk = qobject_cast<TableCellCheckBox*>(table->cellWidget(row, COL_VISIBLE));
-    if (chk)
-        data.setVisible(chk->isChecked());
 
     auto model = qobject_cast<TableCellConnector*>(table->cellWidget(row, COL_CONNECTOR));
     if (model)
