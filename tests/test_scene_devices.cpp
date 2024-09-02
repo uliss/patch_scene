@@ -28,7 +28,12 @@ constexpr int XW = 22;
 constexpr int XH = 20;
 constexpr int MIN_TXT_WD = 80;
 constexpr int MIN_TITLE_WD = 70;
+
+#ifdef Q_OS_LINUX
+constexpr int DEF_TXT_HT = 26;
+#else
 constexpr int DEF_TXT_HT = 24;
+#endif
 
 SharedDeviceData data0(DeviceId id)
 {
@@ -373,13 +378,13 @@ void TestSceneDevices::findConnectionPoints()
 
     pts = dev.connectionPoints({ 100, 0, 101, 0 });
     QVERIFY(pts);
-    QCOMPARE(pts->first, QPointF(100, 264));
-    QCOMPARE(pts->second, QPointF(300, 424));
+    QCOMPARE(pts->first, QPointF(100, 240 + DEF_TXT_HT));
+    QCOMPARE(pts->second, QPointF(300, 400 + DEF_TXT_HT));
 
     pts = dev.connectionPoints({ 101, 0, 100, 0 });
     QVERIFY(pts);
-    QCOMPARE(pts->first, QPointF(300, 464));
-    QCOMPARE(pts->second, QPointF(100, 224));
+    QCOMPARE(pts->first, QPointF(300, 440 + DEF_TXT_HT));
+    QCOMPARE(pts->second, QPointF(100, 200 + DEF_TXT_HT));
 }
 
 void TestSceneDevices::toJson()
