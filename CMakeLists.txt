@@ -127,8 +127,7 @@ set(PROJECT_SOURCES
     vendor_list.cpp
     vendor_list.h
     xlet_info.cpp
-    xlet_info.h
-)
+    xlet_info.h)
 
 if(WIN32)
     configure_file(patch_scene_win.rc ${PROJECT_BINARY_DIR}/patch_scene_win.rc @ONLY)
@@ -155,15 +154,14 @@ if(APPLE)
     set(MACOSX_BUNDLE_LONG_VERSION_STRING ${PROJECT_VERSION})
 endif()
 
-# add_subdirectory(3rd-party/QSimpleUpdater)
-# target_compile_definitions(QSimpleUpdater PUBLIC QSU_INCLUDE_MOC)
+add_subdirectory(3rd-party/QSimpleUpdater)
+target_compile_definitions(QSimpleUpdater PUBLIC QSU_INCLUDE_MOC)
 
-add_library(patch_scene_lib STATIC ${PROJECT_SOURCES}
-#    app_updater_window.h app_updater_window.cpp app_updater_window.ui
-)
+add_library(patch_scene_lib STATIC ${PROJECT_SOURCES} app_updater_window.h app_updater_window.cpp
+                                   app_updater_window.ui)
 target_include_directories(patch_scene_lib PRIVATE ${PROJECT_BINARY_DIR})
 target_link_libraries(
-    patch_scene_lib PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::PrintSupport
+    patch_scene_lib PRIVATE QSimpleUpdater Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::PrintSupport
                             Qt${QT_VERSION_MAJOR}::SvgWidgets)
 
 qt_add_executable(patch_scene MANUAL_FINALIZATION MACOSX_BUNDLE ${app_icon_macos} main.cpp
@@ -172,14 +170,8 @@ qt_add_executable(patch_scene MANUAL_FINALIZATION MACOSX_BUNDLE ${app_icon_macos
 add_dependencies(patch_scene_lib git_version)
 
 target_link_libraries(
-    patch_scene
-    PRIVATE
-        patch_scene_lib
-        # QSimpleUpdater
-        Qt${QT_VERSION_MAJOR}::Widgets
-        Qt${QT_VERSION_MAJOR}::PrintSupport
-        Qt${QT_VERSION_MAJOR}::SvgWidgets
-)
+    patch_scene PRIVATE patch_scene_lib Qt${QT_VERSION_MAJOR}::Widgets
+                        Qt${QT_VERSION_MAJOR}::PrintSupport Qt${QT_VERSION_MAJOR}::SvgWidgets)
 
 set_target_properties(
     patch_scene
@@ -212,10 +204,10 @@ if(QT_VERSION_MAJOR EQUAL 6)
         patch_scene_lib
         SOURCES
         ${PROJECT_SOURCES}
-        # 3rd-party/QSimpleUpdater/src/Downloader.cpp
-        # 3rd-party/QSimpleUpdater/src/Downloader.ui
-        # 3rd-party/QSimpleUpdater/src/QSimpleUpdater.cpp
-        # 3rd-party/QSimpleUpdater/src/Updater.cpp
+        3rd-party/QSimpleUpdater/src/Downloader.cpp
+        3rd-party/QSimpleUpdater/src/Downloader.ui
+        3rd-party/QSimpleUpdater/src/QSimpleUpdater.cpp
+        3rd-party/QSimpleUpdater/src/Updater.cpp
         TS_FILES
         patch_scene_ru.ts)
 endif()
