@@ -2,8 +2,8 @@
   "updates": {
     "windows": {
       "open-url": "",
-      "latest-version": "0.3.2",
-      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.3.2/PatchScene-0.3.2-setup.exe",
+      "latest-version": "0.3.3",
+      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.3.3/PatchScene-0.3.3-setup.exe",
       "changelog": "
     * Help->Contacts menu opens https://ceam.space
     * checking for app updater works
@@ -12,8 +12,8 @@
     },
     "macos-x86_64": {
       "open-url": "",
-      "latest-version": "0.3.2",
-      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.3.2/PatchScene-v0.3.2-x86_64.dmg",
+      "latest-version": "0.3.3",
+      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.3.3/PatchScene-v0.3.3-x86_64.dmg",
       "changelog": "
     * Help->Contacts menu opens https://ceam.space
     * checking for app updater works
@@ -22,8 +22,8 @@
     },
     "macos-arm64": {
       "open-url": "",
-      "latest-version": "0.3.2",
-      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.3.2/PatchScene-v0.3.2-arm64.dmg",
+      "latest-version": "0.3.3",
+      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.3.3/PatchScene-v0.3.3-arm64.dmg",
       "changelog": "
     * Help->Contacts menu opens https://ceam.space
     * checking for app updater works

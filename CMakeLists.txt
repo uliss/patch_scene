@@ -1,4 +1,3 @@
-# cmake_minimum_required(VERSION 3.5)
 cmake_minimum_required(VERSION 3.21.1)
 
 if(APPLE)
@@ -9,7 +8,7 @@ endif()
 
 project(
     patch_scene
-    VERSION 0.3.2
+    VERSION 0.3.3
     LANGUAGES ${LANGS})
 # cmake search path
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
