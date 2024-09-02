@@ -1,0 +1,34 @@
+{
+  "updates": {
+    "windows": {
+      "open-url": "",
+      "latest-version": "1.0.0",
+      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.3.2/PatchScene-0.3.2-setup.exe",
+      "changelog": "
+    * Help->Contacts menu opens https://ceam.space
+    * checking for app updater works
+",
+      "mandatory": false
+    },
+    "macos-x86_64": {
+      "open-url": "",
+      "latest-version": "1.0.0",
+      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.3.2/PatchScene-v0.3.2-x86_64.dmg",
+      "changelog": "
+    * Help->Contacts menu opens https://ceam.space
+    * checking for app updater works
+",
+      "mandatory": false
+    },
+    "macos-arm64": {
+      "open-url": "",
+      "latest-version": "1.0.0",
+      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.3.2/PatchScene-v0.3.2-arm64.dmg",
+      "changelog": "
+    * Help->Contacts menu opens https://ceam.space
+    * checking for app updater works
+",
+      "mandatory": false
+    }
+  }
+}

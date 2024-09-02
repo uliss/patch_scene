@@ -181,7 +181,7 @@ set_target_properties(
                TRUE)
 
 add_custom_target(translations SOURCES patch_scene_ru.ts)
-add_custom_target(misc SOURCES CHANGELOG.md)
+add_custom_target(misc SOURCES CHANGELOG.md resources/updates.in.json tests/test_updates.json)
 
 include(GNUInstallDirs)
 install(

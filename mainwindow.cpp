@@ -41,6 +41,18 @@
 
 #include "QSimpleUpdater.h"
 
+#define TEST_UPDATER
+
+#ifdef TEST_UPDATER
+constexpr const char* UPDATER_URL = "https://raw.githubusercontent.com/"
+                                    "uliss/patch_scene/master/tests/test_updates.json";
+#else
+constexpr const char* UPDATER_URL = "https://raw.githubusercontent.com/"
+                                    "uliss/patch_scene/master/resources/updates.json";
+#endif
+
+constexpr const char* PATCH_SCENE_CONTACTS_URL = "https://ceam.space";
+
 using namespace ceam;
 
 MainWindow::MainWindow(QWidget* parent)
@@ -50,7 +62,7 @@ MainWindow::MainWindow(QWidget* parent)
     ui->setupUi(this);
     setStatusBar(new QStatusBar);
 
-    updater_ = QSimpleUpdater::getInstance();
+    initUpdater();
 
     // createToolbarScaleView();
 
@@ -287,34 +299,11 @@ void MainWindow::initActions()
 
     connect(ui->actionZoomFit, SIGNAL(triggered()), diagram_, SLOT(zoomFit()));
 
-    connect(ui->actionCheckUpdates, &QAction::triggered, this, [this]() {
-        constexpr const char* DEFS_URL = "https://raw.githubusercontent.com/"
-                                         "uliss/patch_scene/master/resources/updates.json";
+    connect(ui->actionCheckUpdates, &QAction::triggered, this,
+        [this]() { updater_->checkForUpdates(UPDATER_URL); });
 
-        updater_->setModuleVersion(DEFS_URL, app_version());
-        updater_->setNotifyOnFinish(DEFS_URL, true);
-        updater_->setNotifyOnUpdate(DEFS_URL, true);
-        updater_->setDownloaderEnabled(DEFS_URL, true);
-        updater_->setMandatoryUpdate(DEFS_URL, false);
-
-#ifdef Q_OS_DARWIN
-#ifdef Q_PROCESSOR_ARM
-        updater_->setPlatformKey(DEFS_URL, "macos-arm64");
-#endif
-
-#ifdef Q_PROCESSOR_X86
-        updater_->setPlatformKey(DEFS_URL, "macos-x86_64");
-#endif
-
-#endif
-
-        /* Check for updates */
-        updater_->checkForUpdates(DEFS_URL);
-    });
-
-    connect(ui->actionContact, &QAction::triggered, this, [this](bool) {
-        QDesktopServices::openUrl(QUrl("https://ceam.space"));
-    });
+    connect(ui->actionContact, &QAction::triggered, this,
+        [this](bool) { QDesktopServices::openUrl(QUrl(PATCH_SCENE_CONTACTS_URL)); });
 }
 
 void MainWindow::initLibrarySearch()
@@ -409,6 +398,27 @@ void MainWindow::initSendList()
     });
 
     ui->sendList->resizeColumnsToContents();
+}
+
+void MainWindow::initUpdater()
+{
+    updater_ = QSimpleUpdater::getInstance();
+    updater_->setModuleVersion(UPDATER_URL, app_version());
+    updater_->setNotifyOnFinish(UPDATER_URL, true);
+    updater_->setNotifyOnUpdate(UPDATER_URL, true);
+    updater_->setDownloaderEnabled(UPDATER_URL, true);
+    updater_->setMandatoryUpdate(UPDATER_URL, false);
+
+#ifdef Q_OS_DARWIN
+#ifdef Q_PROCESSOR_ARM
+    updater_->setPlatformKey(UPDATER_URL, "macos-arm64");
+#endif
+
+#ifdef Q_PROCESSOR_X86
+    updater_->setPlatformKey(UPDATER_URL, "macos-x86_64");
+#endif
+
+#endif
 }
 
 void MainWindow::initFurnitureList()

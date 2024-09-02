@@ -102,6 +102,7 @@ private:
     void initLibrarySearch();
     void initReturnList();
     void initSendList();
+    void initUpdater();
 
     void setProjectName(const QString& fileName);
     bool doSave();
