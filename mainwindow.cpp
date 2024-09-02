@@ -23,6 +23,7 @@
 
 #include <QCloseEvent>
 #include <QComboBox>
+#include <QDesktopServices>
 #include <QFileDialog>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -309,6 +310,10 @@ void MainWindow::initActions()
 
         /* Check for updates */
         updater_->checkForUpdates(DEFS_URL);
+    });
+
+    connect(ui->actionContact, &QAction::triggered, this, [this](bool) {
+        QDesktopServices::openUrl(QUrl("https://ceam.space"));
     });
 }
 
