@@ -23,8 +23,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets SvgWidgets PrintSupport Test)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets SvgWidgets PrintSupport
+find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets SvgWidgets PrintSupport Network Test)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets SvgWidgets PrintSupport Network
                                                        LinguistTools Test)
 
 set(PROJECT_SOURCES
@@ -224,7 +224,7 @@ if(GITHUB_CLI)
 endif()
 
 # package
-set(INNO_INSTALLER_NAME "PatchScene-${PROJECT_VERSION}-setup")
+set(INNO_INSTALLER_NAME "PatchScene-win-v${PROJECT_VERSION}-setup")
 set(WIN_INSTALLER_EXE "${INNO_INSTALLER_NAME}.exe")
 set(DMG_FILE "PatchScene-v${PROJECT_VERSION}-${CMAKE_SYSTEM_PROCESSOR}.dmg")
 set(MACOS_DMG_ARM64 "PatchScene-v${PROJECT_VERSION}-arm64.dmg")
@@ -286,7 +286,7 @@ if(WIN32)
     if(7Z_EXE)
         message(STATUS "7z found at: ${7Z_EXE}")
         message(STATUS "app-zip is target available")
-        set(APP_ZIP_NAME "PatchScene-${PROJECT_VERSION}.zip")
+        set(APP_ZIP_NAME "PatchScene-win-v${PROJECT_VERSION}.zip")
 
         add_custom_target(
             app-zip
