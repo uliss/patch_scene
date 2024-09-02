@@ -563,6 +563,9 @@ bool Diagram::loadJson(const QString& path)
             qWarning() << "the document was created with more recent version, then the current one, "
                           "some feature can be missing...";
         }
+
+        if (fmt_vers != app_file_format_version())
+            emit fileFormatVersionMismatch(fmt_vers, app_file_format_version());
     }
 
     // load devices

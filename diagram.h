@@ -17,9 +17,9 @@
 #include "connection.h"
 #include "connection_database.h"
 #include "device.h"
-#include "scene_background.h"
 #include "diagram_meta.h"
 #include "diagram_state_machine.h"
+#include "scene_background.h"
 #include "scene_connections.h"
 #include "scene_devices.h"
 
@@ -223,6 +223,7 @@ signals:
     void sceneFullUpdate();
     void showBackgroundChanged(bool);
     void showCablesChanged(bool);
+    void fileFormatVersionMismatch(int fileVersion, int appFileVersion);
     void zoomChanged(qreal);
 
 protected:
