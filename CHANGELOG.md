@@ -1,8 +1,9 @@
 # PatchScene CHANGELOG
 
-## [Unreleased]
+## [0.3.3]
 ### Added:
 - Place in row/column added into device/selection context menu
+- Check for updates ability
 
 ## [0.3]
 ### Added:
