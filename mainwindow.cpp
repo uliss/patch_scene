@@ -185,6 +185,9 @@ void MainWindow::initDiagram()
         statusBar()->showMessage(tr("Zoom %1%").arg(qRound(z * 100)), 1000);
     });
     connect(diagram_, SIGNAL(requestBackgroundChange()), this, SLOT(setBackground()));
+    connect(diagram_, &Diagram::fileFormatVersionMismatch, this, [this](int fileVersion, int appFileVersion) {
+        notifyFileVersionMismatch(fileVersion, appFileVersion);
+    });
 }
 
 void MainWindow::initDeviceList()
@@ -694,6 +697,16 @@ NonSavedDocAction MainWindow::checkNonSavedDoc()
     }
 
     return NonSavedDocAction::Continue;
+}
+
+void MainWindow::notifyFileVersionMismatch(int fileVersion, int appFileVersion)
+{
+    if (fileVersion > appFileVersion) {
+        QMessageBox::information(this, tr("Information"),
+            tr("You are opening the file created in the more recent PatchScene version, "
+               "then you are using. Some features could be unsupported!")
+                .arg(fileVersion, appFileVersion));
+    }
 }
 
 void MainWindow::loadLibrary()

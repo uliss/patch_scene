@@ -130,6 +130,8 @@ private:
     QMessageBox::StandardButton showNonSavedDocAlert();
     NonSavedDocAction checkNonSavedDoc();
 
+    void notifyFileVersionMismatch(int fileVersion, int appFileVersion);
+
 private:
     Ui::MainWindow* ui;
     Diagram* diagram_;
