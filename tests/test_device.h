@@ -20,6 +20,7 @@ class TestDevice : public QObject {
     Q_OBJECT
 
 private slots:
+    void qtTest();
     void createDefault();
     void createNoTitle();
     void inletRect();

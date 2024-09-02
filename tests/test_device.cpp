@@ -24,11 +24,17 @@ constexpr int XW = 22;
 constexpr int XH = 20;
 constexpr int MIN_TXT_WD = 80;
 constexpr int MIN_TITLE_WD = 70;
+
+#ifdef Q_OS_LINUX
+constexpr int DEF_TXT_HT = 26;
+#else
 constexpr int DEF_TXT_HT = 24;
+#endif
 
 SharedDeviceData make_data(DeviceId id, int numIn = 0, int numOut = 0, const QString& title = {})
 {
     auto data = new DeviceData(id);
+    data->setTitle(title);
     data->setShowTitle(!title.isEmpty());
     data->setMaxInputColumnCount(4);
     data->setMaxOutputColumnCount(4);
@@ -41,6 +47,18 @@ SharedDeviceData make_data(DeviceId id, int numIn = 0, int numOut = 0, const QSt
 
     return SharedDeviceData { data };
 }
+}
+
+void TestDevice::qtTest()
+{
+    QGraphicsTextItem xi("text");
+    QCOMPARE(xi.boundingRect().height(), DEF_TXT_HT);
+
+    xi.setPlainText("....");
+    QCOMPARE(xi.boundingRect().height(), DEF_TXT_HT);
+
+    xi.setTextWidth(MIN_TITLE_WD);
+    QCOMPARE(xi.boundingRect().height(), DEF_TXT_HT);
 }
 
 void TestDevice::createDefault()
