@@ -76,6 +76,7 @@ AboutWindow::AboutWindow(QWidget* parent)
     thanks->setMarkdown(tr("**Thanks to:**\n\n"
                            "- Natasha Plotnikova\n\n"
                            "- Alex Nadzharov\n\n"
+                           "- Ilya Kovalskiy\n\n"
                            "**Translations:**\n\n"
                            "_to Russian:_ Serge Poltavski"));
 
