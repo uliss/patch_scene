@@ -168,7 +168,6 @@
      <string>Objects</string>
     </property>
     <addaction name="actionAddDevice"/>
-    <addaction name="actionAddZone"/>
     <addaction name="actionSetBackground"/>
    </widget>
    <addaction name="menuFile"/>
