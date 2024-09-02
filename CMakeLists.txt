@@ -38,9 +38,6 @@ set(PROJECT_SOURCES
     about_window.ui
     app_settings.cpp
     app_settings.h
-    app_updater_window.h
-    app_updater_window.cpp
-    app_updater_window.ui
     app_version.cpp
     app_version.h
     application.cpp
