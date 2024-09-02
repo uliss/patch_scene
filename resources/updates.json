@@ -2,31 +2,31 @@
   "updates": {
     "windows": {
       "open-url": "",
-      "latest-version": "0.3.1",
-      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.3.1/PatchScene-0.3.1-setup.exe",
+      "latest-version": "0.3.2",
+      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.3.2/PatchScene-0.3.2-setup.exe",
       "changelog": "
-    * inputs/outputs now placed in the rows, number of columns in row can be specified
-    * simple update checker added
+    * Help->Contacts menu opens https://ceam.space
+    * checking for app updater works
 ",
       "mandatory": false
     },
     "macos-x86_64": {
       "open-url": "",
-      "latest-version": "0.3.1",
-      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.3.1/PatchScene-v0.3.1-x86_64.dmg",
+      "latest-version": "0.3.2",
+      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.3.2/PatchScene-v0.3.2-x86_64.dmg",
       "changelog": "
-    * inputs/outputs now placed in the rows, number of columns in row can be specified
-    * simple update checker added
+    * Help->Contacts menu opens https://ceam.space
+    * checking for app updater works
 ",
       "mandatory": false
     },
     "macos-arm64": {
       "open-url": "",
-      "latest-version": "0.3.1",
-      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.3.1/PatchScene-v0.3.1-arm64.dmg",
+      "latest-version": "0.3.2",
+      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.3.2/PatchScene-v0.3.2-arm64.dmg",
       "changelog": "
-    * inputs/outputs now placed in the rows, number of columns in row can be specified
-    * simple update checker added
+    * Help->Contacts menu opens https://ceam.space
+    * checking for app updater works
 ",
       "mandatory": false
     }

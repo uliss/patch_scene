@@ -9,7 +9,7 @@ endif()
 
 project(
     patch_scene
-    VERSION 0.3.1
+    VERSION 0.3.2
     LANGUAGES ${LANGS})
 # cmake search path
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
@@ -230,8 +230,8 @@ set(DMG_FILE "PatchScene-v${PROJECT_VERSION}-${CMAKE_SYSTEM_PROCESSOR}.dmg")
 set(MACOS_DMG_ARM64 "PatchScene-v${PROJECT_VERSION}-arm64.dmg")
 set(MACOS_DMG_X86_64 "PatchScene-v${PROJECT_VERSION}-x86_64.dmg")
 set(PATCH_SCENE_UPDATE_INFO "
-    * inputs/outputs now placed in the rows, number of columns in row can be specified
-    * simple update checker added
+    * Help->Contacts menu opens https://ceam.space
+    * checking for app updater works
 ")
 
 configure_file(resources/updates.in.json ${PROJECT_SOURCE_DIR}/resources/updates.json @ONLY)
