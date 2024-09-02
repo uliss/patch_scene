@@ -7,10 +7,17 @@
       "changelog": "@PATCH_SCENE_UPDATE_INFO@",
       "mandatory": false
     },
-    "osx": {
+    "macos-x86_64": {
       "open-url": "",
       "latest-version": "@PROJECT_VERSION@",
-      "download-url": "https://github.com/uliss/patch_scene/releases/download/v@PROJECT_VERSION@/@DMG_FILE@",
+      "download-url": "https://github.com/uliss/patch_scene/releases/download/v@PROJECT_VERSION@/@MACOS_DMG_X86_64@",
+      "changelog": "@PATCH_SCENE_UPDATE_INFO@",
+      "mandatory": false
+    },
+    "macos-arm64": {
+      "open-url": "",
+      "latest-version": "@PROJECT_VERSION@",
+      "download-url": "https://github.com/uliss/patch_scene/releases/download/v@PROJECT_VERSION@/@MACOS_DMG_ARM64@",
       "changelog": "@PATCH_SCENE_UPDATE_INFO@",
       "mandatory": false
     }

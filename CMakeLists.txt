@@ -227,6 +227,8 @@ endif()
 set(INNO_INSTALLER_NAME "PatchScene-${PROJECT_VERSION}-setup")
 set(WIN_INSTALLER_EXE "${INNO_INSTALLER_NAME}.exe")
 set(DMG_FILE "PatchScene-v${PROJECT_VERSION}-${CMAKE_SYSTEM_PROCESSOR}.dmg")
+set(MACOS_DMG_ARM64 "PatchScene-v${PROJECT_VERSION}-arm64.dmg")
+set(MACOS_DMG_X86_64 "PatchScene-v${PROJECT_VERSION}-x86_64.dmg")
 set(PATCH_SCENE_UPDATE_INFO "
     * inputs/outputs now placed in the rows, number of columns in row can be specified
     * simple update checker added

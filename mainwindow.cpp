@@ -296,6 +296,17 @@ void MainWindow::initActions()
         updater_->setDownloaderEnabled(DEFS_URL, true);
         updater_->setMandatoryUpdate(DEFS_URL, false);
 
+#ifdef Q_OS_DARWIN
+#ifdef Q_PROCESSOR_ARM
+        updater_->setPlatformKey(DEFS_URL, "macos-arm64");
+#endif
+
+#ifdef Q_PROCESSOR_X86
+        updater_->setPlatformKey(DEFS_URL, "macos-x86_64");
+#endif
+
+#endif
+
         /* Check for updates */
         updater_->checkForUpdates(DEFS_URL);
     });
