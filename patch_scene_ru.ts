@@ -470,22 +470,22 @@
     <message>
         <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="217"/>
         <source>The installer will open separately</source>
-        <translation type="unfinished"></translation>
+        <translation>Программа установки будет запущена отдельно</translation>
     </message>
     <message>
         <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="224"/>
         <source>Click &quot;OK&quot; to begin installing the update</source>
-        <translation type="unfinished"></translation>
+        <translation>Нажмите &quot;OK&quot; для установки обновления</translation>
     </message>
     <message>
         <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="226"/>
         <source>In order to install the update, you may need to quit the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Для установки обновления, может потребоваться завершить приложение.</translation>
     </message>
     <message>
         <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="230"/>
         <source>In order to install the update, you may need to quit the application. This is a mandatory update, exiting now will close the application</source>
-        <translation type="unfinished"></translation>
+        <translation>Для установки обновления, может потребоваться завершить приложение. Это обязательно обновление, после выход из диалога приложение будет закрыто</translation>
     </message>
     <message>
         <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="249"/>
@@ -500,30 +500,30 @@
     <message>
         <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="270"/>
         <source>Are you sure you want to cancel the download? This is a mandatory update, exiting now will close the application</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы действительно хотите отметить загрузку? Это обязательное обновление, после выхода из диалога приложение будет закрыто</translation>
     </message>
     <message>
         <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="328"/>
         <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="337"/>
         <source>%1 bytes</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 байт</translation>
     </message>
     <message>
         <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="331"/>
         <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="340"/>
         <source>%1 KB</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="334"/>
         <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="343"/>
         <source>%1 MB</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="345"/>
         <source>of</source>
-        <translation type="unfinished"></translation>
+        <translation>из</translation>
     </message>
     <message>
         <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="391"/>
@@ -592,12 +592,12 @@
     <message>
         <location filename="mainwindow.ui" line="723"/>
         <source>Maximize</source>
-        <translation type="unfinished"></translation>
+        <translation>Развернуть</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="864"/>
         <source>Fullscreen</source>
-        <translation type="unfinished"></translation>
+        <translation>Полный экран</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="867"/>
@@ -1271,7 +1271,7 @@ Do you wan&apos;t to save it before closing?</source>
     <message>
         <location filename="3rd-party/QSimpleUpdater/src/Updater.cpp" line="438"/>
         <source>Would you like to download the update now? This is a mandatory update, exiting now will close the application</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы хотите скачать обновление прямо сейчас? Это обязательное обновление, после выхода из диалога приложение будет закрыто</translation>
     </message>
     <message>
         <location filename="3rd-party/QSimpleUpdater/src/Updater.cpp" line="443"/>
@@ -1309,7 +1309,17 @@ Version: %1 (build %2)
 Copyright: Serge Poltavski, 2024
 
 </source>
-        <translation type="unfinished"></translation>
+        <translation>![ceam_logo_color.png](:/ceam_logo_color.png)
+
+**PatchScene** - программа для создания сценических схем
+
+Разработано в **ЦЭАМ** (Центре электроакустической музыки Московской Консерватории)
+
+Версия: %1 (сборка %2)
+
+© Сергей Полтавский, 2024
+
+</translation>
     </message>
     <message>
         <location filename="about_window.cpp" line="64"/>
@@ -1355,7 +1365,7 @@ _to Russian:_ Serge Poltavski</source>
 **Translations:**
 
 _to Russian:_ Serge Poltavski</oldsource>
-        <translation type="unfinished">**Благодарности:**
+        <translation>**Благодарности:**
 
 - Наталья Плотникова
 
@@ -1402,7 +1412,7 @@ serge.poltavski@gmail.com
 __CEAM__
 
 http://ceam.space</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="about_window.cpp" line="112"/>
@@ -1693,7 +1703,7 @@ http://ceam.space</source>
     <message>
         <location filename="diagram_meta_dialog.cpp" line="116"/>
         <source>+7XXX XXX-XX-XX</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
