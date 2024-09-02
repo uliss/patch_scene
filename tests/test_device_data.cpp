@@ -20,17 +20,19 @@
 using namespace ceam;
 
 void TestDeviceData::construct()
-{
+{    
     DeviceData data(DEV_NULL_ID);
     QVERIFY(data.isNull());
     QCOMPARE(data.id(), DEV_NULL_ID);
     QVERIFY(data.showInDeviceCategory());
     QVERIFY(data.showTitle());
     QCOMPARE(data.batteryCount(), 0);
-    QCOMPARE(data.batteryType(), BatteryType::None);
+    // for Qt6.2 using verify instead of compare
+    QVERIFY(data.batteryType() == BatteryType::None);
     QCOMPARE(data.pos(), QPointF());
     QCOMPARE(data.zoom(), 1);
-    QCOMPARE(data.category(), ItemCategory::Device);
+    // for Qt6.2 using verify instead of compare
+    QVERIFY(data.category() == ItemCategory::Device);
 }
 
 void TestDeviceData::toJson()
