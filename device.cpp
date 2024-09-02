@@ -451,9 +451,10 @@ void Device::createTitle(qreal wd)
     clearTitle();
 
     if (data_->showTitle()) {
-        title_ = new QGraphicsTextItem(data_->title(), this);
+        title_ = new QGraphicsTextItem(data_->title());
         title_->setTextWidth(wd);
         title_->setToolTip(data_->modelVendor());
+        title_->setParentItem(this);
     }
 }
 
