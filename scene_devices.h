@@ -123,7 +123,7 @@ public:
     bool checkConnection(const ConnectionData& conn) const;
 
     bool hasSelected() const;
-    void setSelected(const QList<DeviceId>& ids, bool value);
+    int setSelected(const QList<DeviceId>& ids, bool value);
     void toggleSelected(const QList<DeviceId>& ids);
 
     bool moveBy(const QHash<DeviceId, QPointF>& deltas);

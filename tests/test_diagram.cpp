@@ -120,3 +120,57 @@ void TestDiagram::moveSelectedFrom()
     dia.redo();
     QCOMPARE(dia.devices().findData(100)->pos(), QPointF(150, 150));
 }
+
+void TestDiagram::cmdPlaceInRowSelected()
+{
+    Diagram dia(100, 100);
+
+    // 1 devices
+    dia.devices().add(make_dev(100, { 50, 100 }));
+    QCOMPARE(dia.devices().setSelected({ 100 }, true), 1);
+    dia.cmdPlaceInRowSelected();
+    QCOMPARE(dia.devices().findData(100)->pos(), QPointF(50, 100));
+
+    // 2 devices
+    dia.devices().add(make_dev(101, { 1050, 500 }));
+    QCOMPARE(dia.devices().setSelected({ 100, 101 }, true), 2);
+    dia.cmdPlaceInRowSelected();
+    QCOMPARE(dia.devices().findData(100)->pos(), QPointF(50, 100));
+    QCOMPARE(dia.devices().findData(101)->pos(), QPointF(130, 100));
+
+    // 3 devices
+    dia.devices().add(make_dev(102, { 10, 25 }));
+    QCOMPARE(dia.devices().setSelected({ 100, 101, 102 }, true), 3);
+    dia.cmdPlaceInRowSelected();
+
+    QCOMPARE(dia.devices().findData(102)->pos(), QPointF(10, 25));
+    QCOMPARE(dia.devices().findData(100)->pos(), QPointF(90, 25));
+    QCOMPARE(dia.devices().findData(101)->pos(), QPointF(170, 25));
+}
+
+void TestDiagram::cmdPlaceInColumnSelected()
+{
+    Diagram dia(100, 100);
+
+    // 1 devices
+    dia.devices().add(make_dev(100, { 50, 100 }));
+    QCOMPARE(dia.devices().setSelected({ 100 }, true), 1);
+    dia.cmdPlaceInColumnSelected();
+    QCOMPARE(dia.devices().findData(100)->pos(), QPointF(50, 100));
+
+    // 2 devices
+    dia.devices().add(make_dev(101, { 1050, 500 }));
+    QCOMPARE(dia.devices().setSelected({ 100, 101 }, true), 2);
+    dia.cmdPlaceInColumnSelected();
+    QCOMPARE(dia.devices().findData(100)->pos(), QPointF(50, 100));
+    QCOMPARE(dia.devices().findData(101)->pos(), QPointF(50, 124));
+
+    // 3 devices
+    dia.devices().add(make_dev(102, { 10, 25 }));
+    QCOMPARE(dia.devices().setSelected({ 100, 101, 102 }, true), 3);
+    dia.cmdPlaceInColumnSelected();
+
+    QCOMPARE(dia.devices().findData(102)->pos(), QPointF(10, 25));
+    QCOMPARE(dia.devices().findData(100)->pos(), QPointF(10, 49));
+    QCOMPARE(dia.devices().findData(101)->pos(), QPointF(10, 73));
+}

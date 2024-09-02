@@ -24,6 +24,8 @@ private slots:
     void removeDevice();
     void moveSelectedBy();
     void moveSelectedFrom();
+    void cmdPlaceInRowSelected();
+    void cmdPlaceInColumnSelected();
 };
 
 #endif // TEST_DIAGRAM_H

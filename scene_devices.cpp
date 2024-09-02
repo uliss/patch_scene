@@ -254,15 +254,21 @@ bool SceneDevices::hasSelected() const
     return false;
 }
 
-void SceneDevices::setSelected(const QList<DeviceId>& ids, bool value)
+int SceneDevices::setSelected(const QList<DeviceId>& ids, bool value)
 {
     QSignalBlocker sb(scene_);
 
+    int count = 0;
+
     for (auto id : ids) {
         auto it = devices_.find(id);
-        if (it != devices_.end())
+        if (it != devices_.end()) {
             it->second->setSelected(value);
+            count++;
+        }
     }
+
+    return count;
 }
 
 void SceneDevices::toggleSelected(const QList<DeviceId>& ids)

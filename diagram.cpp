@@ -434,6 +434,73 @@ void Diagram::cmdPaste()
     undo_stack_->push(paste);
 }
 
+void Diagram::cmdPlaceInColumnSelected()
+{
+    int count = 0;
+    qreal min_y = std::numeric_limits<qreal>::max();
+    std::vector<std::pair<DeviceId, const Device*>> sel_data;
+    devices_.foreachSelectedDevice([&count, &min_y, &sel_data](const Device* dev) {
+        min_y = std::min(min_y, dev->y());
+        sel_data.push_back({ dev->id(), dev });
+
+        count++;
+    });
+    if (count < 2)
+        return;
+
+    std::sort(sel_data.begin(), sel_data.end(),
+        [](const std::pair<DeviceId, const Device*>& a, const std::pair<DeviceId, const Device*>& b) {
+            return a.second->y() < b.second->y();
+        });
+
+    qreal xpos = sel_data[0].second->x();
+    qreal ypos = min_y;
+
+    QHash<DeviceId, QPointF> deltas;
+    for (auto i = 1; i < sel_data.size(); i++) {
+        auto dev = sel_data[i].second;
+        auto prev_dev = sel_data[i - 1].second;
+        ypos += prev_dev->boundingRect().height();
+        deltas[dev->id()] = { xpos - dev->x(), ypos - dev->y() };
+    }
+
+    auto move_by = new MoveByDevices(this, deltas);
+    undo_stack_->push(move_by);
+}
+
+void Diagram::cmdPlaceInRowSelected()
+{
+    int count = 0;
+    qreal min_x = std::numeric_limits<qreal>::max();
+    std::vector<std::pair<DeviceId, const Device*>> sel_data;
+    devices_.foreachSelectedDevice([&count, &min_x, &sel_data](const Device* dev) {
+        min_x = std::min(min_x, dev->x());
+        sel_data.push_back({ dev->id(), dev });
+
+        count++;
+    });
+    if (count < 2)
+        return;
+
+    std::sort(sel_data.begin(), sel_data.end(),
+        [](const std::pair<DeviceId, const Device*>& a, const std::pair<DeviceId, const Device*>& b) {
+            return a.second->x() < b.second->x();
+        });
+
+    qreal xpos = min_x;
+    qreal ypos = sel_data[0].second->y();
+    QHash<DeviceId, QPointF> deltas;
+    for (auto i = 1; i < sel_data.size(); i++) {
+        auto dev = sel_data[i].second;
+        auto prev_dev = sel_data[i - 1].second;
+        xpos += prev_dev->boundingRect().width();
+        deltas[dev->id()] = { xpos - dev->x(), ypos - dev->y() };
+    }
+
+    auto move_by = new MoveByDevices(this, deltas);
+    undo_stack_->push(move_by);
+}
+
 void Diagram::cmdReconnectDevice(const ConnectionData& old_conn, const ConnectionData& new_conn)
 {
     auto recon = new ReconnectDevice(this, old_conn, new_conn);
@@ -456,6 +523,9 @@ Device* Diagram::addDevice(const SharedDeviceData& data)
 
     connect(dev, SIGNAL(distributeHorizontal()), this, SLOT(cmdDistributeHSelected()));
     connect(dev, SIGNAL(distributeVertical()), this, SLOT(cmdDistributeVSelected()));
+
+    connect(dev, SIGNAL(placeInColumn()), this, SLOT(cmdPlaceInColumnSelected()));
+    connect(dev, SIGNAL(placeInRow()), this, SLOT(cmdPlaceInRowSelected()));
 
     emit sceneChanged();
 
@@ -942,6 +1012,26 @@ void Diagram::contextMenuEvent(QContextMenuEvent* event)
         auto ver_align = new QAction(tr("Align &vertical"), this);
         connect(ver_align, SIGNAL(triggered(bool)), this, SLOT(cmdAlignVSelected()));
         menu.addAction(ver_align);
+
+        auto place_hor = new QAction(tr("Place in row"), &menu);
+        connect(place_hor, SIGNAL(triggered(bool)), this, SLOT(cmdPlaceInRowSelected()));
+        menu.addAction(place_hor);
+
+        auto place_ver = new QAction(tr("Place in column"), &menu);
+        connect(place_ver, SIGNAL(triggered(bool)), this, SLOT(cmdPlaceInColumnSelected()));
+         menu.addAction(place_ver);
+
+        if (devices_.selectedCount() >= 3) {
+            menu.addSeparator();
+
+            auto distrib_hor = new QAction(tr("Distribute horizontal"), &menu);
+            connect(distrib_hor, SIGNAL(triggered(bool)), this, SIGNAL(distributeHorizontal()));
+            menu.addAction(distrib_hor);
+
+            auto distrib_ver = new QAction(tr("Distribute vertical"), &menu);
+            connect(distrib_ver, SIGNAL(triggered(bool)), this, SIGNAL(distributeVertical()));
+            menu.addAction(distrib_ver);
+        }
     }
 
     menu.exec(event->globalPos());

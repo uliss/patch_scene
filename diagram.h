@@ -185,6 +185,8 @@ public slots:
     void cmdMoveSelectedDevicesBy(qreal dx, qreal dy);
     void cmdMoveSelectedDevicesFrom(const QPointF& from, const QPointF& to);
     void cmdPaste();
+    void cmdPlaceInColumnSelected();
+    void cmdPlaceInRowSelected();
     void cmdReconnectDevice(const ConnectionData& old_conn, const ConnectionData& new_conn);
     void cmdRemoveDevice(const SharedDeviceData& data);
     void cmdRemoveSelected();

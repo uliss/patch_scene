@@ -108,6 +108,8 @@ signals:
     void distributeVertical();
     void duplicateDevice(SharedDeviceData data);
     void removeDevice(SharedDeviceData data);
+    void placeInRow();
+    void placeInColumn();
     void updateDevice(SharedDeviceData data);
 
 private:

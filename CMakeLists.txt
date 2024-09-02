@@ -181,6 +181,7 @@ set_target_properties(
                TRUE)
 
 add_custom_target(translations SOURCES patch_scene_ru.ts)
+add_custom_target(misc SOURCES CHANGELOG.md)
 
 include(GNUInstallDirs)
 install(

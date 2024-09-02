@@ -297,23 +297,36 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 
     auto sc = scene();
     if (sc && sc->selectedItems().count() >= 2) {
+        auto align_hor = new QAction(tr("Align horizontal"), &menu);
+        connect(align_hor, SIGNAL(triggered(bool)), this, SIGNAL(alignHorizontal()));
+
+        auto align_ver = new QAction(tr("Align vertical"), &menu);
+        connect(align_ver, SIGNAL(triggered(bool)), this, SIGNAL(alignVertical()));
+
+        auto distrib_hor = new QAction(tr("Distribute horizontal"), &menu);
+        connect(distrib_hor, SIGNAL(triggered(bool)), this, SIGNAL(distributeHorizontal()));
+
+        auto distrib_ver = new QAction(tr("Distribute vertical"), &menu);
+        connect(distrib_ver, SIGNAL(triggered(bool)), this, SIGNAL(distributeVertical()));
+
+        auto place_hor = new QAction(tr("Place in row"), &menu);
+        connect(place_hor, SIGNAL(triggered(bool)), this, SIGNAL(placeInRow()));
+
+        auto place_ver = new QAction(tr("Place in column"), &menu);
+        connect(place_ver, SIGNAL(triggered(bool)), this, SIGNAL(placeInColumn()));
+
+        menu.addAction(align_hor);
+        menu.addAction(align_ver);
         menu.addSeparator();
 
-        auto hAlign = new QAction(tr("Align horizontal"), &menu);
-        connect(hAlign, SIGNAL(triggered(bool)), this, SIGNAL(alignHorizontal()));
-        menu.addAction(hAlign);
+        if (sc->selectedItems().count() >= 3) {
+            menu.addAction(distrib_hor);
+            menu.addAction(distrib_ver);
+            menu.addSeparator();
+        }
 
-        auto vAlign = new QAction(tr("Align vertical"), &menu);
-        connect(vAlign, SIGNAL(triggered(bool)), this, SIGNAL(alignVertical()));
-        menu.addAction(vAlign);
-
-        auto hDist = new QAction(tr("Distribute horizontal"), &menu);
-        connect(hDist, SIGNAL(triggered(bool)), this, SIGNAL(distributeHorizontal()));
-        menu.addAction(hDist);
-
-        auto vDist = new QAction(tr("Distribute vertical"), &menu);
-        connect(vDist, SIGNAL(triggered(bool)), this, SIGNAL(distributeVertical()));
-        menu.addAction(vDist);
+        menu.addAction(place_hor);
+        menu.addAction(place_ver);
     } else {
         auto showTitle = new QAction(&menu);
         showTitle->setChecked(data_->showTitle());
