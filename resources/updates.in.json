@@ -4,21 +4,21 @@
       "open-url": "",
       "latest-version": "@PROJECT_VERSION@",
       "download-url": "https://github.com/uliss/patch_scene/releases/download/v@PROJECT_VERSION@/@WIN_INSTALLER_EXE@",
-      "changelog": "@PATCH_SCENE_UPDATE_INFO@",
+      "changelog": "",
       "mandatory": false
     },
     "macos-x86_64": {
       "open-url": "",
       "latest-version": "@PROJECT_VERSION@",
       "download-url": "https://github.com/uliss/patch_scene/releases/download/v@PROJECT_VERSION@/@MACOS_DMG_X86_64@",
-      "changelog": "@PATCH_SCENE_UPDATE_INFO@",
+      "changelog": "",
       "mandatory": false
     },
     "macos-arm64": {
       "open-url": "",
       "latest-version": "@PROJECT_VERSION@",
       "download-url": "https://github.com/uliss/patch_scene/releases/download/v@PROJECT_VERSION@/@MACOS_DMG_ARM64@",
-      "changelog": "@PATCH_SCENE_UPDATE_INFO@",
+      "changelog": "",
       "mandatory": false
     }
   }
