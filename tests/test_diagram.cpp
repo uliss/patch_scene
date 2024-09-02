@@ -20,9 +20,17 @@
 using namespace ceam;
 
 namespace {
+
+#ifdef Q_OS_LINUX
+constexpr int DEF_TXT_HT = 26;
+#else
+constexpr int DEF_TXT_HT = 24;
+#endif
+
 SharedDeviceData make_dev(DeviceId id, const QPointF& pos)
 {
     auto data = new DeviceData(id);
+    data->setTitle("abc");
     data->setPos(pos);
     return SharedDeviceData(data);
 }
@@ -163,7 +171,7 @@ void TestDiagram::cmdPlaceInColumnSelected()
     QCOMPARE(dia.devices().setSelected({ 100, 101 }, true), 2);
     dia.cmdPlaceInColumnSelected();
     QCOMPARE(dia.devices().findData(100)->pos(), QPointF(50, 100));
-    QCOMPARE(dia.devices().findData(101)->pos(), QPointF(50, 124));
+    QCOMPARE(dia.devices().findData(101)->pos(), QPointF(50, 100 + DEF_TXT_HT));
 
     // 3 devices
     dia.devices().add(make_dev(102, { 10, 25 }));
@@ -171,6 +179,6 @@ void TestDiagram::cmdPlaceInColumnSelected()
     dia.cmdPlaceInColumnSelected();
 
     QCOMPARE(dia.devices().findData(102)->pos(), QPointF(10, 25));
-    QCOMPARE(dia.devices().findData(100)->pos(), QPointF(10, 49));
-    QCOMPARE(dia.devices().findData(101)->pos(), QPointF(10, 73));
+    QCOMPARE(dia.devices().findData(100)->pos(), QPointF(10, 25 + DEF_TXT_HT));
+    QCOMPARE(dia.devices().findData(101)->pos(), QPointF(10, 25 + 2 * DEF_TXT_HT));
 }
