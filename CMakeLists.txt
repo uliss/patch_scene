@@ -224,13 +224,23 @@ if(GITHUB_CLI)
     message(STATUS "GitHub command line found: ${GITHUB_CLI}")
 endif()
 
+# package
+set(INNO_INSTALLER_NAME "PatchScene-${PROJECT_VERSION}-setup")
+set(WIN_INSTALLER_EXE "${INNO_INSTALLER_NAME}.exe")
+set(DMG_FILE "PatchScene-v${PROJECT_VERSION}-${CMAKE_SYSTEM_PROCESSOR}.dmg")
+set(PATCH_SCENE_UPDATE_INFO "
+    * inputs/outputs now placed in the rows, number of columns in row can be specified
+    * simple update checker added
+")
+
+configure_file(resources/updates.in.json ${PROJECT_SOURCE_DIR}/resources/updates.json @ONLY)
+
 if(APPLE)
     find_program(PLIST_BUDDY PlistBuddy PATHS /usr/libexec)
     find_program(DMGBUILD dmgbuild PATHS $ENV["PATH"])
 
     set(FILE_ICNS "${PROJECT_SOURCE_DIR}/resources/patch_scene_file.icns")
     set(APP_ZIP_FILE "PatchScene-v${PROJECT_VERSION}-${CMAKE_SYSTEM_PROCESSOR}.app.zip")
-    set(DMG_FILE "PatchScene-v${PROJECT_VERSION}-${CMAKE_SYSTEM_PROCESSOR}.dmg")
 
     configure_file(scripts/macos_make_dmg.sh ${PROJECT_BINARY_DIR}/macos_make_dmg.sh @ONLY)
     configure_file(resources/dmg_settings.json ${PROJECT_BINARY_DIR}/dmg_settings.json @ONLY)
@@ -283,7 +293,6 @@ if(WIN32)
             USES_TERMINAL)
     endif()
 
-    set(INNO_INSTALLER_NAME "PatchScene-${PROJECT_VERSION}-setup")
     configure_file(${PROJECT_SOURCE_DIR}/patch_scene.iss ${PROJECT_BINARY_DIR}/patch_scene.iss
                    @ONLY)
 
@@ -292,7 +301,7 @@ if(WIN32)
             dev_upload
             COMMAND ${GITHUB_CLI} release upload --clobber "v${PROJECT_VERSION}" ${APP_ZIP_NAME}
             COMMAND ${GITHUB_CLI} release upload --clobber "v${PROJECT_VERSION}"
-                    "${INNO_INSTALLER_NAME}.exe"
+                    ${WIN_INSTALLER_NAME}
             WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
             USES_TERMINAL)
     endif()

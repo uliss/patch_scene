@@ -13,7 +13,7 @@
  *****************************************************************************/
 #include "mainwindow.h"
 #include "about_window.h"
-// #include "app_updater_window.h"
+#include "app_updater_window.h"
 #include "app_version.h"
 #include "device_item_model.h"
 #include "device_library.h"
@@ -283,10 +283,10 @@ void MainWindow::initActions()
 
     connect(ui->actionZoomFit, SIGNAL(triggered()), diagram_, SLOT(zoomFit()));
 
-    // connect(ui->actionCheckUpdates, &QAction::triggered, this, [this]() {
-    //     auto up = new AppUpdaterWindow(this);
-    //     up->exec();
-    // });
+    connect(ui->actionCheckUpdates, &QAction::triggered, this, [this]() {
+        auto up = new AppUpdaterWindow(this);
+        up->exec();
+    });
 }
 
 void MainWindow::initLibrarySearch()
