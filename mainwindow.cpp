@@ -41,7 +41,7 @@
 
 #include "QSimpleUpdater.h"
 
-#define TEST_UPDATER
+// #define TEST_UPDATER
 
 #ifdef TEST_UPDATER
 constexpr const char* UPDATER_URL = "https://raw.githubusercontent.com/"
@@ -1123,8 +1123,6 @@ void MainWindow::exportToPdf()
     printer.setPrintProgram(QString("PatchScene v%1").arg(app_version()));
     printer.setFontEmbeddingEnabled(true);
     printer.setOutputFileName(pdf_file);
-
-    qDebug() << "resolution:" << printer.resolution();
 
     auto doc = exportToDocument(printer.pageRect(QPrinter::Point).size());
     if (!doc)
