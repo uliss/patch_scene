@@ -53,7 +53,7 @@ void AppUpdaterWindow::checkForUpdates()
     updater_->setMandatoryUpdate(DEFS_URL, false);
 
     /* Check for updates */
-    updater_->checkForUpdates(DEFS_URL);
+    // updater_->checkForUpdates(DEFS_URL);
 }
 
 void AppUpdaterWindow::updateChangelog(const QString& url)

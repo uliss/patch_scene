@@ -36,6 +36,7 @@
 
 class QToolButton;
 class DeviceLibrary;
+class QSimpleUpdater;
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -138,6 +139,7 @@ private:
     QString project_name_;
     QString file_name_;
     QSortFilterProxyModel* library_proxy_;
+    QSimpleUpdater* updater_;
 
     // models
     BatteryItemModel* battery_model_;

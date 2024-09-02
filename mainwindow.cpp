@@ -48,6 +48,8 @@ MainWindow::MainWindow(QWidget* parent)
     ui->setupUi(this);
     setStatusBar(new QStatusBar);
 
+    updater_ = QSimpleUpdater::getInstance();
+
     // createToolbarScaleView();
 
     setupDockTitle(ui->libraryDock);
@@ -284,8 +286,17 @@ void MainWindow::initActions()
     connect(ui->actionZoomFit, SIGNAL(triggered()), diagram_, SLOT(zoomFit()));
 
     connect(ui->actionCheckUpdates, &QAction::triggered, this, [this]() {
-        auto up = new AppUpdaterWindow(this);
-        up->exec();
+        constexpr const char* DEFS_URL = "https://raw.githubusercontent.com/"
+                                         "uliss/patch_scene/master/resources/updates.json";
+
+        updater_->setModuleVersion(DEFS_URL, app_version());
+        updater_->setNotifyOnFinish(DEFS_URL, true);
+        updater_->setNotifyOnUpdate(DEFS_URL, true);
+        updater_->setDownloaderEnabled(DEFS_URL, true);
+        updater_->setMandatoryUpdate(DEFS_URL, false);
+
+        /* Check for updates */
+        updater_->checkForUpdates(DEFS_URL);
     });
 }
 
