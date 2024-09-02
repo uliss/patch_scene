@@ -2,8 +2,8 @@
   "updates": {
     "windows": {
       "open-url": "",
-      "latest-version": "0.3.0",
-      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.3.0/PatchScene-0.3.0-setup.exe",
+      "latest-version": "0.3.1",
+      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.3.1/PatchScene-0.3.1-setup.exe",
       "changelog": "
     * inputs/outputs now placed in the rows, number of columns in row can be specified
     * simple update checker added
@@ -12,8 +12,8 @@
     },
     "macos-x86_64": {
       "open-url": "",
-      "latest-version": "0.3.0",
-      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.3.0/PatchScene-v0.3.0-x86_64.dmg",
+      "latest-version": "0.3.1",
+      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.3.1/PatchScene-v0.3.1-x86_64.dmg",
       "changelog": "
     * inputs/outputs now placed in the rows, number of columns in row can be specified
     * simple update checker added
@@ -22,8 +22,8 @@
     },
     "macos-arm64": {
       "open-url": "",
-      "latest-version": "0.3.0",
-      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.3.0/PatchScene-v0.3.0-arm64.dmg",
+      "latest-version": "0.3.1",
+      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.3.1/PatchScene-v0.3.1-arm64.dmg",
       "changelog": "
     * inputs/outputs now placed in the rows, number of columns in row can be specified
     * simple update checker added
