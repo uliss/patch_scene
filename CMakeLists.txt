@@ -302,7 +302,7 @@ if(WIN32)
             dev_upload
             COMMAND ${GITHUB_CLI} release upload --clobber "v${PROJECT_VERSION}" ${APP_ZIP_NAME}
             COMMAND ${GITHUB_CLI} release upload --clobber "v${PROJECT_VERSION}"
-                    ${WIN_INSTALLER_NAME}
+                    ${WIN_INSTALLER_EXE}
             WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
             USES_TERMINAL)
     endif()
