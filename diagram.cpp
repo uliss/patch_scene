@@ -1221,8 +1221,8 @@ void Diagram::moveItemsBy(const QHash<DeviceId, QPointF>& deltas)
         if (devices_.moveBy(deltas)) {
             notify = true;
 
-            for (auto kv : deltas.asKeyValueRange())
-                updateConnectionPos(kv.first);
+            for (auto id : deltas.keys())
+                updateConnectionPos(id);
         }
     }
 
