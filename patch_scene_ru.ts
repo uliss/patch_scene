@@ -43,6 +43,19 @@
     </message>
 </context>
 <context>
+    <name>AppUpdaterWindow</name>
+    <message>
+        <location filename="app_updater_window.ui" line="14"/>
+        <source>Update information</source>
+        <translation>Информация об обновлении</translation>
+    </message>
+    <message>
+        <location filename="app_updater_window.ui" line="47"/>
+        <source>Check</source>
+        <translation>Проверить</translation>
+    </message>
+</context>
+<context>
     <name>BatteryItemModel</name>
     <message>
         <source>Type</source>
@@ -392,6 +405,172 @@
     <message>
         <source>manager</source>
         <translation type="vanished">менеджер</translation>
+    </message>
+</context>
+<context>
+    <name>Downloader</name>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.ui" line="23"/>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="263"/>
+        <source>Updater</source>
+        <translation>Обновление</translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.ui" line="90"/>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="110"/>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="345"/>
+        <source>Downloading updates</source>
+        <translation>Скачивание обновлений</translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.ui" line="113"/>
+        <source>Time remaining: 0 minutes</source>
+        <translation>Оставшееся время: 0 минут</translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.ui" line="154"/>
+        <source>Open</source>
+        <translation>Открыть</translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.ui" line="161"/>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="109"/>
+        <source>Stop</source>
+        <translation>Остановить</translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="111"/>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="445"/>
+        <source>Time remaining</source>
+        <translation>Оставшееся время</translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="111"/>
+        <source>unknown</source>
+        <translation>неизвестно</translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="197"/>
+        <source>Error</source>
+        <translation>Ошибка</translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="197"/>
+        <source>Cannot find downloaded update!</source>
+        <translation>Не могу найти скачанное обновление!</translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="215"/>
+        <source>Close</source>
+        <translation>Закрыть</translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="216"/>
+        <source>Download complete!</source>
+        <translation>Загрузка завершена!</translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="217"/>
+        <source>The installer will open separately</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="224"/>
+        <source>Click &quot;OK&quot; to begin installing the update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="226"/>
+        <source>In order to install the update, you may need to quit the application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="230"/>
+        <source>In order to install the update, you may need to quit the application. This is a mandatory update, exiting now will close the application</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="249"/>
+        <source>Click the &quot;Open&quot; button to apply the update</source>
+        <translation>Нажмите кнопку &quot;Открыть&quot;, чтобы применить обновление</translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="267"/>
+        <source>Are you sure you want to cancel the download?</source>
+        <translation>Вы действительно хотите отметить загрузку?</translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="270"/>
+        <source>Are you sure you want to cancel the download? This is a mandatory update, exiting now will close the application</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="328"/>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="337"/>
+        <source>%1 bytes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="331"/>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="340"/>
+        <source>%1 KB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="334"/>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="343"/>
+        <source>%1 MB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="345"/>
+        <source>of</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="391"/>
+        <source>Downloading Updates</source>
+        <translation>Загрузка обновления</translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="392"/>
+        <source>Time Remaining</source>
+        <translation>Оставшееся время</translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="392"/>
+        <source>Unknown</source>
+        <translation>Неизвестно</translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="419"/>
+        <source>about %1 hours</source>
+        <translation>около %1 часов</translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="421"/>
+        <source>about one hour</source>
+        <translation>около часа</translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="430"/>
+        <source>%1 minutes</source>
+        <translation>%1 минут</translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="432"/>
+        <source>1 minute</source>
+        <translation>1 минута</translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="440"/>
+        <source>%1 seconds</source>
+        <translation>%1 секунд</translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Downloader.cpp" line="442"/>
+        <source>1 second</source>
+        <translation>1 секунда</translation>
     </message>
 </context>
 <context>
@@ -1085,6 +1264,34 @@ Do you wan&apos;t to save it before closing?</source>
     </message>
 </context>
 <context>
+    <name>Updater</name>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Updater.cpp" line="435"/>
+        <source>Would you like to download the update now?</source>
+        <translation>Вы хотите скачать обновление прямо сейчас?</translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Updater.cpp" line="438"/>
+        <source>Would you like to download the update now? This is a mandatory update, exiting now will close the application</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Updater.cpp" line="443"/>
+        <source>Version %1 of %2 has been released!</source>
+        <translation>Версия %2 %1 доступна для скачивания!</translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Updater.cpp" line="478"/>
+        <source>No updates are available for the moment</source>
+        <translation>На данный момент обновления отсутствуют</translation>
+    </message>
+    <message>
+        <location filename="3rd-party/QSimpleUpdater/src/Updater.cpp" line="480"/>
+        <source>Congratulations! You are running the latest version of %1</source>
+        <translation>Поздравляем! У вас установлена последняя версия %1</translation>
+    </message>
+</context>
+<context>
     <name>ceam::AboutWindow</name>
     <message>
         <location filename="about_window.cpp" line="53"/>
@@ -1413,32 +1620,32 @@ http://ceam.space</source>
         <translation type="vanished">Выровнять по горизонтали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="905"/>
+        <location filename="diagram.cpp" line="908"/>
         <source>&amp;Add device</source>
         <translation>&amp;Добавить элемент</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="913"/>
+        <location filename="diagram.cpp" line="916"/>
         <source>&amp;Clear background</source>
         <translation>&amp;Удалить фоновое изображение</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="919"/>
+        <location filename="diagram.cpp" line="922"/>
         <source>&amp;Replace background</source>
         <translation>&amp;Заменить фоновое изображение</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="925"/>
+        <location filename="diagram.cpp" line="928"/>
         <source>&amp;Set background</source>
         <translation>&amp;Установить фоновое изображение</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="935"/>
+        <location filename="diagram.cpp" line="938"/>
         <source>Align &amp;horizontal</source>
         <translation>Выровнять по &amp;горизонтали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="939"/>
+        <location filename="diagram.cpp" line="942"/>
         <source>Align &amp;vertical</source>
         <translation>Выровнять по &amp;вертикали</translation>
     </message>
@@ -1530,7 +1737,7 @@ http://ceam.space</source>
         <translation>Масштаб %1%</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="297"/>
+        <location filename="mainwindow.cpp" line="300"/>
         <source>search in library</source>
         <translation>поиск в библиотеке</translation>
     </message>
@@ -1539,224 +1746,230 @@ http://ceam.space</source>
         <translation type="vanished">Новый проект - PatchScene</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="451"/>
+        <location filename="mainwindow.cpp" line="454"/>
         <source>Open image</source>
         <translation>Открыть изображение</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="453"/>
+        <location filename="mainwindow.cpp" line="456"/>
         <source>Image files (*.JPG *.jpg *.jpeg *.PNG *.png *.SVG *.svg)</source>
         <translation>Изображения (*.JPG *.jpg *.jpeg *.PNG *.png *.SVG *.svg)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="667"/>
+        <location filename="mainwindow.cpp" line="670"/>
         <source>Warning</source>
         <translation>Внимание</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="659"/>
+        <location filename="mainwindow.cpp" line="662"/>
         <source>Document is not saved!
 Do you wan&apos;t to save it before closing?</source>
         <translation>Документ не сохранен!
 Сохранить его перед закрытием?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="432"/>
+        <location filename="mainwindow.cpp" line="435"/>
         <source>New Project[*] - PatchScene</source>
         <translation>Новый проект[*] - PatchScene</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="434"/>
+        <location filename="mainwindow.cpp" line="437"/>
         <source>%1[*] - PatchScene</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="721"/>
+        <location filename="mainwindow.cpp" line="734"/>
         <source>devices</source>
         <translation>устройства</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="726"/>
+        <location filename="mainwindow.cpp" line="739"/>
         <source>instruments</source>
         <translation>инструменты</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="731"/>
+        <location filename="mainwindow.cpp" line="744"/>
         <source>sends</source>
         <translation>посылы</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="736"/>
+        <location filename="mainwindow.cpp" line="749"/>
         <source>returns</source>
         <translation>возвраты</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="741"/>
+        <location filename="mainwindow.cpp" line="754"/>
         <source>furniture</source>
         <translation>инвентарь</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="746"/>
+        <location filename="mainwindow.cpp" line="759"/>
         <source>humans</source>
         <translation>люди</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="789"/>
+        <location filename="mainwindow.cpp" line="802"/>
         <source>Event date: %1</source>
         <translation>Дата события %1</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="792"/>
+        <location filename="mainwindow.cpp" line="705"/>
+        <location filename="mainwindow.cpp" line="805"/>
         <source>Information</source>
         <translation>Информация</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="796"/>
+        <location filename="mainwindow.cpp" line="706"/>
+        <source>You are opening the file created in the more recent PatchScene version, then you are using. Some features could be unsupported!</source>
+        <translation>Вы открываете файл, созданный в более новой версии PatchScene, чем вы используете сейчас. Некоторые возможности могут быть недоступны!</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="809"/>
         <source>Contacts</source>
         <translation>Контакты</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="798"/>
+        <location filename="mainwindow.cpp" line="811"/>
         <source>Name</source>
         <translation>Имя</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="798"/>
+        <location filename="mainwindow.cpp" line="811"/>
         <source>Work</source>
         <translation>Должность</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="798"/>
+        <location filename="mainwindow.cpp" line="811"/>
         <source>Phone</source>
         <translation>Телефон</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="798"/>
+        <location filename="mainwindow.cpp" line="811"/>
         <source>Email</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="804"/>
+        <location filename="mainwindow.cpp" line="817"/>
         <source>Scheme</source>
         <translation>Схема</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="807"/>
+        <location filename="mainwindow.cpp" line="820"/>
         <source>Devices</source>
         <translation>Устройства</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="810"/>
+        <location filename="mainwindow.cpp" line="823"/>
         <source>Connections</source>
         <translation>Соединения</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="813"/>
+        <location filename="mainwindow.cpp" line="826"/>
         <source>Sends</source>
         <translation>Посылы</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="816"/>
+        <location filename="mainwindow.cpp" line="829"/>
         <source>Returns</source>
         <translation>Возвраты</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="820"/>
+        <location filename="mainwindow.cpp" line="833"/>
         <source>Batteries</source>
         <translation>Батарейки</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="824"/>
+        <location filename="mainwindow.cpp" line="837"/>
         <source>Created with PatchScene v%1</source>
         <translation>Создано при помощи PatchScene v%1</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="891"/>
+        <location filename="mainwindow.cpp" line="904"/>
         <source>Clear</source>
         <translation>Очистить</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="956"/>
+        <location filename="mainwindow.cpp" line="969"/>
         <source>Save project</source>
         <translation>Сохранить проект</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="956"/>
-        <location filename="mainwindow.cpp" line="1095"/>
+        <location filename="mainwindow.cpp" line="969"/>
+        <location filename="mainwindow.cpp" line="1108"/>
         <source>PatchScene projects (*.psc)</source>
         <translation>Проекты PatchScene (*.psc)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="985"/>
+        <location filename="mainwindow.cpp" line="998"/>
         <source>Export element to JSON format</source>
         <translation>Экспорт элемента в JSON формат</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="985"/>
-        <location filename="mainwindow.cpp" line="1010"/>
+        <location filename="mainwindow.cpp" line="998"/>
+        <location filename="mainwindow.cpp" line="1023"/>
         <source>JSON format (*.json)</source>
         <translation>JSON формат (*.json)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="992"/>
-        <location filename="mainwindow.cpp" line="1001"/>
-        <location filename="mainwindow.cpp" line="1018"/>
+        <location filename="mainwindow.cpp" line="1005"/>
+        <location filename="mainwindow.cpp" line="1014"/>
+        <location filename="mainwindow.cpp" line="1031"/>
         <source>JSON export error</source>
         <translation>Ошибка экспорта в JSON</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="993"/>
+        <location filename="mainwindow.cpp" line="1006"/>
         <source>Can&apos;t open file to writing: &apos;%1&apos;</source>
         <translation>Невозможно открыть файл для записи: &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1002"/>
-        <location filename="mainwindow.cpp" line="1019"/>
+        <location filename="mainwindow.cpp" line="1015"/>
+        <location filename="mainwindow.cpp" line="1032"/>
         <source>Can&apos;t write to file: &apos;%1&apos;</source>
         <translation>Ошибка при записи в файл: &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1010"/>
+        <location filename="mainwindow.cpp" line="1023"/>
         <source>Export elements to library</source>
         <translation>Экспортировать элементы в библиотеку</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1032"/>
+        <location filename="mainwindow.cpp" line="1045"/>
         <source>Export to OpenDocument format</source>
         <translation>Экспорт в OpenDocument формат</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1032"/>
+        <location filename="mainwindow.cpp" line="1045"/>
         <source>OpenDocument format (*.odt)</source>
         <translation>OpenDocument формат (*.odt)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1061"/>
+        <location filename="mainwindow.cpp" line="1074"/>
         <source>Export to PDF format</source>
         <translation>Экспорт в PDF формат</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1061"/>
+        <location filename="mainwindow.cpp" line="1074"/>
         <source>PDF format (*.pdf)</source>
         <translation>PDF формат (*.pdf)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1088"/>
+        <location filename="mainwindow.cpp" line="1101"/>
         <source>Import favorites</source>
         <translation>Импортировать избранное</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1088"/>
+        <location filename="mainwindow.cpp" line="1101"/>
         <source>Favorites collection (*.json)</source>
         <translation>Коллекция избранного (*.json)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1095"/>
+        <location filename="mainwindow.cpp" line="1108"/>
         <source>Open project</source>
         <translation>Открыть проект</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1108"/>
+        <location filename="mainwindow.cpp" line="1121"/>
         <source>Load &apos;%1&apos;</source>
         <translation>Загружен &apos;%1&apos;</translation>
     </message>

@@ -38,6 +38,9 @@ set(PROJECT_SOURCES
     about_window.ui
     app_settings.cpp
     app_settings.h
+    app_updater_window.h
+    app_updater_window.cpp
+    app_updater_window.ui
     app_version.cpp
     app_version.h
     application.cpp
@@ -157,8 +160,7 @@ endif()
 add_subdirectory(3rd-party/QSimpleUpdater)
 target_compile_definitions(QSimpleUpdater PUBLIC QSU_INCLUDE_MOC)
 
-add_library(patch_scene_lib STATIC ${PROJECT_SOURCES} app_updater_window.h app_updater_window.cpp
-                                   app_updater_window.ui)
+add_library(patch_scene_lib STATIC ${PROJECT_SOURCES})
 target_include_directories(patch_scene_lib PRIVATE ${PROJECT_BINARY_DIR})
 target_link_libraries(
     patch_scene_lib PRIVATE QSimpleUpdater Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::PrintSupport

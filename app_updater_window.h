@@ -34,7 +34,6 @@ public:
 public slots:
     void checkForUpdates();
     void updateChangelog(const QString& url);
-    void displayAppcast(const QString& url, const QByteArray& reply);
 
 private:
     Ui::AppUpdaterWindow* ui;
