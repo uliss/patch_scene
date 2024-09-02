@@ -3,7 +3,7 @@
     "windows": {
       "open-url": "",
       "latest-version": "0.3.3",
-      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.3.3/PatchScene-0.3.3-setup.exe",
+      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.3.3/PatchScene-win-v0.3.3-setup.exe",
       "changelog": "
     * Help->Contacts menu opens https://ceam.space
     * checking for app updater works
