@@ -13,7 +13,6 @@
  *****************************************************************************/
 #include "mainwindow.h"
 #include "about_window.h"
-#include "app_updater_window.h"
 #include "app_version.h"
 #include "device_item_model.h"
 #include "device_library.h"
@@ -38,6 +37,8 @@
 #include <QTextDocument>
 #include <QTextDocumentWriter>
 #include <QTextTable>
+
+#include "QSimpleUpdater.h"
 
 using namespace ceam;
 
