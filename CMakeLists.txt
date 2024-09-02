@@ -226,9 +226,9 @@ endif()
 # package
 set(INNO_INSTALLER_NAME "PatchScene-win-v${PROJECT_VERSION}-setup")
 set(WIN_INSTALLER_EXE "${INNO_INSTALLER_NAME}.exe")
-set(DMG_FILE "PatchScene-v${PROJECT_VERSION}-${CMAKE_SYSTEM_PROCESSOR}.dmg")
-set(MACOS_DMG_ARM64 "PatchScene-v${PROJECT_VERSION}-arm64.dmg")
-set(MACOS_DMG_X86_64 "PatchScene-v${PROJECT_VERSION}-x86_64.dmg")
+set(DMG_FILE "PatchScene-mac-v${PROJECT_VERSION}-${CMAKE_SYSTEM_PROCESSOR}.dmg")
+set(MACOS_DMG_ARM64 "PatchScene-mac-v${PROJECT_VERSION}-arm64.dmg")
+set(MACOS_DMG_X86_64 "PatchScene-mac-v${PROJECT_VERSION}-x86_64.dmg")
 set(PATCH_SCENE_UPDATE_INFO "
     * Help->Contacts menu opens https://ceam.space
     * checking for app updater works
