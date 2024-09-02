@@ -456,10 +456,10 @@ bool SceneDevices::moveBy(const QHash<DeviceId, QPointF>& deltas)
 {
     int count = 0;
 
-    for (auto kv : deltas.asKeyValueRange()) {
-        auto it = devices_.find(kv.first);
+    for (auto kv = deltas.begin(); kv != deltas.end(); ++kv) {
+        auto it = devices_.find(kv.key());
         if (it != devices_.end()) {
-            it->second->moveBy(kv.second.x(), kv.second.y());
+            it->second->moveBy(kv.value().x(), kv.value().y());
             count++;
         }
     }
