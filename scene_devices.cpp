@@ -487,7 +487,7 @@ bool SceneDevices::moveBy(const QHash<DeviceId, QPointF>& deltas)
     return count > 0;
 }
 
-bool SceneDevices::moveSelectedBy(int dx, int dy)
+bool SceneDevices::moveSelectedBy(qreal dx, qreal dy)
 {
     bool res = false;
 

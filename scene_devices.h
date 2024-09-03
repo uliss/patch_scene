@@ -131,7 +131,7 @@ public:
     /**
      * @complexity O(n)
      */
-    bool moveSelectedBy(int dx, int dy);
+    bool moveSelectedBy(qreal dx, qreal dy);
 
     QList<DeviceId> idList() const;
     QList<SharedDeviceData> dataList() const;
