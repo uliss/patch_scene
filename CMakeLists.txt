@@ -193,6 +193,8 @@ install(
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(patch_scene)
     # qt_standard_project_setup(I18N_TRANSLATED_LANGUAGES ru)
+    set(LUPDATE_OPTIONS "")
+    # set(LUPDATE_OPTIONS "-no-obsolete")
 
     qt_add_translations(
         patch_scene
@@ -209,7 +211,8 @@ if(QT_VERSION_MAJOR EQUAL 6)
         3rd-party/QSimpleUpdater/src/QSimpleUpdater.cpp
         3rd-party/QSimpleUpdater/src/Updater.cpp
         TS_FILES
-        patch_scene_ru.ts)
+        patch_scene_ru.ts
+        LUPDATE_OPTIONS ${LUPDATE_OPTIONS})
 endif()
 
 include(icon_tools)
