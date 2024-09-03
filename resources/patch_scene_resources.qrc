@@ -167,5 +167,8 @@
         <file>devices/table_3.svg</file>
         <file>devices/table_2.svg</file>
         <file>devices/table_4.svg</file>
+        <file>connectors/power_type_a_plug_male.svg</file>
+        <file>connectors/power_type_c_plug_male.svg</file>
+        <file>connectors/power_type_c_socket_female.svg</file>
     </qresource>
 </RCC>
