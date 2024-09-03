@@ -686,7 +686,31 @@ void Diagram::zoomOut()
 
 void Diagram::zoomFit()
 {
-    fitInView(scene_->bestFitRect(), Qt::KeepAspectRatio);
+    auto rect = scene_->bestFitRect();
+    if (rect.isEmpty())
+        return;
+
+    auto view_rect = viewport()->rect();
+    auto zoom_x = view_rect.width() / rect.width();
+    auto zoom_y = view_rect.height() / rect.height();
+    auto zoom_min = std::min(zoom_x, zoom_y);
+
+    if (MIN_ZOOM <= zoom_min && zoom_min <= MAX_ZOOM) {
+        fitInView(rect, Qt::KeepAspectRatio);
+        zoom_ = zoom_min;
+        emit zoomChanged(zoom_);
+
+    } else if (zoom_min < MIN_ZOOM) {
+        updateZoom(MIN_ZOOM);
+    } else { // zoom_min > MAX_ZOOM
+        auto rect_scale = zoom_min / MAX_ZOOM;
+        auto dx = (rect_scale - 1) * rect.width() * 0.5;
+        auto dy = (rect_scale - 1) * rect.height() * 0.5;
+        rect.adjust(-dx, -dy, dx, dy);
+        fitInView(rect, Qt::KeepAspectRatio);
+        zoom_ = MAX_ZOOM;
+        emit zoomChanged(zoom_);
+    }
 }
 
 void Diagram::setGridVisible(bool value)
@@ -1289,10 +1313,13 @@ void Diagram::clearUndoStack()
 
 void Diagram::updateZoom(qreal zoom)
 {
-    if (zoom < MIN_ZOOM || zoom > MAX_ZOOM)
+    if (zoom < MIN_ZOOM && zoom_ == MIN_ZOOM)
         return;
 
-    zoom_ = zoom;
+    if (zoom > MAX_ZOOM && zoom_ == MAX_ZOOM)
+        return;
+
+    zoom_ = qBound(MIN_ZOOM, zoom, MAX_ZOOM);
     setTransform(QTransform::fromScale(zoom_, zoom_));
     emit zoomChanged(zoom_);
 }
