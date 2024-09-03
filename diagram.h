@@ -260,7 +260,7 @@ private:
      */
     void updateConnectionStyle(Connection* conn);
 
-    void saveClickPos(const QPoint& pos);
+    void saveClickPos(const QPointF& pos);
 
     void selectTopDevice(const QList<QGraphicsItem*>& devs);
     std::optional<XletInfo> hoverDeviceXlet(const QList<QGraphicsItem*>& devs, const QPoint& pt) const;
@@ -278,7 +278,7 @@ private:
     QGraphicsRectItem* selection_ { nullptr };
     QGraphicsLineItem* tmp_connection_ { nullptr };
     QUndoStack* undo_stack_ { nullptr };
-    QPointF prev_event_pos_;
+    QPointF prev_move_pos_;
     QPointF prev_click_pos_;
     SceneDevices devices_;
     SceneConnections connections_;

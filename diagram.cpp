@@ -542,10 +542,10 @@ Device* Diagram::addDevice(const SharedDeviceData& data)
     return dev;
 }
 
-void Diagram::saveClickPos(const QPoint& pos)
+void Diagram::saveClickPos(const QPointF& pos)
 {
-    prev_event_pos_ = mapToScene(pos);
-    prev_click_pos_ = prev_event_pos_;
+    prev_move_pos_ = pos;
+    prev_click_pos_ = pos;
 }
 
 bool Diagram::setDeviceData(const SharedDeviceData& data)
@@ -890,7 +890,7 @@ void Diagram::mousePressEvent(QMouseEvent* event)
             if (scene_->selectedItems().empty()) {
                 state_machine_.setState(DiagramState::Init);
             } else {
-                saveClickPos(event->pos());
+                saveClickPos(event->position());
                 state_machine_.setState(DiagramState::SelectDevice);
             }
         } else {
@@ -922,9 +922,9 @@ void Diagram::mouseMoveEvent(QMouseEvent* event)
         state_machine_.setState(DiagramState::Move);
     } break;
     case DiagramState::Move: {
-        auto delta = mapToScene(event->pos()) - prev_event_pos_;
+        auto delta = (event->position() - prev_move_pos_) / zoom_;
         moveSelectedItemsBy(delta.x(), delta.y());
-        prev_event_pos_ = mapToScene(event->pos());
+        prev_move_pos_ = event->position();
     } break;
     case DiagramState::ConnectDevice:
         drawConnectionTo(event->pos());
