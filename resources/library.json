@@ -2557,6 +2557,11 @@
         "zoom": 1.25
       },
       {
+        "title": "Lamp",
+        "title-ru": "Лампа",
+        "image": "lamp_1"
+      },
+      {
         "title": "Stage",
         "title-ru": "Сцена",
         "image": "stage_1",

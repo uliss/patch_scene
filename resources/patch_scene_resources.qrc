@@ -165,5 +165,6 @@
         <file>devices/guitar_amp_1.svg</file>
         <file>icons/print.svg</file>
         <file>icons/update.svg</file>
+        <file>devices/lamp_1.svg</file>
     </qresource>
 </RCC>

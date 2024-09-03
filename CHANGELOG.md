@@ -4,6 +4,8 @@
 ### Added:
 - Place in row/column added into device/selection context menu
 - Check for updates ability
+- New furniture:
+  * lamp
 
 ## [0.3]
 ### Added:
