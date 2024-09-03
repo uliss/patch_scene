@@ -228,6 +228,7 @@ void MainWindow::initDeviceList()
     ui->deviceList->setSortingEnabled(true);
     ui->deviceList->sortByColumn(0, Qt::AscendingOrder);
 
+    ui->deviceList->setAlternatingRowColors(true);
     ui->deviceList->horizontalHeader()->setVisible(true);
     ui->deviceList->horizontalHeader()->setStretchLastSection(true);
     ui->deviceList->verticalHeader()->setVisible(false);
@@ -365,6 +366,7 @@ void MainWindow::initConnectionList()
     ui->connectionList->setModel(conn_model_->sortProxy());
     ui->connectionList->setSortingEnabled(true);
     ui->connectionList->sortByColumn(0, Qt::AscendingOrder);
+    ui->connectionList->setAlternatingRowColors(true);
 
     ui->connectionList->horizontalHeader()->setVisible(true);
     ui->connectionList->horizontalHeader()->setStretchLastSection(true);
@@ -409,6 +411,7 @@ void MainWindow::initSendList()
     ui->sendList->setModel(send_model_->sortProxy());
     ui->sendList->setSortingEnabled(true);
     ui->sendList->sortByColumn(0, Qt::AscendingOrder);
+    ui->sendList->setAlternatingRowColors(true);
 
     ui->sendList->horizontalHeader()->setVisible(true);
     ui->sendList->horizontalHeader()->setStretchLastSection(true);
@@ -456,6 +459,7 @@ void MainWindow::initFurnitureList()
     ui->furnitureList->setModel(furniture_model_->proxyModel());
     ui->furnitureList->setSortingEnabled(true);
     ui->furnitureList->sortByColumn(0, Qt::AscendingOrder);
+    ui->furnitureList->setAlternatingRowColors(true);
 
     ui->furnitureList->horizontalHeader()->setVisible(true);
     ui->furnitureList->horizontalHeader()->setStretchLastSection(true);
@@ -476,6 +480,7 @@ void MainWindow::initReturnList()
     ui->returnList->setModel(return_model_->sortProxy());
     ui->returnList->setSortingEnabled(true);
     ui->returnList->sortByColumn(0, Qt::AscendingOrder);
+    ui->returnList->setAlternatingRowColors(true);
 
     ui->returnList->horizontalHeader()->setVisible(true);
     ui->returnList->horizontalHeader()->setStretchLastSection(true);
