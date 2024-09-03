@@ -125,6 +125,7 @@
     <addaction name="actionZoomOut"/>
     <addaction name="actionZoomNormal"/>
     <addaction name="actionZoomFit"/>
+    <addaction name="actionZoomFitSelected"/>
     <addaction name="separator"/>
     <addaction name="actionFullscreen"/>
     <addaction name="separator"/>
@@ -893,6 +894,14 @@
   <action name="actionAboutShortcuts">
    <property name="text">
     <string>Shortcuts</string>
+   </property>
+  </action>
+  <action name="actionZoomFitSelected">
+   <property name="text">
+    <string>Zoom Fit Selected</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+2</string>
    </property>
   </action>
  </widget>

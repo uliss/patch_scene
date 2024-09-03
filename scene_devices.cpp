@@ -354,6 +354,26 @@ QRectF SceneDevices::boundingRect() const
     return rect;
 }
 
+QRectF SceneDevices::boundingSelectRect() const
+{
+    QRectF rect;
+    int i = 0;
+    for (auto& kv : devices_) {
+        auto dev = kv.second;
+        if (!dev->isSelected())
+            continue;
+
+        auto item_rect = dev->mapRectToScene(dev->boundingRect());
+
+        if (rect.isNull())
+            rect = item_rect;
+        else
+            rect |= item_rect;
+    }
+
+    return rect;
+}
+
 void SceneDevices::foreachDevice(std::function<void(Device*)> fn)
 {
     if (!fn)

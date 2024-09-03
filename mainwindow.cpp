@@ -300,7 +300,8 @@ void MainWindow::initActions()
     connect(ui->actionShowGrid, SIGNAL(triggered(bool)), diagram_, SLOT(setGridVisible(bool)));
     ui->actionShowGrid->setChecked(diagram_->gridVisible());
 
-    connect(ui->actionZoomFit, SIGNAL(triggered()), diagram_, SLOT(zoomFit()));
+    connect(ui->actionZoomFit, &QAction::triggered, diagram_, &Diagram::zoomFitBest);
+    connect(ui->actionZoomFitSelected, &QAction::triggered, diagram_, &Diagram::zoomFitSelected);
 
     connect(ui->actionCheckUpdates, &QAction::triggered, this,
         [this]() { updater_->checkForUpdates(UPDATER_URL); });

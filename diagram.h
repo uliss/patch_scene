@@ -206,7 +206,8 @@ public slots:
     void zoomIn();
     void zoomNormal();
     void zoomOut();
-    void zoomFit();
+    void zoomFitBest();
+    void zoomFitSelected();
 
 signals:
     void addToFavorites(SharedDeviceData data);
@@ -266,6 +267,8 @@ private:
     bool dropJson(const QPointF& pos, const QByteArray& json);
 
     QJsonValue appInfoJson() const;
+
+    void fitRect(const QRectF& rect);
 
 private:
     DiagramScene* scene_ { nullptr };

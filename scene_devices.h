@@ -140,6 +140,7 @@ public:
     QList<SharedDeviceData> selectedDataList() const;
 
     QRectF boundingRect() const;
+    QRectF boundingSelectRect() const;
 
     void foreachDevice(std::function<void(Device*)> fn);
     void foreachDevice(std::function<void(const Device*)> fn) const;

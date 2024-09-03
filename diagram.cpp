@@ -693,33 +693,22 @@ void Diagram::zoomOut()
     updateZoom(zoom_ * 2 / 3.0);
 }
 
-void Diagram::zoomFit()
+void Diagram::zoomFitBest()
 {
     auto rect = scene_->bestFitRect();
     if (rect.isEmpty())
         return;
 
-    auto view_rect = viewport()->rect();
-    auto zoom_x = view_rect.width() / rect.width();
-    auto zoom_y = view_rect.height() / rect.height();
-    auto zoom_min = std::min(zoom_x, zoom_y);
+    fitRect(rect);
+}
 
-    if (MIN_ZOOM <= zoom_min && zoom_min <= MAX_ZOOM) {
-        fitInView(rect, Qt::KeepAspectRatio);
-        zoom_ = zoom_min;
-        emit zoomChanged(zoom_);
+void Diagram::zoomFitSelected()
+{
+    auto rect = devices_.boundingSelectRect();
+    if (rect.isEmpty())
+        return;
 
-    } else if (zoom_min < MIN_ZOOM) {
-        updateZoom(MIN_ZOOM);
-    } else { // zoom_min > MAX_ZOOM
-        auto rect_scale = zoom_min / MAX_ZOOM;
-        auto dx = (rect_scale - 1) * rect.width() * 0.5;
-        auto dy = (rect_scale - 1) * rect.height() * 0.5;
-        rect.adjust(-dx, -dy, dx, dy);
-        fitInView(rect, Qt::KeepAspectRatio);
-        zoom_ = MAX_ZOOM;
-        emit zoomChanged(zoom_);
-    }
+    fitRect(rect);
 }
 
 void Diagram::setGridVisible(bool value)
@@ -1157,7 +1146,7 @@ bool Diagram::viewportEvent(QEvent* event)
                     zoomNormal();
                     centerOn(0, 0);
                 } else {
-                    zoomFit();
+                    zoomFitBest();
                 }
 
                 event->accept();
@@ -1391,6 +1380,30 @@ QJsonValue Diagram::appInfoJson() const
     obj[JSON_KEY_FORMAT_VERSION] = app_file_format_version();
 
     return obj;
+}
+
+void Diagram::fitRect(const QRectF& rect)
+{
+    auto view_rect = viewport()->rect();
+    auto zoom_x = view_rect.width() / rect.width();
+    auto zoom_y = view_rect.height() / rect.height();
+    auto zoom_min = std::min(zoom_x, zoom_y);
+
+    if (MIN_ZOOM <= zoom_min && zoom_min <= MAX_ZOOM) {
+        fitInView(rect, Qt::KeepAspectRatio);
+        zoom_ = zoom_min;
+        emit zoomChanged(zoom_);
+
+    } else if (zoom_min < MIN_ZOOM) {
+        updateZoom(MIN_ZOOM);
+    } else { // zoom_min > MAX_ZOOM
+        auto rect_scale = zoom_min / MAX_ZOOM;
+        auto dx = (rect_scale - 1) * rect.width() * 0.5;
+        auto dy = (rect_scale - 1) * rect.height() * 0.5;
+        fitInView(rect.adjusted(-dx, -dy, dx, dy), Qt::KeepAspectRatio);
+        zoom_ = MAX_ZOOM;
+        emit zoomChanged(zoom_);
+    }
 }
 
 QSet<ConnectionData> Diagram::findSelectedConnections() const
