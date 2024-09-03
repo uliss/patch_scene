@@ -146,6 +146,9 @@ private:
     int calcWidth() const;
     int calcHeight() const;
 
+    qreal imageWidth() const;
+    qreal imageHeight() const;
+
     qreal centerAlignedLeftPos(qreal width) const
     {
         return rect_.left() + (rect_.width() - width) * 0.5;

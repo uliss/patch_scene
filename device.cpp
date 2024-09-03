@@ -514,8 +514,7 @@ void Device::updateImagePos(const QRectF& bbox)
     if (title_ && data_->showTitle())
         yoff += title_->boundingRect().height();
 
-    auto image_wd = image_->boundingRect().width() * image_->scale();
-    image_->setPos(bbox.left() + (bbox.width() - image_wd) * 0.5, yoff);
+    image_->setPos(centerAlignedLeftPos(imageWidth()), yoff);
 }
 
 void Device::updateXletsPos(const QRectF& bbox)
@@ -551,7 +550,7 @@ int Device::calcWidth() const
     }
 
     if (image_)
-        w = qMax<int>(w, image_->boundingRect().width());
+        w = qMax<int>(w, imageWidth());
 
     return w;
 }
@@ -562,13 +561,21 @@ int Device::calcHeight() const
     if (title_ && data_->showTitle())
         h += title_->boundingRect().height();
 
-    if (image_)
-        h += image_->boundingRect().height() * image_->scale();
-
+    h += imageHeight();
     h += inputs_.boundingRect().height();
     h += outputs_.boundingRect().height();
 
     return h;
+}
+
+qreal Device::imageWidth() const
+{
+    return image_ ? (image_->boundingRect().width() * image_->scale()) : 0;
+}
+
+qreal Device::imageHeight() const
+{
+    return image_ ? (image_->boundingRect().height() * image_->scale()) : 0;
 }
 
 int Device::inletsYOff() const
@@ -577,8 +584,7 @@ int Device::inletsYOff() const
     if (title_ && data_->showTitle())
         yoff += title_->boundingRect().height();
 
-    if (image_)
-        yoff += image_->boundingRect().height() * image_->scale();
+    yoff += imageHeight();
 
     return qRound(yoff);
 }
