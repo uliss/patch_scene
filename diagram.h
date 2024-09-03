@@ -30,6 +30,8 @@
 #include <QUndoStack>
 #include <QWidget>
 
+class QPrinter;
+
 namespace ceam {
 
 class DiagramScene;
@@ -49,6 +51,7 @@ public:
     QSet<ConnectionData> findSelectedConnections() const;
 
     void printScheme() const;
+    void printScheme(QPrinter* printer) const;
 
     /**
      * Save diagram objects, connections and background into JSON object

@@ -280,6 +280,7 @@ void MainWindow::initActions()
     });
     connect(ui->actionExportToPdf, SIGNAL(triggered()), this, SLOT(exportToPdf()));
     connect(ui->actionExportToOdf, SIGNAL(triggered()), this, SLOT(exportToOdf()));
+    connect(ui->actionExportSchemeToPdf, &QAction::triggered, this, &MainWindow::exportSchemeToPdf);
 
     connect(ui->actionAddDevice, &QAction::triggered, this, [this]() {
         auto pos = diagram_->mapFromGlobal(QCursor::pos());
@@ -1085,6 +1086,33 @@ void MainWindow::exportItemData(const SharedDeviceData& data)
             tr("JSON export error"),
             tr("Can't write to file: '%1'").arg(json_file));
     }
+}
+
+void MainWindow::exportSchemeToPdf()
+{
+    auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, "", QStandardPaths::LocateDirectory);
+    if (file_name_.isEmpty()) {
+        path += "/NewScheme.pdf";
+    } else {
+        path += "/" + QFileInfo(file_name_).baseName() + "_scheme.pdf";
+    }
+
+    auto pdf_file = QFileDialog::getSaveFileName(this, tr("Export scheme to PDF format"), path, tr("PDF format (*.pdf)"));
+    if (pdf_file.isEmpty())
+        return;
+
+    if (QFileInfo(pdf_file).suffix().isEmpty())
+        pdf_file.append(".pdf");
+
+    QPrinter printer(QPrinter::HighResolution);
+
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setCreator(QString("PatchScene v%1").arg(app_version()));
+    printer.setPrintProgram(QString("PatchScene v%1").arg(app_version()));
+    printer.setFontEmbeddingEnabled(true);
+    printer.setOutputFileName(pdf_file);
+
+    diagram_->printScheme(&printer);
 }
 
 void MainWindow::exportAllItems(const QList<SharedDeviceData>& data)

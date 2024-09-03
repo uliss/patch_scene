@@ -758,6 +758,11 @@ void Diagram::printScheme() const
     }
 }
 
+void Diagram::printScheme(QPrinter* printer) const
+{
+    scene_->printDiagram(printer);
+}
+
 void Diagram::clearAll()
 {
     devices_.clear();

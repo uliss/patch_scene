@@ -67,6 +67,7 @@ public slots:
     void duplicateSelection();
     void exportAllItems(const QList<SharedDeviceData>& data);
     void exportItemData(const SharedDeviceData& data);
+    void exportSchemeToPdf();
     void exportToOdf();
     void exportToPdf();
     void importFavorites();
