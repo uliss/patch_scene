@@ -263,6 +263,7 @@ private:
     void saveClickPos(const QPointF& pos);
 
     void selectTopDevice(const QList<QGraphicsItem*>& devs);
+    void selectBottomDevice(const QList<QGraphicsItem*>& devs);
     std::optional<XletInfo> hoverDeviceXlet(const QList<QGraphicsItem*>& devs, const QPoint& pt) const;
     void updateZoom(qreal zoom);
 

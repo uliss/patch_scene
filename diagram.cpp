@@ -884,7 +884,9 @@ void Diagram::mousePressEvent(QMouseEvent* event)
                 cmdToggleDevices(devs);
             } else if (event->modifiers().testFlag(Qt::ShiftModifier)) { // add to selection
                 cmdAddToSelection(devs);
-            } else
+            } else if (event->modifiers().testFlag(Qt::AltModifier))
+                selectBottomDevice(devs);
+            else
                 selectTopDevice(devs);
 
             if (scene_->selectedItems().empty()) {
@@ -1190,20 +1192,20 @@ bool Diagram::viewportEvent(QEvent* event)
 
 void Diagram::selectTopDevice(const QList<QGraphicsItem*>& devs)
 {
-    auto top = std::max_element(devs.begin(), devs.end(), [](QGraphicsItem* x, QGraphicsItem* y) {
-        return x->zValue() < y->zValue();
-    });
-
-    if (top == devs.end())
-        return;
-
-    auto dev = qgraphicsitem_cast<Device*>(*top);
-    if (!dev) {
-        qWarning() << "not a device:" << *top;
-        return;
+    for (auto x : devs) {
+        auto dev = qgraphicsitem_cast<Device*>(x);
+        if (dev)
+            return cmdSelectUnique(dev->id());
     }
+}
 
-    cmdSelectUnique(dev->id());
+void Diagram::selectBottomDevice(const QList<QGraphicsItem*>& devs)
+{
+    for (auto it = devs.crbegin(); it != devs.crend(); ++it) {
+        auto dev = qgraphicsitem_cast<Device*>(*it);
+        if (dev)
+            return cmdSelectUnique(dev->id());
+    }
 }
 
 std::optional<XletInfo> Diagram::hoverDeviceXlet(const QList<QGraphicsItem*>& devs, const QPoint& pt) const
