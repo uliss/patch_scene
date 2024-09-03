@@ -1,5 +1,11 @@
 # PatchScene CHANGELOG
 
+## [0.3.4]
+### Added:
+- zoom fixes
+- new connectors added
+- shortcut list in Help menu
+
 ## [0.3.3]
 ### Added:
 - Place in row/column added into device/selection context menu
