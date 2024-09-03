@@ -809,150 +809,160 @@
 <context>
     <name>ceam::AboutShortcuts</name>
     <message>
-        <location filename="about_shortcuts.cpp" line="102"/>
+        <location filename="about_shortcuts.cpp" line="109"/>
         <source>General</source>
         <translation>Общие</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="103"/>
+        <location filename="about_shortcuts.cpp" line="110"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="104"/>
+        <location filename="about_shortcuts.cpp" line="111"/>
         <source>Paste</source>
         <translation>Выставить</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="105"/>
+        <location filename="about_shortcuts.cpp" line="112"/>
         <source>Cut</source>
         <translation>Вырезать</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="106"/>
+        <location filename="about_shortcuts.cpp" line="113"/>
         <source>Duplicate</source>
         <translation>Дублировать</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="107"/>
+        <location filename="about_shortcuts.cpp" line="114"/>
         <source>Select All</source>
         <translation>Выбрать всё</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="108"/>
+        <location filename="about_shortcuts.cpp" line="115"/>
         <source>Select item</source>
         <translation>Выбрать элемент</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="109"/>
+        <location filename="about_shortcuts.cpp" line="116"/>
         <source>Add item to selection</source>
         <translation>Добавить элемент в выделенное</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="110"/>
+        <location filename="about_shortcuts.cpp" line="117"/>
         <source>Toggle item selection</source>
         <translation>Включить/Исключить из выделенного</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="111"/>
+        <location filename="about_shortcuts.cpp" line="118"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="112"/>
+        <location filename="about_shortcuts.cpp" line="119"/>
         <source>Undo</source>
         <translation>Отмена</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="113"/>
+        <location filename="about_shortcuts.cpp" line="120"/>
         <source>Redo</source>
         <translation>Повторить</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="115"/>
+        <location filename="about_shortcuts.cpp" line="122"/>
         <source>Navigation</source>
         <translation>Навигация</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="116"/>
-        <location filename="about_shortcuts.cpp" line="117"/>
+        <location filename="about_shortcuts.cpp" line="123"/>
+        <location filename="about_shortcuts.cpp" line="124"/>
         <source>Move items</source>
         <translation>Передвигать элементы</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="126"/>
+        <location filename="about_shortcuts.cpp" line="133"/>
         <source>Move items with step</source>
         <translation>Передвигать элементы с шагом</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="134"/>
+        <location filename="about_shortcuts.cpp" line="141"/>
         <source>Move items with big step</source>
         <translation>Передвигать элементы с крупным шагом</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="143"/>
+        <location filename="about_shortcuts.cpp" line="150"/>
         <source>Zoom in</source>
         <translation>Увеличить</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="144"/>
+        <location filename="about_shortcuts.cpp" line="151"/>
         <source>Zoom out</source>
         <translation>Уменьшить</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="145"/>
+        <location filename="about_shortcuts.cpp" line="152"/>
         <source>Zoom to 100%</source>
         <translation>Масштаб 100%</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="146"/>
+        <location filename="about_shortcuts.cpp" line="155"/>
+        <source>Smart Zoom</source>
+        <translation>Умное масштабирование</translation>
+    </message>
+    <message>
+        <location filename="about_shortcuts.cpp" line="158"/>
         <source>Zoom to fit</source>
         <translation>Уместить в области просмотра</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="147"/>
+        <location filename="about_shortcuts.cpp" line="159"/>
         <source>Zoom to selected</source>
         <translation>Уместить выделенное в области просмотра</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="148"/>
+        <location filename="about_shortcuts.cpp" line="160"/>
         <source>Toggle background</source>
         <translation>Показать/скрыть фоновое изображение</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="149"/>
+        <location filename="about_shortcuts.cpp" line="161"/>
         <source>Toggle connections</source>
         <translation>Показать/скрыть соединения</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="150"/>
+        <location filename="about_shortcuts.cpp" line="162"/>
         <source>Toggle grid</source>
         <translation>Показать/скрыть сетку</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="152"/>
+        <location filename="about_shortcuts.cpp" line="164"/>
         <source>Connections</source>
         <translation>Соединения</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="153"/>
+        <location filename="about_shortcuts.cpp" line="165"/>
         <source>Disconnect</source>
         <translation>Разорвать соединение</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="154"/>
+        <location filename="about_shortcuts.cpp" line="166"/>
         <source>Reconnect to next</source>
         <translation>Пересоединить в соседний</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="175"/>
+        <location filename="about_shortcuts.cpp" line="189"/>
         <source>click</source>
         <translation>клик</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="181"/>
+        <location filename="about_shortcuts.cpp" line="197"/>
         <source>drag</source>
         <translation>перетаскивание</translation>
+    </message>
+    <message>
+        <location filename="about_shortcuts.cpp" line="205"/>
+        <source>double tap</source>
+        <translation>двойное касание</translation>
     </message>
 </context>
 <context>
@@ -1231,57 +1241,57 @@ http://ceam.space</source>
 <context>
     <name>ceam::Diagram</name>
     <message>
-        <location filename="diagram.cpp" line="72"/>
+        <location filename="diagram.cpp" line="80"/>
         <source>New project</source>
         <translation>Новый проект</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1002"/>
+        <location filename="diagram.cpp" line="1011"/>
         <source>&amp;Add device</source>
         <translation>&amp;Добавить элемент</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1010"/>
+        <location filename="diagram.cpp" line="1019"/>
         <source>&amp;Clear background</source>
         <translation>&amp;Удалить фоновое изображение</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1016"/>
+        <location filename="diagram.cpp" line="1025"/>
         <source>&amp;Replace background</source>
         <translation>&amp;Заменить фоновое изображение</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1022"/>
+        <location filename="diagram.cpp" line="1031"/>
         <source>&amp;Set background</source>
         <translation>&amp;Установить фоновое изображение</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1032"/>
+        <location filename="diagram.cpp" line="1041"/>
         <source>Align &amp;horizontal</source>
         <translation>Выровнять по &amp;горизонтали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1036"/>
+        <location filename="diagram.cpp" line="1045"/>
         <source>Align &amp;vertical</source>
         <translation>Выровнять по &amp;вертикали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1040"/>
+        <location filename="diagram.cpp" line="1049"/>
         <source>Place in row</source>
         <translation>Разместить в ряд</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1044"/>
+        <location filename="diagram.cpp" line="1053"/>
         <source>Place in column</source>
         <translation>Разместить в столбец</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1051"/>
+        <location filename="diagram.cpp" line="1060"/>
         <source>Distribute horizontal</source>
         <translation>Распределить горизонтально</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1055"/>
+        <location filename="diagram.cpp" line="1064"/>
         <source>Distribute vertical</source>
         <translation>Распределить вертикально</translation>
     </message>
@@ -1373,235 +1383,235 @@ http://ceam.space</source>
         <translation>Масштаб %1%</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="344"/>
+        <location filename="mainwindow.cpp" line="345"/>
         <source>search in library</source>
         <translation>поиск в библиотеке</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="519"/>
+        <location filename="mainwindow.cpp" line="524"/>
         <source>Open image</source>
         <translation>Открыть изображение</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="521"/>
+        <location filename="mainwindow.cpp" line="526"/>
         <source>Image files (*.JPG *.jpg *.jpeg *.PNG *.png *.SVG *.svg)</source>
         <translation>Изображения (*.JPG *.jpg *.jpeg *.PNG *.png *.SVG *.svg)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="735"/>
+        <location filename="mainwindow.cpp" line="740"/>
         <source>Warning</source>
         <translation>Внимание</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="727"/>
+        <location filename="mainwindow.cpp" line="732"/>
         <source>Document is not saved!
 Do you wan&apos;t to save it before closing?</source>
         <translation>Документ не сохранен!
 Сохранить его перед закрытием?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="500"/>
+        <location filename="mainwindow.cpp" line="505"/>
         <source>New Project[*] - PatchScene</source>
         <translation>Новый проект[*] - PatchScene</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="502"/>
+        <location filename="mainwindow.cpp" line="507"/>
         <source>%1[*] - PatchScene</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="799"/>
+        <location filename="mainwindow.cpp" line="804"/>
         <source>devices</source>
         <translation>устройства</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="804"/>
+        <location filename="mainwindow.cpp" line="809"/>
         <source>instruments</source>
         <translation>инструменты</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="809"/>
+        <location filename="mainwindow.cpp" line="814"/>
         <source>sends</source>
         <translation>посылы</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="814"/>
+        <location filename="mainwindow.cpp" line="819"/>
         <source>returns</source>
         <translation>возвраты</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="819"/>
+        <location filename="mainwindow.cpp" line="824"/>
         <source>furniture</source>
         <translation>инвентарь</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="824"/>
+        <location filename="mainwindow.cpp" line="829"/>
         <source>humans</source>
         <translation>люди</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="867"/>
+        <location filename="mainwindow.cpp" line="872"/>
         <source>Event date: %1</source>
         <translation>Дата события %1</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="770"/>
-        <location filename="mainwindow.cpp" line="870"/>
+        <location filename="mainwindow.cpp" line="775"/>
+        <location filename="mainwindow.cpp" line="875"/>
         <source>Information</source>
         <translation>Информация</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="771"/>
+        <location filename="mainwindow.cpp" line="776"/>
         <source>You are opening the file created in the more recent PatchScene version, then you are using. Some features could be unsupported!</source>
         <translation>Вы открываете файл, созданный в более новой версии PatchScene, чем вы используете сейчас. Некоторые возможности могут быть недоступны!</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="874"/>
+        <location filename="mainwindow.cpp" line="879"/>
         <source>Contacts</source>
         <translation>Контакты</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="876"/>
+        <location filename="mainwindow.cpp" line="881"/>
         <source>Name</source>
         <translation>Имя</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="876"/>
+        <location filename="mainwindow.cpp" line="881"/>
         <source>Work</source>
         <translation>Должность</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="876"/>
+        <location filename="mainwindow.cpp" line="881"/>
         <source>Phone</source>
         <translation>Телефон</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="876"/>
+        <location filename="mainwindow.cpp" line="881"/>
         <source>Email</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="882"/>
+        <location filename="mainwindow.cpp" line="887"/>
         <source>Scheme</source>
         <translation>Схема</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="885"/>
+        <location filename="mainwindow.cpp" line="890"/>
         <source>Devices</source>
         <translation>Устройства</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="888"/>
+        <location filename="mainwindow.cpp" line="893"/>
         <source>Connections</source>
         <translation>Соединения</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="891"/>
+        <location filename="mainwindow.cpp" line="896"/>
         <source>Sends</source>
         <translation>Посылы</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="894"/>
+        <location filename="mainwindow.cpp" line="899"/>
         <source>Returns</source>
         <translation>Возвраты</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="898"/>
+        <location filename="mainwindow.cpp" line="903"/>
         <source>Batteries</source>
         <translation>Батарейки</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="902"/>
+        <location filename="mainwindow.cpp" line="907"/>
         <source>Created with PatchScene v%1</source>
         <translation>Создано при помощи PatchScene v%1</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="969"/>
+        <location filename="mainwindow.cpp" line="974"/>
         <source>Clear</source>
         <translation>Очистить</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1034"/>
+        <location filename="mainwindow.cpp" line="1039"/>
         <source>Save project</source>
         <translation>Сохранить проект</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1034"/>
-        <location filename="mainwindow.cpp" line="1171"/>
+        <location filename="mainwindow.cpp" line="1039"/>
+        <location filename="mainwindow.cpp" line="1176"/>
         <source>PatchScene projects (*.psc)</source>
         <translation>Проекты PatchScene (*.psc)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1063"/>
+        <location filename="mainwindow.cpp" line="1068"/>
         <source>Export element to JSON format</source>
         <translation>Экспорт элемента в JSON формат</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1063"/>
-        <location filename="mainwindow.cpp" line="1088"/>
+        <location filename="mainwindow.cpp" line="1068"/>
+        <location filename="mainwindow.cpp" line="1093"/>
         <source>JSON format (*.json)</source>
         <translation>JSON формат (*.json)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1070"/>
-        <location filename="mainwindow.cpp" line="1079"/>
-        <location filename="mainwindow.cpp" line="1096"/>
+        <location filename="mainwindow.cpp" line="1075"/>
+        <location filename="mainwindow.cpp" line="1084"/>
+        <location filename="mainwindow.cpp" line="1101"/>
         <source>JSON export error</source>
         <translation>Ошибка экспорта в JSON</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1071"/>
+        <location filename="mainwindow.cpp" line="1076"/>
         <source>Can&apos;t open file to writing: &apos;%1&apos;</source>
         <translation>Невозможно открыть файл для записи: &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1080"/>
-        <location filename="mainwindow.cpp" line="1097"/>
+        <location filename="mainwindow.cpp" line="1085"/>
+        <location filename="mainwindow.cpp" line="1102"/>
         <source>Can&apos;t write to file: &apos;%1&apos;</source>
         <translation>Ошибка при записи в файл: &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1088"/>
+        <location filename="mainwindow.cpp" line="1093"/>
         <source>Export elements to library</source>
         <translation>Экспортировать элементы в библиотеку</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1110"/>
+        <location filename="mainwindow.cpp" line="1115"/>
         <source>Export to OpenDocument format</source>
         <translation>Экспорт в OpenDocument формат</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1110"/>
+        <location filename="mainwindow.cpp" line="1115"/>
         <source>OpenDocument format (*.odt)</source>
         <translation>OpenDocument формат (*.odt)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1139"/>
+        <location filename="mainwindow.cpp" line="1144"/>
         <source>Export to PDF format</source>
         <translation>Экспорт в PDF формат</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1139"/>
+        <location filename="mainwindow.cpp" line="1144"/>
         <source>PDF format (*.pdf)</source>
         <translation>PDF формат (*.pdf)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1164"/>
+        <location filename="mainwindow.cpp" line="1169"/>
         <source>Import favorites</source>
         <translation>Импортировать избранное</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1164"/>
+        <location filename="mainwindow.cpp" line="1169"/>
         <source>Favorites collection (*.json)</source>
         <translation>Коллекция избранного (*.json)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1171"/>
+        <location filename="mainwindow.cpp" line="1176"/>
         <source>Open project</source>
         <translation>Открыть проект</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1184"/>
+        <location filename="mainwindow.cpp" line="1189"/>
         <source>Load &apos;%1&apos;</source>
         <translation>Загружен &apos;%1&apos;</translation>
     </message>
