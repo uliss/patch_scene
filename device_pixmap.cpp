@@ -38,8 +38,8 @@ DevicePixmap::DevicePixmap(QWidget* parent)
 
     int pix_idx = 0;
 
-    QDirIterator dir(":/devices/", QDirIterator::NoIteratorFlags);
-    while (dir.hasNext()) {
+    QDir dir(":/devices");
+    for (auto& info : dir.entryInfoList(QDir::NoFilter, QDir::SortFlag::Name)) {
         int row = pix_idx / NCOL;
         int col = pix_idx % NCOL;
         pix_idx++;
@@ -54,15 +54,14 @@ DevicePixmap::DevicePixmap(QWidget* parent)
             ui->imageTable->setColumnWidth(col, CELL_SIZE);
         }
 
-        dir.next();
-
-        QIcon icon(dir.filePath());
+        QIcon icon(info.filePath());
         if (!icon.isNull()) {
             auto svg = new QLabel();
+            svg->setAlignment(Qt::AlignCenter);
             svg->setPixmap(icon.pixmap(CELL_SIZE, CELL_SIZE));
-            svg->setToolTip(dir.fileName());
-            svg->setProperty(PROP_FILEPATH, dir.filePath());
-            svg->setProperty(PROP_ICONNAME, dir.fileInfo().baseName());
+            svg->setToolTip(info.fileName());
+            svg->setProperty(PROP_FILEPATH, info.filePath());
+            svg->setProperty(PROP_ICONNAME, info.baseName());
             ui->imageTable->setCellWidget(row, col, svg);
         }
     }
