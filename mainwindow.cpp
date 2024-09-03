@@ -89,6 +89,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     initDiagram();
     initActions();
+    initActionsShortcuts();
     initLibrarySearch();
 
 #ifdef Q_OS_DARWIN
@@ -311,6 +312,25 @@ void MainWindow::initActions()
             auto x = new AboutShortcuts(this);
             x->exec();
         });
+}
+
+void MainWindow::initActionsShortcuts()
+{
+    ui->actionCopy->setShortcut(QKeySequence::Copy);
+    ui->actionCut->setShortcut(QKeySequence::Cut);
+    ui->actionFullscreen->setShortcut(QKeySequence::FullScreen);
+    ui->actionNew->setShortcut(QKeySequence::New);
+    ui->actionOpen->setShortcut(QKeySequence::Open);
+    ui->actionPaste->setShortcut(QKeySequence::Paste);
+    ui->actionPrint->setShortcut(QKeySequence::Print);
+    ui->actionQuit->setShortcut(QKeySequence::Quit);
+    ui->actionRedo->setShortcut(QKeySequence::Redo);
+    ui->actionSave->setShortcut(QKeySequence::Save);
+    ui->actionSaveAs->setShortcut(QKeySequence::SaveAs);
+    ui->actionSelectAll->setShortcut(QKeySequence::SelectAll);
+    ui->actionUndo->setShortcut(QKeySequence::Undo);
+    ui->actionZoomIn->setShortcut(QKeySequence::ZoomIn);
+    ui->actionZoomOut->setShortcut(QKeySequence::ZoomOut);
 }
 
 void MainWindow::initLibrarySearch()
