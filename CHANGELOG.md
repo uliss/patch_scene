@@ -6,8 +6,9 @@
 - Check for updates ability
 - New furniture:
   * lamp
+  * piano stand
 - New icons:
-  * table_2 and table_3
+  * table_2, table_3 and table_4
 
 ## [0.3]
 ### Added:
