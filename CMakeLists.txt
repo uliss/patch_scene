@@ -156,7 +156,8 @@ endif()
 add_subdirectory(3rd-party/QSimpleUpdater)
 target_compile_definitions(QSimpleUpdater PUBLIC QSU_INCLUDE_MOC)
 
-add_library(patch_scene_lib STATIC ${PROJECT_SOURCES})
+add_library(patch_scene_lib STATIC ${PROJECT_SOURCES}
+    about_shortcuts.h about_shortcuts.cpp about_shortcuts.ui)
 target_include_directories(patch_scene_lib PRIVATE ${PROJECT_BINARY_DIR})
 target_link_libraries(
     patch_scene_lib PRIVATE QSimpleUpdater Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::PrintSupport

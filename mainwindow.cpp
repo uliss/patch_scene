@@ -12,6 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "mainwindow.h"
+#include "about_shortcuts.h"
 #include "about_window.h"
 #include "app_version.h"
 #include "device_item_model.h"
@@ -304,6 +305,12 @@ void MainWindow::initActions()
 
     connect(ui->actionContact, &QAction::triggered, this,
         [this](bool) { QDesktopServices::openUrl(QUrl(PATCH_SCENE_CONTACTS_URL)); });
+
+    connect(ui->actionAboutShortcuts, &QAction::triggered, this,
+        [this](bool) {
+            auto x = new AboutShortcuts(this);
+            x->exec();
+        });
 }
 
 void MainWindow::initLibrarySearch()

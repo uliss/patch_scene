@@ -1108,7 +1108,13 @@ void Diagram::dropEvent(QDropEvent* event)
 
 void Diagram::keyPressEvent(QKeyEvent* event)
 {
-    const int MOVE_STEP = 2 + (8 * event->modifiers().testFlag(Qt::ShiftModifier));
+    auto mods = event->modifiers();
+
+    int MOVE_STEP = 2;
+    if (mods.testFlags(Qt::ControlModifier))
+        MOVE_STEP = 50;
+    else if (mods.testFlags(Qt::ShiftModifier))
+        MOVE_STEP = 10;
 
     if (event->key() == Qt::Key_Backspace && event->modifiers().testFlag(Qt::ControlModifier)) {
         cmdRemoveSelected();
