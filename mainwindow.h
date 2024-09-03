@@ -93,6 +93,7 @@ private slots:
 
 private:
     void initActions();
+    void initActionsShortcuts();
     void initBatteryList();
     void initConnectionList();
     void initDeviceList();
