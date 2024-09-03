@@ -1149,14 +1149,18 @@ bool Diagram::viewportEvent(QEvent* event)
             switch (nge->gestureType()) {
             case Qt::ZoomNativeGesture: { // mac two-finger zoom
                 updateZoom(zoom_ * (1 + nge->value()));
+                event->accept();
                 return true;
             } break;
             case Qt::SmartZoomNativeGesture: { // smart zoom on two-finger double tap
-                if (nge->value() == 0)
+                if (nge->value() == 0) {
                     zoomNormal();
-                else
-                    updateZoom(1.5);
+                    centerOn(0, 0);
+                } else {
+                    zoomFit();
+                }
 
+                event->accept();
                 return true;
             } break;
             default:
@@ -1165,6 +1169,8 @@ bool Diagram::viewportEvent(QEvent* event)
         }
     } break;
 #endif
+
+#ifndef Q_OS_DARWIN
     case QEvent::TouchBegin:
     case QEvent::TouchUpdate:
     case QEvent::TouchEnd: {
@@ -1174,11 +1180,13 @@ bool Diagram::viewportEvent(QEvent* event)
             // determine scale factor
             const auto& p0 = touchPoints.first();
             const auto& p1 = touchPoints.last();
-            qreal scale_factor = QLineF(p0.position(), p1.position()).length() / QLineF(p0.pressPosition(), p1.pressPosition()).length();
-            qWarning() << __FUNCTION__ << scale_factor;
+            qreal scale_factor = //
+                QLineF(p0.position(), p1.position()).length()
+                / QLineF(p0.pressPosition(), p1.pressPosition()).length();
         }
         return true;
     }
+#endif
     default:
         break;
     }

@@ -150,6 +150,11 @@ QTableWidget::item { background-color: none; border-bottom: 1px solid #EEE; }
     addEntry(tr("Zoom in"), QKeySequence::ZoomIn);
     addEntry(tr("Zoom out"), QKeySequence::ZoomOut);
     addEntry(tr("Zoom to 100%"), QKeySequence(Qt::CTRL | Qt::Key_0));
+
+#ifdef Q_OS_DARWIN
+    addEntry(tr("Smart Zoom"), QKeySequence(), AdditonalActs::DoubleTap);
+#endif
+
     addEntry(tr("Zoom to fit"), QKeySequence(Qt::ALT | Qt::Key_1));
     addEntry(tr("Zoom to selected"), QKeySequence(Qt::ALT | Qt::Key_2));
     addEntry(tr("Toggle background"), QKeySequence(Qt::CTRL | Qt::Key_B));
@@ -190,6 +195,14 @@ void AboutShortcuts::addEntry(const QString& txt, const QKeySequence& seq, Addit
 #endif
 
         seq_txt += tr("drag");
+        break;
+    case AdditonalActs::DoubleTap:
+#ifdef Q_OS_DARWIN
+        if (!seq_txt.isEmpty())
+            seq_txt += " + ";
+#endif
+
+        seq_txt += tr("double tap");
         break;
     case AdditonalActs::None:
     default:

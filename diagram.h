@@ -229,6 +229,7 @@ signals:
     void zoomChanged(qreal);
 
 protected:
+    bool viewportEvent(QEvent* event) override;
     void contextMenuEvent(QContextMenuEvent* event) override;
     void dragEnterEvent(QDragEnterEvent* event) override;
     void dragMoveEvent(QDragMoveEvent* event) override;
@@ -238,7 +239,6 @@ protected:
     void mousePressEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;
     void wheelEvent(QWheelEvent* event) final;
-    bool viewportEvent(QEvent* event) override;
 
 private:
     /**

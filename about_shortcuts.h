@@ -28,7 +28,8 @@ class AboutShortcuts : public QDialog {
     enum class AdditonalActs {
         None,
         Click,
-        Drag
+        Drag,
+        DoubleTap,
     };
 
 public:
