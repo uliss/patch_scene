@@ -25,12 +25,18 @@ namespace ceam {
 class AboutShortcuts : public QDialog {
     Q_OBJECT
 
+    enum class AdditonalActs {
+        None,
+        Click,
+        Drag
+    };
+
 public:
     explicit AboutShortcuts(QWidget* parent = nullptr);
     ~AboutShortcuts();
 
 private:
-    void addEntry(const QString& txt, const QKeySequence& seq, bool click = false);
+    void addEntry(const QString& txt, const QKeySequence& seq, AdditonalActs = AdditonalActs::None);
     void addEntry(const QString& txt, const QList<QKeySequence>& seq);
     void addEntry(const QString& txt, const QString& seq);
 

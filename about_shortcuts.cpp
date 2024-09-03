@@ -104,14 +104,15 @@ QTableWidget::item { background-color: none; border-bottom: 1px solid #EEE; }
     addEntry(tr("Cut"), QKeySequence::Cut);
     addEntry(tr("Duplicate"), QKeySequence(Qt::CTRL | Qt::Key_D));
     addEntry(tr("Select All"), QKeySequence::SelectAll);
-    addEntry(tr("Select item"), QKeySequence(), true);
-    addEntry(tr("Add item to selection"), QKeySequence(Qt::SHIFT), true);
-    addEntry(tr("Toggle item selection"), QKeySequence(Qt::CTRL), true);
+    addEntry(tr("Select item"), QKeySequence(), AdditonalActs::Click);
+    addEntry(tr("Add item to selection"), QKeySequence(Qt::SHIFT), AdditonalActs::Click);
+    addEntry(tr("Toggle item selection"), QKeySequence(Qt::CTRL), AdditonalActs::Click);
     addEntry(tr("Delete"), QKeySequence(Qt::CTRL | Qt::Key_Backspace));
     addEntry(tr("Undo"), QKeySequence::Undo);
     addEntry(tr("Redo"), QKeySequence::Redo);
 
     addSection(tr("Navigation"));
+    addEntry(tr("Move items"), QKeySequence(Qt::SHIFT), AdditonalActs::Drag);
     addEntry(tr("Move items") //
         ,
         {
@@ -120,6 +121,7 @@ QTableWidget::item { background-color: none; border-bottom: 1px solid #EEE; }
             QKeySequence(Qt::Key_Up),
             QKeySequence(Qt::Key_Down),
         });
+
     addEntry(tr("Move items with step") //
         ,
         {
@@ -147,6 +149,8 @@ QTableWidget::item { background-color: none; border-bottom: 1px solid #EEE; }
     addEntry(tr("Toggle grid"), QKeySequence(Qt::CTRL | Qt::Key_G));
 
     addSection(tr("Connections"));
+    addEntry(tr("Disconnect"), QKeySequence(Qt::ALT), AdditonalActs::Click);
+    addEntry(tr("Reconnect to next"), QKeySequence(Qt::SHIFT), AdditonalActs::Drag);
 
     ui->tableWidget->resizeRowsToContents();
     adjustSize();
@@ -158,14 +162,26 @@ AboutShortcuts::~AboutShortcuts()
     delete ui;
 }
 
-void AboutShortcuts::addEntry(const QString& txt, const QKeySequence& seq, bool click)
+void AboutShortcuts::addEntry(const QString& txt, const QKeySequence& seq, AdditonalActs acts)
 {
     auto seq_txt = seq.toString(QKeySequence::NativeText);
-    if (click) {
+
+    switch (acts) {
+    case AdditonalActs::Click:
         if (!seq_txt.isEmpty())
             seq_txt += " + ";
 
         seq_txt += tr("click");
+        break;
+    case AdditonalActs::Drag:
+        if (!seq_txt.isEmpty())
+            seq_txt += " + ";
+
+        seq_txt += tr("drag");
+        break;
+    case AdditonalActs::None:
+    default:
+        break;
     }
 
     addEntry(txt, seq_txt);

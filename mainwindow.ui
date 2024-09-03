@@ -838,14 +838,6 @@
     <string>Fullscreen</string>
    </property>
   </action>
-  <action name="actionAddZone">
-   <property name="text">
-    <string>Add zone</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+2</string>
-   </property>
-  </action>
   <action name="actionShowGrid">
    <property name="checkable">
     <bool>true</bool>

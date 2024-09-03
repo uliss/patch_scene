@@ -35,6 +35,9 @@ set(PROJECT_SOURCES
     about_window.cpp
     about_window.h
     about_window.ui
+    about_shortcuts.h
+    about_shortcuts.cpp
+    about_shortcuts.ui
     app_settings.cpp
     app_settings.h
     app_version.cpp
@@ -96,6 +99,7 @@ set(PROJECT_SOURCES
     favorites_widget.h
     furniture_item_model.cpp
     furniture_item_model.h
+    logging.hpp
     preferences_dialog.cpp
     preferences_dialog.h
     preferences_dialog.ui
@@ -156,16 +160,19 @@ endif()
 add_subdirectory(3rd-party/QSimpleUpdater)
 target_compile_definitions(QSimpleUpdater PUBLIC QSU_INCLUDE_MOC)
 
-add_library(patch_scene_lib STATIC ${PROJECT_SOURCES}
-    about_shortcuts.h about_shortcuts.cpp about_shortcuts.ui)
+add_library(patch_scene_lib STATIC ${PROJECT_SOURCES})
 target_include_directories(patch_scene_lib PRIVATE ${PROJECT_BINARY_DIR})
 target_link_libraries(
-    patch_scene_lib PRIVATE QSimpleUpdater Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::PrintSupport
-                            Qt${QT_VERSION_MAJOR}::SvgWidgets)
+    patch_scene_lib PRIVATE QSimpleUpdater Qt${QT_VERSION_MAJOR}::Widgets
+                            Qt${QT_VERSION_MAJOR}::PrintSupport Qt${QT_VERSION_MAJOR}::SvgWidgets)
 
-qt_add_executable(patch_scene MANUAL_FINALIZATION MACOSX_BUNDLE ${app_icon_macos} main.cpp
-                  resources/patch_scene_resources.qrc
-                  logging.hpp)
+qt_add_executable(
+    patch_scene
+    MANUAL_FINALIZATION
+    MACOSX_BUNDLE
+    ${app_icon_macos}
+    main.cpp
+    resources/patch_scene_resources.qrc)
 
 add_dependencies(patch_scene_lib git_version)
 
@@ -213,7 +220,8 @@ if(QT_VERSION_MAJOR EQUAL 6)
         3rd-party/QSimpleUpdater/src/Updater.cpp
         TS_FILES
         patch_scene_ru.ts
-        LUPDATE_OPTIONS ${LUPDATE_OPTIONS})
+        LUPDATE_OPTIONS
+        ${LUPDATE_OPTIONS})
 endif()
 
 include(icon_tools)
