@@ -39,6 +39,14 @@ namespace {
 constexpr qreal MAX_ZOOM = 4.0;
 constexpr qreal MIN_ZOOM = 1.0 / MAX_ZOOM;
 
+#ifdef Q_OS_WINDOWS
+constexpr qreal PIXEL_ZOOM_FACTOR = 1.05;
+constexpr qreal ANGLE_ZOOM_FACTOR = 1.05;
+#else
+constexpr qreal PIXEL_ZOOM_FACTOR = 1.02;
+constexpr qreal ANGLE_ZOOM_FACTOR = 1.02;
+#endif
+
 constexpr const char* JSON_KEY_APP = "application";
 constexpr const char* JSON_KEY_BACKGROUND = "background";
 constexpr const char* JSON_KEY_CONNS = "connections";
@@ -70,6 +78,7 @@ Diagram::Diagram(int w, int h, QWidget* parent)
     : QGraphicsView { parent }
 {
     meta_.setTitle(tr("New project"));
+    viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
 
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
@@ -782,15 +791,15 @@ void Diagram::wheelEvent(QWheelEvent* event)
         qreal factor = 1;
         if (!numPixels.isNull()) {
             if (numPixels.y() > 0) {
-                factor = 1.02;
+                factor = PIXEL_ZOOM_FACTOR;
             } else {
-                factor = 0.98;
+                factor = 1 / PIXEL_ZOOM_FACTOR;
             }
         } else if (!numDegrees.isNull()) {
             if (numDegrees.y() > 0) {
-                factor = 1.01;
+                factor = ANGLE_ZOOM_FACTOR;
             } else {
-                factor = 0.99;
+                factor = 1 / ANGLE_ZOOM_FACTOR;
             }
         }
 
@@ -1130,10 +1139,10 @@ void Diagram::keyPressEvent(QKeyEvent* event)
         QGraphicsView::keyPressEvent(event);
 }
 
-#ifdef Q_OS_DARWIN
 bool Diagram::viewportEvent(QEvent* event)
 {
     switch (event->type()) {
+#ifndef QT_NO_GESTURES
     case QEvent::NativeGesture: {
         auto nge = dynamic_cast<QNativeGestureEvent*>(event);
         if (nge) {
@@ -1155,13 +1164,27 @@ bool Diagram::viewportEvent(QEvent* event)
             }
         }
     } break;
+#endif
+    case QEvent::TouchBegin:
+    case QEvent::TouchUpdate:
+    case QEvent::TouchEnd: {
+        auto touchEvent = dynamic_cast<QTouchEvent*>(event);
+        auto touchPoints = touchEvent->points();
+        if (touchPoints.count() == 2) {
+            // determine scale factor
+            const auto& p0 = touchPoints.first();
+            const auto& p1 = touchPoints.last();
+            qreal scale_factor = QLineF(p0.position(), p1.position()).length() / QLineF(p0.pressPosition(), p1.pressPosition()).length();
+            qWarning() << __FUNCTION__ << scale_factor;
+        }
+        return true;
+    }
     default:
         break;
     }
 
     return QGraphicsView::viewportEvent(event);
 }
-#endif
 
 void Diagram::selectTopDevice(const QList<QGraphicsItem*>& devs)
 {

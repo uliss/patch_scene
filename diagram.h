@@ -238,6 +238,7 @@ protected:
     void mousePressEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;
     void wheelEvent(QWheelEvent* event) final;
+    bool viewportEvent(QEvent* event) override;
 
 private:
     /**
@@ -256,10 +257,6 @@ private:
     void updateConnectionStyle(Connection* conn);
 
     void saveClickPos(const QPoint& pos);
-
-#ifdef __MACH__
-    bool viewportEvent(QEvent* event) override;
-#endif
 
     void selectTopDevice(const QList<QGraphicsItem*>& devs);
     std::optional<XletInfo> hoverDeviceXlet(const QList<QGraphicsItem*>& devs, const QPoint& pt) const;
