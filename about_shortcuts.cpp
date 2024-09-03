@@ -65,15 +65,23 @@ QString toString(const QList<QKeySequence>& seq)
     QString keys_txt;
     for (auto& x : seq) {
         mods |= getModifiers(x);
+
+#ifdef Q_OS_WINDOWS
+        if (!keys_txt.isEmpty())
+            keys_txt += ' ';
+#endif
+
         keys_txt += stripModifiers(x).toString(QKeySequence::NativeText);
     }
 
     QString seq_txt;
-    for (auto& mod : qAsConst(mods))
+    for (auto& mod : std::as_const(mods))
         seq_txt += mod.toString(QKeySequence::NativeText);
 
+#ifdef Q_OS_DARWIN
     if (!seq_txt.isEmpty())
-        seq_txt += "   ";
+        seq_txt += " ";
+#endif
 
     seq_txt += keys_txt;
     return seq_txt;
@@ -168,14 +176,18 @@ void AboutShortcuts::addEntry(const QString& txt, const QKeySequence& seq, Addit
 
     switch (acts) {
     case AdditonalActs::Click:
+#ifdef Q_OS_DARWIN
         if (!seq_txt.isEmpty())
             seq_txt += " + ";
+#endif
 
         seq_txt += tr("click");
         break;
     case AdditonalActs::Drag:
+#ifdef Q_OS_DARWIN
         if (!seq_txt.isEmpty())
             seq_txt += " + ";
+#endif
 
         seq_txt += tr("drag");
         break;
