@@ -99,18 +99,17 @@ QTableWidget::item { background-color: none; border-bottom: 1px solid #EEE; }
 )");
 
     addSection(tr("General"));
-    addEntry(tr("Copy"), QKeySequence(Qt::CTRL | Qt::Key_C));
-    addEntry(tr("Paste"), QKeySequence(Qt::CTRL | Qt::Key_V));
-    addEntry(tr("Cut"), QKeySequence(Qt::CTRL | Qt::Key_X));
+    addEntry(tr("Copy"), QKeySequence::Copy);
+    addEntry(tr("Paste"), QKeySequence::Paste);
+    addEntry(tr("Cut"), QKeySequence::Cut);
     addEntry(tr("Duplicate"), QKeySequence(Qt::CTRL | Qt::Key_D));
-    addEntry(tr("Select All"), QKeySequence(Qt::CTRL | Qt::Key_A));
+    addEntry(tr("Select All"), QKeySequence::SelectAll);
     addEntry(tr("Select item"), QKeySequence(), true);
     addEntry(tr("Add item to selection"), QKeySequence(Qt::SHIFT), true);
     addEntry(tr("Toggle item selection"), QKeySequence(Qt::CTRL), true);
     addEntry(tr("Delete"), QKeySequence(Qt::CTRL | Qt::Key_Backspace));
-    addEntry(tr("Undo"), QKeySequence(Qt::CTRL | Qt::Key_Z));
-    addEntry(tr("Redo"), QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Z));
-    addEntry(tr("Print"), QKeySequence(Qt::CTRL | Qt::Key_P));
+    addEntry(tr("Undo"), QKeySequence::Undo);
+    addEntry(tr("Redo"), QKeySequence::Redo);
 
     addSection(tr("Navigation"));
     addEntry(tr("Move items") //
@@ -138,14 +137,16 @@ QTableWidget::item { background-color: none; border-bottom: 1px solid #EEE; }
             QKeySequence(Qt::CTRL | Qt::Key_Down),
         });
 
-    addEntry(tr("Zoom in"), QKeySequence(Qt::Key_Plus));
-    addEntry(tr("Zoom out"), QKeySequence(Qt::Key_Minus));
+    addEntry(tr("Zoom in"), QKeySequence::ZoomIn);
+    addEntry(tr("Zoom out"), QKeySequence::ZoomOut);
     addEntry(tr("Zoom to 100%"), QKeySequence(Qt::CTRL | Qt::Key_0));
     addEntry(tr("Zoom to fit"), QKeySequence(Qt::ALT | Qt::Key_1));
     addEntry(tr("Zoom to selected"), QKeySequence(Qt::ALT | Qt::Key_2));
     addEntry(tr("Toggle background"), QKeySequence(Qt::CTRL | Qt::Key_B));
     addEntry(tr("Toggle connections"), QKeySequence(Qt::CTRL | Qt::Key_K));
     addEntry(tr("Toggle grid"), QKeySequence(Qt::CTRL | Qt::Key_G));
+
+    addSection(tr("Connections"));
 
     ui->tableWidget->resizeRowsToContents();
     adjustSize();
