@@ -64,10 +64,6 @@ void TestConnection::testConnection()
 {
     Connection conn(ConnectionData(1, 2, 3, 4));
     QCOMPARE(conn.connectionData(), ConnectionData(1, 2, 3, 4));
-    QVERIFY(conn.relatesToDevice(1));
-    QVERIFY(!conn.relatesToDevice(2));
-    QVERIFY(conn.relatesToDevice(3));
-    QVERIFY(!conn.relatesToDevice(4));
     QCOMPARE(conn, ConnectionData(1, 2, 3, 4));
     QVERIFY(!(conn == ConnectionData(1, 2, 3, 1)));
 

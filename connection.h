@@ -16,7 +16,6 @@
 
 #include "connection_data.h"
 #include "connection_database.h"
-#include "socket.h"
 
 #include <QGraphicsItem>
 
@@ -29,20 +28,20 @@ constexpr qreal ZVALUE_SELECTION = 32000;
 
 class Connection : public QGraphicsItem {
 public:
-    explicit Connection(const ConnectionData& data);
-
     enum { Type = QGraphicsItem::UserType + 2 };
     int type() const override { return Type; }
-    QRectF boundingRect() const override;
+
+public:
+    explicit Connection(const ConnectionData& data);
+
+    QRectF boundingRect() const final;
 
     bool operator==(const ConnectionData& data) const;
     const ConnectionData& connectionData() const { return data_; }
     XletInfo sourceInfo() const;
     XletInfo destinationInfo() const;
-    bool relatesToDevice(DeviceId id) const { return data_.relatesToId(id); }
 
     void setPoints(const QPointF& p0, const QPointF& p1);
-
     void setStyle(ConnectionStyle style);
 
 protected:
