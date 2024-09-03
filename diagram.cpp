@@ -30,6 +30,7 @@
 #include "device.h"
 #include "diagram_scene.h"
 #include "diagram_updates_blocker.h"
+#include "logging.hpp"
 #include "undo_commands.h"
 
 using namespace ceam;
@@ -657,10 +658,9 @@ bool Diagram::loadJson(const QString& path)
         }
     }
 
-    if (root.contains(JSON_KEY_BACKGROUND)) {
-        if (!background_.setFromJson(root.value(JSON_KEY_BACKGROUND)))
-            qWarning() << "can't load bg";
-    }
+    auto bg = root.value(JSON_KEY_BACKGROUND);
+    if (!bg.isNull())
+        background_.setFromJson(bg);
 
     auto meta = DiagramMeta::fromJson(root.value(JSON_KEY_META));
     if (meta) {
@@ -787,7 +787,7 @@ QJsonObject Diagram::toJson() const
         if (devices_.checkConnection(conn)) {
             cons.append(conn.toJson());
         } else {
-            qWarning() << "invalid connection";
+            WARN() << "invalid connection" << conn;
         }
     });
 
@@ -1019,7 +1019,7 @@ void Diagram::contextMenuEvent(QContextMenuEvent* event)
 
         auto place_ver = new QAction(tr("Place in column"), &menu);
         connect(place_ver, SIGNAL(triggered(bool)), this, SLOT(cmdPlaceInColumnSelected()));
-         menu.addAction(place_ver);
+        menu.addAction(place_ver);
 
         if (devices_.selectedCount() >= 3) {
             menu.addSeparator();

@@ -232,14 +232,14 @@ bool SceneDevices::checkConnection(const ConnectionData& conn) const
     if (src_it == devices_.end())
         return false;
 
-    if (conn.sourceOutput() >= src_it->second->deviceData()->inputs().size())
+    if (conn.sourceOutput() >= src_it->second->deviceData()->outputs().size())
         return false;
 
     auto dest_it = devices_.find(conn.destination());
     if (dest_it == devices_.end())
         return false;
 
-    if (conn.destinationInput() >= dest_it->second->deviceData()->outputs().size())
+    if (conn.destinationInput() >= dest_it->second->deviceData()->inputs().size())
         return false;
 
     return true;

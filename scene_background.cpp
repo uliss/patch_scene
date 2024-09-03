@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include "scene_background.h"
 #include "connection.h"
+#include "logging.hpp"
 
 #include <QBuffer>
 #include <QFile>
@@ -208,7 +209,10 @@ bool SceneBackground::setFromJson(const QJsonValue& v)
         return false;
 
     if (!v.isObject()) {
-        qWarning() << "object expected";
+        if (!v.isNull()) {
+            WARN() << "object expected";
+        }
+
         return false;
     }
 

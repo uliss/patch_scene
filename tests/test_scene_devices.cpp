@@ -76,6 +76,22 @@ SharedDeviceData data4(DeviceId id)
     return SharedDeviceData { data };
 }
 
+SharedDeviceData data_n(DeviceId id, int in = 0, int out = 0, const QString& title = {})
+{
+    auto data = new DeviceData(id);
+
+    data->setTitle(title);
+    data->setShowTitle(!title.isEmpty());
+
+    for (int i = 0; i < in; i++)
+        data->appendInput(XletData {});
+
+    for (int i = 0; i < out; i++)
+        data->appendOutput(XletData {});
+
+    return SharedDeviceData { data };
+}
+
 QList<DeviceId> sorted(const QList<DeviceId>& l)
 {
     auto res = l;
@@ -334,20 +350,39 @@ void TestSceneDevices::checkConnection()
     QGraphicsScene scene;
     dev.setScene(&scene);
 
-    dev.add(data4(100));
-    dev.add(data4(101));
-
-    QVERIFY(dev.checkConnection({ 100, 0, 101, 0 }));
-    QVERIFY(dev.checkConnection({ 101, 0, 100, 0 }));
+    dev.add(data_n(100, 1, 5));
+    dev.add(data_n(101, 5, 1));
 
     QVERIFY(!dev.checkConnection({ 100, 0, 100, 0 }));
-    QVERIFY(!dev.checkConnection({ 100, 0, 102, 0 }));
-    QVERIFY(!dev.checkConnection({ 102, 0, 100, 0 }));
+    QVERIFY(!dev.checkConnection({ 101, 0, 101, 0 }));
 
-    QVERIFY(!dev.checkConnection({ 101, 1, 100, 0 }));
-    QVERIFY(!dev.checkConnection({ 101, 0, 100, 1 }));
-    QVERIFY(!dev.checkConnection({ 101, 1, 100, 1 }));
+    QVERIFY(dev.checkConnection({ 100, 0, 101, 0 }));
+    QVERIFY(dev.checkConnection({ 100, 1, 101, 0 }));
+    QVERIFY(dev.checkConnection({ 100, 2, 101, 0 }));
+    QVERIFY(dev.checkConnection({ 100, 3, 101, 0 }));
+    QVERIFY(dev.checkConnection({ 100, 4, 101, 0 }));
+    QVERIFY(!dev.checkConnection({ 100, 5, 101, 0 }));
+
+    QVERIFY(dev.checkConnection({ 100, 0, 101, 4 }));
+    QVERIFY(dev.checkConnection({ 100, 1, 101, 4 }));
+    QVERIFY(dev.checkConnection({ 100, 2, 101, 4 }));
+    QVERIFY(dev.checkConnection({ 100, 3, 101, 4 }));
+    QVERIFY(dev.checkConnection({ 100, 4, 101, 4 }));
+    QVERIFY(!dev.checkConnection({ 100, 5, 101, 0 }));
+
+    QVERIFY(!dev.checkConnection({ 100, 0, 101, 5 }));
+    QVERIFY(!dev.checkConnection({ 100, 1, 101, 5 }));
+    QVERIFY(!dev.checkConnection({ 100, 2, 101, 5 }));
+    QVERIFY(!dev.checkConnection({ 100, 3, 101, 5 }));
+    QVERIFY(!dev.checkConnection({ 100, 4, 101, 5 }));
+    QVERIFY(!dev.checkConnection({ 100, 5, 101, 0 }));
+
     QVERIFY(dev.checkConnection({ 101, 0, 100, 0 }));
+    QVERIFY(dev.checkConnection({ 101, 0, 100, 0 }));
+    QVERIFY(dev.checkConnection({ 101, 0, 100, 0 }));
+    QVERIFY(dev.checkConnection({ 101, 0, 100, 0 }));
+    QVERIFY(dev.checkConnection({ 101, 0, 100, 0 }));
+    QVERIFY(!dev.checkConnection({ 101, 1, 100, 0 }));
 }
 
 void TestSceneDevices::findConnectionPoints()
