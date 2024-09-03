@@ -166,5 +166,7 @@
         <file>icons/print.svg</file>
         <file>icons/update.svg</file>
         <file>devices/lamp_1.svg</file>
+        <file>devices/table_3.svg</file>
+        <file>devices/table_2.svg</file>
     </qresource>
 </RCC>

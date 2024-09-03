@@ -6,6 +6,8 @@
 - Check for updates ability
 - New furniture:
   * lamp
+- New icons:
+  * table_2 and table_3
 
 ## [0.3]
 ### Added:
