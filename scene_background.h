@@ -48,18 +48,38 @@ public:
      */
     bool loadImage(const QString& path);
 
-    bool isVisible() const;
+    /**
+     * set background visible
+     */
     void setVisible(bool value);
 
+    /**
+     * @return background bounding rect
+     */
     QRectF boundingRect() const;
+
+    /**
+     * set background position on the scene
+     */
     void setPos(const QPointF& pos);
 
     QJsonValue toJson() const;
     bool setFromJson(const QJsonValue& v);
 
+    /**
+     * append background QActions to given menu
+     */
     void addToContextMenu(QMenu& menu);
 
+    /**
+     * @return pointer to background graphics item
+     */
     QGraphicsItem* sceneItem();
+
+    /**
+     * @return pointer to background graphics item
+     */
+    const QGraphicsItem* sceneItem() const;
 
 signals:
     void backgroundChanged();
@@ -76,7 +96,6 @@ private:
     QGraphicsSvgItem* svg_ { nullptr };
     QByteArray svg_bin_content_;
     QSvgRenderer svg_renderer_;
-    bool visible_ { true };
 };
 
 }

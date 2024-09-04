@@ -149,52 +149,29 @@ bool SceneBackground::loadImage(const QString& path)
     }
 }
 
-bool SceneBackground::isVisible() const
-{
-    if (!scene_)
-        return false;
-
-    return visible_;
-}
-
 void SceneBackground::setVisible(bool value)
 {
-    if (pixmap_)
-        pixmap_->setVisible(value);
-
-    if (svg_)
-        svg_->setVisible(value);
+    auto item = sceneItem();
+    if (item)
+        item->setVisible(value);
 }
 
 QRectF SceneBackground::boundingRect() const
 {
-    if (!scene_)
-        return {};
-
-    if (pixmap_)
-        return pixmap_->boundingRect();
-
-    if (svg_)
-        return svg_->boundingRect();
-
-    return {};
+    auto item = sceneItem();
+    return item ? item->boundingRect() : QRectF {};
 }
 
 void SceneBackground::setPos(const QPointF& pos)
 {
-    if (!scene_)
-        return;
-
-    if (pixmap_)
-        return pixmap_->setPos(pos);
-
-    if (svg_)
-        return svg_->setPos(pos);
+    auto item = sceneItem();
+    if (item)
+        item->setPos(pos);
 }
 
 bool SceneBackground::isEmpty() const
 {
-    return !svg_ && !pixmap_;
+    return sceneItem() == nullptr;
 }
 
 QJsonValue SceneBackground::toJson() const
@@ -293,6 +270,19 @@ void SceneBackground::addToContextMenu(QMenu& menu)
 }
 
 QGraphicsItem* SceneBackground::sceneItem()
+{
+    if (!scene_)
+        return nullptr;
+
+    if (pixmap_)
+        return pixmap_;
+    else if (svg_)
+        return svg_;
+    else
+        return nullptr;
+}
+
+const QGraphicsItem* SceneBackground::sceneItem() const
 {
     if (!scene_)
         return nullptr;
