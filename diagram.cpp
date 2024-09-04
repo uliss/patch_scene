@@ -95,8 +95,7 @@ Diagram::Diagram(int w, int h, QWidget* parent)
     initScene(w, h);
     initSceneConnections();
     initSceneDevices();
-
-    background_.setScene(scene_);
+    initSceneBackground();
 
     initLiveConnection();
     initSelectionRect();
@@ -147,6 +146,16 @@ void Diagram::initScene(int w, int h)
 
     // NB: should be called after setScene(scene_)!
     scene_->initGrid();
+}
+
+void Diagram::initSceneBackground()
+{
+    background_.setScene(scene_);
+    connect(&background_, &SceneBackground::backgroundChanged, this,
+        [this]() { emit sceneChanged(); });
+
+    connect(&background_, &SceneBackground::requestBackgroundChange, this,
+        [this]() { emit requestBackgroundChange(); });
 }
 
 bool Diagram::removeDevice(DeviceId id)
@@ -1011,25 +1020,7 @@ void Diagram::contextMenuEvent(QContextMenuEvent* event)
     QMenu menu(this);
     menu.addAction(add_act);
 
-    if (!background_.isEmpty()) {
-        auto clear_bg = new QAction(tr("&Clear background"), this);
-        connect(clear_bg, &QAction::triggered, this,
-            [this]() { clearBackground(); });
-
-        menu.addAction(clear_bg);
-
-        auto replace_bg = new QAction(tr("&Replace background"), this);
-        connect(replace_bg, &QAction::triggered, this,
-            [this]() { emit requestBackgroundChange(); });
-
-        menu.addAction(replace_bg);
-    } else {
-        auto set_bg = new QAction(tr("&Set background"), this);
-        connect(set_bg, &QAction::triggered, this,
-            [this]() { emit requestBackgroundChange(); });
-
-        menu.addAction(set_bg);
-    }
+    background_.addToContextMenu(menu);
 
     if (devices_.selectedCount() >= 2) {
         menu.addSeparator();

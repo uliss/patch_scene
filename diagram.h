@@ -297,6 +297,7 @@ private:
 private:
     void initLiveConnection();
     void initScene(int w, int h);
+    void initSceneBackground();
     void initSceneConnections();
     void initSceneDevices();
     void initSelectionRect();
