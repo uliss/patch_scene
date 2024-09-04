@@ -96,7 +96,9 @@ AboutWindow::AboutWindow(QWidget* parent)
                            .arg(QLibraryInfo::path(QLibraryInfo::p))
 
     about_qt->setStyleSheet("background: palette(window)");
-    about_qt->setMarkdown(QT_PATH_STR(PrefixPath)
+    about_qt->setMarkdown(
+        QString("**Qt version:** %1\n\n").arg(QT_VERSION_STR)
+        + QT_PATH_STR(PrefixPath)
         + QT_PATH_STR(DocumentationPath)
         + QT_PATH_STR(HeadersPath)
         + QT_PATH_STR(LibrariesPath)
