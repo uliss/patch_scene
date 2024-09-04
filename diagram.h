@@ -295,12 +295,12 @@ private:
     ConnectionDatabase conn_database_;
 
 private:
-    void initUndoStack();
-    void initSelectionRect();
     void initLiveConnection();
     void initScene(int w, int h);
     void initSceneConnections();
     void initSceneDevices();
+    void initSelectionRect();
+    void initUndoStack();
 
     /**
      * @param pos - position in view coordinates
