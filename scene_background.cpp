@@ -12,13 +12,16 @@
  * this file belongs to.
  *****************************************************************************/
 #include "scene_background.h"
+#include "background_properties_dialog.h"
 #include "connection.h"
 #include "logging.hpp"
 
+#include <QAction>
 #include <QBuffer>
 #include <QFile>
 #include <QGraphicsScene>
 #include <QJsonObject>
+#include <QMenu>
 #include <QTemporaryFile>
 
 namespace {
@@ -64,12 +67,17 @@ bool SceneBackground::setPixmap(const QPixmap& pixmap)
     if (!scene_ || !pixmap)
         return false;
 
-    clear();
+    {
+        QSignalBlocker sb(this);
+        clear();
+    }
+
     pixmap_ = new QGraphicsPixmapItem(pixmap);
     auto bbox = pixmap_->boundingRect();
     pixmap_->setPos(-bbox.width() / 2, -bbox.height() / 2);
     pixmap_->setZValue(ZVALUE_BACKGROUND);
     scene_->addItem(pixmap_);
+    emit backgroundChanged();
     return true;
 }
 
@@ -100,7 +108,10 @@ bool SceneBackground::setSvg(const QByteArray& content)
             return false;
     }
 
-    clear();
+    {
+        QSignalBlocker sb(this);
+        clear();
+    }
     svg_ = new QGraphicsSvgItem();
     svg_->setSharedRenderer(&svg_renderer_);
     auto bbox = svg_->boundingRect();
@@ -108,6 +119,8 @@ bool SceneBackground::setSvg(const QByteArray& content)
     svg_->setZValue(ZVALUE_BACKGROUND);
     scene_->addItem(svg_);
     svg_bin_content_ = qCompress(content);
+
+    emit backgroundChanged();
     return true;
 }
 
@@ -248,6 +261,50 @@ bool SceneBackground::setFromJson(const QJsonValue& v)
     }
 }
 
+void SceneBackground::addToContextMenu(QMenu& menu)
+{
+    if (!isEmpty()) {
+        auto clear_bg = new QAction(tr("Clear background"), this);
+        connect(clear_bg, &QAction::triggered, this, [this]() { clear(); });
+
+        menu.addAction(clear_bg);
+
+        auto replace_bg = new QAction(tr("Replace background"), this);
+        connect(replace_bg, &QAction::triggered, this,
+            [this]() { emit requestBackgroundChange(); });
+
+        menu.addAction(replace_bg);
+
+        auto image_props = new QAction(tr("Background properties"), this);
+        connect(image_props, &QAction::triggered, this,
+            [this]() {
+                BackgroundPropertiesDialog dialog(this);
+                dialog.exec();
+            });
+
+        menu.addAction(image_props);
+    } else {
+        auto set_bg = new QAction(tr("Set background"), this);
+        connect(set_bg, &QAction::triggered, this,
+            [this]() { emit requestBackgroundChange(); });
+
+        menu.addAction(set_bg);
+    }
+}
+
+QGraphicsItem* SceneBackground::sceneItem()
+{
+    if (!scene_)
+        return nullptr;
+
+    if (pixmap_)
+        return pixmap_;
+    else if (svg_)
+        return svg_;
+    else
+        return nullptr;
+}
+
 void SceneBackground::clear()
 {
     if (!scene_)
@@ -257,12 +314,14 @@ void SceneBackground::clear()
         scene_->removeItem(pixmap_);
         delete pixmap_;
         pixmap_ = nullptr;
+        emit backgroundChanged();
     }
 
     if (svg_) {
         scene_->removeItem(svg_);
         delete svg_;
         svg_ = nullptr;
+        emit backgroundChanged();
     }
 
     svg_bin_content_.clear();

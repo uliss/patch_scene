@@ -36,6 +36,7 @@ public:
 
     /**
      * clear background image
+     * @emit backgroundChanged()
      */
     void clear();
 
@@ -43,6 +44,7 @@ public:
      * try load background image from file
      * @param path
      * @return true on success, false on error
+     * @emit backgroundChanged()
      */
     bool loadImage(const QString& path);
 
@@ -54,6 +56,14 @@ public:
 
     QJsonValue toJson() const;
     bool setFromJson(const QJsonValue& v);
+
+    void addToContextMenu(QMenu& menu);
+
+    QGraphicsItem* sceneItem();
+
+signals:
+    void backgroundChanged();
+    void requestBackgroundChange();
 
 private:
     bool setPixmap(const QPixmap& pixmap);

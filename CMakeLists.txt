@@ -44,6 +44,9 @@ set(PROJECT_SOURCES
     app_version.h
     application.cpp
     application.h
+    background_properties_dialog.h
+    background_properties_dialog.cpp
+    background_properties_dialog.ui
     battery.cpp
     battery.h
     battery_item_model.cpp
@@ -166,13 +169,8 @@ target_link_libraries(
     patch_scene_lib PRIVATE QSimpleUpdater Qt${QT_VERSION_MAJOR}::Widgets
                             Qt${QT_VERSION_MAJOR}::PrintSupport Qt${QT_VERSION_MAJOR}::SvgWidgets)
 
-qt_add_executable(
-    patch_scene
-    MANUAL_FINALIZATION
-    MACOSX_BUNDLE
-    ${app_icon_macos}
-    main.cpp
-    resources/patch_scene_resources.qrc)
+qt_add_executable(patch_scene MANUAL_FINALIZATION MACOSX_BUNDLE ${app_icon_macos} main.cpp
+                  resources/patch_scene_resources.qrc)
 
 add_dependencies(patch_scene_lib git_version)
 
