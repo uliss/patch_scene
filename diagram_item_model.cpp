@@ -39,7 +39,7 @@ QMimeData* DiagramItemModel::mimeData(const QModelIndexList& indexes) const
 
 DiagramDataItem* DiagramItemModel::deviceItem(int row, int column) const
 {
-    return static_cast<DiagramDataItem*>(item(row, column));
+    return dynamic_cast<DiagramDataItem*>(item(row, column));
 }
 
 void DiagramItemModel::addDeviceItem(const SharedDeviceData& data)
@@ -55,7 +55,8 @@ QList<SharedDeviceData> DiagramItemModel::allDeviceData() const
     for (int row = 0; row < rowCount(); row++) {
         for (int col = 0; col < columnCount(); col++) {
             auto dev = deviceItem(row, col);
-            res << dev->deviceData();
+            if (dev)
+                res << dev->deviceData();
         }
     }
 
@@ -87,7 +88,32 @@ void DiagramDataItem::setDeviceData(const SharedDeviceData& data)
 {
     if (data) {
         setText(data->title());
+
+        QString tooltip = "<p style='white-space:pre'>";
+        tooltip += QString("<i>title:</i> <b>%1</b>\n").arg(data->title());
+
+        if (!data->vendor().isEmpty())
+            tooltip += QString("<i>vendor:</i> <b>%1</b>\n").arg(data->vendor());
+
+        if (!data->model().isEmpty())
+            tooltip += QString("<i>model:</i> <b>%1</b>\n").arg(data->model());
+
+        tooltip += "</p>";
+
+        setToolTip(tooltip);
+
+        setData(data->vendor(), DATA_DEVICE_VENDOR);
+        setData(data->model(), DATA_DEVICE_MODEL);
+        setData(data->title(), DATA_DEVICE_TITLE);
+
         QJsonDocument doc(data->toJson());
         setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
     }
+}
+
+bool DiagramDataItem::match(const QRegularExpression& re) const
+{
+    return text().contains(re)
+        || data(DATA_DEVICE_VENDOR).toString().contains(re)
+        || data(DATA_DEVICE_MODEL).toString().contains(re);
 }

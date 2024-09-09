@@ -26,6 +26,9 @@ public:
 
     void readFile(const QString& file);
 
+protected:
+    bool filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const final;
+
 private:
     void loadSection(QStandardItem* parent, const QList<SharedDeviceData>& data);
 

@@ -20,15 +20,22 @@
 
 namespace ceam {
 
-constexpr int DATA_DEVICE_DATA = Qt::UserRole + 1;
-constexpr int DATA_DEVICE_ID = Qt::UserRole + 2;
-constexpr int DATA_CONNECTION = Qt::UserRole + 3;
+enum {
+    DATA_DEVICE_DATA = Qt::UserRole + 1,
+    DATA_DEVICE_ID,
+    DATA_CONNECTION,
+    DATA_DEVICE_TITLE,
+    DATA_DEVICE_VENDOR,
+    DATA_DEVICE_MODEL
+};
 
 class DiagramDataItem : public QStandardItem {
 public:
     DiagramDataItem(const SharedDeviceData& data);
     SharedDeviceData deviceData() const;
     void setDeviceData(const SharedDeviceData& data);
+
+    bool match(const QRegularExpression& re) const;
 };
 
 class DiagramItemModel : public QStandardItemModel {

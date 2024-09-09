@@ -23,7 +23,6 @@ LibraryItemModel::LibraryItemModel(QObject* parent)
 {
     model_ = new DiagramItemModel(this);
 
-    setSourceModel(model_);
     setFilterCaseSensitivity(Qt::CaseInsensitive);
     setAutoAcceptChildRows(true);
     setRecursiveFilteringEnabled(true);
@@ -67,19 +66,30 @@ void LibraryItemModel::readFile(const QString& file)
     humans->setEditable(false);
     parentItem->appendRow(humans);
     loadSection(humans, dev_lib.humans());
+
+    setSourceModel(model_);
+}
+
+bool LibraryItemModel::filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const
+{
+    if (!sourceParent.isValid())
+        return false;
+
+    auto idx = sourceModel()->index(sourceRow, 0, sourceParent);
+
+    auto dev = dynamic_cast<DiagramDataItem*>(model_->itemFromIndex(idx));
+
+    if (dev)
+        return dev->match(filterRegularExpression());
+    else
+        return false;
 }
 
 void LibraryItemModel::loadSection(QStandardItem* parent, const QList<SharedDeviceData>& data)
 {
     for (auto& x : data) {
-        auto item = new QStandardItem(x->title());
-        item->setEditable(false);
-        item->setToolTip(x->title());
+        auto item = new DiagramDataItem(x);
 
-        QJsonDocument doc(x->toJson());
-        item->setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
-        item->setDragEnabled(true);
-        item->setDropEnabled(false);
         parent->appendRow(item);
     }
 }
