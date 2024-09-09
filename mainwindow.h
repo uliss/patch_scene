@@ -21,6 +21,7 @@
 #include "diagram.h"
 #include "favorites_widget.h"
 #include "furniture_item_model.h"
+#include "library_item_model.h"
 #include "return_item_model.h"
 #include "send_item_model.h"
 
@@ -128,7 +129,6 @@ private:
     void syncRecentFilesMenu();
     void updateDeviceView(const SharedDeviceData& data, int idx);
 
-    void loadSection(QStandardItem* parent, const QList<SharedDeviceData>& data);
     void importFavorites(const QString& filename);
 
     QMessageBox::StandardButton showNonSavedDocAlert();
@@ -141,7 +141,6 @@ private:
     Diagram* diagram_;
     QString project_name_;
     QString file_name_;
-    QSortFilterProxyModel* library_proxy_;
     QSimpleUpdater* updater_;
 
     // models
@@ -149,6 +148,7 @@ private:
     ConnectionItemModel* conn_model_;
     DeviceItemModel* device_model_;
     FurnitureItemModel* furniture_model_;
+    LibraryItemModel* library_model_;
     ReturnItemModel* return_model_;
     SendItemModel* send_model_;
 

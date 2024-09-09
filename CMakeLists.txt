@@ -102,6 +102,8 @@ set(PROJECT_SOURCES
     favorites_widget.h
     furniture_item_model.cpp
     furniture_item_model.h
+    library_item_model.h
+    library_item_model.cpp
     logging.hpp
     preferences_dialog.cpp
     preferences_dialog.h

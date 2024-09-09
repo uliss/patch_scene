@@ -339,7 +339,7 @@ void MainWindow::initActionsShortcuts()
 void MainWindow::initLibrarySearch()
 {
     connect(ui->librarySearch, &QLineEdit::textChanged, this, [this](const QString& txt) {
-        library_proxy_->setFilterRegularExpression(txt);
+        library_model_->setFilterRegularExpression(txt);
 
         if (!txt.isEmpty())
             ui->libraryTree->expandAll();
@@ -706,21 +706,6 @@ bool MainWindow::doSave()
     return true;
 }
 
-void MainWindow::loadSection(QStandardItem* parent, const QList<SharedDeviceData>& data)
-{
-    for (auto& x : data) {
-        auto item = new QStandardItem(x->title());
-        item->setEditable(false);
-        item->setToolTip(x->title());
-
-        QJsonDocument doc(x->toJson());
-        item->setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
-        item->setDragEnabled(true);
-        item->setDropEnabled(false);
-        parent->appendRow(item);
-    }
-}
-
 void MainWindow::importFavorites(const QString& filename)
 {
     if (!favorites_)
@@ -783,55 +768,15 @@ void MainWindow::notifyFileVersionMismatch(int fileVersion, int appFileVersion)
 
 void MainWindow::loadLibrary()
 {
-    auto model = new DiagramItemModel(this);
-    auto parentItem = model->invisibleRootItem();
-
     ui->libraryTree->setDragEnabled(true);
     ui->libraryTree->setDragDropMode(QAbstractItemView::DragOnly);
     ui->libraryTree->setSortingEnabled(true);
     ui->libraryTree->sortByColumn(0, Qt::AscendingOrder);
 
-    library_proxy_ = new QSortFilterProxyModel(this);
-    library_proxy_->setSourceModel(model);
-    library_proxy_->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    library_proxy_->setAutoAcceptChildRows(true);
-    library_proxy_->setRecursiveFilteringEnabled(true);
-    library_proxy_->setSortLocaleAware(true);
-    ui->libraryTree->setModel(library_proxy_);
+    library_model_ = new LibraryItemModel(this);
+    ui->libraryTree->setModel(library_model_);
 
-    DeviceLibrary dev_lib;
-    if (!dev_lib.readFile(":/library.json"))
-        return;
-
-    auto devices = new QStandardItem(tr("devices"));
-    devices->setEditable(false);
-    parentItem->appendRow(devices);
-    loadSection(devices, dev_lib.devices());
-
-    auto instr = new QStandardItem({ tr("instruments") });
-    instr->setEditable(false);
-    parentItem->appendRow(instr);
-    loadSection(instr, dev_lib.instruments());
-
-    auto sends = new QStandardItem({ tr("sends") });
-    sends->setEditable(false);
-    parentItem->appendRow(sends);
-    loadSection(sends, dev_lib.sends());
-
-    auto returns = new QStandardItem({ tr("returns") });
-    returns->setEditable(false);
-    parentItem->appendRow(returns);
-    loadSection(returns, dev_lib.returns());
-
-    auto furniture = new QStandardItem({ tr("furniture") });
-    furniture->setEditable(false);
-    parentItem->appendRow(furniture);
-    loadSection(furniture, dev_lib.furniture());
-
-    auto humans = new QStandardItem({ tr("humans") });
-    humans->setEditable(false);
-    parentItem->appendRow(humans);
-    loadSection(humans, dev_lib.humans());
+    library_model_->readFile(":/library.json");
 }
 
 void MainWindow::createToolbarScaleView()
