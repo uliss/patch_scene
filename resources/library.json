@@ -188,6 +188,40 @@
         ]
       },
       {
+        "title": "StageCONNECT USB/Ultranet",
+        "vendor": "Klark Teknik",
+        "model": "DN4816U",
+        "inputs": [
+          {
+            "model": "usb_b"
+          },
+          {
+            "model": "ethernet",
+            "name": "Ultranet 16ch IN"
+          },
+          {
+            "model": "xlr",
+            "name": "StageCONNECT slave"
+          },
+          {
+            "model": "power_dc_5.5x2.1",
+            "name": "DC input (+)12V",
+            "power": "+"
+
+          }
+        ],
+        "outputs": [
+          {
+            "model": "ethernet",
+            "name": "Ultranet 16ch OUT"
+          },
+          {
+            "model": "xlr",
+            "name": "StageCONNECT master"
+          }
+        ]
+      },
+      {
         "model": "MidiXchange",
         "vendor": "Rocktron",
         "battery-type": "krona",
