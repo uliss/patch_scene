@@ -13,7 +13,6 @@
  *****************************************************************************/
 #include "connection_item_model.h"
 #include "diagram_item_model.h"
-#include "scene_devices.h"
 
 namespace {
 enum ConnColumnOrder {
