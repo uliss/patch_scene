@@ -41,6 +41,7 @@ VendorList::VendorList()
         << "Grundig"
         << "Heil Sound"
         << "JZ Microphones"
+        << "Klark Teknik"
         << "Lauten Audio"
         << "Line 6"
         << "Manley Laboratories"
