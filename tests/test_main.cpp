@@ -24,6 +24,7 @@
 #include "tests/test_scene_background.h"
 #include "tests/test_scene_connections.h"
 #include "tests/test_scene_devices.h"
+#include "tests/test_subcategory.h"
 #include "tests/test_xlet.h"
 
 int main(int argc, char* argv[])
@@ -71,6 +72,9 @@ int main(int argc, char* argv[])
 
     TestDevice test_device;
     status |= QTest::qExec(&test_device, argc, argv);
+
+    TestSubCategory test_subcat;
+    status |= QTest::qExec(&test_subcat, argc, argv);
 
     return status;
 }

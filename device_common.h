@@ -14,6 +14,7 @@
 #ifndef DEVICE_COMMON_H
 #define DEVICE_COMMON_H
 
+#include <QFlags>
 #include <QJsonArray>
 #include <QSharedData>
 #include <QString>
@@ -40,6 +41,58 @@ enum class ItemCategory : std::uint8_t {
 const char* toString(ItemCategory cat);
 std::optional<ItemCategory> fromQString(const QString& str);
 void foreachItemCategory(std::function<void(const char*, int)> fn);
+
+enum class DeviceCategory {
+    // clang-format off
+    Amplifier       = (1 << 0),
+    SoundCard       = (1 << 1),
+    Computer        = (1 << 2),
+    Microphone      = (1 << 3),
+    Midi            = (1 << 4),
+    Misc            = (1 << 5),
+    Mixer           = (1 << 6),
+    Network         = (1 << 7),
+    Phones          = (1 << 8),
+    Photo           = (1 << 9),
+    Speaker         = (1 << 10),
+    Synth           = (1 << 11),
+    Video           = (1 << 12),
+    // clang-format on
+};
+
+Q_DECLARE_FLAGS(DeviceCategoryFlags, DeviceCategory)
+Q_DECLARE_OPERATORS_FOR_FLAGS(DeviceCategoryFlags)
+
+enum class InstrumentCategory {
+    // clang-format off
+    WindsWood       = (1 << 0),
+    WindsBrass      = (1 << 1),
+    WindsReed       = (1 << 2),
+    StringsBowed    = (1 << 3),
+    StringsPlucked  = (1 << 4),
+    PercussionTonal = (1 << 5),
+    PercussionNoise = (1 << 6),
+    Keyboard        = (1 << 7),
+    // clang-format on
+};
+
+Q_DECLARE_FLAGS(InstrumentCategoryFlags, InstrumentCategory)
+Q_DECLARE_OPERATORS_FOR_FLAGS(InstrumentCategoryFlags)
+
+struct SubCategory : public std::variant<std::monostate,
+                         DeviceCategoryFlags,
+                         InstrumentCategoryFlags> {
+
+    bool isValid() const { return index() != 0; }
+    QJsonValue toJson() const;
+    SubCategory& operator|=(const SubCategory& cat);
+    SubCategory& operator|=(DeviceCategory cat);
+    SubCategory& operator|=(InstrumentCategory cat);
+
+    bool operator|(DeviceCategory cat) const;
+    bool operator|(InstrumentCategory cat) const;
+    static std::optional<SubCategory> fromJson(const QJsonValue& val);
+};
 
 class DeviceData : public QSharedData {
 public:
@@ -119,6 +172,9 @@ public:
     int maxOutputColumnCount() const { return max_output_column_count_; }
     bool setMaxOutputColumnCount(int n);
 
+    SubCategory subCategory() const { return subcat_; }
+    void setSubCategory(SubCategory subcat) { subcat_ = subcat; }
+
 private:
     static QJsonArray xletToJson(const QList<XletData>& xlets);
     static bool setXletJson(const QJsonValue& v, QList<XletData>& xlets);
@@ -135,6 +191,7 @@ private:
     float zvalue_ = { 1 };
     DeviceId id_ { 0 };
     int battery_count_ { 0 };
+    SubCategory subcat_;
     ItemCategory category_ { ItemCategory::Device };
     BatteryType battery_type_ { BatteryType::None };
     bool show_title_ { true };

@@ -12,20 +12,50 @@
  * this file belongs to.
  *****************************************************************************/
 #include "device_common.h"
+#include "logging.hpp"
 
 #include <QDebug>
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonParseError>
 
+using namespace ceam;
+
 namespace {
 
-constexpr const char* STR_DEVICE = "device";
-constexpr const char* STR_SEND = "send";
-constexpr const char* STR_RETURN = "return";
-constexpr const char* STR_INSTRUMENT = "instrument";
-constexpr const char* STR_HUMAN = "human";
-constexpr const char* STR_FURNITURE = "furniture";
+#define CONST_STR(str) constexpr const char* str_##str = #str;
+
+CONST_STR(computer)
+CONST_STR(device)
+CONST_STR(furniture)
+CONST_STR(human)
+CONST_STR(instrument)
+CONST_STR(return )
+CONST_STR(send)
+
+#define CONST_PAIR(cat, name) constexpr auto cat_##name = std::make_pair(cat, #name);
+
+CONST_PAIR(DeviceCategory::Amplifier, amp)
+CONST_PAIR(DeviceCategory::Computer, computer)
+CONST_PAIR(DeviceCategory::Microphone, mic)
+CONST_PAIR(DeviceCategory::Midi, midi)
+CONST_PAIR(DeviceCategory::Mixer, mix)
+CONST_PAIR(DeviceCategory::Network, net)
+CONST_PAIR(DeviceCategory::Phones, phones)
+CONST_PAIR(DeviceCategory::Photo, photo)
+CONST_PAIR(DeviceCategory::SoundCard, soundcard)
+CONST_PAIR(DeviceCategory::Speaker, speaker)
+CONST_PAIR(DeviceCategory::Synth, synth)
+CONST_PAIR(DeviceCategory::Video, video)
+
+CONST_PAIR(InstrumentCategory::Keyboard, keyboard)
+CONST_PAIR(InstrumentCategory::PercussionNoise, perc_noise)
+CONST_PAIR(InstrumentCategory::PercussionTonal, perc_tonal)
+CONST_PAIR(InstrumentCategory::StringsBowed, bowed)
+CONST_PAIR(InstrumentCategory::StringsPlucked, plucked)
+CONST_PAIR(InstrumentCategory::WindsBrass, brass)
+CONST_PAIR(InstrumentCategory::WindsReed, reed)
+CONST_PAIR(InstrumentCategory::WindsWood, wood)
 
 constexpr const char* JSON_KEY_ID = "id";
 constexpr const char* JSON_KEY_X = "x";
@@ -57,26 +87,24 @@ QString readLocalizedKey(const QJsonObject& obj, const QString& key, const QStri
 
 }
 
-using namespace ceam;
-
 const char* ceam::toString(ItemCategory cat)
 {
     switch (cat) {
     case ItemCategory::Human:
-        return STR_HUMAN;
+        return str_human;
     case ItemCategory::Furniture:
-        return STR_FURNITURE;
+        return str_furniture;
     case ItemCategory::Send:
-        return STR_SEND;
+        return str_send;
     case ItemCategory::Return:
-        return STR_RETURN;
+        return str_return;
     case ItemCategory::Instrument:
-        return STR_INSTRUMENT;
+        return str_instrument;
     case ItemCategory::Device:
-        return STR_DEVICE;
+        return str_device;
     case ItemCategory::MaxCategory:
     default:
-        return STR_DEVICE;
+        return str_device;
     }
 }
 
@@ -86,17 +114,17 @@ std::optional<ItemCategory> ceam::fromQString(const QString& str)
         return ItemCategory::Device;
 
     auto icat = str.toLower();
-    if (icat == STR_DEVICE) {
+    if (icat == str_device) {
         return ItemCategory::Device;
-    } else if (icat == STR_RETURN) {
+    } else if (icat == str_return) {
         return ItemCategory::Return;
-    } else if (icat == STR_SEND) {
+    } else if (icat == str_send) {
         return ItemCategory::Send;
-    } else if (icat == STR_FURNITURE) {
+    } else if (icat == str_furniture) {
         return ItemCategory::Furniture;
-    } else if (icat == STR_HUMAN) {
+    } else if (icat == str_human) {
         return ItemCategory::Human;
-    } else if (icat == STR_INSTRUMENT) {
+    } else if (icat == str_instrument) {
         return ItemCategory::Instrument;
     } else {
         qWarning() << __FUNCTION__ << "unknown category:" << str;
@@ -435,4 +463,177 @@ QDebug operator<<(QDebug debug, const ceam::DeviceData& data)
     }
 
     return debug;
+}
+
+QJsonValue SubCategory::toJson() const
+{
+#define ADD_CAT(cat_name)           \
+    {                               \
+        if (*pval & cat_name.first) \
+            arr << cat_name.second; \
+    }
+
+    if (auto pval = std::get_if<DeviceCategoryFlags>(this)) {
+        QJsonArray arr;
+
+        ADD_CAT(cat_amp);
+        ADD_CAT(cat_soundcard);
+        ADD_CAT(cat_computer);
+        ADD_CAT(cat_mic);
+        ADD_CAT(cat_midi);
+        ADD_CAT(cat_mix);
+        ADD_CAT(cat_net);
+        ADD_CAT(cat_phones);
+        ADD_CAT(cat_photo);
+        ADD_CAT(cat_speaker);
+        ADD_CAT(cat_synth);
+        ADD_CAT(cat_video);
+
+        if (arr.empty())
+            return {};
+        else if (arr.size() == 1)
+            return arr.first();
+        else
+            return arr;
+
+    } else if (auto pval = std::get_if<InstrumentCategoryFlags>(this)) {
+        QJsonArray arr;
+
+        ADD_CAT(cat_bowed);
+        ADD_CAT(cat_plucked);
+        ADD_CAT(cat_perc_tonal);
+        ADD_CAT(cat_perc_noise);
+        ADD_CAT(cat_brass);
+        ADD_CAT(cat_wood);
+        ADD_CAT(cat_reed);
+        ADD_CAT(cat_keyboard);
+
+        if (arr.empty())
+            return {};
+        else if (arr.size() == 1)
+            return arr.first();
+        else
+            return arr;
+    } else
+        return {};
+
+#undef ADD_CAT
+}
+
+SubCategory& SubCategory::operator|=(const SubCategory& cat)
+{
+    if (cat.index() != index()) {
+        WARN() << "non compatible subcategories";
+        return *this;
+    }
+
+    if (auto pval0 = std::get_if<DeviceCategoryFlags>(this);
+        auto pval1 = std::get_if<DeviceCategoryFlags>(&cat)) {
+        *pval0 |= *pval1;
+    } else if (auto pval0 = std::get_if<InstrumentCategoryFlags>(this);
+               auto pval1 = std::get_if<InstrumentCategoryFlags>(&cat)) {
+        *pval0 |= *pval1;
+    }
+
+    return *this;
+}
+
+bool SubCategory::operator|(DeviceCategory cat) const
+{
+    if (auto pval = std::get_if<DeviceCategoryFlags>(this))
+        return *pval | cat;
+    else
+        return false;
+}
+
+bool SubCategory::operator|(InstrumentCategory cat) const
+{
+    if (auto pval = std::get_if<InstrumentCategoryFlags>(this))
+        return *pval | cat;
+    else
+        return false;
+}
+
+SubCategory& SubCategory::operator|=(DeviceCategory cat)
+{
+    if (index() == 0) {
+        *this = SubCategory { DeviceCategoryFlags(cat) };
+    } else if (auto pval = std::get_if<DeviceCategoryFlags>(this)) {
+        *pval |= cat;
+    }
+
+    return *this;
+}
+
+SubCategory& SubCategory::operator|=(InstrumentCategory cat)
+{
+    if (index() == 0) {
+        *this = SubCategory { InstrumentCategoryFlags(cat) };
+    } else if (auto pval = std::get_if<InstrumentCategoryFlags>(this)) {
+        *pval |= cat;
+    }
+
+    return *this;
+}
+
+std::optional<SubCategory> SubCategory::fromJson(const QJsonValue& val)
+{
+    if (val.isArray()) {
+        auto arr = val.toArray();
+
+        std::optional<SubCategory> res;
+
+        for (const auto& x : arr) {
+            if (x.isString()) {
+                auto str_cat = fromJson(x);
+                if (str_cat) {
+                    if (res)
+                        *res |= *str_cat;
+                    else
+                        res = str_cat;
+                } else {
+                    WARN() << "invalid subcategory value:" << x;
+                }
+            } else {
+                WARN() << "invalid array value:" << x;
+            }
+        }
+
+        return res;
+
+    } else if (val.isString()) {
+        const auto str = val.toString();
+
+#define CHECK_CAT(cat_name)                    \
+    if (str == cat_name.second) {              \
+        return SubCategory { cat_name.first }; \
+    }
+
+        CHECK_CAT(cat_amp);
+        CHECK_CAT(cat_soundcard);
+        CHECK_CAT(cat_computer);
+        CHECK_CAT(cat_mic);
+        CHECK_CAT(cat_midi);
+        CHECK_CAT(cat_mix);
+        CHECK_CAT(cat_net);
+        CHECK_CAT(cat_phones);
+        CHECK_CAT(cat_photo);
+        CHECK_CAT(cat_speaker);
+        CHECK_CAT(cat_synth);
+        CHECK_CAT(cat_video);
+
+        CHECK_CAT(cat_bowed);
+        CHECK_CAT(cat_plucked);
+        CHECK_CAT(cat_perc_tonal);
+        CHECK_CAT(cat_perc_noise);
+        CHECK_CAT(cat_brass);
+        CHECK_CAT(cat_wood);
+        CHECK_CAT(cat_reed);
+        CHECK_CAT(cat_keyboard);
+
+        return {};
+
+#undef CHECK_CAT
+    } else
+        return {};
 }
