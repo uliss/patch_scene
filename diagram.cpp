@@ -735,6 +735,11 @@ void Diagram::setGridVisible(bool value)
     scene_->setGridVisible(value);
 }
 
+void Diagram::setScaleVisible(bool value)
+{
+    scale_->setVisible(value);
+}
+
 void Diagram::zoomNormal()
 {
     updateZoom(1);
@@ -793,6 +798,11 @@ void Diagram::clearAll()
     undo_stack_->clear();
 
     emit sceneClearAll();
+}
+
+bool Diagram::scaleIsVisible() const
+{
+    return scale_->isVisible();
 }
 
 void Diagram::wheelEvent(QWheelEvent* event)
@@ -1334,7 +1344,7 @@ std::pair<QByteArray, QSize> Diagram::toSvg() const
     return { buf.data(), items_bbox.size() };
 }
 
-bool Diagram::gridVisible() const
+bool Diagram::gridIsVisible() const
 {
     return scene_->gridVisible();
 }

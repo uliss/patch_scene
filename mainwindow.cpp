@@ -17,7 +17,6 @@
 #include "app_version.h"
 #include "device_item_model.h"
 #include "device_library.h"
-#include "diagram_item_model.h"
 #include "diagram_meta_dialog.h"
 #include "export_document.h"
 #include "ui_mainwindow.h"
@@ -278,6 +277,12 @@ void MainWindow::initActions()
     connect(ui->actionShowBackground, &QAction::triggered, diagram_, [this](bool value) {
         diagram_->setShowBackground(value);
     });
+    connect(ui->actionShowGrid, SIGNAL(triggered(bool)), diagram_, SLOT(setGridVisible(bool)));
+    ui->actionShowGrid->setChecked(diagram_->gridIsVisible());
+
+    connect(ui->actionShowScale, SIGNAL(triggered(bool)), diagram_, SLOT(setScaleVisible(bool)));
+    ui->actionShowScale->setChecked(!diagram_->scaleIsVisible());
+
     connect(ui->actionExportToPdf, SIGNAL(triggered()), this, SLOT(exportToPdf()));
     connect(ui->actionExportToOdf, SIGNAL(triggered()), this, SLOT(exportToOdf()));
     connect(ui->actionExportSchemeToPdf, &QAction::triggered, this, &MainWindow::exportSchemeToPdf);
@@ -297,9 +302,6 @@ void MainWindow::initActions()
 
     connect(ui->actionRedo, SIGNAL(triggered()), diagram_, SLOT(redo()));
     connect(ui->actionUndo, SIGNAL(triggered()), diagram_, SLOT(undo()));
-
-    connect(ui->actionShowGrid, SIGNAL(triggered(bool)), diagram_, SLOT(setGridVisible(bool)));
-    ui->actionShowGrid->setChecked(diagram_->gridVisible());
 
     connect(ui->actionZoomFit, &QAction::triggered, diagram_, &Diagram::zoomFitBest);
     connect(ui->actionZoomFitSelected, &QAction::triggered, diagram_, &Diagram::zoomFitSelected);

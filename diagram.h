@@ -163,13 +163,18 @@ public:
     /**
      * check if grid is visible
      */
-    bool gridVisible() const;
+    bool gridIsVisible() const;
 
     /**
      * Clear all items and undo stack
      * @emit sceneClearAll()
      */
     void clearAll();
+
+    /**
+     * check if scale is visible
+     */
+    bool scaleIsVisible() const;
 
 public slots:
     // undo/redo commands
@@ -206,6 +211,7 @@ public slots:
     void paste();
     void redo();
     void setGridVisible(bool value);
+    void setScaleVisible(bool value);
     void undo();
     void zoomIn();
     void zoomNormal();

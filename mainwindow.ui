@@ -132,6 +132,7 @@
     <addaction name="actionShowCables"/>
     <addaction name="actionShowBackground"/>
     <addaction name="actionShowGrid"/>
+    <addaction name="actionShowScale"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -902,6 +903,18 @@
    </property>
    <property name="shortcut">
     <string>Alt+2</string>
+   </property>
+  </action>
+  <action name="actionShowScale">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources/patch_scene_resources.qrc">
+     <normaloff>:/icons/ruler.svg</normaloff>:/icons/ruler.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Scale</string>
    </property>
   </action>
  </widget>
