@@ -2089,6 +2089,37 @@
         ]
       },
       {
+        "vendor": "Behringer",
+        "model": "Xtouch extender",
+        "subcat": "midi",
+        "image": "mixer_2",
+        "inputs": [
+          {
+            "model": "power_iec_c_13_14",
+            "socket": "socket_male",
+            "power": "~"
+          },
+          {
+            "model": "ethernet",
+            "name": "Remote"
+          },
+          {
+            "model": "usb_b",
+            "name": "USB Midi"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "usb_a",
+            "name": "USB Hub"
+          },
+          {
+            "model": "usb_a",
+            "name": "USB Hub"
+          }
+        ]
+      },
+      {
         "title": "DiBox",
         "title_ru": "Директ-бокс",
         "subcat": "misc",
