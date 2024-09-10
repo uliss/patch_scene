@@ -52,7 +52,7 @@ constexpr DevCatTuple DEV_CATS[] = {
     { DeviceCategory::Power,        "power",    QT_TRANSLATE_NOOP("ceam", "power") },
     { DeviceCategory::Guitar,       "guitar",   QT_TRANSLATE_NOOP("ceam", "guitars") },
     { DeviceCategory::Light,        "light",    QT_TRANSLATE_NOOP("ceam", "lights") },
-    { DeviceCategory::Light,        "radio",    QT_TRANSLATE_NOOP("ceam", "radio") },
+    { DeviceCategory::Radio,        "radio",    QT_TRANSLATE_NOOP("ceam", "radio") },
     { DeviceCategory::Player,       "play",     QT_TRANSLATE_NOOP("ceam", "players") },
     { DeviceCategory::Recorder,     "rec",      QT_TRANSLATE_NOOP("ceam", "recorders") },
     // clang-format on
