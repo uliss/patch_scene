@@ -204,6 +204,20 @@
         ]
       },
       {
+        "title": "Smartphone",
+        "title_ru": "Смартфон",
+        "image": "smartphone_1",
+        "subcat": "misc",
+        "outputs": [
+          {
+            "model": "jack_mini_trs"
+          },
+          {
+            "model": "usb_type_c"
+          }
+        ]
+      },
+      {
         "title": "Ultragain Digital ADAT interface",
         "model": "ADA8200",
         "vendor": "Behringer",

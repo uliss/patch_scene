@@ -175,5 +175,6 @@
         <file>devices/web_camera_1.svg</file>
         <file>connectors/usb_a_plug_male.svg</file>
         <file>icons/ruler.svg</file>
+        <file>devices/smartphone_1.svg</file>
     </qresource>
 </RCC>
