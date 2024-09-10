@@ -2501,9 +2501,49 @@
         ]
       },
       {
+        "model": "T8",
+        "vendor": "Little Bear",
+        "title": "Phono corrector",
+        "subcat": "amp",
+        "inputs": [
+          {
+            "model": "power_dc_5.5x2.1",
+            "power": "~",
+            "name": "AC 12-18V"
+          },
+          {
+            "model": "rca",
+            "name": "MM L"
+          },
+          {
+            "model": "rca",
+            "name": "MM R"
+          },
+          {
+            "model": "rca",
+            "name": "MC L"
+          },
+          {
+            "model": "rca",
+            "name": "MC R"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "rca",
+            "name": "L"
+          },
+          {
+            "model": "rca",
+            "name": "R"
+          }
+        ]
+      },
+      {
         "model": "FW5685",
         "vendor": "FeelWorld",
         "title": "Field Monitor",
+        "title_ru": "Полевой монитор",
         "image": "monitor_1",
         "battery-type": "krona",
         "subcat": "video",
