@@ -2074,6 +2074,21 @@
         ]
       },
       {
+        "vendor": "Arturia",
+        "model": "MiniLab mkII",
+        "subcat": "midi",
+        "image": "synth_2",
+        "inputs": [
+          {
+            "model": "usb_b"
+          },
+          {
+            "model": "jack_trs",
+            "name": "Sustain"
+          }
+        ]
+      },
+      {
         "title": "DiBox",
         "title_ru": "Директ-бокс",
         "subcat": "misc",
