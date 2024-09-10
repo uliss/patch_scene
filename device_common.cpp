@@ -40,14 +40,19 @@ constexpr DevCatTuple DEV_CATS[] = {
     { DeviceCategory::Computer,     "computer", QT_TRANSLATE_NOOP("ceam", "computers") },
     { DeviceCategory::Microphone,   "mic",      QT_TRANSLATE_NOOP("ceam", "microphones") },
     { DeviceCategory::Midi,         "midi",     QT_TRANSLATE_NOOP("ceam", "MIDI") },
+    { DeviceCategory::Misc,         "misc",     QT_TRANSLATE_NOOP("ceam", "miscellaneous") },
     { DeviceCategory::Mixer,        "mix",      QT_TRANSLATE_NOOP("ceam", "mixing consoles") },
     { DeviceCategory::Network,      "net",      QT_TRANSLATE_NOOP("ceam", "network") },
     { DeviceCategory::Phones,       "phones",   QT_TRANSLATE_NOOP("ceam", "headphones") },
     { DeviceCategory::Photo,        "photo",    QT_TRANSLATE_NOOP("ceam", "photo") },
     { DeviceCategory::SoundCard,    "soundcard",QT_TRANSLATE_NOOP("ceam", "soundcards") },
     { DeviceCategory::Speaker,      "speaker",  QT_TRANSLATE_NOOP("ceam", "speakers") },
-    { DeviceCategory::Synth,        "synth",    QT_TRANSLATE_NOOP("ceam", "synth") },
+    { DeviceCategory::Synth,        "synth",    QT_TRANSLATE_NOOP("ceam", "synths") },
     { DeviceCategory::Video,        "video",    QT_TRANSLATE_NOOP("ceam", "video") },
+    { DeviceCategory::Power,        "power",    QT_TRANSLATE_NOOP("ceam", "power") },
+    { DeviceCategory::Guitar,       "guitar",   QT_TRANSLATE_NOOP("ceam", "guitars") },
+    { DeviceCategory::Light,        "light",    QT_TRANSLATE_NOOP("ceam", "lights") },
+    { DeviceCategory::Light,        "radio",    QT_TRANSLATE_NOOP("ceam", "radio") },
     // clang-format on
 };
 

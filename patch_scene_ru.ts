@@ -895,7 +895,7 @@
     <message>
         <location filename="device_common.cpp" line="40"/>
         <source>computers</source>
-        <translation>компьютеры</translation>
+        <translation>компьютерное оборудование</translation>
     </message>
     <message>
         <location filename="device_common.cpp" line="41"/>
@@ -909,81 +909,107 @@
     </message>
     <message>
         <location filename="device_common.cpp" line="43"/>
+        <source>miscellaneous</source>
+        <translation>разное</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="44"/>
         <source>mixing consoles</source>
         <translation>микшеры</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="44"/>
+        <location filename="device_common.cpp" line="45"/>
         <source>network</source>
         <translation>компьютерные сети</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="45"/>
+        <location filename="device_common.cpp" line="46"/>
         <source>headphones</source>
         <translation>наушники</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="46"/>
+        <location filename="device_common.cpp" line="47"/>
         <source>photo</source>
         <translation>фото</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="47"/>
+        <location filename="device_common.cpp" line="48"/>
         <source>soundcards</source>
         <translation>звуковые карты</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="48"/>
-        <source>speakers</source>
-        <translation>акустика</translation>
-    </message>
-    <message>
         <location filename="device_common.cpp" line="49"/>
-        <source>synth</source>
-        <translation>синтезаторы</translation>
+        <source>speakers</source>
+        <translation>акустические системы</translation>
     </message>
     <message>
         <location filename="device_common.cpp" line="50"/>
+        <source>synths</source>
+        <oldsource>synth</oldsource>
+        <translation>синтезаторы</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="51"/>
         <source>video</source>
         <translation>видео</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="57"/>
+        <location filename="device_common.cpp" line="52"/>
+        <source>power</source>
+        <translation>питание</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="53"/>
+        <source>guitars</source>
+        <translation>гитарное оборудование</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="54"/>
+        <source>lights</source>
+        <translation>световое оборудование</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="55"/>
+        <source>radio</source>
+        <translation>радио-системы</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="62"/>
         <source>keyboards</source>
         <translation>клавишные</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="58"/>
+        <location filename="device_common.cpp" line="63"/>
         <source>percussion (noise)</source>
         <translation>ударные (шумовые)</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="59"/>
+        <location filename="device_common.cpp" line="64"/>
         <source>percussion (tonal)</source>
         <translation>ударные (звуковысотные)</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="60"/>
+        <location filename="device_common.cpp" line="65"/>
         <source>strings (bowed)</source>
         <translation>струнные (смычковые)</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="61"/>
+        <location filename="device_common.cpp" line="66"/>
         <source>strings (plucked)</source>
         <translation>струнные (щипковые)</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="62"/>
+        <location filename="device_common.cpp" line="67"/>
         <source>brass</source>
         <translation>духовые (медные)</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="63"/>
+        <location filename="device_common.cpp" line="68"/>
         <source>reed</source>
         <translation>язычковые</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="64"/>
+        <location filename="device_common.cpp" line="69"/>
         <source>woodwinds</source>
         <translation>духовые (деревянные)</translation>
     </message>
@@ -1369,17 +1395,17 @@ http://ceam.space</source>
 <context>
     <name>ceam::DeviceItemModel</name>
     <message>
-        <location filename="device_item_model.cpp" line="30"/>
+        <location filename="device_item_model.cpp" line="31"/>
         <source>Name</source>
         <translation>Название</translation>
     </message>
     <message>
-        <location filename="device_item_model.cpp" line="30"/>
+        <location filename="device_item_model.cpp" line="31"/>
         <source>Vendor</source>
         <translation>Производитель</translation>
     </message>
     <message>
-        <location filename="device_item_model.cpp" line="30"/>
+        <location filename="device_item_model.cpp" line="31"/>
         <source>Model</source>
         <translation>Модель</translation>
     </message>
@@ -1420,7 +1446,7 @@ http://ceam.space</source>
 <context>
     <name>ceam::DeviceXlet</name>
     <message>
-        <location filename="device_xlet.cpp" line="181"/>
+        <location filename="device_xlet.cpp" line="182"/>
         <source>Phantom</source>
         <translation>Фантом</translation>
     </message>

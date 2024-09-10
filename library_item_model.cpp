@@ -96,12 +96,12 @@ void LibraryItemModel::loadSection(QStandardItem* parent, const QList<SharedDevi
                 }
 
                 continue;
+            } else {
+                auto item = new QStandardItem(QCoreApplication::translate("ceam", it.key().title()));
+                parent->appendRow(item);
+                for (auto& x : it.value())
+                    item->appendRow(new DiagramDataItem(x));
             }
-
-            auto item = new QStandardItem(QCoreApplication::translate("ceam", it.key().title()));
-            parent->appendRow(item);
-            for (auto& x : it.value())
-                item->appendRow(new DiagramDataItem(x));
         }
     } else {
         for (auto& x : data) {

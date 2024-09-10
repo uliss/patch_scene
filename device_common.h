@@ -57,6 +57,10 @@ enum class DeviceCategory {
     Speaker         = (1 << 10),
     Synth           = (1 << 11),
     Video           = (1 << 12),
+    Power           = (1 << 13),
+    Guitar          = (1 << 14),
+    Light           = (1 << 15),
+    Radio           = (1 << 16),
     // clang-format on
 };
 
