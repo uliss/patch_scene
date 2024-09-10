@@ -154,8 +154,7 @@
             "socket": "socket_male"
           }
         ],
-        "outputs": [
-        ]
+        "outputs": []
       },
       {
         "vendor": "M-Audio",
@@ -209,7 +208,9 @@
         "model": "Gl-MT1300",
         "vendor": "GL-iNet",
         "image": "router_2",
-        "subcat": ["network"],
+        "subcat": [
+          "network"
+        ],
         "inputs": [
           {
             "model": "usb_type_c",
@@ -239,7 +240,10 @@
         "model": "Lumix DMC-GX80",
         "vendor": "Panasonic",
         "image": "camera_1",
-        "subcat": ["photo", "video"],
+        "subcat": [
+          "photo",
+          "video"
+        ],
         "inputs": [
           {
             "model": "usb_micro_a",
@@ -260,7 +264,9 @@
         "image": "audio_recorder_1",
         "battery-type": "aa",
         "battery-count": 2,
-        "subcat": ["rec"],
+        "subcat": [
+          "rec"
+        ],
         "inputs": [
           {
             "model": "xlr_jack",
@@ -340,7 +346,6 @@
             "model": "power_dc_5.5x2.1",
             "name": "DC input (+)12V",
             "power": "+"
-
           }
         ],
         "outputs": [
@@ -385,7 +390,10 @@
       {
         "model": "Ampero Control",
         "vendor": "Hotone",
-        "subcat": ["midi", "guitar"],
+        "subcat": [
+          "midi",
+          "guitar"
+        ],
         "inputs": [
           {
             "model": "power_dc_5.5x2.1",
@@ -570,22 +578,22 @@
         "vendor": "REI YIN",
         "subcat": "soundcard",
         "inputs": [
-            {
-                "model": "usb_type_c"
-            }
+          {
+            "model": "usb_type_c"
+          }
         ],
         "outputs": [
-            {
-                "model": "toslink"
-            },
-            {
-                "model": "spdif",
-                "name": "Coaxial"
-            },
-            {
-                "model": "jack_mini_trs",
-                "name": "Phones"
-            }
+          {
+            "model": "toslink"
+          },
+          {
+            "model": "spdif",
+            "name": "Coaxial"
+          },
+          {
+            "model": "jack_mini_trs",
+            "name": "Phones"
+          }
         ]
       },
       {
@@ -593,53 +601,53 @@
         "vendor": "HD Audio Rush",
         "subcat": "soundcard",
         "inputs": [
-            {
-                "model": "power_dc_5.5x2.1",
-                "power": "+",
-                "name": "DC 5V"
-            },
-            {
-                "model": "toslink",
-                "name": "D1"
-            },
-            {
-                "model": "toslink",
-                "name": "D2"
-            },
-            {
-                "model": "spdif",
-                "name": "D3"
-            },
-            {
-                "model": "jack_mini_trs",
-                "name": "AUX"
-            }
+          {
+            "model": "power_dc_5.5x2.1",
+            "power": "+",
+            "name": "DC 5V"
+          },
+          {
+            "model": "toslink",
+            "name": "D1"
+          },
+          {
+            "model": "toslink",
+            "name": "D2"
+          },
+          {
+            "model": "spdif",
+            "name": "D3"
+          },
+          {
+            "model": "jack_mini_trs",
+            "name": "AUX"
+          }
         ],
         "outputs": [
-            {
-                "model": "rca",
-                "name": "Front Left"
-            },
-            {
-                "model": "rca",
-                "name": "Front Right"
-            },
-            {
-                "model": "rca",
-                "name": "Surround Left"
-            },
-            {
-                "model": "rca",
-                "name": "Surround Right"
-            },
-            {
-                "model": "rca",
-                "name": "Center"
-            },
-            {
-                "model": "rca",
-                "name": "Subwoofer"
-            }
+          {
+            "model": "rca",
+            "name": "Front Left"
+          },
+          {
+            "model": "rca",
+            "name": "Front Right"
+          },
+          {
+            "model": "rca",
+            "name": "Surround Left"
+          },
+          {
+            "model": "rca",
+            "name": "Surround Right"
+          },
+          {
+            "model": "rca",
+            "name": "Center"
+          },
+          {
+            "model": "rca",
+            "name": "Subwoofer"
+          }
         ]
       },
       {
@@ -728,14 +736,14 @@
           }
         ],
         "outputs": [
-            {
-              "model": "rca",
-              "name": "OUT L"
-            },
-            {
-              "model": "rca",
-              "name": "OUT R"
-            }
+          {
+            "model": "rca",
+            "name": "OUT L"
+          },
+          {
+            "model": "rca",
+            "name": "OUT R"
+          }
         ]
       },
       {
@@ -1620,7 +1628,9 @@
         "vendor": "Akai",
         "model": "4000-DS",
         "image": "magnetophone_1",
-        "subcat": ["play"],
+        "subcat": [
+          "play"
+        ],
         "outputs": [
           {
             "model": "din_5",
@@ -1849,7 +1859,10 @@
       {
         "vendor": "Mosky Audio",
         "model": "ISO 10 Power Supply",
-        "subcat": ["guitar", "power"],
+        "subcat": [
+          "guitar",
+          "power"
+        ],
         "inputs": [
           {
             "model": "power_dc_5.5x2.1",
@@ -2316,7 +2329,10 @@
       {
         "model": "XTone Pro",
         "vendor": "XSonic",
-        "subcat": ["guitar", "soundcard"],
+        "subcat": [
+          "guitar",
+          "soundcard"
+        ],
         "inputs": [
           {
             "model": "xlr_jack",
@@ -2653,11 +2669,11 @@
         "image": "xylophone_1",
         "subcat": "perc_tonal",
         "inputs": [
-            {
-                "power": "~",
-                "model": "power_type_c",
-                "socket": "plug_male"
-            }
+          {
+            "power": "~",
+            "model": "power_type_c",
+            "socket": "plug_male"
+          }
         ]
       },
       {
@@ -2881,26 +2897,26 @@
           }
         ],
         "inputs": [
-            {
-                "model": "xlr",
-                "socket": "socket_female",
-                "name": "1"
-            },
-            {
-                "model": "xlr",
-                "socket": "socket_female",
-                "name": "2"
-            },
-            {
-                "model": "xlr",
-                "socket": "socket_female",
-                "name": "3"
-            },
-            {
-                "model": "xlr",
-                "socket": "socket_female",
-                "name": "4"
-            }
+          {
+            "model": "xlr",
+            "socket": "socket_female",
+            "name": "1"
+          },
+          {
+            "model": "xlr",
+            "socket": "socket_female",
+            "name": "2"
+          },
+          {
+            "model": "xlr",
+            "socket": "socket_female",
+            "name": "3"
+          },
+          {
+            "model": "xlr",
+            "socket": "socket_female",
+            "name": "4"
+          }
         ]
       }
     ],
@@ -3008,26 +3024,26 @@
           }
         ],
         "outputs": [
-            {
-                "model": "xlr",
-                "socket": "socket_male",
-                "name": "1"
-            },
-            {
-                "model": "xlr",
-                "socket": "socket_male",
-                "name": "2"
-            },
-            {
-                "model": "xlr",
-                "socket": "socket_male",
-                "name": "3"
-            },
-            {
-                "model": "xlr",
-                "socket": "socket_male",
-                "name": "4"
-            }
+          {
+            "model": "xlr",
+            "socket": "socket_male",
+            "name": "1"
+          },
+          {
+            "model": "xlr",
+            "socket": "socket_male",
+            "name": "2"
+          },
+          {
+            "model": "xlr",
+            "socket": "socket_male",
+            "name": "3"
+          },
+          {
+            "model": "xlr",
+            "socket": "socket_male",
+            "name": "4"
+          }
         ]
       }
     ],
