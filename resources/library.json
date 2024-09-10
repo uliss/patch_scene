@@ -2653,6 +2653,36 @@
             "power": "phantom"
           }
         ]
+      },
+      {
+        "title": "4CH audio/DMX over network cable extender",
+        "outputs": [
+          {
+            "model": "ethernet"
+          }
+        ],
+        "inputs": [
+            {
+                "model": "xlr",
+                "socket": "socket_female",
+                "name": "1"
+            },
+            {
+                "model": "xlr",
+                "socket": "socket_female",
+                "name": "2"
+            },
+            {
+                "model": "xlr",
+                "socket": "socket_female",
+                "name": "3"
+            },
+            {
+                "model": "xlr",
+                "socket": "socket_female",
+                "name": "4"
+            }
+        ]
       }
     ],
     "returns": [
@@ -2749,6 +2779,36 @@
             "socket": "socket_male",
             "name": "Return #8"
           }
+        ]
+      },
+      {
+        "title": "4CH audio/DMX over network cable extender",
+        "inputs": [
+          {
+            "model": "ethernet"
+          }
+        ],
+        "outputs": [
+            {
+                "model": "xlr",
+                "socket": "socket_male",
+                "name": "1"
+            },
+            {
+                "model": "xlr",
+                "socket": "socket_male",
+                "name": "2"
+            },
+            {
+                "model": "xlr",
+                "socket": "socket_male",
+                "name": "3"
+            },
+            {
+                "model": "xlr",
+                "socket": "socket_male",
+                "name": "4"
+            }
         ]
       }
     ],
