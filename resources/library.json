@@ -204,6 +204,133 @@
         ]
       },
       {
+        "title": "Ultragain Digital ADAT interface",
+        "model": "ADA8200",
+        "vendor": "Behringer",
+        "subcat": "soundcard",
+        "inputs": [
+          {
+            "model": "xlr",
+            "power": "phantom",
+            "name": "Mic 1"
+          },
+          {
+            "model": "xlr",
+            "power": "phantom",
+            "name": "Mic 2"
+          },
+          {
+            "model": "xlr",
+            "power": "phantom",
+            "name": "Mic 3"
+          },
+          {
+            "model": "xlr",
+            "power": "phantom",
+            "name": "Mic 4"
+          },
+          {
+            "model": "xlr",
+            "power": "phantom",
+            "name": "Mic 5"
+          },
+          {
+            "model": "xlr",
+            "power": "phantom",
+            "name": "Mic 6"
+          },
+          {
+            "model": "xlr",
+            "power": "phantom",
+            "name": "Mic 7"
+          },
+          {
+            "model": "xlr",
+            "power": "phantom",
+            "name": "Mic 8"
+          },
+          {
+            "model": "jack_ts",
+            "name": "Line 1"
+          },
+          {
+            "model": "jack_ts",
+            "name": "Line 2"
+          },
+          {
+            "model": "jack_ts",
+            "name": "Line 3"
+          },
+          {
+            "model": "jack_ts",
+            "name": "Line 4"
+          },
+          {
+            "model": "jack_ts",
+            "name": "Line 5"
+          },
+          {
+            "model": "jack_ts",
+            "name": "Line 6"
+          },
+          {
+            "model": "jack_ts",
+            "name": "Line 7"
+          },
+          {
+            "model": "jack_ts",
+            "name": "Line 8"
+          },
+          {
+            "model": "toslink",
+            "name": "ADAT in"
+          },
+          {
+            "model": "power_iec_c_13_14",
+            "socket": "socket_male",
+            "power": "~"
+          }
+        ],
+        "outputs": [
+            {
+              "model": "xlr",
+              "name": "Line 1"
+            },
+            {
+              "model": "xlr",
+              "name": "Line 2"
+            },
+            {
+              "model": "xlr",
+              "name": "Line 3"
+            },
+            {
+              "model": "xlr",
+              "name": "Line 4"
+            },
+            {
+              "model": "xlr",
+              "name": "Line 5"
+            },
+            {
+              "model": "xlr",
+              "name": "Line 6"
+            },
+            {
+              "model": "xlr",
+              "name": "Line 7"
+            },
+            {
+              "model": "xlr",
+              "name": "Line 8"
+            },
+            {
+              "model": "toslink",
+              "name": "ADAT out"
+            }
+        ]
+      },
+      {
         "title": "Wireless Travel Router",
         "model": "Gl-MT1300",
         "vendor": "GL-iNet",
