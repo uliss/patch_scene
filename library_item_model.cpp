@@ -98,7 +98,7 @@ void LibraryItemModel::loadSection(QStandardItem* parent, const QList<SharedDevi
                 continue;
             }
 
-            auto item = new QStandardItem(QCoreApplication::translate("dev", it.key().title()));
+            auto item = new QStandardItem(QCoreApplication::translate("ceam", it.key().title()));
             parent->appendRow(item);
             for (auto& x : it.value())
                 item->appendRow(new DiagramDataItem(x));

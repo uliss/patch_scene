@@ -37,6 +37,9 @@ public:
 
     void addItems(const QList<SharedDeviceData>& items);
 
+public:
+    static QMap<SubCategory, QList<SharedDeviceData>> splitBySubcategory(const QList<SharedDeviceData>& items);
+
 private:
     static bool readItems(const QJsonValue& value, QList<SharedDeviceData>& items, ItemCategory cat);
     static bool writeItems(QJsonObject& value, const QList<SharedDeviceData>& items, ItemCategory cat);

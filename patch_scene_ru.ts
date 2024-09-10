@@ -886,6 +886,109 @@
     </message>
 </context>
 <context>
+    <name>ceam</name>
+    <message>
+        <location filename="device_common.cpp" line="39"/>
+        <source>amplifiers</source>
+        <translation>усилители</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="40"/>
+        <source>computers</source>
+        <translation>компьютеры</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="41"/>
+        <source>microphones</source>
+        <translation>микрофоны</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="42"/>
+        <source>MIDI</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="43"/>
+        <source>mixing consoles</source>
+        <translation>микшеры</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="44"/>
+        <source>network</source>
+        <translation>компьютерные сети</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="45"/>
+        <source>headphones</source>
+        <translation>наушники</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="46"/>
+        <source>photo</source>
+        <translation>фото</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="47"/>
+        <source>soundcards</source>
+        <translation>звуковые карты</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="48"/>
+        <source>speakers</source>
+        <translation>акустика</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="49"/>
+        <source>synth</source>
+        <translation>синтезаторы</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="50"/>
+        <source>video</source>
+        <translation>видео</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="57"/>
+        <source>keyboards</source>
+        <translation>клавишные</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="58"/>
+        <source>percussion (noise)</source>
+        <translation>ударные (шумовые)</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="59"/>
+        <source>percussion (tonal)</source>
+        <translation>ударные (звуковысотные)</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="60"/>
+        <source>strings (bowed)</source>
+        <translation>струнные (смычковые)</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="61"/>
+        <source>strings (plucked)</source>
+        <translation>струнные (щипковые)</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="62"/>
+        <source>brass</source>
+        <translation>духовые (медные)</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="63"/>
+        <source>reed</source>
+        <translation>язычковые</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="64"/>
+        <source>woodwinds</source>
+        <translation>духовые (деревянные)</translation>
+    </message>
+</context>
+<context>
     <name>ceam::AboutShortcuts</name>
     <message>
         <location filename="about_shortcuts.cpp" line="109"/>
@@ -1843,104 +1946,32 @@ Do you wan&apos;t to save it before closing?</source>
 <context>
     <name>dev</name>
     <message>
-        <location filename="device_common.cpp" line="39"/>
-        <source>amplifiers</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="device_common.cpp" line="40"/>
-        <source>computer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="device_common.cpp" line="41"/>
-        <source>microphone</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="device_common.cpp" line="42"/>
-        <source>MIDI</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="device_common.cpp" line="43"/>
-        <source>mixing consoles</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="device_common.cpp" line="44"/>
-        <source>network</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="device_common.cpp" line="45"/>
-        <source>headphones</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="device_common.cpp" line="46"/>
-        <source>photo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="device_common.cpp" line="47"/>
-        <source>soundcards</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="device_common.cpp" line="48"/>
-        <source>speakers</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="device_common.cpp" line="49"/>
-        <source>synth</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="device_common.cpp" line="50"/>
-        <source>video</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="device_common.cpp" line="59"/>
-        <source>keyboards</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="device_common.cpp" line="60"/>
         <source>percussion (noise)</source>
-        <translation>ударные (шумовые)</translation>
+        <translation type="vanished">ударные (шумовые)</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="61"/>
         <source>percussion (tonal)</source>
-        <translation>ударные (звуковысотные)</translation>
+        <translation type="vanished">ударные (звуковысотные)</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="62"/>
         <source>bowed strings</source>
-        <translation>струнные (смычковые)</translation>
+        <translation type="vanished">струнные (смычковые)</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="63"/>
         <source>plucked strings</source>
-        <translation>струнные (щипковые)</translation>
+        <translation type="vanished">струнные (щипковые)</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="64"/>
         <source>brass</source>
-        <translation>духовые (медные)</translation>
+        <translation type="vanished">духовые (медные)</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="65"/>
         <source>reed</source>
-        <translation>язычковые</translation>
+        <translation type="vanished">язычковые</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="66"/>
         <source>wood winds</source>
-        <translation>духовые (деревянные)</translation>
+        <translation type="vanished">духовые (деревянные)</translation>
     </message>
 </context>
 </TS>

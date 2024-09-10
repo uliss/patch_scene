@@ -36,38 +36,34 @@ CONST_STR(send)
 using DevCatTuple = std::tuple<DeviceCategory, const char*, const char*>;
 constexpr DevCatTuple DEV_CATS[] = {
     // clang-format off
-    { DeviceCategory::Amplifier,    "amp",      QT_TRANSLATE_NOOP("dev", "amplifiers") },
-    { DeviceCategory::Computer,     "computer", QT_TRANSLATE_NOOP("dev", "computer") },
-    { DeviceCategory::Microphone,   "mic",      QT_TRANSLATE_NOOP("dev", "microphone") },
-    { DeviceCategory::Midi,         "midi",     QT_TRANSLATE_NOOP("dev", "MIDI") },
-    { DeviceCategory::Mixer,        "mix",      QT_TRANSLATE_NOOP("dev", "mixing consoles") },
-    { DeviceCategory::Network,      "net",      QT_TRANSLATE_NOOP("dev", "network") },
-    { DeviceCategory::Phones,       "phones",   QT_TRANSLATE_NOOP("dev", "headphones") },
-    { DeviceCategory::Photo,        "photo",    QT_TRANSLATE_NOOP("dev", "photo") },
-    { DeviceCategory::SoundCard,    "soundcard",QT_TRANSLATE_NOOP("dev", "soundcards") },
-    { DeviceCategory::Speaker,      "speaker",  QT_TRANSLATE_NOOP("dev", "speakers") },
-    { DeviceCategory::Synth,        "synth",    QT_TRANSLATE_NOOP("dev", "synth") },
-    { DeviceCategory::Video,        "video",    QT_TRANSLATE_NOOP("dev", "video") },
+    { DeviceCategory::Amplifier,    "amp",      QT_TRANSLATE_NOOP("ceam", "amplifiers") },
+    { DeviceCategory::Computer,     "computer", QT_TRANSLATE_NOOP("ceam", "computers") },
+    { DeviceCategory::Microphone,   "mic",      QT_TRANSLATE_NOOP("ceam", "microphones") },
+    { DeviceCategory::Midi,         "midi",     QT_TRANSLATE_NOOP("ceam", "MIDI") },
+    { DeviceCategory::Mixer,        "mix",      QT_TRANSLATE_NOOP("ceam", "mixing consoles") },
+    { DeviceCategory::Network,      "net",      QT_TRANSLATE_NOOP("ceam", "network") },
+    { DeviceCategory::Phones,       "phones",   QT_TRANSLATE_NOOP("ceam", "headphones") },
+    { DeviceCategory::Photo,        "photo",    QT_TRANSLATE_NOOP("ceam", "photo") },
+    { DeviceCategory::SoundCard,    "soundcard",QT_TRANSLATE_NOOP("ceam", "soundcards") },
+    { DeviceCategory::Speaker,      "speaker",  QT_TRANSLATE_NOOP("ceam", "speakers") },
+    { DeviceCategory::Synth,        "synth",    QT_TRANSLATE_NOOP("ceam", "synth") },
+    { DeviceCategory::Video,        "video",    QT_TRANSLATE_NOOP("ceam", "video") },
     // clang-format on
 };
-
-constexpr auto NDEV_CATS = std::size(DEV_CATS);
 
 using InstrCatTuple = std::tuple<InstrumentCategory, const char*, const char*>;
 constexpr InstrCatTuple INST_CATS[] = {
     // clang-format off
-    { InstrumentCategory::Keyboard,         "keyboard",     QT_TRANSLATE_NOOP("dev", "keyboards") },
-    { InstrumentCategory::PercussionNoise,  "perc_noise",   QT_TRANSLATE_NOOP("dev", "percussion (noise)") },
-    { InstrumentCategory::PercussionTonal,  "perc_tonal",   QT_TRANSLATE_NOOP("dev", "percussion (tonal)") },
-    { InstrumentCategory::StringsBowed,     "bowed",        QT_TRANSLATE_NOOP("dev", "bowed strings") },
-    { InstrumentCategory::StringsPlucked,   "plucked",      QT_TRANSLATE_NOOP("dev", "plucked strings") },
-    { InstrumentCategory::WindsBrass,       "brass",        QT_TRANSLATE_NOOP("dev", "brass") },
-    { InstrumentCategory::WindsReed,        "reed",         QT_TRANSLATE_NOOP("dev", "reed") },
-    { InstrumentCategory::WindsWood,        "wood",         QT_TRANSLATE_NOOP("dev", "wood winds") },
+    { InstrumentCategory::Keyboard,         "keyboard",     QT_TRANSLATE_NOOP("ceam", "keyboards") },
+    { InstrumentCategory::PercussionNoise,  "perc_noise",   QT_TRANSLATE_NOOP("ceam", "percussion (noise)") },
+    { InstrumentCategory::PercussionTonal,  "perc_tonal",   QT_TRANSLATE_NOOP("ceam", "percussion (tonal)") },
+    { InstrumentCategory::StringsBowed,     "bowed",        QT_TRANSLATE_NOOP("ceam", "strings (bowed)") },
+    { InstrumentCategory::StringsPlucked,   "plucked",      QT_TRANSLATE_NOOP("ceam", "strings (plucked)") },
+    { InstrumentCategory::WindsBrass,       "brass",        QT_TRANSLATE_NOOP("ceam", "brass") },
+    { InstrumentCategory::WindsReed,        "reed",         QT_TRANSLATE_NOOP("ceam", "reed") },
+    { InstrumentCategory::WindsWood,        "wood",         QT_TRANSLATE_NOOP("ceam", "woodwinds") },
     // clang-format on
 };
-
-constexpr auto NINST_CATS = std::size(INST_CATS);
 
 constexpr const char* JSON_KEY_ID = "id";
 constexpr const char* JSON_KEY_X = "x";

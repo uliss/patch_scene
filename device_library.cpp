@@ -12,6 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "device_library.h"
+#include "logging.hpp"
 
 #include <QDebug>
 #include <QFile>
@@ -151,13 +152,23 @@ void DeviceLibrary::addItems(const QList<SharedDeviceData>& items)
     }
 }
 
+QMap<SubCategory, QList<SharedDeviceData>> DeviceLibrary::splitBySubcategory(const QList<SharedDeviceData>& items)
+{
+    QMap<SubCategory, QList<SharedDeviceData>> res;
+
+    for (auto& data : items)
+        res[data->subCategory()] << data;
+
+    return res;
+}
+
 bool DeviceLibrary::readItems(const QJsonValue& value, QList<SharedDeviceData>& items, ItemCategory cat)
 {
     if (value.isUndefined())
         return false;
 
     if (!value.isArray()) {
-        qWarning() << __FILE__ << __FUNCTION__ << "json array expected, got:" << value;
+        WARN() << "json array expected, got:" << value;
         return false;
     }
 
