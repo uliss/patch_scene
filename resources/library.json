@@ -54,6 +54,68 @@
         ]
       },
       {
+        "model": "C 451B",
+        "vendor": "AKG",
+        "subcat": "mic",
+        "outputs": [
+          {
+            "model": "xlr",
+            "socket": "socket_male"
+          }
+        ]
+      },
+      {
+        "title": "Multi-format Video Mixer",
+        "model": "Livepro L1",
+        "vendor": "FeelWorld",
+        "subcat": "video",
+        "inputs": [
+          {
+            "model": "hdmi",
+            "name": "HDMI input 1"
+          },
+          {
+            "model": "hdmi",
+            "name": "HDMI input 2"
+          },
+          {
+            "model": "hdmi",
+            "name": "HDMI input 3"
+          },
+          {
+            "model": "hdmi",
+            "name": "HDMI input 4"
+          },
+          {
+            "model": "ethernet",
+            "name": "LAN"
+          },
+          {
+            "model": "usb3_a",
+            "name": "USB capture"
+          },
+          {
+            "model": "jack_mini_trs",
+            "name": "Audio in"
+          },
+          {
+            "model": "power_dc_5.5x2.1",
+            "power": "+",
+            "name": "DC 12V"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "hdmi",
+            "name": "HDMI output"
+          },
+          {
+            "model": "jack_mini_trs",
+            "name": "Audio out"
+          }
+        ]
+      },
+      {
         "title": "TV",
         "title-ru": "Телевизор",
         "image": "tv_1",
