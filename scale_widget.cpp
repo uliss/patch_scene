@@ -94,24 +94,4 @@ void ScaleWidget::paintEvent(QPaintEvent* event)
 
         painter.drawText(txt_box, QString("%1%2").arg(i * scale_factor).arg(i == 0 ? "" : scale_unit), txt_opts);
     }
-
-    // painter.setBrush(QColor(100, 100, 100, 100));
-    // painter.drawRoundedRect({ {}, size }, 5, 5);
-    // painter.drawText({0, 0, 20, 200}, "RULER");
-
-    // QFontMetrics fm(font());
-    // for (int position = 0; position < heightMM; ++position) {
-    //     int const positionInPix = int(position / toMM());
-    //     if (position % 10 == 0) {
-    //         if (position != 0) {
-    //             QString const txt = QString::number(position);
-    //             QRect txtRect = fm.boundingRect(txt).translated(0, positionInPix);
-    //             txtRect.translate(0, txtRect.height() / 2);
-    //             painter.drawText(txtRect, txt);
-    //         }
-    //         painter.drawLine(width() - 15, positionInPix, width(), positionInPix);
-    //     } else {
-    //         painter.drawLine(width() - 10, positionInPix, width(), positionInPix);
-    //     }
-    // }
 }
