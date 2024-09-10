@@ -1468,7 +1468,7 @@ http://ceam.space</source>
         <translation>Новый проект</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1021"/>
+        <location filename="diagram.cpp" line="1022"/>
         <source>&amp;Add device</source>
         <translation>&amp;Добавить элемент</translation>
     </message>
@@ -1485,32 +1485,32 @@ http://ceam.space</source>
         <translation type="vanished">&amp;Установить фоновое изображение</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1033"/>
+        <location filename="diagram.cpp" line="1034"/>
         <source>Align &amp;horizontal</source>
         <translation>Выровнять по &amp;горизонтали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1037"/>
+        <location filename="diagram.cpp" line="1038"/>
         <source>Align &amp;vertical</source>
         <translation>Выровнять по &amp;вертикали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1041"/>
+        <location filename="diagram.cpp" line="1042"/>
         <source>Place in row</source>
         <translation>Разместить в ряд</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1045"/>
+        <location filename="diagram.cpp" line="1046"/>
         <source>Place in column</source>
         <translation>Разместить в столбец</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1052"/>
+        <location filename="diagram.cpp" line="1053"/>
         <source>Distribute horizontal</source>
         <translation>Распределить горизонтально</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1056"/>
+        <location filename="diagram.cpp" line="1057"/>
         <source>Distribute vertical</source>
         <translation>Распределить вертикально</translation>
     </message>
@@ -1912,6 +1912,19 @@ Do you wan&apos;t to save it before closing?</source>
         <location filename="return_item_model.cpp" line="51"/>
         <source>Input</source>
         <translation>Вход</translation>
+    </message>
+</context>
+<context>
+    <name>ceam::ScaleWidget</name>
+    <message>
+        <location filename="scale_widget.cpp" line="65"/>
+        <source>m</source>
+        <translation>м</translation>
+    </message>
+    <message>
+        <location filename="scale_widget.cpp" line="73"/>
+        <source>cm</source>
+        <translation>см</translation>
     </message>
 </context>
 <context>

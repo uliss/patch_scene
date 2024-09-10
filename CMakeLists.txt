@@ -110,6 +110,8 @@ set(PROJECT_SOURCES
     preferences_dialog.ui
     return_item_model.cpp
     return_item_model.h
+    scale_widget.h
+    scale_widget.cpp
     scene_background.cpp
     scene_background.h
     scene_connections.cpp

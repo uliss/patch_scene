@@ -31,6 +31,7 @@
 #include "diagram_scene.h"
 #include "diagram_updates_blocker.h"
 #include "logging.hpp"
+#include "scale_widget.h"
 #include "undo_commands.h"
 
 using namespace ceam;
@@ -102,6 +103,11 @@ Diagram::Diagram(int w, int h, QWidget* parent)
     initUndoStack();
 
     conn_database_.initDefault();
+
+    auto sw = new ScaleWidget(this);
+    sw->setPos({ 20, 20 });
+    sw->show();
+    connect(this, SIGNAL(zoomChanged(qreal)), sw, SLOT(setScale(qreal)));
 }
 
 void Diagram::initSelectionRect()
