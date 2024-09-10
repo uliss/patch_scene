@@ -566,6 +566,29 @@
         ]
       },
       {
+        "title": "Digital output interface",
+        "vendor": "REI YIN",
+        "subcat": "soundcard",
+        "inputs": [
+            {
+                "model": "usb_type_c"
+            }
+        ],
+        "outputs": [
+            {
+                "model": "toslink"
+            },
+            {
+                "model": "spdif",
+                "name": "Coaxial"
+            },
+            {
+                "model": "jack_mini_trs",
+                "name": "Phones"
+            }
+        ]
+      },
+      {
         "model": "MAYA44 USB+",
         "vendor": "ESI",
         "subcat": "soundcard",
