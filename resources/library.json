@@ -163,6 +163,24 @@
         ]
       },
       {
+        "model": "Lumix DMC-GX80",
+        "vendor": "Panasonic",
+        "image": "camera_1",
+        "subcat": ["photo", "video"],
+        "inputs": [
+          {
+            "model": "usb_micro_a",
+            "power": "+",
+            "name": "Charge"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "hdmi_micro"
+          }
+        ]
+      },
+      {
         "vendor": "Zoom",
         "model": "H4n Pro",
         "description": "Handy Recorder",
