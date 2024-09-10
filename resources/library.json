@@ -2157,62 +2157,73 @@
       {
         "title": "Violin",
         "title-ru": "Скрипка",
-        "image": "violin_1"
+        "image": "violin_1",
+        "subcat": "bowed"
       },
       {
         "title": "Viola",
         "title-ru": "Альт",
         "image": "violin_1",
-        "zoom": 1.25
+        "zoom": 1.25,
+        "subcat": "bowed"
       },
       {
         "title": "Cello",
         "title-ru": "Виолончель",
-        "image": "cello_1"
+        "image": "cello_1",
+        "subcat": "bowed"
       },
       {
         "title": "Piano",
         "title-ru": "Фортепиано",
         "image": "piano_2",
-        "zoom": 1.25
+        "zoom": 1.25,
+        "subcat": "keyboard"
       },
       {
         "title": "Balalaika",
         "title-ru": "Балалайка",
         "image": "balalaika_1",
-        "zoom": 0.75
+        "zoom": 0.75,
+        "subcat": "plucked"
       },
       {
         "title": "Alto Saxophone",
         "title-ru": "Саксофон альт",
         "image": "saxophone_alto_1",
-        "zoom": 1
+        "zoom": 1,
+        "subcat": "wood"
       },
       {
         "title": "Harp",
         "title-ru": "Арфа",
         "image": "harp_1",
-        "zoom": 1.5
+        "zoom": 1.5,
+        "subcat": "plucked"
       },
       {
         "title": "French Horn",
         "title-ru": "Валторна",
-        "image": "french_horn_1"
+        "image": "french_horn_1",
+        "subcat": "brass"
       },
       {
         "title": "Trumpet",
         "title-ru": "Труба",
-        "image": "trumpet_1"
+        "image": "trumpet_1",
+        "subcat": "brass"
       },
       {
         "title": "Accordion",
         "title-ru": "Аккордеон",
-        "image": "accordion_1"
+        "image": "accordion_1",
+        "subcat": "reed"
       },
       {
         "title": "Bass guitar",
         "title-ru": "Бас-гитара",
         "image": "bass_guitar_1",
+        "subcat": "plucked",
         "outputs": [
           {
             "model": "jack_ts"
@@ -2223,13 +2234,14 @@
         "title": "Viola da gamba",
         "title-ru": "Виола да гамба",
         "image": "gamba_1",
-        "zoom": 1.6
+        "zoom": 1.6,
+        "subcat": "bowed"
       },
       {
         "title": "Viola d'amore",
         "title-ru": "Виола д'аморе",
         "image": "amore_1",
-        "zoom": 1
+        "subcat": "bowed"
       },
       {
         "title": "Gong",
@@ -2245,47 +2257,68 @@
       {
         "title": "Drum Set",
         "title-ru": "Ударная установка",
-        "image": "drum_set_1"
+        "image": "drum_set_1",
+        "subcat": "perc_noise"
       },
       {
         "title": "Xylophone",
         "title-ru": "Ксилофон",
-        "image": "xylophone_1"
+        "image": "xylophone_1",
+        "subcat": "perc_tonal"
+      },
+      {
+        "title": "Vibraphone",
+        "title-ru": "Вибрафон",
+        "image": "xylophone_1",
+        "subcat": "perc_tonal",
+        "inputs": [
+            {
+                "power": "~",
+                "model": "power_type_c",
+                "socket": "plug_male"
+            }
+        ]
       },
       {
         "title": "Tuba",
         "title-ru": "Туба",
-        "image": "tuba_1"
+        "image": "tuba_1",
+        "subcat": "brass"
       },
       {
         "title": "Oboe",
         "title-ru": "Гобой",
         "image": "oboe_1",
-        "zoom": 0.75
+        "zoom": 0.75,
+        "subcat": "wood"
       },
       {
         "title": "English Horn",
         "title-ru": "Английский Рожок",
         "image": "oboe_2",
-        "zoom": 0.9
+        "zoom": 0.9,
+        "subcat": "wood"
       },
       {
         "title": "Trombone",
         "title-ru": "Тромбон",
         "image": "trombone_1",
-        "zoom": 1.2
+        "zoom": 1.2,
+        "subcat": "brass"
       },
       {
         "title": "Banjo",
         "title-ru": "Банджо",
         "image": "banjo_1",
-        "zoom": 1
+        "zoom": 1,
+        "subcat": "plucked"
       },
       {
         "title": "Harpsichord",
         "title-ru": "Клавесин",
         "image": "harpsichord_1",
-        "zoom": 1
+        "zoom": 1,
+        "subcat": "keyboard"
       }
     ],
     "sends": [
