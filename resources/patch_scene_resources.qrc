@@ -170,5 +170,6 @@
         <file>connectors/power_type_a_plug_male.svg</file>
         <file>connectors/power_type_c_plug_male.svg</file>
         <file>connectors/power_type_c_socket_female.svg</file>
+        <file>devices/router_2.svg</file>
     </qresource>
 </RCC>

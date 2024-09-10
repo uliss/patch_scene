@@ -132,6 +132,37 @@
         ]
       },
       {
+        "title": "Wireless Travel Router",
+        "model": "Gl-MT1300",
+        "vendor": "GL-iNet",
+        "image": "router_2",
+        "subcat": ["network"],
+        "inputs": [
+          {
+            "model": "usb_type_c",
+            "power": "+"
+          },
+          {
+            "model": "ethernet",
+            "name": "LAN 1"
+          },
+          {
+            "model": "ethernet",
+            "name": "LAN 2"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "ethernet",
+            "name": "WAN"
+          },
+          {
+            "model": "usb3_a",
+            "name": "USB host"
+          }
+        ]
+      },
+      {
         "vendor": "Zoom",
         "model": "H4n Pro",
         "description": "Handy Recorder",
