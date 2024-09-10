@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include "device_item_model.h"
 #include "diagram_item_model.h"
+#include "logging.hpp"
 
 namespace {
 enum DeviceColumnOrder {
@@ -123,7 +124,7 @@ std::optional<DeviceId> DeviceItemModel::deviceId(const QStandardItem* item) con
     if (ok)
         return id;
     else
-        qWarning() << __FUNCTION__ << "id property not found";
+        WARN() << "id property not found";
 
     return {};
 }
@@ -141,19 +142,16 @@ SharedDeviceData DeviceItemModel::updateDeviceData(const QStandardItem* item, co
     auto new_data = data;
     switch (item->column()) {
     case COL_DEV_TITLE:
-        qWarning() << "update title";
         new_data->setTitle(item->text());
         break;
     case COL_DEV_VENDOR:
-        qWarning() << "update vendor";
         new_data->setVendor(item->text());
         break;
     case COL_DEV_MODEL:
-        qWarning() << "update model";
         new_data->setModel(item->text());
         break;
     default:
-        qWarning() << "unknown column:" << item->column();
+        WARN() << "unknown column:" << item->column();
         return data;
     }
 
