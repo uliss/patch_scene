@@ -205,7 +205,7 @@
       },
       {
         "title": "Smartphone",
-        "title_ru": "Смартфон",
+        "title-ru": "Смартфон",
         "image": "smartphone_1",
         "subcat": "misc",
         "outputs": [
@@ -2275,7 +2275,7 @@
       },
       {
         "title": "DiBox",
-        "title_ru": "Директ-бокс",
+        "title-ru": "Директ-бокс",
         "subcat": "misc",
         "inputs": [
           {
@@ -2684,7 +2684,7 @@
         "model": "FW5685",
         "vendor": "FeelWorld",
         "title": "Field Monitor",
-        "title_ru": "Полевой монитор",
+        "title-ru": "Полевой монитор",
         "image": "monitor_1",
         "battery-type": "krona",
         "subcat": "video",
@@ -3233,6 +3233,11 @@
         "title": "Pocket music stand",
         "title-ru": "Пюпитр складной",
         "image": "music_stand_1"
+      },
+      {
+        "title": "Projector screen",
+        "title-ru": "Проэкционный экран",
+        "image": "screen_1"
       },
       {
         "title": "Steady music stand",

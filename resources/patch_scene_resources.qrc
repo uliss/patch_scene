@@ -176,5 +176,6 @@
         <file>connectors/usb_a_plug_male.svg</file>
         <file>icons/ruler.svg</file>
         <file>devices/smartphone_1.svg</file>
+        <file>devices/screen_1.svg</file>
     </qresource>
 </RCC>
