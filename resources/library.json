@@ -2246,13 +2246,15 @@
       {
         "title": "Gong",
         "title-ru": "Гонг",
-        "image": "gong_1"
+        "image": "gong_1",
+        "subcat": "perc_noise"
       },
       {
         "title": "Congas",
         "title-ru": "Конги",
         "image": "congas_1",
-        "zoom": 0.5
+        "zoom": 0.5,
+        "subcat": "perc_noise"
       },
       {
         "title": "Drum Set",
