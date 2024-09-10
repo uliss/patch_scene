@@ -19,6 +19,7 @@
 #include "device_library.h"
 #include "diagram_meta_dialog.h"
 #include "export_document.h"
+#include "logging.hpp"
 #include "ui_mainwindow.h"
 
 #include <QCloseEvent>
@@ -218,7 +219,7 @@ void MainWindow::initDeviceList()
                 auto new_data = device_model_->updateDeviceData(item, old_data);
                 diagram_->cmdUpdateDevice(new_data);
             } else {
-                qWarning() << "device not found:" << (int)id.value();
+                WARN() << "device not found:" << (int)id.value();
             }
         }
     });
@@ -633,7 +634,7 @@ void MainWindow::updateDeviceView(const SharedDeviceData& data, int idx)
 void MainWindow::onDeviceUpdate(SharedDeviceData data)
 {
     if (!data) {
-        qWarning() << "invalid data";
+        WARN() << "invalid data";
         return;
     }
 
@@ -691,7 +692,7 @@ bool MainWindow::doSave()
 {
     QFile file(file_name_);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qWarning() << "can't open for writing" << file_name_;
+        WARN() << "can't open for writing" << file_name_;
         return false;
     }
 
@@ -1104,7 +1105,7 @@ void MainWindow::exportToOdf()
     if (writer.write(doc)) {
         qDebug() << "exported to" << odt_file;
     } else {
-        qWarning() << "can't save to" << odt_file;
+        WARN() << "can't save to" << odt_file;
     }
 }
 
