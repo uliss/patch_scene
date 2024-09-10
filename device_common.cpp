@@ -232,7 +232,7 @@ bool DeviceData::setJson(const QJsonValue& v)
         return false;
 
     if (!v.isObject()) {
-        qWarning() << __FILE__ << __FUNCTION__ << "json object expected, got:" << v;
+        WARN() << "json object expected, got:" << v;
         return false;
     }
 
@@ -246,6 +246,7 @@ bool DeviceData::setJson(const QJsonValue& v)
 
     auto lang = QLocale::system().bcp47Name();
     title_ = readLocalizedKey(obj, JSON_KEY_TITLE, lang);
+    title_latin_ = obj.value(JSON_KEY_TITLE).toString();
     vendor_ = obj.value(JSON_KEY_VENDOR).toString();
     model_ = obj.value(JSON_KEY_MODEL).toString();
     pos_.setX(obj.value(JSON_KEY_X).toDouble(0));
@@ -391,7 +392,7 @@ bool DeviceData::setXletJson(const QJsonValue& v, QList<XletData>& xlets)
         return false;
 
     if (!v.isArray()) {
-        qWarning() << __FILE__ << __FUNCTION__ << "json array expected, got:" << v;
+        WARN() << "json array expected, got:" << v;
         return false;
     }
 

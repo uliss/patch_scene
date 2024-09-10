@@ -121,6 +121,7 @@ public:
     void setZoom(qreal z);
 
     QString title() const;
+    const QString& titleLatin() const { return title_latin_; }
     void setTitle(const QString& title);
 
     const QString& vendor() const { return vendor_; }
@@ -186,7 +187,7 @@ private:
 private:
     QList<XletData> inputs_;
     QList<XletData> outputs_;
-    QString model_, vendor_, title_;
+    QString model_, vendor_, title_, title_latin_;
     QString image_;
     QPointF pos_;
     int max_input_column_count_ { DEF_COL_COUNT };

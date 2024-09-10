@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include "device_xlet.h"
 #include "device.h"
+#include "logging.hpp"
 #include "svg_render_factory.h"
 
 #include <QContextMenuEvent>
@@ -86,7 +87,7 @@ QJsonObject XletData::toJson() const
 std::optional<XletData> XletData::fromJson(const QJsonValue& j)
 {
     if (!j.isObject()) {
-        qWarning() << __FILE__ << __FUNCTION__ << "json object expected, got:" << j;
+        WARN() << "json object expected, got:" << j;
         return {};
     }
 

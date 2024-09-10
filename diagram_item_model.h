@@ -24,9 +24,9 @@ enum {
     DATA_DEVICE_DATA = Qt::UserRole + 1,
     DATA_DEVICE_ID,
     DATA_CONNECTION,
-    DATA_DEVICE_TITLE,
     DATA_DEVICE_VENDOR,
-    DATA_DEVICE_MODEL
+    DATA_DEVICE_MODEL,
+    DATA_DEVICE_TITLE_LATIN,
 };
 
 class DiagramDataItem : public QStandardItem {

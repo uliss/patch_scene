@@ -104,7 +104,7 @@ void DiagramDataItem::setDeviceData(const SharedDeviceData& data)
 
         setData(data->vendor(), DATA_DEVICE_VENDOR);
         setData(data->model(), DATA_DEVICE_MODEL);
-        setData(data->title(), DATA_DEVICE_TITLE);
+        setData(data->titleLatin(), DATA_DEVICE_TITLE_LATIN);
 
         QJsonDocument doc(data->toJson());
         setData(doc.toJson(QJsonDocument::Compact), DATA_DEVICE_DATA);
@@ -115,5 +115,6 @@ bool DiagramDataItem::match(const QRegularExpression& re) const
 {
     return text().contains(re)
         || data(DATA_DEVICE_VENDOR).toString().contains(re)
-        || data(DATA_DEVICE_MODEL).toString().contains(re);
+        || data(DATA_DEVICE_MODEL).toString().contains(re)
+        || data(DATA_DEVICE_TITLE_LATIN).toString().contains(re);
 }
