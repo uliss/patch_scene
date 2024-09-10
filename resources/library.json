@@ -2543,6 +2543,25 @@
         ]
       },
       {
+        "title": "Video projector",
+        "title-ru": "Видео проектор",
+        "subcat": "video",
+        "image": "projector_1",
+        "inputs": [
+          {
+            "model": "hdmi"
+          },
+          {
+            "model": "vga"
+          },
+          {
+            "model": "power_iec_c_13_14",
+            "power": "~",
+            "socket": "socket_male"
+          }
+        ]
+      },
+      {
         "model": "Mini Converter",
         "vendor": "Wiistar",
         "title": "HDMI to SDI",
@@ -3236,7 +3255,7 @@
       },
       {
         "title": "Projector screen",
-        "title-ru": "Проэкционный экран",
+        "title-ru": "Проекционный экран",
         "image": "screen_1"
       },
       {

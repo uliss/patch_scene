@@ -177,5 +177,6 @@
         <file>icons/ruler.svg</file>
         <file>devices/smartphone_1.svg</file>
         <file>devices/screen_1.svg</file>
+        <file>devices/projector_1.svg</file>
     </qresource>
 </RCC>
