@@ -35,6 +35,7 @@ class QPrinter;
 namespace ceam {
 
 class DiagramScene;
+class ScaleWidget;
 
 class Diagram : public QGraphicsView {
     Q_OBJECT
@@ -293,9 +294,11 @@ private:
     QList<SharedDeviceData> clip_buffer_;
     DiagramMeta meta_;
     ConnectionDatabase conn_database_;
+    ScaleWidget* scale_;
 
 private:
     void initLiveConnection();
+    void initScale();
     void initScene(int w, int h);
     void initSceneBackground();
     void initSceneConnections();

@@ -75,6 +75,14 @@ void Diagram::initUndoStack()
     connect(undo_stack_, SIGNAL(canUndoChanged(bool)), this, SIGNAL(canUndoChanged(bool)));
 }
 
+void ceam::Diagram::initScale()
+{
+    scale_ = new ScaleWidget(this);
+    scale_->setPos({ 20, 20 });
+    scale_->show();
+    connect(this, SIGNAL(zoomChanged(qreal)), scale_, SLOT(setScale(qreal)));
+}
+
 Diagram::Diagram(int w, int h, QWidget* parent)
     : QGraphicsView { parent }
 {
@@ -97,17 +105,13 @@ Diagram::Diagram(int w, int h, QWidget* parent)
     initSceneConnections();
     initSceneDevices();
     initSceneBackground();
+    initScale();
 
     initLiveConnection();
     initSelectionRect();
     initUndoStack();
 
     conn_database_.initDefault();
-
-    auto sw = new ScaleWidget(this);
-    sw->setPos({ 20, 20 });
-    sw->show();
-    connect(this, SIGNAL(zoomChanged(qreal)), sw, SLOT(setScale(qreal)));
 }
 
 void Diagram::initSelectionRect()

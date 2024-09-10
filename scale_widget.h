@@ -28,8 +28,6 @@ public:
 public slots:
     void setScale(qreal scale);
 
-signals:
-
 protected:
     void paintEvent(QPaintEvent* event) final;
 
