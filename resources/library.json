@@ -589,6 +589,60 @@
         ]
       },
       {
+        "title": "Digital surround sound decoder",
+        "vendor": "HD Audio Rush",
+        "subcat": "soundcard",
+        "inputs": [
+            {
+                "model": "power_dc_5.5x2.1",
+                "power": "+",
+                "name": "DC 5V"
+            },
+            {
+                "model": "toslink",
+                "name": "D1"
+            },
+            {
+                "model": "toslink",
+                "name": "D2"
+            },
+            {
+                "model": "spdif",
+                "name": "D3"
+            },
+            {
+                "model": "jack_mini_trs",
+                "name": "AUX"
+            }
+        ],
+        "outputs": [
+            {
+                "model": "rca",
+                "name": "Front Left"
+            },
+            {
+                "model": "rca",
+                "name": "Front Right"
+            },
+            {
+                "model": "rca",
+                "name": "Surround Left"
+            },
+            {
+                "model": "rca",
+                "name": "Surround Right"
+            },
+            {
+                "model": "rca",
+                "name": "Center"
+            },
+            {
+                "model": "rca",
+                "name": "Subwoofer"
+            }
+        ]
+      },
+      {
         "model": "MAYA44 USB+",
         "vendor": "ESI",
         "subcat": "soundcard",
