@@ -87,10 +87,28 @@ bool LibraryItemModel::filterAcceptsRow(int sourceRow, const QModelIndex& source
 
 void LibraryItemModel::loadSection(QStandardItem* parent, const QList<SharedDeviceData>& data)
 {
-    for (auto& x : data) {
-        auto item = new DiagramDataItem(x);
+    auto subcats = DeviceLibrary::splitBySubcategory(data);
+    if (subcats.size() > 1) {
+        for (auto it = subcats.begin(); it != subcats.end(); ++it) {
+            if (!it.key().isValid()) {
+                for (auto& x : it.value()) {
+                    parent->appendRow(new DiagramDataItem(x));
+                }
 
-        parent->appendRow(item);
+                continue;
+            }
+
+            auto item = new QStandardItem(QCoreApplication::translate("dev", it.key().title()));
+            parent->appendRow(item);
+            for (auto& x : it.value())
+                item->appendRow(new DiagramDataItem(x));
+        }
+    } else {
+        for (auto& x : data) {
+            auto item = new DiagramDataItem(x);
+
+            parent->appendRow(item);
+        }
     }
 }
 

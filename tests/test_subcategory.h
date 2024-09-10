@@ -22,6 +22,7 @@ class TestSubCategory : public QObject {
 private slots:
     void toJson();
     void fromJson();
+    void separate();
 };
 
 #endif // TEST_SUBCATEGORY_H

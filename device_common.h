@@ -89,8 +89,12 @@ struct SubCategory : public std::variant<std::monostate,
     SubCategory& operator|=(DeviceCategory cat);
     SubCategory& operator|=(InstrumentCategory cat);
 
-    bool operator|(DeviceCategory cat) const;
-    bool operator|(InstrumentCategory cat) const;
+    QList<SubCategory> separate() const;
+
+    const char* title() const;
+
+    bool operator&(DeviceCategory cat) const;
+    bool operator&(InstrumentCategory cat) const;
     static std::optional<SubCategory> fromJson(const QJsonValue& val);
 };
 

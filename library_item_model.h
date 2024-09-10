@@ -21,6 +21,8 @@
 namespace ceam {
 
 class LibraryItemModel : public QSortFilterProxyModel {
+    Q_OBJECT
+
 public:
     explicit LibraryItemModel(QObject* parent = nullptr);
 

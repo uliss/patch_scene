@@ -26,14 +26,22 @@ void TestSubCategory::toJson()
 
     sub |= DeviceCategory::Amplifier;
     QVERIFY(sub.isValid());
-    QVERIFY(sub | DeviceCategory::Amplifier);
+    QVERIFY(sub & DeviceCategory::Amplifier);
     QCOMPARE(sub.toJson(), QJsonValue { "amp" });
 
     sub |= DeviceCategory::Midi;
-    QVERIFY(sub | DeviceCategory::Amplifier);
-    QVERIFY(sub | DeviceCategory::Midi);
+    QVERIFY(sub & DeviceCategory::Amplifier);
+    QVERIFY(sub & DeviceCategory::Midi);
 
     auto arr = QJsonArray({ "amp", "midi" });
+    QCOMPARE(sub.toJson(), arr);
+
+    sub |= InstrumentCategory::Keyboard;
+    QVERIFY(sub & DeviceCategory::Amplifier);
+    QVERIFY(sub & DeviceCategory::Midi);
+    QVERIFY(!(sub & InstrumentCategory::Keyboard));
+
+    arr = QJsonArray({ "amp", "midi" });
     QCOMPARE(sub.toJson(), arr);
 }
 
@@ -49,4 +57,15 @@ void TestSubCategory::fromJson()
     sub |= DeviceCategory::Amplifier;
     QVERIFY(j);
     QCOMPARE(j, sub);
+}
+
+void TestSubCategory::separate()
+{
+    QCOMPARE(SubCategory().separate().count(), 0);
+
+    auto j = SubCategory::fromJson(QJsonArray({ "midi", "amp" }));
+    auto sep = j->separate();
+    QCOMPARE(sep.count(), 2);
+    QVERIFY(sep[0] & DeviceCategory::Amplifier);
+    QVERIFY(sep[1] & DeviceCategory::Midi);
 }

@@ -1154,7 +1154,7 @@ http://ceam.space</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="about_window.cpp" line="112"/>
+        <location filename="about_window.cpp" line="114"/>
         <source>About Qt</source>
         <translation>О Qt</translation>
     </message>
@@ -1175,22 +1175,22 @@ http://ceam.space</source>
 <context>
     <name>ceam::ConnectionItemModel</name>
     <message>
-        <location filename="connection_item_model.cpp" line="36"/>
+        <location filename="connection_item_model.cpp" line="35"/>
         <source>Source</source>
         <translation>Источник</translation>
     </message>
     <message>
-        <location filename="connection_item_model.cpp" line="36"/>
+        <location filename="connection_item_model.cpp" line="35"/>
         <source>Model</source>
         <translation>Модель</translation>
     </message>
     <message>
-        <location filename="connection_item_model.cpp" line="36"/>
+        <location filename="connection_item_model.cpp" line="35"/>
         <source>Connector</source>
         <translation>Коннектор</translation>
     </message>
     <message>
-        <location filename="connection_item_model.cpp" line="36"/>
+        <location filename="connection_item_model.cpp" line="35"/>
         <source>Destination</source>
         <translation>Назначение</translation>
     </message>
@@ -1325,12 +1325,12 @@ http://ceam.space</source>
 <context>
     <name>ceam::Diagram</name>
     <message>
-        <location filename="diagram.cpp" line="80"/>
+        <location filename="diagram.cpp" line="81"/>
         <source>New project</source>
         <translation>Новый проект</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1016"/>
+        <location filename="diagram.cpp" line="1021"/>
         <source>&amp;Add device</source>
         <translation>&amp;Добавить элемент</translation>
     </message>
@@ -1347,32 +1347,32 @@ http://ceam.space</source>
         <translation type="vanished">&amp;Установить фоновое изображение</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1028"/>
+        <location filename="diagram.cpp" line="1033"/>
         <source>Align &amp;horizontal</source>
         <translation>Выровнять по &amp;горизонтали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1032"/>
+        <location filename="diagram.cpp" line="1037"/>
         <source>Align &amp;vertical</source>
         <translation>Выровнять по &amp;вертикали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1036"/>
+        <location filename="diagram.cpp" line="1041"/>
         <source>Place in row</source>
         <translation>Разместить в ряд</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1040"/>
+        <location filename="diagram.cpp" line="1045"/>
         <source>Place in column</source>
         <translation>Разместить в столбец</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1047"/>
+        <location filename="diagram.cpp" line="1052"/>
         <source>Distribute horizontal</source>
         <translation>Распределить горизонтально</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1051"/>
+        <location filename="diagram.cpp" line="1056"/>
         <source>Distribute vertical</source>
         <translation>Распределить вертикально</translation>
     </message>
@@ -1457,6 +1457,39 @@ http://ceam.space</source>
     </message>
 </context>
 <context>
+    <name>ceam::LibraryItemModel</name>
+    <message>
+        <location filename="library_item_model.cpp" line="40"/>
+        <source>devices</source>
+        <translation>устройства</translation>
+    </message>
+    <message>
+        <location filename="library_item_model.cpp" line="45"/>
+        <source>instruments</source>
+        <translation>инструменты</translation>
+    </message>
+    <message>
+        <location filename="library_item_model.cpp" line="50"/>
+        <source>sends</source>
+        <translation>посылы</translation>
+    </message>
+    <message>
+        <location filename="library_item_model.cpp" line="55"/>
+        <source>returns</source>
+        <translation>возвраты</translation>
+    </message>
+    <message>
+        <location filename="library_item_model.cpp" line="60"/>
+        <source>furniture</source>
+        <translation>инвентарь</translation>
+    </message>
+    <message>
+        <location filename="library_item_model.cpp" line="65"/>
+        <source>humans</source>
+        <translation>люди</translation>
+    </message>
+</context>
+<context>
     <name>ceam::MainWindow</name>
     <message>
         <location filename="mainwindow.cpp" line="203"/>
@@ -1479,12 +1512,12 @@ http://ceam.space</source>
         <translation>Изображения (*.JPG *.jpg *.jpeg *.PNG *.png *.SVG *.svg)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="742"/>
+        <location filename="mainwindow.cpp" line="727"/>
         <source>Warning</source>
         <translation>Внимание</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="734"/>
+        <location filename="mainwindow.cpp" line="719"/>
         <source>Document is not saved!
 Do you wan&apos;t to save it before closing?</source>
         <translation>Документ не сохранен!
@@ -1501,204 +1534,198 @@ Do you wan&apos;t to save it before closing?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="806"/>
         <source>devices</source>
-        <translation>устройства</translation>
+        <translation type="vanished">устройства</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="811"/>
         <source>instruments</source>
-        <translation>инструменты</translation>
+        <translation type="vanished">инструменты</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="816"/>
         <source>sends</source>
-        <translation>посылы</translation>
+        <translation type="vanished">посылы</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="821"/>
         <source>returns</source>
-        <translation>возвраты</translation>
+        <translation type="vanished">возвраты</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="826"/>
         <source>furniture</source>
-        <translation>инвентарь</translation>
+        <translation type="vanished">инвентарь</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="831"/>
         <source>humans</source>
-        <translation>люди</translation>
+        <translation type="vanished">люди</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="874"/>
+        <location filename="mainwindow.cpp" line="819"/>
         <source>Event date: %1</source>
         <translation>Дата события %1</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="777"/>
-        <location filename="mainwindow.cpp" line="877"/>
+        <location filename="mainwindow.cpp" line="762"/>
+        <location filename="mainwindow.cpp" line="822"/>
         <source>Information</source>
         <translation>Информация</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="778"/>
+        <location filename="mainwindow.cpp" line="763"/>
         <source>You are opening the file created in the more recent PatchScene version, then you are using. Some features could be unsupported!</source>
         <translation>Вы открываете файл, созданный в более новой версии PatchScene, чем вы используете сейчас. Некоторые возможности могут быть недоступны!</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="881"/>
+        <location filename="mainwindow.cpp" line="826"/>
         <source>Contacts</source>
         <translation>Контакты</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="883"/>
+        <location filename="mainwindow.cpp" line="828"/>
         <source>Name</source>
         <translation>Имя</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="883"/>
+        <location filename="mainwindow.cpp" line="828"/>
         <source>Work</source>
         <translation>Должность</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="883"/>
+        <location filename="mainwindow.cpp" line="828"/>
         <source>Phone</source>
         <translation>Телефон</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="883"/>
+        <location filename="mainwindow.cpp" line="828"/>
         <source>Email</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="889"/>
+        <location filename="mainwindow.cpp" line="834"/>
         <source>Scheme</source>
         <translation>Схема</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="892"/>
+        <location filename="mainwindow.cpp" line="837"/>
         <source>Devices</source>
         <translation>Устройства</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="895"/>
+        <location filename="mainwindow.cpp" line="840"/>
         <source>Connections</source>
         <translation>Соединения</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="898"/>
+        <location filename="mainwindow.cpp" line="843"/>
         <source>Sends</source>
         <translation>Посылы</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="901"/>
+        <location filename="mainwindow.cpp" line="846"/>
         <source>Returns</source>
         <translation>Возвраты</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="905"/>
+        <location filename="mainwindow.cpp" line="850"/>
         <source>Batteries</source>
         <translation>Батарейки</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="909"/>
+        <location filename="mainwindow.cpp" line="854"/>
         <source>Created with PatchScene v%1</source>
         <translation>Создано при помощи PatchScene v%1</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="976"/>
+        <location filename="mainwindow.cpp" line="921"/>
         <source>Clear</source>
         <translation>Очистить</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1041"/>
+        <location filename="mainwindow.cpp" line="986"/>
         <source>Save project</source>
         <translation>Сохранить проект</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1041"/>
-        <location filename="mainwindow.cpp" line="1205"/>
+        <location filename="mainwindow.cpp" line="986"/>
+        <location filename="mainwindow.cpp" line="1150"/>
         <source>PatchScene projects (*.psc)</source>
         <translation>Проекты PatchScene (*.psc)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1070"/>
+        <location filename="mainwindow.cpp" line="1015"/>
         <source>Export element to JSON format</source>
         <translation>Экспорт элемента в JSON формат</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1070"/>
-        <location filename="mainwindow.cpp" line="1122"/>
+        <location filename="mainwindow.cpp" line="1015"/>
+        <location filename="mainwindow.cpp" line="1067"/>
         <source>JSON format (*.json)</source>
         <translation>JSON формат (*.json)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1077"/>
-        <location filename="mainwindow.cpp" line="1086"/>
-        <location filename="mainwindow.cpp" line="1130"/>
+        <location filename="mainwindow.cpp" line="1022"/>
+        <location filename="mainwindow.cpp" line="1031"/>
+        <location filename="mainwindow.cpp" line="1075"/>
         <source>JSON export error</source>
         <translation>Ошибка экспорта в JSON</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1078"/>
+        <location filename="mainwindow.cpp" line="1023"/>
         <source>Can&apos;t open file to writing: &apos;%1&apos;</source>
         <translation>Невозможно открыть файл для записи: &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1087"/>
-        <location filename="mainwindow.cpp" line="1131"/>
+        <location filename="mainwindow.cpp" line="1032"/>
+        <location filename="mainwindow.cpp" line="1076"/>
         <source>Can&apos;t write to file: &apos;%1&apos;</source>
         <translation>Ошибка при записи в файл: &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1100"/>
+        <location filename="mainwindow.cpp" line="1045"/>
         <source>Export scheme to PDF format</source>
         <translation>Экспорт схемы в PDF</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1122"/>
+        <location filename="mainwindow.cpp" line="1067"/>
         <source>Export elements to library</source>
         <translation>Экспортировать элементы в библиотеку</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1144"/>
+        <location filename="mainwindow.cpp" line="1089"/>
         <source>Export to OpenDocument format</source>
         <translation>Экспорт в OpenDocument формат</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1144"/>
+        <location filename="mainwindow.cpp" line="1089"/>
         <source>OpenDocument format (*.odt)</source>
         <translation>OpenDocument формат (*.odt)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1173"/>
+        <location filename="mainwindow.cpp" line="1118"/>
         <source>Export to PDF format</source>
         <translation>Экспорт в PDF формат</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1100"/>
-        <location filename="mainwindow.cpp" line="1173"/>
+        <location filename="mainwindow.cpp" line="1045"/>
+        <location filename="mainwindow.cpp" line="1118"/>
         <source>PDF format (*.pdf)</source>
         <translation>PDF формат (*.pdf)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1198"/>
+        <location filename="mainwindow.cpp" line="1143"/>
         <source>Import favorites</source>
         <translation>Импортировать избранное</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1198"/>
+        <location filename="mainwindow.cpp" line="1143"/>
         <source>Favorites collection (*.json)</source>
         <translation>Коллекция избранного (*.json)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1205"/>
+        <location filename="mainwindow.cpp" line="1150"/>
         <source>Open project</source>
         <translation>Открыть проект</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1218"/>
+        <location filename="mainwindow.cpp" line="1163"/>
         <source>Load &apos;%1&apos;</source>
         <translation>Загружен &apos;%1&apos;</translation>
     </message>
@@ -1811,6 +1838,109 @@ Do you wan&apos;t to save it before closing?</source>
         <location filename="macos_utils.mm" line="79"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
+    </message>
+</context>
+<context>
+    <name>dev</name>
+    <message>
+        <location filename="device_common.cpp" line="39"/>
+        <source>amplifiers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="40"/>
+        <source>computer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="41"/>
+        <source>microphone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="42"/>
+        <source>MIDI</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="43"/>
+        <source>mixing consoles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="44"/>
+        <source>network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="45"/>
+        <source>headphones</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="46"/>
+        <source>photo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="47"/>
+        <source>soundcards</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="48"/>
+        <source>speakers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="49"/>
+        <source>synth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="50"/>
+        <source>video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="59"/>
+        <source>keyboards</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="60"/>
+        <source>percussion (noise)</source>
+        <translation>ударные (шумовые)</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="61"/>
+        <source>percussion (tonal)</source>
+        <translation>ударные (звуковысотные)</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="62"/>
+        <source>bowed strings</source>
+        <translation>струнные (смычковые)</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="63"/>
+        <source>plucked strings</source>
+        <translation>струнные (щипковые)</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="64"/>
+        <source>brass</source>
+        <translation>духовые (медные)</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="65"/>
+        <source>reed</source>
+        <translation>язычковые</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="66"/>
+        <source>wood winds</source>
+        <translation>духовые (деревянные)</translation>
     </message>
 </context>
 </TS>

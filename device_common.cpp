@@ -34,28 +34,41 @@ CONST_STR(return )
 CONST_STR(send)
 
 #define CONST_PAIR(cat, name) constexpr auto cat_##name = std::make_pair(cat, #name);
+using DevCatTuple = std::tuple<DeviceCategory, const char*, const char*>;
+constexpr DevCatTuple DEV_CATS[] = {
+    // clang-format off
+    { DeviceCategory::Amplifier,    "amp",      QT_TRANSLATE_NOOP("dev", "amplifiers") },
+    { DeviceCategory::Computer,     "computer", QT_TRANSLATE_NOOP("dev", "computer") },
+    { DeviceCategory::Microphone,   "mic",      QT_TRANSLATE_NOOP("dev", "microphone") },
+    { DeviceCategory::Midi,         "midi",     QT_TRANSLATE_NOOP("dev", "MIDI") },
+    { DeviceCategory::Mixer,        "mix",      QT_TRANSLATE_NOOP("dev", "mixing consoles") },
+    { DeviceCategory::Network,      "net",      QT_TRANSLATE_NOOP("dev", "network") },
+    { DeviceCategory::Phones,       "phones",   QT_TRANSLATE_NOOP("dev", "headphones") },
+    { DeviceCategory::Photo,        "photo",    QT_TRANSLATE_NOOP("dev", "photo") },
+    { DeviceCategory::SoundCard,    "soundcard",QT_TRANSLATE_NOOP("dev", "soundcards") },
+    { DeviceCategory::Speaker,      "speaker",  QT_TRANSLATE_NOOP("dev", "speakers") },
+    { DeviceCategory::Synth,        "synth",    QT_TRANSLATE_NOOP("dev", "synth") },
+    { DeviceCategory::Video,        "video",    QT_TRANSLATE_NOOP("dev", "video") },
+    // clang-format on
+};
 
-CONST_PAIR(DeviceCategory::Amplifier, amp)
-CONST_PAIR(DeviceCategory::Computer, computer)
-CONST_PAIR(DeviceCategory::Microphone, mic)
-CONST_PAIR(DeviceCategory::Midi, midi)
-CONST_PAIR(DeviceCategory::Mixer, mix)
-CONST_PAIR(DeviceCategory::Network, net)
-CONST_PAIR(DeviceCategory::Phones, phones)
-CONST_PAIR(DeviceCategory::Photo, photo)
-CONST_PAIR(DeviceCategory::SoundCard, soundcard)
-CONST_PAIR(DeviceCategory::Speaker, speaker)
-CONST_PAIR(DeviceCategory::Synth, synth)
-CONST_PAIR(DeviceCategory::Video, video)
+constexpr auto NDEV_CATS = std::size(DEV_CATS);
 
-CONST_PAIR(InstrumentCategory::Keyboard, keyboard)
-CONST_PAIR(InstrumentCategory::PercussionNoise, perc_noise)
-CONST_PAIR(InstrumentCategory::PercussionTonal, perc_tonal)
-CONST_PAIR(InstrumentCategory::StringsBowed, bowed)
-CONST_PAIR(InstrumentCategory::StringsPlucked, plucked)
-CONST_PAIR(InstrumentCategory::WindsBrass, brass)
-CONST_PAIR(InstrumentCategory::WindsReed, reed)
-CONST_PAIR(InstrumentCategory::WindsWood, wood)
+using InstrCatTuple = std::tuple<InstrumentCategory, const char*, const char*>;
+constexpr InstrCatTuple INST_CATS[] = {
+    // clang-format off
+    { InstrumentCategory::Keyboard,         "keyboard",     QT_TRANSLATE_NOOP("dev", "keyboards") },
+    { InstrumentCategory::PercussionNoise,  "perc_noise",   QT_TRANSLATE_NOOP("dev", "percussion (noise)") },
+    { InstrumentCategory::PercussionTonal,  "perc_tonal",   QT_TRANSLATE_NOOP("dev", "percussion (tonal)") },
+    { InstrumentCategory::StringsBowed,     "bowed",        QT_TRANSLATE_NOOP("dev", "bowed strings") },
+    { InstrumentCategory::StringsPlucked,   "plucked",      QT_TRANSLATE_NOOP("dev", "plucked strings") },
+    { InstrumentCategory::WindsBrass,       "brass",        QT_TRANSLATE_NOOP("dev", "brass") },
+    { InstrumentCategory::WindsReed,        "reed",         QT_TRANSLATE_NOOP("dev", "reed") },
+    { InstrumentCategory::WindsWood,        "wood",         QT_TRANSLATE_NOOP("dev", "wood winds") },
+    // clang-format on
+};
+
+constexpr auto NINST_CATS = std::size(INST_CATS);
 
 constexpr const char* JSON_KEY_ID = "id";
 constexpr const char* JSON_KEY_X = "x";
@@ -73,6 +86,7 @@ constexpr const char* JSON_KEY_BATTERY_COUNT = "battery-count";
 constexpr const char* JSON_KEY_SHOW_TITLE = "show-title";
 constexpr const char* JSON_KEY_INPUT_COLUMNS = "input-columns";
 constexpr const char* JSON_KEY_OUTPUT_COLUMNS = "output-columns";
+constexpr const char* JSON_KEY_SUBCAT = "subcat";
 
 constexpr int MAX_BATTERIES_COUNT = 10;
 
@@ -259,6 +273,12 @@ bool DeviceData::setJson(const QJsonValue& v)
     max_input_column_count_ = qBound<int>(MIN_COL_COUNT, obj[JSON_KEY_INPUT_COLUMNS].toInt(DEF_COL_COUNT), MAX_COL_COUNT);
     max_output_column_count_ = qBound<int>(MIN_COL_COUNT, obj[JSON_KEY_OUTPUT_COLUMNS].toInt(DEF_COL_COUNT), MAX_COL_COUNT);
 
+    if (obj.contains(JSON_KEY_SUBCAT)) {
+        auto subcat = SubCategory::fromJson(obj[JSON_KEY_SUBCAT]);
+        if (subcat)
+            subcat_ = *subcat;
+    }
+
     return true;
 }
 
@@ -304,6 +324,8 @@ QJsonObject DeviceData::toJson() const
     json[JSON_KEY_SHOW_TITLE] = show_title_;
     json[JSON_KEY_INPUT_COLUMNS] = max_input_column_count_;
     json[JSON_KEY_OUTPUT_COLUMNS] = max_output_column_count_;
+
+    json[JSON_KEY_SUBCAT] = subcat_.toJson();
 
     return json;
 }
@@ -467,27 +489,13 @@ QDebug operator<<(QDebug debug, const ceam::DeviceData& data)
 
 QJsonValue SubCategory::toJson() const
 {
-#define ADD_CAT(cat_name)           \
-    {                               \
-        if (*pval & cat_name.first) \
-            arr << cat_name.second; \
-    }
-
     if (auto pval = std::get_if<DeviceCategoryFlags>(this)) {
         QJsonArray arr;
 
-        ADD_CAT(cat_amp);
-        ADD_CAT(cat_soundcard);
-        ADD_CAT(cat_computer);
-        ADD_CAT(cat_mic);
-        ADD_CAT(cat_midi);
-        ADD_CAT(cat_mix);
-        ADD_CAT(cat_net);
-        ADD_CAT(cat_phones);
-        ADD_CAT(cat_photo);
-        ADD_CAT(cat_speaker);
-        ADD_CAT(cat_synth);
-        ADD_CAT(cat_video);
+        for (auto& cat : DEV_CATS) {
+            if (*pval & std::get<0>(cat))
+                arr << std::get<1>(cat);
+        }
 
         if (arr.empty())
             return {};
@@ -499,14 +507,10 @@ QJsonValue SubCategory::toJson() const
     } else if (auto pval = std::get_if<InstrumentCategoryFlags>(this)) {
         QJsonArray arr;
 
-        ADD_CAT(cat_bowed);
-        ADD_CAT(cat_plucked);
-        ADD_CAT(cat_perc_tonal);
-        ADD_CAT(cat_perc_noise);
-        ADD_CAT(cat_brass);
-        ADD_CAT(cat_wood);
-        ADD_CAT(cat_reed);
-        ADD_CAT(cat_keyboard);
+        for (auto& cat : INST_CATS) {
+            if (*pval & std::get<0>(cat))
+                arr << std::get<1>(cat);
+        }
 
         if (arr.empty())
             return {};
@@ -516,8 +520,6 @@ QJsonValue SubCategory::toJson() const
             return arr;
     } else
         return {};
-
-#undef ADD_CAT
 }
 
 SubCategory& SubCategory::operator|=(const SubCategory& cat)
@@ -538,19 +540,55 @@ SubCategory& SubCategory::operator|=(const SubCategory& cat)
     return *this;
 }
 
-bool SubCategory::operator|(DeviceCategory cat) const
+QList<SubCategory> SubCategory::separate() const
 {
-    if (auto pval = std::get_if<DeviceCategoryFlags>(this))
-        return *pval | cat;
-    else
+    QList<SubCategory> res;
+
+    if (auto pval = std::get_if<DeviceCategoryFlags>(this)) {
+        for (auto& cat : DEV_CATS) {
+            if (*pval & std::get<0>(cat))
+                res << SubCategory { DeviceCategoryFlags { std::get<0>(cat) } };
+        }
+    } else if (auto pval = std::get_if<InstrumentCategoryFlags>(this)) {
+        for (auto& cat : INST_CATS) {
+            if (*pval & std::get<0>(cat))
+                res << SubCategory { InstrumentCategoryFlags { std::get<0>(cat) } };
+        }
+    }
+
+    return res;
+}
+
+const char* SubCategory::title() const
+{
+    if (auto pval = std::get_if<DeviceCategoryFlags>(this)) {
+        for (auto& cat : DEV_CATS) {
+            if (*pval & std::get<0>(cat))
+                return std::get<2>(cat);
+        }
+    } else if (auto pval = std::get_if<InstrumentCategoryFlags>(this)) {
+        for (auto& cat : INST_CATS) {
+            if (*pval & std::get<0>(cat))
+                return std::get<2>(cat);
+        }
+    }
+
+    return "";
+}
+
+bool SubCategory::operator&(DeviceCategory cat) const
+{
+    if (auto pval = std::get_if<DeviceCategoryFlags>(this)) {
+        return *pval & cat;
+    } else
         return false;
 }
 
-bool SubCategory::operator|(InstrumentCategory cat) const
+bool SubCategory::operator&(InstrumentCategory cat) const
 {
-    if (auto pval = std::get_if<InstrumentCategoryFlags>(this))
-        return *pval | cat;
-    else
+    if (auto pval = std::get_if<InstrumentCategoryFlags>(this)) {
+        return *pval & cat;
+    } else
         return false;
 }
 
@@ -604,36 +642,17 @@ std::optional<SubCategory> SubCategory::fromJson(const QJsonValue& val)
     } else if (val.isString()) {
         const auto str = val.toString();
 
-#define CHECK_CAT(cat_name)                    \
-    if (str == cat_name.second) {              \
-        return SubCategory { cat_name.first }; \
-    }
+        for (auto& cat : DEV_CATS) {
+            if (std::get<1>(cat) == str)
+                return SubCategory { std::get<0>(cat) };
+        }
 
-        CHECK_CAT(cat_amp);
-        CHECK_CAT(cat_soundcard);
-        CHECK_CAT(cat_computer);
-        CHECK_CAT(cat_mic);
-        CHECK_CAT(cat_midi);
-        CHECK_CAT(cat_mix);
-        CHECK_CAT(cat_net);
-        CHECK_CAT(cat_phones);
-        CHECK_CAT(cat_photo);
-        CHECK_CAT(cat_speaker);
-        CHECK_CAT(cat_synth);
-        CHECK_CAT(cat_video);
-
-        CHECK_CAT(cat_bowed);
-        CHECK_CAT(cat_plucked);
-        CHECK_CAT(cat_perc_tonal);
-        CHECK_CAT(cat_perc_noise);
-        CHECK_CAT(cat_brass);
-        CHECK_CAT(cat_wood);
-        CHECK_CAT(cat_reed);
-        CHECK_CAT(cat_keyboard);
+        for (auto& cat : INST_CATS) {
+            if (std::get<1>(cat) == str)
+                return SubCategory { std::get<0>(cat) };
+        }
 
         return {};
-
-#undef CHECK_CAT
     } else
         return {};
 }
