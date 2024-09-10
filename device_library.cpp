@@ -156,8 +156,11 @@ QMap<SubCategory, QList<SharedDeviceData>> DeviceLibrary::splitBySubcategory(con
 {
     QMap<SubCategory, QList<SharedDeviceData>> res;
 
-    for (auto& data : items)
-        res[data->subCategory()] << data;
+    for (auto& data : items) {
+        for (auto& cat : data->subCategory().separate()) {
+            res[cat] << data;
+        }
+    }
 
     return res;
 }
