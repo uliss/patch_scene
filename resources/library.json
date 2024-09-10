@@ -566,6 +566,54 @@
         ]
       },
       {
+        "title": "Stereo mini mixer",
+        "subcat": "mix",
+        "inputs": [
+          {
+            "model": "rca",
+            "name": "IN 1L"
+          },
+          {
+            "model": "rca",
+            "name": "IN 1R"
+          },
+          {
+            "model": "rca",
+            "name": "IN 2L"
+          },
+          {
+            "model": "rca",
+            "name": "IN 2R"
+          },
+          {
+            "model": "rca",
+            "name": "IN 3L"
+          },
+          {
+            "model": "rca",
+            "name": "IN 3R"
+          },
+          {
+            "model": "rca",
+            "name": "IN 4L"
+          },
+          {
+            "model": "rca",
+            "name": "IN 4R"
+          }
+        ],
+        "outputs": [
+            {
+              "model": "rca",
+              "name": "OUT L"
+            },
+            {
+              "model": "rca",
+              "name": "OUT R"
+            }
+        ]
+      },
+      {
         "vendor": "Focuswrite",
         "model": "Scarlett 18i20",
         "subcat": "soundcard",
