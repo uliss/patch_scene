@@ -974,42 +974,52 @@
         <translation>радио-системы</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="62"/>
+        <location filename="device_common.cpp" line="56"/>
+        <source>players</source>
+        <translation>плейеры</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="57"/>
+        <source>recorders</source>
+        <translation>рекордеры</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="64"/>
         <source>keyboards</source>
         <translation>клавишные</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="63"/>
+        <location filename="device_common.cpp" line="65"/>
         <source>percussion (noise)</source>
         <translation>ударные (шумовые)</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="64"/>
+        <location filename="device_common.cpp" line="66"/>
         <source>percussion (tonal)</source>
         <translation>ударные (звуковысотные)</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="65"/>
+        <location filename="device_common.cpp" line="67"/>
         <source>strings (bowed)</source>
         <translation>струнные (смычковые)</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="66"/>
+        <location filename="device_common.cpp" line="68"/>
         <source>strings (plucked)</source>
         <translation>струнные (щипковые)</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="67"/>
+        <location filename="device_common.cpp" line="69"/>
         <source>brass</source>
         <translation>духовые (медные)</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="68"/>
+        <location filename="device_common.cpp" line="70"/>
         <source>reed</source>
         <translation>язычковые</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="69"/>
+        <location filename="device_common.cpp" line="71"/>
         <source>woodwinds</source>
         <translation>духовые (деревянные)</translation>
     </message>
@@ -1377,9 +1387,8 @@ http://ceam.space</source>
         <translation>Свойства</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="363"/>
         <source>Device: %1</source>
-        <translation>Устройство: %1</translation>
+        <translation type="vanished">Устройство: %1</translation>
     </message>
     <message>
         <location filename="device.cpp" line="300"/>

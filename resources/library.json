@@ -138,6 +138,7 @@
         "image": "audio_recorder_1",
         "battery-type": "aa",
         "battery-count": 2,
+        "subcat": ["rec"],
         "inputs": [
           {
             "model": "xlr_jack",
@@ -1324,6 +1325,7 @@
         "vendor": "Akai",
         "model": "4000-DS",
         "image": "magnetophone_1",
+        "subcat": ["play"],
         "outputs": [
           {
             "model": "din_5",

@@ -360,7 +360,7 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
                 dialog->exec();
             });
 
-        auto info = menu.addAction(tr("Device: %1").arg(data_->title()));
+        auto info = menu.addAction(data_->title());
         info->setDisabled(true);
         auto info_font = info->font();
         info_font.setBold(true);
