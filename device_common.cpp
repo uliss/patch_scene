@@ -33,7 +33,6 @@ CONST_STR(instrument)
 CONST_STR(return )
 CONST_STR(send)
 
-#define CONST_PAIR(cat, name) constexpr auto cat_##name = std::make_pair(cat, #name);
 using DevCatTuple = std::tuple<DeviceCategory, const char*, const char*>;
 constexpr DevCatTuple DEV_CATS[] = {
     // clang-format off
