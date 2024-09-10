@@ -172,5 +172,7 @@
         <file>connectors/power_type_c_socket_female.svg</file>
         <file>devices/router_2.svg</file>
         <file>devices/camera_1.svg</file>
+        <file>devices/web_camera_1.svg</file>
+        <file>connectors/usb_a_plug_male.svg</file>
     </qresource>
 </RCC>

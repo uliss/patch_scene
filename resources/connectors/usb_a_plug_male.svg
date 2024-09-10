@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   width="16"
+   height="16"
+   viewBox="0 0 16 16"
+   id="Layer_1"
+   data-name="Layer 1"
+   version="1.1"
+   sodipodi:docname="usb_a_plug_male.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview3"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:current-layer="Layer_1" />
+  <defs
+     id="defs1">
+    <style
+       id="style1">.cls-1{fill:none;stroke:#020202;stroke-miterlimit:10;stroke-width:1.91px;}</style>
+  </defs>
+  <g
+     id="g3"
+     inkscape:label="plug"
+     transform="matrix(0.67364885,0,0,0.61108018,-0.08715444,0.66696144)">
+    <path
+       class="cls-1"
+       d="M 6.27,14.86 H 17.73 V 8.1800002 a 2.86,2.86 0 0 0 -2.86,-2.86 H 9.14 a 2.86,2.86 0 0 0 -2.86,2.86 V 14.86 Z"
+       id="path1" />
+    <rect
+       class="cls-1"
+       x="10.09"
+       y="-5.3199997"
+       width="3.8199999"
+       height="3.8199999"
+       id="rect1"
+       transform="scale(1,-1)" />
+    <rect
+       class="cls-1"
+       x="7.23"
+       y="-22.5"
+       width="9.5500002"
+       height="7.6399999"
+       id="rect2"
+       transform="scale(1,-1)" />
+    <line
+       class="cls-1"
+       x1="10.09"
+       y1="19.639999"
+       x2="10.09"
+       y2="17.73"
+       id="line2" />
+    <line
+       class="cls-1"
+       x1="13.91"
+       y1="19.639999"
+       x2="13.91"
+       y2="17.73"
+       id="line3" />
+  </g>
+</svg>
