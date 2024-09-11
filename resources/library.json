@@ -1386,7 +1386,6 @@
         "model": "Ottobit",
         "subcat": "guitar",
         "image": "guitar_pedal_1",
-        "zoom": 0.5,
         "outputs": [
           {
             "model": "jack_ts",
@@ -1418,7 +1417,6 @@
         "model": "Whammy V01",
         "subcat": "guitar",
         "image": "guitar_pedal_1",
-        "zoom": 0.5,
         "outputs": [
           {
             "model": "jack_ts",
@@ -1447,7 +1445,6 @@
         "description": "Rhythm loop station",
         "subcat": "guitar",
         "image": "guitar_pedal_1",
-        "zoom": 0.5,
         "outputs": [
           {
             "model": "jack_ts",
@@ -2406,7 +2403,6 @@
         "title": "Flamma EKOVERB",
         "image": "guitar_pedal_1",
         "subcat": "guitar",
-        "zoom": 0.75,
         "inputs": [
           {
             "model": "jack_ts",
