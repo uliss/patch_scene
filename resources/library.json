@@ -3285,6 +3285,11 @@
         "image": "table_1"
       },
       {
+        "title": "Glass",
+        "title-ru": "Бокал",
+        "image": "glass_1"
+      },
+      {
         "title": "Lamp",
         "title-ru": "Лампа",
         "image": "lamp_1"
