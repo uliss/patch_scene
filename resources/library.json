@@ -2435,7 +2435,6 @@
         "title": "Hotone Expression Pedal",
         "image": "guitar_pedal_2",
         "subcat": "guitar",
-        "zoom": 0.75,
         "inputs": [
           {
             "model": "jack_ts",
