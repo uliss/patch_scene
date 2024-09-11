@@ -1368,7 +1368,6 @@
         "image": "gameboy_1",
         "battery-type": "aa",
         "battery-count": 4,
-        "zoom": 0.5,
         "outputs": [
           {
             "model": "jack_mini_trs"
