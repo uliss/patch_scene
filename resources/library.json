@@ -3338,6 +3338,11 @@
         "image": "camera_2"
       },
       {
+        "title": "Boombox",
+        "title-ru": "Бумбокс",
+        "image": "boombox_3"
+      },
+      {
         "title": "Table",
         "title-ru": "Стол",
         "image": "table_1"
