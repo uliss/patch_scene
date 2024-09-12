@@ -289,6 +289,7 @@ void MainWindow::initActions()
     connect(ui->actionExportToOdf, SIGNAL(triggered()), this, SLOT(exportToOdf()));
     connect(ui->actionExportSchemeToPdf, &QAction::triggered, this, &MainWindow::exportSchemeToPdf);
     connect(ui->actionExportSchemeToSvg, &QAction::triggered, this, &MainWindow::exportSchemeToSvg);
+    connect(ui->actionExportSchemeToPng, &QAction::triggered, this, &MainWindow::exportSchemeToPng);
 
     connect(ui->actionAddDevice, &QAction::triggered, this, [this]() {
         auto pos = diagram_->mapFromGlobal(QCursor::pos());
@@ -1063,6 +1064,25 @@ void MainWindow::exportSchemeToPdf()
     printer.setOutputFileName(pdf_file);
 
     diagram_->printScheme(&printer);
+}
+
+void MainWindow::exportSchemeToPng()
+{
+    auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, {}, QStandardPaths::LocateDirectory);
+    if (file_name_.isEmpty()) {
+        path += "/NewScheme.png";
+    } else {
+        path += "/" + QFileInfo(file_name_).baseName() + "_scheme.png";
+    }
+
+    auto png_file = QFileDialog::getSaveFileName(this, tr("Export scheme to PNG format"), path, tr("PNG format (*.png)"));
+    if (png_file.isEmpty())
+        return;
+
+    if (QFileInfo(png_file).suffix().isEmpty())
+        png_file.append(".png");
+
+    diagram_->renderToPng(png_file);
 }
 
 void MainWindow::exportSchemeToSvg()

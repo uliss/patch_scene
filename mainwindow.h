@@ -69,6 +69,7 @@ public slots:
     void exportAllItems(const QList<SharedDeviceData>& data);
     void exportItemData(const SharedDeviceData& data);
     void exportSchemeToPdf();
+    void exportSchemeToPng();
     void exportSchemeToSvg();
     void exportToOdf();
     void exportToPdf();

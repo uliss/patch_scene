@@ -103,6 +103,7 @@
      <addaction name="actionExportToPdf"/>
      <addaction name="actionExportSchemeToSvg"/>
      <addaction name="actionExportSchemeToPdf"/>
+     <addaction name="actionExportSchemeToPng"/>
     </widget>
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
@@ -915,6 +916,11 @@
    </property>
    <property name="text">
     <string>Scale</string>
+   </property>
+  </action>
+  <action name="actionExportSchemeToPng">
+   <property name="text">
+    <string>Export Scheme to PNG</string>
    </property>
   </action>
  </widget>
