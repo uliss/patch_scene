@@ -3317,6 +3317,11 @@
         "image": "glass_1"
       },
       {
+        "title": "Fan",
+        "title-ru": "Вентилятор",
+        "image": "fan_1"
+      },
+      {
         "title": "Lamp",
         "title-ru": "Лампа",
         "image": "lamp_1"

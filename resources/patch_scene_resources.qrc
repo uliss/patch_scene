@@ -185,5 +185,6 @@
         <file>devices/harmonica_1.svg</file>
         <file>devices/megaphone_1.svg</file>
         <file>devices/screen_2.svg</file>
+        <file>devices/fan_1.svg</file>
     </qresource>
 </RCC>
