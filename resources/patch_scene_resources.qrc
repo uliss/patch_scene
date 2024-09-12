@@ -183,5 +183,6 @@
         <file>devices/chair_2.svg</file>
         <file>devices/contrabass_1.svg</file>
         <file>devices/harmonica_1.svg</file>
+        <file>devices/megaphone_1.svg</file>
     </qresource>
 </RCC>

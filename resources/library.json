@@ -2837,6 +2837,12 @@
         "subcat": "reed"
       },
       {
+        "title": "Megaphone",
+        "title-ru": "Мегафон",
+        "image": "megaphone_1",
+        "subcat": "misc"
+      },
+      {
         "title": "Bass guitar",
         "title-ru": "Бас-гитара",
         "image": "bass_guitar_1",
