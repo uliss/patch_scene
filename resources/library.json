@@ -3363,6 +3363,11 @@
         "image": "radio_1"
       },
       {
+        "title": "Teapot",
+        "title-ru": "Чайник",
+        "image": "teapot_1"
+      },
+      {
         "title": "Lamp",
         "title-ru": "Лампа",
         "image": "lamp_1"
