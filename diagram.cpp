@@ -787,6 +787,29 @@ void Diagram::printScheme(QPrinter* printer) const
     scene_->printDiagram(printer);
 }
 
+void Diagram::renderToSvg(const QString& filename, const QString& title) const
+{
+    auto grid = scene_->gridVisible();
+    if (grid)
+        scene_->setGridVisible(false);
+
+    QSvgGenerator svg_gen;
+    svg_gen.setFileName(filename);
+    svg_gen.setTitle(title);
+    svg_gen.setDescription(tr("Generated with PatchScene"));
+    auto svg_size = devices_.boundingRect().size();
+    svg_gen.setSize(svg_size.toSize());
+    svg_gen.setViewBox({ { 0, 0 }, svg_size });
+    QPainter p(&svg_gen);
+
+    scene_->renderDiagram(&p);
+
+    if (grid)
+        scene_->setGridVisible(true);
+
+    p.end();
+}
+
 void Diagram::clearAll()
 {
     devices_.clear();
