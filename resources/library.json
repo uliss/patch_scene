@@ -2802,6 +2802,12 @@
         "subcat": "brass"
       },
       {
+        "title": "Metronome",
+        "title-ru": "Метроном",
+        "image": "metronome_1",
+        "subcat": "perc_noise"
+      },
+      {
         "title": "Accordion",
         "title-ru": "Аккордеон",
         "image": "accordion_1",
