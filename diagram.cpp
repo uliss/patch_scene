@@ -16,6 +16,7 @@
 #include <QBuffer>
 #include <QFile>
 #include <QGraphicsSceneContextMenuEvent>
+#include <QImageWriter>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -808,6 +809,28 @@ void Diagram::renderToSvg(const QString& filename, const QString& title) const
         scene_->setGridVisible(true);
 
     p.end();
+}
+
+void Diagram::renderToPng(const QString& filename) const
+{
+    auto grid = scene_->gridVisible();
+    if (grid)
+        scene_->setGridVisible(false);
+
+    auto img_size = devices_.boundingRect().size().toSize() * 4;
+    QImage img(img_size, QImage::Format_RGB32);
+    img.fill(Qt::white);
+    QPainter p(&img);
+    p.setRenderHint(QPainter::Antialiasing, true);
+
+    scene_->renderDiagram(&p);
+
+    if (grid)
+        scene_->setGridVisible(true);
+
+    p.end();
+
+    img.save(filename, "png");
 }
 
 void Diagram::clearAll()

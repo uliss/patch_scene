@@ -54,6 +54,7 @@ public:
     void printScheme() const;
     void printScheme(QPrinter* printer) const;
     void renderToSvg(const QString& filename, const QString& title) const;
+    void renderToPng(const QString& filename) const;
 
     /**
      * Save diagram objects, connections and background into JSON object
