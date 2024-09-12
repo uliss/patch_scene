@@ -399,6 +399,26 @@
         ]
       },
       {
+        "title": "Turntable",
+        "vendor": "Проигрыватель винила",
+        "image": "turntable_1",
+        "subcat": [
+          "players"
+        ],
+        "inputs": [
+          {
+            "model": "power_type_c",
+            "power": "~",
+            "socket": "plug_male"
+          }
+        ],
+        "outputs": [
+          {
+            "model": "din_5"
+          }
+        ]
+      },
+      {
         "vendor": "Zoom",
         "model": "H4n Pro",
         "description": "Handy Recorder",
