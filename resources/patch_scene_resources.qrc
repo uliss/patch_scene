@@ -182,5 +182,6 @@
         <file>devices/midi_controller_pad_1.svg</file>
         <file>devices/chair_2.svg</file>
         <file>devices/contrabass_1.svg</file>
+        <file>devices/harmonica_1.svg</file>
     </qresource>
 </RCC>

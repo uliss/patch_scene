@@ -2831,6 +2831,12 @@
         "subcat": "reed"
       },
       {
+        "title": "Harmonica",
+        "title-ru": "Губная гармоника",
+        "image": "harmonica_1",
+        "subcat": "reed"
+      },
+      {
         "title": "Bass guitar",
         "title-ru": "Бас-гитара",
         "image": "bass_guitar_1",
