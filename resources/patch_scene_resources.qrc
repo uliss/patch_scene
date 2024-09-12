@@ -179,5 +179,6 @@
         <file>devices/screen_1.svg</file>
         <file>devices/projector_1.svg</file>
         <file>devices/metronome_1.svg</file>
+        <file>devices/midi_controller_pad_1.svg</file>
     </qresource>
 </RCC>

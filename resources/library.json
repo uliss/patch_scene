@@ -1720,6 +1720,17 @@
         ]
       },
       {
+        "vendor": "Korg",
+        "model": "Nanopad",
+        "subcat": "midi",
+        "image": "midi_controller_pad_1",
+        "inputs": [
+          {
+            "model": "usb_mini_b"
+          }
+        ]
+      },
+      {
         "vendor": "Casio",
         "model": "Privia PX-160",
         "subcat": "synth",
