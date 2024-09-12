@@ -195,5 +195,6 @@
         <file>devices/mixer_1.svg</file>
         <file>devices/radio_1.svg</file>
         <file>devices/teapot_1.svg</file>
+        <file>devices/pan_1.svg</file>
     </qresource>
 </RCC>

@@ -403,7 +403,7 @@
         "vendor": "Проигрыватель винила",
         "image": "turntable_1",
         "subcat": [
-          "players"
+          "play"
         ],
         "inputs": [
           {
@@ -3366,6 +3366,11 @@
         "title": "Teapot",
         "title-ru": "Чайник",
         "image": "teapot_1"
+      },
+      {
+        "title": "Frying pan",
+        "title-ru": "Сковорода",
+        "image": "pan_1"
       },
       {
         "title": "Lamp",
