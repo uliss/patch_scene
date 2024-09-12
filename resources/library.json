@@ -2793,6 +2793,12 @@
         "subcat": "bowed"
       },
       {
+        "title": "Bow",
+        "title-ru": "Смычок",
+        "image": "bow_1",
+        "subcat": "bowed"
+      },
+      {
         "title": "Contrabass",
         "title-ru": "Контрабас",
         "image": "contrabass_1",
