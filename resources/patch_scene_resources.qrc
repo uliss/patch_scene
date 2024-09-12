@@ -197,5 +197,6 @@
         <file>devices/teapot_1.svg</file>
         <file>devices/pan_1.svg</file>
         <file>devices/equipment_box_1.svg</file>
+        <file>devices/guitar_electro_1.svg</file>
     </qresource>
 </RCC>

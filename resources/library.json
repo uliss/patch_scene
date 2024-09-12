@@ -2880,6 +2880,17 @@
                 ]
             },
             {
+                "title": "Electro guitar",
+                "title-ru": "Электро-гитара",
+                "image": "guitar_electro_1",
+                "subcat": "plucked",
+                "outputs": [
+                    {
+                        "model": "jack_ts"
+                    }
+                ]
+            },
+            {
                 "title": "Viola da gamba",
                 "title-ru": "Виола да гамба",
                 "image": "gamba_1",
