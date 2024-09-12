@@ -1,5 +1,15 @@
 # PatchScene CHANGELOG
 
+## [Unreleased]
+### Added:
+- new devices and furniture
+- device subcategories added
+- export scheme to SVG
+- export scheme to PNG
+
+### Fixed:
+- smooth item move
+
 ## [0.3.4]
 ### Added:
 - zoom fixes
