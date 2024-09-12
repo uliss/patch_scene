@@ -3358,6 +3358,11 @@
         "image": "fan_1"
       },
       {
+        "title": "Radio",
+        "title-ru": "Радио",
+        "image": "radio_1"
+      },
+      {
         "title": "Lamp",
         "title-ru": "Лампа",
         "image": "lamp_1"
