@@ -36,6 +36,7 @@
 #include <QStandardItemModel>
 #include <QStandardPaths>
 #include <QStatusBar>
+#include <QSvgGenerator>
 #include <QTextDocument>
 #include <QTextDocumentWriter>
 #include <QTextTable>
@@ -287,6 +288,7 @@ void MainWindow::initActions()
     connect(ui->actionExportToPdf, SIGNAL(triggered()), this, SLOT(exportToPdf()));
     connect(ui->actionExportToOdf, SIGNAL(triggered()), this, SLOT(exportToOdf()));
     connect(ui->actionExportSchemeToPdf, &QAction::triggered, this, &MainWindow::exportSchemeToPdf);
+    connect(ui->actionExportSchemeToSvg, &QAction::triggered, this, &MainWindow::exportSchemeToSvg);
 
     connect(ui->actionAddDevice, &QAction::triggered, this, [this]() {
         auto pos = diagram_->mapFromGlobal(QCursor::pos());
@@ -1038,7 +1040,7 @@ void MainWindow::exportItemData(const SharedDeviceData& data)
 
 void MainWindow::exportSchemeToPdf()
 {
-    auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, "", QStandardPaths::LocateDirectory);
+    auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, {}, QStandardPaths::LocateDirectory);
     if (file_name_.isEmpty()) {
         path += "/NewScheme.pdf";
     } else {
@@ -1063,9 +1065,29 @@ void MainWindow::exportSchemeToPdf()
     diagram_->printScheme(&printer);
 }
 
+void MainWindow::exportSchemeToSvg()
+{
+    auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, {}, QStandardPaths::LocateDirectory);
+
+    if (file_name_.isEmpty()) {
+        path += "/NewScheme.svg";
+    } else {
+        path += "/" + QFileInfo(file_name_).baseName() + "_scheme.svg";
+    }
+
+    auto svg_file = QFileDialog::getSaveFileName(this, tr("Export scheme to SVG format"), path, tr("SVG format (*.svg)"));
+    if (svg_file.isEmpty())
+        return;
+
+    if (QFileInfo(svg_file).suffix().isEmpty())
+        svg_file.append(".svg");
+
+    diagram_->renderToSvg(svg_file, project_name_);
+}
+
 void MainWindow::exportAllItems(const QList<SharedDeviceData>& data)
 {
-    auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, "", QStandardPaths::LocateDirectory);
+    auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, {}, QStandardPaths::LocateDirectory);
 
     auto json_file = QFileDialog::getSaveFileName(this, tr("Export elements to library"), path, tr("JSON format (*.json)"));
     if (json_file.isEmpty())
@@ -1082,7 +1104,7 @@ void MainWindow::exportAllItems(const QList<SharedDeviceData>& data)
 
 void MainWindow::exportToOdf()
 {
-    auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, "", QStandardPaths::LocateDirectory);
+    auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, {}, QStandardPaths::LocateDirectory);
     if (file_name_.isEmpty()) {
         path += "/NewProject.odt";
     } else {
