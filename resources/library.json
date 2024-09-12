@@ -3286,8 +3286,7 @@
       {
         "title": "Chair",
         "title-ru": "Стул",
-        "image": "chair_1",
-        "zoom": 0.7
+        "image": "chair_1"
       },
       {
         "title": "Table",
