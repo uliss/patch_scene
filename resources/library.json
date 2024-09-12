@@ -3333,6 +3333,11 @@
         "image": "chair_1"
       },
       {
+        "title": "Camera on the tripod",
+        "title-ru": "Камера на штативе",
+        "image": "camera_2"
+      },
+      {
         "title": "Table",
         "title-ru": "Стол",
         "image": "table_1"

@@ -188,5 +188,6 @@
         <file>devices/fan_1.svg</file>
         <file>devices/turntable_1.svg</file>
         <file>devices/bow_1.svg</file>
+        <file>devices/camera_2.svg</file>
     </qresource>
 </RCC>
