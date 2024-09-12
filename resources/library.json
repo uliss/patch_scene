@@ -2773,6 +2773,12 @@
         "subcat": "bowed"
       },
       {
+        "title": "Contrabass",
+        "title-ru": "Контрабас",
+        "image": "contrabass_1",
+        "subcat": "bowed"
+      },
+      {
         "title": "Piano",
         "title-ru": "Фортепиано",
         "image": "piano_2",
