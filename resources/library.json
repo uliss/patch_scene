@@ -2637,6 +2637,32 @@
                 ]
             },
             {
+                "model": "MTD-1024",
+                "vendor": "DOREMiDi",
+                "title": "Midi to DMX converter",
+                "subcat": "midi",
+                "inputs": [
+                    {
+                        "model": "midi",
+                        "name": "MIDI IN"
+                    },
+                    {
+                        "model": "usb_b",
+                        "name": "USB device/power"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "xlr",
+                        "name": "DMX 1"
+                    },
+                    {
+                        "model": "xlr",
+                        "name": "DMX 2"
+                    }
+                ]
+            },
+            {
                 "model": "FC-ONE",
                 "vendor": "DOREMiDi",
                 "title": "MIDI Foot Controller FC-ONE",
