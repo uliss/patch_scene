@@ -34,9 +34,19 @@
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="toolButton">
+      <widget class="QToolButton" name="linkSize">
        <property name="text">
         <string>link</string>
+       </property>
+       <property name="icon">
+        <iconset resource="resources/patch_scene_resources.qrc">
+         <normaloff>:/icons/link.svg</normaloff>:/icons/link.svg</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -167,7 +177,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources/patch_scene_resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

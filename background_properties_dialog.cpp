@@ -38,11 +38,14 @@ BackgroundPropertiesDialog::BackgroundPropertiesDialog(SceneBackground* bg, QWid
             ui->sceneSize->setText(QString("%1px x %2px").arg(rect.width()).arg(rect.height()));
         }
 
+        auto xoff = item->x() - img_rect.width() * 0.5;
+        auto yoff = item->y() - img_rect.height() * 0.5;
+
         ui->imgOffsetX->setRange(-2000, 2000);
-        ui->imgOffsetX->setValue(item->x());
+        ui->imgOffsetX->setValue(xoff);
 
         ui->imgOffsetY->setRange(-2000, 2000);
-        ui->imgOffsetY->setValue(item->y());
+        ui->imgOffsetY->setValue(yoff);
 
         ui->viewWidth->setRange(100, 5000);
         ui->viewWidth->setValue(img_rect.width());
@@ -57,6 +60,40 @@ BackgroundPropertiesDialog::BackgroundPropertiesDialog(SceneBackground* bg, QWid
             auto scale = scene_width / image_width;
             item->setScale(scale);
             item->setPos(-scene_width / 2, (-image_height * scale) / 2);
+        });
+
+        connect(ui->linkSize, &QToolButton::clicked, this, [this](bool on) {
+            ui->linkSize->setIcon(QIcon(on ? ":/icons/link.svg" : ":/icons/link_off.svg"));
+        });
+
+        connect(ui->viewHeight, &QSpinBox::valueChanged, this, [this](int new_height) {
+            auto item = bg_->sceneItem();
+            auto bbox = item->boundingRect();
+
+            if (ui->linkSize->isChecked()) {
+                auto scale = new_height / bbox.height();
+                auto new_width = qRound(bbox.width() * scale);
+                QSignalBlocker sb(ui->viewWidth);
+                ui->viewWidth->setValue(new_width);
+                emit sizeChanged({ new_width, new_height });
+            } else {
+                emit sizeChanged(QSize(bbox.width(), new_height));
+            }
+        });
+
+        connect(ui->viewWidth, &QSpinBox::valueChanged, this, [this](int new_width) {
+            auto item = bg_->sceneItem();
+            auto bbox = item->boundingRect();
+
+            if (ui->linkSize->isChecked()) {
+                auto scale = new_width / bbox.width();
+                auto new_height = qRound(bbox.height() * scale);
+                QSignalBlocker sb(ui->viewHeight);
+                ui->viewHeight->setValue(new_height);
+                emit sizeChanged({ new_width, new_height });
+            } else {
+                emit sizeChanged(QSize(new_width, bbox.height()));
+            }
         });
     }
 

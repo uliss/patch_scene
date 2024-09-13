@@ -31,6 +31,9 @@ public:
     explicit BackgroundPropertiesDialog(SceneBackground* bg, QWidget* parent = nullptr);
     ~BackgroundPropertiesDialog();
 
+signals:
+    void sizeChanged(QSize);
+
 private:
     Ui::BackgroundPropertiesDialog* ui;
     SceneBackground* bg_;
