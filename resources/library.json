@@ -130,7 +130,7 @@
             {
                 "title": "Web-Camera",
                 "subcat": "video",
-                "image": "web_camera_1",
+                "image": "web_camera_2",
                 "inputs": [
                     {
                         "model": "usb_a",
