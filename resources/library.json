@@ -2276,6 +2276,19 @@
                 "battery-count": 2
             },
             {
+                "title": "Cassette Player",
+                "title-ru": "Кассетный плеер",
+                "subcat": "play",
+                "image": "cassette_1",
+                "battery-type": "AAA",
+                "battery-count": 2,
+                "outputs": [
+                    {
+                        "model": "jack_mini_trs"
+                    }
+                ]
+            },
+            {
                 "title": "Tape Recorder",
                 "title-ru": "Катушечный рекордер",
                 "subcat": "rec",
