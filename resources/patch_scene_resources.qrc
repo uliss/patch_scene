@@ -200,5 +200,6 @@
         <file>devices/guitar_electro_1.svg</file>
         <file>icons/link.svg</file>
         <file>icons/link_off.svg</file>
+        <file>devices/congas_2.svg</file>
     </qresource>
 </RCC>

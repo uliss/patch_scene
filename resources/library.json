@@ -2936,8 +2936,13 @@
             {
                 "title": "Congas",
                 "title-ru": "Конги",
+                "image": "congas_2",
+                "subcat": "perc_noise"
+            },
+            {
+                "title": "Conga",
+                "title-ru": "Конга",
                 "image": "congas_1",
-                "zoom": 0.5,
                 "subcat": "perc_noise"
             },
             {
