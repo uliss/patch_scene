@@ -3443,6 +3443,11 @@
                 "image": "camera_2"
             },
             {
+                "title": "Video Camera",
+                "title-ru": "Видеокамера",
+                "image": "camera_video_1"
+            },
+            {
                 "title": "Boombox",
                 "title-ru": "Бумбокс",
                 "image": "boombox_3"
