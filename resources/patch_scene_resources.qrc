@@ -214,5 +214,6 @@
         <file>devices/camera_video_1.svg</file>
         <file>devices/camera_gopro_1.svg</file>
         <file>devices/flute_1.svg</file>
+        <file>devices/wifi.svg</file>
     </qresource>
 </RCC>
