@@ -27,6 +27,10 @@
 namespace {
 constexpr const char* JSON_KEY_DATA = "data";
 constexpr const char* JSON_KEY_TYPE = "type";
+constexpr const char* JSON_KEY_X = "x";
+constexpr const char* JSON_KEY_Y = "y";
+constexpr const char* JSON_KEY_WIDTH = "width";
+constexpr const char* JSON_KEY_HEIGHT = "height";
 constexpr const char* JSON_PIXMAP = "pixmap";
 constexpr const char* JSON_SVG = "svg";
 
@@ -199,11 +203,25 @@ QJsonValue SceneBackground::toJson() const
         QJsonObject js;
         js[JSON_KEY_DATA] = jsonFromPixmap(pixmap_->pixmap());
         js[JSON_KEY_TYPE] = JSON_PIXMAP;
+
+        auto tr = pixmap_->transform();
+        auto bbox = pixmap_->boundingRect();
+        js[JSON_KEY_WIDTH] = tr.mapRect(bbox).width();
+        js[JSON_KEY_HEIGHT] = tr.mapRect(bbox).height();
+        js[JSON_KEY_X] = pixmap_->x() - bbox.width() * 0.5;
+        js[JSON_KEY_Y] = pixmap_->y() - bbox.height() * 0.5;
         return js;
     } else if (svg_) {
         QJsonObject js;
         js[JSON_KEY_DATA] = QLatin1String { svg_bin_content_.toBase64() };
         js[JSON_KEY_TYPE] = JSON_SVG;
+
+        auto tr = svg_->transform();
+        auto bbox = svg_->boundingRect();
+        js[JSON_KEY_WIDTH] = tr.mapRect(bbox).width();
+        js[JSON_KEY_HEIGHT] = tr.mapRect(bbox).height();
+        js[JSON_KEY_X] = svg_->x() - bbox.width() * 0.5;
+        js[JSON_KEY_Y] = svg_->y() - bbox.height() * 0.5;
         return js;
     } else
         return QJsonValue();

@@ -6,6 +6,8 @@
 - device subcategories added
 - export scheme to SVG
 - export scheme to PNG
+- background properties dialog: size and position
+- PSC file format update
 
 ### Fixed:
 - smooth item move
