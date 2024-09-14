@@ -34,6 +34,16 @@ public:
 signals:
     void sizeChanged(QSize);
 
+public slots:
+    void fitBest();
+    void fitHeight();
+    void fitWidth();
+    void resetSize();
+
+private:
+    qreal centerXCorrection() const;
+    qreal centerYCorrection() const;
+
 private:
     Ui::BackgroundPropertiesDialog* ui;
     SceneBackground* bg_;

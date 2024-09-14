@@ -63,6 +63,8 @@ public:
      */
     void setPos(const QPointF& pos);
 
+    void setSize(const QSizeF& size);
+
     QJsonValue toJson() const;
     bool setFromJson(const QJsonValue& v);
 

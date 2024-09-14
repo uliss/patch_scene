@@ -169,6 +169,22 @@ void SceneBackground::setPos(const QPointF& pos)
         item->setPos(pos);
 }
 
+void SceneBackground::setSize(const QSizeF& size)
+{
+    auto item = sceneItem();
+    if (!item)
+        return;
+
+    auto bbox = boundingRect();
+    if (!bbox.isValid())
+        return;
+
+    auto dx = size.width() / bbox.width();
+    auto dy = size.height() / bbox.height();
+
+    item->setTransform(QTransform::fromScale(dx, dy));
+}
+
 bool SceneBackground::isEmpty() const
 {
     return sceneItem() == nullptr;
