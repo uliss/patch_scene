@@ -2282,6 +2282,20 @@
                 "image": "tape_recorder_1"
             },
             {
+                "title": "Powerbank",
+                "title-ru": "Пауэрбанк",
+                "subcat": "power",
+                "image": "powerbank_1",
+                "outputs": [
+                    {
+                        "model": "usb_a"
+                    },
+                    {
+                        "model": "usb_type_c"
+                    }
+                ]
+            },
+            {
                 "vendor": "Behringer",
                 "model": "Xtouch extender",
                 "subcat": "midi",

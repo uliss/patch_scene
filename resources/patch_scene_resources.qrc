@@ -209,5 +209,6 @@
         <file>devices/percussion_1.svg</file>
         <file>devices/recorder_1.svg</file>
         <file>devices/tape_recorder_1.svg</file>
+        <file>devices/powerbank_1.svg</file>
     </qresource>
 </RCC>
