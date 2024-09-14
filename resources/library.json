@@ -3442,6 +3442,11 @@
                 "image": "music_stand_1"
             },
             {
+                "title": "Conductor music stand",
+                "title-ru": "Дирижерский пюпитр",
+                "image": "music_stand_3"
+            },
+            {
                 "title": "Projector screen",
                 "title-ru": "Проекционный экран",
                 "image": "screen_2"
