@@ -21,70 +21,74 @@
 <context>
     <name>BackgroundPropertiesDialog</name>
     <message>
-        <location filename="background_properties_dialog.ui" line="14"/>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="background_properties_dialog.ui" line="22"/>
-        <source>px</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="background_properties_dialog.ui" line="32"/>
+        <location filename="background_properties_dialog.ui" line="136"/>
         <source>width</source>
-        <translation type="unfinished"></translation>
+        <translation>ширина</translation>
     </message>
     <message>
-        <location filename="background_properties_dialog.ui" line="39"/>
+        <location filename="background_properties_dialog.ui" line="143"/>
         <source>link</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="background_properties_dialog.ui" line="163"/>
+        <source>height</source>
+        <translation>высота</translation>
     </message>
     <message>
         <location filename="background_properties_dialog.ui" line="49"/>
-        <source>height</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="background_properties_dialog.ui" line="63"/>
         <source>x</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="background_properties_dialog.ui" line="73"/>
+        <location filename="background_properties_dialog.ui" line="14"/>
+        <source>Background Properties</source>
+        <translation>Свойства фонового изображения</translation>
+    </message>
+    <message>
+        <location filename="background_properties_dialog.ui" line="59"/>
         <source>y</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="background_properties_dialog.ui" line="95"/>
-        <location filename="background_properties_dialog.ui" line="142"/>
+        <location filename="background_properties_dialog.ui" line="22"/>
         <source>0x0</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="background_properties_dialog.ui" line="102"/>
-        <source>Scene Size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="background_properties_dialog.ui" line="109"/>
+        <location filename="background_properties_dialog.ui" line="81"/>
         <source>Image Offset</source>
-        <translation type="unfinished"></translation>
+        <translation>Смещение изображения</translation>
     </message>
     <message>
-        <location filename="background_properties_dialog.ui" line="116"/>
+        <location filename="background_properties_dialog.ui" line="88"/>
         <source>Image View Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Видимый размер</translation>
     </message>
     <message>
-        <location filename="background_properties_dialog.ui" line="123"/>
+        <location filename="background_properties_dialog.ui" line="97"/>
+        <source>Fit Height</source>
+        <translation>Уместить по высоте</translation>
+    </message>
+    <message>
+        <location filename="background_properties_dialog.ui" line="111"/>
+        <source>Fit Best</source>
+        <translation>Уместить</translation>
+    </message>
+    <message>
+        <location filename="background_properties_dialog.ui" line="118"/>
+        <source>Original Size</source>
+        <translation>Оригинальный размер</translation>
+    </message>
+    <message>
+        <location filename="background_properties_dialog.ui" line="185"/>
         <source>Image Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер изображения</translation>
     </message>
     <message>
-        <location filename="background_properties_dialog.ui" line="162"/>
+        <location filename="background_properties_dialog.ui" line="104"/>
         <source>Fit Width</source>
-        <translation type="unfinished"></translation>
+        <translation>Уместить по ширине</translation>
     </message>
 </context>
 <context>
@@ -1965,22 +1969,22 @@ Do you wan&apos;t to save it before closing?</source>
 <context>
     <name>ceam::SceneBackground</name>
     <message>
-        <location filename="scene_background.cpp" line="244"/>
+        <location filename="scene_background.cpp" line="344"/>
         <source>Clear background</source>
         <translation>Удалить фоновое изображение</translation>
     </message>
     <message>
-        <location filename="scene_background.cpp" line="249"/>
+        <location filename="scene_background.cpp" line="349"/>
         <source>Replace background</source>
         <translation>Заменить фоновое изображение</translation>
     </message>
     <message>
-        <location filename="scene_background.cpp" line="255"/>
+        <location filename="scene_background.cpp" line="355"/>
         <source>Background properties</source>
         <translation>Свойства фонового изображения</translation>
     </message>
     <message>
-        <location filename="scene_background.cpp" line="264"/>
+        <location filename="scene_background.cpp" line="364"/>
         <source>Set background</source>
         <translation>Установить фоновое изображение</translation>
     </message>
