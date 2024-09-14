@@ -3077,6 +3077,12 @@
                 "subcat": "perc_tonal"
             },
             {
+                "title": "Recorder",
+                "title-ru": "Блокфлейта",
+                "image": "flute_1",
+                "subcat": "wood"
+            },
+            {
                 "title": "Tamburine",
                 "title-ru": "Тамбурин",
                 "image": "tambourine_1",
