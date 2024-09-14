@@ -43,31 +43,31 @@ void TestSceneBackground::pixmapTest()
 
     QGraphicsScene sc;
     img.setScene(&sc);
-    QCOMPARE(img.boundingRect(), QRectF());
+    QCOMPARE(img.imageRect(), QRectF());
     QVERIFY(img.toJson().isNull());
 
     QVERIFY(img.loadImage(":/ceam_logo_color.jpg"));
-    QCOMPARE(img.boundingRect(), QRectF(0, 0, 100, 100));
+    QCOMPARE(img.imageRect(), QRectF(0, 0, 100, 100));
     QVERIFY(!img.toJson().isNull());
     QCOMPARE(spy.count(), 1);
 
     QVERIFY(!img.loadImage(":/not-exists"));
-    QCOMPARE(img.boundingRect(), QRectF(0, 0, 100, 100));
+    QCOMPARE(img.imageRect(), QRectF(0, 0, 100, 100));
     QVERIFY(!img.toJson().isNull());
     QCOMPARE(spy.count(), 1);
 
     QVERIFY(img.loadImage(":/ceam_logo_color.png"));
-    QCOMPARE(img.boundingRect(), QRectF(0, 0, 100, 100));
+    QCOMPARE(img.imageRect(), QRectF(0, 0, 100, 100));
     QVERIFY(!img.toJson().isNull());
     QCOMPARE(spy.count(), 2);
 
     QVERIFY(img.loadImage(":/app_icon.svg"));
-    QCOMPARE(img.boundingRect(), QRectF(0, 0, 512, 512));
+    QCOMPARE(img.imageRect(), QRectF(0, 0, 512, 512));
     QVERIFY(!img.toJson().isNull());
     QCOMPARE(spy.count(), 3);
 
     QVERIFY(!img.loadImage(":/not-exists"));
-    QCOMPARE(img.boundingRect(), QRectF(0, 0, 512, 512));
+    QCOMPARE(img.imageRect(), QRectF(0, 0, 512, 512));
     QVERIFY(!img.toJson().isNull());
     QCOMPARE(spy.count(), 3);
 
@@ -91,20 +91,20 @@ void TestSceneBackground::json()
     QVERIFY(img.toJson().isNull());
 
     QVERIFY(img.setFromJson(json_img));
-    QCOMPARE(img.boundingRect(), QRectF(0, 0, 100, 100));
+    QCOMPARE(img.imageRect(), QRectF(0, 0, 100, 100));
     QVERIFY(!img.isEmpty());
 
     QVERIFY(img.loadImage(":/app_icon.svg"));
-    QCOMPARE(img.boundingRect(), QRectF(0, 0, 512, 512));
+    QCOMPARE(img.imageRect(), QRectF(0, 0, 512, 512));
     json_img = img.toJson();
     QVERIFY(json_img.isObject());
 
     img.clear();
     QVERIFY(img.isEmpty());
     QVERIFY(img.toJson().isNull());
-    QCOMPARE(img.boundingRect(), QRectF());
+    QCOMPARE(img.imageRect(), QRectF());
 
     QVERIFY(img.setFromJson(json_img));
-    QCOMPARE(img.boundingRect(), QRectF(0, 0, 512, 512));
+    QCOMPARE(img.imageRect(), QRectF(0, 0, 512, 512));
     QVERIFY(!img.isEmpty());
 }

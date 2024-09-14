@@ -91,13 +91,13 @@ bool SceneBackground::setSvg(const QString& path)
         return false;
 
     if (path.isEmpty()) {
-        qWarning() << "empty SVG filename";
+        WARN() << "empty SVG filename";
         return false;
     }
 
     QFile file(path);
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
-        qWarning() << "can't open SVG file:" << path;
+        WARN() << "can't open SVG file:" << path;
         return false;
     }
 
@@ -128,6 +128,24 @@ bool SceneBackground::setSvg(const QByteArray& content)
     return true;
 }
 
+bool SceneBackground::adjustSizeAndPos(const QRectF& rect)
+{
+    auto bbox = imageRect();
+    if (!bbox.isValid() || !rect.isValid())
+        return false;
+
+    auto item = sceneItem();
+    if (!item)
+        return false;
+
+    WARN() << rect;
+
+    auto tr = QTransform::fromScale(rect.width() / bbox.width(), rect.height() / bbox.height());
+    item->setTransform(tr);
+    item->moveBy(rect.x(), rect.y());
+    return true;
+}
+
 bool SceneBackground::loadImage(const QString& path)
 {
     if (!scene_)
@@ -144,11 +162,11 @@ bool SceneBackground::loadImage(const QString& path)
 
         QPixmap p(path);
         if (p.isNull())
-            qWarning() << __FUNCTION__ << "invalid pixmap:" << p;
+            WARN() << "invalid pixmap:" << p;
 
         return setPixmap(p);
     } else {
-        qWarning() << "unknown image format:" << path;
+        WARN() << "unknown image format:" << path;
         return false;
     }
 }
@@ -160,17 +178,55 @@ void SceneBackground::setVisible(bool value)
         item->setVisible(value);
 }
 
-QRectF SceneBackground::boundingRect() const
+QRectF SceneBackground::imageRect() const
 {
     auto item = sceneItem();
     return item ? item->boundingRect() : QRectF {};
 }
 
-void SceneBackground::setPos(const QPointF& pos)
+QSizeF SceneBackground::sceneSize() const
 {
     auto item = sceneItem();
     if (item)
-        item->setPos(pos);
+        return item->scene()->sceneRect().size();
+    else
+        return {};
+}
+
+QSizeF SceneBackground::viewSize() const
+{
+    auto item = sceneItem();
+    if (item)
+        return item->transform().mapRect(item->boundingRect()).size();
+    else
+        return {};
+}
+
+qreal SceneBackground::x() const
+{
+    auto item = sceneItem();
+    if (item)
+        return item->x() + viewSize().width() * 0.5;
+    else
+        return 0;
+}
+
+qreal SceneBackground::y() const
+{
+    auto item = sceneItem();
+    if (item)
+        return item->y() + viewSize().height() * 0.5;
+    else
+        return 0;
+}
+
+void SceneBackground::setPos(const QPointF& pos)
+{
+    auto item = sceneItem();
+    if (item) {
+        auto bbox = viewSize();
+        item->setPos(pos.x() - bbox.width() * 0.5, pos.y() - bbox.height() * 0.5);
+    }
 }
 
 void SceneBackground::setSize(const QSizeF& size)
@@ -179,7 +235,7 @@ void SceneBackground::setSize(const QSizeF& size)
     if (!item)
         return;
 
-    auto bbox = boundingRect();
+    auto bbox = imageRect();
     if (!bbox.isValid())
         return;
 
@@ -208,8 +264,8 @@ QJsonValue SceneBackground::toJson() const
         auto bbox = pixmap_->boundingRect();
         js[JSON_KEY_WIDTH] = tr.mapRect(bbox).width();
         js[JSON_KEY_HEIGHT] = tr.mapRect(bbox).height();
-        js[JSON_KEY_X] = pixmap_->x() - bbox.width() * 0.5;
-        js[JSON_KEY_Y] = pixmap_->y() - bbox.height() * 0.5;
+        js[JSON_KEY_X] = pixmap_->x() + bbox.width() * 0.5;
+        js[JSON_KEY_Y] = pixmap_->y() + bbox.height() * 0.5;
         return js;
     } else if (svg_) {
         QJsonObject js;
@@ -220,8 +276,8 @@ QJsonValue SceneBackground::toJson() const
         auto bbox = svg_->boundingRect();
         js[JSON_KEY_WIDTH] = tr.mapRect(bbox).width();
         js[JSON_KEY_HEIGHT] = tr.mapRect(bbox).height();
-        js[JSON_KEY_X] = svg_->x() - bbox.width() * 0.5;
-        js[JSON_KEY_Y] = svg_->y() - bbox.height() * 0.5;
+        js[JSON_KEY_X] = svg_->x() + bbox.width() * 0.5;
+        js[JSON_KEY_Y] = svg_->y() + bbox.height() * 0.5;
         return js;
     } else
         return QJsonValue();
@@ -242,32 +298,42 @@ bool SceneBackground::setFromJson(const QJsonValue& v)
 
     auto obj = v.toObject();
     auto type = obj.value(JSON_KEY_TYPE).toString();
+    auto x = obj.value(JSON_KEY_X).toDouble();
+    auto y = obj.value(JSON_KEY_Y).toDouble();
+    auto width = obj.value(JSON_KEY_WIDTH).toDouble();
+    auto height = obj.value(JSON_KEY_HEIGHT).toDouble();
 
     if (type == JSON_PIXMAP) {
         auto data = obj.value(JSON_KEY_DATA);
         if (!data.isString()) {
-            qWarning() << __FILE__ << __FUNCTION__ << "data key expected";
+            WARN() << "data key expected";
             return false;
         }
 
-        return setPixmap(pixmapFromJson(data));
+        if (!setPixmap(pixmapFromJson(data)))
+            return false;
+
+        return adjustSizeAndPos({ x, y, width, height });
 
     } else if (type == JSON_SVG) {
         auto data = obj.value(JSON_KEY_DATA);
         if (!data.isString()) {
-            qWarning() << __FILE__ << __FUNCTION__ << "data key expected";
+            WARN() << "data key expected";
             return false;
         }
 
         auto bin_data = QByteArray::fromBase64(data.toString().toLatin1());
         if (bin_data.isEmpty()) {
-            qWarning() << __FILE__ << __FUNCTION__ << "invalid SVG compressed data";
+            WARN() << "invalid SVG compressed data";
             return false;
         }
 
-        return setSvg(qUncompress(bin_data));
+        if (!setSvg(qUncompress(bin_data)))
+            return false;
+
+        return adjustSizeAndPos({ x, y, width, height });
     } else {
-        qWarning() << "unknown background image type:" << type;
+        WARN() << "unknown background image type:" << type;
         return false;
     }
 }

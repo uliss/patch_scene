@@ -32,17 +32,17 @@ public:
     ~BackgroundPropertiesDialog();
 
 signals:
-    void sizeChanged(QSize);
+    void sizeChanged(QRect);
 
 public slots:
+    /** @emit sizeChanged(QRect) */
     void fitBest();
+    /** @emit sizeChanged(QRect) */
     void fitHeight();
+    /** @emit sizeChanged(QRect) */
     void fitWidth();
+    /** @emit sizeChanged(QRect) */
     void resetSize();
-
-private:
-    qreal centerXCorrection() const;
-    qreal centerYCorrection() const;
 
 private:
     Ui::BackgroundPropertiesDialog* ui;

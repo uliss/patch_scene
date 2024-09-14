@@ -56,7 +56,13 @@ public:
     /**
      * @return background bounding rect
      */
-    QRectF boundingRect() const;
+    QRectF imageRect() const;
+
+    QSizeF sceneSize() const;
+    QSizeF viewSize() const;
+
+    qreal x() const;
+    qreal y() const;
 
     /**
      * set background position on the scene
@@ -73,16 +79,6 @@ public:
      */
     void addToContextMenu(QMenu& menu);
 
-    /**
-     * @return pointer to background graphics item
-     */
-    QGraphicsItem* sceneItem();
-
-    /**
-     * @return pointer to background graphics item
-     */
-    const QGraphicsItem* sceneItem() const;
-
 signals:
     void backgroundChanged();
     void requestBackgroundChange();
@@ -91,6 +87,9 @@ private:
     bool setPixmap(const QPixmap& pixmap);
     bool setSvg(const QString& path);
     bool setSvg(const QByteArray& contents);
+    bool adjustSizeAndPos(const QRectF& rect);
+    const QGraphicsItem* sceneItem() const;
+    QGraphicsItem* sceneItem();
 
 private:
     QGraphicsScene* scene_ { nullptr };

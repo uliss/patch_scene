@@ -26,26 +26,21 @@ BackgroundPropertiesDialog::BackgroundPropertiesDialog(SceneBackground* bg, QWid
 {
     ui->setupUi(this);
 
-    if (bg_ && bg_->sceneItem()) {
-        auto item = bg_->sceneItem();
-
-        auto img_rect = item->boundingRect();
-        img_rect.setSize(item->transform().mapRect(img_rect).size());
-        ui->imageSize->setText(QString("%1px x %2px").arg(img_rect.width()).arg(img_rect.height()));
-
-        auto xoff = item->pos().x() + centerXCorrection();
-        auto yoff = item->pos().y() + centerYCorrection();
+    if (bg_) {
+        auto img_size = bg->imageRect().size();
+        ui->imageSize->setText(QString("%1 x %2").arg(img_size.width()).arg(img_size.height()));
 
         ui->imgOffsetX->setRange(-2000, 2000);
-        ui->imgOffsetX->setValue(xoff);
+        ui->imgOffsetX->setValue(bg_->x());
 
         ui->imgOffsetY->setRange(-2000, 2000);
-        ui->imgOffsetY->setValue(yoff);
+        ui->imgOffsetY->setValue(bg_->y());
 
+        auto view_size = bg_->viewSize();
         ui->viewWidth->setRange(100, 5000);
-        ui->viewWidth->setValue(img_rect.width());
+        ui->viewWidth->setValue(view_size.width());
         ui->viewHeight->setRange(100, 5000);
-        ui->viewHeight->setValue(img_rect.height());
+        ui->viewHeight->setValue(view_size.height());
 
         connect(ui->fitWidth, &QPushButton::clicked, this, &BackgroundPropertiesDialog::fitWidth);
         connect(ui->fitHeight, &QPushButton::clicked, this, &BackgroundPropertiesDialog::fitHeight);
@@ -57,63 +52,53 @@ BackgroundPropertiesDialog::BackgroundPropertiesDialog(SceneBackground* bg, QWid
         });
 
         connect(ui->viewHeight, &QSpinBox::valueChanged, this, [this](int new_height) {
-            auto item = bg_->sceneItem();
-            auto bbox = item->boundingRect();
+            auto bbox = bg_->imageRect();
             if (!bbox.isValid())
                 return;
 
             if (ui->linkSize->isChecked()) {
                 auto scale = new_height / bbox.height();
                 auto new_width = qRound(bbox.width() * scale);
-                emit sizeChanged({ new_width, new_height });
+                emit sizeChanged({ ui->imgOffsetX->value(), ui->imgOffsetY->value(), new_width, new_height });
             } else {
-                emit sizeChanged(QSize(bbox.width(), new_height));
+                emit sizeChanged({ ui->imgOffsetX->value(), ui->imgOffsetY->value(), ui->viewWidth->value(), new_height });
             }
         });
 
         connect(ui->viewWidth, &QSpinBox::valueChanged, this, [this](int new_width) {
-            auto item = bg_->sceneItem();
-            auto bbox = item->boundingRect();
+            auto bbox = bg_->imageRect();
             if (!bbox.isValid())
                 return;
 
             if (ui->linkSize->isChecked()) {
                 auto scale = new_width / bbox.width();
                 auto new_height = qRound(bbox.height() * scale);
-                emit sizeChanged({ new_width, new_height });
+                emit sizeChanged({ ui->imgOffsetX->value(), ui->imgOffsetY->value(), new_width, new_height });
             } else {
-                emit sizeChanged(QSize(new_width, bbox.height()));
+                emit sizeChanged({ ui->imgOffsetX->value(), ui->imgOffsetY->value(), new_width, ui->viewHeight->value() });
             }
         });
 
         connect(ui->imgOffsetX, &QSpinBox::valueChanged, this, [this](int dx) {
-            auto item = bg_->sceneItem();
-            auto bbox = item->boundingRect();
-            if (!bbox.isValid())
-                return;
-
-            auto xoff = dx - centerXCorrection();
-            item->setPos(xoff, item->y());
+            bg_->setPos(QPointF(dx, ui->imgOffsetY->value()));
         });
 
         connect(ui->imgOffsetY, &QSpinBox::valueChanged, this, [this](int dy) {
-            auto item = bg_->sceneItem();
-            auto bbox = item->boundingRect();
-            if (!bbox.isValid())
-                return;
-
-            auto yoff = dy - centerYCorrection();
-            item->setPos(item->x(), yoff);
+            bg_->setPos(QPointF(ui->imgOffsetX->value(), dy));
         });
 
         connect(this, &BackgroundPropertiesDialog::sizeChanged, this,
-            [this](const QSize& sz) {
+            [this](const QRect& rect) {
                 QSignalBlocker sbw(ui->viewWidth);
                 QSignalBlocker sbh(ui->viewHeight);
-                ui->viewWidth->setValue(sz.width());
-                ui->viewHeight->setValue(sz.height());
-                bg_->setSize(sz);
-                bg_->setPos({ -sz.width() * 0.5, -sz.height() * 0.5 });
+                QSignalBlocker sbx(ui->imgOffsetX);
+                QSignalBlocker sby(ui->imgOffsetY);
+                ui->viewWidth->setValue(rect.width());
+                ui->viewHeight->setValue(rect.height());
+                ui->imgOffsetX->setValue(rect.x());
+                ui->imgOffsetY->setValue(rect.y());
+                bg_->setSize(rect.size());
+                bg_->setPos(rect.topLeft());
             });
     }
 
@@ -127,9 +112,8 @@ BackgroundPropertiesDialog::~BackgroundPropertiesDialog()
 
 void BackgroundPropertiesDialog::fitBest()
 {
-    auto item = bg_->sceneItem();
-    auto scene_size = item->scene()->sceneRect().size();
-    auto img_rect = item->boundingRect();
+    auto scene_size = bg_->sceneSize();
+    auto img_rect = bg_->imageRect();
     if (!img_rect.isValid())
         return;
 
@@ -139,62 +123,38 @@ void BackgroundPropertiesDialog::fitBest()
         scene_size.height() / img_size.height(),
         scene_size.width() / img_size.width());
 
-    emit sizeChanged((img_size * scale).toSize());
+    emit sizeChanged({ {}, (img_size * scale).toSize() });
 }
 
 void BackgroundPropertiesDialog::fitHeight()
 {
-    auto item = bg_->sceneItem();
-    auto scene_height = item->scene()->sceneRect().height();
-    auto img_rect = item->boundingRect();
+    auto scene_height = bg_->sceneSize().height();
+    auto img_rect = bg_->imageRect();
     if (!img_rect.isValid())
         return;
 
     auto img_size = img_rect.size();
-
     auto scale = scene_height / img_size.height();
-    emit sizeChanged((img_size * scale).toSize());
+    emit sizeChanged({ {}, (img_size * scale).toSize() });
 }
 
 void BackgroundPropertiesDialog::fitWidth()
 {
-    auto item = bg_->sceneItem();
-    auto scene_width = item->scene()->sceneRect().width();
-    auto img_rect = item->boundingRect();
+    auto scene_width = bg_->sceneSize().width();
+    auto img_rect = bg_->imageRect();
     if (!img_rect.isValid())
         return;
 
     auto img_size = img_rect.size();
-
     auto scale = scene_width / img_size.width();
-    emit sizeChanged((img_size * scale).toSize());
+    emit sizeChanged({ {}, (img_size * scale).toSize() });
 }
 
 void BackgroundPropertiesDialog::resetSize()
 {
-    auto item = bg_->sceneItem();
-    auto img_rect = item->boundingRect();
+    auto img_rect = bg_->imageRect();
     if (!img_rect.isValid())
         return;
 
-    item->setTransform({});
-    item->setPos(-img_rect.width() * 0.5, -img_rect.height() * 0.5);
-}
-
-qreal BackgroundPropertiesDialog::centerXCorrection() const
-{
-    auto item = bg_->sceneItem();
-    if (!item)
-        return 0;
-
-    return item->transform().mapRect(item->boundingRect()).width() * 0.5;
-}
-
-qreal BackgroundPropertiesDialog::centerYCorrection() const
-{
-    auto item = bg_->sceneItem();
-    if (!item)
-        return 0;
-
-    return item->transform().mapRect(item->boundingRect()).height() * 0.5;
+    emit sizeChanged({ {}, img_rect.size().toSize() });
 }

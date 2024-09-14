@@ -629,11 +629,11 @@ void Diagram::clearBackground()
 
 bool Diagram::loadJson(const QString& path)
 {
-    qDebug() << __FUNCTION__ << path;
+    WARN() << path;
 
     QFile file(path);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qWarning() << __FUNCTION__ << "can't open file:" << path;
+        WARN() << "can't open file:" << path;
         return false;
     }
 
@@ -643,7 +643,7 @@ bool Diagram::loadJson(const QString& path)
     QJsonParseError err;
     auto doc = QJsonDocument::fromJson(val, &err);
     if (!doc.isObject()) {
-        qWarning() << "invalid JSON file: " << err.errorString();
+        WARN() << "invalid JSON file: " << err.errorString();
         return false;
     }
 
@@ -660,7 +660,7 @@ bool Diagram::loadJson(const QString& path)
         auto fmt_vers = app.value(JSON_KEY_FORMAT_VERSION).toInt();
 
         if (fmt_vers > app_file_format_version()) {
-            qWarning() << "the document was created with more recent version, then the current one, "
+            WARN() << "the document was created with more recent version, then the current one, "
                           "some feature can be missing...";
         }
 
