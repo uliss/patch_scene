@@ -2269,10 +2269,17 @@
             },
             {
                 "title": "Cassette Recorder",
+                "title-ru": "Кассетный рекордер",
                 "subcat": "rec",
                 "image": "recorder_1",
                 "battery-type": "AAA",
                 "battery-count": 2
+            },
+            {
+                "title": "Tape Recorder",
+                "title-ru": "Катушечный рекордер",
+                "subcat": "rec",
+                "image": "tape_recorder_1"
             },
             {
                 "vendor": "Behringer",
