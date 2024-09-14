@@ -1913,7 +1913,6 @@
                 "model": "UHF Bodypack",
                 "image": "body_pack_1",
                 "subcat": "radio",
-                "zoom": 0.5,
                 "battery-type": "aa",
                 "battery-count": 2,
                 "outputs": [
@@ -2393,7 +2392,6 @@
                 "tooltip": "660.700 MHz",
                 "image": "body_pack_1",
                 "subcat": "radio",
-                "zoom": 0.3,
                 "battery-type": "aa",
                 "battery-count": 1,
                 "inputs": [
