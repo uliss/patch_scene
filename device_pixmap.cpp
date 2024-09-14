@@ -66,6 +66,10 @@ DevicePixmap::DevicePixmap(QWidget* parent)
         }
     }
 
+    if (pix_idx % NCOL == 0) {
+        ui->imageTable->insertRow(pix_idx / NCOL);
+    }
+
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(selectImage()));
 }
 
