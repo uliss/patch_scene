@@ -206,5 +206,6 @@
         <file>devices/web_camera_2.svg</file>
         <file>devices/maracas_1.svg</file>
         <file>devices/phones_4.svg</file>
+        <file>devices/percussion_1.svg</file>
     </qresource>
 </RCC>
