@@ -3005,6 +3005,18 @@
                 "subcat": "plucked"
             },
             {
+                "title": "Chimes",
+                "title-ru": "Чаймс",
+                "image": "chimes_1",
+                "subcat": "perc_tonal"
+            },
+            {
+                "title": "Tamburine",
+                "title-ru": "Тамбурин",
+                "image": "tambourine_1",
+                "subcat": "perc_noise"
+            },
+            {
                 "title": "Harpsichord",
                 "title-ru": "Клавесин",
                 "image": "harpsichord_1",

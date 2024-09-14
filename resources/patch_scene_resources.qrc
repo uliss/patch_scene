@@ -201,5 +201,7 @@
         <file>icons/link.svg</file>
         <file>icons/link_off.svg</file>
         <file>devices/congas_2.svg</file>
+        <file>devices/tambourine_2.svg</file>
+        <file>devices/tambourine_1.svg</file>
     </qresource>
 </RCC>
