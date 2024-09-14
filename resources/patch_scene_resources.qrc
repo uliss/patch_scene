@@ -212,5 +212,6 @@
         <file>devices/powerbank_1.svg</file>
         <file>devices/cassette_1.svg</file>
         <file>devices/camera_video_1.svg</file>
+        <file>devices/camera_gopro_1.svg</file>
     </qresource>
 </RCC>
