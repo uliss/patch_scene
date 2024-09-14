@@ -2940,6 +2940,12 @@
                 "subcat": "perc_noise"
             },
             {
+                "title": "Maracas",
+                "title-ru": "Маракасы",
+                "image": "maracas_1",
+                "subcat": "perc_noise"
+            },
+            {
                 "title": "Conga",
                 "title-ru": "Конга",
                 "image": "congas_1",
