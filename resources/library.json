@@ -412,6 +412,16 @@
                 ]
             },
             {
+                "title": "HDD",
+                "image": "hdd_1",
+                "subcat": "computer",
+                "inputs": [
+                    {
+                        "model": "usb_type_c"
+                    }
+                ]
+            },
+            {
                 "title": "Turntable",
                 "vendor": "Проигрыватель винила",
                 "image": "turntable_1",

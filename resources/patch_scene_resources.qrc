@@ -216,5 +216,6 @@
         <file>devices/flute_1.svg</file>
         <file>devices/wifi.svg</file>
         <file>devices/dj_mixer_2.svg</file>
+        <file>devices/hdd_1.svg</file>
     </qresource>
 </RCC>
