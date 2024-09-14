@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 35 25"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="wifi.svg"
+   width="35"
+   height="25"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:current-layer="svg1" />
+  <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
+  <path
+     d="m 2.9642469,9.347734 c 3.7740995,-3.620948 8.8937471,-5.84712 14.5384871,-5.84712 5.644741,0 10.764389,2.226172 14.538488,5.84712 0.700124,0.667305 1.805005,0.645425 2.472309,-0.04923 C 35.180836,8.603852 35.158957,7.4935 34.464301,6.826196 30.066657,2.598112 24.088265,0 17.502734,0 10.917205,0 4.938812,2.598112 0.53569583,6.820728 -0.15895729,7.493502 -0.18083613,8.598384 0.48646843,9.298506 1.153773,9.998629 2.2641241,10.020508 2.9587772,9.347736 Z m 14.5384871,2.904415 c 3.106796,0 5.940105,1.154109 8.10611,3.063038 0.727471,0.639956 1.832353,0.56885 2.472309,-0.153152 0.639956,-0.722002 0.56885,-1.832353 -0.153152,-2.472309 -2.778612,-2.450429 -6.432379,-3.938191 -10.425267,-3.938191 -3.992887,0 -7.6466529,1.487762 -10.4197958,3.938191 -0.7274713,0.639956 -0.7931079,1.744838 -0.1531519,2.472309 0.639956,0.727472 1.7448374,0.793108 2.4723089,0.153152 2.1605348,-1.908929 4.9938438,-3.063038 8.1061098,-3.063038 z m 3.500615,8.751536 a 3.5006145,3.5006145 0 1 0 -7.001229,0 3.5006145,3.5006145 0 1 0 7.001229,0 z"
+     id="path1"
+     style="stroke-width:1" />
+</svg>
