@@ -207,5 +207,6 @@
         <file>devices/maracas_1.svg</file>
         <file>devices/phones_4.svg</file>
         <file>devices/percussion_1.svg</file>
+        <file>devices/recorder_1.svg</file>
     </qresource>
 </RCC>

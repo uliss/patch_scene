@@ -2268,6 +2268,13 @@
                 ]
             },
             {
+                "title": "Cassette Recorder",
+                "subcat": "rec",
+                "image": "recorder_1",
+                "battery-type": "AAA",
+                "battery-count": 2
+            },
+            {
                 "vendor": "Behringer",
                 "model": "Xtouch extender",
                 "subcat": "midi",
