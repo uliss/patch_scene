@@ -1960,7 +1960,8 @@
                 "vendor": "",
                 "model": "Floor speaker L",
                 "subcat": "speaker",
-                "image": "speaker_floor_2",
+                "image": "speaker_floor_1",
+                "image-mirror": "horizontal",
                 "inputs": [
                     {
                         "model": "xlr"

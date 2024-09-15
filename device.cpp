@@ -472,6 +472,15 @@ void Device::createImage()
         image_ = new QGraphicsSvgItem;
         image_->setSharedRenderer(SvgRenderFactory::instance().getRender(data_->imageIconPath()));
         image_->setScale(data_->zoom());
+        switch (data_->imageMirror()) {
+        case ImageMirrorType::Horizontal: {
+            auto tr = QTransform::fromScale(-1, 1).translate(-image_->boundingRect().width() * data_->zoom(), 0);
+            image_->setTransform(tr);
+        } break;
+        default:
+            break;
+        }
+
         image_->setParentItem(this);
     }
 }
