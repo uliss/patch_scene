@@ -3087,6 +3087,12 @@
                 "subcat": "perc_tonal"
             },
             {
+                "title": "Positive organ",
+                "title-ru": "Орган-позитив",
+                "image": "organ_1",
+                "subcat": "reed"
+            },
+            {
                 "title": "Recorder",
                 "title-ru": "Блокфлейта",
                 "image": "flute_1",
