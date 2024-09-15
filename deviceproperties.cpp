@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include "deviceproperties.h"
 #include "device_pixmap.h"
+#include "logging.hpp"
 #include "table_cell_power.h"
 #include "table_cell_socket.h"
 #include "tablecellcheckbox.h"
@@ -393,7 +394,7 @@ void DeviceProperties::setupXlets(const SharedDeviceData& data)
 bool DeviceProperties::removeXlet(QTableWidget* table, int row)
 {
     if (row < 0 || row >= table->rowCount()) {
-        qWarning() << __FUNCTION__ << "invalid row" << row;
+        WARN() << "invalid row" << row;
         return false;
     }
 
