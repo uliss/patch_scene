@@ -128,7 +128,12 @@
         <translation>&amp;Название</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="535"/>
+        <location filename="deviceproperties.ui" line="372"/>
+        <source>Mirror horizontally</source>
+        <translation>Отразить по горизонтали</translation>
+    </message>
+    <message>
+        <location filename="deviceproperties.ui" line="542"/>
         <source>&amp;Inputs</source>
         <oldsource>Inputs</oldsource>
         <translation>&amp;Входы</translation>
@@ -144,23 +149,23 @@
         <translation>Переместить вход вниз</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="455"/>
+        <location filename="deviceproperties.ui" line="462"/>
         <source>&amp;Outputs</source>
         <oldsource>Outputs</oldsource>
         <translation>В&amp;ыходы</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="427"/>
+        <location filename="deviceproperties.ui" line="434"/>
         <source>Move output up</source>
         <translation>Переместить выход наверх</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="443"/>
+        <location filename="deviceproperties.ui" line="450"/>
         <source>Move output down</source>
         <translation>Переместить выход вниз</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="468"/>
+        <location filename="deviceproperties.ui" line="475"/>
         <source>Image</source>
         <translation>Изображение</translation>
     </message>
@@ -224,17 +229,17 @@
         <translation>удалить вход</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="395"/>
+        <location filename="deviceproperties.ui" line="402"/>
         <source>add output</source>
         <translation>добавить выход</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="411"/>
+        <location filename="deviceproperties.ui" line="418"/>
         <source>remove output</source>
         <translation>удалить выход</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="478"/>
+        <location filename="deviceproperties.ui" line="485"/>
         <source>&amp;Category</source>
         <oldsource>Category</oldsource>
         <translation>&amp;Категория</translation>
@@ -866,7 +871,7 @@
 <context>
     <name>QAction</name>
     <message>
-        <location filename="connection.cpp" line="126"/>
+        <location filename="connection.cpp" line="106"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
@@ -1441,27 +1446,27 @@ http://ceam.space</source>
         <translation>Свойства &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="134"/>
+        <location filename="deviceproperties.cpp" line="135"/>
         <source>Type</source>
         <translation>Тип</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="134"/>
+        <location filename="deviceproperties.cpp" line="135"/>
         <source>Name</source>
         <translation>Название</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="134"/>
+        <location filename="deviceproperties.cpp" line="135"/>
         <source>Socket</source>
         <translation>Гнездо</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="134"/>
+        <location filename="deviceproperties.cpp" line="135"/>
         <source>Phantom</source>
         <translation>Фантом</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="134"/>
+        <location filename="deviceproperties.cpp" line="135"/>
         <source>Power</source>
         <translation>Питание</translation>
     </message>

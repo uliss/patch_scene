@@ -1,6 +1,11 @@
 # PatchScene CHANGELOG
 
 ## [Unreleased]
+### Added:
+- device image mirror support
+
+### Changed:
+- PSC file format update (version 5)
 
 ## [0.3.5]
 ### Added:
@@ -9,7 +14,7 @@
 - export scheme to SVG
 - export scheme to PNG
 - background properties dialog: size and position
-- PSC file format update
+- PSC file format update (version 4)
 
 ### Fixed:
 - smooth item move
