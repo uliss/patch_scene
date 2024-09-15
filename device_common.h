@@ -104,6 +104,11 @@ struct SubCategory : public std::variant<std::monostate,
     static std::optional<SubCategory> fromJson(const QJsonValue& val);
 };
 
+enum class ImageMirrorType : std::uint8_t {
+    None,
+    Horizontal
+};
+
 class DeviceData : public QSharedData {
 public:
     constexpr static const qreal MIN_ZOOM = 0.25;
@@ -186,6 +191,9 @@ public:
     SubCategory subCategory() const { return subcat_; }
     void setSubCategory(SubCategory subcat) { subcat_ = subcat; }
 
+    ImageMirrorType imageMirror() const { return mirror_; }
+    void setImageMirror(ImageMirrorType type) { mirror_ = type; }
+
 private:
     static QJsonArray xletToJson(const QList<XletData>& xlets);
     static bool setXletJson(const QJsonValue& v, QList<XletData>& xlets);
@@ -206,6 +214,7 @@ private:
     ItemCategory category_ { ItemCategory::Device };
     BatteryType battery_type_ { BatteryType::None };
     bool show_title_ { true };
+    ImageMirrorType mirror_ { ImageMirrorType::None };
 };
 
 using SharedDeviceData = QSharedDataPointer<DeviceData>;

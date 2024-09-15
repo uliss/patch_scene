@@ -89,6 +89,9 @@ constexpr const char* JSON_KEY_SHOW_TITLE = "show-title";
 constexpr const char* JSON_KEY_INPUT_COLUMNS = "input-columns";
 constexpr const char* JSON_KEY_OUTPUT_COLUMNS = "output-columns";
 constexpr const char* JSON_KEY_SUBCAT = "subcat";
+constexpr const char* JSON_KEY_IMAGE_MIRROR = "image-mirror";
+
+constexpr const char* JSON_MIRROR_HORIZONTAL = "horizontal";
 
 constexpr int MAX_BATTERIES_COUNT = 10;
 
@@ -99,6 +102,29 @@ QString readLocalizedKey(const QJsonObject& obj, const QString& key, const QStri
         return loc_value;
 
     return obj.value(key).toString();
+}
+
+QJsonValue toJsonValue(ImageMirrorType type)
+{
+    switch (type) {
+    case ImageMirrorType::Horizontal:
+        return JSON_MIRROR_HORIZONTAL;
+    case ImageMirrorType::None:
+    default:
+        return {};
+    }
+}
+
+ImageMirrorType imageMirrorFromJson(const QJsonValue& v)
+{
+    if (v.isString()) {
+        const auto str = v.toString();
+        if (str == JSON_MIRROR_HORIZONTAL)
+            return ImageMirrorType::Horizontal;
+        else
+            return ImageMirrorType::None;
+    } else
+        return ImageMirrorType::None;
 }
 
 }
@@ -282,6 +308,8 @@ bool DeviceData::setJson(const QJsonValue& v)
             subcat_ = *subcat;
     }
 
+    mirror_ = imageMirrorFromJson(obj[JSON_KEY_IMAGE_MIRROR]);
+
     return true;
 }
 
@@ -329,6 +357,7 @@ QJsonObject DeviceData::toJson() const
     json[JSON_KEY_OUTPUT_COLUMNS] = max_output_column_count_;
 
     json[JSON_KEY_SUBCAT] = subcat_.toJson();
+    json[JSON_KEY_IMAGE_MIRROR] = toJsonValue(mirror_);
 
     return json;
 }
