@@ -268,11 +268,13 @@ if(APPLE)
         dmg
         COMMAND ${PROJECT_BINARY_DIR}/macos_make_dmg.sh
         WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
-        DEPENDS patch_scene)
+        DEPENDS patch_scene
+        USES_TERMINAL)
     add_custom_target(
         app-zip
         COMMAND zip -r ${APP_ZIP_FILE} "PatchScene.app/"
-        WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/dist)
+        WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/dist
+        USES_TERMINAL)
     add_custom_target(run COMMAND open ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.app)
 
     if(GITHUB_CLI)
@@ -280,12 +282,14 @@ if(APPLE)
             dev_new_release
             COMMAND git push --tags
             COMMAND ${GITHUB_CLI} release create "v${PROJECT_VERSION}"
-            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+            USES_TERMINAL)
         add_custom_target(
             dev_upload
             COMMAND ${GITHUB_CLI} release upload --clobber "v${PROJECT_VERSION}" ${APP_ZIP_FILE}
             COMMAND ${GITHUB_CLI} release upload --clobber "v${PROJECT_VERSION}" ${DMG_FILE}
-            WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/dist)
+            WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/dist
+            USES_TERMINAL)
     endif()
 endif()
 
