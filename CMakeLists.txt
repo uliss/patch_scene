@@ -347,6 +347,13 @@ if(WIN32)
             USES_TERMINAL)
     endif()
 
+    find_program(NINJA ninja)
+    if(NINJA)
+        configure_file(scripts/mingw_build_ninja.sh ${PROJECT_BINARY_DIR}/build.sh @ONLY)
+    else()
+        configure_file(scripts/mingw_build_make.sh ${PROJECT_BINARY_DIR}/build.sh @ONLY)
+    endif()
+
     configure_file(cmake/mingw_deploy.cmake.in ${PROJECT_BINARY_DIR}/mingw_deploy.cmake @ONLY)
     configure_file(scripts/mingw_deploy.sh ${PROJECT_BINARY_DIR}/mingw_deploy.sh @ONLY)
     install(SCRIPT ${PROJECT_BINARY_DIR}/mingw_deploy.cmake)
