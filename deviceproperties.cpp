@@ -92,6 +92,7 @@ DeviceProperties::DeviceProperties(const SharedDeviceData& data, QWidget* parent
     setupCategories();
     setupXlets(data);
     setupBattery(data);
+    setupImageMirror(data);
 }
 
 DeviceProperties::~DeviceProperties()
@@ -510,4 +511,13 @@ void DeviceProperties::setupBattery(const SharedDeviceData& data)
     connect(ui->batteryCount, &QSpinBox::valueChanged, this, [this](int v) {
         data_->setBatteryCount(v);
     });
+}
+
+void DeviceProperties::setupImageMirror(const SharedDeviceData& data)
+{
+    ui->imageMirror->setChecked(data->imageMirror() != ImageMirrorType::None);
+    connect(ui->imageMirror, &QCheckBox::stateChanged, this,
+        [this](int state) {
+            data_->setImageMirror(state ? ImageMirrorType::Horizontal : ImageMirrorType::None);
+        });
 }

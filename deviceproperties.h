@@ -44,13 +44,15 @@ public Q_SLOTS:
     void chooseImageDialog();
 
 private:
-    void setupXletTable(QTableWidget* tab, size_t rows);
-    void setupCategories();
-    void setupXlets(const SharedDeviceData& data);
     void setupBattery(const SharedDeviceData& data);
+    void setupCategories();
+    void setupImageMirror(const SharedDeviceData& data);
+    void setupXletTable(QTableWidget* tab, size_t rows);
+    void setupXlets(const SharedDeviceData& data);
 
     void insertXlet(QTableWidget* tab, int row, const XletData& data, bool resize = true);
     bool duplicateXlet(QTableWidget* tab, int row);
+    bool moveXlet(QTableWidget* table, int row, bool up);
 
     void updateImagePreview();
 
@@ -63,8 +65,6 @@ private:
     static bool removeXlet(QTableWidget* table, int row);
     static void syncXlets(const QTableWidget* table, QList<XletData>& xlets);
     static bool selectXletRow(QTableWidget* table, int row);
-
-    bool moveXlet(QTableWidget* table, int row, bool up);
 
 private:
     Ui::DeviceProperties* ui;
