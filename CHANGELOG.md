@@ -1,6 +1,6 @@
 # PatchScene CHANGELOG
 
-## [Unreleased]
+## [0.3.5]
 ### Added:
 - new devices and furniture
 - device subcategories added
