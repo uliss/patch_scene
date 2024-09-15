@@ -661,7 +661,7 @@ bool Diagram::loadJson(const QString& path)
 
         if (fmt_vers > app_file_format_version()) {
             WARN() << "the document was created with more recent version, then the current one, "
-                          "some feature can be missing...";
+                      "some feature can be missing...";
         }
 
         if (fmt_vers != app_file_format_version())
@@ -970,6 +970,14 @@ void Diagram::mousePressEvent(QMouseEvent* event)
                 saveClickPos(event->position());
                 state_machine_.setState(DiagramState::SelectDevice);
             }
+        } else if (
+            devs.size() > 0
+            && devs[0]
+            && qgraphicsitem_cast<Connection*>(devs[0])
+            && event->modifiers().testFlag(Qt::ControlModifier)) //
+        { // toggle connection selection
+            auto conn = qgraphicsitem_cast<Connection*>(devs[0]);
+            conn->setSelected(!conn->isSelected());
         } else {
             startSelectionAt(event->pos());
             state_machine_.setState(DiagramState::SelectionRect);
