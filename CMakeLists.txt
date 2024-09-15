@@ -356,5 +356,6 @@ if(WIN32)
 
     configure_file(cmake/mingw_deploy.cmake.in ${PROJECT_BINARY_DIR}/mingw_deploy.cmake @ONLY)
     configure_file(scripts/mingw_deploy.sh ${PROJECT_BINARY_DIR}/mingw_deploy.sh @ONLY)
+    configure_file(scripts/mingw_deploy_all.sh ${PROJECT_BINARY_DIR}/deploy.sh @ONLY)
     install(SCRIPT ${PROJECT_BINARY_DIR}/mingw_deploy.cmake)
 endif()
