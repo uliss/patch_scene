@@ -261,6 +261,7 @@ if(APPLE)
         configure_file(scripts/macos_build_make.sh ${PROJECT_BINARY_DIR}/build.sh @ONLY)
     endif()
 
+    configure_file(scripts/macos_deploy.sh ${PROJECT_BINARY_DIR}/deploy.sh @ONLY)
     configure_file(scripts/macos_make_dmg.sh ${PROJECT_BINARY_DIR}/macos_make_dmg.sh @ONLY)
     configure_file(resources/dmg_settings.json ${PROJECT_BINARY_DIR}/dmg_settings.json @ONLY)
     add_custom_target(
