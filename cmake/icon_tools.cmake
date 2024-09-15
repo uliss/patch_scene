@@ -46,6 +46,6 @@ if(ImageMagick_FOUND)
             DEPENDS ${SVG_FILE_ICON}
             USES_TERMINAL VERBATIM)
         add_custom_target(generate_icns DEPENDS ${ICNS_APP_ICON} ${ICNS_FILE_ICON})
-        add_dependencies(patch_scene generate_icns)
+        # add_dependencies(patch_scene generate_icns)
     endif()
 endif()
