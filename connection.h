@@ -54,6 +54,7 @@ private:
     QPainterPath line_;
     QColor color_ { Qt::black };
     float pen_width_ { 1.5 };
+    QPointF ctl_pt0_, ctl_pt1_, pt0_, pt1_;
 };
 
 }

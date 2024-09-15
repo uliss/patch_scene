@@ -20,6 +20,7 @@
 #include <QJsonObject>
 #include <QMenu>
 #include <QPainter>
+#include <QStyleOptionGraphicsItem>
 
 using namespace ceam;
 
@@ -38,6 +39,7 @@ Connection::Connection(const ConnectionData& data)
 {
     setZValue(ZVALUE_CONN);
     setCacheMode(DeviceCoordinateCache);
+    setFlag(QGraphicsItem::ItemIsSelectable);
 }
 
 bool Connection::operator==(const ConnectionData& data) const
@@ -47,10 +49,16 @@ bool Connection::operator==(const ConnectionData& data) const
 
 void Connection::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    QPen p(color_);
-    p.setWidthF(pen_width_);
-    painter->setPen(p);
-    painter->drawPath(line_);
+    painter->setPen(Qt::NoPen);
+
+    if (isSelected()) {
+        painter->setBrush(Qt::blue);
+        painter->drawPath(line_);
+    } else {
+        painter->setBrush(color_);
+        painter->drawPath(line_);
+    }
+
     Q_UNUSED(option);
     Q_UNUSED(widget);
 }
@@ -84,7 +92,18 @@ void Connection::setPoints(const QPointF& p0, const QPointF& p1)
 
     auto bezy = (std::abs(p0.x() - p1.x()) < 20) ? 20 : 40;
 
-    line_.cubicTo(p0 + QPointF(0, bezy), p1 + QPointF(0, -bezy), p1);
+    pt0_ = p0;
+    pt1_ = p1;
+    ctl_pt0_ = pt0_ + QPointF(0, bezy);
+    ctl_pt1_ = pt1_ + QPointF(0, -bezy);
+
+    line_.cubicTo(ctl_pt0_, ctl_pt1_, pt1_);
+    line_.cubicTo(ctl_pt1_, ctl_pt0_, pt0_);
+    line_.closeSubpath();
+
+    QPainterPathStroker stroker;
+    stroker.setWidth(pen_width_);
+    line_ = stroker.createStroke(line_);
 
     update(boundingRect());
 }
