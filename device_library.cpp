@@ -217,6 +217,7 @@ bool DeviceLibrary::writeItems(QJsonObject& value, const QList<SharedDeviceData>
         case ItemCategory::Return:
             return JSON_KEY_RETURNS;
         case ItemCategory::MaxCategory:
+        default:
             return "?";
         }
     };
