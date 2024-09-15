@@ -254,6 +254,13 @@ if(APPLE)
     set(FILE_ICNS "${PROJECT_SOURCE_DIR}/resources/patch_scene_file.icns")
     set(APP_ZIP_FILE "PatchScene-mac-v${PROJECT_VERSION}-${CMAKE_SYSTEM_PROCESSOR}.app.zip")
 
+    find_program(NINJA ninja)
+    if(NINJA)
+        configure_file(scripts/macos_build_ninja.sh ${PROJECT_BINARY_DIR}/build.sh @ONLY)
+    else()
+        configure_file(scripts/macos_build_make.sh ${PROJECT_BINARY_DIR}/build.sh @ONLY)
+    endif()
+
     configure_file(scripts/macos_make_dmg.sh ${PROJECT_BINARY_DIR}/macos_make_dmg.sh @ONLY)
     configure_file(resources/dmg_settings.json ${PROJECT_BINARY_DIR}/dmg_settings.json @ONLY)
     add_custom_target(
