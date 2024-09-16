@@ -36,7 +36,7 @@ void TestConnection::dataInit()
 void TestConnection::dataJson()
 {
     ConnectionData cd1(0, 0, 0, 0);
-    QCOMPARE(cd1.toJson().count(), 4);
+    QCOMPARE(cd1.toJson().count(), 5);
     QVERIFY(!ConnectionData::fromJson({}));
     QVERIFY(ConnectionData::fromJson(cd1.toJson()));
     QVERIFY(ConnectionData::fromJson(cd1.toJson()).value() == cd1);

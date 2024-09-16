@@ -48,6 +48,8 @@ protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) final;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
     QPainterPath shape() const override;
+    void updateShape();
+    void setCordType(ConnectionCordType type);
 
 private:
     ConnectionData data_;

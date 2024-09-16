@@ -18,9 +18,16 @@
 
 namespace ceam {
 
+enum class ConnectionCordType : std::uint8_t {
+    Linear,
+    Bezier,
+    Segmented
+};
+
 class ConnectionData {
     DeviceId src_ { 0 }, dest_ { 0 };
     XletIndex out_ { 0 }, in_ { 0 };
+    ConnectionCordType cord_type_ { ConnectionCordType::Bezier };
 
 public:
     ConnectionData(DeviceId src, XletIndex out, DeviceId dest, XletIndex in)
@@ -38,6 +45,9 @@ public:
 
     XletInfo sourceInfo() const { return { src_, out_, XletType::Out }; }
     XletInfo destinationInfo() const { return { dest_, in_, XletType::In }; }
+
+    ConnectionCordType cordType() const { return cord_type_; }
+    void setCordType(ConnectionCordType type) { cord_type_ = type; }
 
     const bool operator==(const ConnectionData& data) const
     {

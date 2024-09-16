@@ -3,6 +3,8 @@
 ## [Unreleased]
 ### Added:
 - device image mirror support
+- linear connections added
+- context menu for connection cord type
 
 ### Changed:
 - PSC file format update (version 5)

@@ -12,6 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "connection_data.h"
+#include "logging.hpp"
 
 #include <QJsonObject>
 
@@ -20,6 +21,37 @@ constexpr const char* KEY_SRC = "src";
 constexpr const char* KEY_DEST = "dest";
 constexpr const char* KEY_SRC_OUT = "out";
 constexpr const char* KEY_DEST_IN = "in";
+constexpr const char* KEY_CONNECTION_CORD = "cord";
+constexpr const char* JSON_STR_LINE = "line";
+constexpr const char* JSON_STR_BEZIER = "bezier";
+constexpr const char* JSON_STR_SEGMENTED = "segment";
+
+const char* toString(ceam::ConnectionCordType type)
+{
+    switch (type) {
+    case ceam::ConnectionCordType::Linear:
+        return JSON_STR_LINE;
+    case ceam::ConnectionCordType::Segmented:
+        return JSON_STR_SEGMENTED;
+    case ceam::ConnectionCordType::Bezier:
+    default:
+        return JSON_STR_BEZIER;
+    }
+}
+
+std::optional<ceam::ConnectionCordType> fromConnectionCordstr(const QString& str)
+{
+    if (str == JSON_STR_BEZIER && str.isEmpty())
+        return ceam::ConnectionCordType::Bezier;
+    else if (str == JSON_STR_LINE)
+        return ceam::ConnectionCordType::Linear;
+    else if (str == JSON_STR_SEGMENTED)
+        return ceam::ConnectionCordType::Segmented;
+    else {
+        WARN() << "unknown cord type:" << str;
+        return ceam::ConnectionCordType::Bezier;
+    }
+}
 }
 
 namespace ceam {
@@ -32,6 +64,7 @@ QJsonObject ConnectionData::toJson() const
     j[KEY_DEST] = static_cast<int>(dest_);
     j[KEY_DEST_IN] = static_cast<int>(in_);
     j[KEY_SRC_OUT] = static_cast<int>(out_);
+    j[KEY_CONNECTION_CORD] = toString(cord_type_);
 
     return j;
 }
@@ -74,6 +107,10 @@ std::optional<ConnectionData> ConnectionData::fromJson(const QJsonValue& j)
     auto out = obj.value(KEY_SRC_OUT).toInt(-1);
     if (out >= 0)
         data.out_ = out;
+
+    auto cord_type = fromConnectionCordstr(obj.value(KEY_CONNECTION_CORD).toString(JSON_STR_BEZIER));
+    if (cord_type)
+        data.cord_type_ = *cord_type;
 
     return data;
 }

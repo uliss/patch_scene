@@ -1343,8 +1343,8 @@ void Diagram::moveItemsBy(const QHash<DeviceId, QPointF>& deltas)
         if (devices_.moveBy(deltas)) {
             notify = true;
 
-            for (auto id : deltas.keys())
-                updateConnectionPos(id);
+            for (auto it = deltas.begin(); it != deltas.end(); ++it)
+                updateConnectionPos(it.key());
         }
     }
 
