@@ -138,6 +138,8 @@ RemoveSelected::RemoveSelected(Diagram* doc)
 
     data_ = doc_->devices().selectedDataList();
     conn_ = doc_->findSelectedConnections();
+
+    conn_ |= doc_->connections().selectedData();
 }
 
 void RemoveSelected::undo()
@@ -162,6 +164,12 @@ void RemoveSelected::redo()
 
     for (const auto& data : data_)
         doc_->removeDevice(data->id());
+
+    // only connection is selected
+    if (data_.isEmpty()) {
+        for (auto& conn : std::as_const(conn_))
+            doc_->disconnectDevices(conn);
+    }
 }
 
 DuplicateSelected::DuplicateSelected(Diagram* doc)

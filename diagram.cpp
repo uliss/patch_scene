@@ -974,11 +974,10 @@ void Diagram::mousePressEvent(QMouseEvent* event)
         } else if (
             devs.size() > 0
             && devs[0]
-            && qgraphicsitem_cast<Connection*>(devs[0])
-            && event->modifiers().testFlag(Qt::ControlModifier)) //
+            && qgraphicsitem_cast<Connection*>(devs[0])) //
         { // toggle connection selection
             auto conn = qgraphicsitem_cast<Connection*>(devs[0]);
-            conn->setSelected(!conn->isSelected());
+            conn->toggleSelection();
         } else {
             startSelectionAt(event->pos());
             state_machine_.setState(DiagramState::SelectionRect);

@@ -46,8 +46,11 @@ public:
     void setPoints(const QPointF& p0, const QPointF& p1);
     void setStyle(ConnectionStyle style);
 
+    void toggleSelection();
+
 signals:
     void changed(ConnectionData);
+    void selected(const Connection*, bool);
 
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) final;

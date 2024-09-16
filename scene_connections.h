@@ -66,6 +66,8 @@ public:
      */
     QList<ConnectionData> dataList() const;
 
+    QSet<ConnectionData> selectedData() const;
+
     QList<ConnectionFullInfo> infoList(const SceneDevices& devices) const;
 
     /**

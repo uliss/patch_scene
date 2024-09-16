@@ -106,6 +106,18 @@ QList<ConnectionData> SceneConnections::dataList() const
     return res;
 }
 
+QSet<ConnectionData> SceneConnections::selectedData() const
+{
+    QSet<ConnectionData> res;
+
+    for (auto& kv : conn_) {
+        if (kv->isSelected())
+            res.insert(kv->connectionData());
+    }
+
+    return res;
+}
+
 QList<ConnectionFullInfo> SceneConnections::infoList(const SceneDevices& devices) const
 {
     QList<ConnectionFullInfo> res;
@@ -248,7 +260,7 @@ bool SceneConnections::addConnection(Connection* c)
     scene_->addItem(c);
     auto it = conn_.find(c);
     if (conn_.find(c) != conn_.end()) {
-        qWarning() << "connection already exists in the scene";
+        WARN() << "connection already exists in the scene";
         scene_->removeItem(c);
         delete *it;
         conn_.insert(c);
@@ -261,6 +273,13 @@ bool SceneConnections::addConnection(Connection* c)
     conn_dev_[c->destinationInfo().id()] << c;
 
     connect(c, SIGNAL(changed(ConnectionData)), this, SIGNAL(update(ConnectionData)));
+    connect(c, &Connection::selected, this,
+        [this](const Connection* conn) {
+            for (auto& c : conn_) {
+                if (c != conn)
+                    c->setSelected(false);
+            }
+        });
 
     emit added(c->connectionData());
 

@@ -164,6 +164,14 @@ void Connection::setStyle(ConnectionStyle style)
     updateShape();
 }
 
+void Connection::toggleSelection()
+{
+    auto value = !isSelected();
+    setSelected(value);
+
+    emit selected(this, value);
+}
+
 void Connection::setCordType(ConnectionCordType type)
 {
     data_.setCordType(type);
