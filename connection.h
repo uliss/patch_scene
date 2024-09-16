@@ -26,7 +26,9 @@ constexpr qreal ZVALUE_BACKGROUND = -200;
 constexpr qreal ZVALUE_LIVE_CONN = 16000;
 constexpr qreal ZVALUE_SELECTION = 32000;
 
-class Connection : public QGraphicsItem {
+class Connection : public QGraphicsObject {
+    Q_OBJECT
+
 public:
     enum { Type = QGraphicsItem::UserType + 2 };
     int type() const override { return Type; }
@@ -44,11 +46,16 @@ public:
     void setPoints(const QPointF& p0, const QPointF& p1);
     void setStyle(ConnectionStyle style);
 
+signals:
+    void changed(ConnectionData);
+
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) final;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
     QPainterPath shape() const override;
     void updateShape();
+
+    /** @emit changed() */
     void setCordType(ConnectionCordType type);
 
 private:

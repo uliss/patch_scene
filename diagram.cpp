@@ -140,6 +140,7 @@ void Diagram::initSceneConnections()
     connect(&connections_, SIGNAL(added(ConnectionData)), this, SIGNAL(connectionAdded(ConnectionData)));
     connect(&connections_, SIGNAL(removed(ConnectionData)), this, SIGNAL(connectionRemoved(ConnectionData)));
     connect(&connections_, SIGNAL(visibleChanged(bool)), this, SIGNAL(showCablesChanged(bool)));
+    connect(&connections_, SIGNAL(update(ConnectionData)), this, SIGNAL(sceneChanged()));
 }
 
 void Diagram::initSceneDevices()

@@ -168,6 +168,7 @@ void Connection::setCordType(ConnectionCordType type)
 {
     data_.setCordType(type);
     updateShape();
+    emit changed(data_);
 }
 
 void Connection::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)

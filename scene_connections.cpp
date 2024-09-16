@@ -260,6 +260,8 @@ bool SceneConnections::addConnection(Connection* c)
     conn_dev_[c->sourceInfo().id()] << c;
     conn_dev_[c->destinationInfo().id()] << c;
 
+    connect(c, SIGNAL(changed(ConnectionData)), this, SIGNAL(update(ConnectionData)));
+
     emit added(c->connectionData());
 
     return true;

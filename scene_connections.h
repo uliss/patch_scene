@@ -121,6 +121,7 @@ public:
 signals:
     void added(ConnectionData);
     void removed(ConnectionData);
+    void update(ConnectionData);
     void visibleChanged(bool);
 
 private:

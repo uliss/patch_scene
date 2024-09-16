@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include "device.h"
 #include "deviceproperties.h"
+#include "logging.hpp"
 #include "svg_render_factory.h"
 
 #include <QCursor>
@@ -646,7 +647,7 @@ SharedDeviceData Device::defaultDeviceData()
 SharedDeviceData Device::datafromJson(const QJsonValue& j)
 {
     if (!j.isObject()) {
-        qWarning() << "not a object" << j;
+        WARN() << "not a object" << j;
         return {};
     }
 
@@ -657,7 +658,7 @@ SharedDeviceData Device::datafromJson(const QJsonValue& j)
     if (data->isNull()) {
         data->setId(DeviceIdFactory::instance().request());
     } else if (DeviceIdFactory::instance().isUsed(data->id())) {
-        qWarning() << "device id is already used:" << data->id();
+        WARN() << "device id is already used:" << data->id();
         data->setId(DeviceIdFactory::instance().request());
     }
 
@@ -677,7 +678,7 @@ SharedDeviceData Device::deviceData() const
 void Device::setDeviceData(const SharedDeviceData& data)
 {
     if (data->isNull()) {
-        qWarning() << "NULL data";
+        WARN() << "NULL data";
         return;
     }
 
