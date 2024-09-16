@@ -41,7 +41,7 @@ const char* toString(ceam::ConnectionCordType type)
 
 std::optional<ceam::ConnectionCordType> fromConnectionCordstr(const QString& str)
 {
-    if (str == JSON_STR_BEZIER && str.isEmpty())
+    if (str == JSON_STR_BEZIER || str.isEmpty())
         return ceam::ConnectionCordType::Bezier;
     else if (str == JSON_STR_LINE)
         return ceam::ConnectionCordType::Linear;

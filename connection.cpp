@@ -98,24 +98,26 @@ void Connection::updateShape()
         line_ = stroker.createStroke(line_);
     } break;
     case ConnectionCordType::Segmented: {
-        if (pt1_.y() > pt0_.y()) {
-            auto yoff = (pt1_.y() + pt0_.y()) * 0.5;
-            line_.clear();
-            line_.moveTo(pt0_);
-            line_.lineTo(pt0_.x(), yoff);
-            line_.lineTo(pt1_.x(), yoff);
-            line_.lineTo(pt1_.x(), pt1_.y());
-        } else {
-            constexpr int pad = 8;
-            auto xoff = (pt1_.x() + pt0_.x()) * 0.5;
+        if (data_.segmentPoints().isEmpty()) {
+            if (pt1_.y() > pt0_.y()) {
+                auto yoff = (pt1_.y() + pt0_.y()) * 0.5;
+                line_.clear();
+                line_.moveTo(pt0_);
+                line_.lineTo(pt0_.x(), yoff);
+                line_.lineTo(pt1_.x(), yoff);
+                line_.lineTo(pt1_.x(), pt1_.y());
+            } else {
+                constexpr int pad = 8;
+                auto xoff = (pt1_.x() + pt0_.x()) * 0.5;
 
-            line_.clear();
-            line_.moveTo(pt0_);
-            line_.lineTo(pt0_.x(), pt0_.y() + pad);
-            line_.lineTo(xoff, pt0_.y() + pad);
-            line_.lineTo(xoff, pt1_.y() - pad);
-            line_.lineTo(pt1_.x(), pt1_.y() - pad);
-            line_.lineTo(pt1_.x(), pt1_.y());
+                line_.clear();
+                line_.moveTo(pt0_);
+                line_.lineTo(pt0_.x(), pt0_.y() + pad);
+                line_.lineTo(xoff, pt0_.y() + pad);
+                line_.lineTo(xoff, pt1_.y() - pad);
+                line_.lineTo(pt1_.x(), pt1_.y() - pad);
+                line_.lineTo(pt1_.x(), pt1_.y());
+            }
         }
 
         QPainterPathStroker stroker;

@@ -16,6 +16,8 @@
 
 #include "xlet_info.h"
 
+#include <QPoint>
+
 namespace ceam {
 
 enum class ConnectionCordType : std::uint8_t {
@@ -25,6 +27,7 @@ enum class ConnectionCordType : std::uint8_t {
 };
 
 class ConnectionData {
+    QList<QPoint> seg_points_;
     DeviceId src_ { 0 }, dest_ { 0 };
     XletIndex out_ { 0 }, in_ { 0 };
     ConnectionCordType cord_type_ { ConnectionCordType::Bezier };
@@ -85,6 +88,8 @@ public:
     QJsonObject toJson() const;
 
     bool setEndPoint(const XletInfo& ep);
+
+    const QList<QPoint>& segmentPoints() const { return seg_points_; }
 
 public:
     static std::optional<ConnectionData> fromJson(const QJsonValue& j);
