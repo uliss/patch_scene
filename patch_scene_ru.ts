@@ -871,9 +871,24 @@
 <context>
     <name>QAction</name>
     <message>
-        <location filename="connection.cpp" line="106"/>
+        <location filename="connection.cpp" line="153"/>
         <source>Delete</source>
         <translation>Удалить</translation>
+    </message>
+    <message>
+        <location filename="connection.cpp" line="159"/>
+        <source>Cord type</source>
+        <translation>Тип соединения</translation>
+    </message>
+    <message>
+        <location filename="connection.cpp" line="161"/>
+        <source>Bezier</source>
+        <translation>Кривая Безье</translation>
+    </message>
+    <message>
+        <location filename="connection.cpp" line="162"/>
+        <source>Linear</source>
+        <translation>Прямая</translation>
     </message>
 </context>
 <context>
@@ -1441,32 +1456,32 @@ http://ceam.space</source>
 <context>
     <name>ceam::DeviceProperties</name>
     <message>
-        <location filename="deviceproperties.cpp" line="49"/>
+        <location filename="deviceproperties.cpp" line="50"/>
         <source>&apos;%1&apos; properties</source>
         <translation>Свойства &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="135"/>
+        <location filename="deviceproperties.cpp" line="136"/>
         <source>Type</source>
         <translation>Тип</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="135"/>
+        <location filename="deviceproperties.cpp" line="136"/>
         <source>Name</source>
         <translation>Название</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="135"/>
+        <location filename="deviceproperties.cpp" line="136"/>
         <source>Socket</source>
         <translation>Гнездо</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="135"/>
+        <location filename="deviceproperties.cpp" line="136"/>
         <source>Phantom</source>
         <translation>Фантом</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="135"/>
+        <location filename="deviceproperties.cpp" line="136"/>
         <source>Power</source>
         <translation>Питание</translation>
     </message>
@@ -1492,7 +1507,7 @@ http://ceam.space</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1082"/>
+        <location filename="diagram.cpp" line="1090"/>
         <source>&amp;Add device</source>
         <translation>&amp;Добавить элемент</translation>
     </message>
@@ -1509,32 +1524,32 @@ http://ceam.space</source>
         <translation type="vanished">&amp;Установить фоновое изображение</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1094"/>
+        <location filename="diagram.cpp" line="1102"/>
         <source>Align &amp;horizontal</source>
         <translation>Выровнять по &amp;горизонтали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1098"/>
+        <location filename="diagram.cpp" line="1106"/>
         <source>Align &amp;vertical</source>
         <translation>Выровнять по &amp;вертикали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1102"/>
+        <location filename="diagram.cpp" line="1110"/>
         <source>Place in row</source>
         <translation>Разместить в ряд</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1106"/>
+        <location filename="diagram.cpp" line="1114"/>
         <source>Place in column</source>
         <translation>Разместить в столбец</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1113"/>
+        <location filename="diagram.cpp" line="1121"/>
         <source>Distribute horizontal</source>
         <translation>Распределить горизонтально</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1117"/>
+        <location filename="diagram.cpp" line="1125"/>
         <source>Distribute vertical</source>
         <translation>Распределить вертикально</translation>
     </message>
