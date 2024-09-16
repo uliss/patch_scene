@@ -97,7 +97,33 @@ void Connection::updateShape()
         stroker.setWidth(pen_width_);
         line_ = stroker.createStroke(line_);
     } break;
-    case ConnectionCordType::Segmented:
+    case ConnectionCordType::Segmented: {
+        if (pt1_.y() > pt0_.y()) {
+            auto yoff = (pt1_.y() + pt0_.y()) * 0.5;
+            line_.clear();
+            line_.moveTo(pt0_);
+            line_.lineTo(pt0_.x(), yoff);
+            line_.lineTo(pt1_.x(), yoff);
+            line_.lineTo(pt1_.x(), pt1_.y());
+        } else {
+            constexpr int pad = 8;
+            auto xoff = (pt1_.x() + pt0_.x()) * 0.5;
+
+            line_.clear();
+            line_.moveTo(pt0_);
+            line_.lineTo(pt0_.x(), pt0_.y() + pad);
+            line_.lineTo(xoff, pt0_.y() + pad);
+            line_.lineTo(xoff, pt1_.y() - pad);
+            line_.lineTo(pt1_.x(), pt1_.y() - pad);
+            line_.lineTo(pt1_.x(), pt1_.y());
+        }
+
+        QPainterPathStroker stroker;
+        stroker.setWidth(pen_width_);
+        stroker.setCapStyle(Qt::RoundCap);
+        line_ = stroker.createStroke(line_);
+
+    } break;
     default:
         break;
     }
@@ -160,6 +186,7 @@ void Connection::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 
     auto act_bezier = menu_ct->addAction(QAction::tr("Bezier"));
     auto act_linear = menu_ct->addAction(QAction::tr("Linear"));
+    auto act_segment = menu_ct->addAction(QAction::tr("Segment"));
 
     act_bezier->setCheckable(true);
     act_bezier->setChecked(data_.cordType() == ConnectionCordType::Bezier);
@@ -171,6 +198,12 @@ void Connection::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
     act_linear->setChecked(data_.cordType() == ConnectionCordType::Linear);
     QAction::connect(act_linear, &QAction::triggered, dia_scene, [this]() {
         setCordType(ConnectionCordType::Linear);
+    });
+
+    act_segment->setCheckable(true);
+    act_segment->setChecked(data_.cordType() == ConnectionCordType::Segmented);
+    QAction::connect(act_segment, &QAction::triggered, dia_scene, [this]() {
+        setCordType(ConnectionCordType::Segmented);
     });
 
     menu.exec(event->screenPos());
