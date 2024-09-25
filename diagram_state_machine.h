@@ -22,6 +22,7 @@ enum class DiagramState {
     ConnectDevice,
     SelectDevice,
     SelectionRect,
+    ConnectionEdit,
 };
 
 class DiagramStateMachine {
