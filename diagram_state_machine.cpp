@@ -26,11 +26,13 @@ const char* toString(DiagramState st)
     case DiagramState::Move:
         return "[MOVE]";
     case DiagramState::ConnectDevice:
-        return "[CONNECT]";
+        return "[CONNECT_DEV]";
     case DiagramState::SelectDevice:
         return "[SELECT_DEV]";
     case DiagramState::SelectionRect:
         return "[SELECT_RECT]";
+    case DiagramState::ConnectionEdit:
+        return "[CONNECT_EDIT]";
     default:
         return "[?]";
     }
