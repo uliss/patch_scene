@@ -51,6 +51,22 @@ Connection* SceneConnections::add(const ConnectionData& connData)
     }
 }
 
+bool SceneConnections::updateData(const ConnectionData& connData)
+{
+    auto it = conn_dev_.find(connData.source());
+    if (it == conn_dev_.end())
+        return false;
+
+    for (auto c : *it) {
+        if (c->connectionData() == connData) {
+            c->setConnectionData(connData);
+            return true;
+        }
+    }
+
+    return false;
+}
+
 bool SceneConnections::remove(const XletInfo& xlet)
 {
     if (!scene_)
@@ -273,6 +289,7 @@ bool SceneConnections::addConnection(Connection* c)
     conn_dev_[c->destinationInfo().id()] << c;
 
     connect(c, SIGNAL(changed(ConnectionData)), this, SIGNAL(update(ConnectionData)));
+    connect(c, SIGNAL(edited(ConnectionData)), this, SIGNAL(edit(ConnectionData)));
     connect(c, &Connection::selected, this,
         [this](const Connection* conn) {
             for (auto& c : conn_) {

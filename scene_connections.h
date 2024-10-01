@@ -42,6 +42,11 @@ public:
     Connection* add(const ConnectionData& connData);
 
     /**
+     * @complexity O(N)
+     */
+    bool updateData(const ConnectionData& connData);
+
+    /**
      * remove connection from/to specified input/output
      * @param xlet
      * @return true if connection was removed
@@ -124,6 +129,7 @@ signals:
     void added(ConnectionData);
     void removed(ConnectionData);
     void update(ConnectionData);
+    void edit(ConnectionData);
     void visibleChanged(bool);
 
 private:
