@@ -43,16 +43,16 @@ void ConnectionEditor::setConnectionData(const ConnectionData& data)
     case ConnectionCordType::Linear:
         break;
     case ConnectionCordType::Bezier: {
-        auto c0 = new BezierEditorHandle(data.sourcePoint(),
+        auto h0 = new BezierEditorHandle(data.sourcePoint(),
             data.bezyCtlPoint0(),
             this,
             [this](const QPointF& newPos) {
                 data_.setBezyCtlPoint0(newPos - data_.sourcePoint());
                 emit connectionUpdated(data_);
             });
-        handles_.append(c0);
+        handles_.append(h0);
 
-        auto c1 = new BezierEditorHandle(
+        auto h1 = new BezierEditorHandle(
             data.destinationPoint(),
             data.bezyCtlPoint1(),
             this,
@@ -60,7 +60,7 @@ void ConnectionEditor::setConnectionData(const ConnectionData& data)
                 data_.setBezyCtlPoint1(newPos - data_.destinationPoint());
                 emit connectionUpdated(data_);
             });
-        handles_.append(c1);
+        handles_.append(h1);
 
     } break;
     case ConnectionCordType::Segmented: {
