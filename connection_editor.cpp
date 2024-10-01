@@ -50,7 +50,6 @@ void ConnectionEditor::setConnectionData(const ConnectionData& data)
                 data_.setBezyCtlPoint0(newPos - data_.sourcePoint());
                 emit connectionUpdated(data_);
             });
-        shape_.addPath(c0->shape());
         handles_.append(c0);
 
         auto c1 = new BezierEditorHandle(
@@ -61,12 +60,10 @@ void ConnectionEditor::setConnectionData(const ConnectionData& data)
                 data_.setBezyCtlPoint1(newPos - data_.destinationPoint());
                 emit connectionUpdated(data_);
             });
-        shape_.addPath(c1->shape());
         handles_.append(c1);
 
     } break;
     case ConnectionCordType::Segmented: {
-        shape_.clear();
         // WARN() << data.segmentPoints();
         // for (auto& pt : data.segments()) {
         //     auto c = new SegmentHandle(pt, this);
@@ -80,12 +77,7 @@ void ConnectionEditor::setConnectionData(const ConnectionData& data)
 
 QRectF ConnectionEditor::boundingRect() const
 {
-    return shape_.boundingRect();
-}
-
-QPainterPath ConnectionEditor::shape() const
-{
-    return shape_;
+    return childrenBoundingRect();
 }
 
 void ConnectionEditor::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)

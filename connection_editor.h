@@ -34,7 +34,6 @@ public:
     void setConnectionData(const ConnectionData& data);
 
     QRectF boundingRect() const final;
-    QPainterPath shape() const final;
 
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) final;
 
@@ -42,7 +41,6 @@ signals:
     void connectionUpdated(ConnectionData);
 
 private:
-    QPainterPath shape_;
     QList<QGraphicsItem*> handles_;
     ConnectionData data_;
 };
