@@ -5,9 +5,10 @@
 - device image mirror support
 - linear connections added
 - context menu for connection cord type
+- bezier connection editor
 
 ### Changed:
-- PSC file format update (version 5)
+- PSC file format update (version 7)
 
 ## [0.3.5]
 ### Added:

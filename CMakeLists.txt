@@ -51,6 +51,8 @@ set(PROJECT_SOURCES
     battery.h
     battery_item_model.cpp
     battery_item_model.h
+    bezier_editor_handle.h
+    bezier_editor_handle.cpp
     connection.cpp
     connection.h
     connection_data.cpp
