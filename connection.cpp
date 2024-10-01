@@ -40,11 +40,19 @@ Connection::Connection(const ConnectionData& data)
     setZValue(ZVALUE_CONN);
     setCacheMode(DeviceCoordinateCache);
     setFlag(QGraphicsItem::ItemIsSelectable);
+    setToolTip(QString("In(%1) -> Out(%2)").arg((int)data.sourceOutput()).arg((int)data.destinationInput()));
+    setAcceptHoverEvents(true);
 }
 
 bool Connection::operator==(const ConnectionData& data) const
 {
     return data_ == data;
+}
+
+void Connection::setConnectionData(const ConnectionData& data)
+{
+    data_ = data;
+    updateShape();
 }
 
 void Connection::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
@@ -53,6 +61,9 @@ void Connection::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 
     if (isSelected()) {
         painter->setBrush(Qt::blue);
+        painter->drawPath(line_);
+    } else if (hover_) {
+        painter->setBrush(color_.lighter(220));
         painter->drawPath(line_);
     } else {
         painter->setBrush(color_);
@@ -75,8 +86,8 @@ void Connection::updateShape()
     switch (data_.cordType()) {
     case ConnectionCordType::Linear: {
         line_.clear();
-        line_.moveTo(pt0_);
-        line_.lineTo(pt1_);
+        line_.moveTo(data_.sourcePoint());
+        line_.lineTo(data_.destinationPoint());
 
         QPainterPathStroker stroker;
         stroker.setWidth(pen_width_);
@@ -84,13 +95,13 @@ void Connection::updateShape()
         line_ = stroker.createStroke(line_);
     } break;
     case ConnectionCordType::Bezier: {
-        auto bezy = (std::abs(pt0_.x() - pt1_.x()) < 20) ? 20 : 40;
-        ctl_pt0_ = pt0_ + QPointF(0, bezy);
-        ctl_pt1_ = pt1_ + QPointF(0, -bezy);
+        auto ctl_pt0 = data_.bezyCtlPoint0() + data_.sourcePoint();
+        auto ctl_pt1 = data_.bezyCtlPoint1() + data_.destinationPoint();
+
         line_.clear();
-        line_.moveTo(pt0_);
-        line_.cubicTo(ctl_pt0_, ctl_pt1_, pt1_);
-        line_.cubicTo(ctl_pt1_, ctl_pt0_, pt0_);
+        line_.moveTo(data_.sourcePoint());
+        line_.cubicTo(ctl_pt0, ctl_pt1, data_.destinationPoint());
+        line_.cubicTo(ctl_pt1, ctl_pt0, data_.sourcePoint());
         line_.closeSubpath();
 
         QPainterPathStroker stroker;
@@ -98,30 +109,41 @@ void Connection::updateShape()
         line_ = stroker.createStroke(line_);
     } break;
     case ConnectionCordType::Segmented: {
-        if (data_.segmentPoints().isEmpty()) {
-            if (pt1_.y() > pt0_.y()) {
-                auto yoff = (pt1_.y() + pt0_.y()) * 0.5;
-                line_.clear();
-                line_.moveTo(pt0_);
-                line_.lineTo(pt0_.x(), yoff);
-                line_.lineTo(pt1_.x(), yoff);
-                line_.lineTo(pt1_.x(), pt1_.y());
-            } else {
-                constexpr int pad = 8;
-                auto xoff = (pt1_.x() + pt0_.x()) * 0.5;
+        data_.clearSegments();
 
-                line_.clear();
-                line_.moveTo(pt0_);
-                line_.lineTo(pt0_.x(), pt0_.y() + pad);
-                line_.lineTo(xoff, pt0_.y() + pad);
-                line_.lineTo(xoff, pt1_.y() - pad);
-                line_.lineTo(pt1_.x(), pt1_.y() - pad);
-                line_.lineTo(pt1_.x(), pt1_.y());
-            }
-        }
+        // if (data_.segmentPoints().isEmpty()) {
+        // if (pt1_.y() > pt0_.y()) {
+        //     auto yoff = (pt1_.y() + pt0_.y()) * 0.5;
+        //     auto p0 = QPointF(pt0_.x(), yoff);
+        //     auto p1 = QPointF(pt1_.x(), yoff);
+
+        //     line_.clear();
+        //     line_.moveTo(pt0_);
+        //     line_.lineTo(p0);
+        //     line_.lineTo(p1);
+        //     line_.lineTo(pt1_);
+
+        //     data_.appendSegment(pt0_.x());
+        //     data_.appendSegment(yoff);
+        // } else {
+        //     constexpr int pad = 8;
+        //     auto xoff = (pt1_.x() + pt0_.x()) * 0.5;
+
+        //     line_.clear();
+        //     line_.moveTo(pt0_);
+        //     line_.lineTo(pt0_.x(), pt0_.y() + pad);
+        //     line_.lineTo(xoff, pt0_.y() + pad);
+        //     line_.lineTo(xoff, pt1_.y() - pad);
+        //     line_.lineTo(pt1_.x(), pt1_.y() - pad);
+        //     line_.lineTo(pt1_.x(), pt1_.y());
+
+        //     // data_.appendSegPoint(pt0_.toPoint());
+        //     // data_.appendSegPoint(pt1_.toPoint());
+        // }
+        // }
 
         QPainterPathStroker stroker;
-        stroker.setWidth(pen_width_);
+        stroker.setWidth(pen_width_ + 1);
         stroker.setCapStyle(Qt::RoundCap);
         line_ = stroker.createStroke(line_);
 
@@ -130,6 +152,18 @@ void Connection::updateShape()
         break;
     }
 
+    update(boundingRect());
+}
+
+void Connection::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
+{
+    hover_ = true;
+    update(boundingRect());
+}
+
+void Connection::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
+{
+    hover_ = false;
     update(boundingRect());
 }
 
@@ -150,8 +184,8 @@ XletInfo Connection::sourceInfo() const
 
 void Connection::setPoints(const QPointF& p0, const QPointF& p1)
 {
-    pt0_ = p0;
-    pt1_ = p1;
+    data_.setSourcePoint(p0);
+    data_.setDestinationPoint(p1);
 
     updateShape();
 }
@@ -215,6 +249,11 @@ void Connection::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
     act_segment->setChecked(data_.cordType() == ConnectionCordType::Segmented);
     QAction::connect(act_segment, &QAction::triggered, dia_scene, [this]() {
         setCordType(ConnectionCordType::Segmented);
+    });
+
+    auto act_edit = menu.addAction(QAction::tr("Edit"));
+    QAction::connect(act_edit, &QAction::triggered, dia_scene, [this]() {
+        emit edited(data_);
     });
 
     menu.exec(event->screenPos());

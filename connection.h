@@ -39,6 +39,8 @@ public:
     QRectF boundingRect() const final;
 
     bool operator==(const ConnectionData& data) const;
+
+    void setConnectionData(const ConnectionData& data);
     const ConnectionData& connectionData() const { return data_; }
     XletInfo sourceInfo() const;
     XletInfo destinationInfo() const;
@@ -51,12 +53,16 @@ public:
 signals:
     void changed(ConnectionData);
     void selected(const Connection*, bool);
+    void edited(ConnectionData);
 
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) final;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
     QPainterPath shape() const override;
     void updateShape();
+
+    void hoverEnterEvent(QGraphicsSceneHoverEvent* event) final;
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent* event) final;
 
     /** @emit changed() */
     void setCordType(ConnectionCordType type);
@@ -66,7 +72,7 @@ private:
     QPainterPath line_;
     QColor color_ { Qt::black };
     float pen_width_ { 1.5 };
-    QPointF ctl_pt0_, ctl_pt1_, pt0_, pt1_;
+    bool hover_ { false };
 };
 
 }

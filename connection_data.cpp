@@ -17,10 +17,14 @@
 #include <QJsonObject>
 
 namespace {
-constexpr const char* KEY_SRC = "src";
+constexpr const char* KEY_BEZY0 = "bezy0";
+constexpr const char* KEY_BEZY1 = "bezy1";
 constexpr const char* KEY_DEST = "dest";
-constexpr const char* KEY_SRC_OUT = "out";
 constexpr const char* KEY_DEST_IN = "in";
+constexpr const char* KEY_SRC = "src";
+constexpr const char* KEY_SRC_OUT = "out";
+constexpr const char* KEY_X = "x";
+constexpr const char* KEY_Y = "y";
 constexpr const char* KEY_CONNECTION_CORD = "cord";
 constexpr const char* JSON_STR_LINE = "line";
 constexpr const char* JSON_STR_BEZIER = "bezier";
@@ -52,6 +56,23 @@ std::optional<ceam::ConnectionCordType> fromConnectionCordstr(const QString& str
         return ceam::ConnectionCordType::Bezier;
     }
 }
+
+QJsonObject pointToJson(const QPoint& pt)
+{
+    QJsonObject res;
+    res[KEY_X] = pt.x();
+    res[KEY_Y] = pt.y();
+    return res;
+}
+
+std::optional<QPoint> pointFromJson(const QJsonValue& v)
+{
+    if (!v.isObject())
+        return {};
+
+    auto js = v.toObject();
+    return QPoint { v[KEY_X].toInt(), v[KEY_Y].toInt() };
+}
 }
 
 namespace ceam {
@@ -65,6 +86,8 @@ QJsonObject ConnectionData::toJson() const
     j[KEY_DEST_IN] = static_cast<int>(in_);
     j[KEY_SRC_OUT] = static_cast<int>(out_);
     j[KEY_CONNECTION_CORD] = toString(cord_type_);
+    j[KEY_BEZY0] = pointToJson(bezy0_);
+    j[KEY_BEZY1] = pointToJson(bezy1_);
 
     return j;
 }
@@ -83,6 +106,16 @@ bool ConnectionData::setEndPoint(const XletInfo& ep)
     default:
         return false;
     }
+}
+
+void ConnectionData::appendSegment(float seg)
+{
+    segs_.append(seg);
+}
+
+void ConnectionData::clearSegments()
+{
+    segs_.clear();
 }
 
 std::optional<ConnectionData> ConnectionData::fromJson(const QJsonValue& j)
@@ -111,6 +144,14 @@ std::optional<ConnectionData> ConnectionData::fromJson(const QJsonValue& j)
     auto cord_type = fromConnectionCordstr(obj.value(KEY_CONNECTION_CORD).toString(JSON_STR_BEZIER));
     if (cord_type)
         data.cord_type_ = *cord_type;
+
+    auto bezy0 = pointFromJson(obj.value(KEY_BEZY0));
+    if (bezy0)
+        data.setBezyCtlPoint0(*bezy0);
+
+    auto bezy1 = pointFromJson(obj.value(KEY_BEZY1));
+    if (bezy1)
+        data.setBezyCtlPoint1(*bezy1);
 
     return data;
 }
@@ -144,6 +185,25 @@ QDebug operator<<(QDebug debug, const ConnectionData& c)
         << ']';
 
     return debug;
+}
+
+std::optional<QPointF> SegmentData::pointAt(int pos) const
+{
+    if (pos < 0)
+        return {};
+
+    auto idx = pos + 1;
+    if (idx >= segs_.size())
+        return {};
+
+    return (pos % 2 == 0)
+        ? QPointF(segs_[idx - 1], segs_[idx])
+        : QPointF(segs_[idx], segs_[idx - 1]);
+}
+
+void SegmentData::append(float seg)
+{
+    segs_ << seg;
 }
 
 } // namespace ceam

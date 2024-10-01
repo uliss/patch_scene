@@ -26,8 +26,20 @@ enum class ConnectionCordType : std::uint8_t {
     Segmented
 };
 
+class SegmentData {
+    QList<float> segs_;
+
+public:
+    SegmentData() { }
+    void clear() { segs_.clear(); }
+    std::optional<QPointF> pointAt(int pos) const;
+    void append(float seg);
+};
+
 class ConnectionData {
-    QList<QPoint> seg_points_;
+    SegmentData segs_;
+    QPoint pt0_, pt1_;
+    QPoint bezy0_ { 0, 40 }, bezy1_ { 0, -40 };
     DeviceId src_ { 0 }, dest_ { 0 };
     XletIndex out_ { 0 }, in_ { 0 };
     ConnectionCordType cord_type_ { ConnectionCordType::Bezier };
@@ -89,7 +101,21 @@ public:
 
     bool setEndPoint(const XletInfo& ep);
 
-    const QList<QPoint>& segmentPoints() const { return seg_points_; }
+    const SegmentData& segments() const { return segs_; }
+    void appendSegment(float seg);
+    void clearSegments();
+
+    const QPoint& sourcePoint() const { return pt0_; }
+    const QPoint& destinationPoint() const { return pt1_; }
+
+    void setSourcePoint(const QPointF& pt) { pt0_ = pt.toPoint(); }
+    void setDestinationPoint(const QPointF& pt) { pt1_ = pt.toPoint(); }
+
+    const QPoint& bezyCtlPoint0() const { return bezy0_; }
+    const QPoint& bezyCtlPoint1() const { return bezy1_; }
+
+    void setBezyCtlPoint0(const QPointF& pt) { bezy0_ = pt.toPoint(); }
+    void setBezyCtlPoint1(const QPointF& pt) { bezy1_ = pt.toPoint(); }
 
 public:
     static std::optional<ConnectionData> fromJson(const QJsonValue& j);

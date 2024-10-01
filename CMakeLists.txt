@@ -57,6 +57,8 @@ set(PROJECT_SOURCES
     connection_data.h
     connection_database.cpp
     connection_database.h
+    connection_editor.h
+    connection_editor.cpp
     connection_item_model.cpp
     connection_item_model.h
     connection_style.cpp
