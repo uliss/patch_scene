@@ -304,6 +304,10 @@ void Connection::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 
     switch (view_data_.cordType()) {
     case ConnectionCordType::Segmented:
+        if (view_data_.segments().isEmpty())
+            break;
+        // falling thru!!!
+        // show menu item only if segment data exists
     case ConnectionCordType::Bezier: {
         auto act_reset = menu.addAction(QAction::tr("Reset key points"));
         QAction::connect(act_reset, &QAction::triggered, dia_scene, [this]() {
