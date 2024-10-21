@@ -64,7 +64,7 @@ public:
     /**
      * iterate all connections with given function
      */
-    void foreachId(std::function<void(const ConnectionId&)> fn) const;
+    void foreachConn(std::function<void(const ConnectionId&, const ConnectionViewData&)> fn) const;
 
     /**
      * return all connection data as list

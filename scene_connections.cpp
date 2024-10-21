@@ -102,13 +102,13 @@ void SceneConnections::removeAll(DeviceId id)
     }
 }
 
-void SceneConnections::foreachId(std::function<void(const ConnectionId&)> fn) const
+void SceneConnections::foreachConn(std::function<void(const ConnectionId&, const ConnectionViewData&)> fn) const
 {
     if (!fn)
         return;
 
     for (auto c : conn_)
-        fn(c->connectionId());
+        fn(c->connectionId(), c->viewData());
 }
 
 QList<ConnectionId> SceneConnections::idList() const

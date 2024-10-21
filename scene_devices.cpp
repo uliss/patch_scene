@@ -136,7 +136,7 @@ SharedDeviceData SceneDevices::findData(DeviceId id) const
         : it->second->deviceData();
 }
 
-std::optional<ConnectionFullInfo> SceneDevices::connectionInfo(const ConnectionId& conn) const
+std::optional<ConnectionFullInfo> SceneDevices::connectionInfo(const ConnectionId& id) const
 {
     std::optional<ConnectionFullInfo> res = ConnectionFullInfo();
     int count = 0;
@@ -148,25 +148,25 @@ std::optional<ConnectionFullInfo> SceneDevices::connectionInfo(const ConnectionI
         const auto dev_id = kv.first;
         const auto dev = kv.second;
 
-        if (dev_id == conn.source()) {
+        if (dev_id == id.source()) {
             const auto data = dev->deviceData();
-            if (data && conn.sourceOutput() < data->outputs().size()) {
-                res->src_out = data->outputAt(conn.sourceOutput());
+            if (data && id.sourceOutput() < data->outputs().size()) {
+                res->src_out = data->outputAt(id.sourceOutput());
                 res->src_data = data;
-                res->src_out_idx = conn.sourceOutput();
+                res->src_out_idx = id.sourceOutput();
                 count++;
             } else {
-                WARN() << "invalid source outlet:" << (int)conn.sourceOutput();
+                WARN() << "invalid source outlet:" << (int)id.sourceOutput();
             }
-        } else if (dev_id == conn.destination()) {
+        } else if (dev_id == id.destination()) {
             const auto data = dev->deviceData();
-            if (data && conn.destinationInput() < data->inputs().size()) {
-                res->dest_in = data->inputAt(conn.destinationInput());
+            if (data && id.destinationInput() < data->inputs().size()) {
+                res->dest_in = data->inputAt(id.destinationInput());
                 res->dest_data = data;
-                res->dest_in_idx = conn.destinationInput();
+                res->dest_in_idx = id.destinationInput();
                 count++;
             } else {
-                WARN() << "invalid dest inlet:" << (int)conn.destinationInput();
+                WARN() << "invalid dest inlet:" << (int)id.destinationInput();
             }
         }
     }
@@ -177,45 +177,45 @@ std::optional<ConnectionFullInfo> SceneDevices::connectionInfo(const ConnectionI
         return {};
 }
 
-std::optional<std::pair<QPointF, QPointF>> SceneDevices::connectionPoints(const ConnectionId& conn) const
+std::optional<std::pair<QPointF, QPointF>> SceneDevices::connectionPoints(const ConnectionId& id) const
 {
-    auto src_it = devices_.find(conn.source());
+    auto src_it = devices_.find(id.source());
     if (src_it == devices_.end())
         return {};
 
-    auto dest_it = devices_.find(conn.destination());
+    auto dest_it = devices_.find(id.destination());
     if (dest_it == devices_.end())
         return {};
 
-    auto p0 = src_it->second->outConnectionPoint(conn.sourceOutput(), true);
+    auto p0 = src_it->second->outConnectionPoint(id.sourceOutput(), true);
     if (!p0)
         return {};
 
-    auto p1 = dest_it->second->inConnectionPoint(conn.destinationInput(), true);
+    auto p1 = dest_it->second->inConnectionPoint(id.destinationInput(), true);
     if (!p1)
         return {};
 
     return std::pair { *p0, *p1 };
 }
 
-std::optional<ConnectionPair> SceneDevices::connectionPair(const ConnectionId& conn) const
+std::optional<ConnectionPair> SceneDevices::connectionPair(const ConnectionId& id) const
 {
-    auto src_it = devices_.find(conn.source());
+    auto src_it = devices_.find(id.source());
     if (src_it == devices_.end())
         return {};
 
-    auto dest_it = devices_.find(conn.destination());
+    auto dest_it = devices_.find(id.destination());
     if (dest_it == devices_.end())
         return {};
 
-    if (conn.sourceOutput() >= src_it->second->deviceData()->outputs().count())
+    if (id.sourceOutput() >= src_it->second->deviceData()->outputs().count())
         return {};
 
-    if (conn.destinationInput() >= dest_it->second->deviceData()->inputs().count())
+    if (id.destinationInput() >= dest_it->second->deviceData()->inputs().count())
         return {};
 
-    auto& d0 = src_it->second->deviceData()->outputAt(conn.sourceOutput());
-    auto& d1 = dest_it->second->deviceData()->inputAt(conn.destinationInput());
+    auto& d0 = src_it->second->deviceData()->outputAt(id.sourceOutput());
+    auto& d1 = dest_it->second->deviceData()->inputAt(id.destinationInput());
 
     return ConnectionPair {
         ConnectionEndPoint { d0.connectorModel(), d0.connectorType().complement() },
@@ -223,23 +223,23 @@ std::optional<ConnectionPair> SceneDevices::connectionPair(const ConnectionId& c
     };
 }
 
-bool SceneDevices::checkConnection(const ConnectionId& conn) const
+bool SceneDevices::checkConnection(const ConnectionId& id) const
 {
-    if (!conn.isValid())
+    if (!id.isValid())
         return false;
 
-    auto src_it = devices_.find(conn.source());
+    auto src_it = devices_.find(id.source());
     if (src_it == devices_.end())
         return false;
 
-    if (conn.sourceOutput() >= src_it->second->deviceData()->outputs().size())
+    if (id.sourceOutput() >= src_it->second->deviceData()->outputs().size())
         return false;
 
-    auto dest_it = devices_.find(conn.destination());
+    auto dest_it = devices_.find(id.destination());
     if (dest_it == devices_.end())
         return false;
 
-    if (conn.destinationInput() >= dest_it->second->deviceData()->inputs().size())
+    if (id.destinationInput() >= dest_it->second->deviceData()->inputs().size())
         return false;
 
     return true;
