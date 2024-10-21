@@ -54,6 +54,7 @@ constexpr const char* JSON_KEY_APP = "application";
 constexpr const char* JSON_KEY_BACKGROUND = "background";
 constexpr const char* JSON_KEY_CONNS = "connections";
 constexpr const char* JSON_KEY_DEVICES = "devices";
+constexpr const char* JSON_KEY_VIEW = "view";
 constexpr const char* JSON_KEY_FORMAT_VERSION = "format-version";
 constexpr const char* JSON_KEY_META = "meta";
 constexpr const char* JSON_KEY_VERSION = "version";
@@ -692,9 +693,14 @@ bool Diagram::loadJson(const QString& path)
     if (cons.isArray()) {
         auto arr = cons.toArray();
         for (const auto& j : arr) {
-            auto conn_data = ConnectionId::fromJson(j);
-            if (conn_data)
-                connectDevices(conn_data.value());
+            auto conn_id = ConnectionId::fromJson(j);
+            if (conn_id) {
+                connectDevices(*conn_id);
+
+                auto view_data = ConnectionViewData::fromJson(j.toObject().value(JSON_KEY_VIEW));
+                if (view_data)
+                    connections_.setViewData(*conn_id, *view_data);
+            }
         }
     }
 
@@ -896,9 +902,11 @@ QJsonObject Diagram::toJson() const
 
     QJsonArray cons;
 
-    connections_.foreachId([this, &cons](const ConnectionId& id) {
+    connections_.foreachConn([this, &cons](const ConnectionId& id, const ConnectionViewData& viewData) {
         if (devices_.checkConnection(id)) {
-            cons.append(id.toJson());
+            auto obj = id.toJson();
+            obj[JSON_KEY_VIEW] = viewData.toJson();
+            cons.append(obj);
         } else {
             WARN() << "invalid connection" << id;
         }
