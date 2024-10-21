@@ -35,6 +35,7 @@ public:
     void clear() { segs_.clear(); }
     std::optional<QPointF> pointAt(int pos) const;
     void append(float seg);
+    bool isEmpty() const { return segs_.empty(); }
 };
 
 class ConnectionId {
