@@ -33,9 +33,10 @@ class SegmentData {
 public:
     SegmentData() { }
     void clear() { segs_.clear(); }
-    std::optional<QPointF> pointAt(int pos) const;
+    std::optional<QPointF> pointAt(int idx, const QPointF& origin) const;
     void append(float seg);
     bool isEmpty() const { return segs_.empty(); }
+    qsizetype size() const { return segs_.size(); }
 };
 
 class ConnectionId {

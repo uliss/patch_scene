@@ -225,18 +225,14 @@ QDebug operator<<(QDebug debug, const ConnectionId& c)
     return debug;
 }
 
-std::optional<QPointF> SegmentData::pointAt(int pos) const
+std::optional<QPointF> SegmentData::pointAt(int idx, const QPointF& origin) const
 {
-    if (pos < 0)
+    if (idx < 0 || idx >= segs_.size())
         return {};
 
-    auto idx = pos + 1;
-    if (idx >= segs_.size())
-        return {};
-
-    return (pos % 2 == 0)
-        ? QPointF(segs_[idx - 1], segs_[idx])
-        : QPointF(segs_[idx], segs_[idx - 1]);
+    return (idx % 2 == 0)
+        ? QPointF(idx == 0 ? 0 : segs_[idx - 1], segs_[idx]) + origin
+        : QPointF(segs_[idx], segs_[idx - 1]) + origin;
 }
 
 void SegmentData::append(float seg)

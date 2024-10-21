@@ -120,62 +120,67 @@ void Connection::updateShape()
     case ConnectionCordType::Segmented: {
         line_.clear();
 
-        if (view_data_.segments().isEmpty()) {
+        if (view_data_.segments().isEmpty()) { // auto segment path
             const auto src_x = view_data_.sourcePoint().x();
             const auto src_y = view_data_.sourcePoint().y();
             const auto dest_x = view_data_.destinationPoint().x();
             const auto dest_y = view_data_.destinationPoint().y();
 
-            if (src_y + SEGMENT_DEST_CONN_YPAD <= dest_y) {
-                line_.moveTo(view_data_.sourcePoint());
+            line_.moveTo(view_data_.sourcePoint());
 
+            if (src_y + SEGMENT_DEST_CONN_YPAD <= dest_y) {
                 auto mid_y = (src_y + dest_y) * 0.5;
-                auto p0 = QPointF(view_data_.sourcePoint().x(), mid_y);
-                auto p1 = QPointF(view_data_.destinationPoint().x(), mid_y);
+                auto p0 = QPointF(src_x, mid_y);
+                auto p1 = QPointF(dest_x, mid_y);
 
                 line_.lineTo(p0);
                 line_.lineTo(p1);
                 line_.lineTo(view_data_.destinationPoint());
                 line_.lineTo(p1);
                 line_.lineTo(p0);
-                line_.closeSubpath();
+
             } else {
-                line_.moveTo(view_data_.sourcePoint());
                 auto mid_x = (src_x + dest_x) * 0.5;
 
                 auto p0 = QPointF(src_x, src_y + SEGMENT_SRC_CONN_YPAD);
                 auto p1 = QPointF(mid_x, src_y + SEGMENT_SRC_CONN_YPAD);
                 auto p2 = QPointF(mid_x, dest_y - SEGMENT_DEST_CONN_YPAD);
                 auto p3 = QPointF(dest_x, dest_y - SEGMENT_DEST_CONN_YPAD);
-                auto p4 = QPointF(view_data_.destinationPoint());
 
                 line_.lineTo(p0);
                 line_.lineTo(p1);
                 line_.lineTo(p2);
                 line_.lineTo(p3);
-                line_.lineTo(p4);
+                line_.lineTo(view_data_.destinationPoint());
                 line_.lineTo(p3);
                 line_.lineTo(p2);
                 line_.lineTo(p1);
                 line_.lineTo(p0);
-                line_.closeSubpath();
             }
+
+            line_.closeSubpath();
         } else {
-            //     constexpr int pad = 8;
-            //     auto xoff = (pt1_.x() + pt0_.x()) * 0.5;
+            line_.moveTo(view_data_.sourcePoint());
+            QPoint origin = view_data_.sourcePoint();
+            for (int i = 0; i < view_data_.segments().size(); i++) {
+                auto pt = view_data_.segments().pointAt(i, origin);
+                if (pt)
+                    line_.lineTo(*pt);
+            }
 
-            //     line_.clear();
-            //     line_.moveTo(pt0_);
-            //     line_.lineTo(pt0_.x(), pt0_.y() + pad);
-            //     line_.lineTo(xoff, pt0_.y() + pad);
-            //     line_.lineTo(xoff, pt1_.y() - pad);
-            //     line_.lineTo(pt1_.x(), pt1_.y() - pad);
-            //     line_.lineTo(pt1_.x(), pt1_.y());
+            line_.lineTo(view_data_.destinationPoint());
 
-            //     // data_.appendSegPoint(pt0_.toPoint());
-            //     // data_.appendSegPoint(pt1_.toPoint());
-            // }
+            for (int i = view_data_.segments().size(); i > 0; i--) {
+                auto pt = view_data_.segments().pointAt(i - 1, origin);
+                if (pt)
+                    line_.lineTo(*pt);
+            }
+
+            line_.closeSubpath();
         }
+
+        if (line_.isEmpty())
+            return;
 
         QPainterPathStroker stroker;
         stroker.setWidth(view_data_.penWidth() + 1);
