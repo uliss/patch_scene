@@ -20,6 +20,8 @@ namespace {
 
 constexpr const char* KEY_BEZY0 = "bezy0";
 constexpr const char* KEY_BEZY1 = "bezy1";
+constexpr const char* KEY_SRC_PT = "src";
+constexpr const char* KEY_DEST_PT = "dest";
 constexpr const char* KEY_DEST = "dest";
 constexpr const char* KEY_DEST_IN = "in";
 constexpr const char* KEY_SRC = "src";
@@ -44,7 +46,7 @@ const char* toString(ceam::ConnectionCordType type)
     }
 }
 
-std::optional<ceam::ConnectionCordType> fromConnectionCordstr(const QString& str)
+std::optional<ceam::ConnectionCordType> fromConnectionCordStr(const QString& str)
 {
     if (str == JSON_STR_BEZIER || str.isEmpty())
         return ceam::ConnectionCordType::Bezier;
@@ -128,6 +130,8 @@ QJsonObject ConnectionViewData::toJson() const
     j[KEY_CONNECTION_CORD] = toString(cord_type_);
     j[KEY_BEZY0] = pointToJson(bezy0_);
     j[KEY_BEZY1] = pointToJson(bezy1_);
+    j[KEY_SRC_PT] = pointToJson(pt0_);
+    j[KEY_DEST_PT] = pointToJson(pt1_);
 
     return j;
 }
@@ -141,7 +145,7 @@ std::optional<ConnectionViewData> ConnectionViewData::fromJson(const QJsonValue&
 
     ConnectionViewData data;
 
-    auto cord_type = fromConnectionCordstr(obj.value(KEY_CONNECTION_CORD).toString(JSON_STR_BEZIER));
+    auto cord_type = fromConnectionCordStr(obj.value(KEY_CONNECTION_CORD).toString(JSON_STR_BEZIER));
     if (cord_type)
         data.cord_type_ = *cord_type;
 
@@ -152,6 +156,14 @@ std::optional<ConnectionViewData> ConnectionViewData::fromJson(const QJsonValue&
     auto bezy1 = pointFromJson(obj.value(KEY_BEZY1));
     if (bezy1)
         data.setBezyCtlPoint1(*bezy1);
+
+    auto pt0 = pointFromJson(obj.value(KEY_SRC_PT));
+    if (pt0)
+        data.setSourcePoint(*pt0);
+
+    auto pt1 = pointFromJson(obj.value(KEY_DEST_PT));
+    if (pt1)
+        data.setDestinationPoint(*pt1);
 
     return data;
 }
