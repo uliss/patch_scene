@@ -9,6 +9,7 @@
 
 ### Changed:
 - PSC file format update (version 7)
+- Phantom capable outlet view change
 
 ## [0.3.5]
 ### Added:

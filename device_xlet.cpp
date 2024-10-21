@@ -220,14 +220,6 @@ void DeviceXlet::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
         painter->setBrush(Qt::darkMagenta);
         painter->drawRect(bbox);
         break;
-    case PowerType::Phantom: {
-        painter->setBrush(Qt::NoBrush);
-        QPen pen(Qt::darkRed, 1);
-        pen.setJoinStyle(Qt::MiterJoin);
-        painter->setPen(pen);
-        painter->drawRect(bbox.adjusted(1, 1, -1, -1));
-    } break;
-    case PowerType::None:
     default:
         break;
     }
@@ -241,6 +233,8 @@ void DeviceXlet::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
         case XletType::In:
             if (data_.isPhantomOn())
                 painter->setBrush(Qt::red);
+            else if (data_.powerType() == PowerType::Phantom)
+                painter->setBrush(Qt::darkRed);
 
             painter->drawRect((bbox.width() - XLET_BOX_W) * 0.5, 0, XLET_BOX_W, XLET_BOX_H);
             break;
