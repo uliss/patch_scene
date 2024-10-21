@@ -35,9 +35,3 @@ PowerType TableCellPower::powerType() const
     else
         return static_cast<PowerType>(ptype);
 }
-
-void TableCellPower::setPowerType(PowerType type)
-{
-    auto idx = findData(static_cast<int>(type));
-    setCurrentIndex(idx);
-}

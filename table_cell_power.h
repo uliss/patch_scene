@@ -27,7 +27,6 @@ public:
     TableCellPower(PowerType type, QWidget* parent = nullptr);
 
     PowerType powerType() const;
-    void setPowerType(PowerType type);
 };
 
 }
