@@ -246,6 +246,12 @@ void Connection::toggleSelection()
     emit selected(this, value);
 }
 
+void Connection::resetCordPoints(ConnectionCordType cord)
+{
+    view_data_.resetPoints(cord);
+    updateShape();
+}
+
 void Connection::setCordType(ConnectionCordType type)
 {
     view_data_.setCordType(type);
@@ -295,6 +301,18 @@ void Connection::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
     QAction::connect(act_edit, &QAction::triggered, dia_scene, [this]() {
         emit edited(id_, view_data_);
     });
+
+    switch (view_data_.cordType()) {
+    case ConnectionCordType::Segmented:
+    case ConnectionCordType::Bezier: {
+        auto act_reset = menu.addAction(QAction::tr("Reset key points"));
+        QAction::connect(act_reset, &QAction::triggered, dia_scene, [this]() {
+            emit reset(id_, view_data_.cordType());
+        });
+    } break;
+    default:
+        break;
+    }
 
     menu.exec(event->screenPos());
     event->accept();

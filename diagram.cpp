@@ -949,9 +949,9 @@ void Diagram::drawSelectionTo(const QPoint& pos)
 
 void Diagram::showConnectionEditor(const ConnectionId& id, const ConnectionViewData& viewData)
 {
-    WARN() << id;
     switch (state_machine_.state()) {
-    case DiagramState::Init:
+    case DiagramState::Init: // normal mode
+    case DiagramState::ConnectionEdit: // update editor
         state_machine_.setState(DiagramState::ConnectionEdit);
         conn_edit_->setConnectionData(id, viewData);
         conn_edit_->setVisible(true);
@@ -960,7 +960,6 @@ void Diagram::showConnectionEditor(const ConnectionId& id, const ConnectionViewD
     case DiagramState::ConnectDevice:
     case DiagramState::SelectDevice:
     case DiagramState::SelectionRect:
-    case DiagramState::ConnectionEdit:
         break;
     }
 }

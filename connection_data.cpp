@@ -123,6 +123,21 @@ void ConnectionViewData::clearSegments()
     segs_.clear();
 }
 
+void ConnectionViewData::resetPoints(ConnectionCordType cord)
+{
+    switch (cord) {
+    case ConnectionCordType::Bezier:
+        bezy0_ = { 0, BEZY_YOFF };
+        bezy1_ = { 0, -BEZY_YOFF };
+        break;
+    case ConnectionCordType::Segmented:
+        clearSegments();
+        break;
+    default:
+        break;
+    }
+}
+
 QJsonObject ConnectionViewData::toJson() const
 {
     QJsonObject j;

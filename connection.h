@@ -54,10 +54,13 @@ public:
 
     void toggleSelection();
 
+    void resetCordPoints(ConnectionCordType cord);
+
 signals:
     void changed(ConnectionId);
     void selected(const Connection*, bool);
     void edited(ConnectionId, ConnectionViewData);
+    void reset(ConnectionId, ConnectionCordType);
 
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) final;

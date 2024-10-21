@@ -89,9 +89,12 @@ public:
 };
 
 class ConnectionViewData {
+    static const int BEZY_YOFF = 40;
+
+private:
     SegmentData segs_;
     QPoint pt0_, pt1_;
-    QPoint bezy0_ { 0, 40 }, bezy1_ { 0, -40 };
+    QPoint bezy0_ { 0, BEZY_YOFF }, bezy1_ { 0, -BEZY_YOFF };
     QColor color_ { Qt::black };
     float pen_width_ { 1.5 };
     ConnectionCordType cord_type_ { ConnectionCordType::Bezier };
@@ -123,6 +126,8 @@ public:
 
     qreal penWidth() const { return pen_width_; }
     void setPenWidth(qreal w) { pen_width_ = w; }
+
+    void resetPoints(ConnectionCordType cord);
 
     /**
      * converts to Json object

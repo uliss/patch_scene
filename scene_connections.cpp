@@ -298,6 +298,17 @@ bool SceneConnections::addConnection(Connection* c)
             }
         });
 
+    connect(c, &Connection::reset, this,
+        [this](ConnectionId id, ConnectionCordType cord) {
+            for (auto& c : conn_) {
+                if (c->connectionId() == id) {
+                    c->resetCordPoints(cord);
+                    emit edit(id, c->viewData());
+                    break;
+                }
+            }
+        });
+
     emit added(c->connectionId());
 
     return true;
