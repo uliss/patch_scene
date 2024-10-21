@@ -13,13 +13,13 @@
  *****************************************************************************/
 #include "scene_connections.h"
 #include "connection.h"
+#include "connection_editor.h"
+#include "logging.hpp"
 #include "scene_devices.h"
 
 #include <QGraphicsScene>
 
 using namespace ceam;
-
-#define WARN() qWarning() << metaObject()->className() << __FUNCTION__
 
 SceneConnections::SceneConnections(QObject* parent)
     : QObject(parent)
@@ -244,9 +244,22 @@ void SceneConnections::setVisible(bool value)
         emit visibleChanged(value);
 }
 
+void SceneConnections::showEditor(bool value)
+{
+    conn_edit_->setVisible(value);
+}
+
 void SceneConnections::setScene(QGraphicsScene* scene)
 {
     scene_ = scene;
+
+    conn_edit_ = new ConnectionEditor();
+    conn_edit_->setVisible(false);
+    connect(conn_edit_, &ConnectionEditor::connectionUpdated, this,
+        [this](const ConnectionId& data, const ConnectionViewData& viewData) {
+            setViewData(data, viewData);
+        });
+    scene_->addItem(conn_edit_);
 }
 
 size_t SceneConnections::count() const
@@ -289,7 +302,11 @@ bool SceneConnections::addConnection(Connection* c)
     conn_dev_[c->destinationInfo().id()] << c;
 
     connect(c, &Connection::changed, this, &SceneConnections::update);
-    connect(c, &Connection::edited, this, &SceneConnections::edit);
+    connect(c, &Connection::edited, this, [this](const ConnectionId& id, const ConnectionViewData& viewData) {
+        conn_edit_->setConnectionData(id, viewData);
+        emit edit(id);
+    });
+
     connect(c, &Connection::selected, this,
         [this](const Connection* conn) {
             for (auto& c : conn_) {
@@ -303,7 +320,7 @@ bool SceneConnections::addConnection(Connection* c)
             for (auto& c : conn_) {
                 if (c->connectionId() == id) {
                     c->resetCordPoints(cord);
-                    emit edit(id, c->viewData());
+                    conn_edit_->setConnectionData(id, c->viewData());
                     break;
                 }
             }

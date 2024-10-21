@@ -25,6 +25,7 @@
 namespace ceam {
 
 class Connection;
+class ConnectionEditor;
 class SceneDevices;
 
 class SceneConnections : public QObject {
@@ -104,11 +105,16 @@ public:
     bool checkConnection(const XletInfo& x0, const XletInfo& x1) const;
 
     /**
-     * Set connection visible
+     * Set all connections visible
      * @complexity O(n)
      * @emit visibleChanged()
      */
     void setVisible(bool value);
+
+    /**
+     * Show/hide connection editor
+     */
+    void showEditor(bool value);
 
     /**
      * set graphics scene to operate on
@@ -129,7 +135,7 @@ signals:
     void added(ConnectionId);
     void removed(ConnectionId);
     void update(ConnectionId);
-    void edit(ConnectionId, ConnectionViewData);
+    void edit(ConnectionId);
     void visibleChanged(bool);
 
 private:
@@ -138,6 +144,7 @@ private:
 
 private:
     QGraphicsScene* scene_ { nullptr };
+    ConnectionEditor* conn_edit_ { nullptr };
     std::unordered_set<Connection*> conn_;
     QHash<XletInfo, Connection*> conn_src_, conn_dest_;
     QHash<DeviceId, QList<Connection*>> conn_dev_;

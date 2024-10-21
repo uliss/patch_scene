@@ -16,7 +16,6 @@
 
 #include "connection.h"
 #include "connection_database.h"
-#include "connection_editor.h"
 #include "device.h"
 #include "diagram_meta.h"
 #include "diagram_state_machine.h"
@@ -215,6 +214,7 @@ public slots:
     void redo();
     void setGridVisible(bool value);
     void setScaleVisible(bool value);
+    void showConnectionEditor();
     void undo();
     void zoomIn();
     void zoomNormal();
@@ -288,7 +288,6 @@ private:
     DiagramScene* scene_ { nullptr };
     QGraphicsRectItem* selection_ { nullptr };
     QGraphicsLineItem* tmp_connection_ { nullptr };
-    ConnectionEditor* conn_edit_ { nullptr };
     QUndoStack* undo_stack_ { nullptr };
 
     QPointF prev_move_pos_;
@@ -336,9 +335,6 @@ private:
      * @param pos - position in view coordinates
      */
     void drawSelectionTo(const QPoint& pos);
-
-private slots:
-    void showConnectionEditor(const ConnectionId& id, const ConnectionViewData& viewData);
 };
 
 }

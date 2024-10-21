@@ -138,14 +138,6 @@ void Diagram::initLiveConnection()
 
 void Diagram::initSceneConnections()
 {
-    conn_edit_ = new ConnectionEditor();
-    conn_edit_->setVisible(false);
-    connect(conn_edit_, &ConnectionEditor::connectionUpdated, this,
-        [this](const ConnectionId& data, const ConnectionViewData& viewData) {
-            connections_.setViewData(data, viewData);
-        });
-    scene_->addItem(conn_edit_);
-
     connections_.setScene(scene_);
     connect(&connections_, &SceneConnections::added, this, &Diagram::connectionAdded);
     connect(&connections_, &SceneConnections::removed, this, &Diagram::connectionRemoved);
@@ -947,14 +939,13 @@ void Diagram::drawSelectionTo(const QPoint& pos)
     selection_->setRect(rect.normalized());
 }
 
-void Diagram::showConnectionEditor(const ConnectionId& id, const ConnectionViewData& viewData)
+void Diagram::showConnectionEditor()
 {
     switch (state_machine_.state()) {
     case DiagramState::Init: // normal mode
     case DiagramState::ConnectionEdit: // update editor
         state_machine_.setState(DiagramState::ConnectionEdit);
-        conn_edit_->setConnectionData(id, viewData);
-        conn_edit_->setVisible(true);
+        connections_.showEditor(true);
         break;
     case DiagramState::Move:
     case DiagramState::ConnectDevice:
@@ -1035,7 +1026,7 @@ void Diagram::mousePressEvent(QMouseEvent* event)
         QGraphicsView::mousePressEvent(event);
         if (!event->isAccepted()) {
             state_machine_.setState(DiagramState::Init);
-            conn_edit_->setVisible(false);
+            connections_.showEditor(false);
         }
         // auto edit = items(event->pos());
         // if (edit.isEmpty() || edit[0] != qgraphicsitem_cast<ConnectionEditor*>(edit[0])) {
