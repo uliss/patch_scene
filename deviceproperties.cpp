@@ -238,17 +238,27 @@ void DeviceProperties::updateImagePreview()
 
 void DeviceProperties::enableCategoryWidgets(bool value, ItemCategory cat)
 {
-    ui->inlets->setVisible(value);
-    ui->outlets->setVisible(value);
     ui->addInlet->setVisible(value);
-    ui->removeInlet->setVisible(value);
     ui->addOutlet->setVisible(value);
-    ui->removeOutlet->setVisible(value);
-    ui->inletsLabel->setVisible(value);
-    ui->outletsLabel->setVisible(value);
-    ui->batteryType->setVisible(value);
     ui->batteryCount->setVisible(value);
     ui->batteryLabel->setVisible(value);
+    ui->batteryType->setVisible(value);
+    ui->inlets->setVisible(value);
+    ui->inletsColumns->setVisible(value);
+    ui->inletsColumnsLabel->setVisible(value);
+    ui->inletsHLine->setVisible(value);
+    ui->inletsLabel->setVisible(value);
+    ui->moveInletDown->setVisible(value);
+    ui->moveInletUp->setVisible(value);
+    ui->moveOutletDown->setVisible(value);
+    ui->moveOutletUp->setVisible(value);
+    ui->outlets->setVisible(value);
+    ui->outletsColumns->setVisible(value);
+    ui->outletsColumnsLabel->setVisible(value);
+    ui->outletsHLine->setVisible(value);
+    ui->outletsLabel->setVisible(value);
+    ui->removeInlet->setVisible(value);
+    ui->removeOutlet->setVisible(value);
 
     const bool is_human = (cat == ItemCategory::Human);
     ui->model->setHidden(is_human);

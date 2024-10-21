@@ -70,7 +70,7 @@
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer_3">
+        <spacer name="outletsHSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -269,7 +269,7 @@
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer_2">
+        <spacer name="inletsHSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
