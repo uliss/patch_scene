@@ -35,16 +35,16 @@ public:
 
     /**
      * adds new connection by given data
-     * @param connData - connection data
+     * @param id - connection data
      * @return pointer to new Connection on nullptr on error
      * @emit added()
      */
-    Connection* add(const ConnectionData& connData);
+    Connection* add(const ConnectionId& id);
 
     /**
      * @complexity O(N)
      */
-    bool updateData(const ConnectionData& connData);
+    bool setViewData(const ConnectionId& id, const ConnectionViewData& viewData);
 
     /**
      * remove connection from/to specified input/output
@@ -64,14 +64,14 @@ public:
     /**
      * iterate all connections with given function
      */
-    void foreachData(std::function<void(const ConnectionData& data)> fn) const;
+    void foreachId(std::function<void(const ConnectionId&)> fn) const;
 
     /**
      * return all connection data as list
      */
-    QList<ConnectionData> dataList() const;
+    QList<ConnectionId> idList() const;
 
-    QSet<ConnectionData> selectedData() const;
+    QSet<ConnectionId> selectedIdList() const;
 
     QList<ConnectionFullInfo> infoList(const SceneDevices& devices) const;
 
@@ -85,7 +85,7 @@ public:
      * find all incoming/outcoming connection data to/from devices
      * @complexity Amort. O(1) (worst case: O(n))
      */
-    QList<ConnectionData> findConnectionsData(DeviceId id) const;
+    QList<ConnectionId> findConnectionsData(DeviceId id) const;
 
     /**
      * find connection by specified xlet
@@ -93,7 +93,7 @@ public:
      * @return connection data or null if not found
      * @complexity O(1)
      */
-    std::optional<ConnectionData> findConnection(const XletInfo& xlet) const;
+    std::optional<ConnectionId> findConnection(const XletInfo& xlet) const;
 
     /**
      * check if specified xlets can be connected
@@ -126,10 +126,10 @@ public:
     void clear();
 
 signals:
-    void added(ConnectionData);
-    void removed(ConnectionData);
-    void update(ConnectionData);
-    void edit(ConnectionData);
+    void added(ConnectionId);
+    void removed(ConnectionId);
+    void update(ConnectionId);
+    void edit(ConnectionId, ConnectionViewData);
     void visibleChanged(bool);
 
 private:

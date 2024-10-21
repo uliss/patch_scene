@@ -49,7 +49,7 @@ public:
 private:
     Diagram* doc_;
     SharedDeviceData data_;
-    QList<ConnectionData> conn_;
+    QList<ConnectionId> conn_;
 };
 
 class RemoveSelected : public QUndoCommand {
@@ -62,7 +62,7 @@ public:
 private:
     Diagram* doc_;
     QList<SharedDeviceData> data_;
-    QSet<ConnectionData> conn_;
+    QSet<ConnectionId> conn_;
 };
 
 class DuplicateSelected : public QUndoCommand {
@@ -141,14 +141,14 @@ private:
 
 class ConnectDevices : public QUndoCommand {
 public:
-    ConnectDevices(Diagram* doc, const ConnectionData& conn);
+    ConnectDevices(Diagram* doc, const ConnectionId& conn);
 
     void undo() final;
     void redo() final;
 
 private:
     Diagram* doc_;
-    ConnectionData conn_;
+    ConnectionId conn_;
 };
 
 class DisconnectXlet : public QUndoCommand {
@@ -160,7 +160,7 @@ public:
 
 private:
     Diagram* doc_;
-    ConnectionData conn_;
+    ConnectionId conn_;
 };
 
 class MoveByDevices : public QUndoCommand {
@@ -229,14 +229,14 @@ private:
 
 class ReconnectDevice : public QUndoCommand {
 public:
-    ReconnectDevice(Diagram* doc, const ConnectionData& old_conn, const ConnectionData& new_conn);
+    ReconnectDevice(Diagram* doc, const ConnectionId& old_conn, const ConnectionId& new_conn);
 
     void undo() final;
     void redo() final;
 
 private:
     Diagram* doc_;
-    ConnectionData old_conn_, new_conn_;
+    ConnectionId old_conn_, new_conn_;
 };
 
 }

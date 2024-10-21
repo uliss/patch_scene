@@ -17,6 +17,7 @@
 #include <QJsonObject>
 
 namespace {
+
 constexpr const char* KEY_BEZY0 = "bezy0";
 constexpr const char* KEY_BEZY1 = "bezy1";
 constexpr const char* KEY_DEST = "dest";
@@ -77,7 +78,12 @@ std::optional<QPoint> pointFromJson(const QJsonValue& v)
 
 namespace ceam {
 
-QJsonObject ConnectionData::toJson() const
+bool ConnectionId::isValid() const
+{
+    return src_ != dest_;
+}
+
+QJsonObject ConnectionId::toJson() const
 {
     QJsonObject j;
 
@@ -85,14 +91,11 @@ QJsonObject ConnectionData::toJson() const
     j[KEY_DEST] = static_cast<int>(dest_);
     j[KEY_DEST_IN] = static_cast<int>(in_);
     j[KEY_SRC_OUT] = static_cast<int>(out_);
-    j[KEY_CONNECTION_CORD] = toString(cord_type_);
-    j[KEY_BEZY0] = pointToJson(bezy0_);
-    j[KEY_BEZY1] = pointToJson(bezy1_);
 
     return j;
 }
 
-bool ConnectionData::setEndPoint(const XletInfo& ep)
+bool ConnectionId::setEndPoint(const XletInfo& ep)
 {
     switch (ep.type()) {
     case XletType::In:
@@ -108,22 +111,57 @@ bool ConnectionData::setEndPoint(const XletInfo& ep)
     }
 }
 
-void ConnectionData::appendSegment(float seg)
+void ConnectionViewData::appendSegment(float seg)
 {
     segs_.append(seg);
 }
 
-void ConnectionData::clearSegments()
+void ConnectionViewData::clearSegments()
 {
     segs_.clear();
 }
 
-std::optional<ConnectionData> ConnectionData::fromJson(const QJsonValue& j)
+QJsonObject ConnectionViewData::toJson() const
+{
+    QJsonObject j;
+
+    j[KEY_CONNECTION_CORD] = toString(cord_type_);
+    j[KEY_BEZY0] = pointToJson(bezy0_);
+    j[KEY_BEZY1] = pointToJson(bezy1_);
+
+    return j;
+}
+
+std::optional<ConnectionViewData> ConnectionViewData::fromJson(const QJsonValue& j)
 {
     if (!j.isObject())
         return {};
 
-    ConnectionData data(0, 0, 0, 0);
+    auto obj = j.toObject();
+
+    ConnectionViewData data;
+
+    auto cord_type = fromConnectionCordstr(obj.value(KEY_CONNECTION_CORD).toString(JSON_STR_BEZIER));
+    if (cord_type)
+        data.cord_type_ = *cord_type;
+
+    auto bezy0 = pointFromJson(obj.value(KEY_BEZY0));
+    if (bezy0)
+        data.setBezyCtlPoint0(*bezy0);
+
+    auto bezy1 = pointFromJson(obj.value(KEY_BEZY1));
+    if (bezy1)
+        data.setBezyCtlPoint1(*bezy1);
+
+    return data;
+}
+
+std::optional<ConnectionId> ConnectionId::fromJson(const QJsonValue& j)
+{
+    if (!j.isObject())
+        return {};
+
+    ConnectionId data(0, 0, 0, 0);
     auto obj = j.toObject();
     auto src = obj.value(KEY_SRC).toInt(-1);
     if (src >= 0)
@@ -141,32 +179,20 @@ std::optional<ConnectionData> ConnectionData::fromJson(const QJsonValue& j)
     if (out >= 0)
         data.out_ = out;
 
-    auto cord_type = fromConnectionCordstr(obj.value(KEY_CONNECTION_CORD).toString(JSON_STR_BEZIER));
-    if (cord_type)
-        data.cord_type_ = *cord_type;
-
-    auto bezy0 = pointFromJson(obj.value(KEY_BEZY0));
-    if (bezy0)
-        data.setBezyCtlPoint0(*bezy0);
-
-    auto bezy1 = pointFromJson(obj.value(KEY_BEZY1));
-    if (bezy1)
-        data.setBezyCtlPoint1(*bezy1);
-
     return data;
 }
 
-std::optional<ConnectionData> ConnectionData::fromXletPair(const XletInfo& x0, const XletInfo& x1)
+std::optional<ConnectionId> ConnectionId::fromXletPair(const XletInfo& x0, const XletInfo& x1)
 {
     if (x0.type() == XletType::In && x1.type() == XletType::Out)
-        return ConnectionData { x1.id(), x1.index(), x0.id(), x0.index() };
+        return ConnectionId { x1.id(), x1.index(), x0.id(), x0.index() };
     else if (x0.type() == XletType::Out && x1.type() == XletType::In)
-        return ConnectionData { x0.id(), x0.index(), x1.id(), x1.index() };
+        return ConnectionId { x0.id(), x0.index(), x1.id(), x1.index() };
     else
         return {};
 }
 
-size_t qHash(const ConnectionData& key)
+size_t qHash(const ConnectionId& key)
 {
     return ::qHash(key.destination())
         ^ ::qHash(key.destinationInput())
@@ -174,7 +200,7 @@ size_t qHash(const ConnectionData& key)
         ^ ::qHash(key.sourceOutput());
 }
 
-QDebug operator<<(QDebug debug, const ConnectionData& c)
+QDebug operator<<(QDebug debug, const ConnectionId& c)
 {
     QDebugStateSaver saver(debug);
     debug.nospace()

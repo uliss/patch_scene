@@ -34,24 +34,30 @@ ConnectionDatabase& conn_db()
 
 }
 
-Connection::Connection(const ConnectionData& data)
-    : data_(data)
+Connection::Connection(const ConnectionId& id)
+    : id_(id)
 {
     setZValue(ZVALUE_CONN);
     setCacheMode(DeviceCoordinateCache);
     setFlag(QGraphicsItem::ItemIsSelectable);
-    setToolTip(QString("In(%1) -> Out(%2)").arg((int)data.sourceOutput()).arg((int)data.destinationInput()));
+    setToolTip(QString("In(%1) -> Out(%2)").arg((int)id.sourceOutput()).arg((int)id.destinationInput()));
     setAcceptHoverEvents(true);
 }
 
-bool Connection::operator==(const ConnectionData& data) const
+bool Connection::operator==(const ConnectionId& id) const
 {
-    return data_ == data;
+    return id_ == id;
 }
 
-void Connection::setConnectionData(const ConnectionData& data)
+void Connection::setConnectionId(const ConnectionId& id)
 {
-    data_ = data;
+    id_ = id;
+    updateShape();
+}
+
+void Connection::setViewData(const ConnectionViewData& data)
+{
+    view_data_ = data;
     updateShape();
 }
 
@@ -63,10 +69,10 @@ void Connection::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
         painter->setBrush(Qt::blue);
         painter->drawPath(line_);
     } else if (hover_) {
-        painter->setBrush(color_.lighter(220));
+        painter->setBrush(view_data_.color().lighter(220));
         painter->drawPath(line_);
     } else {
-        painter->setBrush(color_);
+        painter->setBrush(view_data_.color());
         painter->drawPath(line_);
     }
 
@@ -83,33 +89,33 @@ void Connection::updateShape()
 {
     prepareGeometryChange();
 
-    switch (data_.cordType()) {
+    switch (view_data_.cordType()) {
     case ConnectionCordType::Linear: {
         line_.clear();
-        line_.moveTo(data_.sourcePoint());
-        line_.lineTo(data_.destinationPoint());
+        line_.moveTo(view_data_.sourcePoint());
+        line_.lineTo(view_data_.destinationPoint());
 
         QPainterPathStroker stroker;
-        stroker.setWidth(pen_width_);
+        stroker.setWidth(view_data_.penWidth());
         stroker.setCapStyle(Qt::RoundCap);
         line_ = stroker.createStroke(line_);
     } break;
     case ConnectionCordType::Bezier: {
-        auto ctl_pt0 = data_.bezyCtlPoint0() + data_.sourcePoint();
-        auto ctl_pt1 = data_.bezyCtlPoint1() + data_.destinationPoint();
+        auto ctl_pt0 = view_data_.bezyCtlPoint0() + view_data_.sourcePoint();
+        auto ctl_pt1 = view_data_.bezyCtlPoint1() + view_data_.destinationPoint();
 
         line_.clear();
-        line_.moveTo(data_.sourcePoint());
-        line_.cubicTo(ctl_pt0, ctl_pt1, data_.destinationPoint());
-        line_.cubicTo(ctl_pt1, ctl_pt0, data_.sourcePoint());
+        line_.moveTo(view_data_.sourcePoint());
+        line_.cubicTo(ctl_pt0, ctl_pt1, view_data_.destinationPoint());
+        line_.cubicTo(ctl_pt1, ctl_pt0, view_data_.sourcePoint());
         line_.closeSubpath();
 
         QPainterPathStroker stroker;
-        stroker.setWidth(pen_width_);
+        stroker.setWidth(view_data_.penWidth());
         line_ = stroker.createStroke(line_);
     } break;
     case ConnectionCordType::Segmented: {
-        data_.clearSegments();
+        view_data_.clearSegments();
 
         // if (data_.segmentPoints().isEmpty()) {
         // if (pt1_.y() > pt0_.y()) {
@@ -143,7 +149,7 @@ void Connection::updateShape()
         // }
 
         QPainterPathStroker stroker;
-        stroker.setWidth(pen_width_ + 1);
+        stroker.setWidth(view_data_.penWidth() + 1);
         stroker.setCapStyle(Qt::RoundCap);
         line_ = stroker.createStroke(line_);
 
@@ -174,26 +180,26 @@ QRectF Connection::boundingRect() const
 
 XletInfo Connection::destinationInfo() const
 {
-    return { data_.destination(), data_.destinationInput(), XletType::In };
+    return { id_.destination(), id_.destinationInput(), XletType::In };
 }
 
 XletInfo Connection::sourceInfo() const
 {
-    return { data_.source(), data_.sourceOutput(), XletType::Out };
+    return { id_.source(), id_.sourceOutput(), XletType::Out };
 }
 
 void Connection::setPoints(const QPointF& p0, const QPointF& p1)
 {
-    data_.setSourcePoint(p0);
-    data_.setDestinationPoint(p1);
+    view_data_.setSourcePoint(p0);
+    view_data_.setDestinationPoint(p1);
 
     updateShape();
 }
 
 void Connection::setStyle(ConnectionStyle style)
 {
-    pen_width_ = ConnectionStyleDatabase::instance().penWidth(style, 1.5);
-    color_ = ConnectionStyleDatabase::instance().color(style, Qt::darkGray);
+    view_data_.setPenWidth(ConnectionStyleDatabase::instance().penWidth(style, 1.5));
+    view_data_.setColor(ConnectionStyleDatabase::instance().color(style, Qt::darkGray));
 
     updateShape();
 }
@@ -208,9 +214,9 @@ void Connection::toggleSelection()
 
 void Connection::setCordType(ConnectionCordType type)
 {
-    data_.setCordType(type);
+    view_data_.setCordType(type);
     updateShape();
-    emit changed(data_);
+    emit changed(id_);
 }
 
 void Connection::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
@@ -224,7 +230,7 @@ void Connection::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
     auto act_del = menu.addAction(QAction::tr("Delete"));
     QAction::connect(act_del, &QAction::triggered, dia_scene,
         [this, dia_scene]() {
-            emit dia_scene->removeConnection(data_);
+            emit dia_scene->removeConnection(id_);
         });
 
     auto menu_ct = menu.addMenu(QAction::tr("Cord type"));
@@ -234,26 +240,26 @@ void Connection::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
     auto act_segment = menu_ct->addAction(QAction::tr("Segment"));
 
     act_bezier->setCheckable(true);
-    act_bezier->setChecked(data_.cordType() == ConnectionCordType::Bezier);
+    act_bezier->setChecked(view_data_.cordType() == ConnectionCordType::Bezier);
     QAction::connect(act_bezier, &QAction::triggered, dia_scene, [this]() {
         setCordType(ConnectionCordType::Bezier);
     });
 
     act_linear->setCheckable(true);
-    act_linear->setChecked(data_.cordType() == ConnectionCordType::Linear);
+    act_linear->setChecked(view_data_.cordType() == ConnectionCordType::Linear);
     QAction::connect(act_linear, &QAction::triggered, dia_scene, [this]() {
         setCordType(ConnectionCordType::Linear);
     });
 
     act_segment->setCheckable(true);
-    act_segment->setChecked(data_.cordType() == ConnectionCordType::Segmented);
+    act_segment->setChecked(view_data_.cordType() == ConnectionCordType::Segmented);
     QAction::connect(act_segment, &QAction::triggered, dia_scene, [this]() {
         setCordType(ConnectionCordType::Segmented);
     });
 
     auto act_edit = menu.addAction(QAction::tr("Edit"));
     QAction::connect(act_edit, &QAction::triggered, dia_scene, [this]() {
-        emit edited(data_);
+        emit edited(id_, view_data_);
     });
 
     menu.exec(event->screenPos());

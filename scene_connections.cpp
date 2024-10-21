@@ -26,24 +26,24 @@ SceneConnections::SceneConnections(QObject* parent)
 {
 }
 
-Connection* SceneConnections::add(const ConnectionData& connData)
+Connection* SceneConnections::add(const ConnectionId& id)
 {
-    if (!scene_ || !connData.isValid())
+    if (!scene_ || !id.isValid())
         return nullptr;
 
-    auto src_it = conn_src_.find(connData.sourceInfo());
+    auto src_it = conn_src_.find(id.sourceInfo());
     if (src_it != conn_src_.end()) {
         qWarning() << "connection already exists";
         return nullptr;
     }
 
-    auto dest_it = conn_dest_.find(connData.destinationInfo());
+    auto dest_it = conn_dest_.find(id.destinationInfo());
     if (dest_it != conn_dest_.end()) {
         qWarning() << "connection already exists";
         return nullptr;
     }
 
-    std::unique_ptr<Connection> conn(new Connection(connData));
+    std::unique_ptr<Connection> conn(new Connection(id));
     if (addConnection(conn.get())) {
         return conn.release();
     } else {
@@ -51,15 +51,15 @@ Connection* SceneConnections::add(const ConnectionData& connData)
     }
 }
 
-bool SceneConnections::updateData(const ConnectionData& connData)
+bool SceneConnections::setViewData(const ConnectionId& id, const ConnectionViewData& viewData)
 {
-    auto it = conn_dev_.find(connData.source());
+    auto it = conn_dev_.find(id.source());
     if (it == conn_dev_.end())
         return false;
 
     for (auto c : *it) {
-        if (c->connectionData() == connData) {
-            c->setConnectionData(connData);
+        if (c->connectionId() == id) {
+            c->setViewData(viewData);
             return true;
         }
     }
@@ -102,33 +102,33 @@ void SceneConnections::removeAll(DeviceId id)
     }
 }
 
-void SceneConnections::foreachData(std::function<void(const ConnectionData&)> fn) const
+void SceneConnections::foreachId(std::function<void(const ConnectionId&)> fn) const
 {
     if (!fn)
         return;
 
     for (auto c : conn_)
-        fn(c->connectionData());
+        fn(c->connectionId());
 }
 
-QList<ConnectionData> SceneConnections::dataList() const
+QList<ConnectionId> SceneConnections::idList() const
 {
-    QList<ConnectionData> res;
+    QList<ConnectionId> res;
     res.reserve(conn_.size());
 
     for (auto& kv : conn_)
-        res.append(kv->connectionData());
+        res.append(kv->connectionId());
 
     return res;
 }
 
-QSet<ConnectionData> SceneConnections::selectedData() const
+QSet<ConnectionId> SceneConnections::selectedIdList() const
 {
-    QSet<ConnectionData> res;
+    QSet<ConnectionId> res;
 
     for (auto& kv : conn_) {
         if (kv->isSelected())
-            res.insert(kv->connectionData());
+            res.insert(kv->connectionId());
     }
 
     return res;
@@ -140,7 +140,7 @@ QList<ConnectionFullInfo> SceneConnections::infoList(const SceneDevices& devices
     res.reserve(conn_.size());
 
     for (auto conn : conn_) {
-        auto& data = conn->connectionData();
+        auto& data = conn->connectionId();
         auto info = devices.connectionInfo(data);
         if (info)
             res.append(info.value());
@@ -158,15 +158,15 @@ QList<Connection*> SceneConnections::findConnections(DeviceId id) const
         return {};
 }
 
-QList<ConnectionData> SceneConnections::findConnectionsData(DeviceId id) const
+QList<ConnectionId> SceneConnections::findConnectionsData(DeviceId id) const
 {
     auto dev_it = conn_dev_.find(id);
     if (dev_it != conn_dev_.end()) {
-        QList<ConnectionData> res;
+        QList<ConnectionId> res;
         res.reserve(dev_it.value().size());
 
         for (auto c : dev_it.value()) {
-            res.append(c->connectionData());
+            res.append(c->connectionId());
         }
 
         return res;
@@ -174,18 +174,18 @@ QList<ConnectionData> SceneConnections::findConnectionsData(DeviceId id) const
         return {};
 }
 
-std::optional<ConnectionData> SceneConnections::findConnection(const XletInfo& xlet) const
+std::optional<ConnectionId> SceneConnections::findConnection(const XletInfo& xlet) const
 {
     switch (xlet.type()) {
     case XletType::In: {
         auto dest_it = conn_dest_.find(xlet);
         if (dest_it != conn_dest_.end())
-            return dest_it.value()->connectionData();
+            return dest_it.value()->connectionId();
     } break;
     case XletType::Out: {
         auto src_it = conn_src_.find(xlet);
         if (src_it != conn_src_.end())
-            return src_it.value()->connectionData();
+            return src_it.value()->connectionId();
     } break;
     case XletType::None:
     default:
@@ -213,8 +213,8 @@ bool SceneConnections::checkConnection(const XletInfo& x0, const XletInfo& x1) c
     }
 
     auto data = (x0.type() == XletType::Out)
-        ? ConnectionData(x0.id(), x0.index(), x1.id(), x1.index())
-        : ConnectionData(x1.id(), x1.index(), x0.id(), x0.index());
+        ? ConnectionId(x0.id(), x0.index(), x1.id(), x1.index())
+        : ConnectionId(x1.id(), x1.index(), x0.id(), x0.index());
 
     if (findConnection(data.sourceInfo())) {
         qWarning() << "already connected from this source";
@@ -258,7 +258,7 @@ void SceneConnections::clear()
 {
     for (auto c : conn_) {
         scene_->removeItem(c);
-        emit removed(c->connectionData());
+        emit removed(c->connectionId());
         delete c;
     }
 
@@ -288,8 +288,8 @@ bool SceneConnections::addConnection(Connection* c)
     conn_dev_[c->sourceInfo().id()] << c;
     conn_dev_[c->destinationInfo().id()] << c;
 
-    connect(c, SIGNAL(changed(ConnectionData)), this, SIGNAL(update(ConnectionData)));
-    connect(c, SIGNAL(edited(ConnectionData)), this, SIGNAL(edit(ConnectionData)));
+    connect(c, &Connection::changed, this, &SceneConnections::update);
+    connect(c, &Connection::edited, this, &SceneConnections::edit);
     connect(c, &Connection::selected, this,
         [this](const Connection* conn) {
             for (auto& c : conn_) {
@@ -298,7 +298,7 @@ bool SceneConnections::addConnection(Connection* c)
             }
         });
 
-    emit added(c->connectionData());
+    emit added(c->connectionId());
 
     return true;
 }
@@ -321,7 +321,7 @@ bool SceneConnections::removeConnection(Connection* c)
     if (dest_it != conn_dev_.end())
         dest_it.value().removeAll(c);
 
-    emit removed(c->connectionData());
+    emit removed(c->connectionId());
 
     delete c;
 

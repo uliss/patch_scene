@@ -31,18 +31,19 @@ public:
 public:
     ConnectionEditor();
 
-    void setConnectionData(const ConnectionData& data);
+    void setConnectionData(const ConnectionId& id, const ConnectionViewData& viewData);
 
     QRectF boundingRect() const final;
 
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) final;
 
 signals:
-    void connectionUpdated(ConnectionData);
+    void connectionUpdated(ConnectionId, ConnectionViewData);
 
 private:
     QList<QGraphicsItem*> handles_;
-    ConnectionData data_;
+    ConnectionViewData view_data_;
+    ConnectionId id_;
 };
 
 } // namespace ceam

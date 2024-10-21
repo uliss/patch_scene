@@ -97,7 +97,7 @@ public:
      */
     SharedDeviceData findData(DeviceId id) const;
 
-    std::optional<ConnectionFullInfo> connectionInfo(const ConnectionData& conn) const;
+    std::optional<ConnectionFullInfo> connectionInfo(const ConnectionId& conn) const;
 
     /**
      * return connection points in the scene coords
@@ -105,7 +105,7 @@ public:
      * @return pair of point, or null on error
      * @complexity O(1)
      */
-    std::optional<std::pair<QPointF, QPointF>> connectionPoints(const ConnectionData& conn) const;
+    std::optional<std::pair<QPointF, QPointF>> connectionPoints(const ConnectionId& conn) const;
 
     /**
      * return connection endpoint data
@@ -113,14 +113,14 @@ public:
      * @return pair of XletData, or null on error
      * @complexity O(1)
      */
-    std::optional<ConnectionPair> connectionPair(const ConnectionData& conn) const;
+    std::optional<ConnectionPair> connectionPair(const ConnectionId& conn) const;
 
     /**
      * check if connection data is valid
      * @param conn - connection data
      * @complexity O(1)
      */
-    bool checkConnection(const ConnectionData& conn) const;
+    bool checkConnection(const ConnectionId& conn) const;
 
     bool hasSelected() const;
     int setSelected(const QList<DeviceId>& ids, bool value);

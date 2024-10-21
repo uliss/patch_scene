@@ -34,14 +34,18 @@ public:
     int type() const override { return Type; }
 
 public:
-    explicit Connection(const ConnectionData& data);
+    explicit Connection(const ConnectionId& id);
 
     QRectF boundingRect() const final;
 
-    bool operator==(const ConnectionData& data) const;
+    bool operator==(const ConnectionId& id) const;
 
-    void setConnectionData(const ConnectionData& data);
-    const ConnectionData& connectionData() const { return data_; }
+    void setConnectionId(const ConnectionId& id);
+    const ConnectionId& connectionId() const { return id_; }
+
+    const ConnectionViewData& viewData() const { return view_data_; }
+    void setViewData(const ConnectionViewData& data);
+
     XletInfo sourceInfo() const;
     XletInfo destinationInfo() const;
 
@@ -51,9 +55,9 @@ public:
     void toggleSelection();
 
 signals:
-    void changed(ConnectionData);
+    void changed(ConnectionId);
     void selected(const Connection*, bool);
-    void edited(ConnectionData);
+    void edited(ConnectionId, ConnectionViewData);
 
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) final;
@@ -68,10 +72,9 @@ protected:
     void setCordType(ConnectionCordType type);
 
 private:
-    ConnectionData data_;
+    ConnectionId id_;
+    ConnectionViewData view_data_;
     QPainterPath line_;
-    QColor color_ { Qt::black };
-    float pen_width_ { 1.5 };
     bool hover_ { false };
 };
 

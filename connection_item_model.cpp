@@ -88,7 +88,7 @@ bool ConnectionItemModel::addConnection(const ConnectionFullInfo& info)
     return true;
 }
 
-bool ConnectionItemModel::removeConnection(const ConnectionData& data)
+bool ConnectionItemModel::removeConnection(const ConnectionId& data)
 {
     int remove_num = 0;
 

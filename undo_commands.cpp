@@ -67,7 +67,7 @@ void AddDeviceSelection::redo()
     }
 }
 
-ConnectDevices::ConnectDevices(Diagram* doc, const ConnectionData& conn)
+ConnectDevices::ConnectDevices(Diagram* doc, const ConnectionId& conn)
     : doc_(doc)
     , conn_(conn)
 {
@@ -139,7 +139,7 @@ RemoveSelected::RemoveSelected(Diagram* doc)
     data_ = doc_->devices().selectedDataList();
     conn_ = doc_->findSelectedConnections();
 
-    conn_ |= doc_->connections().selectedData();
+    conn_ |= doc_->connections().selectedIdList();
 }
 
 void RemoveSelected::undo()
@@ -466,7 +466,7 @@ void UpdateDeviceData::redo()
         doc_->setDeviceData(new_data_);
 }
 
-ReconnectDevice::ReconnectDevice(Diagram* doc, const ConnectionData& old_conn, const ConnectionData& new_conn)
+ReconnectDevice::ReconnectDevice(Diagram* doc, const ConnectionId& old_conn, const ConnectionId& new_conn)
     : doc_(doc)
     , old_conn_(old_conn)
     , new_conn_(new_conn)

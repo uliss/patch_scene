@@ -28,6 +28,7 @@
 #include <QSvgGenerator>
 
 #include "app_version.h"
+#include "connection_editor.h"
 #include "device.h"
 #include "diagram_scene.h"
 #include "diagram_updates_blocker.h"
@@ -136,11 +137,20 @@ void Diagram::initLiveConnection()
 
 void Diagram::initSceneConnections()
 {
+    conn_edit_ = new ConnectionEditor();
+    conn_edit_->setVisible(false);
+    connect(conn_edit_, &ConnectionEditor::connectionUpdated, this,
+        [this](const ConnectionId& data, const ConnectionViewData& viewData) {
+            connections_.setViewData(data, viewData);
+        });
+    scene_->addItem(conn_edit_);
+
     connections_.setScene(scene_);
-    connect(&connections_, SIGNAL(added(ConnectionData)), this, SIGNAL(connectionAdded(ConnectionData)));
-    connect(&connections_, SIGNAL(removed(ConnectionData)), this, SIGNAL(connectionRemoved(ConnectionData)));
-    connect(&connections_, SIGNAL(visibleChanged(bool)), this, SIGNAL(showCablesChanged(bool)));
-    connect(&connections_, SIGNAL(update(ConnectionData)), this, SIGNAL(sceneChanged()));
+    connect(&connections_, &SceneConnections::added, this, &Diagram::connectionAdded);
+    connect(&connections_, &SceneConnections::removed, this, &Diagram::connectionRemoved);
+    connect(&connections_, &SceneConnections::visibleChanged, this, &Diagram::showCablesChanged);
+    connect(&connections_, &SceneConnections::update, this, &Diagram::sceneChanged);
+    connect(&connections_, &SceneConnections::edit, this, &Diagram::showConnectionEditor);
 }
 
 void Diagram::initSceneDevices()
@@ -153,7 +163,7 @@ void Diagram::initSceneDevices()
 void Diagram::initScene(int w, int h)
 {
     scene_ = new DiagramScene(w, h, this);
-    connect(scene_, SIGNAL(removeConnection(ConnectionData)), this, SLOT(cmdDisconnectDevices(ConnectionData)));
+    connect(scene_, &DiagramScene::removeConnection, this, &Diagram::cmdDisconnectDevices);
     setScene(scene_);
 
     // NB: should be called after setScene(scene_)!
@@ -186,7 +196,7 @@ void Diagram::updateConnectionPos(Connection* conn)
     if (!conn)
         return;
 
-    auto conn_pos = devices_.connectionPoints(conn->connectionData());
+    auto conn_pos = devices_.connectionPoints(conn->connectionId());
     if (conn_pos)
         conn->setPoints(conn_pos->first, conn_pos->second);
     else
@@ -206,7 +216,7 @@ void Diagram::updateConnectionStyle(Connection* conn)
     if (!conn)
         return;
 
-    auto pair = devices_.connectionPair(conn->connectionData());
+    auto pair = devices_.connectionPair(conn->connectionId());
     if (!pair) {
         qWarning() << "connection pair not found";
         return;
@@ -260,13 +270,13 @@ void Diagram::cmdToggleDevices(const QList<QGraphicsItem*>& items)
     undo_stack_->push(tgl);
 }
 
-void Diagram::cmdConnectDevices(const ConnectionData& conn)
+void Diagram::cmdConnectDevices(const ConnectionId& conn)
 {
     auto x = new ConnectDevices(this, conn);
     undo_stack_->push(x);
 }
 
-void Diagram::cmdDisconnectDevices(const ConnectionData& conn)
+void Diagram::cmdDisconnectDevices(const ConnectionId& conn)
 {
     cmdDisconnectXlet(conn.sourceInfo());
 }
@@ -532,7 +542,7 @@ void Diagram::cmdPlaceInRowSelected()
     undo_stack_->push(move_by);
 }
 
-void Diagram::cmdReconnectDevice(const ConnectionData& old_conn, const ConnectionData& new_conn)
+void Diagram::cmdReconnectDevice(const ConnectionId& old_conn, const ConnectionId& new_conn)
 {
     auto recon = new ReconnectDevice(this, old_conn, new_conn);
     undo_stack_->push(recon);
@@ -682,7 +692,7 @@ bool Diagram::loadJson(const QString& path)
     if (cons.isArray()) {
         auto arr = cons.toArray();
         for (const auto& j : arr) {
-            auto conn_data = ConnectionData::fromJson(j);
+            auto conn_data = ConnectionId::fromJson(j);
             if (conn_data)
                 connectDevices(conn_data.value());
         }
@@ -886,11 +896,11 @@ QJsonObject Diagram::toJson() const
 
     QJsonArray cons;
 
-    connections_.foreachData([this, &cons](const ConnectionData& conn) {
-        if (devices_.checkConnection(conn)) {
-            cons.append(conn.toJson());
+    connections_.foreachId([this, &cons](const ConnectionId& id) {
+        if (devices_.checkConnection(id)) {
+            cons.append(id.toJson());
         } else {
-            WARN() << "invalid connection" << conn;
+            WARN() << "invalid connection" << id;
         }
     });
 
@@ -927,6 +937,24 @@ void Diagram::drawSelectionTo(const QPoint& pos)
 {
     QRectF rect(QPointF {}, selection_->mapFromScene(mapToScene(pos)));
     selection_->setRect(rect.normalized());
+}
+
+void Diagram::showConnectionEditor(const ConnectionId& id, const ConnectionViewData& viewData)
+{
+    WARN() << id;
+    switch (state_machine_.state()) {
+    case DiagramState::Init:
+        state_machine_.setState(DiagramState::ConnectionEdit);
+        conn_edit_->setConnectionData(id, viewData);
+        conn_edit_->setVisible(true);
+        break;
+    case DiagramState::Move:
+    case DiagramState::ConnectDevice:
+    case DiagramState::SelectDevice:
+    case DiagramState::SelectionRect:
+    case DiagramState::ConnectionEdit:
+        break;
+    }
 }
 
 void Diagram::mousePressEvent(QMouseEvent* event)
@@ -975,9 +1003,13 @@ void Diagram::mousePressEvent(QMouseEvent* event)
             devs.size() > 0
             && devs[0]
             && qgraphicsitem_cast<Connection*>(devs[0])) //
-        { // toggle connection selection
+        {
             auto conn = qgraphicsitem_cast<Connection*>(devs[0]);
-            conn->toggleSelection();
+            if (event->modifiers().testFlag(Qt::ControlModifier)) {
+                conn->connectionId();
+            } else
+                conn->toggleSelection();
+
         } else {
             startSelectionAt(event->pos());
             state_machine_.setState(DiagramState::SelectionRect);
@@ -990,6 +1022,22 @@ void Diagram::mousePressEvent(QMouseEvent* event)
     case DiagramState::SelectionRect: {
         selection_->setVisible(false);
         state_machine_.setState(DiagramState::Init);
+    } break;
+    case DiagramState::ConnectionEdit: {
+        WARN() << "connection editor";
+        QGraphicsView::mousePressEvent(event);
+        if (!event->isAccepted()) {
+            state_machine_.setState(DiagramState::Init);
+            conn_edit_->setVisible(false);
+        }
+        // auto edit = items(event->pos());
+        // if (edit.isEmpty() || edit[0] != qgraphicsitem_cast<ConnectionEditor*>(edit[0])) {
+
+        // } else {
+        //     QGraphicsView::mousePressEvent(event);
+        //     event->accept();
+        //     // edit[0]->setVisible(true);
+        // }
     } break;
     default:
         state_machine_.setState(DiagramState::Init);
@@ -1014,7 +1062,12 @@ void Diagram::mouseMoveEvent(QMouseEvent* event)
     case DiagramState::ConnectDevice:
         drawConnectionTo(event->pos());
         break;
+    case DiagramState::ConnectionEdit:
+        QGraphicsView::mouseMoveEvent(event);
+        // WARN() << "connection edit move";
+        break;
     default:
+        QGraphicsView::mouseMoveEvent(event);
         break;
     }
 }
@@ -1064,7 +1117,7 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
                 if (!isValidConnection(conn_start_.value(), xlet.value()))
                     return;
 
-                auto conn = ConnectionData::fromXletPair(*xlet, *conn_start_);
+                auto conn = ConnectionId::fromXletPair(*xlet, *conn_start_);
                 if (conn)
                     cmdConnectDevices(conn.value());
             }
@@ -1072,6 +1125,9 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
 
         conn_start_ = {};
     } break;
+    case DiagramState::ConnectionEdit:
+        WARN() << "connection edit mouse release";
+        break;
     default:
         state_machine_.setState(DiagramState::Init);
         break;
@@ -1292,7 +1348,7 @@ std::optional<XletInfo> Diagram::hoverDeviceXlet(const QList<QGraphicsItem*>& de
     return XletInfo { dev->id(), xlet->index(), xlet->xletType() };
 }
 
-bool Diagram::connectDevices(const ConnectionData& data)
+bool Diagram::connectDevices(const ConnectionId& data)
 {
     auto conn = connections_.add(data);
     if (conn) {
@@ -1304,7 +1360,7 @@ bool Diagram::connectDevices(const ConnectionData& data)
         return false;
 }
 
-bool Diagram::disconnectDevices(const ConnectionData& data)
+bool Diagram::disconnectDevices(const ConnectionId& data)
 {
     if (connections_.remove(data.sourceInfo())) {
         emit sceneChanged();
@@ -1478,9 +1534,9 @@ void Diagram::fitRect(const QRectF& rect)
     }
 }
 
-QSet<ConnectionData> Diagram::findSelectedConnections() const
+QSet<ConnectionId> Diagram::findSelectedConnections() const
 {
-    QSet<ConnectionData> res;
+    QSet<ConnectionId> res;
 
     for (auto id : devices_.selectedIdList()) {
         for (auto& data : connections_.findConnectionsData(id)) {

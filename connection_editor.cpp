@@ -22,12 +22,12 @@
 namespace ceam {
 
 ConnectionEditor::ConnectionEditor()
-    : data_(0, 0, 0, 0)
+    : id_(0, 0, 0, 0)
 {
     setZValue(10000);
 }
 
-void ConnectionEditor::setConnectionData(const ConnectionData& data)
+void ConnectionEditor::setConnectionData(const ConnectionId& id, const ConnectionViewData& viewData)
 {
     prepareGeometryChange();
 
@@ -36,29 +36,30 @@ void ConnectionEditor::setConnectionData(const ConnectionData& data)
         delete x;
     }
 
-    data_ = data;
+    id_ = id;
+    view_data_ = viewData;
     handles_.clear();
 
-    switch (data.cordType()) {
+    switch (view_data_.cordType()) {
     case ConnectionCordType::Linear:
         break;
     case ConnectionCordType::Bezier: {
-        auto h0 = new BezierEditorHandle(data.sourcePoint(),
-            data.bezyCtlPoint0(),
+        auto h0 = new BezierEditorHandle(view_data_.sourcePoint(),
+            view_data_.bezyCtlPoint0(),
             this,
             [this](const QPointF& newPos) {
-                data_.setBezyCtlPoint0(newPos - data_.sourcePoint());
-                emit connectionUpdated(data_);
+                view_data_.setBezyCtlPoint0(newPos - view_data_.sourcePoint());
+                emit connectionUpdated(id_, view_data_);
             });
         handles_.append(h0);
 
         auto h1 = new BezierEditorHandle(
-            data.destinationPoint(),
-            data.bezyCtlPoint1(),
+            view_data_.destinationPoint(),
+            view_data_.bezyCtlPoint1(),
             this,
             [this](const QPointF& newPos) {
-                data_.setBezyCtlPoint1(newPos - data_.destinationPoint());
-                emit connectionUpdated(data_);
+                view_data_.setBezyCtlPoint1(newPos - view_data_.destinationPoint());
+                emit connectionUpdated(id_, view_data_);
             });
         handles_.append(h1);
 

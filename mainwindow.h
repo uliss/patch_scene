@@ -92,8 +92,8 @@ private slots:
     void onDeviceRemove(SharedDeviceData data);
     void onDeviceTitleUpdate(DeviceId id, const QString& title);
     void onDeviceUpdate(SharedDeviceData data);
-    void onConnectionAdd(ConnectionData data);
-    void onConnectionRemove(ConnectionData data);
+    void onConnectionAdd(ConnectionId data);
+    void onConnectionRemove(ConnectionId data);
 
 private:
     void initActions();

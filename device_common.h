@@ -229,7 +229,7 @@ struct ConnectionFullInfo {
         return src_data && dest_data;
     }
 
-    ConnectionData data() const
+    ConnectionId data() const
     {
         return { src_data->id(), src_out_idx, dest_data->id(), dest_in_idx };
     }

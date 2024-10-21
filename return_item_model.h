@@ -28,7 +28,7 @@ public:
     explicit ReturnItemModel(QObject* parent);
 
     bool addConnection(const ConnectionFullInfo& info);
-    bool removeConnection(const ConnectionData& data);
+    bool removeConnection(const ConnectionId& data);
     bool updateDeviceTitle(DeviceId id, const QString& title);
     void clearItems();
 

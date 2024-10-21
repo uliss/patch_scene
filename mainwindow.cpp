@@ -169,8 +169,8 @@ void MainWindow::initDiagram()
     connect(diagram_, SIGNAL(deviceTitleUpdated(DeviceId, QString)), this, SLOT(onDeviceTitleUpdate(DeviceId, QString)));
 
     connect(diagram_, SIGNAL(batteryChanged(BatteryChange)), this, SLOT(onBatteryChange(BatteryChange)));
-    connect(diagram_, SIGNAL(connectionAdded(ConnectionData)), this, SLOT(onConnectionAdd(ConnectionData)));
-    connect(diagram_, SIGNAL(connectionRemoved(ConnectionData)), this, SLOT(onConnectionRemove(ConnectionData)));
+    connect(diagram_, &Diagram::connectionAdded, this, &MainWindow::onConnectionAdd);
+    connect(diagram_, &Diagram::connectionRemoved, this, &MainWindow::onConnectionRemove);
 
     connect(diagram_, &Diagram::canRedoChanged, this, [this](bool value) { ui->actionRedo->setEnabled(value); });
     connect(diagram_, &Diagram::canUndoChanged, this, [this](bool value) { ui->actionUndo->setEnabled(value); });
@@ -655,7 +655,7 @@ void MainWindow::onDeviceUpdate(SharedDeviceData data)
     }
 }
 
-void MainWindow::onConnectionAdd(ConnectionData data)
+void MainWindow::onConnectionAdd(ConnectionId data)
 {
     auto conn_info = diagram_->devices().connectionInfo(data);
     if (conn_info) {
@@ -673,7 +673,7 @@ void MainWindow::onConnectionAdd(ConnectionData data)
     }
 }
 
-void MainWindow::onConnectionRemove(ConnectionData data)
+void MainWindow::onConnectionRemove(ConnectionId data)
 {
     if (conn_model_->removeConnection(data))
         ui->connectionList->resizeColumnsToContents();

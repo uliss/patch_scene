@@ -16,6 +16,7 @@
 
 #include "connection.h"
 #include "connection_database.h"
+#include "connection_editor.h"
 #include "device.h"
 #include "diagram_meta.h"
 #include "diagram_state_machine.h"
@@ -49,7 +50,7 @@ public:
     /**
      * Return set of all connections of all selected devices
      */
-    QSet<ConnectionData> findSelectedConnections() const;
+    QSet<ConnectionId> findSelectedConnections() const;
 
     void printScheme() const;
     void printScheme(QPrinter* printer) const;
@@ -131,14 +132,14 @@ public:
      * @param data - connection data
      * @return true on success, false on error
      */
-    bool connectDevices(const ConnectionData& data);
+    bool connectDevices(const ConnectionId& data);
 
     /**
      * @brief disconnect devices, emit sceneChanged() and connectionRemoved()
      * @param data - connection data
      * @return true on success, false on error
      */
-    bool disconnectDevices(const ConnectionData& data);
+    bool disconnectDevices(const ConnectionId& data);
 
     SceneConnections& connections() { return connections_; }
     const SceneConnections& connections() const { return connections_; }
@@ -184,10 +185,10 @@ public slots:
     void cmdAddToSelection(const QRectF& sel);
     void cmdAlignHSelected();
     void cmdAlignVSelected();
-    void cmdConnectDevices(const ConnectionData& conn);
+    void cmdConnectDevices(const ConnectionId& conn);
     void cmdCreateDevice(const QPointF& pos);
     void cmdCutSelected();
-    void cmdDisconnectDevices(const ConnectionData& conn);
+    void cmdDisconnectDevices(const ConnectionId& conn);
     void cmdDisconnectXlet(const XletInfo& xi);
     void cmdDistributeHSelected();
     void cmdDistributeVSelected();
@@ -198,7 +199,7 @@ public slots:
     void cmdPaste();
     void cmdPlaceInColumnSelected();
     void cmdPlaceInRowSelected();
-    void cmdReconnectDevice(const ConnectionData& old_conn, const ConnectionData& new_conn);
+    void cmdReconnectDevice(const ConnectionId& old_conn, const ConnectionId& new_conn);
     void cmdRemoveDevice(const SharedDeviceData& data);
     void cmdRemoveSelected();
     void cmdSelectAll();
@@ -226,8 +227,8 @@ signals:
     void batteryChanged(const BatteryChange& data);
     void canRedoChanged(bool);
     void canUndoChanged(bool);
-    void connectionAdded(ConnectionData data);
-    void connectionRemoved(ConnectionData data);
+    void connectionAdded(ConnectionId data);
+    void connectionRemoved(ConnectionId data);
     void deviceAdded(SharedDeviceData data);
     void deviceRemoved(SharedDeviceData data);
     void deviceTitleUpdated(DeviceId id, const QString& title);
@@ -287,7 +288,9 @@ private:
     DiagramScene* scene_ { nullptr };
     QGraphicsRectItem* selection_ { nullptr };
     QGraphicsLineItem* tmp_connection_ { nullptr };
+    ConnectionEditor* conn_edit_ { nullptr };
     QUndoStack* undo_stack_ { nullptr };
+
     QPointF prev_move_pos_;
     QPointF prev_click_pos_;
     SceneDevices devices_;
@@ -333,6 +336,9 @@ private:
      * @param pos - position in view coordinates
      */
     void drawSelectionTo(const QPoint& pos);
+
+private slots:
+    void showConnectionEditor(const ConnectionId& id, const ConnectionViewData& viewData);
 };
 
 }

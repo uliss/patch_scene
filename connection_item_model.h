@@ -21,7 +21,7 @@
 
 namespace ceam {
 
-class ConnectionData;
+class ConnectionId;
 class ConnectionFullInfo;
 class XletData;
 
@@ -41,7 +41,7 @@ public:
      * @brief removeConnection
      * @complexity: O(n)
      */
-    bool removeConnection(const ConnectionData& data);
+    bool removeConnection(const ConnectionId& data);
 
     std::optional<DeviceId> deviceId(const QModelIndex& idx) const;
 

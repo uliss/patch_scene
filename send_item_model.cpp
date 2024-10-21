@@ -81,13 +81,13 @@ bool SendItemModel::addConnection(const ConnectionFullInfo& info)
     return true;
 }
 
-bool SendItemModel::removeConnection(const ConnectionData& data)
+bool SendItemModel::removeConnection(const ConnectionId& id)
 {
     int remove_num = 0;
 
     for (int i = 0; i < rowCount(); i++) {
         auto conn = item(i, COL_SEND_SRC_NAME);
-        if (conn && conn->data(DATA_CONNECTION) == QVariant::fromValue(data)) {
+        if (conn && conn->data(DATA_CONNECTION) == QVariant::fromValue(id)) {
             removeRow(i);
             remove_num++;
         }

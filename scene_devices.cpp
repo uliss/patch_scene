@@ -136,7 +136,7 @@ SharedDeviceData SceneDevices::findData(DeviceId id) const
         : it->second->deviceData();
 }
 
-std::optional<ConnectionFullInfo> SceneDevices::connectionInfo(const ConnectionData& conn) const
+std::optional<ConnectionFullInfo> SceneDevices::connectionInfo(const ConnectionId& conn) const
 {
     std::optional<ConnectionFullInfo> res = ConnectionFullInfo();
     int count = 0;
@@ -177,7 +177,7 @@ std::optional<ConnectionFullInfo> SceneDevices::connectionInfo(const ConnectionD
         return {};
 }
 
-std::optional<std::pair<QPointF, QPointF>> SceneDevices::connectionPoints(const ConnectionData& conn) const
+std::optional<std::pair<QPointF, QPointF>> SceneDevices::connectionPoints(const ConnectionId& conn) const
 {
     auto src_it = devices_.find(conn.source());
     if (src_it == devices_.end())
@@ -198,7 +198,7 @@ std::optional<std::pair<QPointF, QPointF>> SceneDevices::connectionPoints(const 
     return std::pair { *p0, *p1 };
 }
 
-std::optional<ConnectionPair> SceneDevices::connectionPair(const ConnectionData& conn) const
+std::optional<ConnectionPair> SceneDevices::connectionPair(const ConnectionId& conn) const
 {
     auto src_it = devices_.find(conn.source());
     if (src_it == devices_.end())
@@ -223,7 +223,7 @@ std::optional<ConnectionPair> SceneDevices::connectionPair(const ConnectionData&
     };
 }
 
-bool SceneDevices::checkConnection(const ConnectionData& conn) const
+bool SceneDevices::checkConnection(const ConnectionId& conn) const
 {
     if (!conn.isValid())
         return false;

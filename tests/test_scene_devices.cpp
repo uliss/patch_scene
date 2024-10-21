@@ -288,26 +288,26 @@ void TestSceneDevices::boundingRect()
 void TestSceneDevices::findConnectionInfo()
 {
     SceneDevices dev;
-    auto info = dev.connectionInfo(ConnectionData { 100, 0, 101, 0 });
+    auto info = dev.connectionInfo(ConnectionId { 100, 0, 101, 0 });
     QVERIFY(!info);
 
     QGraphicsScene scene;
     dev.setScene(&scene);
 
-    info = dev.connectionInfo(ConnectionData { 100, 0, 101, 0 });
+    info = dev.connectionInfo(ConnectionId { 100, 0, 101, 0 });
     QVERIFY(!info);
 
     QVERIFY(dev.add(data4(100)));
-    info = dev.connectionInfo(ConnectionData { 100, 0, 101, 0 });
+    info = dev.connectionInfo(ConnectionId { 100, 0, 101, 0 });
     QVERIFY(!info);
 
     QVERIFY(dev.add(data4(101)));
-    info = dev.connectionInfo(ConnectionData { 100, 0, 101, 0 });
+    info = dev.connectionInfo(ConnectionId { 100, 0, 101, 0 });
     QVERIFY(info);
     QCOMPARE(info->src_data->id(), 100);
     QCOMPARE(info->dest_data->id(), 101);
 
-    info = dev.connectionInfo(ConnectionData { 101, 0, 100, 0 });
+    info = dev.connectionInfo(ConnectionId { 101, 0, 100, 0 });
     QVERIFY(info);
     QCOMPARE(info->src_data->id(), 101);
     QCOMPARE(info->dest_data->id(), 100);
@@ -316,7 +316,7 @@ void TestSceneDevices::findConnectionInfo()
 void TestSceneDevices::findConnectionPair()
 {
     SceneDevices dev;
-    auto pair = dev.connectionPair(ConnectionData { 100, 0, 101, 0 });
+    auto pair = dev.connectionPair(ConnectionId { 100, 0, 101, 0 });
     QVERIFY(!pair);
 
     QGraphicsScene scene;
@@ -334,7 +334,7 @@ void TestSceneDevices::findConnectionPair()
     data->setId(103);
     QVERIFY(dev.add(data));
 
-    pair = dev.connectionPair(ConnectionData { 100, 0, 101, 0 });
+    pair = dev.connectionPair(ConnectionId { 100, 0, 101, 0 });
     QVERIFY(pair);
     QCOMPARE(pair->p0.model, ConnectorModel::XLR);
     QCOMPARE(pair->p0.type, ConnectorType::plug_female);

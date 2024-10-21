@@ -35,7 +35,7 @@ public:
      * Remove connection from model
      * @complexity O(n)
      */
-    bool removeConnection(const ConnectionData& data);
+    bool removeConnection(const ConnectionId& id);
 
     /**
      * Update connected device title

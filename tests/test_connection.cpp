@@ -24,48 +24,46 @@ using namespace ceam;
 
 void TestConnection::dataInit()
 {
-    ConnectionData cd(0, 0, 0, 0);
+    ConnectionId cd(0, 0, 0, 0);
     QVERIFY(!cd.isValid());
-    QVERIFY(cd.isSameDestimation(cd));
-    QVERIFY(cd.isSameSource(cd));
     QVERIFY(cd == cd);
     QCOMPARE(cd, cd);
-    QCOMPARE(cd, ConnectionData(0, 0, 0, 0));
+    QCOMPARE(cd, ConnectionId(0, 0, 0, 0));
 }
 
 void TestConnection::dataJson()
 {
-    ConnectionData cd1(0, 0, 0, 0);
-    QCOMPARE(cd1.toJson().count(), 5);
-    QVERIFY(!ConnectionData::fromJson({}));
-    QVERIFY(ConnectionData::fromJson(cd1.toJson()));
-    QVERIFY(ConnectionData::fromJson(cd1.toJson()).value() == cd1);
+    ConnectionId cd1(0, 0, 0, 0);
+    QCOMPARE(cd1.toJson().count(), 4);
+    QVERIFY(!ConnectionId::fromJson({}));
+    QVERIFY(ConnectionId::fromJson(cd1.toJson()));
+    QVERIFY(ConnectionId::fromJson(cd1.toJson()).value() == cd1);
 
-    ConnectionData cd2(1, 2, 3, 4);
+    ConnectionId cd2(1, 2, 3, 4);
     QVERIFY(cd1.toJson() != cd2.toJson());
 
-    ConnectionData cd3(1, 2, 3, 4);
+    ConnectionId cd3(1, 2, 3, 4);
     QCOMPARE(cd2, cd3);
-    QVERIFY(ConnectionData::fromJson(cd2.toJson()).value() == cd2);
+    QVERIFY(ConnectionId::fromJson(cd2.toJson()).value() == cd2);
 
-    QCOMPARE(ConnectionData::fromJson(QJsonObject {}).value(), ConnectionData(0, 0, 0, 0));
+    QCOMPARE(ConnectionId::fromJson(QJsonObject {}).value(), ConnectionId(0, 0, 0, 0));
 }
 
 void TestConnection::dataHash()
 {
-    QCOMPARE(qHash(ConnectionData(0, 0, 0, 0)), qHash(ConnectionData(0, 0, 0, 0)));
-    QVERIFY(qHash(ConnectionData(0, 0, 0, 0)) != qHash(ConnectionData(1, 0, 0, 0)));
-    QVERIFY(qHash(ConnectionData(0, 0, 0, 0)) != qHash(ConnectionData(0, 1, 0, 0)));
-    QVERIFY(qHash(ConnectionData(0, 0, 0, 0)) != qHash(ConnectionData(0, 0, 1, 0)));
-    QVERIFY(qHash(ConnectionData(0, 0, 0, 0)) != qHash(ConnectionData(0, 0, 0, 1)));
+    QCOMPARE(qHash(ConnectionId(0, 0, 0, 0)), qHash(ConnectionId(0, 0, 0, 0)));
+    QVERIFY(qHash(ConnectionId(0, 0, 0, 0)) != qHash(ConnectionId(1, 0, 0, 0)));
+    QVERIFY(qHash(ConnectionId(0, 0, 0, 0)) != qHash(ConnectionId(0, 1, 0, 0)));
+    QVERIFY(qHash(ConnectionId(0, 0, 0, 0)) != qHash(ConnectionId(0, 0, 1, 0)));
+    QVERIFY(qHash(ConnectionId(0, 0, 0, 0)) != qHash(ConnectionId(0, 0, 0, 1)));
 }
 
 void TestConnection::testConnection()
 {
-    Connection conn(ConnectionData(1, 2, 3, 4));
-    QCOMPARE(conn.connectionData(), ConnectionData(1, 2, 3, 4));
-    QCOMPARE(conn, ConnectionData(1, 2, 3, 4));
-    QVERIFY(!(conn == ConnectionData(1, 2, 3, 1)));
+    Connection conn(ConnectionId(1, 2, 3, 4));
+    QCOMPARE(conn.connectionId(), ConnectionId(1, 2, 3, 4));
+    QCOMPARE(conn, ConnectionId(1, 2, 3, 4));
+    QVERIFY(!(conn == ConnectionId(1, 2, 3, 1)));
 
     QCOMPARE(conn.sourceInfo(), XletInfo(1, 2, XletType::Out));
     QCOMPARE(conn.destinationInfo(), XletInfo(3, 4, XletType::In));

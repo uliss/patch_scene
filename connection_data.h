@@ -16,6 +16,7 @@
 
 #include "xlet_info.h"
 
+#include <QColor>
 #include <QPoint>
 
 namespace ceam {
@@ -36,16 +37,12 @@ public:
     void append(float seg);
 };
 
-class ConnectionData {
-    SegmentData segs_;
-    QPoint pt0_, pt1_;
-    QPoint bezy0_ { 0, 40 }, bezy1_ { 0, -40 };
+class ConnectionId {
     DeviceId src_ { 0 }, dest_ { 0 };
     XletIndex out_ { 0 }, in_ { 0 };
-    ConnectionCordType cord_type_ { ConnectionCordType::Bezier };
 
 public:
-    ConnectionData(DeviceId src, XletIndex out, DeviceId dest, XletIndex in)
+    ConnectionId(DeviceId src, XletIndex out, DeviceId dest, XletIndex in)
         : src_(src)
         , out_(out)
         , dest_(dest)
@@ -61,45 +58,47 @@ public:
     XletInfo sourceInfo() const { return { src_, out_, XletType::Out }; }
     XletInfo destinationInfo() const { return { dest_, in_, XletType::In }; }
 
-    ConnectionCordType cordType() const { return cord_type_; }
-    void setCordType(ConnectionCordType type) { cord_type_ = type; }
-
-    const bool operator==(const ConnectionData& data) const
+    const bool operator==(const ConnectionId& id) const
     {
-        return data.src_ == src_
-            && data.dest_ == dest_
-            && data.in_ == in_
-            && data.out_ == out_;
+        return id.src_ == src_
+            && id.dest_ == dest_
+            && id.in_ == in_
+            && id.out_ == out_;
     }
 
-    bool operator!=(const ConnectionData& data) const { return !operator==(data); }
+    bool operator!=(const ConnectionId& id) const { return !operator==(id); }
 
-    bool relatesToId(DeviceId id) const
-    {
-        return src_ == id || dest_ == id;
-    }
+    bool isValid() const;
 
-    bool isValid() const
-    {
-        return src_ != dest_;
-    }
-
-    bool isSameSource(const ConnectionData& conn) const
-    {
-        return src_ == conn.src_ && out_ == conn.out_;
-    }
-
-    bool isSameDestimation(const ConnectionData& conn) const
-    {
-        return dest_ == conn.dest_ && in_ == conn.in_;
-    }
+    /**
+     * Set connection source or destination point, according to given XletInfo
+     * @return true on success, false on error
+     */
+    bool setEndPoint(const XletInfo& ep);
 
     /**
      * converts to Json object
      */
     QJsonObject toJson() const;
 
-    bool setEndPoint(const XletInfo& ep);
+public:
+    static std::optional<ConnectionId> fromJson(const QJsonValue& j);
+    static std::optional<ConnectionId> fromXletPair(const XletInfo& x0, const XletInfo& x1);
+};
+
+class ConnectionViewData {
+    SegmentData segs_;
+    QPoint pt0_, pt1_;
+    QPoint bezy0_ { 0, 40 }, bezy1_ { 0, -40 };
+    QColor color_ { Qt::black };
+    float pen_width_ { 1.5 };
+    ConnectionCordType cord_type_ { ConnectionCordType::Bezier };
+
+public:
+    ConnectionViewData() { }
+
+    ConnectionCordType cordType() const { return cord_type_; }
+    void setCordType(ConnectionCordType type) { cord_type_ = type; }
 
     const SegmentData& segments() const { return segs_; }
     void appendSegment(float seg);
@@ -117,16 +116,26 @@ public:
     void setBezyCtlPoint0(const QPointF& pt) { bezy0_ = pt.toPoint(); }
     void setBezyCtlPoint1(const QPointF& pt) { bezy1_ = pt.toPoint(); }
 
+    const QColor& color() const { return color_; }
+    void setColor(const QColor& color) { color_ = color; }
+
+    qreal penWidth() const { return pen_width_; }
+    void setPenWidth(qreal w) { pen_width_ = w; }
+
+    /**
+     * converts to Json object
+     */
+    QJsonObject toJson() const;
+
 public:
-    static std::optional<ConnectionData> fromJson(const QJsonValue& j);
-    static std::optional<ConnectionData> fromXletPair(const XletInfo& x0, const XletInfo& x1);
+    static std::optional<ConnectionViewData> fromJson(const QJsonValue& j);
 };
 
-QDebug operator<<(QDebug debug, const ConnectionData& c);
-size_t qHash(const ConnectionData& key);
+QDebug operator<<(QDebug debug, const ConnectionId& c);
+size_t qHash(const ConnectionId& key);
 
 } // namespace ceam
 
-Q_DECLARE_METATYPE(ceam::ConnectionData)
+Q_DECLARE_METATYPE(ceam::ConnectionId)
 
 #endif // CONNECTION_DATA_H

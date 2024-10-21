@@ -22,7 +22,7 @@ class QPrinter;
 
 namespace ceam {
 
-class ConnectionData;
+class ConnectionId;
 
 class DiagramScene : public QGraphicsScene {
     Q_OBJECT
@@ -44,7 +44,7 @@ public:
     QGraphicsItemGroup* grid() { return grid_; }
 
 signals:
-    void removeConnection(const ConnectionData&);
+    void removeConnection(const ConnectionId&);
 
 private:
     QGraphicsItemGroup* grid_ { nullptr };
