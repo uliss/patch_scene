@@ -140,8 +140,8 @@ public:
      */
     bool disconnectDevices(const ConnectionId& data);
 
-    SceneConnections& connections() { return connections_; }
-    const SceneConnections& connections() const { return connections_; }
+    SceneConnections* connections() { return connections_; }
+    const SceneConnections* connections() const { return connections_; }
 
     SceneDevices& devices() { return devices_; }
 
@@ -293,8 +293,8 @@ private:
     QPointF prev_move_pos_;
     QPointF prev_click_pos_;
     SceneDevices devices_;
-    SceneConnections connections_;
     SceneBackground background_;
+    SceneConnections* connections_ { nullptr };
 
     DiagramStateMachine state_machine_;
     std::optional<XletInfo> conn_start_;

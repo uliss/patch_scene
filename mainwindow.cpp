@@ -184,7 +184,7 @@ void MainWindow::initDiagram()
     });
     connect(diagram_, &Diagram::sceneFullUpdate, this, [this]() {
         auto dev_data = diagram_->devices().dataList();
-        auto all_conn_info = diagram_->connections().infoList(diagram_->devices());
+        auto all_conn_info = diagram_->connections()->infoList(diagram_->devices());
 
         battery_model_->setFullData(dev_data);
         conn_model_->setFullData(all_conn_info);

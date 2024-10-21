@@ -32,7 +32,7 @@ class SceneConnections : public QObject {
     Q_OBJECT
 
 public:
-    SceneConnections(QObject* parent = nullptr);
+    SceneConnections(QGraphicsScene* scene, QObject* parent = nullptr);
 
     /**
      * adds new connection by given data
@@ -115,11 +115,6 @@ public:
      * Show/hide connection editor
      */
     void showEditor(bool value);
-
-    /**
-     * set graphics scene to operate on
-     */
-    void setScene(QGraphicsScene* scene);
 
     /**
      * returns number of connections

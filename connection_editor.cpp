@@ -21,9 +21,10 @@
 
 namespace ceam {
 
-ConnectionEditor::ConnectionEditor()
+ConnectionEditor::ConnectionEditor(QObject* parent)
     : id_(0, 0, 0, 0)
 {
+    setParent(parent);
     setZValue(10000);
 }
 

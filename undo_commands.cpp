@@ -89,7 +89,7 @@ DisconnectXlet::DisconnectXlet(Diagram* doc, const XletInfo& xi)
     : doc_(doc)
     , conn_(0, 0, 0, 0)
 {
-    auto conn = doc->connections().findConnection(xi);
+    auto conn = doc->connections()->findConnection(xi);
     if (conn)
         conn_ = conn.value();
 }
@@ -111,7 +111,7 @@ RemoveDevice::RemoveDevice(Diagram* doc, const SharedDeviceData& data)
     , data_(data)
 {
     if (doc_ && data_)
-        conn_ = doc_->connections().findConnectionsData(data->id());
+        conn_ = doc_->connections()->findConnectionsData(data->id());
 }
 
 void RemoveDevice::undo()
@@ -139,7 +139,7 @@ RemoveSelected::RemoveSelected(Diagram* doc)
     data_ = doc_->devices().selectedDataList();
     conn_ = doc_->findSelectedConnections();
 
-    conn_ |= doc_->connections().selectedIdList();
+    conn_ |= doc_->connections()->selectedIdList();
 }
 
 void RemoveSelected::undo()

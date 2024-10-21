@@ -29,7 +29,7 @@ public:
     int type() const override { return Type; }
 
 public:
-    ConnectionEditor();
+    ConnectionEditor(QObject* parent = nullptr);
 
     void setConnectionData(const ConnectionId& id, const ConnectionViewData& viewData);
 

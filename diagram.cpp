@@ -28,7 +28,6 @@
 #include <QSvgGenerator>
 
 #include "app_version.h"
-#include "connection_editor.h"
 #include "device.h"
 #include "diagram_scene.h"
 #include "diagram_updates_blocker.h"
@@ -138,12 +137,12 @@ void Diagram::initLiveConnection()
 
 void Diagram::initSceneConnections()
 {
-    connections_.setScene(scene_);
-    connect(&connections_, &SceneConnections::added, this, &Diagram::connectionAdded);
-    connect(&connections_, &SceneConnections::removed, this, &Diagram::connectionRemoved);
-    connect(&connections_, &SceneConnections::visibleChanged, this, &Diagram::showCablesChanged);
-    connect(&connections_, &SceneConnections::update, this, &Diagram::sceneChanged);
-    connect(&connections_, &SceneConnections::edit, this, &Diagram::showConnectionEditor);
+    connections_ = new SceneConnections(scene_, this);
+    connect(connections_, &SceneConnections::added, this, &Diagram::connectionAdded);
+    connect(connections_, &SceneConnections::removed, this, &Diagram::connectionRemoved);
+    connect(connections_, &SceneConnections::visibleChanged, this, &Diagram::showCablesChanged);
+    connect(connections_, &SceneConnections::update, this, &Diagram::sceneChanged);
+    connect(connections_, &SceneConnections::edit, this, &Diagram::showConnectionEditor);
 }
 
 void Diagram::initSceneDevices()
@@ -177,7 +176,7 @@ bool Diagram::removeDevice(DeviceId id)
 {
     auto data = devices_.remove(id);
     if (data) {
-        connections_.removeAll(id);
+        connections_->removeAll(id);
         emit sceneChanged();
     }
 
@@ -200,7 +199,7 @@ void Diagram::updateConnectionPos(DeviceId id)
 {
     DiagramUpdatesBlocker ub(this);
 
-    for (auto conn : connections_.findConnections(id))
+    for (auto conn : connections_->findConnections(id))
         updateConnectionPos(conn);
 }
 
@@ -605,7 +604,7 @@ bool Diagram::setDeviceData(const SharedDeviceData& data)
 void Diagram::setShowCables(bool value)
 {
     show_cables_ = value;
-    connections_.setVisible(value);
+    connections_->setVisible(value);
 }
 
 void Diagram::setShowBackground(bool value)
@@ -691,7 +690,7 @@ bool Diagram::loadJson(const QString& path)
 
                 auto view_data = ConnectionViewData::fromJson(j.toObject().value(JSON_KEY_VIEW));
                 if (view_data)
-                    connections_.setViewData(*conn_id, *view_data);
+                    connections_->setViewData(*conn_id, *view_data);
             }
         }
     }
@@ -846,8 +845,8 @@ void Diagram::clearAll()
 {
     devices_.clear();
 
-    QSignalBlocker conn_block(&connections_);
-    connections_.clear();
+    QSignalBlocker conn_block(connections_);
+    connections_->clear();
     background_.clear();
 
     undo_stack_->clear();
@@ -894,7 +893,7 @@ QJsonObject Diagram::toJson() const
 
     QJsonArray cons;
 
-    connections_.foreachConn([this, &cons](const ConnectionId& id, const ConnectionViewData& viewData) {
+    connections_->foreachConn([this, &cons](const ConnectionId& id, const ConnectionViewData& viewData) {
         if (devices_.checkConnection(id)) {
             auto obj = id.toJson();
             obj[JSON_KEY_VIEW] = viewData.toJson();
@@ -945,7 +944,7 @@ void Diagram::showConnectionEditor()
     case DiagramState::Init: // normal mode
     case DiagramState::ConnectionEdit: // update editor
         state_machine_.setState(DiagramState::ConnectionEdit);
-        connections_.showEditor(true);
+        connections_->showEditor(true);
         break;
     case DiagramState::Move:
     case DiagramState::ConnectDevice:
@@ -1026,7 +1025,7 @@ void Diagram::mousePressEvent(QMouseEvent* event)
         QGraphicsView::mousePressEvent(event);
         if (!event->isAccepted()) {
             state_machine_.setState(DiagramState::Init);
-            connections_.showEditor(false);
+            connections_->showEditor(false);
         }
         // auto edit = items(event->pos());
         // if (edit.isEmpty() || edit[0] != qgraphicsitem_cast<ConnectionEditor*>(edit[0])) {
@@ -1104,7 +1103,7 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
                 && xlet->id() == conn_start_->id()
                 && xlet->type() == conn_start_->type()) { // reconnect to other xlet of same device
 
-                auto prev_conn = connections_.findConnection(*conn_start_);
+                auto prev_conn = connections_->findConnection(*conn_start_);
                 if (prev_conn) {
                     auto new_conn = *prev_conn;
                     if (new_conn.setEndPoint(xlet.value())) {
@@ -1348,7 +1347,7 @@ std::optional<XletInfo> Diagram::hoverDeviceXlet(const QList<QGraphicsItem*>& de
 
 bool Diagram::connectDevices(const ConnectionId& data)
 {
-    auto conn = connections_.add(data);
+    auto conn = connections_->add(data);
     if (conn) {
         updateConnectionStyle(conn);
         updateConnectionPos(conn);
@@ -1360,7 +1359,7 @@ bool Diagram::connectDevices(const ConnectionId& data)
 
 bool Diagram::disconnectDevices(const ConnectionId& data)
 {
-    if (connections_.remove(data.sourceInfo())) {
+    if (connections_->remove(data.sourceInfo())) {
         emit sceneChanged();
         return true;
     } else
@@ -1478,7 +1477,7 @@ void Diagram::updateZoom(qreal zoom)
 
 bool Diagram::isValidConnection(const XletInfo& src, const XletInfo& dest) const
 {
-    return connections_.checkConnection(src, dest);
+    return connections_->checkConnection(src, dest);
 }
 
 bool Diagram::dropJson(const QPointF& pos, const QByteArray& json)
@@ -1537,7 +1536,7 @@ QSet<ConnectionId> Diagram::findSelectedConnections() const
     QSet<ConnectionId> res;
 
     for (auto id : devices_.selectedIdList()) {
-        for (auto& data : connections_.findConnectionsData(id)) {
+        for (auto& data : connections_->findConnectionsData(id)) {
             res << data;
         }
     }

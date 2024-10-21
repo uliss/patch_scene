@@ -21,9 +21,18 @@
 
 using namespace ceam;
 
-SceneConnections::SceneConnections(QObject* parent)
+SceneConnections::SceneConnections(QGraphicsScene* scene, QObject* parent)
     : QObject(parent)
+    , scene_(scene)
 {
+    conn_edit_ = new ConnectionEditor(this);
+    conn_edit_->setVisible(false);
+    connect(conn_edit_, &ConnectionEditor::connectionUpdated, this,
+        [this](const ConnectionId& id, const ConnectionViewData& viewData) {
+            setViewData(id, viewData);
+            emit update(id);
+        });
+    scene_->addItem(conn_edit_);
 }
 
 Connection* SceneConnections::add(const ConnectionId& id)
@@ -249,19 +258,6 @@ void SceneConnections::showEditor(bool value)
     conn_edit_->setVisible(value);
 }
 
-void SceneConnections::setScene(QGraphicsScene* scene)
-{
-    scene_ = scene;
-
-    conn_edit_ = new ConnectionEditor();
-    conn_edit_->setVisible(false);
-    connect(conn_edit_, &ConnectionEditor::connectionUpdated, this,
-        [this](const ConnectionId& data, const ConnectionViewData& viewData) {
-            setViewData(data, viewData);
-        });
-    scene_->addItem(conn_edit_);
-}
-
 size_t SceneConnections::count() const
 {
     return conn_.size();
@@ -321,6 +317,7 @@ bool SceneConnections::addConnection(Connection* c)
                 if (c->connectionId() == id) {
                     c->resetCordPoints(cord);
                     conn_edit_->setConnectionData(id, c->viewData());
+                    emit update(id);
                     break;
                 }
             }

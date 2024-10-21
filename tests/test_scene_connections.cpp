@@ -22,15 +22,10 @@ using namespace ceam;
 
 void TestSceneConnections::add()
 {
-    SceneConnections sc;
+    QGraphicsScene scene;
+    SceneConnections sc(&scene);
     QSignalSpy sig_spy(&sc, &SceneConnections::added);
     QVERIFY(sig_spy.isValid());
-    QVERIFY(!sc.add(ConnectionId { 0, 0, 0, 0 }));
-    QCOMPARE(sc.count(), 0);
-    QCOMPARE(sig_spy.count(), 0);
-
-    QGraphicsScene scene;
-    sc.setScene(&scene);
 
     QVERIFY(!sc.add(ConnectionId { 0, 0, 0, 0 }));
     QCOMPARE(sc.count(), 0);
@@ -63,14 +58,12 @@ void TestSceneConnections::add()
 
 void TestSceneConnections::remove()
 {
-    SceneConnections sc;
+    QGraphicsScene scene;
+    SceneConnections sc(&scene);
     QSignalSpy sig_spy(&sc, &SceneConnections::removed);
     QVERIFY(sig_spy.isValid());
     QVERIFY(!sc.remove(XletInfo { 0, 0, XletType::In }));
     QCOMPARE(sig_spy.count(), 0);
-
-    QGraphicsScene scene;
-    sc.setScene(&scene);
 
     QVERIFY(sc.add(ConnectionId { 0, 0, 1, 0 }));
     QCOMPARE(sc.count(), 1);
@@ -98,11 +91,10 @@ void TestSceneConnections::remove()
 
 void TestSceneConnections::clear()
 {
-    SceneConnections sc;
+    QGraphicsScene scene;
+    SceneConnections sc(&scene);
     QSignalSpy sig_spy(&sc, &SceneConnections::removed);
     QVERIFY(sig_spy.isValid());
-    QGraphicsScene scene;
-    sc.setScene(&scene);
 
     QVERIFY(sc.add(ConnectionId { 0, 0, 1, 0 }));
     QVERIFY(sc.add(ConnectionId { 1, 0, 0, 0 }));
@@ -114,11 +106,10 @@ void TestSceneConnections::clear()
 
 void TestSceneConnections::removeAll()
 {
-    SceneConnections sc;
+    QGraphicsScene scene;
+    SceneConnections sc(&scene);
     QSignalSpy sig_spy(&sc, &SceneConnections::removed);
     QVERIFY(sig_spy.isValid());
-    QGraphicsScene scene;
-    sc.setScene(&scene);
 
     QVERIFY(sc.add(ConnectionId { 0, 0, 1, 0 }));
     QVERIFY(sc.add(ConnectionId { 0, 1, 1, 1 }));
@@ -143,9 +134,8 @@ void TestSceneConnections::removeAll()
 
 void TestSceneConnections::findConnection()
 {
-    SceneConnections sc;
     QGraphicsScene scene;
-    sc.setScene(&scene);
+    SceneConnections sc(&scene);
 
     QVERIFY(sc.add(ConnectionId { 0, 0, 1, 0 }));
     QVERIFY(sc.add(ConnectionId { 0, 1, 1, 1 }));
@@ -168,9 +158,8 @@ void TestSceneConnections::findConnection()
 
 void TestSceneConnections::findConnections()
 {
-    SceneConnections sc;
     QGraphicsScene scene;
-    sc.setScene(&scene);
+    SceneConnections sc(&scene);
 
     QVERIFY(sc.add(ConnectionId { 0, 0, 1, 0 }));
     QVERIFY(sc.add(ConnectionId { 0, 1, 1, 1 }));
@@ -179,9 +168,8 @@ void TestSceneConnections::findConnections()
 
 void TestSceneConnections::setVisible()
 {
-    SceneConnections sc;
     QGraphicsScene scene;
-    sc.setScene(&scene);
+    SceneConnections sc(&scene);
     QSignalSpy sig_spy(&sc, SIGNAL(visibleChanged(bool)));
     QVERIFY(sig_spy.isValid());
 
@@ -207,9 +195,8 @@ void TestSceneConnections::setVisible()
 
 void TestSceneConnections::checkConnection()
 {
-    SceneConnections sc;
     QGraphicsScene scene;
-    sc.setScene(&scene);
+    SceneConnections sc(&scene);
 
     QVERIFY(sc.add(ConnectionId { 100, 0, 101, 0 }));
     QVERIFY(sc.add(ConnectionId { 100, 1, 101, 1 }));
