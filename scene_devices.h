@@ -143,9 +143,7 @@ public:
     QRectF boundingSelectRect() const;
 
     void foreachDevice(std::function<void(Device*)> fn);
-    void foreachDevice(std::function<void(const Device*)> fn) const;
     void foreachSelectedDevice(std::function<void(Device*)> fn);
-    void foreachSelectedDevice(std::function<void(const Device*)> fn) const;
 
     void foreachData(std::function<void(const SharedDeviceData& data)> fn) const;
     void foreachSelectedData(std::function<void(const SharedDeviceData& data)> fn) const;

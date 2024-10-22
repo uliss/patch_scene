@@ -46,19 +46,6 @@ QTextBlockFormat make_block_fmt(Qt::Alignment align = Qt::AlignLeft)
     return fmt;
 }
 
-QTextBlockFormat make_cell_fmt(Qt::Alignment align = Qt::AlignLeft)
-{
-    QTextBlockFormat fmt;
-
-    fmt.setAlignment(align);
-    fmt.setTopMargin(0);
-    fmt.setLeftMargin(0);
-    fmt.setBottomMargin(0);
-    fmt.setRightMargin(0);
-
-    return fmt;
-}
-
 QTextTableFormat make_table_fmt(int width)
 {
     constexpr int LEFT_MARGIN = 40;

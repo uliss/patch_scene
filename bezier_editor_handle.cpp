@@ -29,11 +29,6 @@ BezierEditorHandle::BezierEditorHandle(const QPoint& srcPoint, const QPoint& bez
     setHandlePos(src_pos_ + bezyOffset);
 }
 
-QRectF BezierEditorHandle::handleRect() const
-{
-    return ellipse_.translated(pos());
-}
-
 void BezierEditorHandle::setHandlePos(const QPointF& pos)
 {
     prepareGeometryChange();

@@ -148,17 +148,6 @@ const QString& ceam::connectorName(ConnectorModel model)
     return it == data.end() ? unknown : it->second.name;
 }
 
-ConnectorModel ceam::findConnectorBySvgName(const QString& name)
-{
-    auto& data = model_map();
-    for (auto& kv : data) {
-        if (kv.second.svg_name == name)
-            return kv.first;
-    }
-
-    return ConnectorModel::UNKNOWN;
-}
-
 ConnectorModel ceam::findConnectorByJsonName(const QString& name)
 {
     auto& data = model_map();

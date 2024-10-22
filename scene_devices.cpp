@@ -383,27 +383,7 @@ void SceneDevices::foreachDevice(std::function<void(Device*)> fn)
         fn(kv.second);
 }
 
-void SceneDevices::foreachDevice(std::function<void(const Device*)> fn) const
-{
-    if (!fn)
-        return;
-
-    for (auto& kv : devices_)
-        fn(kv.second);
-}
-
 void SceneDevices::foreachSelectedDevice(std::function<void(Device*)> fn)
-{
-    if (!fn)
-        return;
-
-    for (auto& kv : devices_) {
-        if (kv.second->isSelected())
-            fn(kv.second);
-    }
-}
-
-void SceneDevices::foreachSelectedDevice(std::function<void(const Device*)> fn) const
 {
     if (!fn)
         return;

@@ -387,33 +387,6 @@ bool Device::hasXlets() const
     return inputs_.count() > 0 || outputs_.count() > 0;
 }
 
-QJsonArray Device::xletToJson(const QList<XletData>& xlets) const
-{
-    QJsonArray arr;
-    for (auto& x : xlets)
-        arr.append(x.toJson());
-
-    return arr;
-}
-
-void Device::clearInlets()
-{
-    for (auto x : childItems()) {
-        auto xlet = qgraphicsitem_cast<DeviceXlet*>(x);
-        if (xlet && xlet->isInlet())
-            delete xlet;
-    }
-}
-
-void Device::clearOutlets()
-{
-    for (auto x : childItems()) {
-        auto xlet = qgraphicsitem_cast<DeviceXlet*>(x);
-        if (xlet && xlet->isOutlet())
-            delete xlet;
-    }
-}
-
 void Device::clearXlets()
 {
     inputs_.clear();

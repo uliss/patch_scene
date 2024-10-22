@@ -29,7 +29,6 @@ public:
     BezierEditorHandle(const QPoint& srcPoint, const QPoint& bezyOffset,
         QGraphicsItem* parent, std::function<void(const QPointF& pos)> fn);
 
-    QRectF handleRect() const;
     void setHandlePos(const QPointF& pos);
 
     void mouseMoveEvent(QGraphicsSceneMouseEvent* event) final;

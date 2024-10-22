@@ -41,9 +41,6 @@ public:
     DeviceId id() const { return id_; }
     XletType type() const { return type_; }
     XletIndex index() const { return index_; }
-
-    static XletInfo inlet(DeviceId id, XletIndex idx) { return XletInfo { id, idx, XletType::In }; }
-    static XletInfo outlet(DeviceId id, XletIndex idx) { return XletInfo { id, idx, XletType::Out }; }
 };
 
 uint qHash(const XletInfo& key);

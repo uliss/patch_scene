@@ -49,7 +49,6 @@ public:
     void setConnectorType(ConnectorType type) { type_ = type; }
 
     bool isVisible() const { return visible_; }
-    void setVisible(bool value) { visible_ = value; }
 
     bool supportsPhantomPower() const;
     bool isPhantomOn() const { return phantom_power_; }
@@ -92,10 +91,7 @@ public:
     bool isInlet() const { return type_ == XletType::In; }
     bool isOutlet() const { return type_ == XletType::Out; }
 
-    void setConnectPoint(const QPointF& pos);
-
     XletIndex index() const { return index_; }
-    void setIndex(XletIndex idx);
 
     const Device* parentDevice() const;
 

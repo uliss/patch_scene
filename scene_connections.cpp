@@ -120,17 +120,6 @@ void SceneConnections::foreachConn(std::function<void(const ConnectionId&, const
         fn(c->connectionId(), c->viewData());
 }
 
-QList<ConnectionId> SceneConnections::idList() const
-{
-    QList<ConnectionId> res;
-    res.reserve(conn_.size());
-
-    for (auto& kv : conn_)
-        res.append(kv->connectionId());
-
-    return res;
-}
-
 QSet<ConnectionId> SceneConnections::selectedIdList() const
 {
     QSet<ConnectionId> res;

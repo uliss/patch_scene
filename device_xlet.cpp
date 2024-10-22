@@ -153,22 +153,6 @@ const XletData& DeviceXlet::xletData() const
     return data_;
 }
 
-void DeviceXlet::setConnectPoint(const QPointF& pos)
-{
-    const auto x = pos.x() - (XLET_W / 2);
-
-    if (type_ == XletType::In)
-        setPos(x, pos.y());
-    else
-        setPos(x, pos.y() - XLET_H);
-}
-
-void DeviceXlet::setIndex(XletIndex idx)
-{
-    index_ = idx;
-    updateTooltip();
-}
-
 const Device* DeviceXlet::parentDevice() const
 {
     return qgraphicsitem_cast<Device*>(parentItem());

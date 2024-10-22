@@ -68,9 +68,8 @@ public:
     void foreachConn(std::function<void(const ConnectionId&, const ConnectionViewData&)> fn) const;
 
     /**
-     * return all connection data as list
+     * return all selected connections as list
      */
-    QList<ConnectionId> idList() const;
 
     QSet<ConnectionId> selectedIdList() const;
 

@@ -109,7 +109,6 @@ enum class ConnectorModel : std::uint8_t {
 const QString& connectorSvgName(ConnectorModel model);
 const QString& connectorJsonName(ConnectorModel model);
 const QString& connectorName(ConnectorModel model);
-ConnectorModel findConnectorBySvgName(const QString& name);
 ConnectorModel findConnectorByJsonName(const QString& name);
 
 enum class XletType : std::uint8_t {

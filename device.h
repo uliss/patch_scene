@@ -89,9 +89,6 @@ public:
      */
     void randomizePos(qint64 delta);
 
-    const DeviceXletView& inlets() const { return inputs_; }
-    const DeviceXletView& outputs() const { return outputs_; }
-
     /**
      * export device state/data to json
      */
@@ -121,13 +118,9 @@ private:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) final;
     void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) final;
 
-    QJsonArray xletToJson(const QList<XletData>& xlets) const;
-
     int inletsYOff() const;
     int outletsYOff() const;
 
-    void clearInlets();
-    void clearOutlets();
     void clearXlets();
     void clearTitle();
     void clearImage();

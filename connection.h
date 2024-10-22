@@ -40,7 +40,6 @@ public:
 
     bool operator==(const ConnectionId& id) const;
 
-    void setConnectionId(const ConnectionId& id);
     const ConnectionId& connectionId() const { return id_; }
 
     const ConnectionViewData& viewData() const { return view_data_; }

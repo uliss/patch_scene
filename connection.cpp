@@ -26,12 +26,6 @@ using namespace ceam;
 
 namespace {
 
-ConnectionDatabase& conn_db()
-{
-    static ConnectionDatabase db_;
-    return db_;
-}
-
 QPainterPath makeSegmentsPath(const QPoint& from, const QPoint& to, const SegmentData& segs)
 {
     QPainterPath line;
@@ -71,12 +65,6 @@ Connection::Connection(const ConnectionId& id)
 bool Connection::operator==(const ConnectionId& id) const
 {
     return id_ == id;
-}
-
-void Connection::setConnectionId(const ConnectionId& id)
-{
-    id_ = id;
-    updateShape();
 }
 
 void Connection::setViewData(const ConnectionViewData& data)

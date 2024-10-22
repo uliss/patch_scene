@@ -20,7 +20,6 @@
 namespace ceam {
 namespace macos {
 
-    void hideApplication();
     void showApplication();
 
     class NativeAlertDialog : public QObject {

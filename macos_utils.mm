@@ -17,11 +17,6 @@
 #include <QEventLoop>
 #include <QMessageBox>
 
-void ceam::macos::hideApplication()
-{
-    [[NSApplication sharedApplication] setActivationPolicy:NSApplicationActivationPolicyProhibited];
-}
-
 void ceam::macos::showApplication()
 {
     NSApplication* applicationInstance = [NSApplication sharedApplication];
