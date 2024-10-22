@@ -118,12 +118,25 @@ void TestConnection::makeSegments()
     QCOMPARE(segs.at(1), 50);
     QCOMPARE(segs.pointAt(-1, {}), std::nullopt);
     QCOMPARE(segs.pointAt(2, {}), std::nullopt);
+    QCOMPARE(segs.midPointAt(-1, {}), std::nullopt);
+    QCOMPARE(segs.midPointAt(1, {}), std::nullopt);
 
     using OptPoint = std::optional<QPointF>;
 
     QCOMPARE(segs.pointAt(0, { 0, 0 }), OptPoint(QPointF(0, 250)));
     QCOMPARE(segs.pointAt(1, { 0, 0 }), OptPoint(QPointF(50, 250)));
+    QCOMPARE(segs.midPointAt(0, { 0, 0 }), OptPoint(QPointF(25, 250)));
 
     QCOMPARE(segs.pointAt(0, { 10, 20 }), OptPoint(QPointF(10, 270)));
     QCOMPARE(segs.pointAt(1, { 10, 20 }), OptPoint(QPointF(60, 270)));
+
+    segs.append(400);
+    QCOMPARE(segs.pointAt(0, { 0, 0 }), OptPoint(QPointF(0, 250)));
+    QCOMPARE(segs.pointAt(1, { 0, 0 }), OptPoint(QPointF(50, 250)));
+    QCOMPARE(segs.pointAt(2, { 0, 0 }), OptPoint(QPointF(50, 400)));
+    QCOMPARE(segs.midPointAt(0, { 0, 0 }), OptPoint(QPointF(25, 250)));
+    QCOMPARE(segs.midPointAt(1, { 0, 0 }), OptPoint(QPointF(50, (400 + 250) / 2)));
+
+    segs.append(300);
+    QCOMPARE(segs.midPointAt(2, { 0, 0 }), OptPoint(QPointF((300 + 50) / 2, 400)));
 }
