@@ -14,7 +14,6 @@
 #ifndef SCENE_DEVICES_H
 #define SCENE_DEVICES_H
 
-#include "connection.h"
 #include "connection_database.h"
 #include "device_common.h"
 

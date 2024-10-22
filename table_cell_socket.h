@@ -24,7 +24,6 @@ public:
     TableCellConnectorType(ConnectorType type, QWidget* parent = nullptr);
 
     ConnectorType connectorType() const;
-    void setConnectorType(const ConnectorType& type);
 };
 }
 

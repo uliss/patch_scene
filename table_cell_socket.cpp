@@ -40,8 +40,3 @@ ConnectorType TableCellConnectorType::connectorType() const
 
     return res;
 }
-
-void TableCellConnectorType::setConnectorType(const ConnectorType& type)
-{
-    setCurrentIndex(findData(type.toInt()));
-}
