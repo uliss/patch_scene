@@ -634,6 +634,8 @@ bool Diagram::loadJson(const QString& path)
 {
     WARN() << path;
 
+    connections_->showEditor(false);
+
     QFile file(path);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         WARN() << "can't open file:" << path;
