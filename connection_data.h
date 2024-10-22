@@ -35,9 +35,16 @@ public:
     void clear() { segs_.clear(); }
     float at(int pos) const { return segs_[pos]; }
     std::optional<QPointF> pointAt(int idx, const QPointF& origin) const;
+    std::optional<QPointF> midPointAt(int idx, const QPointF& origin) const;
     void append(float seg);
     bool isEmpty() const { return segs_.empty(); }
     qsizetype size() const { return segs_.size(); }
+    bool setPos(int idx, const QPointF& pos);
+
+    QJsonValue toJson() const;
+
+public:
+    static std::optional<SegmentData> fromJson(const QJsonValue& v);
 };
 
 class ConnectionId {
@@ -109,7 +116,10 @@ public:
     const SegmentData& segments() const { return segs_; }
     void appendSegment(float seg);
     void clearSegments();
+    void setSegments(const SegmentData& segs) { segs_ = segs; }
     SegmentData makeSegments() const;
+    bool setSegmentPos(int idx, const QPointF& pos);
+    void createSegments();
 
     const QPoint& sourcePoint() const { return pt0_; }
     const QPoint& destinationPoint() const { return pt1_; }

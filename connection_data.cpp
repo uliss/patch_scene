@@ -14,6 +14,7 @@
 #include "connection_data.h"
 #include "logging.hpp"
 
+#include <QJsonArray>
 #include <QJsonObject>
 
 namespace {
@@ -31,6 +32,7 @@ constexpr const char* KEY_SRC = "src";
 constexpr const char* KEY_SRC_OUT = "out";
 constexpr const char* KEY_X = "x";
 constexpr const char* KEY_Y = "y";
+constexpr const char* KEY_SEGMENTS = "segments";
 constexpr const char* KEY_CONNECTION_CORD = "cord";
 constexpr const char* JSON_STR_LINE = "line";
 constexpr const char* JSON_STR_BEZIER = "bezier";
@@ -144,6 +146,16 @@ SegmentData ConnectionViewData::makeSegments() const
     return res;
 }
 
+bool ConnectionViewData::setSegmentPos(int idx, const QPointF& pos)
+{
+    return segs_.setPos(idx, pos);
+}
+
+void ConnectionViewData::createSegments()
+{
+    segs_ = makeSegments();
+}
+
 void ConnectionViewData::resetPoints(ConnectionCordType cord)
 {
     switch (cord) {
@@ -168,6 +180,7 @@ QJsonObject ConnectionViewData::toJson() const
     j[KEY_BEZY1] = pointToJson(bezy1_);
     j[KEY_SRC_PT] = pointToJson(pt0_);
     j[KEY_DEST_PT] = pointToJson(pt1_);
+    j[KEY_SEGMENTS] = segs_.toJson();
 
     return j;
 }
@@ -200,6 +213,10 @@ std::optional<ConnectionViewData> ConnectionViewData::fromJson(const QJsonValue&
     auto pt1 = pointFromJson(obj.value(KEY_DEST_PT));
     if (pt1)
         data.setDestinationPoint(*pt1);
+
+    auto segs = SegmentData::fromJson(obj.value(KEY_SEGMENTS));
+    if (segs)
+        data.setSegments(*segs);
 
     return data;
 }
@@ -272,9 +289,66 @@ std::optional<QPointF> SegmentData::pointAt(int idx, const QPointF& origin) cons
         + origin;
 }
 
+std::optional<QPointF> SegmentData::midPointAt(int idx, const QPointF& origin) const
+{
+    if (idx < 0 || (idx + 1) >= segs_.size())
+        return {};
+
+    return ((idx & 1)
+                   ? QPointF(segs_[idx], (segs_[idx + 1] + segs_[idx - 1]) * 0.5)
+                   : QPointF((segs_[idx + 1] + ((idx > 0) ? segs_[idx - 1] : 0)) * 0.5, segs_[idx]))
+        + origin;
+}
+
 void SegmentData::append(float seg)
 {
     segs_ << seg;
+}
+
+bool SegmentData::setPos(int idx, const QPointF& pos)
+{
+    WARN() << idx << pos;
+
+    if (idx < 0 || idx >= segs_.size())
+        return false;
+
+    segs_[idx] = (idx & 1) ? pos.x() : pos.y();
+    return true;
+}
+
+QJsonValue SegmentData::toJson() const
+{
+    if (segs_.empty())
+        return {};
+
+    QJsonArray arr;
+    for (auto v : segs_)
+        arr << v;
+
+    return arr;
+}
+
+std::optional<SegmentData> SegmentData::fromJson(const QJsonValue& v)
+{
+    if (v.isNull())
+        return {};
+
+    if (!v.isArray()) {
+        WARN() << "array expected";
+        return {};
+    }
+
+    SegmentData res;
+
+    for (auto&& x : v.toArray()) {
+        if (x.isDouble()) {
+            res.append(x.toDouble());
+        } else {
+            WARN() << "float value expected, got:" << x;
+        }
+    }
+
+    return res;
 }
 
 } // namespace ceam
