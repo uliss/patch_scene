@@ -25,6 +25,7 @@ private slots:
     void dataHash();
     void testConnection();
     void findConnected();
+    void makeSegments();
 };
 
 #endif // TEST_CONNECTION_H

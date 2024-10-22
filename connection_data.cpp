@@ -18,6 +18,9 @@
 
 namespace {
 
+constexpr int SEGMENT_SRC_CONN_YPAD = 5;
+constexpr int SEGMENT_DEST_CONN_YPAD = 25;
+
 constexpr const char* KEY_BEZY0 = "bezy0";
 constexpr const char* KEY_BEZY1 = "bezy1";
 constexpr const char* KEY_SRC_PT = "src";
@@ -121,6 +124,24 @@ void ConnectionViewData::appendSegment(float seg)
 void ConnectionViewData::clearSegments()
 {
     segs_.clear();
+}
+
+SegmentData ConnectionViewData::makeSegments() const
+{
+    SegmentData res;
+
+    if (pt0_.y() + SEGMENT_DEST_CONN_YPAD <= pt1_.y()) {
+        res.append((pt1_.y() - pt0_.y()) * 0.5);
+        res.append(pt1_.x() - pt0_.x());
+
+    } else {
+        res.append(SEGMENT_SRC_CONN_YPAD);
+        res.append((pt1_.x() - pt0_.x()) * 0.5);
+        res.append(pt1_.y() - (pt0_.y() + SEGMENT_DEST_CONN_YPAD));
+        res.append(pt1_.x() - pt0_.x());
+    }
+
+    return res;
 }
 
 void ConnectionViewData::resetPoints(ConnectionCordType cord)
@@ -245,9 +266,10 @@ std::optional<QPointF> SegmentData::pointAt(int idx, const QPointF& origin) cons
     if (idx < 0 || idx >= segs_.size())
         return {};
 
-    return (idx % 2 == 0)
-        ? QPointF(idx == 0 ? 0 : segs_[idx - 1], segs_[idx]) + origin
-        : QPointF(segs_[idx], segs_[idx - 1]) + origin;
+    return ((idx & 1)
+                   ? QPointF(segs_[idx], segs_[idx - 1])
+                   : QPointF(idx == 0 ? 0 : segs_[idx - 1], segs_[idx]))
+        + origin;
 }
 
 void SegmentData::append(float seg)

@@ -105,3 +105,25 @@ void TestConnection::findConnected()
     auto conn4 = new Connection({ 101, 0, 201, 0 });
     sc.addItem(conn4);
 }
+
+void TestConnection::makeSegments()
+{
+    Connection c0({ 100, 0, 200, 0 });
+    c0.setPoints({ 100, 0 }, { 150, 500 });
+
+    auto segs = c0.makeSegments();
+    QVERIFY(!segs.isEmpty());
+    QCOMPARE(segs.size(), 2);
+    QCOMPARE(segs.at(0), 250);
+    QCOMPARE(segs.at(1), 50);
+    QCOMPARE(segs.pointAt(-1, {}), std::nullopt);
+    QCOMPARE(segs.pointAt(2, {}), std::nullopt);
+
+    using OptPoint = std::optional<QPointF>;
+
+    QCOMPARE(segs.pointAt(0, { 0, 0 }), OptPoint(QPointF(0, 250)));
+    QCOMPARE(segs.pointAt(1, { 0, 0 }), OptPoint(QPointF(50, 250)));
+
+    QCOMPARE(segs.pointAt(0, { 10, 20 }), OptPoint(QPointF(10, 270)));
+    QCOMPARE(segs.pointAt(1, { 10, 20 }), OptPoint(QPointF(60, 270)));
+}

@@ -33,6 +33,7 @@ class SegmentData {
 public:
     SegmentData() { }
     void clear() { segs_.clear(); }
+    float at(int pos) const { return segs_[pos]; }
     std::optional<QPointF> pointAt(int idx, const QPointF& origin) const;
     void append(float seg);
     bool isEmpty() const { return segs_.empty(); }
@@ -108,6 +109,7 @@ public:
     const SegmentData& segments() const { return segs_; }
     void appendSegment(float seg);
     void clearSegments();
+    SegmentData makeSegments() const;
 
     const QPoint& sourcePoint() const { return pt0_; }
     const QPoint& destinationPoint() const { return pt1_; }

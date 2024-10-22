@@ -26,9 +26,6 @@ using namespace ceam;
 
 namespace {
 
-constexpr int SEGMENT_SRC_CONN_YPAD = 5;
-constexpr int SEGMENT_DEST_CONN_YPAD = 25;
-
 ConnectionDatabase& conn_db()
 {
     static ConnectionDatabase db_;
@@ -145,25 +142,7 @@ void Connection::updateShape()
         line_.clear();
 
         if (view_data_.segments().isEmpty()) { // auto segment path
-            SegmentData segs;
-
-            const auto src_x = view_data_.sourcePoint().x();
-            const auto src_y = view_data_.sourcePoint().y();
-            const auto dest_x = view_data_.destinationPoint().x();
-            const auto dest_y = view_data_.destinationPoint().y();
-
-            if (src_y + SEGMENT_DEST_CONN_YPAD <= dest_y) {
-                segs.append((dest_y - src_y) * 0.5);
-                segs.append(dest_x - src_x);
-
-            } else {
-                segs.append(SEGMENT_SRC_CONN_YPAD);
-                segs.append((dest_x - src_x) * 0.5);
-                segs.append(dest_y - (src_y + SEGMENT_DEST_CONN_YPAD));
-                segs.append(dest_x - src_x);
-            }
-
-            line_ = makeSegmentsPath(view_data_.sourcePoint(), view_data_.destinationPoint(), segs);
+            line_ = makeSegmentsPath(view_data_.sourcePoint(), view_data_.destinationPoint(), view_data_.makeSegments());
         } else
             line_ = makeSegmentsPath(view_data_.sourcePoint(), view_data_.destinationPoint(), view_data_.segments());
 
