@@ -41,6 +41,9 @@ signals:
     void connectionUpdated(ConnectionId, ConnectionViewData);
 
 private:
+    void updateSegmentHandlePos(int i);
+
+private:
     QList<QGraphicsItem*> handles_;
     ConnectionViewData view_data_;
     ConnectionId id_;

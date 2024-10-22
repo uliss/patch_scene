@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include "connection_editor.h"
 #include "bezier_editor_handle.h"
+#include "segment_editor_handle.h"
 
 #include <QBrush>
 #include <QGraphicsScene>
@@ -42,8 +43,6 @@ void ConnectionEditor::setConnectionData(const ConnectionId& id, const Connectio
     handles_.clear();
 
     switch (view_data_.cordType()) {
-    case ConnectionCordType::Linear:
-        break;
     case ConnectionCordType::Bezier: {
         auto h0 = new BezierEditorHandle(view_data_.sourcePoint(),
             view_data_.bezyCtlPoint0(),
@@ -66,14 +65,30 @@ void ConnectionEditor::setConnectionData(const ConnectionId& id, const Connectio
 
     } break;
     case ConnectionCordType::Segmented: {
-        // WARN() << data.segmentPoints();
-        // for (auto& pt : data.segments()) {
-        //     auto c = new SegmentHandle(pt, this);
-        //     auto r = c->rect().translated(pt);
-        //     shape_.addEllipse(r);
-        //     handles_.append(c);
-        // }
+        if (view_data_.segments().isEmpty())
+            view_data_.createSegments();
+
+        auto& segs = view_data_.segments();
+        for (int i = 0; (i + 1) < segs.size(); i++) {
+            auto hnd = new SegmentEditorHandle(
+                *segs.midPointAt(i, view_data_.sourcePoint()),
+                (i & 1) ? SegmentEditorHandle::HORIZONTAL : SegmentEditorHandle::VERTICAL,
+                this,
+                [this, i](const QPointF& newPos) {
+                    if (view_data_.setSegmentPos(i, newPos - view_data_.sourcePoint())) {
+                        emit connectionUpdated(id_, view_data_);
+
+                        updateSegmentHandlePos(i - 1);
+                        updateSegmentHandlePos(i + 1);
+                    }
+                });
+            handles_.append(hnd);
+        }
+
     } break;
+    case ConnectionCordType::Linear:
+    default:
+        break;
     }
 }
 
@@ -85,6 +100,15 @@ QRectF ConnectionEditor::boundingRect() const
 void ConnectionEditor::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     // WARN() << "2";
+}
+
+void ConnectionEditor::updateSegmentHandlePos(int i)
+{
+    if (i >= 0 && i < handles_.count()) {
+        auto pos = view_data_.segments().midPointAt(i, view_data_.sourcePoint());
+        if (pos)
+            handles_[i]->setPos(*pos);
+    }
 }
 
 } // namespace ceam
