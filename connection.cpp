@@ -35,6 +35,30 @@ ConnectionDatabase& conn_db()
     return db_;
 }
 
+QPainterPath makeSegmentsPath(const QPoint& from, const QPoint& to, const SegmentData& segs)
+{
+    QPainterPath line;
+
+    line.moveTo(from);
+    for (int i = 0; i < segs.size(); i++) {
+        auto pt = segs.pointAt(i, from);
+        if (pt)
+            line.lineTo(*pt);
+    }
+
+    line.lineTo(to);
+
+    for (int i = segs.size(); i > 0; i--) {
+        auto pt = segs.pointAt(i - 1, from);
+        if (pt)
+            line.lineTo(*pt);
+    }
+
+    line.closeSubpath();
+
+    return line;
+}
+
 }
 
 Connection::Connection(const ConnectionId& id)
@@ -121,63 +145,27 @@ void Connection::updateShape()
         line_.clear();
 
         if (view_data_.segments().isEmpty()) { // auto segment path
+            SegmentData segs;
+
             const auto src_x = view_data_.sourcePoint().x();
             const auto src_y = view_data_.sourcePoint().y();
             const auto dest_x = view_data_.destinationPoint().x();
             const auto dest_y = view_data_.destinationPoint().y();
 
-            line_.moveTo(view_data_.sourcePoint());
-
             if (src_y + SEGMENT_DEST_CONN_YPAD <= dest_y) {
-                auto mid_y = (src_y + dest_y) * 0.5;
-                auto p0 = QPointF(src_x, mid_y);
-                auto p1 = QPointF(dest_x, mid_y);
-
-                line_.lineTo(p0);
-                line_.lineTo(p1);
-                line_.lineTo(view_data_.destinationPoint());
-                line_.lineTo(p1);
-                line_.lineTo(p0);
+                segs.append((dest_y - src_y) * 0.5);
+                segs.append(dest_x - src_x);
 
             } else {
-                auto mid_x = (src_x + dest_x) * 0.5;
-
-                auto p0 = QPointF(src_x, src_y + SEGMENT_SRC_CONN_YPAD);
-                auto p1 = QPointF(mid_x, src_y + SEGMENT_SRC_CONN_YPAD);
-                auto p2 = QPointF(mid_x, dest_y - SEGMENT_DEST_CONN_YPAD);
-                auto p3 = QPointF(dest_x, dest_y - SEGMENT_DEST_CONN_YPAD);
-
-                line_.lineTo(p0);
-                line_.lineTo(p1);
-                line_.lineTo(p2);
-                line_.lineTo(p3);
-                line_.lineTo(view_data_.destinationPoint());
-                line_.lineTo(p3);
-                line_.lineTo(p2);
-                line_.lineTo(p1);
-                line_.lineTo(p0);
+                segs.append(SEGMENT_SRC_CONN_YPAD);
+                segs.append((dest_x - src_x) * 0.5);
+                segs.append(dest_y - (src_y + SEGMENT_DEST_CONN_YPAD));
+                segs.append(dest_x - src_x);
             }
 
-            line_.closeSubpath();
-        } else {
-            line_.moveTo(view_data_.sourcePoint());
-            QPoint origin = view_data_.sourcePoint();
-            for (int i = 0; i < view_data_.segments().size(); i++) {
-                auto pt = view_data_.segments().pointAt(i, origin);
-                if (pt)
-                    line_.lineTo(*pt);
-            }
-
-            line_.lineTo(view_data_.destinationPoint());
-
-            for (int i = view_data_.segments().size(); i > 0; i--) {
-                auto pt = view_data_.segments().pointAt(i - 1, origin);
-                if (pt)
-                    line_.lineTo(*pt);
-            }
-
-            line_.closeSubpath();
-        }
+            line_ = makeSegmentsPath(view_data_.sourcePoint(), view_data_.destinationPoint(), segs);
+        } else
+            line_ = makeSegmentsPath(view_data_.sourcePoint(), view_data_.destinationPoint(), view_data_.segments());
 
         if (line_.isEmpty())
             return;
