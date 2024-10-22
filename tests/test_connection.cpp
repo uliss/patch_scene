@@ -111,7 +111,7 @@ void TestConnection::makeSegments()
     Connection c0({ 100, 0, 200, 0 });
     c0.setPoints({ 100, 0 }, { 150, 500 });
 
-    auto segs = c0.makeSegments();
+    auto segs = c0.viewData().makeSegments();
     QVERIFY(!segs.isEmpty());
     QCOMPARE(segs.size(), 2);
     QCOMPARE(segs.at(0), 250);
