@@ -132,6 +132,14 @@ QList<ConnectionInfo> SceneConnections::selectedList() const
     return res;
 }
 
+void SceneConnections::unselectAll()
+{
+    for (auto& kv : conn_) {
+        if (kv->isSelected())
+            kv->setSelected(false);
+    }
+}
+
 QList<DeviceConnectionData> SceneConnections::infoList(const SceneDevices& devices) const
 {
     QList<DeviceConnectionData> res;
@@ -305,8 +313,6 @@ bool SceneConnections::addConnection(Connection* c)
             for (auto& c : conn_) {
                 if (c->connectionId() == id) {
                     c->splitSegment(pos);
-                    WARN() << id << pos;
-
                     conn_edit_->setConnectionData(id, c->viewData());
                     emit edit(id);
                     emit update(id);

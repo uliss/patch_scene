@@ -70,8 +70,12 @@ public:
     /**
      * return all selected connections as list
      */
-
     QList<ConnectionInfo> selectedList() const;
+
+    /**
+     * unselect all connections
+     */
+    void unselectAll();
 
     QList<DeviceConnectionData> infoList(const SceneDevices& devices) const;
 
