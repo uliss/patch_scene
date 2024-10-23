@@ -85,10 +85,10 @@ enum class InstrumentCategory {
 Q_DECLARE_FLAGS(InstrumentCategoryFlags, InstrumentCategory)
 Q_DECLARE_OPERATORS_FOR_FLAGS(InstrumentCategoryFlags)
 
-struct SubCategory : public std::variant<std::monostate,
-                         DeviceCategoryFlags,
-                         InstrumentCategoryFlags> {
-
+class SubCategory : public std::variant<std::monostate,
+                        DeviceCategoryFlags,
+                        InstrumentCategoryFlags> {
+public:
     bool isValid() const { return index() != 0; }
     QJsonValue toJson() const;
     SubCategory& operator|=(const SubCategory& cat);
@@ -219,7 +219,8 @@ private:
 
 using SharedDeviceData = QSharedDataPointer<DeviceData>;
 
-struct ConnectionFullInfo {
+class DeviceConnectionData {
+public:
     SharedDeviceData src_data, dest_data;
     XletData src_out, dest_in;
     XletIndex src_out_idx, dest_in_idx;
@@ -229,7 +230,7 @@ struct ConnectionFullInfo {
         return src_data && dest_data;
     }
 
-    ConnectionId data() const
+    ConnectionId connectionId() const
     {
         return { src_data->id(), src_out_idx, dest_data->id(), dest_in_idx };
     }

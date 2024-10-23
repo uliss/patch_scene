@@ -136,9 +136,9 @@ SharedDeviceData SceneDevices::findData(DeviceId id) const
         : it->second->deviceData();
 }
 
-std::optional<ConnectionFullInfo> SceneDevices::connectionInfo(const ConnectionId& id) const
+std::optional<DeviceConnectionData> SceneDevices::connectionInfo(const ConnectionId& id) const
 {
-    std::optional<ConnectionFullInfo> res = ConnectionFullInfo();
+    std::optional<DeviceConnectionData> res = DeviceConnectionData();
     int count = 0;
 
     for (auto& kv : devices_) {
@@ -198,7 +198,7 @@ std::optional<std::pair<QPointF, QPointF>> SceneDevices::connectionPoints(const 
     return std::pair { *p0, *p1 };
 }
 
-std::optional<ConnectionPair> SceneDevices::connectionPair(const ConnectionId& id) const
+std::optional<ConnectorPair> SceneDevices::connectionPair(const ConnectionId& id) const
 {
     auto src_it = devices_.find(id.source());
     if (src_it == devices_.end())
@@ -217,9 +217,9 @@ std::optional<ConnectionPair> SceneDevices::connectionPair(const ConnectionId& i
     auto& d0 = src_it->second->deviceData()->outputAt(id.sourceOutput());
     auto& d1 = dest_it->second->deviceData()->inputAt(id.destinationInput());
 
-    return ConnectionPair {
-        ConnectionEndPoint { d0.connectorModel(), d0.connectorType().complement() },
-        ConnectionEndPoint { d1.connectorModel(), d1.connectorType().complement() },
+    return ConnectorPair {
+        ConnectorJack { d0.connectorModel(), d0.connectorType().complement() },
+        ConnectorJack { d1.connectorModel(), d1.connectorType().complement() },
     };
 }
 

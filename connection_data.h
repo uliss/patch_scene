@@ -156,6 +156,8 @@ public:
 QDebug operator<<(QDebug debug, const ConnectionId& c);
 size_t qHash(const ConnectionId& key);
 
+using ConnectionInfo = std::pair<ConnectionId, ConnectionViewData>;
+
 } // namespace ceam
 
 Q_DECLARE_METATYPE(ceam::ConnectionId)

@@ -47,9 +47,9 @@ public:
     explicit Diagram(int w, int h, QWidget* parent = nullptr);
 
     /**
-     * Return set of all connections of all selected devices
+     * Return hash map of all connections of all selected devices
      */
-    QSet<ConnectionId> findSelectedConnections() const;
+    QHash<ConnectionId, ConnectionViewData> findSelectedConnections() const;
 
     void printScheme() const;
     void printScheme(QPrinter* printer) const;

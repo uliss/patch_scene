@@ -22,14 +22,14 @@
 
 namespace ceam {
 
-class ConnectionFullInfo;
+class DeviceConnectionData;
 
 class SendItemModel : public QStandardItemModel {
     Q_OBJECT
 public:
     SendItemModel(QObject* parent);
 
-    bool addConnection(const ConnectionFullInfo& info);
+    bool addConnection(const DeviceConnectionData& info);
 
     /**
      * Remove connection from model
@@ -49,7 +49,7 @@ public:
 
     QSortFilterProxyModel* sortProxy() { return proxy_; }
 
-    void setFullData(const QList<ConnectionFullInfo>& info);
+    void setFullData(const QList<DeviceConnectionData>& info);
 
 private:
     bool updateDeviceTitle(const QModelIndex& idx, DeviceId id, const QString& title);

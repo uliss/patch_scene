@@ -20,13 +20,13 @@ using namespace ceam;
 
 void TestConnectionDatabase::jackPair()
 {
-    auto j0 = ConnectionEndPoint { ConnectorModel::XLR, ConnectorType::plug_male };
-    auto j1 = ConnectionEndPoint { ConnectorModel::XLR, ConnectorType::plug_female };
+    auto j0 = ConnectorJack { ConnectorModel::XLR, ConnectorType::plug_male };
+    auto j1 = ConnectorJack { ConnectorModel::XLR, ConnectorType::plug_female };
 
-    auto jp00 = ConnectionPair { j0, j0 };
-    auto jp01 = ConnectionPair { j0, j1 };
-    auto jp10 = ConnectionPair { j1, j0 };
-    auto jp11 = ConnectionPair { j1, j1 };
+    auto jp00 = ConnectorPair { j0, j0 };
+    auto jp01 = ConnectorPair { j0, j1 };
+    auto jp10 = ConnectorPair { j1, j0 };
+    auto jp11 = ConnectorPair { j1, j1 };
 
     QCOMPARE(jp00, jp00);
     QCOMPARE(jp01, jp01);
@@ -48,13 +48,13 @@ void TestConnectionDatabase::add()
     ConnectionDatabase db;
     QCOMPARE(db.count(), 0);
 
-    auto j0 = ConnectionEndPoint { ConnectorModel::XLR, ConnectorType::plug_male };
-    auto j1 = ConnectionEndPoint { ConnectorModel::XLR, ConnectorType::plug_female };
+    auto j0 = ConnectorJack { ConnectorModel::XLR, ConnectorType::plug_male };
+    auto j1 = ConnectorJack { ConnectorModel::XLR, ConnectorType::plug_female };
 
-    auto jp00 = ConnectionPair { j0, j0 };
-    auto jp01 = ConnectionPair { j0, j1 };
-    auto jp10 = ConnectionPair { j1, j0 };
-    auto jp11 = ConnectionPair { j1, j1 };
+    auto jp00 = ConnectorPair { j0, j0 };
+    auto jp01 = ConnectorPair { j0, j1 };
+    auto jp10 = ConnectorPair { j1, j0 };
+    auto jp11 = ConnectorPair { j1, j1 };
 
     QVERIFY(!db.contains(jp00));
     QVERIFY(!db.contains(jp01));

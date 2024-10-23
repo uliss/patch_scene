@@ -22,7 +22,7 @@
 namespace ceam {
 
 class ConnectionId;
-class ConnectionFullInfo;
+class DeviceConnectionData;
 class XletData;
 
 class ConnectionItemModel : public QStandardItemModel {
@@ -30,7 +30,7 @@ class ConnectionItemModel : public QStandardItemModel {
 public:
     ConnectionItemModel(QObject* parent);
 
-    bool addConnection(const ConnectionFullInfo& info);
+    bool addConnection(const DeviceConnectionData& info);
 
     /**
      * @complexity: O(n)
@@ -49,7 +49,7 @@ public:
 
     QSortFilterProxyModel* sortProxy() { return proxy_; }
 
-    void setFullData(const QList<ConnectionFullInfo>& conn);
+    void setFullData(const QList<DeviceConnectionData>& conn);
 
 private:
     bool updateDeviceTitle(const QModelIndex& idx, DeviceId id, const QString& title);

@@ -146,14 +146,14 @@ void TestSceneConnections::findConnection()
     QCOMPARE(sc.count(), 6);
 
     auto conns = sc.findConnectionsData(0);
-    std::sort(conns.begin(), conns.end(), [](const ConnectionId& a, const ConnectionId& b) {
-        return a.destination() < b.destination();
+    std::sort(conns.begin(), conns.end(), [](const ConnectionInfo& a, const ConnectionInfo& b) {
+        return a.first.destination() < b.first.destination();
     });
     QCOMPARE(conns.size(), 4);
-    QCOMPARE(conns[0], ConnectionId(2, 0, 0, 3));
-    QCOMPARE(conns[1], ConnectionId(0, 0, 1, 0));
-    QCOMPARE(conns[2], ConnectionId(0, 1, 1, 1));
-    QCOMPARE(conns[3], ConnectionId(0, 2, 1, 2));
+    QCOMPARE(conns[0].first, ConnectionId(2, 0, 0, 3));
+    QCOMPARE(conns[1].first, ConnectionId(0, 0, 1, 0));
+    QCOMPARE(conns[2].first, ConnectionId(0, 1, 1, 1));
+    QCOMPARE(conns[3].first, ConnectionId(0, 2, 1, 2));
 }
 
 void TestSceneConnections::findConnections()

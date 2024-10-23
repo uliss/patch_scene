@@ -15,7 +15,7 @@
 
 namespace ceam {
 
-size_t qHash(const ConnectionEndPoint& key)
+size_t qHash(const ConnectorJack& key)
 {
     auto m = static_cast<std::uint16_t>(key.model);
     auto t = key.type.toInt();
@@ -28,86 +28,86 @@ ConnectionDatabase::ConnectionDatabase()
 
 void ConnectionDatabase::initDefault()
 {
-    add(ConnectionPair {
-            ConnectionEndPoint { ConnectorModel::XLR, ConnectorType::plug_male },
-            ConnectionEndPoint { ConnectorModel::XLR, ConnectorType::plug_female },
+    add(ConnectorPair {
+            ConnectorJack { ConnectorModel::XLR, ConnectorType::plug_male },
+            ConnectorJack { ConnectorModel::XLR, ConnectorType::plug_female },
         },
         ConnectionStyle::Audio);
 
-    add(ConnectionPair {
-            ConnectionEndPoint { ConnectorModel::XLR_JACK_COMBO, ConnectorType::plug_male },
-            ConnectionEndPoint { ConnectorModel::XLR, ConnectorType::plug_female },
+    add(ConnectorPair {
+            ConnectorJack { ConnectorModel::XLR_JACK_COMBO, ConnectorType::plug_male },
+            ConnectorJack { ConnectorModel::XLR, ConnectorType::plug_female },
         },
         ConnectionStyle::Audio);
 
-    add(ConnectionPair {
-            ConnectionEndPoint { ConnectorModel::JACK_TS, ConnectorType::plug_male },
-            ConnectionEndPoint { ConnectorModel::JACK_TS, ConnectorType::plug_male },
+    add(ConnectorPair {
+            ConnectorJack { ConnectorModel::JACK_TS, ConnectorType::plug_male },
+            ConnectorJack { ConnectorModel::JACK_TS, ConnectorType::plug_male },
         },
         ConnectionStyle::Audio);
 
-    add(ConnectionPair {
-            ConnectionEndPoint { ConnectorModel::JACK_TRS, ConnectorType::plug_male },
-            ConnectionEndPoint { ConnectorModel::JACK_TRS, ConnectorType::plug_male },
+    add(ConnectorPair {
+            ConnectorJack { ConnectorModel::JACK_TRS, ConnectorType::plug_male },
+            ConnectorJack { ConnectorModel::JACK_TRS, ConnectorType::plug_male },
         },
         ConnectionStyle::Audio);
 
-    add(ConnectionPair {
-            ConnectionEndPoint { ConnectorModel::JACK_MINI_TRS, ConnectorType::plug_male },
-            ConnectionEndPoint { ConnectorModel::JACK_TRS, ConnectorType::plug_male },
+    add(ConnectorPair {
+            ConnectorJack { ConnectorModel::JACK_MINI_TRS, ConnectorType::plug_male },
+            ConnectorJack { ConnectorModel::JACK_TRS, ConnectorType::plug_male },
         },
         ConnectionStyle::Audio);
 
-    add(ConnectionPair {
-            ConnectionEndPoint { ConnectorModel::JACK_MINI_TRS, ConnectorType::plug_male },
-            ConnectionEndPoint { ConnectorModel::JACK_MINI_TRS, ConnectorType::plug_male },
+    add(ConnectorPair {
+            ConnectorJack { ConnectorModel::JACK_MINI_TRS, ConnectorType::plug_male },
+            ConnectorJack { ConnectorModel::JACK_MINI_TRS, ConnectorType::plug_male },
         },
         ConnectionStyle::Audio);
 
-    add(ConnectionPair {
-            ConnectionEndPoint { ConnectorModel::JACK_MINI_TRS, ConnectorType::plug_male },
-            ConnectionEndPoint { ConnectorModel::JACK_MINI_TRS, ConnectorType::plug_female },
+    add(ConnectorPair {
+            ConnectorJack { ConnectorModel::JACK_MINI_TRS, ConnectorType::plug_male },
+            ConnectorJack { ConnectorModel::JACK_MINI_TRS, ConnectorType::plug_female },
         },
         ConnectionStyle::Audio);
 
-    add(ConnectionPair {
-            ConnectionEndPoint { ConnectorModel::POWER_TYPE_SCHUKO, ConnectorType::plug_male },
-            ConnectionEndPoint { ConnectorModel::POWER_IEC_C_13_14, ConnectorType::plug_female },
+    add(ConnectorPair {
+            ConnectorJack { ConnectorModel::POWER_TYPE_SCHUKO, ConnectorType::plug_male },
+            ConnectorJack { ConnectorModel::POWER_IEC_C_13_14, ConnectorType::plug_female },
         },
         ConnectionStyle::Power);
 
-    add(ConnectionPair {
-            ConnectionEndPoint { ConnectorModel::USB_C, ConnectorType::plug_male },
-            ConnectionEndPoint { ConnectorModel::USB_C, ConnectorType::plug_male },
+    add(ConnectorPair {
+            ConnectorJack { ConnectorModel::USB_C, ConnectorType::plug_male },
+            ConnectorJack { ConnectorModel::USB_C, ConnectorType::plug_male },
         },
         ConnectionStyle::Computer);
 
-    add(ConnectionPair {
-            ConnectionEndPoint { ConnectorModel::USB_A, ConnectorType::plug_male },
-            ConnectionEndPoint { ConnectorModel::USB_B, ConnectorType::plug_male },
+    add(ConnectorPair {
+            ConnectorJack { ConnectorModel::USB_A, ConnectorType::plug_male },
+            ConnectorJack { ConnectorModel::USB_B, ConnectorType::plug_male },
         },
         ConnectionStyle::Computer);
 
-    add(ConnectionPair {
-            ConnectionEndPoint { ConnectorModel::USB_3_0_A, ConnectorType::plug_male },
-            ConnectionEndPoint { ConnectorModel::USB_B, ConnectorType::plug_male },
+    add(ConnectorPair {
+            ConnectorJack { ConnectorModel::USB_3_0_A, ConnectorType::plug_male },
+            ConnectorJack { ConnectorModel::USB_B, ConnectorType::plug_male },
         },
         ConnectionStyle::Computer);
 
-    add(ConnectionPair {
-            ConnectionEndPoint { ConnectorModel::USB_3_0_A, ConnectorType::plug_male },
-            ConnectionEndPoint { ConnectorModel::USB_3_0_B, ConnectorType::plug_male },
+    add(ConnectorPair {
+            ConnectorJack { ConnectorModel::USB_3_0_A, ConnectorType::plug_male },
+            ConnectorJack { ConnectorModel::USB_3_0_B, ConnectorType::plug_male },
         },
         ConnectionStyle::Computer);
 
-    add(ConnectionPair {
-            ConnectionEndPoint { ConnectorModel::ETHERNET, ConnectorType::plug_male },
-            ConnectionEndPoint { ConnectorModel::ETHERNET, ConnectorType::plug_male },
+    add(ConnectorPair {
+            ConnectorJack { ConnectorModel::ETHERNET, ConnectorType::plug_male },
+            ConnectorJack { ConnectorModel::ETHERNET, ConnectorType::plug_male },
         },
         ConnectionStyle::Network);
 }
 
-bool ConnectionDatabase::add(ConnectionPair t, ConnectionStyle cat)
+bool ConnectionDatabase::add(ConnectorPair t, ConnectionStyle cat)
 {
     switch (cat) {
     case ConnectionStyle::Auto:
@@ -126,23 +126,23 @@ bool ConnectionDatabase::add(ConnectionPair t, ConnectionStyle cat)
     }
 }
 
-ConnectionStyle ConnectionDatabase::search(ConnectionPair t) const
+ConnectionStyle ConnectionDatabase::search(ConnectorPair t) const
 {
     auto it = db_.find(t);
     return it == db_.end() ? ConnectionStyle::NotFound : it.value();
 }
 
-bool ConnectionDatabase::contains(ConnectionPair t) const
+bool ConnectionDatabase::contains(ConnectorPair t) const
 {
     return search(t) != ConnectionStyle::NotFound;
 }
 
-size_t qHash(const ConnectionPair& key)
+size_t qHash(const ConnectorPair& key)
 {
     return qHash(key.p0) ^ qHash(key.p1);
 }
 
-bool ConnectionPair::operator==(const ConnectionPair& type) const
+bool ConnectorPair::operator==(const ConnectorPair& type) const
 {
     return (p0 == type.p0 && p1 == type.p1)
         || (p0 == type.p1 && p1 == type.p0);

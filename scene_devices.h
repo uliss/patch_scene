@@ -96,7 +96,7 @@ public:
      */
     SharedDeviceData findData(DeviceId id) const;
 
-    std::optional<ConnectionFullInfo> connectionInfo(const ConnectionId& id) const;
+    std::optional<DeviceConnectionData> connectionInfo(const ConnectionId& id) const;
 
     /**
      * return connection points in the scene coords
@@ -112,7 +112,7 @@ public:
      * @return pair of XletData, or null on error
      * @complexity O(1)
      */
-    std::optional<ConnectionPair> connectionPair(const ConnectionId& id) const;
+    std::optional<ConnectorPair> connectionPair(const ConnectionId& id) const;
 
     /**
      * check if connection data is valid

@@ -54,18 +54,18 @@ SendItemModel::SendItemModel(QObject* parent)
     proxy_->setSourceModel(this);
 }
 
-bool SendItemModel::addConnection(const ConnectionFullInfo& info)
+bool SendItemModel::addConnection(const DeviceConnectionData& info)
 {
     if (!info.isValid() || info.dest_data->category() != ItemCategory::Send)
         return false;
 
     auto src_name = new QStandardItem(info.src_data->title());
-    src_name->setData(QVariant::fromValue(info.data()), DATA_CONNECTION);
+    src_name->setData(QVariant::fromValue(info.connectionId()), DATA_CONNECTION);
     src_name->setData(info.src_data->id(), DATA_DEVICE_ID);
     src_name->setEditable(false);
 
     auto dest_name = new QStandardItem(info.dest_data->title());
-    dest_name->setData(QVariant::fromValue(info.data()), DATA_CONNECTION);
+    dest_name->setData(QVariant::fromValue(info.connectionId()), DATA_CONNECTION);
     dest_name->setData(info.dest_data->id(), DATA_DEVICE_ID);
     dest_name->setEditable(false);
 
@@ -132,7 +132,7 @@ std::optional<DeviceId> SendItemModel::deviceId(const QModelIndex& idx) const
     return {};
 }
 
-void SendItemModel::setFullData(const QList<ConnectionFullInfo>& info)
+void SendItemModel::setFullData(const QList<DeviceConnectionData>& info)
 {
     beginResetModel();
 

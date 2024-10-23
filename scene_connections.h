@@ -71,9 +71,9 @@ public:
      * return all selected connections as list
      */
 
-    QSet<ConnectionId> selectedIdList() const;
+    QList<ConnectionInfo> selectedList() const;
 
-    QList<ConnectionFullInfo> infoList(const SceneDevices& devices) const;
+    QList<DeviceConnectionData> infoList(const SceneDevices& devices) const;
 
     /**
      * find all incoming/outcoming connection to/from devices
@@ -85,7 +85,7 @@ public:
      * find all incoming/outcoming connection data to/from devices
      * @complexity Amort. O(1) (worst case: O(n))
      */
-    QList<ConnectionId> findConnectionsData(DeviceId id) const;
+    QList<ConnectionInfo> findConnectionsData(DeviceId id) const;
 
     /**
      * find connection by specified xlet

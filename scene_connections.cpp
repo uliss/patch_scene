@@ -120,21 +120,21 @@ void SceneConnections::foreachConn(std::function<void(const ConnectionId&, const
         fn(c->connectionId(), c->viewData());
 }
 
-QSet<ConnectionId> SceneConnections::selectedIdList() const
+QList<ConnectionInfo> SceneConnections::selectedList() const
 {
-    QSet<ConnectionId> res;
+    QList<ConnectionInfo> res;
 
     for (auto& kv : conn_) {
         if (kv->isSelected())
-            res.insert(kv->connectionId());
+            res << ConnectionInfo { kv->connectionId(), kv->viewData() };
     }
 
     return res;
 }
 
-QList<ConnectionFullInfo> SceneConnections::infoList(const SceneDevices& devices) const
+QList<DeviceConnectionData> SceneConnections::infoList(const SceneDevices& devices) const
 {
-    QList<ConnectionFullInfo> res;
+    QList<DeviceConnectionData> res;
     res.reserve(conn_.size());
 
     for (auto conn : conn_) {
@@ -156,15 +156,15 @@ QList<Connection*> SceneConnections::findConnections(DeviceId id) const
         return {};
 }
 
-QList<ConnectionId> SceneConnections::findConnectionsData(DeviceId id) const
+QList<ConnectionInfo> SceneConnections::findConnectionsData(DeviceId id) const
 {
     auto dev_it = conn_dev_.find(id);
     if (dev_it != conn_dev_.end()) {
-        QList<ConnectionId> res;
+        QList<ConnectionInfo> res;
         res.reserve(dev_it.value().size());
 
         for (auto c : dev_it.value()) {
-            res.append(c->connectionId());
+            res.append({ c->connectionId(), c->viewData() });
         }
 
         return res;

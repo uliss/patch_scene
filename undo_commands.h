@@ -49,7 +49,7 @@ public:
 private:
     Diagram* doc_;
     SharedDeviceData data_;
-    QList<ConnectionId> conn_;
+    QList<ConnectionInfo> conn_info_;
 };
 
 class RemoveSelected : public QUndoCommand {
@@ -62,7 +62,7 @@ public:
 private:
     Diagram* doc_;
     QList<SharedDeviceData> data_;
-    QSet<ConnectionId> conn_;
+    QHash<ConnectionId, ConnectionViewData> conn_data_;
 };
 
 class DuplicateSelected : public QUndoCommand {

@@ -1534,13 +1534,13 @@ void Diagram::fitRect(const QRectF& rect)
     }
 }
 
-QSet<ConnectionId> Diagram::findSelectedConnections() const
+QHash<ConnectionId, ConnectionViewData> Diagram::findSelectedConnections() const
 {
-    QSet<ConnectionId> res;
+    QHash<ConnectionId, ConnectionViewData> res;
 
     for (auto id : devices_.selectedIdList()) {
         for (auto& data : connections_->findConnectionsData(id)) {
-            res << data;
+            res.insert(data.first, data.second);
         }
     }
 

@@ -21,25 +21,26 @@
 
 namespace ceam {
 
-struct ConnectionEndPoint {
+class ConnectorJack {
+public:
     ConnectorModel model;
     ConnectorType type;
 
-    bool operator==(const ConnectionEndPoint& jack) const
+    bool operator==(const ConnectorJack& jack) const
     {
         return model == jack.model && type == jack.type;
     }
 };
 
-size_t qHash(const ConnectionEndPoint& key);
+size_t qHash(const ConnectorJack& key);
 
-struct ConnectionPair {
-    ConnectionEndPoint p0, p1;
-
-    bool operator==(const ConnectionPair& type) const;
+class ConnectorPair {
+public:
+    ConnectorJack p0, p1;
+    bool operator==(const ConnectorPair& type) const;
 };
 
-size_t qHash(const ConnectionPair& key);
+size_t qHash(const ConnectorPair& key);
 
 enum class ConnectionStyle {
     Unknown,
@@ -54,7 +55,7 @@ enum class ConnectionStyle {
 };
 
 class ConnectionDatabase {
-    QHash<ConnectionPair, ConnectionStyle> db_;
+    QHash<ConnectorPair, ConnectionStyle> db_;
 
 public:
     ConnectionDatabase();
@@ -63,15 +64,15 @@ public:
 
     qsizetype count() const { return db_.count(); }
 
-    bool add(ConnectionPair t, ConnectionStyle cat);
+    bool add(ConnectorPair t, ConnectionStyle cat);
 
     /**
      * Search connection pair style
      * @complexity amort O(1)
      * @return ConnectionStyle or NotFound
      */
-    ConnectionStyle search(ConnectionPair t) const;
-    bool contains(ConnectionPair t) const;
+    ConnectionStyle search(ConnectorPair t) const;
+    bool contains(ConnectorPair t) const;
 };
 
 } // namespace ceam

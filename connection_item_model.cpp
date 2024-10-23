@@ -58,12 +58,12 @@ bool ConnectionItemModel::updateDeviceTitle(DeviceId id, const QString& title)
     return update_num > 0;
 }
 
-bool ConnectionItemModel::addConnection(const ConnectionFullInfo& info)
+bool ConnectionItemModel::addConnection(const DeviceConnectionData& info)
 {
     if (!info.isValid() || info.src_out.isPlug() || info.dest_in.isPlug())
         return false;
 
-    auto conn = QVariant::fromValue(info.data());
+    auto conn = QVariant::fromValue(info.connectionId());
 
     auto src_name = new QStandardItem(info.src_data->title());
     src_name->setData(conn, DATA_CONNECTION);
@@ -120,7 +120,7 @@ void ConnectionItemModel::clearItems()
     removeRows(0, rowCount());
 }
 
-void ConnectionItemModel::setFullData(const QList<ConnectionFullInfo>& conn)
+void ConnectionItemModel::setFullData(const QList<DeviceConnectionData>& conn)
 {
     beginResetModel();
 

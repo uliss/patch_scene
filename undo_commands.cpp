@@ -14,7 +14,6 @@
 #include "undo_commands.h"
 #include "diagram.h"
 #include "diagram_updates_blocker.h"
-#include "logging.hpp"
 
 namespace {
 constexpr int MoveDeviceId = 1000;
@@ -114,7 +113,7 @@ RemoveDevice::RemoveDevice(Diagram* doc, const SharedDeviceData& data)
     , data_(data)
 {
     if (doc_ && data_)
-        conn_ = doc_->connections()->findConnectionsData(data->id());
+        conn_info_ = doc_->connections()->findConnectionsData(data->id());
 }
 
 void RemoveDevice::undo()
@@ -122,8 +121,8 @@ void RemoveDevice::undo()
     if (doc_ && data_) {
         doc_->addDevice(data_);
 
-        for (auto& conn : conn_)
-            doc_->connectDevices(conn);
+        for (auto& conn : conn_info_)
+            doc_->connectDevices(conn.first, conn.second);
     }
 }
 
@@ -140,9 +139,12 @@ RemoveSelected::RemoveSelected(Diagram* doc)
         return;
 
     data_ = doc_->devices().selectedDataList();
-    conn_ = doc_->findSelectedConnections();
+    conn_data_ = doc_->findSelectedConnections();
 
-    conn_ |= doc_->connections()->selectedIdList();
+    // append selected connections
+    auto conn_selected = doc_->connections()->selectedList();
+    for (auto it = conn_selected.begin(); it != conn_selected.end(); ++it)
+        conn_data_[it->first] = it->second;
 }
 
 void RemoveSelected::undo()
@@ -156,8 +158,8 @@ void RemoveSelected::undo()
             dev->setSelected(true);
     }
 
-    for (auto& c : std::as_const(conn_))
-        doc_->connectDevices(c);
+    for (auto it = conn_data_.begin(); it != conn_data_.end(); ++it)
+        doc_->connectDevices(it.key(), it.value());
 }
 
 void RemoveSelected::redo()
@@ -170,8 +172,8 @@ void RemoveSelected::redo()
 
     // only connection is selected
     if (data_.isEmpty()) {
-        for (auto& conn : std::as_const(conn_))
-            doc_->disconnectDevices(conn);
+        for (auto it = conn_data_.begin(); it != conn_data_.end(); ++it)
+            doc_->disconnectDevices(it.key());
     }
 }
 
