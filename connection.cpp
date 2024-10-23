@@ -83,7 +83,10 @@ void Connection::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
         painter->setBrush(Qt::blue);
         painter->drawPath(line_);
     } else if (hover_) {
-        painter->setBrush(view_data_.color().lighter(220));
+        QColor hover_color = (view_data_.color() == Qt::black)
+            ? Qt::darkGray
+            : view_data_.color().lighter(200);
+        painter->setBrush(hover_color);
         painter->drawPath(line_);
     } else {
         painter->setBrush(view_data_.color());
@@ -230,6 +233,8 @@ void Connection::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
     if (!dia_scene)
         return;
 
+    setSelected(true);
+    emit selected(this, true);
     QMenu menu;
 
     auto act_del = menu.addAction(QAction::tr("Delete"));

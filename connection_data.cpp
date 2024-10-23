@@ -128,6 +128,11 @@ bool ConnectionId::setEndPoint(const XletInfo& ep)
     }
 }
 
+ConnectionViewData::ConnectionViewData()
+    : color_(Qt::black)
+{
+}
+
 void ConnectionViewData::clearSegments()
 {
     segs_.clear();

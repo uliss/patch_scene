@@ -105,12 +105,12 @@ private:
     SegmentPoints segs_;
     QPoint pt0_, pt1_;
     QPoint bezy0_ { 0, BEZY_YOFF }, bezy1_ { 0, -BEZY_YOFF };
-    QColor color_ { Qt::black };
+    QColor color_;
     float pen_width_ { 1.5 };
     ConnectionCordType cord_type_ { ConnectionCordType::Bezier };
 
 public:
-    ConnectionViewData() { }
+    ConnectionViewData();
 
     ConnectionCordType cordType() const { return cord_type_; }
     void setCordType(ConnectionCordType type) { cord_type_ = type; }
