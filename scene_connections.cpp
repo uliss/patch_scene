@@ -300,6 +300,20 @@ bool SceneConnections::addConnection(Connection* c)
             }
         });
 
+    connect(c, &Connection::splited, this,
+        [this](const ConnectionId& id, const QPointF& pos) {
+            for (auto& c : conn_) {
+                if (c->connectionId() == id) {
+                    c->splitSegment(pos);
+
+                    conn_edit_->setConnectionData(id, c->viewData());
+                    emit edit(id);
+                    emit update(id);
+                    break;
+                }
+            }
+        });
+
     connect(c, &Connection::reset, this,
         [this](ConnectionId id, ConnectionCordType cord) {
             for (auto& c : conn_) {

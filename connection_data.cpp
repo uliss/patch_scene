@@ -16,6 +16,7 @@
 
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QRectF>
 
 namespace {
 
@@ -163,6 +164,14 @@ bool ConnectionViewData::adjustSegmentLastPos()
 void ConnectionViewData::createSegments()
 {
     segs_ = makeSegments();
+}
+
+bool ConnectionViewData::splitSegment(const QPointF& pos)
+{
+    if (segs_.isEmpty() || cord_type_ != ConnectionCordType::Segmented)
+        return false;
+
+    return segs_.splitAt(pos - pt0_);
 }
 
 void ConnectionViewData::resetPoints(ConnectionCordType cord)
@@ -321,6 +330,26 @@ bool SegmentData::setPos(int idx, const QPointF& pos)
 
     segs_[idx] = (idx & 1) ? pos.x() : pos.y();
     return true;
+}
+
+bool SegmentData::splitAt(const QPointF& pos)
+{
+    for (int i = 0; i < segs_.size(); i++) {
+        auto p0 = pointAt(i, {});
+        auto p1 = pointAt(i + 1, {});
+        if (p0 && p1) {
+            auto r = QRectF(*p0, *p1).normalized().adjusted(-2, -2, 2, 2);
+            if (r.contains(pos)) {
+                auto x = segs_[i + 1];
+                segs_[i + 1] = (i & 0x1) ? pos.y() : pos.x();
+                segs_.insert(i + 2, segs_[i]);
+                segs_.insert(i + 3, x);
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 QJsonValue SegmentData::toJson() const

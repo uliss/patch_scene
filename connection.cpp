@@ -140,7 +140,7 @@ void Connection::updateShape()
             return;
 
         QPainterPathStroker stroker;
-        stroker.setWidth(view_data_.penWidth() + 1);
+        stroker.setWidth(view_data_.penWidth());
         stroker.setCapStyle(Qt::RoundCap);
         line_ = stroker.createStroke(line_);
 
@@ -209,6 +209,11 @@ void Connection::resetCordPoints(ConnectionCordType cord)
     updateShape();
 }
 
+bool Connection::splitSegment(const QPointF& pos)
+{
+    return view_data_.splitSegment(pos);
+}
+
 void Connection::setCordType(ConnectionCordType type)
 {
     view_data_.setCordType(type);
@@ -254,25 +259,34 @@ void Connection::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
         setCordType(ConnectionCordType::Segmented);
     });
 
-    auto act_edit = menu.addAction(QAction::tr("Edit"));
-    QAction::connect(act_edit, &QAction::triggered, dia_scene, [this]() {
-        emit edited(id_, view_data_);
-    });
+    if (view_data_.cordType() == ConnectionCordType::Segmented) {
+        auto act_edit = menu.addAction(QAction::tr("Edit"));
+        QAction::connect(act_edit, &QAction::triggered, dia_scene, [this]() {
+            emit edited(id_, view_data_);
+        });
 
-    switch (view_data_.cordType()) {
-    case ConnectionCordType::Segmented:
-        if (view_data_.segments().isEmpty())
-            break;
-        // falling thru!!!
-        // show menu item only if segment data exists
-    case ConnectionCordType::Bezier: {
+        auto pos = event->scenePos();
+        auto act_split = menu.addAction(QAction::tr("Split segment"));
+        QAction::connect(act_split, &QAction::triggered, dia_scene, [this, pos]() {
+            emit splited(id_, pos);
+        });
+
+        if (!view_data_.segments().isEmpty()) {
+            auto act_reset = menu.addAction(QAction::tr("Reset key points"));
+            QAction::connect(act_reset, &QAction::triggered, dia_scene, [this]() {
+                emit reset(id_, view_data_.cordType());
+            });
+        }
+    } else if (view_data_.cordType() == ConnectionCordType::Bezier) {
+        auto act_edit = menu.addAction(QAction::tr("Edit"));
+        QAction::connect(act_edit, &QAction::triggered, dia_scene, [this]() {
+            emit edited(id_, view_data_);
+        });
+
         auto act_reset = menu.addAction(QAction::tr("Reset key points"));
         QAction::connect(act_reset, &QAction::triggered, dia_scene, [this]() {
             emit reset(id_, view_data_.cordType());
         });
-    } break;
-    default:
-        break;
     }
 
     menu.exec(event->screenPos());

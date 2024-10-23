@@ -40,6 +40,7 @@ public:
     bool isEmpty() const { return segs_.empty(); }
     qsizetype size() const { return segs_.size(); }
     bool setPos(int idx, const QPointF& pos);
+    bool splitAt(const QPointF& pos);
 
     QJsonValue toJson() const;
 
@@ -121,6 +122,7 @@ public:
     bool setSegmentPos(int idx, const QPointF& pos);
     bool adjustSegmentLastPos();
     void createSegments();
+    bool splitSegment(const QPointF& pos);
 
     const QPoint& sourcePoint() const { return pt0_; }
     const QPoint& destinationPoint() const { return pt1_; }
