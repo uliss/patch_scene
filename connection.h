@@ -78,7 +78,7 @@ protected:
 private:
     ConnectionId id_;
     ConnectionViewData view_data_;
-    QPainterPath line_;
+    QPainterPath line_, shape_;
     bool hover_ { false };
 };
 

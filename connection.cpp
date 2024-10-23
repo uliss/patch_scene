@@ -96,7 +96,7 @@ void Connection::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 
 QPainterPath Connection::shape() const
 {
-    return line_;
+    return shape_;
 }
 
 void Connection::updateShape()
@@ -145,6 +145,8 @@ void Connection::updateShape()
         stroker.setCapStyle(Qt::RoundCap);
         line_ = stroker.createStroke(line_);
 
+        stroker.setWidth(5);
+        shape_ = stroker.createStroke(line_);
     } break;
     default:
         break;
