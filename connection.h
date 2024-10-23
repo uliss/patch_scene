@@ -41,9 +41,10 @@ public:
     bool operator==(const ConnectionId& id) const;
 
     const ConnectionId& connectionId() const { return id_; }
-
     const ConnectionViewData& viewData() const { return view_data_; }
     void setViewData(const ConnectionViewData& data);
+
+    ConnectionInfo connectionInfo() const { return { id_, view_data_ }; }
 
     XletInfo sourceInfo() const;
     XletInfo destinationInfo() const;
