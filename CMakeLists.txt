@@ -122,8 +122,6 @@ set(PROJECT_SOURCES
     scene_connections.h
     scene_devices.cpp
     scene_devices.h
-    segment_editor_handle.h
-    segment_editor_handle.cpp
     segment_point_handle.h
     segment_point_handle.cpp
     send_item_model.cpp
