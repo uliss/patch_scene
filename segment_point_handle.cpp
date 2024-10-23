@@ -35,13 +35,12 @@ SegmentPointHandle::SegmentPointHandle(const QPointF& pos,
 
 void SegmentPointHandle::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
+    event->accept();
+
     if (event->modifiers().testFlags(Qt::AltModifier)) {
-        event->accept();
         if (remove_callback_)
             remove_callback_();
-
-    } else
-        event->ignore();
+    }
 }
 
 void SegmentPointHandle::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
