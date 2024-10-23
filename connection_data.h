@@ -119,6 +119,7 @@ public:
     void setSegments(const SegmentData& segs) { segs_ = segs; }
     SegmentData makeSegments() const;
     bool setSegmentPos(int idx, const QPointF& pos);
+    bool adjustSegmentLastPos();
     void createSegments();
 
     const QPoint& sourcePoint() const { return pt0_; }

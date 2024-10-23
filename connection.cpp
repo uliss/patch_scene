@@ -131,8 +131,10 @@ void Connection::updateShape()
 
         if (view_data_.segments().isEmpty()) { // auto segment path
             line_ = makeSegmentsPath(view_data_.sourcePoint(), view_data_.destinationPoint(), view_data_.makeSegments());
-        } else
+        } else {
+            view_data_.adjustSegmentLastPos();
             line_ = makeSegmentsPath(view_data_.sourcePoint(), view_data_.destinationPoint(), view_data_.segments());
+        }
 
         if (line_.isEmpty())
             return;

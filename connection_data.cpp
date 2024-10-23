@@ -151,6 +151,15 @@ bool ConnectionViewData::setSegmentPos(int idx, const QPointF& pos)
     return segs_.setPos(idx, pos);
 }
 
+bool ConnectionViewData::adjustSegmentLastPos()
+{
+    if (segs_.size() < 1)
+        return false;
+
+    segs_.setPos(segs_.size() - 1, pt1_ - pt0_);
+    return true;
+}
+
 void ConnectionViewData::createSegments()
 {
     segs_ = makeSegments();
@@ -307,8 +316,6 @@ void SegmentData::append(float seg)
 
 bool SegmentData::setPos(int idx, const QPointF& pos)
 {
-    WARN() << idx << pos;
-
     if (idx < 0 || idx >= segs_.size())
         return false;
 
