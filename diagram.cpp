@@ -534,7 +534,7 @@ void Diagram::cmdPlaceInRowSelected()
     undo_stack_->push(move_by);
 }
 
-void Diagram::cmdReconnectDevice(const ConnectionId& old_conn, const ConnectionId& new_conn)
+void Diagram::cmdReconnectDevice(const ConnectionInfo& old_conn, const ConnectionInfo& new_conn)
 {
     auto recon = new ReconnectDevice(this, old_conn, new_conn);
     undo_stack_->push(recon);
@@ -1104,9 +1104,9 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
 
                 auto prev_conn = connections_->findConnection(*conn_start_);
                 if (prev_conn) {
-                    auto new_conn = prev_conn->connectionId();
-                    if (new_conn.setEndPoint(xlet.value())) {
-                        cmdReconnectDevice(prev_conn->connectionId(), new_conn);
+                    auto new_conn = prev_conn->connectionInfo();
+                    if (new_conn.first.setEndPoint(xlet.value())) {
+                        cmdReconnectDevice(prev_conn->connectionInfo(), new_conn);
                     }
                 }
             } else {

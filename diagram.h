@@ -132,7 +132,7 @@ public:
      * @param viewData - connection view data
      * @return true on success, false on error
      */
-    bool connectDevices(const ConnectionId& id, std::optional<ConnectionViewData> viewData = {});
+    bool connectDevices(const ConnectionId& id, std::optional<ConnectionViewData> viewData);
 
     /**
      * @brief disconnect devices, emit sceneChanged() and connectionRemoved()
@@ -199,7 +199,7 @@ public slots:
     void cmdPaste();
     void cmdPlaceInColumnSelected();
     void cmdPlaceInRowSelected();
-    void cmdReconnectDevice(const ConnectionId& old_conn, const ConnectionId& new_conn);
+    void cmdReconnectDevice(const ConnectionInfo& old_conn, const ConnectionInfo& new_conn);
     void cmdRemoveDevice(const SharedDeviceData& data);
     void cmdRemoveSelected();
     void cmdSelectAll();

@@ -230,14 +230,14 @@ private:
 
 class ReconnectDevice : public QUndoCommand {
 public:
-    ReconnectDevice(Diagram* doc, const ConnectionId& old_conn, const ConnectionId& new_conn);
+    ReconnectDevice(Diagram* doc, const ConnectionInfo& old_conn, const ConnectionInfo& new_conn);
 
     void undo() final;
     void redo() final;
 
 private:
     Diagram* doc_;
-    ConnectionId old_conn_, new_conn_;
+    ConnectionInfo old_conn_, new_conn_;
 };
 
 }

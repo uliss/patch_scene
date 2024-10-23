@@ -82,7 +82,7 @@ void ConnectDevices::undo()
 void ConnectDevices::redo()
 {
     if (doc_)
-        doc_->connectDevices(id_);
+        doc_->connectDevices(id_, std::nullopt);
 }
 
 DisconnectXlet::DisconnectXlet(Diagram* doc, const XletInfo& xi)
@@ -471,7 +471,7 @@ void UpdateDeviceData::redo()
         doc_->setDeviceData(new_data_);
 }
 
-ReconnectDevice::ReconnectDevice(Diagram* doc, const ConnectionId& old_conn, const ConnectionId& new_conn)
+ReconnectDevice::ReconnectDevice(Diagram* doc, const ConnectionInfo& old_conn, const ConnectionInfo& new_conn)
     : doc_(doc)
     , old_conn_(old_conn)
     , new_conn_(new_conn)
@@ -481,15 +481,15 @@ ReconnectDevice::ReconnectDevice(Diagram* doc, const ConnectionId& old_conn, con
 void ReconnectDevice::undo()
 {
     if (doc_) {
-        doc_->disconnectDevices(new_conn_);
-        doc_->connectDevices(old_conn_);
+        doc_->disconnectDevices(new_conn_.first);
+        doc_->connectDevices(old_conn_.first, old_conn_.second);
     }
 }
 
 void ReconnectDevice::redo()
 {
     if (doc_) {
-        doc_->disconnectDevices(old_conn_);
-        doc_->connectDevices(new_conn_);
+        doc_->disconnectDevices(old_conn_.first);
+        doc_->connectDevices(new_conn_.first, new_conn_.second);
     }
 }
