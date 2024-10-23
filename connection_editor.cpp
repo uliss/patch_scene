@@ -77,7 +77,12 @@ void ConnectionEditor::setConnectionData(const ConnectionId& id, const Connectio
                         emit connectionUpdated(id_, view_data_);
                     }
                 },
-                SegmentPointHandle::NONE,
+                [this, i]() {
+                    if (view_data_.removeSegmentPoint(i)) {
+                        setConnectionData(id_, view_data_); // self-call in callback!
+                        emit connectionUpdated(id_, view_data_);
+                    }
+                },
                 this);
             handles_.append(hnd);
         }
@@ -97,15 +102,6 @@ QRectF ConnectionEditor::boundingRect() const
 void ConnectionEditor::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     // WARN() << "2";
-}
-
-void ConnectionEditor::updateSegmentHandlePos(int i)
-{
-    // if (i >= 0 && i < handles_.count()) {
-    //     auto pos = view_data_.segments().midPointAt(i, view_data_.sourcePoint());
-    //     if (pos)
-    //         handles_[i]->setPos(*pos);
-    // }
 }
 
 } // namespace ceam
