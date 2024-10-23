@@ -376,16 +376,20 @@ bool SegmentPoints::splitAt(const QPoint& pos, const QPoint& from, const QPoint&
 
         auto segment = QRect(p0, p1).normalized().adjusted(-2, -2, 2, 2);
         if (segment.contains(pos)) {
+            auto norm_pos = (p0.x() == p1.x())
+                ? QPoint { p0.x(), pos.y() }
+                : QPoint { pos.x(), p0.y() };
+
             if (i < point_indexes.size()) {
                 auto idx = point_indexes[i];
                 if (idx >= 0 || idx < points_.size()) {
                     bool is_vertical = (i % 2 == 0);
 
-                    points_.insert(idx + int(is_vertical), pos);
+                    points_.insert(idx + int(is_vertical), norm_pos);
                     return true;
                 }
             } else { // last segments
-                points_.append(pos);
+                points_.append(norm_pos);
                 return true;
             }
 
