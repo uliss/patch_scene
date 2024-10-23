@@ -20,24 +20,18 @@ namespace ceam {
 
 class SegmentPointHandle : public QGraphicsEllipseItem {
 public:
-    enum MoveConstraint {
-        NONE,
-        VERTICAL,
-        HORIZONTAL,
-        ANY
-    };
-
-public:
     SegmentPointHandle(const QPointF& pos,
         std::function<void(const QPointF& pos)> moveCallback,
-        MoveConstraint constraint = NONE,
+        std::function<void()> removeCallback,
         QGraphicsItem* parent = nullptr);
 
+protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent* event) final;
     void mouseMoveEvent(QGraphicsSceneMouseEvent* event) final;
 
 private:
-    MoveConstraint move_constraint_;
     std::function<void(const QPointF& pos)> move_callback_;
+    std::function<void()> remove_callback_;
 };
 
 } // namespace ceam
