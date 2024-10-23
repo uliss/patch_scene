@@ -123,4 +123,8 @@ void TestConnection::makeSegments()
     QCOMPARE(segs.size(), 2);
     QCOMPARE(segs.pointAt(0), QPoint(125, 505));
     QCOMPARE(segs.pointAt(1), QPoint(125, -25));
+
+    segs.clear();
+    QVERIFY(segs.isEmpty());
+    QCOMPARE(segs.size(), 0);
 }

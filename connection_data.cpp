@@ -406,6 +406,8 @@ std::optional<SegmentPoints> SegmentPoints::fromJson(const QJsonValue& v)
             auto pt = pointFromJson(x);
             if (pt)
                 res.append(*pt);
+            else
+                WARN() << "point expected, got:" << x;
         } else {
             WARN() << "object expected, got:" << x;
         }
