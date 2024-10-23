@@ -271,6 +271,10 @@ private:
      */
     void updateConnectionStyle(Connection* conn);
 
+    /**
+     * save click event position
+     * @param pos - event position (not mapped!)
+     */
     void saveClickPos(const QPointF& pos);
 
     void selectTopDevice(const QList<QGraphicsItem*>& devs);
