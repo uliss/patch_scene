@@ -152,6 +152,11 @@ bool ConnectionViewData::setSegmentPoint(int idx, const QPoint& pt)
     return segs_.setPoint(idx, pt);
 }
 
+bool ConnectionViewData::removeSegmentPoint(int idx)
+{
+    return segs_.removePoint(idx);
+}
+
 void ConnectionViewData::createSegments()
 {
     segs_ = makeSegments();
@@ -296,6 +301,15 @@ bool SegmentPoints::setPoint(int idx, const QPoint& pt)
         return false;
 
     points_[idx] = pt;
+    return true;
+}
+
+bool SegmentPoints::removePoint(int idx)
+{
+    if (idx < 0 || idx >= points_.size())
+        return false;
+
+    points_.remove(idx);
     return true;
 }
 

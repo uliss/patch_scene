@@ -38,6 +38,7 @@ public:
     bool isEmpty() const { return points_.empty(); }
     qsizetype size() const { return points_.size(); }
     bool setPoint(int idx, const QPoint& pt);
+    bool removePoint(int idx);
 
     QList<QPoint> makePointList(const QPoint& from, const QPoint& to, QList<int>* pointIndexes = nullptr) const;
     bool splitAt(const QPoint& pos, const QPoint& from, const QPoint& to);
@@ -119,6 +120,7 @@ public:
     void setSegments(const SegmentPoints& segs) { segs_ = segs; }
     SegmentPoints makeSegments() const;
     bool setSegmentPoint(int idx, const QPoint& pos);
+    bool removeSegmentPoint(int idx);
     void createSegments();
     bool splitSegment(const QPointF& pos);
 
