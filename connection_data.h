@@ -27,25 +27,25 @@ enum class ConnectionCordType : std::uint8_t {
     Segmented
 };
 
-class SegmentData {
-    QList<float> segs_;
+class SegmentPoints {
+    QList<QPoint> points_;
 
 public:
-    SegmentData() { }
-    void clear() { segs_.clear(); }
-    float at(int pos) const { return segs_[pos]; }
-    std::optional<QPointF> pointAt(int idx, const QPointF& origin) const;
-    std::optional<QPointF> midPointAt(int idx, const QPointF& origin) const;
-    void append(float seg);
-    bool isEmpty() const { return segs_.empty(); }
-    qsizetype size() const { return segs_.size(); }
-    bool setPos(int idx, const QPointF& pos);
-    bool splitAt(const QPointF& pos);
+    SegmentPoints() { }
+    void clear() { points_.clear(); }
+    const QPoint& pointAt(int idx) const { return points_[idx]; }
+    void append(const QPoint& pt) { points_.append(pt); }
+    bool isEmpty() const { return points_.empty(); }
+    qsizetype size() const { return points_.size(); }
+    bool setPoint(int idx, const QPoint& pt);
+
+    QList<QPoint> makePointList(const QPoint& from, const QPoint& to, QList<int>* pointIndexes = nullptr) const;
+    bool splitAt(const QPoint& pos, const QPoint& from, const QPoint& to);
 
     QJsonValue toJson() const;
 
 public:
-    static std::optional<SegmentData> fromJson(const QJsonValue& v);
+    static std::optional<SegmentPoints> fromJson(const QJsonValue& v);
 };
 
 class ConnectionId {
@@ -101,7 +101,7 @@ class ConnectionViewData {
     static const int BEZY_YOFF = 40;
 
 private:
-    SegmentData segs_;
+    SegmentPoints segs_;
     QPoint pt0_, pt1_;
     QPoint bezy0_ { 0, BEZY_YOFF }, bezy1_ { 0, -BEZY_YOFF };
     QColor color_ { Qt::black };
@@ -114,13 +114,11 @@ public:
     ConnectionCordType cordType() const { return cord_type_; }
     void setCordType(ConnectionCordType type) { cord_type_ = type; }
 
-    const SegmentData& segments() const { return segs_; }
-    void appendSegment(float seg);
+    const SegmentPoints& segments() const { return segs_; }
     void clearSegments();
-    void setSegments(const SegmentData& segs) { segs_ = segs; }
-    SegmentData makeSegments() const;
-    bool setSegmentPos(int idx, const QPointF& pos);
-    bool adjustSegmentLastPos();
+    void setSegments(const SegmentPoints& segs) { segs_ = segs; }
+    SegmentPoints makeSegments() const;
+    bool setSegmentPoint(int idx, const QPoint& pos);
     void createSegments();
     bool splitSegment(const QPointF& pos);
 

@@ -14,6 +14,7 @@
 #include "connection.h"
 #include "connection_style.h"
 #include "diagram_scene.h"
+#include "logging.hpp"
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneContextMenuEvent>
@@ -26,23 +27,24 @@ using namespace ceam;
 
 namespace {
 
-QPainterPath makeSegmentsPath(const QPoint& from, const QPoint& to, const SegmentData& segs)
+QPainterPath makeSegmentsPath(const QPoint& from, const QPoint& to, const SegmentPoints& segs)
 {
     QPainterPath line;
 
-    line.moveTo(from);
-    for (int i = 0; i < segs.size(); i++) {
-        auto pt = segs.pointAt(i, from);
-        if (pt)
-            line.lineTo(*pt);
+    auto points = segs.makePointList(from, to);
+
+    if (points.isEmpty())
+        return line;
+
+    line.moveTo(points.front());
+    // iterate forward
+    for (int i = 1; i < points.size(); i++) {
+        line.lineTo(points[i]);
     }
 
-    line.lineTo(to);
-
-    for (int i = segs.size(); i > 0; i--) {
-        auto pt = segs.pointAt(i - 1, from);
-        if (pt)
-            line.lineTo(*pt);
+    // iterate backward
+    for (int i = points.size() - 2; i > 0; i--) {
+        line.lineTo(points[i]);
     }
 
     line.closeSubpath();
@@ -132,7 +134,6 @@ void Connection::updateShape()
         if (view_data_.segments().isEmpty()) { // auto segment path
             line_ = makeSegmentsPath(view_data_.sourcePoint(), view_data_.destinationPoint(), view_data_.makeSegments());
         } else {
-            view_data_.adjustSegmentLastPos();
             line_ = makeSegmentsPath(view_data_.sourcePoint(), view_data_.destinationPoint(), view_data_.segments());
         }
 

@@ -305,6 +305,7 @@ bool SceneConnections::addConnection(Connection* c)
             for (auto& c : conn_) {
                 if (c->connectionId() == id) {
                     c->splitSegment(pos);
+                    WARN() << id << pos;
 
                     conn_edit_->setConnectionData(id, c->viewData());
                     emit edit(id);

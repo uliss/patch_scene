@@ -82,6 +82,15 @@ std::optional<QPoint> pointFromJson(const QJsonValue& v)
     auto js = v.toObject();
     return QPoint { v[KEY_X].toInt(), v[KEY_Y].toInt() };
 }
+
+bool betweenX(const QPoint& a, const QPoint& pt, const QPoint& b)
+{
+    if (a.x() <= b.x())
+        return pt.x() >= a.x() && pt.x() <= b.x();
+    else
+        return pt.x() >= b.x() && pt.x() <= a.x();
+}
+
 }
 
 namespace ceam {
@@ -119,46 +128,28 @@ bool ConnectionId::setEndPoint(const XletInfo& ep)
     }
 }
 
-void ConnectionViewData::appendSegment(float seg)
-{
-    segs_.append(seg);
-}
-
 void ConnectionViewData::clearSegments()
 {
     segs_.clear();
 }
 
-SegmentData ConnectionViewData::makeSegments() const
+SegmentPoints ConnectionViewData::makeSegments() const
 {
-    SegmentData res;
+    SegmentPoints res;
 
     if (pt0_.y() + SEGMENT_DEST_CONN_YPAD <= pt1_.y()) {
-        res.append((pt1_.y() - pt0_.y()) * 0.5);
-        res.append(pt1_.x() - pt0_.x());
-
+        res.append({ pt1_.x(), (pt1_.y() + pt0_.y()) / 2 });
     } else {
-        res.append(SEGMENT_SRC_CONN_YPAD);
-        res.append((pt1_.x() - pt0_.x()) * 0.5);
-        res.append(pt1_.y() - (pt0_.y() + SEGMENT_DEST_CONN_YPAD));
-        res.append(pt1_.x() - pt0_.x());
+        res.append(QPoint((pt1_.x() + pt0_.x()) / 2, pt0_.y() + SEGMENT_SRC_CONN_YPAD));
+        res.append(QPoint((pt1_.x() + pt0_.x()) / 2, pt1_.y() - SEGMENT_DEST_CONN_YPAD));
     }
 
     return res;
 }
 
-bool ConnectionViewData::setSegmentPos(int idx, const QPointF& pos)
+bool ConnectionViewData::setSegmentPoint(int idx, const QPoint& pt)
 {
-    return segs_.setPos(idx, pos);
-}
-
-bool ConnectionViewData::adjustSegmentLastPos()
-{
-    if (segs_.size() < 1)
-        return false;
-
-    segs_.setPos(segs_.size() - 1, pt1_ - pt0_);
-    return true;
+    return segs_.setPoint(idx, pt);
 }
 
 void ConnectionViewData::createSegments()
@@ -168,10 +159,13 @@ void ConnectionViewData::createSegments()
 
 bool ConnectionViewData::splitSegment(const QPointF& pos)
 {
-    if (segs_.isEmpty() || cord_type_ != ConnectionCordType::Segmented)
+    if (cord_type_ != ConnectionCordType::Segmented)
         return false;
 
-    return segs_.splitAt(pos - pt0_);
+    if (segs_.isEmpty())
+        createSegments();
+
+    return segs_.splitAt(pos.toPoint(), pt0_, pt1_);
 }
 
 void ConnectionViewData::resetPoints(ConnectionCordType cord)
@@ -232,7 +226,7 @@ std::optional<ConnectionViewData> ConnectionViewData::fromJson(const QJsonValue&
     if (pt1)
         data.setDestinationPoint(*pt1);
 
-    auto segs = SegmentData::fromJson(obj.value(KEY_SEGMENTS));
+    auto segs = SegmentPoints::fromJson(obj.value(KEY_SEGMENTS));
     if (segs)
         data.setSegments(*segs);
 
@@ -296,75 +290,106 @@ QDebug operator<<(QDebug debug, const ConnectionId& c)
     return debug;
 }
 
-std::optional<QPointF> SegmentData::pointAt(int idx, const QPointF& origin) const
+bool SegmentPoints::setPoint(int idx, const QPoint& pt)
 {
-    if (idx < 0 || idx >= segs_.size())
-        return {};
-
-    return ((idx & 1)
-                   ? QPointF(segs_[idx], segs_[idx - 1])
-                   : QPointF(idx == 0 ? 0 : segs_[idx - 1], segs_[idx]))
-        + origin;
-}
-
-std::optional<QPointF> SegmentData::midPointAt(int idx, const QPointF& origin) const
-{
-    if (idx < 0 || (idx + 1) >= segs_.size())
-        return {};
-
-    return ((idx & 1)
-                   ? QPointF(segs_[idx], (segs_[idx + 1] + segs_[idx - 1]) * 0.5)
-                   : QPointF((segs_[idx + 1] + ((idx > 0) ? segs_[idx - 1] : 0)) * 0.5, segs_[idx]))
-        + origin;
-}
-
-void SegmentData::append(float seg)
-{
-    segs_ << seg;
-}
-
-bool SegmentData::setPos(int idx, const QPointF& pos)
-{
-    if (idx < 0 || idx >= segs_.size())
+    if (idx < 0 || idx >= points_.size())
         return false;
 
-    segs_[idx] = (idx & 1) ? pos.x() : pos.y();
+    points_[idx] = pt;
     return true;
 }
 
-bool SegmentData::splitAt(const QPointF& pos)
+constexpr int NO_INDEX = -1;
+
+QList<QPoint> SegmentPoints::makePointList(const QPoint& from, const QPoint& to, QList<int>* pointIndexes) const
 {
-    for (int i = 0; i < segs_.size(); i++) {
-        auto p0 = pointAt(i, {});
-        auto p1 = pointAt(i + 1, {});
-        if (p0 && p1) {
-            auto r = QRectF(*p0, *p1).normalized().adjusted(-2, -2, 2, 2);
-            if (r.contains(pos)) {
-                auto x = segs_[i + 1];
-                segs_[i + 1] = (i & 0x1) ? pos.y() : pos.x();
-                segs_.insert(i + 2, segs_[i]);
-                segs_.insert(i + 3, x);
+    QList<QPoint> res;
+    res << from;
+    if (pointIndexes)
+        pointIndexes->append(NO_INDEX);
+
+    auto prev_pt = from;
+    int idx = 0;
+    for (auto& pt : points_) {
+        if (prev_pt.y() != pt.y()) {
+            res << QPoint { prev_pt.x(), pt.y() };
+            if (pointIndexes)
+                pointIndexes->append(idx);
+        }
+
+        if (prev_pt.x() != pt.x()) {
+            res << QPoint { pt.x(), pt.y() };
+            if (pointIndexes)
+                pointIndexes->append(idx);
+        }
+
+        prev_pt = pt;
+        idx++;
+    }
+
+    if (res.size() > 1) {
+        auto N = res.size();
+        if (betweenX(res[N - 2], prev_pt, to)) {
+            if (prev_pt.x() != to.x())
+                res << QPoint { to.x(), prev_pt.y() };
+
+            if (prev_pt.y() != to.y())
+                res << QPoint { to.x(), to.y() };
+
+        } else {
+            res << QPoint { prev_pt.x(), prev_pt.y() + 20 };
+            res << QPoint { to.x(), prev_pt.y() + 20 };
+            res << QPoint { to.x(), to.y() };
+        }
+    }
+
+    return res;
+}
+
+bool SegmentPoints::splitAt(const QPoint& pos, const QPoint& from, const QPoint& to)
+{
+    QList<int> point_indexes;
+    auto points = makePointList(from, to, &point_indexes);
+
+    for (int i = 0; (i + 1) < points.size(); i++) {
+        auto p0 = points[i];
+        auto p1 = points[i + 1];
+
+        auto segment = QRect(p0, p1).normalized().adjusted(-2, -2, 2, 2);
+        if (segment.contains(pos)) {
+            if (i < point_indexes.size()) {
+                auto idx = point_indexes[i];
+                if (idx >= 0 || idx < points_.size()) {
+                    bool is_vertical = (i % 2 == 0);
+
+                    points_.insert(idx + int(is_vertical), pos);
+                    return true;
+                }
+            } else { // last segments
+                points_.append(pos);
                 return true;
             }
+
+            return false;
         }
     }
 
     return false;
 }
 
-QJsonValue SegmentData::toJson() const
+QJsonValue SegmentPoints::toJson() const
 {
-    if (segs_.empty())
+    if (points_.empty())
         return {};
 
     QJsonArray arr;
-    for (auto v : segs_)
-        arr << v;
+    for (auto v : points_)
+        arr << pointToJson(v);
 
     return arr;
 }
 
-std::optional<SegmentData> SegmentData::fromJson(const QJsonValue& v)
+std::optional<SegmentPoints> SegmentPoints::fromJson(const QJsonValue& v)
 {
     if (v.isNull())
         return {};
@@ -374,13 +399,15 @@ std::optional<SegmentData> SegmentData::fromJson(const QJsonValue& v)
         return {};
     }
 
-    SegmentData res;
+    SegmentPoints res;
 
     for (auto&& x : v.toArray()) {
-        if (x.isDouble()) {
-            res.append(x.toDouble());
+        if (x.isObject()) {
+            auto pt = pointFromJson(x);
+            if (pt)
+                res.append(*pt);
         } else {
-            WARN() << "float value expected, got:" << x;
+            WARN() << "object expected, got:" << x;
         }
     }
 

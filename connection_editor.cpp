@@ -13,7 +13,7 @@
  *****************************************************************************/
 #include "connection_editor.h"
 #include "bezier_editor_handle.h"
-#include "segment_editor_handle.h"
+#include "segment_point_handle.h"
 
 #include <QBrush>
 #include <QGraphicsScene>
@@ -69,19 +69,16 @@ void ConnectionEditor::setConnectionData(const ConnectionId& id, const Connectio
             view_data_.createSegments();
 
         auto& segs = view_data_.segments();
-        for (int i = 0; (i + 1) < segs.size(); i++) {
-            auto hnd = new SegmentEditorHandle(
-                *segs.midPointAt(i, view_data_.sourcePoint()),
-                (i & 1) ? SegmentEditorHandle::HORIZONTAL : SegmentEditorHandle::VERTICAL,
-                this,
+        for (int i = 0; i < segs.size(); i++) {
+            auto hnd = new SegmentPointHandle(
+                segs.pointAt(i),
                 [this, i](const QPointF& newPos) {
-                    if (view_data_.setSegmentPos(i, newPos - view_data_.sourcePoint())) {
+                    if (view_data_.setSegmentPoint(i, newPos.toPoint())) {
                         emit connectionUpdated(id_, view_data_);
-
-                        updateSegmentHandlePos(i - 1);
-                        updateSegmentHandlePos(i + 1);
                     }
-                });
+                },
+                SegmentPointHandle::NONE,
+                this);
             handles_.append(hnd);
         }
 
@@ -104,11 +101,11 @@ void ConnectionEditor::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
 
 void ConnectionEditor::updateSegmentHandlePos(int i)
 {
-    if (i >= 0 && i < handles_.count()) {
-        auto pos = view_data_.segments().midPointAt(i, view_data_.sourcePoint());
-        if (pos)
-            handles_[i]->setPos(*pos);
-    }
+    // if (i >= 0 && i < handles_.count()) {
+    //     auto pos = view_data_.segments().midPointAt(i, view_data_.sourcePoint());
+    //     if (pos)
+    //         handles_[i]->setPos(*pos);
+    // }
 }
 
 } // namespace ceam
