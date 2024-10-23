@@ -19,11 +19,10 @@
 using namespace ceam;
 
 SegmentPointHandle::SegmentPointHandle(const QPointF& pos,
-    std::function<void(const QPointF& pos)> moveCallback,
-    MoveConstraint constraint,
+    std::function<void(const QPointF& pos)> moveCallback, std::function<void()> removeCallback,
     QGraphicsItem* parent)
     : QGraphicsEllipseItem(QRect(-5, -5, 10, 10), parent)
-    , move_constraint_ { constraint }
+    , remove_callback_(removeCallback)
     , move_callback_(moveCallback)
 {
     setToolTip("Segment editor point");
@@ -34,23 +33,21 @@ SegmentPointHandle::SegmentPointHandle(const QPointF& pos,
     setBrush(QColor(0xFFAA00));
 }
 
+void SegmentPointHandle::mousePressEvent(QGraphicsSceneMouseEvent* event)
+{
+    if (event->modifiers().testFlags(Qt::AltModifier)) {
+        event->accept();
+        if (remove_callback_)
+            remove_callback_();
+
+    } else
+        event->ignore();
+}
+
 void SegmentPointHandle::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
     event->accept();
-
-    switch (move_constraint_) {
-    case VERTICAL:
-        setPos(pos().x(), event->scenePos().y());
-        break;
-    case HORIZONTAL:
-        setPos(event->scenePos().x(), pos().y());
-        break;
-    case NONE:
-        setPos(event->scenePos());
-        break;
-    default:
-        return;
-    }
+    setPos(event->scenePos());
 
     if (move_callback_)
         move_callback_(pos());
