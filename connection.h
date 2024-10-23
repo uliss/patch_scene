@@ -70,6 +70,7 @@ protected:
     QPainterPath shape() const override;
     void updateShape();
 
+    void mousePressEvent(QGraphicsSceneMouseEvent* event) final;
     void hoverEnterEvent(QGraphicsSceneHoverEvent* event) final;
     void hoverLeaveEvent(QGraphicsSceneHoverEvent* event) final;
 

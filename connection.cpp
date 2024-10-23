@@ -14,7 +14,6 @@
 #include "connection.h"
 #include "connection_style.h"
 #include "diagram_scene.h"
-#include "logging.hpp"
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneContextMenuEvent>
@@ -106,15 +105,16 @@ void Connection::updateShape()
 {
     prepareGeometryChange();
 
+    QPainterPathStroker stroker;
+    stroker.setWidth(view_data_.penWidth());
+    stroker.setCapStyle(Qt::RoundCap);
+
     switch (view_data_.cordType()) {
     case ConnectionCordType::Linear: {
         line_.clear();
         line_.moveTo(view_data_.sourcePoint());
         line_.lineTo(view_data_.destinationPoint());
 
-        QPainterPathStroker stroker;
-        stroker.setWidth(view_data_.penWidth());
-        stroker.setCapStyle(Qt::RoundCap);
         line_ = stroker.createStroke(line_);
     } break;
     case ConnectionCordType::Bezier: {
@@ -127,8 +127,6 @@ void Connection::updateShape()
         line_.cubicTo(ctl_pt1, ctl_pt0, view_data_.sourcePoint());
         line_.closeSubpath();
 
-        QPainterPathStroker stroker;
-        stroker.setWidth(view_data_.penWidth());
         line_ = stroker.createStroke(line_);
     } break;
     case ConnectionCordType::Segmented: {
@@ -143,19 +141,24 @@ void Connection::updateShape()
         if (line_.isEmpty())
             return;
 
-        QPainterPathStroker stroker;
-        stroker.setWidth(view_data_.penWidth());
-        stroker.setCapStyle(Qt::RoundCap);
         line_ = stroker.createStroke(line_);
-
-        stroker.setWidth(5);
-        shape_ = stroker.createStroke(line_);
     } break;
     default:
         break;
     }
 
+    stroker.setWidth(std::max<qreal>(4, view_data_.penWidth()));
+    shape_ = stroker.createStroke(line_);
+
     update(boundingRect());
+}
+
+void Connection::mousePressEvent(QGraphicsSceneMouseEvent* event)
+{
+    if (event->modifiers().testFlag(Qt::ControlModifier)) {
+        event->accept();
+        emit splited(id_, event->pos());
+    }
 }
 
 void Connection::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
@@ -217,7 +220,11 @@ void Connection::resetCordPoints(ConnectionCordType cord)
 
 bool Connection::splitSegment(const QPointF& pos)
 {
-    return view_data_.splitSegment(pos);
+    if (view_data_.splitSegment(pos)) {
+        updateShape();
+        return true;
+    } else
+        return false;
 }
 
 void Connection::setCordType(ConnectionCordType type)
