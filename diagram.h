@@ -128,17 +128,18 @@ public:
 
     /**
      * @brief connect devices, emit sceneChanged() and connectionAdded()
-     * @param data - connection data
+     * @param id - connection id
+     * @param viewData - connection view data
      * @return true on success, false on error
      */
-    bool connectDevices(const ConnectionId& data);
+    bool connectDevices(const ConnectionId& id, std::optional<ConnectionViewData> viewData = {});
 
     /**
      * @brief disconnect devices, emit sceneChanged() and connectionRemoved()
-     * @param data - connection data
+     * @param id - connection id
      * @return true on success, false on error
      */
-    bool disconnectDevices(const ConnectionId& data);
+    bool disconnectDevices(const ConnectionId& id);
 
     SceneConnections* connections() { return connections_; }
     const SceneConnections* connections() const { return connections_; }

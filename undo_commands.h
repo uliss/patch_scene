@@ -141,14 +141,14 @@ private:
 
 class ConnectDevices : public QUndoCommand {
 public:
-    ConnectDevices(Diagram* doc, const ConnectionId& conn);
+    ConnectDevices(Diagram* doc, const ConnectionId& id);
 
     void undo() final;
     void redo() final;
 
 private:
     Diagram* doc_;
-    ConnectionId conn_;
+    ConnectionId id_;
 };
 
 class DisconnectXlet : public QUndoCommand {
@@ -160,7 +160,8 @@ public:
 
 private:
     Diagram* doc_;
-    ConnectionId conn_;
+    ConnectionId id_;
+    ConnectionViewData view_data_;
 };
 
 class MoveByDevices : public QUndoCommand {

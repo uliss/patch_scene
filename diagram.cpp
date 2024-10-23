@@ -688,11 +688,8 @@ bool Diagram::loadJson(const QString& path)
         for (const auto& j : arr) {
             auto conn_id = ConnectionId::fromJson(j);
             if (conn_id) {
-                connectDevices(*conn_id);
-
                 auto view_data = ConnectionViewData::fromJson(j.toObject().value(JSON_KEY_VIEW));
-                if (view_data)
-                    connections_->setViewData(*conn_id, *view_data);
+                connectDevices(*conn_id, view_data);
             }
         }
     }
@@ -1107,9 +1104,9 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
 
                 auto prev_conn = connections_->findConnection(*conn_start_);
                 if (prev_conn) {
-                    auto new_conn = *prev_conn;
+                    auto new_conn = prev_conn->connectionId();
                     if (new_conn.setEndPoint(xlet.value())) {
-                        cmdReconnectDevice(*prev_conn, new_conn);
+                        cmdReconnectDevice(prev_conn->connectionId(), new_conn);
                     }
                 }
             } else {
@@ -1347,11 +1344,15 @@ std::optional<XletInfo> Diagram::hoverDeviceXlet(const QList<QGraphicsItem*>& de
     return XletInfo { dev->id(), xlet->index(), xlet->xletType() };
 }
 
-bool Diagram::connectDevices(const ConnectionId& data)
+bool Diagram::connectDevices(const ConnectionId& id, std::optional<ConnectionViewData> viewData)
 {
-    auto conn = connections_->add(data);
+    auto conn = connections_->add(id);
     if (conn) {
-        updateConnectionStyle(conn);
+        if (!viewData)
+            updateConnectionStyle(conn);
+        else
+            conn->setViewData(*viewData);
+
         updateConnectionPos(conn);
         emit sceneChanged();
         return true;
@@ -1359,9 +1360,9 @@ bool Diagram::connectDevices(const ConnectionId& data)
         return false;
 }
 
-bool Diagram::disconnectDevices(const ConnectionId& data)
+bool Diagram::disconnectDevices(const ConnectionId& id)
 {
-    if (connections_->remove(data.sourceInfo())) {
+    if (connections_->remove(id.sourceInfo())) {
         emit sceneChanged();
         return true;
     } else

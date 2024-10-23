@@ -90,10 +90,10 @@ public:
     /**
      * find connection by specified xlet
      * @param xlet
-     * @return connection data or null if not found
+     * @return connection pointer or null if not found
      * @complexity O(1)
      */
-    std::optional<ConnectionId> findConnection(const XletInfo& xlet) const;
+    Connection* findConnection(const XletInfo& xlet) const;
 
     /**
      * check if specified xlets can be connected

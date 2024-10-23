@@ -172,25 +172,25 @@ QList<ConnectionId> SceneConnections::findConnectionsData(DeviceId id) const
         return {};
 }
 
-std::optional<ConnectionId> SceneConnections::findConnection(const XletInfo& xlet) const
+Connection* SceneConnections::findConnection(const XletInfo& xlet) const
 {
     switch (xlet.type()) {
     case XletType::In: {
         auto dest_it = conn_dest_.find(xlet);
         if (dest_it != conn_dest_.end())
-            return dest_it.value()->connectionId();
+            return dest_it.value();
     } break;
     case XletType::Out: {
         auto src_it = conn_src_.find(xlet);
         if (src_it != conn_src_.end())
-            return src_it.value()->connectionId();
+            return src_it.value();
     } break;
     case XletType::None:
     default:
         break;
     }
 
-    return {};
+    return nullptr;
 }
 
 bool SceneConnections::checkConnection(const XletInfo& x0, const XletInfo& x1) const

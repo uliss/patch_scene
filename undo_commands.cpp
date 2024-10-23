@@ -14,6 +14,7 @@
 #include "undo_commands.h"
 #include "diagram.h"
 #include "diagram_updates_blocker.h"
+#include "logging.hpp"
 
 namespace {
 constexpr int MoveDeviceId = 1000;
@@ -67,43 +68,45 @@ void AddDeviceSelection::redo()
     }
 }
 
-ConnectDevices::ConnectDevices(Diagram* doc, const ConnectionId& conn)
+ConnectDevices::ConnectDevices(Diagram* doc, const ConnectionId& id)
     : doc_(doc)
-    , conn_(conn)
+    , id_(id)
 {
 }
 
 void ConnectDevices::undo()
 {
     if (doc_)
-        doc_->disconnectDevices(conn_);
+        doc_->disconnectDevices(id_);
 }
 
 void ConnectDevices::redo()
 {
     if (doc_)
-        doc_->connectDevices(conn_);
+        doc_->connectDevices(id_);
 }
 
 DisconnectXlet::DisconnectXlet(Diagram* doc, const XletInfo& xi)
     : doc_(doc)
-    , conn_(0, 0, 0, 0)
+    , id_(0, 0, 0, 0)
 {
     auto conn = doc->connections()->findConnection(xi);
-    if (conn)
-        conn_ = conn.value();
+    if (conn) {
+        id_ = conn->connectionId();
+        view_data_ = conn->viewData();
+    }
 }
 
 void DisconnectXlet::undo()
 {
-    if (doc_ && conn_.isValid())
-        doc_->connectDevices(conn_);
+    if (doc_ && id_.isValid())
+        doc_->connectDevices(id_, view_data_);
 }
 
 void DisconnectXlet::redo()
 {
-    if (doc_ && conn_.isValid())
-        doc_->disconnectDevices(conn_);
+    if (doc_ && id_.isValid())
+        doc_->disconnectDevices(id_);
 }
 
 RemoveDevice::RemoveDevice(Diagram* doc, const SharedDeviceData& data)
