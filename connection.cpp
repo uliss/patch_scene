@@ -267,13 +267,13 @@ void Connection::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
         });
 
         auto pos = event->scenePos();
-        auto act_split = menu.addAction(QAction::tr("Split segment"));
+        auto act_split = menu.addAction(QAction::tr("Add split point"));
         QAction::connect(act_split, &QAction::triggered, dia_scene, [this, pos]() {
             emit splited(id_, pos);
         });
 
         if (!view_data_.segments().isEmpty()) {
-            auto act_reset = menu.addAction(QAction::tr("Reset key points"));
+            auto act_reset = menu.addAction(QAction::tr("Reset"));
             QAction::connect(act_reset, &QAction::triggered, dia_scene, [this]() {
                 emit reset(id_, view_data_.cordType());
             });
@@ -284,7 +284,7 @@ void Connection::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
             emit edited(id_, view_data_);
         });
 
-        auto act_reset = menu.addAction(QAction::tr("Reset key points"));
+        auto act_reset = menu.addAction(QAction::tr("Reset"));
         QAction::connect(act_reset, &QAction::triggered, dia_scene, [this]() {
             emit reset(id_, view_data_.cordType());
         });

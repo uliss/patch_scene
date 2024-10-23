@@ -871,39 +871,50 @@
 <context>
     <name>QAction</name>
     <message>
-        <location filename="connection.cpp" line="270"/>
+        <location filename="connection.cpp" line="233"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="276"/>
+        <location filename="connection.cpp" line="239"/>
         <source>Cord type</source>
         <translation>Тип соединения</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="278"/>
+        <location filename="connection.cpp" line="241"/>
         <source>Bezier</source>
         <translation>Кривая Безье</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="279"/>
+        <location filename="connection.cpp" line="242"/>
         <source>Linear</source>
         <translation>Прямая</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="280"/>
+        <location filename="connection.cpp" line="243"/>
         <source>Segment</source>
         <translation>Сегмент</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="300"/>
+        <location filename="connection.cpp" line="264"/>
+        <location filename="connection.cpp" line="282"/>
         <source>Edit</source>
         <translation>Правка</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="308"/>
+        <location filename="connection.cpp" line="270"/>
+        <source>Add split point</source>
+        <translation>Добавить точку</translation>
+    </message>
+    <message>
+        <location filename="connection.cpp" line="276"/>
+        <location filename="connection.cpp" line="287"/>
+        <source>Reset</source>
+        <translation>Сбросить</translation>
+    </message>
+    <message>
         <source>Reset key points</source>
-        <translation>Сброс ключевых точек</translation>
+        <translation type="vanished">Сброс ключевых точек</translation>
     </message>
 </context>
 <context>
@@ -1504,7 +1515,7 @@ http://ceam.space</source>
 <context>
     <name>ceam::DeviceXlet</name>
     <message>
-        <location filename="device_xlet.cpp" line="182"/>
+        <location filename="device_xlet.cpp" line="166"/>
         <source>Phantom</source>
         <translation>Фантом</translation>
     </message>
@@ -1512,17 +1523,17 @@ http://ceam.space</source>
 <context>
     <name>ceam::Diagram</name>
     <message>
-        <location filename="diagram.cpp" line="92"/>
+        <location filename="diagram.cpp" line="91"/>
         <source>New project</source>
         <translation>Новый проект</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="817"/>
+        <location filename="diagram.cpp" line="810"/>
         <source>Generated with PatchScene</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1153"/>
+        <location filename="diagram.cpp" line="1145"/>
         <source>&amp;Add device</source>
         <translation>&amp;Добавить элемент</translation>
     </message>
@@ -1539,32 +1550,32 @@ http://ceam.space</source>
         <translation type="vanished">&amp;Установить фоновое изображение</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1165"/>
+        <location filename="diagram.cpp" line="1157"/>
         <source>Align &amp;horizontal</source>
         <translation>Выровнять по &amp;горизонтали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1169"/>
+        <location filename="diagram.cpp" line="1161"/>
         <source>Align &amp;vertical</source>
         <translation>Выровнять по &amp;вертикали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1173"/>
+        <location filename="diagram.cpp" line="1165"/>
         <source>Place in row</source>
         <translation>Разместить в ряд</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1177"/>
+        <location filename="diagram.cpp" line="1169"/>
         <source>Place in column</source>
         <translation>Разместить в столбец</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1184"/>
+        <location filename="diagram.cpp" line="1176"/>
         <source>Distribute horizontal</source>
         <translation>Распределить горизонтально</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1188"/>
+        <location filename="diagram.cpp" line="1180"/>
         <source>Distribute vertical</source>
         <translation>Распределить вертикально</translation>
     </message>
@@ -2050,17 +2061,17 @@ Do you wan&apos;t to save it before closing?</source>
 <context>
     <name>ceam::macos::NativeAlertDialog</name>
     <message>
-        <location filename="macos_utils.mm" line="77"/>
+        <location filename="macos_utils.mm" line="72"/>
         <source>Yes</source>
         <translation>Да</translation>
     </message>
     <message>
-        <location filename="macos_utils.mm" line="78"/>
+        <location filename="macos_utils.mm" line="73"/>
         <source>No</source>
         <translation>Нет</translation>
     </message>
     <message>
-        <location filename="macos_utils.mm" line="79"/>
+        <location filename="macos_utils.mm" line="74"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
