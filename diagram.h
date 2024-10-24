@@ -282,7 +282,6 @@ private:
     std::optional<XletInfo> hoverDeviceXlet(const QList<QGraphicsItem*>& devs, const QPoint& pt) const;
     void updateZoom(qreal zoom);
 
-    bool isValidConnection(const XletInfo& src, const XletInfo& dest) const;
     bool dropJson(const QPointF& pos, const QByteArray& json);
 
     QJsonValue appInfoJson() const;

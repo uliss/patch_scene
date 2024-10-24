@@ -1103,7 +1103,7 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
                     }
                 }
             } else {
-                if (!isValidConnection(conn_start_.value(), xlet.value()))
+                if (!connections_->checkConnection(conn_start_.value(), xlet.value()))
                     return;
 
                 auto conn = ConnectionId::fromXletPair(*xlet, *conn_start_);
@@ -1469,11 +1469,6 @@ void Diagram::updateZoom(qreal zoom)
     zoom_ = qBound(MIN_ZOOM, zoom, MAX_ZOOM);
     setTransform(QTransform::fromScale(zoom_, zoom_));
     emit zoomChanged(zoom_);
-}
-
-bool Diagram::isValidConnection(const XletInfo& src, const XletInfo& dest) const
-{
-    return connections_->checkConnection(src, dest);
 }
 
 bool Diagram::dropJson(const QPointF& pos, const QByteArray& json)
