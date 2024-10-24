@@ -283,6 +283,31 @@ void Connection::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
         setCordType(ConnectionCordType::Segmented);
     });
 
+    auto menu_color = menu.addMenu(QAction::tr("Color"));
+    static const QList<QColor> palette = {
+        QColor(0xEE, 0xB6, 0x4B),
+        QColor(0xFC, 0x94, 0x60),
+        QColor(0xE5, 0x42, 0x64),
+        Qt::darkRed,
+        QColor(0xA9, 0x2F, 0x5F),
+        Qt::darkMagenta,
+        QColor(0x28, 0xD, 0x6E),
+        QColor(0x32, 0x5F, 0x51),
+        Qt::darkCyan,
+        QColor(0xC3, 0xC4, 0x8A),
+        Qt::black,
+        Qt::darkGray,
+    };
+
+    for (auto& c : palette) {
+        QPixmap pixmap(64, 64);
+        pixmap.fill(c);
+        auto act = menu_color->addAction(QIcon(pixmap), {});
+        QAction::connect(act, &QAction::triggered, dia_scene, [this, c]() {
+            view_data_.setColor(c);
+        });
+    }
+
     if (view_data_.cordType() == ConnectionCordType::Segmented) {
         auto act_edit = menu.addAction(QAction::tr("Edit"));
         QAction::connect(act_edit, &QAction::triggered, dia_scene, [this]() {
