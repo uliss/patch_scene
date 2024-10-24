@@ -19,12 +19,12 @@ ConnectionStyleDatabase::ConnectionStyleDatabase()
 {
     pen_width_[ConnectionStyle::Power] = 3;
     pen_width_[ConnectionStyle::Audio] = 2;
-    pen_width_[ConnectionStyle::Computer] = 1;
+    pen_width_[ConnectionStyle::Computer] = 1.5;
 
     color_[ConnectionStyle::Audio] = Qt::black;
     color_[ConnectionStyle::Invalid] = Qt::red;
     color_[ConnectionStyle::Network] = Qt::darkCyan;
-    color_[ConnectionStyle::Computer] = Qt::darkBlue;
+    color_[ConnectionStyle::Computer] = Qt::darkMagenta;
     color_[ConnectionStyle::Light] = Qt::darkBlue;
 }
 
