@@ -871,44 +871,49 @@
 <context>
     <name>QAction</name>
     <message>
-        <location filename="connection.cpp" line="233"/>
+        <location filename="connection.cpp" line="256"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="239"/>
+        <location filename="connection.cpp" line="262"/>
         <source>Cord type</source>
         <translation>Тип соединения</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="241"/>
+        <location filename="connection.cpp" line="264"/>
         <source>Bezier</source>
         <translation>Кривая Безье</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="242"/>
+        <location filename="connection.cpp" line="265"/>
         <source>Linear</source>
         <translation>Прямая</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="243"/>
+        <location filename="connection.cpp" line="266"/>
         <source>Segment</source>
         <translation>Сегмент</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="264"/>
-        <location filename="connection.cpp" line="282"/>
+        <location filename="connection.cpp" line="286"/>
+        <source>Color</source>
+        <translation>Цвет</translation>
+    </message>
+    <message>
+        <location filename="connection.cpp" line="312"/>
+        <location filename="connection.cpp" line="330"/>
         <source>Edit</source>
         <translation>Правка</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="270"/>
+        <location filename="connection.cpp" line="318"/>
         <source>Add split point</source>
         <translation>Добавить точку</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="276"/>
-        <location filename="connection.cpp" line="287"/>
+        <location filename="connection.cpp" line="324"/>
+        <location filename="connection.cpp" line="335"/>
         <source>Reset</source>
         <translation>Сбросить</translation>
     </message>
@@ -1528,12 +1533,12 @@ http://ceam.space</source>
         <translation>Новый проект</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="810"/>
+        <location filename="diagram.cpp" line="807"/>
         <source>Generated with PatchScene</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1145"/>
+        <location filename="diagram.cpp" line="1135"/>
         <source>&amp;Add device</source>
         <translation>&amp;Добавить элемент</translation>
     </message>
@@ -1550,32 +1555,32 @@ http://ceam.space</source>
         <translation type="vanished">&amp;Установить фоновое изображение</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1157"/>
+        <location filename="diagram.cpp" line="1147"/>
         <source>Align &amp;horizontal</source>
         <translation>Выровнять по &amp;горизонтали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1161"/>
+        <location filename="diagram.cpp" line="1151"/>
         <source>Align &amp;vertical</source>
         <translation>Выровнять по &amp;вертикали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1165"/>
+        <location filename="diagram.cpp" line="1155"/>
         <source>Place in row</source>
         <translation>Разместить в ряд</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1169"/>
+        <location filename="diagram.cpp" line="1159"/>
         <source>Place in column</source>
         <translation>Разместить в столбец</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1176"/>
+        <location filename="diagram.cpp" line="1166"/>
         <source>Distribute horizontal</source>
         <translation>Распределить горизонтально</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1180"/>
+        <location filename="diagram.cpp" line="1170"/>
         <source>Distribute vertical</source>
         <translation>Распределить вертикально</translation>
     </message>
