@@ -14,6 +14,7 @@
 #include "connection.h"
 #include "connection_style.h"
 #include "diagram_scene.h"
+#include "logging.hpp"
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneContextMenuEvent>
@@ -35,15 +36,15 @@ QPainterPath makeSegmentsPath(const QPoint& from, const QPoint& to, const Segmen
     if (points.isEmpty())
         return line;
 
-    line.moveTo(points.front());
+    line.moveTo(points.front().first);
     // iterate forward
     for (int i = 1; i < points.size(); i++) {
-        line.lineTo(points[i]);
+        line.lineTo(points[i].first);
     }
 
     // iterate backward
     for (int i = points.size() - 2; i > 0; i--) {
-        line.lineTo(points[i]);
+        line.lineTo(points[i].first);
     }
 
     line.closeSubpath();
@@ -83,8 +84,8 @@ void Connection::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
         painter->drawPath(line_);
     } else if (hover_) {
         QColor hover_color = (view_data_.color() == Qt::black)
-            ? Qt::darkGray
-            : view_data_.color().lighter(200);
+            ? QColor(80, 80, 80)
+            : view_data_.color().lighter(140);
         painter->setBrush(hover_color);
         painter->drawPath(line_);
     } else {
@@ -155,10 +156,22 @@ void Connection::updateShape()
 
 void Connection::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
+    WARN() << "CONN";
+    QGraphicsObject::mousePressEvent(event);
+
     if (event->modifiers().testFlag(Qt::ControlModifier)) {
-        event->accept();
         emit splited(id_, event->pos());
+        event->accept();
+    } else {
+        toggleSelection();
     }
+}
+
+void Connection::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+{
+    QGraphicsObject::mouseReleaseEvent(event);
+    event->accept();
+    setSelected(true);
 }
 
 void Connection::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
@@ -206,10 +219,7 @@ void Connection::setStyle(ConnectionStyle style)
 
 void Connection::toggleSelection()
 {
-    auto value = !isSelected();
-    setSelected(value);
-
-    emit selected(this, value);
+    emit selected(this, !isSelected());
 }
 
 void Connection::resetCordPoints(ConnectionCordType cord)
@@ -240,7 +250,6 @@ void Connection::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
     if (!dia_scene)
         return;
 
-    setSelected(true);
     emit selected(this, true);
     QMenu menu;
 

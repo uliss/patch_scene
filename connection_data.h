@@ -40,7 +40,7 @@ public:
     bool setPoint(int idx, const QPoint& pt);
     bool removePoint(int idx);
 
-    QList<QPoint> makePointList(const QPoint& from, const QPoint& to, QList<int>* pointIndexes = nullptr) const;
+    QList<std::pair<QPoint, bool>> makePointList(const QPoint& from, const QPoint& to) const;
     bool splitAt(const QPoint& pos, const QPoint& from, const QPoint& to);
 
     QJsonValue toJson() const;
@@ -106,7 +106,7 @@ private:
     QPoint pt0_, pt1_;
     QPoint bezy0_ { 0, BEZY_YOFF }, bezy1_ { 0, -BEZY_YOFF };
     QColor color_;
-    float pen_width_ { 1.5 };
+    float pen_width_;
     ConnectionCordType cord_type_ { ConnectionCordType::Bezier };
 
 public:

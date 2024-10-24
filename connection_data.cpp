@@ -23,6 +23,10 @@ namespace {
 constexpr int SEGMENT_SRC_CONN_YPAD = 5;
 constexpr int SEGMENT_DEST_CONN_YPAD = 25;
 
+constexpr qreal PEN_WIDTH_MIN = 1;
+constexpr qreal PEN_WIDTH_DEF = 1.5;
+constexpr qreal PEN_WIDTH_MAX = 5;
+
 constexpr const char* KEY_BEZY0 = "bezy0";
 constexpr const char* KEY_BEZY1 = "bezy1";
 constexpr const char* KEY_SRC_PT = "src";
@@ -31,8 +35,10 @@ constexpr const char* KEY_DEST = "dest";
 constexpr const char* KEY_DEST_IN = "in";
 constexpr const char* KEY_SRC = "src";
 constexpr const char* KEY_SRC_OUT = "out";
+constexpr const char* KEY_COLOR = "color";
 constexpr const char* KEY_X = "x";
 constexpr const char* KEY_Y = "y";
+constexpr const char* KEY_WIDTH = "width";
 constexpr const char* KEY_SEGMENTS = "segments";
 constexpr const char* KEY_CONNECTION_CORD = "cord";
 constexpr const char* JSON_STR_LINE = "line";
@@ -129,7 +135,7 @@ bool ConnectionId::setEndPoint(const XletInfo& ep)
 }
 
 ConnectionViewData::ConnectionViewData()
-    : color_(Qt::black)
+    : color_(Qt::black), pen_width_(PEN_WIDTH_DEF)
 {
 }
 
@@ -203,6 +209,8 @@ QJsonObject ConnectionViewData::toJson() const
     j[KEY_SRC_PT] = pointToJson(pt0_);
     j[KEY_DEST_PT] = pointToJson(pt1_);
     j[KEY_SEGMENTS] = segs_.toJson();
+    j[KEY_COLOR] = color_.name(QColor::HexRgb);
+    j[KEY_WIDTH] = pen_width_;
 
     return j;
 }
@@ -239,6 +247,13 @@ std::optional<ConnectionViewData> ConnectionViewData::fromJson(const QJsonValue&
     auto segs = SegmentPoints::fromJson(obj.value(KEY_SEGMENTS));
     if (segs)
         data.setSegments(*segs);
+
+    auto color = QColor::fromString(obj.value(KEY_COLOR).toString("#000"));
+    if (color.isValid())
+        data.setColor(color);
+
+    auto pen_wd = qBound<qreal>(PEN_WIDTH_MIN, obj.value(KEY_WIDTH).toDouble(PEN_WIDTH_DEF), PEN_WIDTH_MAX);
+    data.setPenWidth(pen_wd);
 
     return data;
 }
@@ -318,47 +333,39 @@ bool SegmentPoints::removePoint(int idx)
     return true;
 }
 
-constexpr int NO_INDEX = -1;
-
-QList<QPoint> SegmentPoints::makePointList(const QPoint& from, const QPoint& to, QList<int>* pointIndexes) const
+QList<std::pair<QPoint, bool>> SegmentPoints::makePointList(const QPoint& from, const QPoint& to) const
 {
-    QList<QPoint> res;
-    res << from;
-    if (pointIndexes)
-        pointIndexes->append(NO_INDEX);
+    QList<std::pair<QPoint, bool>> res;
+    res << std::make_pair(from, false);
 
     auto prev_pt = from;
-    int idx = 0;
     for (auto& pt : points_) {
         if (prev_pt.y() != pt.y()) {
-            res << QPoint { prev_pt.x(), pt.y() };
-            if (pointIndexes)
-                pointIndexes->append(idx);
+            auto new_pt = QPoint { prev_pt.x(), pt.y() };
+            res << std::make_pair(new_pt, new_pt == pt);
         }
 
         if (prev_pt.x() != pt.x()) {
-            res << QPoint { pt.x(), pt.y() };
-            if (pointIndexes)
-                pointIndexes->append(idx);
+            auto new_pt = QPoint { pt.x(), pt.y() };
+            res << std::make_pair(new_pt, new_pt == pt);
         }
 
         prev_pt = pt;
-        idx++;
     }
 
     if (res.size() > 1) {
         auto N = res.size();
-        if (betweenX(res[N - 2], prev_pt, to)) {
+        if (betweenX(res[N - 2].first, prev_pt, to)) {
             if (prev_pt.x() != to.x())
-                res << QPoint { to.x(), prev_pt.y() };
+                res << std::make_pair(QPoint { to.x(), prev_pt.y() }, false);
 
             if (prev_pt.y() != to.y())
-                res << QPoint { to.x(), to.y() };
+                res << std::make_pair(QPoint { to.x(), to.y() }, false);
 
         } else {
-            res << QPoint { prev_pt.x(), prev_pt.y() + 20 };
-            res << QPoint { to.x(), prev_pt.y() + 20 };
-            res << QPoint { to.x(), to.y() };
+            res << std::make_pair(QPoint { prev_pt.x(), prev_pt.y() + 20 }, false);
+            res << std::make_pair(QPoint { to.x(), prev_pt.y() + 20 }, false);
+            res << std::make_pair(QPoint { to.x(), to.y() }, false);
         }
     }
 
@@ -367,37 +374,31 @@ QList<QPoint> SegmentPoints::makePointList(const QPoint& from, const QPoint& to,
 
 bool SegmentPoints::splitAt(const QPoint& pos, const QPoint& from, const QPoint& to)
 {
-    QList<int> point_indexes;
-    auto points = makePointList(from, to, &point_indexes);
+    auto points = makePointList(from, to);
 
+    QList<QPoint> new_points;
     for (int i = 0; (i + 1) < points.size(); i++) {
         auto p0 = points[i];
         auto p1 = points[i + 1];
 
-        auto segment = QRect(p0, p1).normalized().adjusted(-2, -2, 2, 2);
+        auto segment = QRect(p0.first, p1.first).normalized().adjusted(-2, -2, 2, 2);
+        if (p0.second)
+            new_points.append(p0.first);
+
         if (segment.contains(pos)) {
-            auto norm_pos = (p0.x() == p1.x())
-                ? QPoint { p0.x(), pos.y() }
-                : QPoint { pos.x(), p0.y() };
+            auto norm_pos = (p0.first.x() == p1.first.x())
+                ? QPoint { p0.first.x(), pos.y() }
+                : QPoint { pos.x(), p0.first.y() };
 
-            if (i < point_indexes.size()) {
-                auto idx = point_indexes[i];
-                if (idx >= 0 || idx < points_.size()) {
-                    bool is_vertical = (i % 2 == 0);
-
-                    points_.insert(idx + int(is_vertical), norm_pos);
-                    return true;
-                }
-            } else { // last segments
-                points_.append(norm_pos);
-                return true;
-            }
-
-            return false;
+            new_points.append(norm_pos);
         }
     }
 
-    return false;
+    if (new_points.isEmpty())
+        return false;
+
+    points_ = new_points;
+    return true;
 }
 
 QJsonValue SegmentPoints::toJson() const

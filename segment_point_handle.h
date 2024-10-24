@@ -20,6 +20,10 @@ namespace ceam {
 
 class SegmentPointHandle : public QGraphicsEllipseItem {
 public:
+    enum { Type = QGraphicsItem::UserType + 6 };
+    int type() const override { return Type; }
+
+public:
     SegmentPointHandle(const QPointF& pos,
         std::function<void(const QPointF& pos)> moveCallback,
         std::function<void()> removeCallback,
@@ -28,6 +32,9 @@ public:
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent* event) final;
     void mouseMoveEvent(QGraphicsSceneMouseEvent* event) final;
+
+private:
+    void setHandlePos(const QPointF& pos);
 
 private:
     std::function<void(const QPointF& pos)> move_callback_;

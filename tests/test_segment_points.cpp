@@ -31,7 +31,8 @@ void TestSegmentPoints::testMakePointList()
         SegmentPoints segs;
         auto x = segs.makePointList({}, { 100, 200 });
         QCOMPARE(x.size(), 1);
-        QCOMPARE(x[0], QPoint(0, 0));
+        QCOMPARE(x[0].first, QPoint(0, 0));
+        QCOMPARE(x[0].second, false);
     }
 
     {
@@ -39,84 +40,71 @@ void TestSegmentPoints::testMakePointList()
         segs.append({ 50, 100 });
         auto x = segs.makePointList({}, { 100, 200 });
         QCOMPARE(x.size(), 5);
-        QCOMPARE(x[0], QPoint(0, 0));
-        QCOMPARE(x[1], QPoint(0, 100));
-        QCOMPARE(x[2], QPoint(50, 100));
-        QCOMPARE(x[3], QPoint(100, 100));
-        QCOMPARE(x[4], QPoint(100, 200));
+        QCOMPARE(x[0].first, QPoint(0, 0));
+        QCOMPARE(x[1].first, QPoint(0, 100));
+        QCOMPARE(x[2].first, QPoint(50, 100));
+        QCOMPARE(x[3].first, QPoint(100, 100));
+        QCOMPARE(x[4].first, QPoint(100, 200));
     }
 
     {
         SegmentPoints segs;
         segs.append({ 50, 100 });
-        auto x = segs.makePointList({}, { 100, 200 }, nullptr);
+        auto x = segs.makePointList({}, { 100, 200 });
         QCOMPARE(x.size(), 5);
-        QCOMPARE(x[0], QPoint(0, 0));
-        QCOMPARE(x[1], QPoint(0, 100));
-        QCOMPARE(x[2], QPoint(50, 100));
-        QCOMPARE(x[3], QPoint(100, 100));
-        QCOMPARE(x[4], QPoint(100, 200));
+        QCOMPARE(x[0].first, QPoint(0, 0));
+        QCOMPARE(x[1].first, QPoint(0, 100));
+        QCOMPARE(x[2].first, QPoint(50, 100));
+        QCOMPARE(x[3].first, QPoint(100, 100));
+        QCOMPARE(x[4].first, QPoint(100, 200));
     }
 
     {
-        QList<int> idxs;
         SegmentPoints segs;
         segs.append({ 50, 100 });
-        auto x = segs.makePointList({}, { 100, 200 }, &idxs);
+        auto x = segs.makePointList({}, { 100, 200 });
         QCOMPARE(x.size(), 5);
-        QCOMPARE(x[0], QPoint(0, 0));
-        QCOMPARE(x[1], QPoint(0, 100));
-        QCOMPARE(x[2], QPoint(50, 100));
-        QCOMPARE(x[3], QPoint(100, 100));
-        QCOMPARE(x[4], QPoint(100, 200));
+        QCOMPARE(x[0].first, QPoint(0, 0));
+        QCOMPARE(x[1].first, QPoint(0, 100));
+        QCOMPARE(x[2].first, QPoint(50, 100));
+        QCOMPARE(x[3].first, QPoint(100, 100));
+        QCOMPARE(x[4].first, QPoint(100, 200));
 
         // F
         // |
         // .______o____.
         //             |
         //             T
-
-        QCOMPARE(idxs.size(), 3);
-        QCOMPARE(idxs[0], -1);
-        QCOMPARE(idxs[1], 0);
-        QCOMPARE(idxs[2], 0);
     }
 
     {
-        QList<int> idxs;
         SegmentPoints segs;
         segs.append({ 100, 100 });
-        auto x = segs.makePointList({}, { 100, 200 }, &idxs);
+        auto x = segs.makePointList({}, { 100, 200 });
         QCOMPARE(x.size(), 4);
-        QCOMPARE(x[0], QPoint(0, 0));
-        QCOMPARE(x[1], QPoint(0, 100));
-        QCOMPARE(x[2], QPoint(100, 100));
-        QCOMPARE(x[3], QPoint(100, 200));
+        QCOMPARE(x[0].first, QPoint(0, 0));
+        QCOMPARE(x[1].first, QPoint(0, 100));
+        QCOMPARE(x[2].first, QPoint(100, 100));
+        QCOMPARE(x[3].first, QPoint(100, 200));
 
         // F
         // |
         // .______o
         //        |
         //        T
-
-        QCOMPARE(idxs.size(), 3);
-        QCOMPARE(idxs[0], -1);
-        QCOMPARE(idxs[1], 0);
-        QCOMPARE(idxs[2], 0);
     }
 
     {
-        QList<int> idxs;
         SegmentPoints segs;
         segs.append({ 1000, 100 });
-        auto x = segs.makePointList({}, { 100, 200 }, &idxs);
+        auto x = segs.makePointList({}, { 100, 200 });
         QCOMPARE(x.size(), 6);
-        QCOMPARE(x[0], QPoint(0, 0));
-        QCOMPARE(x[1], QPoint(0, 100));
-        QCOMPARE(x[2], QPoint(1000, 100));
-        QCOMPARE(x[3], QPoint(1000, 120));
-        QCOMPARE(x[4], QPoint(100, 120));
-        QCOMPARE(x[5], QPoint(100, 200));
+        QCOMPARE(x[0].first, QPoint(0, 0));
+        QCOMPARE(x[1].first, QPoint(0, 100));
+        QCOMPARE(x[2].first, QPoint(1000, 100));
+        QCOMPARE(x[3].first, QPoint(1000, 120));
+        QCOMPARE(x[4].first, QPoint(100, 120));
+        QCOMPARE(x[5].first, QPoint(100, 200));
 
         // F
         // |
@@ -125,26 +113,20 @@ void TestSegmentPoints::testMakePointList()
         //    .___.
         //    |
         //    T
-
-        QCOMPARE(idxs.size(), 3);
-        QCOMPARE(idxs[0], -1);
-        QCOMPARE(idxs[1], 0);
-        QCOMPARE(idxs[2], 0);
     }
 
     {
-        QList<int> idxs;
         SegmentPoints segs;
         segs.append({ 100, 100 });
         segs.append({ 100, -100 });
-        auto x = segs.makePointList({ 0, 0 }, { 200, 0 }, &idxs);
+        auto x = segs.makePointList({ 0, 0 }, { 200, 0 });
         QCOMPARE(x.size(), 6);
-        QCOMPARE(x[0], QPoint(0, 0));
-        QCOMPARE(x[1], QPoint(0, 100));
-        QCOMPARE(x[2], QPoint(100, 100));
-        QCOMPARE(x[3], QPoint(100, -100));
-        QCOMPARE(x[4], QPoint(200, -100));
-        QCOMPARE(x[5], QPoint(200, 0));
+        QCOMPARE(x[0].first, QPoint(0, 0));
+        QCOMPARE(x[1].first, QPoint(0, 100));
+        QCOMPARE(x[2].first, QPoint(100, 100));
+        QCOMPARE(x[3].first, QPoint(100, -100));
+        QCOMPARE(x[4].first, QPoint(200, -100));
+        QCOMPARE(x[5].first, QPoint(200, 0));
 
         //        o_____.
         //        |     |
@@ -152,29 +134,22 @@ void TestSegmentPoints::testMakePointList()
         // |      |
         // .______o
         //
-
-        QCOMPARE(idxs.size(), 4);
-        QCOMPARE(idxs[0], -1);
-        QCOMPARE(idxs[1], 0);
-        QCOMPARE(idxs[2], 0);
-        QCOMPARE(idxs[3], 1);
     }
 
     {
-        QList<int> idxs;
         SegmentPoints segs;
         segs.append({ 100, 100 });
         segs.append({ 50, -100 });
-        auto x = segs.makePointList({ 0, 0 }, { 200, 100 }, &idxs);
+        auto x = segs.makePointList({ 0, 0 }, { 200, 100 });
         QCOMPARE(x.size(), 8);
-        QCOMPARE(x[0], QPoint(0, 0));
-        QCOMPARE(x[1], QPoint(0, 100));
-        QCOMPARE(x[2], QPoint(100, 100));
-        QCOMPARE(x[3], QPoint(100, -100));
-        QCOMPARE(x[4], QPoint(50, -100));
-        QCOMPARE(x[5], QPoint(50, -80));
-        QCOMPARE(x[6], QPoint(200, -80));
-        QCOMPARE(x[7], QPoint(200, 100));
+        QCOMPARE(x[0].first, QPoint(0, 0));
+        QCOMPARE(x[1].first, QPoint(0, 100));
+        QCOMPARE(x[2].first, QPoint(100, 100));
+        QCOMPARE(x[3].first, QPoint(100, -100));
+        QCOMPARE(x[4].first, QPoint(50, -100));
+        QCOMPARE(x[5].first, QPoint(50, -80));
+        QCOMPARE(x[6].first, QPoint(200, -80));
+        QCOMPARE(x[7].first, QPoint(200, 100));
 
         //     o__.
         //     |  |
@@ -182,30 +157,22 @@ void TestSegmentPoints::testMakePointList()
         // |      |     |
         // .______o     T
         //
-
-        QCOMPARE(idxs.size(), 5);
-        QCOMPARE(idxs[0], -1);
-        QCOMPARE(idxs[1], 0);
-        QCOMPARE(idxs[2], 0);
-        QCOMPARE(idxs[3], 1);
-        QCOMPARE(idxs[4], 1);
     }
 
     {
-        QList<int> idxs;
         SegmentPoints segs;
         segs.append({ 100, 100 });
         segs.append({ 250, -100 });
-        auto x = segs.makePointList({ 0, 0 }, { 200, 100 }, &idxs);
+        auto x = segs.makePointList({ 0, 0 }, { 200, 100 });
         QCOMPARE(x.size(), 8);
-        QCOMPARE(x[0], QPoint(0, 0));
-        QCOMPARE(x[1], QPoint(0, 100));
-        QCOMPARE(x[2], QPoint(100, 100));
-        QCOMPARE(x[3], QPoint(100, -100));
-        QCOMPARE(x[4], QPoint(250, -100));
-        QCOMPARE(x[5], QPoint(250, -80));
-        QCOMPARE(x[6], QPoint(200, -80));
-        QCOMPARE(x[7], QPoint(200, 100));
+        QCOMPARE(x[0].first, QPoint(0, 0));
+        QCOMPARE(x[1].first, QPoint(0, 100));
+        QCOMPARE(x[2].first, QPoint(100, 100));
+        QCOMPARE(x[3].first, QPoint(100, -100));
+        QCOMPARE(x[4].first, QPoint(250, -100));
+        QCOMPARE(x[5].first, QPoint(250, -80));
+        QCOMPARE(x[6].first, QPoint(200, -80));
+        QCOMPARE(x[7].first, QPoint(200, 100));
 
         //        .__________o
         //        |          |
@@ -213,13 +180,6 @@ void TestSegmentPoints::testMakePointList()
         // |      |     |
         // .______o     T
         //
-
-        QCOMPARE(idxs.size(), 5);
-        QCOMPARE(idxs[0], -1);
-        QCOMPARE(idxs[1], 0);
-        QCOMPARE(idxs[2], 0);
-        QCOMPARE(idxs[3], 1);
-        QCOMPARE(idxs[4], 1);
     }
 }
 
@@ -233,6 +193,12 @@ void TestSegmentPoints::testSplitAt()
     {
         SegmentPoints segs;
         segs.append({ 100, 100 });
+        auto pts = segs.makePointList({}, { 100, 200 });
+        QCOMPARE(pts.size(), 4);
+        QCOMPARE(pts[0].first, QPoint(0, 0));
+        QCOMPARE(pts[1].first, QPoint(0, 100));
+        QCOMPARE(pts[2].first, QPoint(100, 100));
+        QCOMPARE(pts[3].first, QPoint(100, 200));
 
         // F
         // |
@@ -248,7 +214,16 @@ void TestSegmentPoints::testSplitAt()
         //        |
         //        T
         QCOMPARE(segs.size(), 2);
-        QCOMPARE(segs.makePointList({}, { 100, 200 }).size(), 5);
+
+        pts = segs.makePointList({}, { 100, 200 });
+        qDebug() << pts;
+        QCOMPARE(pts.size(), 5);
+        QCOMPARE(pts[0].first, QPoint(0, 0));
+        QCOMPARE(pts[1].first, QPoint(0, 100));
+        QCOMPARE(pts[2].first, QPoint(50, 100));
+        QCOMPARE(pts[3].first, QPoint(100, 100));
+        QCOMPARE(pts[4].first, QPoint(100, 200));
+
         QCOMPARE(segs.pointAt(0), QPoint(50, 100));
         QCOMPARE(segs.pointAt(1), QPoint(100, 100));
     }
@@ -276,6 +251,41 @@ void TestSegmentPoints::testSplitAt()
         QCOMPARE(segs.makePointList({}, { 100, 200 }).size(), 5);
         QCOMPARE(segs.pointAt(0), QPoint(0, 50));
         QCOMPARE(segs.pointAt(1), QPoint(100, 100));
+    }
+
+    {
+        SegmentPoints segs;
+        segs.append({ 0, 100 });
+
+        // F
+        // |
+        // o______.
+        //        |
+        //        T
+
+        QVERIFY(segs.splitAt({ 0, 50 }, {}, { 100, 200 }));
+        QVERIFY(segs.splitAt({ 0, 75 }, {}, { 100, 200 }));
+
+        // F
+        // |
+        // x
+        // x
+        // o______.
+        //        |
+        //        T
+        QCOMPARE(segs.size(), 3);
+        auto pts = segs.makePointList({}, { 100, 200 });
+
+        QCOMPARE(pts.size(), 6);
+        QCOMPARE(pts[0].first, QPoint(0, 0));
+        QCOMPARE(pts[1].first, QPoint(0, 50));
+        QCOMPARE(pts[2].first, QPoint(0, 75));
+        QCOMPARE(pts[3].first, QPoint(0, 100));
+        QCOMPARE(pts[4].first, QPoint(100, 100));
+        QCOMPARE(pts[5].first, QPoint(100, 200));
+        QCOMPARE(segs.pointAt(0), QPoint(0, 50));
+        QCOMPARE(segs.pointAt(1), QPoint(0, 75));
+        QCOMPARE(segs.pointAt(2), QPoint(0, 100));
     }
 
     {

@@ -295,16 +295,16 @@ bool SceneConnections::addConnection(Connection* c)
     conn_dev_[c->destinationInfo().id()] << c;
 
     connect(c, &Connection::changed, this, &SceneConnections::update);
-    connect(c, &Connection::edited, this, [this](const ConnectionId& id, const ConnectionViewData& viewData) {
-        conn_edit_->setConnectionData(id, viewData);
-        emit edit(id);
-    });
+    connect(c, &Connection::edited, this,
+        [this](const ConnectionId& id, const ConnectionViewData& viewData) {
+            conn_edit_->setConnectionData(id, viewData);
+            emit edit(id);
+        });
 
     connect(c, &Connection::selected, this,
         [this](const Connection* conn) {
             for (auto& c : conn_) {
-                if (c != conn)
-                    c->setSelected(false);
+                c->setSelected(c == conn);
             }
         });
 

@@ -12,6 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "segment_point_handle.h"
+#include "logging.hpp"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QPen>
@@ -25,12 +26,10 @@ SegmentPointHandle::SegmentPointHandle(const QPointF& pos,
     , remove_callback_(removeCallback)
     , move_callback_(moveCallback)
 {
-    setToolTip("Segment editor point");
     setFlag(ItemIsMovable);
-
-    setPos(pos);
     setPen(QPen(Qt::darkGray, 1));
     setBrush(QColor(0xFFAA00));
+    setHandlePos(pos);
 }
 
 void SegmentPointHandle::mousePressEvent(QGraphicsSceneMouseEvent* event)
@@ -45,9 +44,16 @@ void SegmentPointHandle::mousePressEvent(QGraphicsSceneMouseEvent* event)
 
 void SegmentPointHandle::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
+    QGraphicsEllipseItem::mousePressEvent(event);
     event->accept();
-    setPos(event->scenePos());
+    setHandlePos(event->scenePos());
 
     if (move_callback_)
         move_callback_(pos());
+}
+
+void SegmentPointHandle::setHandlePos(const QPointF& pos)
+{
+    setToolTip(QString("Control point: (%1, %2)").arg(pos.x()).arg(pos.y()));
+    setPos(pos);
 }

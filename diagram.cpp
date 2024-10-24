@@ -961,11 +961,11 @@ void Diagram::mousePressEvent(QMouseEvent* event)
 
     switch (state_machine_.state()) {
     case DiagramState::Init: {
-        auto devs = items(event->pos());
-        bool device_found = std::any_of(devs.begin(), devs.end(), [](QGraphicsItem* x) { return qgraphicsitem_cast<Device*>(x); });
+        auto elem = items(event->pos());
+        bool device_found = std::any_of(elem.begin(), elem.end(), [](QGraphicsItem* x) { return qgraphicsitem_cast<Device*>(x); });
 
         if (device_found) {
-            const auto xlet = hoverDeviceXlet(devs, event->pos());
+            const auto xlet = hoverDeviceXlet(elem, event->pos());
 
             if (xlet) {
                 bool disconnect = event->modifiers().testFlag(Qt::AltModifier);
@@ -981,32 +981,31 @@ void Diagram::mousePressEvent(QMouseEvent* event)
                 return; //
 
             } else if (event->modifiers().testFlag(Qt::ControlModifier)) { // add/remove to/from selection
-                cmdToggleDevices(devs);
+                cmdToggleDevices(elem);
             } else if (event->modifiers().testFlag(Qt::ShiftModifier)) { // add to selection
-                cmdAddToSelection(devs);
+                cmdAddToSelection(elem);
             } else if (event->modifiers().testFlag(Qt::AltModifier))
-                selectBottomDevice(devs);
+                selectBottomDevice(elem);
             else
-                selectTopDevice(devs);
+                selectTopDevice(elem);
 
             if (scene_->selectedItems().empty()) {
                 state_machine_.setState(DiagramState::Init);
             } else {
                 saveClickPos(event->position());
                 state_machine_.setState(DiagramState::SelectDevice);
+                connections_->unselectAll();
             }
-        } else if (
-            devs.size() > 0
-            && devs[0]
-            && qgraphicsitem_cast<Connection*>(devs[0])) //
-        {
-            auto conn = qgraphicsitem_cast<Connection*>(devs[0]);
-            if (event->modifiers().testFlag(Qt::ControlModifier)) {
-                conn->connectionId();
-            } else
-                conn->toggleSelection();
 
-        } else {
+            event->accept();
+        } else if (
+            elem.size() > 0
+            && elem[0]) {
+            QGraphicsView::mousePressEvent(event);
+        }
+
+        if (!event->isAccepted()) {
+            connections_->unselectAll();
             startSelectionAt(event->pos());
             state_machine_.setState(DiagramState::SelectionRect);
         }
@@ -1020,20 +1019,11 @@ void Diagram::mousePressEvent(QMouseEvent* event)
         state_machine_.setState(DiagramState::Init);
     } break;
     case DiagramState::ConnectionEdit: {
-        WARN() << "connection editor";
         QGraphicsView::mousePressEvent(event);
         if (!event->isAccepted()) {
             state_machine_.setState(DiagramState::Init);
             connections_->showEditor(false);
         }
-        // auto edit = items(event->pos());
-        // if (edit.isEmpty() || edit[0] != qgraphicsitem_cast<ConnectionEditor*>(edit[0])) {
-
-        // } else {
-        //     QGraphicsView::mousePressEvent(event);
-        //     event->accept();
-        //     // edit[0]->setVisible(true);
-        // }
     } break;
     default:
         state_machine_.setState(DiagramState::Init);
@@ -1059,6 +1049,7 @@ void Diagram::mouseMoveEvent(QMouseEvent* event)
         drawConnectionTo(event->pos());
         break;
     case DiagramState::ConnectionEdit:
+        event->accept();
         QGraphicsView::mouseMoveEvent(event);
         // WARN() << "connection edit move";
         break;
@@ -1074,13 +1065,15 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
     case DiagramState::Move: { // finish item moving
         state_machine_.setState(DiagramState::Init);
 
-        auto dest_pos = mapToScene(event->pos());
-        auto delta = prev_click_pos_ - dest_pos;
+        auto dest_pos = mapToScene(event->position().toPoint());
+        auto src_pos = mapToScene(prev_click_pos_.toPoint());
+        auto delta = src_pos - dest_pos;
+
         devices_.foreachSelectedDevice([delta](Device* dev) {
             dev->moveBy(delta.x(), delta.y());
         });
 
-        cmdMoveSelectedDevicesFrom(prev_click_pos_, dest_pos);
+        cmdMoveSelectedDevicesFrom(src_pos, dest_pos);
     } break;
     case DiagramState::SelectionRect: { // finish selection
         auto bbox = selection_->mapRectToScene(selection_->rect());
@@ -1122,7 +1115,7 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
         conn_start_ = {};
     } break;
     case DiagramState::ConnectionEdit:
-        WARN() << "connection edit mouse release";
+        QGraphicsView::mouseReleaseEvent(event);
         break;
     default:
         state_machine_.setState(DiagramState::Init);
