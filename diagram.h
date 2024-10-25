@@ -279,7 +279,7 @@ private:
 
     void selectTopDevice(const QList<QGraphicsItem*>& devs);
     void selectBottomDevice(const QList<QGraphicsItem*>& devs);
-    std::optional<XletInfo> hoverDeviceXlet(const QList<QGraphicsItem*>& devs, const QPoint& pt) const;
+    std::optional<std::pair<XletInfo, XletData>> hoverDeviceXlet(const QList<QGraphicsItem*>& devs, const QPoint& pt) const;
     void updateZoom(qreal zoom);
 
     bool dropJson(const QPointF& pos, const QByteArray& json);
@@ -301,7 +301,7 @@ private:
     SceneConnections* connections_ { nullptr };
 
     DiagramStateMachine state_machine_;
-    std::optional<XletInfo> conn_start_;
+    std::optional<std::pair<XletInfo, XletData>> conn_start_;
     qreal zoom_ { 1 };
     bool show_cables_ { true };
 
