@@ -201,18 +201,19 @@ void TestSceneConnections::checkConnection()
     QVERIFY(sc.add(ConnectionId { 100, 0, 101, 0 }));
     QVERIFY(sc.add(ConnectionId { 100, 1, 101, 1 }));
 
+    using P = std::pair<XletInfo, XletData>;
     // self connect
-    QVERIFY(!sc.checkConnection(XletInfo(100, 0, XletType::In), XletInfo(100, 0, XletType::Out)));
+    QVERIFY(!sc.checkConnection(P(XletInfo(100, 0, XletType::In), {}), P(XletInfo(100, 0, XletType::Out), {})));
     // in to in
-    QVERIFY(!sc.checkConnection(XletInfo(100, 0, XletType::In), XletInfo(101, 0, XletType::In)));
-    QVERIFY(!sc.checkConnection(XletInfo(100, 0, XletType::Out), XletInfo(101, 0, XletType::Out)));
+    QVERIFY(!sc.checkConnection(P(XletInfo(100, 0, XletType::In), {}), P(XletInfo(101, 0, XletType::In), {})));
+    QVERIFY(!sc.checkConnection(P(XletInfo(100, 0, XletType::Out), {}), P(XletInfo(101, 0, XletType::Out), {})));
 
-    QVERIFY(!sc.checkConnection(XletInfo(100, 0, XletType::Out), XletInfo(101, 0, XletType::In)));
-    QVERIFY(!sc.checkConnection(XletInfo(101, 0, XletType::In), XletInfo(100, 0, XletType::Out)));
+    QVERIFY(!sc.checkConnection(P(XletInfo(100, 0, XletType::Out), {}), P(XletInfo(101, 0, XletType::In), {})));
+    QVERIFY(!sc.checkConnection(P(XletInfo(101, 0, XletType::In), {}), P(XletInfo(100, 0, XletType::Out), {})));
 
-    QVERIFY(!sc.checkConnection(XletInfo(100, 0, XletType::None), XletInfo(101, 0, XletType::In)));
-    QVERIFY(!sc.checkConnection(XletInfo(100, 0, XletType::Out), XletInfo(101, 0, XletType::None)));
+    QVERIFY(!sc.checkConnection(P(XletInfo(100, 0, XletType::None), {}), P(XletInfo(101, 0, XletType::In), {})));
+    QVERIFY(!sc.checkConnection(P(XletInfo(100, 0, XletType::Out), {}), P(XletInfo(101, 0, XletType::None), {})));
 
-    QVERIFY(sc.checkConnection(XletInfo(100, 2, XletType::Out), XletInfo(101, 2, XletType::In)));
-    QVERIFY(sc.checkConnection(XletInfo(101, 2, XletType::In), XletInfo(100, 2, XletType::Out)));
+    QVERIFY(sc.checkConnection(P(XletInfo(100, 2, XletType::Out), {}), P(XletInfo(101, 2, XletType::In), {})));
+    QVERIFY(sc.checkConnection(P(XletInfo(101, 2, XletType::In), {}), P(XletInfo(100, 2, XletType::Out), {})));
 }

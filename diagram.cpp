@@ -1103,7 +1103,7 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
                     }
                 }
             } else {
-                if (!connections_->checkConnection(conn_start_->first, xlet->first))
+                if (!connections_->checkConnection(conn_start_.value(), xlet.value()))
                     return;
 
                 auto conn = ConnectionId::fromXletPair(xlet->first, conn_start_->first);

@@ -62,6 +62,8 @@ public:
     {
     }
 
+    ConnectionId(const XletInfo& xi0, const XletInfo& xi1);
+
     DeviceId source() const { return src_; }
     DeviceId destination() const { return dest_; }
     XletIndex sourceOutput() const { return out_; }

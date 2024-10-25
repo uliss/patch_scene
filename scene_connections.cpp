@@ -201,27 +201,24 @@ Connection* SceneConnections::findConnection(const XletInfo& xlet) const
     return nullptr;
 }
 
-bool SceneConnections::checkConnection(const XletInfo& x0, const XletInfo& x1) const
+bool SceneConnections::checkConnection(const std::pair<XletInfo, XletData>& x0, const std::pair<XletInfo, XletData>& x1) const
 {
-    if (x0.type() == XletType::None || x1.type() == XletType::None) {
+    if (x0.first.type() == XletType::None || x1.first.type() == XletType::None) {
         qWarning() << "none xlet type connection attempt";
         return false;
     }
 
-    if (x0.id() == x1.id()) {
+    if (x0.first.id() == x1.first.id()) {
         qWarning() << "self connection attempt";
         return false;
     }
 
-    if (x0.type() == x1.type()) {
+    if (x0.first.type() == x1.first.type()) {
         qWarning() << "same xlet type connection attempt";
         return false;
     }
 
-    auto data = (x0.type() == XletType::Out)
-        ? ConnectionId(x0.id(), x0.index(), x1.id(), x1.index())
-        : ConnectionId(x1.id(), x1.index(), x0.id(), x0.index());
-
+    ConnectionId data(x0.first, x1.first);
     if (findConnection(data.sourceInfo())) {
         qWarning() << "already connected from this source";
         return false;

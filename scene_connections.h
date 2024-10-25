@@ -105,7 +105,7 @@ public:
      * @param x1
      * @return
      */
-    bool checkConnection(const XletInfo& x0, const XletInfo& x1) const;
+    bool checkConnection(const std::pair<XletInfo, XletData>& x0, const std::pair<XletInfo, XletData>& x1) const;
 
     /**
      * Set all connections visible
