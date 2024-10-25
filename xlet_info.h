@@ -41,6 +41,9 @@ public:
     DeviceId id() const { return id_; }
     XletType type() const { return type_; }
     XletIndex index() const { return index_; }
+
+    bool isInlet() const { return type_ == XletType::In; }
+    bool isOutlet() const { return type_ == XletType::Out; }
 };
 
 uint qHash(const XletInfo& key);
