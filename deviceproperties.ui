@@ -99,7 +99,7 @@
         <number>1</number>
        </property>
        <property name="columnCount">
-        <number>5</number>
+        <number>6</number>
        </property>
        <attribute name="horizontalHeaderDefaultSectionSize">
         <number>70</number>
@@ -114,6 +114,7 @@
         <bool>false</bool>
        </attribute>
        <row/>
+       <column/>
        <column/>
        <column/>
        <column/>
@@ -504,7 +505,7 @@
         <number>1</number>
        </property>
        <property name="columnCount">
-        <number>5</number>
+        <number>6</number>
        </property>
        <attribute name="horizontalHeaderDefaultSectionSize">
         <number>70</number>
@@ -519,6 +520,7 @@
         <bool>false</bool>
        </attribute>
        <row/>
+       <column/>
        <column/>
        <column/>
        <column/>

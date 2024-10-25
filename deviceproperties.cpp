@@ -32,6 +32,8 @@ enum {
     COL_CONNECTOR_TYPE,
     COL_POWER_TYPE,
     COL_PHANTOM,
+    COL_BIDIRECT,
+    COL_MAX,
 };
 
 constexpr int IMG_PREVIEW_SIZE = 30;
@@ -197,6 +199,10 @@ void DeviceProperties::insertXlet(QTableWidget* tab, int row, const XletData& da
     auto phantom = new TableCellCheckBox(data.isPhantomOn());
     phantom->setEnabled(data.supportsPhantomPower());
     tab->setCellWidget(row, COL_PHANTOM, phantom);
+
+    // bidirect
+    auto bidi = new TableCellCheckBox(data.isBidirect());
+    tab->setCellWidget(row, COL_BIDIRECT, bidi);
 
     connect(power, &TableCellConnector::currentIndexChanged, this, [tab, row, phantom](int idx) {
         auto power = qobject_cast<TableCellPower*>(tab->cellWidget(row, COL_POWER_TYPE));
