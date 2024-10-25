@@ -34,6 +34,7 @@ class XletData {
     bool visible_ { true };
     bool phantom_power_ { false };
     PowerType power_type_ { PowerType::None };
+    bool bidirect_ { false };
 
 public:
     XletData() { }
@@ -58,19 +59,23 @@ public:
     PowerType powerType() const { return power_type_; }
     void setPowerType(PowerType type) { power_type_ = type; }
 
+    bool isBidirect() const { return bidirect_; }
+    void setBidirect(bool value) { bidirect_ = value; }
+
     QString modelString() const;
     QString iconPath() const;
-
-    QJsonObject toJson() const;
-
-    static std::optional<XletData> fromJson(const QJsonValue& j);
-    static XletData createSocket(ConnectorModel model, bool female = true);
 
     bool operator==(const XletData& data) const;
     bool operator!=(const XletData& data) const { return !operator==(data); };
 
     bool isSocket() const { return type_.isSocket(); }
     bool isPlug() const { return type_.isPlug(); }
+
+    QJsonObject toJson() const;
+
+public:
+    static std::optional<XletData> fromJson(const QJsonValue& j);
+    static XletData createSocket(ConnectorModel model, bool female = true);
 };
 
 size_t qHash(const XletData& data);

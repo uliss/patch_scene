@@ -213,7 +213,7 @@ bool SceneConnections::checkConnection(const std::pair<XletInfo, XletData>& x0, 
         return false;
     }
 
-    if (x0.first.type() == x1.first.type()) {
+    if ((!x0.second.isBidirect() && !x1.second.isBidirect()) && x0.first.type() == x1.first.type()) {
         qWarning() << "same xlet type connection attempt";
         return false;
     }

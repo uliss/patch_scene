@@ -216,4 +216,19 @@ void TestSceneConnections::checkConnection()
 
     QVERIFY(sc.checkConnection(P(XletInfo(100, 2, XletType::Out), {}), P(XletInfo(101, 2, XletType::In), {})));
     QVERIFY(sc.checkConnection(P(XletInfo(101, 2, XletType::In), {}), P(XletInfo(100, 2, XletType::Out), {})));
+
+    XletData data;
+    data.setBidirect(true);
+    QVERIFY(sc.checkConnection(P(XletInfo(100, 2, XletType::Out), data), P(XletInfo(101, 2, XletType::In), {})));
+    QVERIFY(sc.checkConnection(P(XletInfo(100, 2, XletType::Out), data), P(XletInfo(101, 2, XletType::In), data)));
+    QVERIFY(sc.checkConnection(P(XletInfo(100, 2, XletType::Out), {}), P(XletInfo(101, 2, XletType::In), data)));
+
+    QVERIFY(sc.checkConnection(P(XletInfo(100, 0, XletType::In), data), P(XletInfo(101, 0, XletType::In), {})));
+    QVERIFY(sc.checkConnection(P(XletInfo(100, 0, XletType::In), data), P(XletInfo(101, 0, XletType::In), data)));
+    QVERIFY(sc.checkConnection(P(XletInfo(100, 0, XletType::In), {}), P(XletInfo(101, 0, XletType::In), data)));
+
+    sc.clear();
+    QVERIFY(sc.checkConnection(P(XletInfo(100, 0, XletType::Out), data), P(XletInfo(101, 0, XletType::Out), {})));
+    QVERIFY(sc.checkConnection(P(XletInfo(100, 0, XletType::Out), data), P(XletInfo(101, 0, XletType::Out), data)));
+    QVERIFY(sc.checkConnection(P(XletInfo(100, 0, XletType::Out), {}), P(XletInfo(101, 0, XletType::Out), data)));
 }

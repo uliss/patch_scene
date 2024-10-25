@@ -102,10 +102,10 @@ bool betweenX(const QPoint& a, const QPoint& pt, const QPoint& b)
 namespace ceam {
 
 ConnectionId::ConnectionId(const XletInfo& xi0, const XletInfo& xi1)
-    : src_(xi0.isInlet() ? xi0.id() : xi1.id())
-    , out_(xi0.isInlet() ? xi0.index() : xi1.index())
-    , dest_(xi0.isOutlet() ? xi0.id() : xi1.id())
-    , in_(xi0.isOutlet() ? xi0.index() : xi1.index())
+    : src_(xi0.isOutlet() ? xi0.id() : xi1.id())
+    , out_(xi0.isOutlet() ? xi0.index() : xi1.index())
+    , dest_(xi0.isOutlet() ? xi1.id() : xi0.id())
+    , in_(xi0.isOutlet() ? xi1.index() : xi0.index())
 {
 }
 

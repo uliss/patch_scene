@@ -258,5 +258,6 @@ size_t ceam::qHash(const XletData& data)
         ^ ::qHash(data.connectorType().toInt())
         ^ ::qHash(data.isVisible())
         ^ ::qHash(data.isPhantomOn())
-        ^ ::qHash((int)data.powerType());
+        ^ ::qHash((int)data.powerType())
+        ^ ::qHash(data.isBidirect());
 }
