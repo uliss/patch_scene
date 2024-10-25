@@ -16,6 +16,7 @@
 
 #include "connector_type.h"
 #include "socket.h"
+#include "xlet_info.h"
 
 #include <QGraphicsRectItem>
 
@@ -81,18 +82,12 @@ public:
     int type() const override { return Type; }
 
 public:
-    DeviceXlet(const XletData& data, XletType type, XletIndex idx, QGraphicsItem* parentItem);
+    DeviceXlet(const XletData& data, const XletInfo& info, QGraphicsItem* parentItem);
 
     QRectF boundingRect() const final;
 
     const XletData& xletData() const;
-    XletType xletType() const { return type_; }
-
-    bool isInlet() const { return type_ == XletType::In; }
-    bool isOutlet() const { return type_ == XletType::Out; }
-
-    XletIndex index() const { return index_; }
-
+    XletInfo xletInfo() const;
     const Device* parentDevice() const;
 
 protected:
@@ -105,8 +100,7 @@ private:
 private:
     XletData data_;
     QGraphicsSvgItem* icon_ { nullptr };
-    XletType type_ { XletType::In };
-    XletIndex index_ { XLET_INDEX_NONE };
+    XletInfo info_ { DEV_NULL_ID, XLET_INDEX_NONE, XletType::In };
 };
 
 }

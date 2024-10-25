@@ -35,7 +35,7 @@ public:
     DeviceXletView();
     ~DeviceXletView();
 
-    bool add(const XletData& data, XletType type, QGraphicsItem* parent);
+    bool append(const XletData& data, XletType type, QGraphicsItem* parent);
 
     /**
      * Return number of xlets

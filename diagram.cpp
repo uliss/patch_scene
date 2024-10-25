@@ -1330,11 +1330,7 @@ std::optional<XletInfo> Diagram::hoverDeviceXlet(const QList<QGraphicsItem*>& de
     if (!xlet)
         return {};
 
-    auto dev = xlet->parentDevice();
-    if (!dev)
-        return {};
-
-    return XletInfo { dev->id(), xlet->index(), xlet->xletType() };
+    return xlet->xletInfo();
 }
 
 bool Diagram::connectDevices(const ConnectionId& id, std::optional<ConnectionViewData> viewData)

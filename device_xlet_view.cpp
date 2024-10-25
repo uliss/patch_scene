@@ -37,9 +37,9 @@ DeviceXletView::~DeviceXletView()
     clear();
 }
 
-bool DeviceXletView::add(const XletData& data, XletType type, QGraphicsItem* parent)
+bool DeviceXletView::append(const XletData& data, XletType type, QGraphicsItem* parent)
 {
-    auto xlet = new DeviceXlet(data, type, xlets_.count(), parent);
+    auto xlet = new DeviceXlet(data, XletInfo { DEV_NULL_ID, (XletIndex)xlets_.count(), type }, parent);
     xlets_.push_back(xlet);
     return true;
 }
@@ -143,7 +143,7 @@ std::optional<QPointF> DeviceXletView::connectionPoint(XletIndex index) const
         return {};
     else {
         auto xlet = xlets_[index];
-        return xlet->pos() + QPointF(XLET_W / 2, (xlet->xletType() == XletType::Out) * XLET_H);
+        return xlet->pos() + QPointF(XLET_W / 2, xlet->xletInfo().isOutlet() * XLET_H);
     }
 }
 

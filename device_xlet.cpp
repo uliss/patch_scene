@@ -127,17 +127,16 @@ bool XletData::operator==(const XletData& data) const
         && power_type_ == data.power_type_;
 }
 
-DeviceXlet::DeviceXlet(const XletData& data, XletType type, XletIndex idx, QGraphicsItem* parentItem)
+DeviceXlet::DeviceXlet(const XletData& data, const XletInfo& info, QGraphicsItem* parentItem)
     : QGraphicsObject(parentItem)
     , data_ { data }
-    , type_ { type }
-    , index_(idx)
+    , info_ { info }
     , icon_(new QGraphicsSvgItem(this))
 {
     icon_->setPos((XLET_W - ICON_W) * 0.5, 2);
     icon_->setSharedRenderer(SvgRenderFactory::instance().getRender(data_.iconPath()));
 
-    if (data.isPlug() && type == XletType::In)
+    if (data.isPlug() && info.isInlet())
         icon_->setTransform(QTransform().scale(1, -1).translate(0, -ICON_H));
 
     updateTooltip();
@@ -151,6 +150,15 @@ QRectF DeviceXlet::boundingRect() const
 const XletData& DeviceXlet::xletData() const
 {
     return data_;
+}
+
+XletInfo DeviceXlet::xletInfo() const
+{
+    auto dev = parentDevice();
+    if (dev)
+        return { dev->id(), info_.index(), info_.type() };
+    else
+        return info_;
 }
 
 const Device* DeviceXlet::parentDevice() const
@@ -213,7 +221,7 @@ void DeviceXlet::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
         painter->setBrush(Qt::black);
         painter->setPen(Qt::NoPen);
 
-        switch (type_) {
+        switch (info_.type()) {
         case XletType::In:
             if (data_.isPhantomOn())
                 painter->setBrush(Qt::red);
@@ -234,8 +242,8 @@ void DeviceXlet::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 void DeviceXlet::updateTooltip()
 {
     QString prefix;
-    if (index_ != XLET_INDEX_NONE)
-        prefix = QString("[%1] ").arg(index_ + 1);
+    if (info_.index() != XLET_INDEX_NONE)
+        prefix = QString("[%1] ").arg(info_.index() + 1);
 
     if (!data_.name().isEmpty())
         setToolTip(QString("%1%2: %3").arg(prefix, data_.modelString(), data_.name()));
