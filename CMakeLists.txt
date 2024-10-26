@@ -142,6 +142,9 @@ set(PROJECT_SOURCES
     undo_commands.h
     vendor_list.cpp
     vendor_list.h
+    xlet_logical_editor.h
+    xlet_logical_editor.cpp
+    xlet_logical_editor.ui
     xlet_info.cpp
     xlet_info.h)
 
