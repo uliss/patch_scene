@@ -80,6 +80,10 @@ DeviceProperties::DeviceProperties(const SharedDeviceData& data, QWidget* parent
         data_->setShowTitle(state == Qt::Checked);
     });
 
+    connect(ui->inputsEditLogical, &QToolButton::clicked, this, [this]() {});
+    connect(ui->outputsEditLogical, &QToolButton::clicked, this, [this]() {});
+    connect(ui->outputsEditLogical, &QToolButton::clicked, this, [this]() {});
+
     ui->inletsColumns->setRange(DeviceData::MIN_COL_COUNT, DeviceData::MAX_COL_COUNT);
     ui->inletsColumns->setValue(data_->maxInputColumnCount());
     connect(ui->inletsColumns, &QSpinBox::valueChanged, this, [this](int value) {
@@ -105,8 +109,8 @@ DeviceProperties::~DeviceProperties()
 
 void DeviceProperties::accept()
 {
-    syncXlets(ui->inlets, data_->inputs());
-    syncXlets(ui->outlets, data_->outputs());
+    // syncXlets(ui->inlets, data_->inputs());
+    // syncXlets(ui->outlets, data_->outputs());
 
     emit acceptData(data_);
 
@@ -126,17 +130,17 @@ void DeviceProperties::chooseImageDialog()
 }
 
 void DeviceProperties::setupXletTable(QTableWidget* tab, size_t rows)
-{
-    auto header = tab->horizontalHeader();
-    if (header) {
-        header->setMinimumSectionSize(70);
-    }
+{ /*
+     auto header = tab->horizontalHeader();
+     if (header) {
+         header->setMinimumSectionSize(70);
+     }
 
-    tab->setRowCount(rows);
-    tab->setSelectionBehavior(QAbstractItemView::SelectRows);
-    tab->setSelectionMode(QTableWidget::ContiguousSelection);
-    tab->setHorizontalHeaderLabels({ tr("Type"), tr("Name"), tr("Socket"), tr("Power"), tr("Phantom") });
-    tab->setColumnWidth(COL_CONNECTOR, 100);
+     tab->setRowCount(rows);
+     tab->setSelectionBehavior(QAbstractItemView::SelectRows);
+     tab->setSelectionMode(QTableWidget::ContiguousSelection);
+     tab->setHorizontalHeaderLabels({ tr("Type"), tr("Name"), tr("Socket"), tr("Power"), tr("Phantom") });
+     tab->setColumnWidth(COL_CONNECTOR, 100);*/
     // tab->setColumnWidth(COL_NAME, 100);
     // tab->setColumnWidth(COL_VISIBLE, 60);
     // tab->setColumnWidth(COL_SOCKET, 60);
@@ -177,53 +181,53 @@ void DeviceProperties::setupCategories()
 
 void DeviceProperties::insertXlet(QTableWidget* tab, int row, const XletData& data, bool resize)
 {
-    // xlet name
-    auto name = new QTableWidgetItem();
-    name->setText(data.name());
-    tab->setItem(row, COL_NAME, name);
+    // // xlet name
+    // auto name = new QTableWidgetItem();
+    // name->setText(data.name());
+    // tab->setItem(row, COL_NAME, name);
 
-    // model choose
-    auto model = new TableCellConnector(tab);
-    model->setConnectorModel(data.connectorModel());
-    tab->setCellWidget(row, COL_CONNECTOR, model);
+    // // model choose
+    // auto model = new TableCellConnector(tab);
+    // model->setConnectorModel(data.connectorModel());
+    // tab->setCellWidget(row, COL_CONNECTOR, model);
 
-    // socket
-    auto socket = new TableCellConnectorType(data.connectorType(), this);
-    tab->setCellWidget(row, COL_CONNECTOR_TYPE, socket);
+    // // socket
+    // auto socket = new TableCellConnectorType(data.connectorType(), this);
+    // tab->setCellWidget(row, COL_CONNECTOR_TYPE, socket);
 
-    // power
-    auto power = new TableCellPower(data.powerType(), this);
-    tab->setCellWidget(row, COL_POWER_TYPE, power);
+    // // power
+    // auto power = new TableCellPower(data.powerType(), this);
+    // tab->setCellWidget(row, COL_POWER_TYPE, power);
 
-    // phantom power
-    auto phantom = new TableCellCheckBox(data.isPhantomOn());
-    phantom->setEnabled(data.supportsPhantomPower());
-    tab->setCellWidget(row, COL_PHANTOM, phantom);
+    // // phantom power
+    // auto phantom = new TableCellCheckBox(data.isPhantomOn());
+    // phantom->setEnabled(data.supportsPhantomPower());
+    // tab->setCellWidget(row, COL_PHANTOM, phantom);
 
-    // bidirect
-    auto bidi = new TableCellCheckBox(data.isBidirect());
-    tab->setCellWidget(row, COL_BIDIRECT, bidi);
+    // // bidirect
+    // auto bidi = new TableCellCheckBox(data.isBidirect());
+    // tab->setCellWidget(row, COL_BIDIRECT, bidi);
 
-    connect(power, &TableCellConnector::currentIndexChanged, this, [tab, row, phantom](int idx) {
-        auto power = qobject_cast<TableCellPower*>(tab->cellWidget(row, COL_POWER_TYPE));
-        if (power)
-            phantom->setEnabled(power->powerType() == PowerType::Phantom);
-    });
+    // connect(power, &TableCellConnector::currentIndexChanged, this, [tab, row, phantom](int idx) {
+    //     auto power = qobject_cast<TableCellPower*>(tab->cellWidget(row, COL_POWER_TYPE));
+    //     if (power)
+    //         phantom->setEnabled(power->powerType() == PowerType::Phantom);
+    // });
 
-    auto nrows = std::max<int>(2, tab->rowCount());
-    // adjust minimal height
-    if (nrows < 6)
-        tab->setMinimumHeight((nrows + 1) * 30);
+    // auto nrows = std::max<int>(2, tab->rowCount());
+    // // adjust minimal height
+    // if (nrows < 6)
+    //     tab->setMinimumHeight((nrows + 1) * 30);
 
-    if (resize)
-        tab->resizeColumnsToContents();
+    // if (resize)
+    //     tab->resizeColumnsToContents();
 }
 
 bool DeviceProperties::duplicateXlet(QTableWidget* tab, int row)
 {
     XletData data;
     if (getXletData(tab, row, data)) {
-        tab->insertRow(row + 1);
+        // tab->insertRow(row + 1);
         insertXlet(tab, row + 1, data);
         return true;
     }
@@ -244,27 +248,27 @@ void DeviceProperties::updateImagePreview()
 
 void DeviceProperties::enableCategoryWidgets(bool value, ItemCategory cat)
 {
-    ui->addInlet->setVisible(value);
-    ui->addOutlet->setVisible(value);
+    // ui->addInlet->setVisible(value);
+    // ui->addOutlet->setVisible(value);
     ui->batteryCount->setVisible(value);
     ui->batteryLabel->setVisible(value);
     ui->batteryType->setVisible(value);
-    ui->inlets->setVisible(value);
+    // ui->inlets->setVisible(value);
     ui->inletsColumns->setVisible(value);
-    ui->inletsColumnsLabel->setVisible(value);
-    ui->inletsHLine->setVisible(value);
-    ui->inletsLabel->setVisible(value);
-    ui->moveInletDown->setVisible(value);
-    ui->moveInletUp->setVisible(value);
-    ui->moveOutletDown->setVisible(value);
-    ui->moveOutletUp->setVisible(value);
-    ui->outlets->setVisible(value);
+    // ui->inletsColumnsLabel->setVisible(value);
+    // ui->inletsHLine->setVisible(value);
+    // ui->inletsLabel->setVisible(value);
+    // ui->moveInletDown->setVisible(value);
+    // ui->moveInletUp->setVisible(value);
+    // ui->moveOutletDown->setVisible(value);
+    // ui->moveOutletUp->setVisible(value);
+    // ui->outlets->setVisible(value);
     ui->outletsColumns->setVisible(value);
-    ui->outletsColumnsLabel->setVisible(value);
-    ui->outletsHLine->setVisible(value);
+    // ui->outletsColumnsLabel->setVisible(value);
+    // ui->outletsHLine->setVisible(value);
     ui->outletsLabel->setVisible(value);
-    ui->removeInlet->setVisible(value);
-    ui->removeOutlet->setVisible(value);
+    // ui->removeInlet->setVisible(value);
+    // ui->removeOutlet->setVisible(value);
 
     const bool is_human = (cat == ItemCategory::Human);
     ui->model->setHidden(is_human);
@@ -278,227 +282,227 @@ void DeviceProperties::enableCategoryWidgets(bool value, ItemCategory cat)
 
 void DeviceProperties::enableInputButtons(int currentRow)
 {
-    ui->removeInlet->setEnabled(true);
-    ui->moveInletDown->setEnabled(currentRow + 1 != ui->inlets->rowCount());
-    ui->moveInletUp->setEnabled(currentRow != 0);
+    // ui->removeInlet->setEnabled(true);
+    // ui->moveInletDown->setEnabled(currentRow + 1 != ui->inlets->rowCount());
+    // ui->moveInletUp->setEnabled(currentRow != 0);
 }
 
 void DeviceProperties::enableOutputButtons(int currentRow)
 {
-    ui->removeOutlet->setEnabled(true);
-    ui->moveOutletDown->setEnabled(currentRow + 1 != ui->outlets->rowCount());
-    ui->moveOutletUp->setEnabled(currentRow != 0);
+    // ui->removeOutlet->setEnabled(true);
+    // ui->moveOutletDown->setEnabled(currentRow + 1 != ui->outlets->rowCount());
+    // ui->moveOutletUp->setEnabled(currentRow != 0);
 }
 
 void DeviceProperties::setupXlets(const SharedDeviceData& data)
 {
-    connect(ui->addInlet, &QToolButton::clicked, this, [this](bool) {
-        auto row = ui->inlets->currentRow();
-        if (row >= 0) {
-            if (duplicateXlet(ui->inlets, row))
-                selectXletRow(ui->inlets, row + 1);
-        } else { // no selection
-            auto nrows = ui->inlets->rowCount();
-            if (nrows > 0) {
-                if (duplicateXlet(ui->inlets, nrows - 1))
-                    selectXletRow(ui->inlets, nrows);
-            } else {
-                ui->inlets->setRowCount(1);
-                insertXlet(ui->inlets, 0, XletData { {}, ConnectorModel::XLR });
-                ui->inlets->selectRow(0);
-            }
-        }
-    });
-    connect(ui->removeInlet, &QToolButton::clicked, this, [this](bool) {
-        auto row = ui->inlets->currentRow();
-        if (row >= 0) {
-            if (removeXlet(ui->inlets, row))
-                selectXletRow(ui->inlets, row);
-        } else { // no selection
-            auto nrows = ui->inlets->rowCount();
-            if (nrows > 0) { // remove last inlet
-                if (removeXlet(ui->inlets, nrows - 1))
-                    selectXletRow(ui->inlets, nrows - 2);
-            }
-        }
+    // connect(ui->addInlet, &QToolButton::clicked, this, [this](bool) {
+    //     auto row = ui->inlets->currentRow();
+    //     if (row >= 0) {
+    //         if (duplicateXlet(ui->inlets, row))
+    //             selectXletRow(ui->inlets, row + 1);
+    //     } else { // no selection
+    //         auto nrows = ui->inlets->rowCount();
+    //         if (nrows > 0) {
+    //             if (duplicateXlet(ui->inlets, nrows - 1))
+    //                 selectXletRow(ui->inlets, nrows);
+    //         } else {
+    //             ui->inlets->setRowCount(1);
+    //             insertXlet(ui->inlets, 0, XletData { {}, ConnectorModel::XLR });
+    //             ui->inlets->selectRow(0);
+    //         }
+    //     }
+    // });
+    // connect(ui->removeInlet, &QToolButton::clicked, this, [this](bool) {
+    //     auto row = ui->inlets->currentRow();
+    //     if (row >= 0) {
+    //         if (removeXlet(ui->inlets, row))
+    //             selectXletRow(ui->inlets, row);
+    //     } else { // no selection
+    //         auto nrows = ui->inlets->rowCount();
+    //         if (nrows > 0) { // remove last inlet
+    //             if (removeXlet(ui->inlets, nrows - 1))
+    //                 selectXletRow(ui->inlets, nrows - 2);
+    //         }
+    //     }
 
-        // remove inlet button
-        ui->removeInlet->setEnabled(ui->inlets->rowCount() > 0);
-    });
-    connect(ui->moveInletUp, &QToolButton::clicked, this, [this](bool) {
-        moveXlet(ui->inlets, ui->inlets->currentRow(), true);
-    });
-    connect(ui->moveInletDown, &QToolButton::clicked, this, [this](bool) {
-        moveXlet(ui->inlets, ui->inlets->currentRow(), false);
-    });
-    connect(ui->addOutlet, &QToolButton::clicked, this, [this](bool) {
-        auto row = ui->outlets->currentRow();
-        if (row >= 0) {
-            if (duplicateXlet(ui->outlets, row))
-                selectXletRow(ui->outlets, row + 1);
-        } else { // no selection
-            auto nrows = ui->outlets->rowCount();
-            if (nrows > 0) {
-                if (duplicateXlet(ui->outlets, nrows - 1))
-                    selectXletRow(ui->outlets, nrows);
-            } else {
-                ui->outlets->setRowCount(1);
-                insertXlet(ui->outlets, 0, XletData { {}, ConnectorModel::XLR });
-                ui->outlets->selectRow(0);
-            }
-        }
-    });
-    connect(ui->removeOutlet, &QToolButton::clicked, this, [this](bool) {
-        auto row = ui->outlets->currentRow();
-        if (row >= 0) {
-            if (removeXlet(ui->outlets, row))
-                selectXletRow(ui->outlets, row);
-        } else { // no selection
-            auto nrows = ui->outlets->rowCount();
-            if (nrows > 0) {
-                if (removeXlet(ui->outlets, nrows - 1))
-                    selectXletRow(ui->outlets, nrows - 2);
-            }
-        }
+    //     // remove inlet button
+    //     ui->removeInlet->setEnabled(ui->inlets->rowCount() > 0);
+    // });
+    // connect(ui->moveInletUp, &QToolButton::clicked, this, [this](bool) {
+    //     moveXlet(ui->inlets, ui->inlets->currentRow(), true);
+    // });
+    // connect(ui->moveInletDown, &QToolButton::clicked, this, [this](bool) {
+    //     moveXlet(ui->inlets, ui->inlets->currentRow(), false);
+    // });
+    // connect(ui->addOutlet, &QToolButton::clicked, this, [this](bool) {
+    //     auto row = ui->outlets->currentRow();
+    //     if (row >= 0) {
+    //         if (duplicateXlet(ui->outlets, row))
+    //             selectXletRow(ui->outlets, row + 1);
+    //     } else { // no selection
+    //         auto nrows = ui->outlets->rowCount();
+    //         if (nrows > 0) {
+    //             if (duplicateXlet(ui->outlets, nrows - 1))
+    //                 selectXletRow(ui->outlets, nrows);
+    //         } else {
+    //             ui->outlets->setRowCount(1);
+    //             insertXlet(ui->outlets, 0, XletData { {}, ConnectorModel::XLR });
+    //             ui->outlets->selectRow(0);
+    //         }
+    //     }
+    // });
+    // connect(ui->removeOutlet, &QToolButton::clicked, this, [this](bool) {
+    //     auto row = ui->outlets->currentRow();
+    //     if (row >= 0) {
+    //         if (removeXlet(ui->outlets, row))
+    //             selectXletRow(ui->outlets, row);
+    //     } else { // no selection
+    //         auto nrows = ui->outlets->rowCount();
+    //         if (nrows > 0) {
+    //             if (removeXlet(ui->outlets, nrows - 1))
+    //                 selectXletRow(ui->outlets, nrows - 2);
+    //         }
+    //     }
 
-        ui->removeOutlet->setEnabled(ui->outlets->rowCount() > 0);
-    });
-    connect(ui->moveOutletUp, &QToolButton::clicked, this, [this](bool) {
-        moveXlet(ui->outlets, ui->outlets->currentRow(), true);
-    });
-    connect(ui->moveOutletDown, &QToolButton::clicked, this, [this](bool) {
-        moveXlet(ui->outlets, ui->outlets->currentRow(), false);
-    });
+    //     ui->removeOutlet->setEnabled(ui->outlets->rowCount() > 0);
+    // });
+    // connect(ui->moveOutletUp, &QToolButton::clicked, this, [this](bool) {
+    //     moveXlet(ui->outlets, ui->outlets->currentRow(), true);
+    // });
+    // connect(ui->moveOutletDown, &QToolButton::clicked, this, [this](bool) {
+    //     moveXlet(ui->outlets, ui->outlets->currentRow(), false);
+    // });
 
-    setupXletTable(ui->inlets, data->inputs().size());
-    setupXletTable(ui->outlets, data->outputs().size());
+    // setupXletTable(ui->inlets, data->inputs().size());
+    // setupXletTable(ui->outlets, data->outputs().size());
 
-    ui->removeInlet->setEnabled(false);
-    ui->moveInletDown->setEnabled(false);
-    ui->moveInletUp->setEnabled(false);
+    // ui->removeInlet->setEnabled(false);
+    // ui->moveInletDown->setEnabled(false);
+    // ui->moveInletUp->setEnabled(false);
 
-    ui->removeOutlet->setEnabled(false);
-    ui->moveOutletDown->setEnabled(false);
-    ui->moveOutletUp->setEnabled(false);
+    // ui->removeOutlet->setEnabled(false);
+    // ui->moveOutletDown->setEnabled(false);
+    // ui->moveOutletUp->setEnabled(false);
 
-    connect(ui->inlets, &QTableWidget::currentCellChanged, this,
-        [this](int curRow, int, int, int) { enableInputButtons(curRow); });
-    connect(ui->outlets, &QTableWidget::currentCellChanged, this,
-        [this](int curRow, int curCol, int, int) { enableOutputButtons(curRow); });
+    // connect(ui->inlets, &QTableWidget::currentCellChanged, this,
+    //     [this](int curRow, int, int, int) { enableInputButtons(curRow); });
+    // connect(ui->outlets, &QTableWidget::currentCellChanged, this,
+    //     [this](int curRow, int curCol, int, int) { enableOutputButtons(curRow); });
 
-    int in_idx = 0;
-    for (auto& in : data->inputs()) {
-        insertXlet(ui->inlets, in_idx++, in, false);
-    }
-    ui->inlets->resizeColumnsToContents();
+    // int in_idx = 0;
+    // for (auto& in : data->inputs()) {
+    //     insertXlet(ui->inlets, in_idx++, in, false);
+    // }
+    // ui->inlets->resizeColumnsToContents();
 
-    int out_idx = 0;
-    for (auto& out : data->outputs()) {
-        insertXlet(ui->outlets, out_idx++, out, false);
-    }
-    ui->outlets->resizeColumnsToContents();
+    // int out_idx = 0;
+    // for (auto& out : data->outputs()) {
+    //     insertXlet(ui->outlets, out_idx++, out, false);
+    // }
+    // ui->outlets->resizeColumnsToContents();
 
-    ui->inletContainer->setAlignment(ui->addInlet, Qt::AlignLeft);
-    ui->inletContainer->setAlignment(ui->removeInlet, Qt::AlignLeft);
-    ui->inletContainer->addStretch(10);
+    // ui->inletContainer->setAlignment(ui->addInlet, Qt::AlignLeft);
+    // ui->inletContainer->setAlignment(ui->removeInlet, Qt::AlignLeft);
+    // ui->inletContainer->addStretch(10);
 
-    ui->outletContainer->setAlignment(ui->addOutlet, Qt::AlignLeft);
-    ui->outletContainer->setAlignment(ui->removeOutlet, Qt::AlignLeft);
-    ui->outletContainer->addStretch(10);
+    // ui->outletContainer->setAlignment(ui->addOutlet, Qt::AlignLeft);
+    // ui->outletContainer->setAlignment(ui->removeOutlet, Qt::AlignLeft);
+    // ui->outletContainer->addStretch(10);
 }
 
 bool DeviceProperties::removeXlet(QTableWidget* table, int row)
-{
-    if (row < 0 || row >= table->rowCount()) {
-        WARN() << "invalid row" << row;
-        return false;
-    }
+{ /*
+     if (row < 0 || row >= table->rowCount()) {
+         WARN() << "invalid row" << row;
+         return false;
+     }
 
-    table->removeRow(row);
+     table->removeRow(row);*/
     return true;
 }
 
 void DeviceProperties::syncXlets(const QTableWidget* table, QList<XletData>& xlets)
 {
-    xlets.clear();
-    for (int i = 0; i < table->rowCount(); i++) {
-        XletData data;
-        if (getXletData(table, i, data))
-            xlets.push_back(data);
-    }
+    // xlets.clear();
+    // for (int i = 0; i < table->rowCount(); i++) {
+    //     XletData data;
+    //     if (getXletData(table, i, data))
+    //         xlets.push_back(data);
+    // }
 }
 
 bool DeviceProperties::selectXletRow(QTableWidget* table, int row)
 {
-    if (!table || row < 0 || row >= table->rowCount())
-        return false;
+    // if (!table || row < 0 || row >= table->rowCount())
+    //     return false;
 
-    auto model = table->model();
-    if (!model)
-        return false;
+    // auto model = table->model();
+    // if (!model)
+    //     return false;
 
-    table->selectRow(row);
-    auto idx = model->index(row, 0);
-    table->scrollTo(idx);
-    emit table->currentCellChanged(row, 0, -1, -1);
-    return true;
+    // table->selectRow(row);
+    // auto idx = model->index(row, 0);
+    // table->scrollTo(idx);
+    // emit table->currentCellChanged(row, 0, -1, -1);
+    // return true;
 }
 
 bool DeviceProperties::moveXlet(QTableWidget* table, int row, bool up)
 {
-    if (up) {
-        if (row > 0 && row < table->rowCount()) {
-            XletData prev_data;
-            if (getXletData(table, row - 1, prev_data)) {
-                table->removeRow(row - 1);
-                table->insertRow(row);
-                insertXlet(table, row, prev_data, false);
-            }
+    // if (up) {
+    //     if (row > 0 && row < table->rowCount()) {
+    //         XletData prev_data;
+    //         if (getXletData(table, row - 1, prev_data)) {
+    //             table->removeRow(row - 1);
+    //             table->insertRow(row);
+    //             insertXlet(table, row, prev_data, false);
+    //         }
 
-            selectXletRow(table, row - 1);
-            return true;
-        } else
-            return false;
-    } else {
-        if (row >= 0 && (row + 1) < table->rowCount()) {
-            XletData next_data;
-            if (getXletData(table, row + 1, next_data)) {
-                table->removeRow(row + 1);
-                table->insertRow(row);
-                insertXlet(table, row, next_data, false);
-            }
+    //         selectXletRow(table, row - 1);
+    //         return true;
+    //     } else
+    //         return false;
+    // } else {
+    //     if (row >= 0 && (row + 1) < table->rowCount()) {
+    //         XletData next_data;
+    //         if (getXletData(table, row + 1, next_data)) {
+    //             table->removeRow(row + 1);
+    //             table->insertRow(row);
+    //             insertXlet(table, row, next_data, false);
+    //         }
 
-            selectXletRow(table, row + 1);
-            return true;
+    //         selectXletRow(table, row + 1);
+    //         return true;
 
-        } else
-            return false;
-    }
+    //     } else
+    //         return false;
+    // }
 }
 
 bool DeviceProperties::getXletData(const QTableWidget* table, int row, XletData& data)
 {
-    if (row < 0 || row >= table->rowCount())
-        return false;
+    // if (row < 0 || row >= table->rowCount())
+    //     return false;
 
-    data.setName(table->item(row, COL_NAME)->text());
+    // data.setName(table->item(row, COL_NAME)->text());
 
-    auto model = qobject_cast<TableCellConnector*>(table->cellWidget(row, COL_CONNECTOR));
-    if (model)
-        data.setConnectorModel(model->connectorModel());
+    // auto model = qobject_cast<TableCellConnector*>(table->cellWidget(row, COL_CONNECTOR));
+    // if (model)
+    //     data.setConnectorModel(model->connectorModel());
 
-    auto power = qobject_cast<TableCellPower*>(table->cellWidget(row, COL_POWER_TYPE));
-    if (power)
-        data.setPowerType(power->powerType());
+    // auto power = qobject_cast<TableCellPower*>(table->cellWidget(row, COL_POWER_TYPE));
+    // if (power)
+    //     data.setPowerType(power->powerType());
 
-    auto phantom = qobject_cast<TableCellCheckBox*>(table->cellWidget(row, COL_PHANTOM));
-    if (phantom && data.supportsPhantomPower())
-        data.setPhantom(phantom->isChecked());
+    // auto phantom = qobject_cast<TableCellCheckBox*>(table->cellWidget(row, COL_PHANTOM));
+    // if (phantom && data.supportsPhantomPower())
+    //     data.setPhantom(phantom->isChecked());
 
-    auto socket_type = qobject_cast<TableCellConnectorType*>(table->cellWidget(row, COL_CONNECTOR_TYPE));
-    if (socket_type)
-        data.setConnectorType(socket_type->connectorType());
-    return true;
+    // auto socket_type = qobject_cast<TableCellConnectorType*>(table->cellWidget(row, COL_CONNECTOR_TYPE));
+    // if (socket_type)
+    //     data.setConnectorType(socket_type->connectorType());
+    // return true;
 }
 
 void DeviceProperties::setupBattery(const SharedDeviceData& data)
