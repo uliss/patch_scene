@@ -305,6 +305,7 @@ void Connection::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
         auto act = menu_color->addAction(QIcon(pixmap), {});
         QAction::connect(act, &QAction::triggered, dia_scene, [this, c]() {
             view_data_.setColor(c);
+            setSelected(false);
         });
     }
 
