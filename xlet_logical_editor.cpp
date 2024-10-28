@@ -48,6 +48,10 @@ XletLogicalEditor::XletLogicalEditor(QWidget* parent, QList<XletData>& data)
     ui->moveXletUp->setEnabled(false);
     ui->removeXlet->setEnabled(false);
 
+    connect(this, &XletLogicalEditor::finished, this, [this]() {
+        syncXlets();
+    });
+
     setupTable(data_.size());
     setupXlets();
     fillTable();
