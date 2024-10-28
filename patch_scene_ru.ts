@@ -985,13 +985,14 @@
     </message>
     <message>
         <location filename="xlet_logical_editor.ui" line="49"/>
-        <source>Up</source>
-        <translation type="unfinished"></translation>
+        <source>↑</source>
+        <oldsource> ↑</oldsource>
+        <translation></translation>
     </message>
     <message>
         <location filename="xlet_logical_editor.ui" line="56"/>
-        <source>Down</source>
-        <translation type="unfinished"></translation>
+        <source>↓</source>
+        <translation></translation>
     </message>
 </context>
 <context>

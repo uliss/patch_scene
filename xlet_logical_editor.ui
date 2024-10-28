@@ -46,14 +46,14 @@
      <item>
       <widget class="QToolButton" name="moveXletUp">
        <property name="text">
-        <string>Up</string>
+        <string>↑</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QToolButton" name="moveXletDown">
        <property name="text">
-        <string>Down</string>
+        <string>↓</string>
        </property>
       </widget>
      </item>
