@@ -40,14 +40,14 @@ Connection* SceneConnections::add(const ConnectionId& id)
     if (!scene_ || !id.isValid())
         return nullptr;
 
-    auto src_it = conn_src_.find(id.sourceInfo());
-    if (src_it != conn_src_.end()) {
+    auto src_it = conn_xlets_.find(id.sourceInfo());
+    if (src_it != conn_xlets_.end()) {
         qWarning() << "connection already exists";
         return nullptr;
     }
 
-    auto dest_it = conn_dest_.find(id.destinationInfo());
-    if (dest_it != conn_dest_.end()) {
+    auto dest_it = conn_xlets_.find(id.destinationInfo());
+    if (dest_it != conn_xlets_.end()) {
         qWarning() << "connection already exists";
         return nullptr;
     }
@@ -76,28 +76,18 @@ bool SceneConnections::setViewData(const ConnectionId& id, const ConnectionViewD
     return false;
 }
 
-bool SceneConnections::remove(const XletInfo& xlet)
+bool SceneConnections::remove(const ConnectionId& id)
 {
     if (!scene_)
         return false;
 
-    switch (xlet.type()) {
-    case XletType::In: {
-        auto dest_it = conn_dest_.find(xlet);
-        if (dest_it != conn_dest_.end())
-            return removeConnection(dest_it.value());
-    } break;
-    case XletType::Out: {
-        auto src_it = conn_src_.find(xlet);
-        if (src_it != conn_src_.end())
-            return removeConnection(src_it.value());
-    } break;
-    case XletType::None:
-    default:
-        break;
-    }
+    auto dest_it = conn_xlets_.find(id.sourceInfo());
+    auto src_it = conn_xlets_.find(id.destinationInfo());
 
-    return false;
+    if (dest_it == conn_xlets_.end() || src_it == conn_xlets_.end())
+        return false;
+
+    return removeConnection(src_it.value());
 }
 
 void SceneConnections::removeAll(DeviceId id)
@@ -182,23 +172,10 @@ QList<ConnectionInfo> SceneConnections::findConnectionsData(DeviceId id) const
 
 Connection* SceneConnections::findConnection(const XletInfo& xlet) const
 {
-    switch (xlet.type()) {
-    case XletType::In: {
-        auto dest_it = conn_dest_.find(xlet);
-        if (dest_it != conn_dest_.end())
-            return dest_it.value();
-    } break;
-    case XletType::Out: {
-        auto src_it = conn_src_.find(xlet);
-        if (src_it != conn_src_.end())
-            return src_it.value();
-    } break;
-    case XletType::None:
-    default:
-        break;
-    }
-
-    return nullptr;
+    auto src_it = conn_xlets_.find(xlet);
+    return (src_it != conn_xlets_.end())
+        ? src_it.value()
+        : nullptr;
 }
 
 bool SceneConnections::checkConnection(const std::pair<XletInfo, XletData>& x0, const std::pair<XletInfo, XletData>& x1) const
@@ -266,8 +243,7 @@ void SceneConnections::clear()
     }
 
     conn_.clear();
-    conn_src_.clear();
-    conn_dest_.clear();
+    conn_xlets_.clear();
     conn_dev_.clear();
 }
 
@@ -286,8 +262,8 @@ bool SceneConnections::addConnection(Connection* c)
     } else
         conn_.insert(c);
 
-    conn_src_[c->sourceInfo()] = c;
-    conn_dest_[c->destinationInfo()] = c;
+    conn_xlets_[c->sourceInfo()] = c;
+    conn_xlets_[c->destinationInfo()] = c;
     conn_dev_[c->sourceInfo().id()] << c;
     conn_dev_[c->destinationInfo().id()] << c;
 
@@ -342,8 +318,8 @@ bool SceneConnections::removeConnection(Connection* c)
 
     scene_->removeItem(c);
     conn_.erase(c);
-    conn_src_.remove(c->sourceInfo());
-    conn_dest_.remove(c->destinationInfo());
+    conn_xlets_.remove(c->sourceInfo());
+    conn_xlets_.remove(c->destinationInfo());
 
     auto src_it = conn_dev_.find(c->sourceInfo().id());
     if (src_it != conn_dev_.end())
