@@ -72,6 +72,11 @@ public:
     QRectF xletRect() const;
 
     /**
+     * @return connection point in device or scene coords
+     */
+    std::optional<QPointF> connectionPoint(XletIndex i, XletType type, bool map = false) const;
+
+    /**
      * @return input connection point in device or scene coords
      */
     std::optional<QPointF> inConnectionPoint(XletIndex i, bool map = false) const;

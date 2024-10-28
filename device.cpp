@@ -527,6 +527,18 @@ QRectF Device::xletRect() const
     return inletsRect().united(outletsRect());
 }
 
+std::optional<QPointF> Device::connectionPoint(XletIndex i, XletType type, bool map) const
+{
+    switch (type) {
+    case XletType::In:
+        return inConnectionPoint(i, map);
+    case XletType::Out:
+        return outConnectionPoint(i, map);
+    default:
+        return {};
+    }
+}
+
 int Device::calcWidth() const
 {
     const auto TITLE_SIZE = data_->title().size();
