@@ -46,7 +46,7 @@ public:
     bool isOutlet() const { return type_ == XletType::Out; }
 };
 
-uint qHash(const XletInfo& key);
+uint qHash(const XletInfo& key, size_t seed = 0);
 
 } // namespace ceam
 

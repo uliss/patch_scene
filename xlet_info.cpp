@@ -15,11 +15,11 @@
 
 namespace ceam {
 
-uint qHash(const XletInfo& key)
+uint qHash(const XletInfo& key, size_t seed)
 {
-    return ::qHash(key.id())
-        ^ ::qHash(key.index())
-        ^ ::qHash(static_cast<int>(key.type()));
+    return ::qHash(key.id(), seed)
+        ^ ::qHash(key.index(), seed)
+        ^ ::qHash(static_cast<int>(key.type()), seed);
 }
 
 } // namespace ceam
