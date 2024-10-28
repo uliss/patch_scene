@@ -170,7 +170,7 @@ QList<ConnectionInfo> SceneConnections::findConnectionsData(DeviceId id) const
         return {};
 }
 
-Connection* SceneConnections::findConnection(const XletInfo& xlet) const
+Connection* SceneConnections::findByXlet(const XletInfo& xlet) const
 {
     auto src_it = conn_xlets_.find(xlet);
     return (src_it != conn_xlets_.end())
@@ -196,12 +196,12 @@ bool SceneConnections::checkConnection(const std::pair<XletInfo, XletData>& x0, 
     }
 
     ConnectionId data(x0.first, x1.first);
-    if (findConnection(data.sourceInfo())) {
+    if (findByXlet(data.sourceInfo())) {
         qWarning() << "already connected from this source";
         return false;
     }
 
-    if (findConnection(data.destinationInfo())) {
+    if (findByXlet(data.destinationInfo())) {
         qWarning() << "already connected to this destination";
         return false;
     }

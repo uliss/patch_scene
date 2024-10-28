@@ -975,7 +975,7 @@ void Diagram::mousePressEvent(QMouseEvent* event)
                 } else {
                     state_machine_.setState(DiagramState::ConnectDevice);
                     startConnectionAt(event->pos());
-                    conn_start_ = xlet;
+                    conn_begin_ = xlet;
                 }
 
                 return; //
@@ -1089,27 +1089,27 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
         tmp_connection_->setVisible(false);
         state_machine_.setState(DiagramState::Init);
 
-        auto xlet = hoverDeviceXlet(items(event->pos()), event->pos());
-        if (xlet && conn_start_) {
+        auto conn_end = hoverDeviceXlet(items(event->pos()), event->pos());
+        if (conn_end && conn_begin_) {
             if (event->modifiers().testFlag(Qt::ShiftModifier)
-                && xlet->first.id() == conn_start_->first.id()
-                && xlet->first.type() == conn_start_->first.type()) { // reconnect to other xlet of same device
+                && conn_end->first.id() == conn_begin_->first.id()
+                && conn_end->first.type() == conn_begin_->first.type()) { // reconnect to other xlet of same device
 
-                auto prev_conn = connections_->findConnection(conn_start_->first);
+                auto prev_conn = connections_->findByXlet(conn_begin_->first);
                 if (prev_conn) {
                     auto new_conn = prev_conn->connectionInfo();
-                    if (new_conn.first.setEndPoint(xlet->first)) {
+                    if (new_conn.first.setEndPoint(conn_end->first)) {
                         cmdReconnectDevice(prev_conn->connectionInfo(), new_conn);
                     }
                 }
             } else {
-                if (!connections_->checkConnection(conn_start_.value(), xlet.value()))
+                if (!connections_->checkConnection(conn_begin_.value(), conn_end.value()))
                     return;
 
-                auto& d0 = conn_start_->second;
-                auto& d1 = xlet->second;
-                auto c0 = conn_start_->first;
-                auto c1 = xlet->first;
+                auto& d0 = conn_begin_->second;
+                auto& d1 = conn_end->second;
+                auto c0 = conn_begin_->first;
+                auto c1 = conn_end->first;
 
                 if (c0.type() == c1.type()) {
                     if (c0.isInlet() && !d0.isBidirect() && d1.isBidirect())
@@ -1123,7 +1123,7 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
             }
         }
 
-        conn_start_ = {};
+        conn_begin_ = {};
     } break;
     case DiagramState::ConnectionEdit:
         QGraphicsView::mouseReleaseEvent(event);

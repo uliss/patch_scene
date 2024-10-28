@@ -97,7 +97,7 @@ public:
      * @return connection pointer or null if not found
      * @complexity O(1)
      */
-    Connection* findConnection(const XletInfo& xlet) const;
+    Connection* findByXlet(const XletInfo& xlet) const;
 
     /**
      * check if specified xlets can be connected

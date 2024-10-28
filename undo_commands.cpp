@@ -90,7 +90,7 @@ DisconnectXlet::DisconnectXlet(Diagram* doc, const XletInfo& xi)
     : doc_(doc)
     , id_(0, 0, 0, 0)
 {
-    auto conn = doc->connections()->findConnection(xi);
+    auto conn = doc->connections()->findByXlet(xi);
     if (conn) {
         id_ = conn->connectionId();
         view_data_ = conn->viewData();
