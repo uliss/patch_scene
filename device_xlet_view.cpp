@@ -27,29 +27,29 @@ constexpr qreal XLET_BOX_H = 2;
 
 namespace ceam {
 
-DeviceXletsView::DeviceXletsView()
+DeviceXlets::DeviceXlets()
     : max_cols_(DeviceData::DEF_COL_COUNT)
 {
 }
 
-DeviceXletsView::~DeviceXletsView()
+DeviceXlets::~DeviceXlets()
 {
     clear();
 }
 
-bool DeviceXletsView::append(const XletData& data, XletType type, QGraphicsItem* parent)
+bool DeviceXlets::append(const XletData& data, XletType type, QGraphicsItem* parent)
 {
     auto xlet = new DeviceXlet(data, XletInfo { DEV_NULL_ID, (XletIndex)xlets_.count(), type }, parent);
     xlets_.push_back(xlet);
     return true;
 }
 
-qsizetype DeviceXletsView::cellCount() const
+qsizetype DeviceXlets::cellCount() const
 {
     return rowCount() * max_cols_;
 }
 
-DeviceXlet* DeviceXletsView::xletAtIndex(XletIndex index)
+DeviceXlet* DeviceXlets::xletAtIndex(XletIndex index)
 {
     if (index >= xlets_.count())
         return nullptr;
@@ -57,7 +57,7 @@ DeviceXlet* DeviceXletsView::xletAtIndex(XletIndex index)
         return xlets_[index];
 }
 
-const DeviceXlet* DeviceXletsView::xletAtIndex(XletIndex index) const
+const DeviceXlet* DeviceXlets::xletAtIndex(XletIndex index) const
 {
     if (index >= xlets_.count())
         return nullptr;
@@ -65,25 +65,25 @@ const DeviceXlet* DeviceXletsView::xletAtIndex(XletIndex index) const
         return xlets_[index];
 }
 
-DeviceXlet* DeviceXletsView::xletAtCell(int row, int col)
+DeviceXlet* DeviceXlets::xletAtCell(int row, int col)
 {
     auto idx = cellToIndex(row, col);
     return idx ? xlets_[*idx] : nullptr;
 }
 
-const DeviceXlet* DeviceXletsView::xletAtCell(int row, int col) const
+const DeviceXlet* DeviceXlets::xletAtCell(int row, int col) const
 {
     auto idx = cellToIndex(row, col);
     return idx ? xlets_[*idx] : nullptr;
 }
 
-int DeviceXletsView::rowCount() const
+int DeviceXlets::rowCount() const
 {
     auto n = xlets_.count();
     return n / max_cols_ + (n % max_cols_ > 0);
 }
 
-bool DeviceXletsView::setMaxColumnCount(int n)
+bool DeviceXlets::setMaxColumnCount(int n)
 {
     if (n < DeviceData::MIN_COL_COUNT || n > DeviceData::MAX_COL_COUNT)
         return false;
@@ -92,7 +92,7 @@ bool DeviceXletsView::setMaxColumnCount(int n)
     return true;
 }
 
-std::optional<XletIndex> DeviceXletsView::cellToIndex(int row, int col) const
+std::optional<XletIndex> DeviceXlets::cellToIndex(int row, int col) const
 {
     if (row < 0
         || row >= rowCount()
@@ -107,12 +107,12 @@ std::optional<XletIndex> DeviceXletsView::cellToIndex(int row, int col) const
         return {};
 }
 
-std::optional<XletIndex> DeviceXletsView::cellToIndex(CellIndex cellIdx) const
+std::optional<XletIndex> DeviceXlets::cellToIndex(CellIndex cellIdx) const
 {
     return cellToIndex(cellIdx.first, cellIdx.second);
 }
 
-std::optional<CellIndex> DeviceXletsView::indexToCell(int index) const
+std::optional<CellIndex> DeviceXlets::indexToCell(int index) const
 {
     if (index >= xlets_.count())
         return {};
@@ -120,7 +120,7 @@ std::optional<CellIndex> DeviceXletsView::indexToCell(int index) const
     return std::make_pair(index / maxColumnCount(), index % maxColumnCount());
 }
 
-std::optional<XletIndex> DeviceXletsView::posToIndex(const QPoint& pos) const
+std::optional<XletIndex> DeviceXlets::posToIndex(const QPoint& pos) const
 {
     int col = pos.x() / (int)XLET_W;
     int row = pos.y() / (int)XLET_H;
@@ -128,7 +128,7 @@ std::optional<XletIndex> DeviceXletsView::posToIndex(const QPoint& pos) const
     return cellToIndex(row, col);
 }
 
-std::optional<CellIndex> DeviceXletsView::posToCell(const QPoint& pos) const
+std::optional<CellIndex> DeviceXlets::posToCell(const QPoint& pos) const
 {
     auto idx = posToIndex(pos);
     if (idx)
@@ -137,7 +137,7 @@ std::optional<CellIndex> DeviceXletsView::posToCell(const QPoint& pos) const
         return {};
 }
 
-std::optional<QPointF> DeviceXletsView::connectionPoint(XletIndex index) const
+std::optional<QPointF> DeviceXlets::connectionPoint(XletIndex index) const
 {
     if (index >= xlets_.count())
         return {};
@@ -150,7 +150,7 @@ std::optional<QPointF> DeviceXletsView::connectionPoint(XletIndex index) const
     }
 }
 
-QRect DeviceXletsView::xletRect(XletIndex index) const
+QRect DeviceXlets::xletRect(XletIndex index) const
 {
     auto cell_pos = indexToCell(index);
     if (!cell_pos)
@@ -159,7 +159,7 @@ QRect DeviceXletsView::xletRect(XletIndex index) const
     return QRect(cell_pos->second * XLET_W, cell_pos->first * XLET_H, XLET_W, XLET_H);
 }
 
-void DeviceXletsView::placeXlets(const QPointF& origin)
+void DeviceXlets::placeXlets(const QPointF& origin)
 {
     for (int i = 0; i < xlets_.count(); i++) {
         auto pt = origin + xletRect(i).topLeft();
@@ -167,7 +167,7 @@ void DeviceXletsView::placeXlets(const QPointF& origin)
     }
 }
 
-void DeviceXletsView::clear()
+void DeviceXlets::clear()
 {
     for (auto x : xlets_) {
         auto scene = x->scene();
@@ -180,12 +180,12 @@ void DeviceXletsView::clear()
     xlets_.clear();
 }
 
-QRectF DeviceXletsView::boundingRect() const
+QRectF DeviceXlets::boundingRect() const
 {
     return QRectF { 0, 0, width(), rowCount() * XLET_H };
 }
 
-qreal DeviceXletsView::width() const
+qreal DeviceXlets::width() const
 {
     return std::min<int>(max_cols_, xlets_.count()) * XLET_W;
 }

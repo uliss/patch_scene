@@ -160,7 +160,7 @@ private:
     QGraphicsSvgItem* image_;
     mutable SharedDeviceData data_;
     QRectF rect_;
-    DeviceXletsView inputs_, outputs_;
+    DeviceXlets inputs_, outputs_;
 };
 }
 
