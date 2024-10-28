@@ -60,7 +60,7 @@ Connection::Connection(const ConnectionId& id)
     setZValue(ZVALUE_CONN);
     setCacheMode(DeviceCoordinateCache);
     setFlag(QGraphicsItem::ItemIsSelectable);
-    setToolTip(QString("In(%1) -> Out(%2)").arg((int)id.sourceOutput()).arg((int)id.destinationInput()));
+    setToolTip(QString("In(%1) -> Out(%2)").arg((int)id.sourceIndex()).arg((int)id.destinationIndex()));
     setAcceptHoverEvents(true);
 }
 
@@ -193,12 +193,12 @@ QRectF Connection::boundingRect() const
 
 XletInfo Connection::destinationInfo() const
 {
-    return { id_.destination(), id_.destinationInput(), XletType::In };
+    return { id_.destination(), id_.destinationIndex(), id_.destinationType() };
 }
 
 XletInfo Connection::sourceInfo() const
 {
-    return { id_.source(), id_.sourceOutput(), XletType::Out };
+    return { id_.source(), id_.sourceIndex(), id_.sourceType()};
 }
 
 void Connection::setPoints(const QPointF& p0, const QPointF& p1)

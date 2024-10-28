@@ -29,13 +29,15 @@ constexpr qreal PEN_WIDTH_MAX = 5;
 
 constexpr const char* KEY_BEZY0 = "bezy0";
 constexpr const char* KEY_BEZY1 = "bezy1";
-constexpr const char* KEY_SRC_PT = "src";
-constexpr const char* KEY_DEST_PT = "dest";
+constexpr const char* KEY_COLOR = "color";
 constexpr const char* KEY_DEST = "dest";
 constexpr const char* KEY_DEST_IN = "in";
+constexpr const char* KEY_DEST_PT = "dest";
+constexpr const char* KEY_DEST_TYPE = "dest-type";
 constexpr const char* KEY_SRC = "src";
 constexpr const char* KEY_SRC_OUT = "out";
-constexpr const char* KEY_COLOR = "color";
+constexpr const char* KEY_SRC_PT = "src";
+constexpr const char* KEY_SRC_TYPE = "src-type";
 constexpr const char* KEY_X = "x";
 constexpr const char* KEY_Y = "y";
 constexpr const char* KEY_WIDTH = "width";
@@ -44,6 +46,8 @@ constexpr const char* KEY_CONNECTION_CORD = "cord";
 constexpr const char* JSON_STR_LINE = "line";
 constexpr const char* JSON_STR_BEZIER = "bezier";
 constexpr const char* JSON_STR_SEGMENTED = "segment";
+constexpr const char* JSON_STR_IN = "in";
+constexpr const char* JSON_STR_OUT = "out";
 
 const char* toString(ceam::ConnectionCordType type)
 {
@@ -97,15 +101,41 @@ bool betweenX(const QPoint& a, const QPoint& pt, const QPoint& b)
         return pt.x() >= b.x() && pt.x() <= a.x();
 }
 
+std::optional<ceam::XletType> xletTypeFromJson(const QJsonValue& v)
+{
+    if (!v.isString())
+        return {};
+
+    auto str = v.toString();
+    if (str == JSON_STR_IN)
+        return ceam::XletType::In;
+    else if (str == JSON_STR_OUT)
+        return ceam::XletType::Out;
+    else
+        return {};
+}
+
+QJsonValue toJson(ceam::XletType xt)
+{
+    switch (xt) {
+    case ceam::XletType::In:
+        return JSON_STR_IN;
+    case ceam::XletType::Out:
+        return JSON_STR_OUT;
+    default:
+        return {};
+    }
+}
+
 }
 
 namespace ceam {
 
 ConnectionId::ConnectionId(const XletInfo& xi0, const XletInfo& xi1)
     : src_(xi0.isOutlet() ? xi0.id() : xi1.id())
-    , out_(xi0.isOutlet() ? xi0.index() : xi1.index())
+    , src_idx_(xi0.isOutlet() ? xi0.index() : xi1.index())
     , dest_(xi0.isOutlet() ? xi1.id() : xi0.id())
-    , in_(xi0.isOutlet() ? xi1.index() : xi0.index())
+    , dest_idx_(xi0.isOutlet() ? xi1.index() : xi0.index())
 {
 }
 
@@ -120,8 +150,14 @@ QJsonObject ConnectionId::toJson() const
 
     j[KEY_SRC] = static_cast<int>(src_);
     j[KEY_DEST] = static_cast<int>(dest_);
-    j[KEY_DEST_IN] = static_cast<int>(in_);
-    j[KEY_SRC_OUT] = static_cast<int>(out_);
+    j[KEY_DEST_IN] = static_cast<int>(dest_idx_);
+    j[KEY_SRC_OUT] = static_cast<int>(src_idx_);
+
+    if (src_type_ != XletType::Out)
+        j[KEY_SRC_TYPE] = ::toJson(src_type_);
+
+    if (dest_type_ != XletType::In)
+        j[KEY_DEST_TYPE] = ::toJson(dest_type_);
 
     return j;
 }
@@ -130,11 +166,11 @@ bool ConnectionId::setEndPoint(const XletInfo& ep)
 {
     switch (ep.type()) {
     case XletType::In:
-        in_ = ep.index();
+        dest_idx_ = ep.index();
         dest_ = ep.id();
         return true;
     case XletType::Out:
-        out_ = ep.index();
+        src_idx_ = ep.index();
         src_ = ep.id();
         return true;
     default:
@@ -278,37 +314,51 @@ std::optional<ConnectionId> ConnectionId::fromJson(const QJsonValue& j)
     if (src >= 0)
         data.src_ = src;
 
+    auto src_type = xletTypeFromJson(obj.value(KEY_SRC_TYPE));
+    if (src_type)
+        data.src_type_ = *src_type;
+
     auto dest = obj.value(KEY_DEST).toInt(-1);
     if (dest >= 0)
         data.dest_ = dest;
 
     auto in = obj.value(KEY_DEST_IN).toInt(-1);
     if (in >= 0)
-        data.in_ = in;
+        data.dest_idx_ = in;
 
     auto out = obj.value(KEY_SRC_OUT).toInt(-1);
     if (out >= 0)
-        data.out_ = out;
+        data.src_idx_ = out;
+
+    auto dest_type = xletTypeFromJson(obj.value(KEY_DEST_TYPE));
+    if (dest_type)
+        data.dest_type_ = *dest_type;
 
     return data;
 }
 
-std::optional<ConnectionId> ConnectionId::fromXletPair(const XletInfo& x0, const XletInfo& x1)
+std::optional<ConnectionId> ConnectionId::fromXletPair(
+    const XletInfo& x0,
+    const XletInfo& x1)
 {
-    if (x0.type() == XletType::In && x1.type() == XletType::Out)
+    if (x0.isInlet() && x1.isOutlet())
         return ConnectionId { x1.id(), x1.index(), x0.id(), x0.index() };
-    else if (x0.type() == XletType::Out && x1.type() == XletType::In)
+    else if (x0.isOutlet() && x1.isInlet())
         return ConnectionId { x0.id(), x0.index(), x1.id(), x1.index() };
-    else
+    else if (x0.type() == x1.type()) {
+        return ConnectionId { x0.id(), x0.type(), x0.index(), x1.id(), x1.type(), x1.index() };
+    } else
         return {};
 }
 
 size_t qHash(const ConnectionId& key)
 {
     return ::qHash(key.destination())
-        ^ ::qHash(key.destinationInput())
+        ^ ::qHash(key.destinationIndex())
+        ^ ::qHash((int)key.destinationType())
         ^ ::qHash(key.source())
-        ^ ::qHash(key.sourceOutput());
+        ^ ::qHash(key.sourceIndex())
+        ^ ::qHash((int)key.sourceType());
 }
 
 QDebug operator<<(QDebug debug, const ConnectionId& c)
@@ -316,9 +366,12 @@ QDebug operator<<(QDebug debug, const ConnectionId& c)
     QDebugStateSaver saver(debug);
     debug.nospace()
         << '['
-        << c.source() << ':' << (int)c.sourceOutput()
+        << c.source()
+        << (c.sourceType() == XletType::In ? ":*" : ":")
+        << (int)c.sourceIndex()
         << "->"
-        << c.destination() << ':' << (int)c.destinationInput()
+        << c.destination()
+        << (c.destinationType() == XletType::Out ? ":*" : ":") << (int)c.destinationIndex()
         << ']';
 
     return debug;
