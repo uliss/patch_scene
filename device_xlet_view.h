@@ -33,7 +33,7 @@ using CellIndex = std::pair<int, int>;
 class DeviceXletView {
 public:
     DeviceXletView();
-    ~DeviceXletView();
+    virtual ~DeviceXletView();
 
     bool append(const XletData& data, XletType type, QGraphicsItem* parent);
 
@@ -78,12 +78,12 @@ public:
     /**
      * convert cell index to linear xlet index
      */
-    std::optional<XletIndex> cellToIndex(int row, int col) const;
+    virtual std::optional<XletIndex> cellToIndex(int row, int col) const;
 
     /**
      * convert cell index to linear xlet index
      */
-    std::optional<XletIndex> cellToIndex(CellIndex cellIdx) const;
+    virtual std::optional<XletIndex> cellToIndex(CellIndex cellIdx) const;
 
     /**
      * convert linear xlet index to cell index (row, col)
@@ -96,7 +96,7 @@ public:
      * @note index is calculated, no DeviceXlet scene position is checked!
      * @return xlet index or empty
      */
-    std::optional<XletIndex> posToIndex(const QPoint& pos) const;
+    virtual std::optional<XletIndex> posToIndex(const QPoint& pos) const;
 
     /**
      * convert point position to cell xlet index
@@ -104,13 +104,13 @@ public:
      * @note index is calculated, no DeviceXlet scene position is checked!
      * @return xlet index or empty
      */
-    std::optional<CellIndex> posToCell(const QPoint& pos) const;
+    virtual std::optional<CellIndex> posToCell(const QPoint& pos) const;
 
     /**
      * @return connection point in device coords
      * @note xlets should be placed
      */
-    std::optional<QPointF> connectionPoint(XletIndex index) const;
+    virtual std::optional<QPointF> connectionPoint(XletIndex index) const;
 
     /**
      * @return calculated xlet bounding rectangle
@@ -123,7 +123,7 @@ public:
      * place xlet DeviceXlet graphics item relative to given origin point
      * @param origin - origin point, relative to parent Device
      */
-    void placeXlets(const QPointF& origin);
+    virtual void placeXlets(const QPointF& origin);
 
     /**
      * remove all xlets
@@ -133,12 +133,12 @@ public:
     /**
      * @return bounding rect of all xlets relative to QPoint(0, 0)
      */
-    QRectF boundingRect() const;
+    virtual QRectF boundingRect() const;
 
     /**
      * @brief xlets_
      */
-    qreal width() const;
+    virtual qreal width() const;
 
 private:
     QList<DeviceXlet*> xlets_;
