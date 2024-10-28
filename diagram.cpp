@@ -1106,9 +1106,20 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
                 if (!connections_->checkConnection(conn_start_.value(), xlet.value()))
                     return;
 
-                auto conn = ConnectionId::fromXletPair(xlet->first, conn_start_->first);
-                if (conn)
+                auto& d0 = conn_start_->second;
+                auto& d1 = xlet->second;
+                auto c0 = conn_start_->first;
+                auto c1 = xlet->first;
+
+                if (c0.type() == c1.type()) {
+                    if (c0.isInlet() && !d0.isBidirect() && d1.isBidirect())
+                        std::swap(c0, c1);
+                }
+
+                auto conn = ConnectionId::fromXletPair(c0, c1);
+                if (conn) {
                     cmdConnectDevices(conn.value());
+                }
             }
         }
 
@@ -1345,17 +1356,21 @@ bool Diagram::connectDevices(const ConnectionId& id, std::optional<ConnectionVie
         updateConnectionPos(conn);
         emit sceneChanged();
         return true;
-    } else
+    } else {
+        WARN() << "can't connect:" << id;
         return false;
+    }
 }
 
 bool Diagram::disconnectDevices(const ConnectionId& id)
 {
-    if (connections_->remove(id.sourceInfo())) {
+    if (connections_->remove(id)) {
         emit sceneChanged();
         return true;
-    } else
+    } else {
+        WARN() << "can't remove connection:" << id;
         return false;
+    }
 }
 
 void Diagram::moveSelectedItemsBy(qreal dx, qreal dy)
