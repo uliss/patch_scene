@@ -30,10 +30,10 @@ class XletData;
 
 using CellIndex = std::pair<int, int>;
 
-class DeviceXletView {
+class DeviceXletsView {
 public:
-    DeviceXletView();
-    virtual ~DeviceXletView();
+    DeviceXletsView();
+    virtual ~DeviceXletsView();
 
     bool append(const XletData& data, XletType type, QGraphicsItem* parent);
 
