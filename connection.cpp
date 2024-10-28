@@ -60,7 +60,7 @@ Connection::Connection(const ConnectionId& id)
     setZValue(ZVALUE_CONN);
     setCacheMode(DeviceCoordinateCache);
     setFlag(QGraphicsItem::ItemIsSelectable);
-    setToolTip(QString("In(%1) -> Out(%2)").arg((int)id.sourceIndex()).arg((int)id.destinationIndex()));
+    setToolTip(tr("Out(%1) → In(%2)").arg((int)id.sourceIndex()).arg((int)id.destinationIndex()));
     setAcceptHoverEvents(true);
 }
 
@@ -198,7 +198,7 @@ XletInfo Connection::destinationInfo() const
 
 XletInfo Connection::sourceInfo() const
 {
-    return { id_.source(), id_.sourceIndex(), id_.sourceType()};
+    return { id_.source(), id_.sourceIndex(), id_.sourceType() };
 }
 
 void Connection::setPoints(const QPointF& p0, const QPointF& p1)

@@ -122,124 +122,140 @@
         <translation>Свойства элемента</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="289"/>
+        <location filename="deviceproperties.ui" line="137"/>
         <source>&amp;Name</source>
         <oldsource>Name</oldsource>
         <translation>&amp;Название</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="372"/>
+        <location filename="deviceproperties.ui" line="95"/>
         <source>Mirror horizontally</source>
         <translation>Отразить по горизонтали</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="542"/>
         <source>&amp;Inputs</source>
         <oldsource>Inputs</oldsource>
-        <translation>&amp;Входы</translation>
+        <translation type="vanished">&amp;Входы</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="224"/>
         <source>Move input up</source>
-        <translation>Переместить вход наверх</translation>
+        <translation type="vanished">Переместить вход наверх</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="240"/>
         <source>Move input down</source>
-        <translation>Переместить вход вниз</translation>
+        <translation type="vanished">Переместить вход вниз</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="462"/>
         <source>&amp;Outputs</source>
         <oldsource>Outputs</oldsource>
-        <translation>В&amp;ыходы</translation>
+        <translation type="vanished">В&amp;ыходы</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="434"/>
         <source>Move output up</source>
-        <translation>Переместить выход наверх</translation>
+        <translation type="vanished">Переместить выход наверх</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="450"/>
         <source>Move output down</source>
-        <translation>Переместить выход вниз</translation>
+        <translation type="vanished">Переместить выход вниз</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="475"/>
+        <location filename="deviceproperties.ui" line="174"/>
         <source>Image</source>
         <translation>Изображение</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="301"/>
+        <location filename="deviceproperties.ui" line="24"/>
         <source>...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="308"/>
+        <location filename="deviceproperties.ui" line="31"/>
         <source>choose device image</source>
         <translation>выбрать изображение устройства</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="311"/>
+        <location filename="deviceproperties.ui" line="34"/>
         <source>Choose</source>
         <translation>Выбрать</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="334"/>
+        <location filename="deviceproperties.ui" line="57"/>
         <source>Scale</source>
         <translation>Масштаб</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="164"/>
+        <location filename="deviceproperties.ui" line="117"/>
+        <source>Inputs</source>
+        <translation>Входы</translation>
+    </message>
+    <message>
+        <location filename="deviceproperties.ui" line="127"/>
         <source>&amp;Batteries</source>
         <oldsource>Batteries</oldsource>
         <translation>&amp;Батарейки</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="47"/>
+        <location filename="deviceproperties.ui" line="209"/>
+        <location filename="deviceproperties.ui" line="230"/>
+        <location filename="deviceproperties.ui" line="300"/>
+        <source>Edit</source>
+        <translation>Редактировать</translation>
+    </message>
+    <message>
+        <location filename="deviceproperties.ui" line="219"/>
+        <location filename="deviceproperties.ui" line="237"/>
+        <source>Logical columns:</source>
+        <translation>Логические столбцы:</translation>
+    </message>
+    <message>
+        <location filename="deviceproperties.ui" line="249"/>
+        <source>Outputs</source>
+        <translation>Выходы</translation>
+    </message>
+    <message>
+        <location filename="deviceproperties.ui" line="264"/>
         <source>&amp;Show</source>
         <oldsource>Show</oldsource>
         <translation>&amp;Показывать</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="192"/>
         <source>add input</source>
-        <translation>добавить вход</translation>
+        <translation type="vanished">добавить вход</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="154"/>
+        <location filename="deviceproperties.ui" line="194"/>
         <source>Vendor</source>
         <translation>Производитель</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="27"/>
+        <location filename="deviceproperties.ui" line="273"/>
+        <source>Views:</source>
+        <translation>Виды:</translation>
+    </message>
+    <message>
+        <location filename="deviceproperties.ui" line="285"/>
         <source>&amp;Model</source>
         <oldsource>Model</oldsource>
         <translation>&amp;Модель</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="68"/>
-        <location filename="deviceproperties.ui" line="267"/>
         <source>columns in raw</source>
-        <translation>столбцов в ряду</translation>
+        <translation type="vanished">столбцов в ряду</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="208"/>
         <source>remove input</source>
-        <translation>удалить вход</translation>
+        <translation type="vanished">удалить вход</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="402"/>
         <source>add output</source>
-        <translation>добавить выход</translation>
+        <translation type="vanished">добавить выход</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="418"/>
         <source>remove output</source>
-        <translation>удалить выход</translation>
+        <translation type="vanished">удалить выход</translation>
     </message>
     <message>
-        <location filename="deviceproperties.ui" line="485"/>
+        <location filename="deviceproperties.ui" line="184"/>
         <source>&amp;Category</source>
         <oldsource>Category</oldsource>
         <translation>&amp;Категория</translation>
@@ -901,19 +917,19 @@
         <translation>Цвет</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="312"/>
-        <location filename="connection.cpp" line="330"/>
+        <location filename="connection.cpp" line="313"/>
+        <location filename="connection.cpp" line="331"/>
         <source>Edit</source>
         <translation>Правка</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="318"/>
+        <location filename="connection.cpp" line="319"/>
         <source>Add split point</source>
         <translation>Добавить точку</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="324"/>
-        <location filename="connection.cpp" line="335"/>
+        <location filename="connection.cpp" line="325"/>
+        <location filename="connection.cpp" line="336"/>
         <source>Reset</source>
         <translation>Сбросить</translation>
     </message>
@@ -948,6 +964,34 @@
         <location filename="3rd-party/QSimpleUpdater/src/Updater.cpp" line="480"/>
         <source>Congratulations! You are running the latest version of %1</source>
         <translation>Поздравляем! У вас установлена последняя версия %1</translation>
+    </message>
+</context>
+<context>
+    <name>XletLogicalEditor</name>
+    <message>
+        <location filename="xlet_logical_editor.ui" line="14"/>
+        <source>Dialog</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="xlet_logical_editor.ui" line="35"/>
+        <source>+</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="xlet_logical_editor.ui" line="42"/>
+        <source>-</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="xlet_logical_editor.ui" line="49"/>
+        <source>Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="xlet_logical_editor.ui" line="56"/>
+        <source>Down</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1377,6 +1421,15 @@ http://ceam.space</source>
     </message>
 </context>
 <context>
+    <name>ceam::Connection</name>
+    <message>
+        <location filename="connection.cpp" line="63"/>
+        <source>Out(%1) → In(%2)</source>
+        <oldsource>In(%1) → Out(%2)</oldsource>
+        <translation>Выход(%1) → Вход(%2)</translation>
+    </message>
+</context>
+<context>
     <name>ceam::ConnectionItemModel</name>
     <message>
         <location filename="connection_item_model.cpp" line="35"/>
@@ -1487,40 +1540,45 @@ http://ceam.space</source>
 <context>
     <name>ceam::DeviceProperties</name>
     <message>
-        <location filename="deviceproperties.cpp" line="50"/>
+        <location filename="deviceproperties.cpp" line="40"/>
         <source>&apos;%1&apos; properties</source>
         <translation>Свойства &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="136"/>
+        <location filename="deviceproperties.cpp" line="73"/>
+        <source>Logical inputs editor</source>
+        <translation>Редактор физических входов</translation>
+    </message>
+    <message>
+        <location filename="deviceproperties.cpp" line="78"/>
+        <source>Logical outputs editor</source>
+        <translation>Редактор физических выходов</translation>
+    </message>
+    <message>
         <source>Type</source>
-        <translation>Тип</translation>
+        <translation type="vanished">Тип</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="136"/>
         <source>Name</source>
-        <translation>Название</translation>
+        <translation type="vanished">Название</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="136"/>
         <source>Socket</source>
-        <translation>Гнездо</translation>
+        <translation type="vanished">Гнездо</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="136"/>
         <source>Phantom</source>
-        <translation>Фантом</translation>
+        <translation type="vanished">Фантом</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="136"/>
         <source>Power</source>
-        <translation>Питание</translation>
+        <translation type="vanished">Питание</translation>
     </message>
 </context>
 <context>
     <name>ceam::DeviceXlet</name>
     <message>
-        <location filename="device_xlet.cpp" line="166"/>
+        <location filename="device_xlet.cpp" line="180"/>
         <source>Phantom</source>
         <translation>Фантом</translation>
     </message>
@@ -1538,7 +1596,7 @@ http://ceam.space</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1135"/>
+        <location filename="diagram.cpp" line="1146"/>
         <source>&amp;Add device</source>
         <translation>&amp;Добавить элемент</translation>
     </message>
@@ -1555,32 +1613,32 @@ http://ceam.space</source>
         <translation type="vanished">&amp;Установить фоновое изображение</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1147"/>
+        <location filename="diagram.cpp" line="1158"/>
         <source>Align &amp;horizontal</source>
         <translation>Выровнять по &amp;горизонтали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1151"/>
+        <location filename="diagram.cpp" line="1162"/>
         <source>Align &amp;vertical</source>
         <translation>Выровнять по &amp;вертикали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1155"/>
+        <location filename="diagram.cpp" line="1166"/>
         <source>Place in row</source>
         <translation>Разместить в ряд</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1159"/>
+        <location filename="diagram.cpp" line="1170"/>
         <source>Place in column</source>
         <translation>Разместить в столбец</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1166"/>
+        <location filename="diagram.cpp" line="1177"/>
         <source>Distribute horizontal</source>
         <translation>Распределить горизонтально</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1170"/>
+        <location filename="diagram.cpp" line="1181"/>
         <source>Distribute vertical</source>
         <translation>Распределить вертикально</translation>
     </message>
@@ -2061,6 +2119,39 @@ Do you wan&apos;t to save it before closing?</source>
         <location filename="send_item_model.cpp" line="51"/>
         <source>Output</source>
         <translation>Выход</translation>
+    </message>
+</context>
+<context>
+    <name>ceam::XletLogicalEditor</name>
+    <message>
+        <location filename="xlet_logical_editor.cpp" line="75"/>
+        <source>Type</source>
+        <translation>Тип</translation>
+    </message>
+    <message>
+        <location filename="xlet_logical_editor.cpp" line="75"/>
+        <source>Name</source>
+        <translation>Название</translation>
+    </message>
+    <message>
+        <location filename="xlet_logical_editor.cpp" line="75"/>
+        <source>Socket</source>
+        <translation>Гнездо</translation>
+    </message>
+    <message>
+        <location filename="xlet_logical_editor.cpp" line="75"/>
+        <source>Power</source>
+        <translation>Питание</translation>
+    </message>
+    <message>
+        <location filename="xlet_logical_editor.cpp" line="75"/>
+        <source>Phantom</source>
+        <translation>Фантом</translation>
+    </message>
+    <message>
+        <location filename="xlet_logical_editor.cpp" line="75"/>
+        <source>Bidirect</source>
+        <translation>Двунаправленный</translation>
     </message>
 </context>
 <context>
