@@ -1114,6 +1114,9 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
                 if (c0.type() == c1.type()) {
                     if (c0.isInlet() && !d0.isBidirect() && d1.isBidirect())
                         std::swap(c0, c1);
+
+                    if (c0.isOutlet() && d0.isBidirect() && !d1.isBidirect())
+                        std::swap(c0, c1);
                 }
 
                 auto conn = ConnectionId::fromXletPair(c0, c1);

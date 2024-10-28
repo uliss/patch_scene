@@ -143,7 +143,9 @@ std::optional<QPointF> DeviceXletView::connectionPoint(XletIndex index) const
         return {};
     else {
         auto xlet = xlets_[index];
-        bool yoff = xlet->xletInfo().isOutlet() | xlet->xletData().isBidirect();
+        bool yoff = xlet->xletInfo().isOutlet();
+        // bool yoff = (xlet->xletInfo().isOutlet() && !xlet->xletData().isBidirect())
+        //     || (xlet->xletInfo().isInlet() && xlet->xletData().isBidirect());
         return xlet->pos() + QPointF(XLET_W / 2, yoff * XLET_H);
     }
 }
