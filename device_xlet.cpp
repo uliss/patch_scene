@@ -33,6 +33,7 @@ constexpr const char* KEY_VISIBLE = "visible";
 constexpr const char* KEY_SOCKET = "socket";
 constexpr const char* KEY_MODEL = "model";
 constexpr const char* KEY_POWER_TYPE = "power";
+constexpr const char* KEY_BIDIRECT = "bidirect";
 
 constexpr int ICON_W = 16;
 constexpr int ICON_H = 16;
@@ -81,6 +82,9 @@ QJsonObject XletData::toJson() const
     j[KEY_SOCKET] = type_.toJson();
     j[KEY_POWER_TYPE] = powerTypeToString(power_type_);
 
+    if (bidirect_)
+        j[KEY_BIDIRECT] = bidirect_;
+
     return j;
 }
 
@@ -106,6 +110,8 @@ std::optional<XletData> XletData::fromJson(const QJsonValue& j)
     auto power_type = powerTypeFromString(obj.value(KEY_POWER_TYPE).toString({}));
     if (power_type)
         data.power_type_ = power_type.value();
+
+    data.bidirect_ = obj.value(KEY_BIDIRECT).toBool(false);
 
     return data;
 }
@@ -229,9 +235,16 @@ void DeviceXlet::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
                 painter->setBrush(Qt::darkRed);
 
             painter->drawRect((bbox.width() - XLET_BOX_W) * 0.5, 0, XLET_BOX_W, XLET_BOX_H);
+            if (data_.isBidirect())
+                painter->drawRect((bbox.width() - XLET_BOX_W) * 0.5, bbox.bottom() - XLET_BOX_H, XLET_BOX_W, XLET_BOX_H);
+
             break;
         case XletType::Out:
             painter->drawRect((bbox.width() - XLET_BOX_W) * 0.5, bbox.bottom() - XLET_BOX_H, XLET_BOX_W, XLET_BOX_H);
+
+            if (data_.isBidirect())
+                painter->drawRect((bbox.width() - XLET_BOX_W) * 0.5, 0, XLET_BOX_W, XLET_BOX_H);
+
             break;
         default:
             break;
