@@ -410,6 +410,7 @@ void TestSceneDevices::findConnectionPoints()
     dev2 = dev.add(data4(101));
     dev1->setPos(100, 200);
     dev2->setPos(300, 400);
+    QCOMPARE(dev1->deviceData()->title(), "DATA4");
 
     pts = dev.connectionPoints({ 100, 0, 101, 0 });
     QVERIFY(pts);

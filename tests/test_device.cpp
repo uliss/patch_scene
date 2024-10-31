@@ -69,18 +69,24 @@ void TestDevice::createDefault()
     QCOMPARE(dev.deviceData()->outputs().count(), 2);
 
     QCOMPARE(dev.boundingRect(), QRectF(-2 * XW, 0, 4 * XW, 2 * XH + DEF_TXT_HT));
-    QCOMPARE(dev.inletsRect().width(), 4 * XW);
-    QCOMPARE(dev.inletsRect(), QRect(-2 * XW, DEF_TXT_HT, 4 * XW, XH));
+    QVERIFY(dev.xlets().currentView());
+    auto view = dynamic_cast<XletsTableView*>(dev.xlets().currentView());
+    QVERIFY(view);
 
-    QCOMPARE(dev.inConnectionPoint(0), QPointF(-1.5 * XW, DEF_TXT_HT));
-    QCOMPARE(dev.inConnectionPoint(1), QPointF(-0.5 * XW, DEF_TXT_HT));
-    QCOMPARE(dev.inConnectionPoint(2), QPointF(0.5 * XW, DEF_TXT_HT));
-    QCOMPARE(dev.inConnectionPoint(3), QPointF(1.5 * XW, DEF_TXT_HT));
-    QVERIFY(!dev.inConnectionPoint(4));
+    QCOMPARE(dev.xlets().inletCount(), 4);
+    QCOMPARE(dev.xlets().outletCount(), 2);
+    QCOMPARE(view->width(), 4 * XW);
+    view->placeXlets({});
 
-    QCOMPARE(dev.outConnectionPoint(0), QPointF(-0.5 * XW, 2 * XH + DEF_TXT_HT));
-    QCOMPARE(dev.outConnectionPoint(1), QPointF(0.5 * XW, 2 * XH + DEF_TXT_HT));
-    QVERIFY(!dev.outConnectionPoint(2));
+    QCOMPARE(view->connectionPoint({ 0, XletType::In }), QPointF(0.5 * XW, 0));
+    QCOMPARE(view->connectionPoint({ 1, XletType::In }), QPointF(1.5 * XW, 0));
+    QCOMPARE(view->connectionPoint({ 2, XletType::In }), QPointF(2.5 * XW, 0));
+    QCOMPARE(view->connectionPoint({ 3, XletType::In }), QPointF(3.5 * XW, 0));
+    QVERIFY(!view->connectionPoint({ 4, XletType::In }));
+
+    QCOMPARE(view->connectionPoint({ 0, XletType::Out }), QPointF(1.5 * XW, 2 * XH));
+    QCOMPARE(view->connectionPoint({ 1, XletType::Out }), QPointF(2.5 * XW, 2 * XH));
+    QVERIFY(!view->connectionPoint({ 2, XletType::Out }));
 }
 
 void TestDevice::createNoTitle()
@@ -93,81 +99,44 @@ void TestDevice::createNoTitle()
         QCOMPARE(dev.deviceData()->outputs().count(), 0);
 
         QCOMPARE(dev.boundingRect(), QRectF(-1 * XW, 0, 2 * XW, XH));
-        QCOMPARE(dev.inletsRect(), QRect(-1 * XW, 0, 2 * XW, XH));
-        QCOMPARE(dev.inConnectionPoint(0), QPointF(-0.5 * XW, 0));
-        QCOMPARE(dev.inConnectionPoint(1), QPointF(0.5 * XW, 0));
-        QVERIFY(!dev.outConnectionPoint(0));
+        QCOMPARE(dev.xletRect(), QRect(-1 * XW, 0, 2 * XW, XH));
     }
 
     {
         Device dev(make_data(100, 0, 1));
 
         QCOMPARE(dev.boundingRect(), QRectF(-0.5 * XW, 0, XW, XH));
-        QCOMPARE(dev.inletsRect(), QRect(0, 0, 0, 0));
-        QVERIFY(!dev.inConnectionPoint(0));
-        QVERIFY(!dev.inConnectionPoint(1));
-        QCOMPARE(dev.outConnectionPoint(0), QPointF(0, XH));
+        QCOMPARE(dev.xletRect(), QRect(-0.5 * XW, 0, XW, XH));
     }
 
     {
         Device dev(make_data(100, 2, 1));
 
         QCOMPARE(dev.boundingRect(), QRectF(-1 * XW, 0, 2 * XW, 2 * XH));
-        QCOMPARE(dev.inletsRect(), QRect(-1 * XW, 0, 2 * XW, XH));
-        QCOMPARE(dev.inConnectionPoint(0), QPointF(-0.5 * XW, 0));
-        QCOMPARE(dev.inConnectionPoint(1), QPointF(0.5 * XW, 0));
-        QCOMPARE(dev.outConnectionPoint(0), QPointF(0, 2 * XH));
+        QCOMPARE(dev.xletRect(), QRect(-1 * XW, 0, 2 * XW, 2 * XH));
     }
 }
 
-void TestDevice::inletRect()
+void TestDevice::boundingRect()
 {
     {
         Device dev(make_data(100, 0, 0, {}));
-        QCOMPARE(dev.inletsRect(), QRect(0, 0, 0, 0));
+        QCOMPARE(dev.boundingRect(), QRect(0, 0, 0, 0));
     }
 
     {
         Device dev(make_data(100, 1, 0, {}));
-        QCOMPARE(dev.inletsRect(), QRectF(-0.5 * XW, 0, XW, XH));
+        QCOMPARE(dev.boundingRect(), QRectF(-0.5 * XW, 0, XW, XH));
     }
 
     {
         Device dev(make_data(100, 2, 0, {}));
-        QCOMPARE(dev.inletsRect(), QRectF(-1 * XW, 0, 2 * XW, XH));
+        QCOMPARE(dev.boundingRect(), QRectF(-1 * XW, 0, 2 * XW, XH));
     }
 
     {
         Device dev(make_data(100, 2, 0, "MIN"));
-        QCOMPARE(dev.inletsRect(), QRectF(-1 * XW, DEF_TXT_HT, 2 * XW, XH));
-    }
-}
-
-void TestDevice::outletRect()
-{
-    {
-        Device dev(make_data(100, 0, 0, {}));
-        QCOMPARE(dev.outletsRect(), QRect(0, 0, 0, 0));
-    }
-
-    {
-        Device dev(make_data(100, 0, 1, {}));
-        QCOMPARE(dev.outletsRect(), QRectF(-0.5 * XW, 0, XW, XH));
-    }
-
-    {
-        Device dev(make_data(100, 4, 2, {}));
-        QCOMPARE(dev.outletsRect(), QRectF(-XW, XH, 2 * XW, XH));
-    }
-
-    {
-        Device dev(make_data(100, 4, 5, {}));
-        QCOMPARE(dev.outletsRect(), QRectF(-2 * XW, XH, 4 * XW, 2 * XH));
-    }
-
-    {
-        Device dev(make_data(100, 7, 5, {}));
-        QCOMPARE(dev.outletsRect(), QRectF(-2 * XW, 2 * XH, 4 * XW, 2 * XH));
+        QCOMPARE(dev.boundingRect(), QRectF(-0.5 * MIN_TXT_WD, 0, MIN_TXT_WD, DEF_TXT_HT + XH));
     }
 }
 

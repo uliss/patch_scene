@@ -192,7 +192,7 @@ void Diagram::updateConnectionPos(Connection* conn)
     if (conn_pos)
         conn->setPoints(conn_pos->first, conn_pos->second);
     else
-        qWarning() << __FUNCTION__ << "connection points not found";
+        WARN() << "connection points not found";
 }
 
 void Diagram::updateConnectionPos(DeviceId id)

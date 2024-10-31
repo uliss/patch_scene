@@ -47,27 +47,12 @@ public:
     QRectF boundingRect() const final;
 
     /**
-     * @return inlets bounding rect in device coordinates
-     */
-    QRectF inletsRect() const;
-
-    /**
-     * @return outlets bounding rect in device coordinates
-     */
-    QRectF outletsRect() const;
-
-    /**
      * @return title bounding rect in device coordinates
      */
     QRectF titleRect() const;
 
     /**
-     * @return if device has inputs or outputs
-     */
-    bool hasXlets() const;
-
-    /**
-     * @return all inputs/outputs boundinge rect in device coords
+     * @return xlet bounding rect in device coordinates
      */
     QRectF xletRect() const;
 
@@ -75,16 +60,6 @@ public:
      * @return connection point in device or scene coords
      */
     std::optional<QPointF> connectionPoint(XletIndex i, XletType type, bool map = false) const;
-
-    /**
-     * @return input connection point in device or scene coords
-     */
-    std::optional<QPointF> inConnectionPoint(XletIndex i, bool map = false) const;
-
-    /**
-     * @return output connection point in device or scene coords
-     */
-    std::optional<QPointF> outConnectionPoint(XletIndex i, bool map = false) const;
 
     SharedDeviceData deviceData() const;
     void setDeviceData(const SharedDeviceData& data);
@@ -98,6 +73,9 @@ public:
      * export device state/data to json
      */
     QJsonObject toJson() const;
+
+    DeviceXlets& xlets() { return xlets_; }
+    const DeviceXlets& xlets() const { return xlets_; }
 
     static SharedDeviceData defaultDeviceData();
     static SharedDeviceData datafromJson(const QJsonValue& j);
@@ -124,9 +102,7 @@ private:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) final;
 
     int inletsYOff() const;
-    int outletsYOff() const;
 
-    void clearXlets();
     void clearTitle();
     void clearImage();
 
@@ -160,7 +136,7 @@ private:
     QGraphicsSvgItem* image_;
     mutable SharedDeviceData data_;
     QRectF rect_;
-    DeviceXlets inputs_, outputs_;
+    DeviceXlets xlets_;
 };
 }
 

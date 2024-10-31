@@ -14,6 +14,7 @@
 #ifndef DEVICE_XLET_VIEW_H
 #define DEVICE_XLET_VIEW_H
 
+#include "device_common.h"
 #include "socket.h"
 
 #include <QList>
@@ -22,108 +23,63 @@
 #include <optional>
 
 class QGraphicsItem;
+class QPainter;
 
 namespace ceam {
 
 class DeviceXlet;
+class DeviceXletsView;
 class XletData;
 
 using CellIndex = std::pair<int, int>;
+
+struct XletViewIndex {
+    XletIndex index;
+    XletType type;
+
+    XletViewIndex(XletIndex i, XletType t)
+        : index(i)
+        , type(t)
+    {
+    }
+
+    bool operator==(const XletViewIndex& idx) const
+    {
+        return index == idx.index
+            && type == idx.type;
+    }
+
+    bool isInlet() const { return type == XletType::In; }
+    bool isOutlet() const { return type == XletType::Out; }
+};
 
 class DeviceXlets {
 public:
     DeviceXlets();
     ~DeviceXlets();
 
+    /**
+     * append xlet to the scene
+     */
     bool append(const XletData& data, XletType type, QGraphicsItem* parent);
 
     /**
-     * Return number of xlets
+     * Checks if there's no inlets and outlets
      */
-    qsizetype count() const { return xlets_.count(); }
+    bool isEmpty() const;
+
+    DeviceXlet* xletAtIndex(XletViewIndex vidx);
+    const DeviceXlet* xletAtIndex(XletViewIndex vidx) const;
 
     /**
-     * Number of view cells
+     * Return number of inlets
      */
-    qsizetype cellCount() const;
+    qsizetype inletCount() const { return inlets_.count(); }
 
     /**
-     * @return pointer to device xlet or nullptr if notfound
+     * Return number of inlets
      */
-    DeviceXlet* xletAtIndex(XletIndex index);
-    const DeviceXlet* xletAtIndex(XletIndex index) const;
-
-    /**
-     * @return pointer to device xlet by given cell index or nullptr if notfound
-     */
-    DeviceXlet* xletAtCell(int row, int col);
-    const DeviceXlet* xletAtCell(int row, int col) const;
-
-    /**
-     * @return max number of xlets in row
-     */
-    int maxColumnCount() const { return max_cols_; }
-
-    /**
-     * Set max number of columns in row
-     * @note you should call placeXlets() to update xlet positions
-     */
-    bool setMaxColumnCount(int n);
-
-    /**
-     * @return current number of filled rows
-     */
-    int rowCount() const;
-
-    /**
-     * convert cell index to linear xlet index
-     */
-    std::optional<XletIndex> cellToIndex(int row, int col) const;
-
-    /**
-     * convert cell index to linear xlet index
-     */
-    std::optional<XletIndex> cellToIndex(CellIndex cellIdx) const;
-
-    /**
-     * convert linear xlet index to cell index (row, col)
-     */
-    std::optional<CellIndex> indexToCell(int index) const;
-
-    /**
-     * convert point position to linear xlet index
-     * @param pos - point position. First xlet starts at QPoint(0, 0)
-     * @note index is calculated, no DeviceXlet scene position is checked!
-     * @return xlet index or empty
-     */
-    std::optional<XletIndex> posToIndex(const QPoint& pos) const;
-
-    /**
-     * convert point position to cell xlet index
-     * @param pos - point position. First xlet starts at QPoint(0, 0)
-     * @note index is calculated, no DeviceXlet scene position is checked!
-     * @return xlet index or empty
-     */
-    std::optional<CellIndex> posToCell(const QPoint& pos) const;
-
-    /**
-     * @return connection point in device coords
-     * @note xlets should be placed
-     */
-    std::optional<QPointF> connectionPoint(XletIndex index) const;
-
-    /**
-     * @return calculated xlet bounding rectangle
-     * @param index - xlet linear index
-     * @return rect, relative to QPoint(0, 0)
-     */
-    QRect xletRect(XletIndex index) const;
-
-    /**
-     * place xlet DeviceXlet graphics item relative to given origin point
-     * @param origin - origin point, relative to parent Device
-     */
-    void placeXlets(const QPointF& origin);
+    qsizetype outletCount() const { return outlets_.count(); }
 
     /**
      * remove all xlets
@@ -131,18 +87,136 @@ public:
     void clear();
 
     /**
+     * init default view
+     */
+    void initDefaultView();
+
+    DeviceXletsView* currentView() { return current_view_; }
+    const DeviceXletsView* currentView() const { return current_view_; }
+    bool setCurrentView(const QString& name);
+
+    void setData(const SharedDeviceData& data);
+
+private:
+    void clearXlets(QList<DeviceXlet*>& xlets);
+
+private:
+    QList<DeviceXlet*> inlets_, outlets_;
+    std::vector<std::unique_ptr<DeviceXletsView>> views_;
+    DeviceXletsView* current_view_ { nullptr };
+};
+
+class DeviceXletsView {
+    QString name_;
+
+public:
+    explicit DeviceXletsView(const QString& name);
+    virtual ~DeviceXletsView();
+
+    virtual qreal width() const = 0;
+    virtual qreal height() const = 0;
+    virtual void paint(QPainter* painter, const QPoint& origin) = 0;
+
+    /**
+     * @return calculated xlet bounding rectangle
+     * @param index - xlet view linear index
+     * @return rect, relative to QPoint(0, 0)
+     */
+    virtual QRect xletRect(XletViewIndex idx) const = 0;
+
+    /**
+     * convert point position to xlet view index
+     * @param pos - point position. First xlet starts at QPoint(0, 0)
+     * @note info is calculated, no DeviceXlet scene position is checked!
+     * @return xlet view index or empty
+     */
+    virtual std::optional<XletViewIndex> posToIndex(const QPoint& pos) const = 0;
+
+    /**
+     * @return calc connection point in device coords for given xlet view index
+     */
+    virtual std::optional<QPointF> connectionPoint(XletViewIndex idx) const = 0;
+
+    /**
+     * place xlet DeviceXlet graphics item relative to given origin point
+     * @param origin - origin point, relative to parent Device
+     */
+    virtual void placeXlets(const QPointF& origin) = 0;
+
+    /**
      * @return bounding rect of all xlets relative to QPoint(0, 0)
      */
     QRectF boundingRect() const;
 
+    virtual void setData(const SharedDeviceData& data);
+
+    const QString& name() const { return name_; }
+    void setName(const QString& name) { name_ = name; }
+};
+
+class XletsTableView : public DeviceXletsView {
+    XletIndex max_inlets_cols_, max_outlets_cols_;
+    DeviceXlets& xlets_;
+
+public:
+    XletsTableView(const QString& name, DeviceXlets& xlets);
+
+    qreal width() const final;
+    qreal height() const final;
+    std::optional<XletViewIndex> posToIndex(const QPoint& pos) const final;
+    void placeXlets(const QPointF& origin) final;
+    QRect xletRect(XletViewIndex vidx) const final;
+    std::optional<QPointF> connectionPoint(XletViewIndex vidx) const final;
+    void paint(QPainter* painter, const QPoint& origin);
+    void setData(const SharedDeviceData& data) final;
+
     /**
-     * @brief xlets_
+     * convert xlet view index to cell index (row, col)
      */
-    qreal width() const;
+    virtual std::optional<CellIndex> indexToCell(XletViewIndex vidx) const;
+
+    /**
+     * convert cell index to xlet view index
+     */
+    virtual std::optional<XletViewIndex> cellToIndex(CellIndex cellIdx, XletType type) const;
+
+    /**
+     * @return max number of inlets in row
+     */
+    XletIndex maxInletsCols() const { return max_inlets_cols_; }
+
+    /**
+     * @return max number of outlets in row
+     */
+    XletIndex maxOutletsCols() const { return max_outlets_cols_; }
+
+    /**
+     * Set max number of columns in row
+     * @note you should call placeXlets() to update xlet positions
+     */
+    bool setMaxInletsCols(XletIndex n);
+
+    /**
+     * Set max number of columns in row
+     * @note you should call placeXlets() to update xlet positions
+     */
+    bool setMaxOutletsCols(XletIndex n);
 
 private:
-    QList<DeviceXlet*> xlets_;
-    int max_cols_;
+    qreal inletsHeight() const;
+    qreal inletsWidth() const;
+    qreal outletsHeight() const;
+    qreal outletsWidth() const;
+
+    int inletsColCount() const;
+    int inletsRowCount() const;
+    int outletsColCount() const;
+    int outletsRowCount() const;
+
+    bool checkCellIndex(CellIndex idx, XletType type) const;
+
+    QRectF inletsBRect() const;
+    QRectF outletsBRect() const;
 };
 
 } // namespace ceam

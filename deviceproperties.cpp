@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include "deviceproperties.h"
 #include "device_pixmap.h"
+#include "logging.hpp"
 #include "tablecellcheckbox.h"
 #include "ui_deviceproperties.h"
 #include "vendor_list.h"
@@ -143,7 +144,7 @@ void DeviceProperties::setupCategories()
                 break;
             }
         } else
-            qWarning() << __FUNCTION__ << "can't get category index";
+            WARN() << "can't get category index";
     });
     ui->category->setCurrentIndex(data_->categoryIndex());
 }

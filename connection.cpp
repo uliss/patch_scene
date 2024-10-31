@@ -156,7 +156,6 @@ void Connection::updateShape()
 
 void Connection::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-    WARN() << "CONN";
     QGraphicsObject::mousePressEvent(event);
 
     if (event->modifiers().testFlag(Qt::ControlModifier)) {

@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include "scene_devices.h"
 #include "device.h"
+#include "logging.hpp"
 
 #include <QGraphicsScene>
 #include <QJsonArray>
@@ -20,8 +21,6 @@
 #include <QSet>
 
 using namespace ceam;
-
-#define WARN() qWarning() << metaObject()->className() << __FUNCTION__
 
 SceneDevices::SceneDevices()
     : scene_(nullptr)

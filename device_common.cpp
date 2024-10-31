@@ -169,7 +169,7 @@ std::optional<ItemCategory> ceam::fromQString(const QString& str)
     } else if (icat == str_instrument) {
         return ItemCategory::Instrument;
     } else {
-        qWarning() << __FUNCTION__ << "unknown category:" << str;
+        WARN() << "unknown category:" << str;
         return {};
     }
 }

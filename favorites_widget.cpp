@@ -15,6 +15,7 @@
 #include "device_common.h"
 #include "device_library.h"
 #include "deviceproperties.h"
+#include "logging.hpp"
 
 #include <QHeaderView>
 #include <QJsonDocument>
@@ -66,20 +67,20 @@ QList<QVariant> FavoritesWidget::toVariant() const
     for (int i = 0; i < model_->rowCount(); i++) {
         auto item = model_->item(i);
         if (!item) {
-            qWarning() << __FUNCTION__ << "NULL model item";
+            WARN() << "NULL model item";
             continue;
         }
 
         auto data = item->data(DATA_DEVICE_DATA);
         if (data.isNull()) {
-            qWarning() << __FUNCTION__ << "empty data";
+            WARN() << "empty data";
             continue;
         }
 
         QJsonParseError err;
         auto doc = QJsonDocument::fromJson(data.toByteArray(), &err);
         if (!doc.isObject()) {
-            qWarning() << __FUNCTION__ << "json error:" << err.errorString();
+            WARN() << "json error:" << err.errorString();
             continue;
         }
 
