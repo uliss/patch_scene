@@ -678,7 +678,7 @@ bool Diagram::loadJson(const QString& path)
     if (devs.isArray()) {
         auto arr = devs.toArray();
         for (const auto& j : arr)
-            addDevice(Device::datafromJson(j));
+            addDevice(Device::dataFromJson(j));
     }
 
     // load connections
