@@ -142,11 +142,14 @@ set(PROJECT_SOURCES
     undo_commands.h
     vendor_list.cpp
     vendor_list.h
-    xlet_logical_editor.h
-    xlet_logical_editor.cpp
-    xlet_logical_editor.ui
     xlet_info.cpp
-    xlet_info.h)
+    xlet_info.h
+    xlet_logical_editor.cpp
+    xlet_logical_editor.h
+    xlet_logical_editor.ui
+    xlets_user_view.cpp
+    xlets_user_view.h
+)
 
 if(WIN32)
     configure_file(patch_scene_win.rc ${PROJECT_BINARY_DIR}/patch_scene_win.rc @ONLY)
