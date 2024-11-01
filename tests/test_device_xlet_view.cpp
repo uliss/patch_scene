@@ -189,6 +189,7 @@ void TestDeviceXletView::clear()
     QCOMPARE(xv.inletCount(), 0);
     QCOMPARE(xv.outletCount(), 0);
     QVERIFY(xv.isEmpty());
+    QVERIFY(!xv.currentView());
 
     xv.append({}, XletType::In, nullptr);
     xv.append({}, XletType::Out, nullptr);
