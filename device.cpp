@@ -583,7 +583,7 @@ SharedDeviceData Device::defaultDeviceData()
     return makeDeviceData();
 }
 
-SharedDeviceData Device::datafromJson(const QJsonValue& j)
+SharedDeviceData Device::dataFromJson(const QJsonValue& j)
 {
     if (!j.isObject()) {
         WARN() << "not a object" << j;

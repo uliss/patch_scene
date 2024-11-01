@@ -78,7 +78,7 @@ public:
     const DeviceXlets& xlets() const { return xlets_; }
 
     static SharedDeviceData defaultDeviceData();
-    static SharedDeviceData datafromJson(const QJsonValue& j);
+    static SharedDeviceData dataFromJson(const QJsonValue& j);
 
 signals:
     void addToFavorites(SharedDeviceData data);
