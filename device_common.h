@@ -194,6 +194,9 @@ public:
     ImageMirrorType imageMirror() const { return mirror_; }
     void setImageMirror(ImageMirrorType type) { mirror_ = type; }
 
+    const QJsonValue& viewData() const { return view_data_; }
+    void setViewData(const QJsonValue& v) { view_data_ = v; }
+
 private:
     static QJsonArray xletToJson(const QList<XletData>& xlets);
     static bool setXletJson(const QJsonValue& v, QList<XletData>& xlets);
@@ -215,6 +218,7 @@ private:
     BatteryType battery_type_ { BatteryType::None };
     bool show_title_ { true };
     ImageMirrorType mirror_ { ImageMirrorType::None };
+    QJsonValue view_data_;
 };
 
 using SharedDeviceData = QSharedDataPointer<DeviceData>;

@@ -89,6 +89,7 @@ constexpr const char* JSON_KEY_SHOW_TITLE = "show-title";
 constexpr const char* JSON_KEY_INPUT_COLUMNS = "input-columns";
 constexpr const char* JSON_KEY_OUTPUT_COLUMNS = "output-columns";
 constexpr const char* JSON_KEY_SUBCAT = "subcat";
+constexpr const char* JSON_KEY_VIEW_DATA = "view-data";
 constexpr const char* JSON_KEY_IMAGE_MIRROR = "image-mirror";
 
 constexpr const char* JSON_MIRROR_HORIZONTAL = "horizontal";
@@ -310,6 +311,8 @@ bool DeviceData::setJson(const QJsonValue& v)
 
     mirror_ = imageMirrorFromJson(obj[JSON_KEY_IMAGE_MIRROR]);
 
+    view_data_ = obj[JSON_KEY_VIEW_DATA];
+
     return true;
 }
 
@@ -358,6 +361,9 @@ QJsonObject DeviceData::toJson() const
 
     json[JSON_KEY_SUBCAT] = subcat_.toJson();
     json[JSON_KEY_IMAGE_MIRROR] = toJsonValue(mirror_);
+
+    if (!view_data_.isNull())
+        json[JSON_KEY_VIEW_DATA] = view_data_;
 
     return json;
 }
