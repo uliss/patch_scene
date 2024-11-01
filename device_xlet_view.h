@@ -122,7 +122,7 @@ public:
      * @param index - xlet view linear index
      * @return rect, relative to QPoint(0, 0)
      */
-    virtual QRect xletRect(XletViewIndex idx) const = 0;
+    QRect xletRect(XletViewIndex idx) const;
 
     /**
      * convert point position to xlet view index
@@ -131,6 +131,14 @@ public:
      * @return xlet view index or empty
      */
     virtual std::optional<XletViewIndex> posToIndex(const QPoint& pos) const = 0;
+
+    /**
+     * convert xlet view index to position (top left corner)
+     * @param pos - point position. First xlet starts at QPoint(0, 0)
+     * @note info is calculated, no DeviceXlet scene position is checked!
+     * @return xlet position or empty
+     */
+    virtual std::optional<QPoint> indexToPos(XletViewIndex vidx) const = 0;
 
     /**
      * @return calc connection point in device coords for given xlet view index
@@ -164,8 +172,8 @@ public:
     qreal width() const final;
     qreal height() const final;
     std::optional<XletViewIndex> posToIndex(const QPoint& pos) const final;
+    std::optional<QPoint> indexToPos(XletViewIndex vidx) const final;
     void placeXlets(const QPointF& origin) final;
-    QRect xletRect(XletViewIndex vidx) const final;
     std::optional<QPointF> connectionPoint(XletViewIndex vidx) const final;
     void paint(QPainter* painter, const QPoint& origin);
     void setData(const SharedDeviceData& data) final;
@@ -173,12 +181,12 @@ public:
     /**
      * convert xlet view index to cell index (row, col)
      */
-    virtual std::optional<CellIndex> indexToCell(XletViewIndex vidx) const;
+    std::optional<CellIndex> indexToCell(XletViewIndex vidx) const;
 
     /**
      * convert cell index to xlet view index
      */
-    virtual std::optional<XletViewIndex> cellToIndex(CellIndex cellIdx, XletType type) const;
+    std::optional<XletViewIndex> cellToIndex(CellIndex cellIdx, XletType type) const;
 
     /**
      * @return max number of inlets in row

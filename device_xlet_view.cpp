@@ -14,7 +14,6 @@
 #include "device_xlet_view.h"
 #include "device_common.h"
 #include "device_xlet.h"
-#include "logging.hpp"
 
 #include <QGraphicsScene>
 #include <QPainter>
@@ -334,6 +333,15 @@ std::optional<XletViewIndex> XletsTableView::posToIndex(const QPoint& pos) const
     return {};
 }
 
+std::optional<QPoint> XletsTableView::indexToPos(XletViewIndex vidx) const
+{
+    auto cell = indexToCell(vidx);
+    if (cell)
+        return QPointF { cell->second * XLET_W, cell->first * XLET_H }.toPoint();
+    else
+        return {};
+}
+
 void XletsTableView::placeXlets(const QPointF& origin)
 {
     auto in_xoff = origin + inletsBRect().topLeft();
@@ -358,13 +366,13 @@ void XletsTableView::placeXlets(const QPointF& origin)
     }
 }
 
-QRect XletsTableView::xletRect(XletViewIndex idx) const
+QRect DeviceXletsView::xletRect(XletViewIndex idx) const
 {
-    auto cell_pos = indexToCell(idx);
-    if (!cell_pos)
+    auto pt = indexToPos(idx);
+    if (!pt)
         return {};
 
-    return QRect(cell_pos->second * XLET_W, cell_pos->first * XLET_H, XLET_W, XLET_H);
+    return QRect(pt->x(), pt->y(), XLET_W, XLET_H);
 }
 
 std::optional<QPointF> XletsTableView::connectionPoint(XletViewIndex vidx) const
