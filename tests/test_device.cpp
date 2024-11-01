@@ -78,15 +78,15 @@ void TestDevice::createDefault()
     QCOMPARE(view->width(), 4 * XW);
     view->placeXlets({});
 
-    QCOMPARE(view->connectionPoint({ 0, XletType::In }), QPointF(0.5 * XW, 0));
-    QCOMPARE(view->connectionPoint({ 1, XletType::In }), QPointF(1.5 * XW, 0));
-    QCOMPARE(view->connectionPoint({ 2, XletType::In }), QPointF(2.5 * XW, 0));
-    QCOMPARE(view->connectionPoint({ 3, XletType::In }), QPointF(3.5 * XW, 0));
-    QVERIFY(!view->connectionPoint({ 4, XletType::In }));
+    QCOMPARE(dev.xlets().connectionPoint({ 0, XletType::In }), QPointF(0.5 * XW, 0));
+    QCOMPARE(dev.xlets().connectionPoint({ 1, XletType::In }), QPointF(1.5 * XW, 0));
+    QCOMPARE(dev.xlets().connectionPoint({ 2, XletType::In }), QPointF(2.5 * XW, 0));
+    QCOMPARE(dev.xlets().connectionPoint({ 3, XletType::In }), QPointF(3.5 * XW, 0));
+    QVERIFY(!dev.xlets().connectionPoint({ 4, XletType::In }));
 
-    QCOMPARE(view->connectionPoint({ 0, XletType::Out }), QPointF(1.5 * XW, 2 * XH));
-    QCOMPARE(view->connectionPoint({ 1, XletType::Out }), QPointF(2.5 * XW, 2 * XH));
-    QVERIFY(!view->connectionPoint({ 2, XletType::Out }));
+    QCOMPARE(dev.xlets().connectionPoint({ 0, XletType::Out }), QPointF(1.5 * XW, 2 * XH));
+    QCOMPARE(dev.xlets().connectionPoint({ 1, XletType::Out }), QPointF(2.5 * XW, 2 * XH));
+    QVERIFY(!dev.xlets().connectionPoint({ 2, XletType::Out }));
 }
 
 void TestDevice::createNoTitle()

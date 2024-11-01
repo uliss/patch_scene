@@ -394,52 +394,52 @@ void TestDeviceXletView::inletConnectionPoint()
     QVERIFY(view);
     QVERIFY(view->setMaxInletsCols(4));
 
-    QVERIFY(!view->connectionPoint({ 0, XletType::In }));
-    QVERIFY(!view->connectionPoint({ 1, XletType::In }));
-    QVERIFY(!view->connectionPoint({ 0, XletType::Out }));
+    QVERIFY(!xv.connectionPoint({ 0, XletType::In }));
+    QVERIFY(!xv.connectionPoint({ 1, XletType::In }));
+    QVERIFY(!xv.connectionPoint({ 0, XletType::Out }));
     QCOMPARE(view->width(), 0);
     QCOMPARE(view->height(), 0);
 
     xv.append({}, XletType::In, nullptr);
     view->placeXlets({});
-    QCOMPARE(view->connectionPoint({ 0, XletType::In }), QPointF(11, 0));
-    QVERIFY(!view->connectionPoint({ 1, XletType::In }));
-    QVERIFY(!view->connectionPoint({ 0, XletType::Out }));
+    QCOMPARE(xv.connectionPoint({ 0, XletType::In }), QPointF(11, 0));
+    QVERIFY(!xv.connectionPoint({ 1, XletType::In }));
+    QVERIFY(!xv.connectionPoint({ 0, XletType::Out }));
     QCOMPARE(view->width(), XW);
     QCOMPARE(view->height(), XH);
 
     xv.append({}, XletType::In, nullptr);
     view->placeXlets({});
-    QCOMPARE(view->connectionPoint({ 0, XletType::In }), QPointF(11, 0));
-    QCOMPARE(view->connectionPoint({ 1, XletType::In }), QPointF(33, 0));
-    QVERIFY(!view->connectionPoint({ 2, XletType::In }));
+    QCOMPARE(xv.connectionPoint({ 0, XletType::In }), QPointF(11, 0));
+    QCOMPARE(xv.connectionPoint({ 1, XletType::In }), QPointF(33, 0));
+    QVERIFY(!xv.connectionPoint({ 2, XletType::In }));
     QCOMPARE(view->width(), 2 * XW);
     QCOMPARE(view->height(), XH);
 
     xv.append({}, XletType::In, nullptr);
     view->placeXlets({});
-    QCOMPARE(view->connectionPoint({ 0, XletType::In }), QPointF(11, 0));
-    QCOMPARE(view->connectionPoint({ 1, XletType::In }), QPointF(33, 0));
-    QCOMPARE(view->connectionPoint({ 2, XletType::In }), QPointF(55, 0));
+    QCOMPARE(xv.connectionPoint({ 0, XletType::In }), QPointF(11, 0));
+    QCOMPARE(xv.connectionPoint({ 1, XletType::In }), QPointF(33, 0));
+    QCOMPARE(xv.connectionPoint({ 2, XletType::In }), QPointF(55, 0));
     QCOMPARE(view->width(), 3 * XW);
     QCOMPARE(view->height(), XH);
 
     xv.append({}, XletType::In, nullptr);
     view->placeXlets({});
-    QCOMPARE(view->connectionPoint({ 0, XletType::In }), QPointF(11, 0));
-    QCOMPARE(view->connectionPoint({ 1, XletType::In }), QPointF(33, 0));
-    QCOMPARE(view->connectionPoint({ 2, XletType::In }), QPointF(55, 0));
-    QCOMPARE(view->connectionPoint({ 3, XletType::In }), QPointF(77, 0));
+    QCOMPARE(xv.connectionPoint({ 0, XletType::In }), QPointF(11, 0));
+    QCOMPARE(xv.connectionPoint({ 1, XletType::In }), QPointF(33, 0));
+    QCOMPARE(xv.connectionPoint({ 2, XletType::In }), QPointF(55, 0));
+    QCOMPARE(xv.connectionPoint({ 3, XletType::In }), QPointF(77, 0));
     QCOMPARE(view->width(), 4 * XW);
     QCOMPARE(view->height(), XH);
 
     xv.append({}, XletType::In, nullptr);
     view->placeXlets({ 100, 200 });
-    QCOMPARE(view->connectionPoint({ 0, XletType::In }), QPointF(111, 200));
-    QCOMPARE(view->connectionPoint({ 1, XletType::In }), QPointF(133, 200));
-    QCOMPARE(view->connectionPoint({ 2, XletType::In }), QPointF(155, 200));
-    QCOMPARE(view->connectionPoint({ 3, XletType::In }), QPointF(177, 200));
-    QCOMPARE(view->connectionPoint({ 4, XletType::In }), QPointF(111, 220));
+    QCOMPARE(xv.connectionPoint({ 0, XletType::In }), QPointF(111, 200));
+    QCOMPARE(xv.connectionPoint({ 1, XletType::In }), QPointF(133, 200));
+    QCOMPARE(xv.connectionPoint({ 2, XletType::In }), QPointF(155, 200));
+    QCOMPARE(xv.connectionPoint({ 3, XletType::In }), QPointF(177, 200));
+    QCOMPARE(xv.connectionPoint({ 4, XletType::In }), QPointF(111, 220));
     QCOMPARE(view->width(), 4 * XW);
     QCOMPARE(view->height(), 2 * XH);
 }
@@ -452,9 +452,9 @@ void TestDeviceXletView::outletConnectionPoint()
     QVERIFY(view);
     QVERIFY(view->setMaxOutletsCols(4));
 
-    QVERIFY(!view->connectionPoint({ 0, XletType::In }));
-    QVERIFY(!view->connectionPoint({ 1, XletType::In }));
-    QVERIFY(!view->connectionPoint({ 0, XletType::Out }));
+    QVERIFY(!xv.connectionPoint({ 0, XletType::In }));
+    QVERIFY(!xv.connectionPoint({ 1, XletType::In }));
+    QVERIFY(!xv.connectionPoint({ 0, XletType::Out }));
     QCOMPARE(view->width(), 0);
     QCOMPARE(view->height(), 0);
 
@@ -462,44 +462,44 @@ void TestDeviceXletView::outletConnectionPoint()
     view->placeXlets({});
     QCOMPARE(xv.outletCount(), 1);
     QCOMPARE(view->xletRect({ 0, XletType::Out }), QRect(0, 0, 22, 20));
-    QCOMPARE(view->connectionPoint({ 0, XletType::Out }), QPointF(11, 20));
-    QVERIFY(!view->connectionPoint({ 1, XletType::Out }));
-    QVERIFY(!view->connectionPoint({ 0, XletType::In }));
+    QCOMPARE(xv.connectionPoint({ 0, XletType::Out }), QPointF(11, 20));
+    QVERIFY(!xv.connectionPoint({ 1, XletType::Out }));
+    QVERIFY(!xv.connectionPoint({ 0, XletType::In }));
     QCOMPARE(view->width(), XW);
     QCOMPARE(view->height(), XH);
 
     xv.append({}, XletType::Out, nullptr);
     view->placeXlets({});
-    QCOMPARE(view->connectionPoint({ 0, XletType::Out }), QPointF(11, 20));
-    QCOMPARE(view->connectionPoint({ 1, XletType::Out }), QPointF(33, 20));
-    QVERIFY(!view->connectionPoint({ 2, XletType::Out }));
+    QCOMPARE(xv.connectionPoint({ 0, XletType::Out }), QPointF(11, 20));
+    QCOMPARE(xv.connectionPoint({ 1, XletType::Out }), QPointF(33, 20));
+    QVERIFY(!xv.connectionPoint({ 2, XletType::Out }));
     QCOMPARE(view->width(), 2 * XW);
     QCOMPARE(view->height(), XH);
 
     xv.append({}, XletType::Out, nullptr);
     view->placeXlets({});
-    QCOMPARE(view->connectionPoint({ 0, XletType::Out }), QPointF(11, 20));
-    QCOMPARE(view->connectionPoint({ 1, XletType::Out }), QPointF(33, 20));
-    QCOMPARE(view->connectionPoint({ 2, XletType::Out }), QPointF(55, 20));
+    QCOMPARE(xv.connectionPoint({ 0, XletType::Out }), QPointF(11, 20));
+    QCOMPARE(xv.connectionPoint({ 1, XletType::Out }), QPointF(33, 20));
+    QCOMPARE(xv.connectionPoint({ 2, XletType::Out }), QPointF(55, 20));
     QCOMPARE(view->width(), 3 * XW);
     QCOMPARE(view->height(), XH);
 
     xv.append({}, XletType::Out, nullptr);
     view->placeXlets({});
-    QCOMPARE(view->connectionPoint({ 0, XletType::Out }), QPointF(11, 20));
-    QCOMPARE(view->connectionPoint({ 1, XletType::Out }), QPointF(33, 20));
-    QCOMPARE(view->connectionPoint({ 2, XletType::Out }), QPointF(55, 20));
-    QCOMPARE(view->connectionPoint({ 3, XletType::Out }), QPointF(77, 20));
+    QCOMPARE(xv.connectionPoint({ 0, XletType::Out }), QPointF(11, 20));
+    QCOMPARE(xv.connectionPoint({ 1, XletType::Out }), QPointF(33, 20));
+    QCOMPARE(xv.connectionPoint({ 2, XletType::Out }), QPointF(55, 20));
+    QCOMPARE(xv.connectionPoint({ 3, XletType::Out }), QPointF(77, 20));
     QCOMPARE(view->width(), 4 * XW);
     QCOMPARE(view->height(), XH);
 
     xv.append({}, XletType::Out, nullptr);
     view->placeXlets({ 100, 200 });
-    QCOMPARE(view->connectionPoint({ 0, XletType::Out }), QPointF(111, 220));
-    QCOMPARE(view->connectionPoint({ 1, XletType::Out }), QPointF(133, 220));
-    QCOMPARE(view->connectionPoint({ 2, XletType::Out }), QPointF(155, 220));
-    QCOMPARE(view->connectionPoint({ 3, XletType::Out }), QPointF(177, 220));
-    QCOMPARE(view->connectionPoint({ 4, XletType::Out }), QPointF(111, 240));
+    QCOMPARE(xv.connectionPoint({ 0, XletType::Out }), QPointF(111, 220));
+    QCOMPARE(xv.connectionPoint({ 1, XletType::Out }), QPointF(133, 220));
+    QCOMPARE(xv.connectionPoint({ 2, XletType::Out }), QPointF(155, 220));
+    QCOMPARE(xv.connectionPoint({ 3, XletType::Out }), QPointF(177, 220));
+    QCOMPARE(xv.connectionPoint({ 4, XletType::Out }), QPointF(111, 240));
     QCOMPARE(view->width(), 4 * XW);
     QCOMPARE(view->height(), 2 * XH);
 }

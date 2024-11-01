@@ -375,9 +375,9 @@ QRect DeviceXletsView::xletRect(XletViewIndex idx) const
     return QRect(pt->x(), pt->y(), XLET_W, XLET_H);
 }
 
-std::optional<QPointF> XletsTableView::connectionPoint(XletViewIndex vidx) const
+std::optional<QPointF> DeviceXlets::connectionPoint(XletViewIndex vidx) const
 {
-    auto xlet = xlets_.xletAtIndex(vidx);
+    auto xlet = xletAtIndex(vidx);
     if (!xlet || !xlet->isVisible())
         return {};
 

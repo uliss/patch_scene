@@ -32,26 +32,25 @@ const ceam::XletViewIndex NO_XLET_IDX(0, ceam::XletType::None);
 
 namespace ceam {
 
-XletsUserView::XletsUserView(const QString& name)
+XletsUserView::XletsUserView(const QString& name, DeviceXlets& xlets)
     : DeviceXletsView(name)
     , num_cols_(DEF_COL_COUNT)
     , num_rows_(DEF_ROW_COUNT)
+    , xlets_(xlets)
 {
-    // XletsUserView d("");
-
-    xlets_.resize(cellCount(), NO_XLET_IDX);
+    xlets_idx_.resize(cellCount(), NO_XLET_IDX);
 }
 
 void XletsUserView::setColumnCount(int n)
 {
     num_cols_ = qBound(MIN_COL_COUNT, n, MAX_COL_COUNT);
-    xlets_.resize(cellCount(), NO_XLET_IDX);
+    xlets_idx_.resize(cellCount(), NO_XLET_IDX);
 }
 
 void XletsUserView::setRowCount(int n)
 {
     num_rows_ = qBound(MIN_ROW_COUNT, n, MAX_ROW_COUNT);
-    xlets_.resize(cellCount(), NO_XLET_IDX);
+    xlets_idx_.resize(cellCount(), NO_XLET_IDX);
 }
 
 int XletsUserView::cellCount() const
@@ -79,14 +78,42 @@ std::optional<XletViewIndex> XletsUserView::posToIndex(const QPoint& pos) const
     int row = pos.y() / XLET_H;
 
     int cell_idx = col * num_cols_ + row;
-    if (cell_idx < 0 || cell_idx >= xlets_.size())
+    if (cell_idx < 0 || cell_idx >= xlets_idx_.size())
         return {};
 
-    auto idx = xlets_[cell_idx];
+    auto idx = xlets_idx_[cell_idx];
     if (idx == NO_XLET_IDX)
         return {};
     else
         return idx;
+}
+
+std::optional<QPoint> XletsUserView::indexToPos(XletViewIndex vidx) const
+{
+    for (int i = 0; i < xlets_idx_.size(); i++) {
+        auto& vi = xlets_idx_[i];
+        if (vi == vidx) {
+            int col = i % num_cols_;
+            int row = i / num_cols_;
+
+            return QPoint(col * XLET_W, row * XLET_H);
+        }
+    }
+
+    return {};
+}
+
+void XletsUserView::placeXlets(const QPointF& origin)
+{
+    for (int i = 0; i < xlets_idx_.size(); i++) {
+        auto& vi = xlets_idx_[i];
+        int col = i % num_cols_;
+        int row = i / num_cols_;
+
+        auto xlet = xlets_.xletAtIndex(vi);
+        if (xlet)
+            xlet->setPos(origin + QPoint(col * XLET_W, row * XLET_H));
+    }
 }
 
 } // namespace ceam

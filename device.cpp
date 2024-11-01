@@ -488,7 +488,7 @@ std::optional<QPointF> Device::connectionPoint(XletIndex i, XletType type, bool 
     if (!view)
         return {};
 
-    auto pos = view->connectionPoint({ i, type });
+    auto pos = xlets_.connectionPoint({ i, type });
     if (!pos)
         return pos;
 

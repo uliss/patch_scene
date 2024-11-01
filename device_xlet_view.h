@@ -49,6 +49,11 @@ struct XletViewIndex {
             && type == idx.type;
     }
 
+    bool operator!=(const XletViewIndex& idx) const
+    {
+        return !operator==(idx);
+    }
+
     bool isInlet() const { return type == XletType::In; }
     bool isOutlet() const { return type == XletType::Out; }
 };
@@ -70,6 +75,11 @@ public:
 
     DeviceXlet* xletAtIndex(XletViewIndex vidx);
     const DeviceXlet* xletAtIndex(XletViewIndex vidx) const;
+
+    /**
+     * @return calc connection point in device coords for given xlet view index
+     */
+    std::optional<QPointF> connectionPoint(XletViewIndex vidx) const;
 
     /**
      * Return number of inlets
@@ -141,11 +151,6 @@ public:
     virtual std::optional<QPoint> indexToPos(XletViewIndex vidx) const = 0;
 
     /**
-     * @return calc connection point in device coords for given xlet view index
-     */
-    virtual std::optional<QPointF> connectionPoint(XletViewIndex idx) const = 0;
-
-    /**
      * place xlet DeviceXlet graphics item relative to given origin point
      * @param origin - origin point, relative to parent Device
      */
@@ -174,7 +179,6 @@ public:
     std::optional<XletViewIndex> posToIndex(const QPoint& pos) const final;
     std::optional<QPoint> indexToPos(XletViewIndex vidx) const final;
     void placeXlets(const QPointF& origin) final;
-    std::optional<QPointF> connectionPoint(XletViewIndex vidx) const final;
     void paint(QPainter* painter, const QPoint& origin);
     void setData(const SharedDeviceData& data) final;
 
