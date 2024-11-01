@@ -358,7 +358,7 @@ void Device::clearImage()
 
 void Device::createXlets()
 {
-    xlets_.clear();
+    xlets_.clearXlets();
 
     // inputs_.setMaxColumnCount(data_->maxInputColumnCount());
     for (auto& data : data_->inputs()) {
