@@ -68,6 +68,18 @@
          <height>200</height>
         </size>
        </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="verticalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
+       </property>
+       <property name="horizontalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
+       </property>
       </widget>
      </item>
      <item>
@@ -91,6 +103,9 @@
          <height>200</height>
         </size>
        </property>
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
       </widget>
      </item>
      <item>
@@ -110,7 +125,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinBox_2">
+        <widget class="QSpinBox" name="numCols">
          <property name="minimumSize">
           <size>
            <width>50</width>
@@ -126,7 +141,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinBox">
+        <widget class="QSpinBox" name="numRows">
          <property name="minimumSize">
           <size>
            <width>50</width>

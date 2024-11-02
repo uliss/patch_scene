@@ -15,8 +15,10 @@
 #define XLETS_USER_EDITOR_H
 
 #include "device_common.h"
+#include "device_xlet_view.h"
 
 #include <QDialog>
+#include <QGraphicsScene>
 
 namespace Ui {
 class XletsUserEditor;
@@ -28,11 +30,14 @@ class XletsUserEditor : public QDialog {
     Q_OBJECT
 
 public:
-    explicit XletsUserEditor(QWidget* parent, const QList<XletsUserViewData>& editors);
+    explicit XletsUserEditor(QWidget* parent, const SharedDeviceData& data);
     ~XletsUserEditor();
 
 private:
     Ui::XletsUserEditor* ui;
+    SharedDeviceData data_;
+    DeviceXlets inlets_, outlets_;
+    QGraphicsScene in_scene_, out_scene_, view_scene_;
 };
 }
 
