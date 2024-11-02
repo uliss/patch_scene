@@ -12,6 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "test_xlets_user_view.h"
+#include "QtTest/qtestcase.h"
 #include "device_xlet_view.h"
 #include "xlets_user_view.h"
 
@@ -142,17 +143,9 @@ void TestXletsUserView::testSetData()
     QVERIFY(!xv);
 
     SharedDeviceData data(new DeviceData(DEV_NULL_ID));
-
-    QJsonObject jv;
-    jv["num-rows"] = 2;
-    jv["num-cols"] = 3;
-    jv["name"] = "UserView";
-
-    QJsonArray arr;
-    arr.append(jv);
-    QJsonObject jd;
-    jd["view-user"] = arr;
-    QVERIFY(data->setJson(jd));
+    XletsUserViewData vdata { 2, 3 };
+    vdata.setName("UserView");
+    data->userViewData().append(vdata);
 
     xlets.setData(data);
     QCOMPARE(xlets.userViewCount(), 1);
@@ -160,6 +153,23 @@ void TestXletsUserView::testSetData()
     xlets.setCurrentView("UserView");
     QVERIFY(dynamic_cast<XletsUserView*>(xlets.currentView()));
     auto vuser = dynamic_cast<XletsUserView*>(xlets.currentView());
-    QCOMPARE(vuser->data().columnCount(), 3);
     QCOMPARE(vuser->data().rowCount(), 2);
+    QCOMPARE(vuser->data().columnCount(), 3);
+    QCOMPARE(vuser->data().cellCount(), 6);
+
+    vdata.setColumnCount(5);
+    vdata.setRowCount(4);
+    vdata.setName("UserView 2");
+    QVERIFY(vdata.insertXlet({ 3, 1 }, { 11, XletType::In }));
+    data->userViewData().append(vdata);
+
+    xlets.setData(data);
+    QCOMPARE(xlets.userViewCount(), 2);
+
+    xlets.setCurrentView("UserView 2");
+    QVERIFY(dynamic_cast<XletsUserView*>(xlets.currentView()));
+    vuser = dynamic_cast<XletsUserView*>(xlets.currentView());
+    QCOMPARE(vuser->data().columnCount(), 5);
+    QCOMPARE(vuser->data().rowCount(), 4);
+    QVERIFY(vuser->data().xletAt(16).isInlet());
 }

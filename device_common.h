@@ -201,6 +201,7 @@ public:
     bool insertXlet(CellIndex cellIdx, XletViewIndex vidx);
 
     const QString& name() const { return name_; }
+    void setName(const QString& name) { name_ = name; }
 
 public:
     QJsonValue toJson() const;

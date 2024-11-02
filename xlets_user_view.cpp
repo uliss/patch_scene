@@ -12,6 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "xlets_user_view.h"
+#include "logging.hpp"
 
 #include <QJsonObject>
 
@@ -103,62 +104,9 @@ void XletsUserView::setData(const XletsUserViewData& data)
 {
     data_ = data;
 
-    // auto& data = data->userViewData();
-    // if (!jv.isObject())
-    //     return false;
-
-    // auto vobj = jv.toObject();
-    // auto view_data = vobj[VIEW_NAME];
-    // if (!view_data.isObject())
-    //     return false;
-
-    // auto view = view_data.toObject();
-    // setColumnCount(view[JSON_KEY_NUM_COLS].toInt(DEF_COL_COUNT));
-    // setRowCount(view[JSON_KEY_NUM_ROWS].toInt(DEF_ROW_COUNT));
-
-    // auto idxs = view[JSON_KEY_INDEXES].toArray();
-    // if (idxs.isEmpty())
-    //     return false;
-
-    // std::vector<XletViewIndex> indexes;
-    // indexes.assign(cellCount(), XletViewIndex { 0, XletType::None });
-
-    // for (const auto& item : idxs) {
-    //     if (!item.isObject())
-    //         continue;
-
-    //     auto obj = item.toObject();
-
-    //     XletViewIndex vidx(0, XletType::None);
-    //     auto src_xlet_idx = obj[JSON_KEY_SRC].toInteger(-1);
-    //     if (src_xlet_idx < 0 || src_xlet_idx > std::numeric_limits<typeof(vidx.index)>::max()) {
-    //         WARN() << "invalid xlet index:" << src_xlet_idx;
-    //         continue;
-    //     } else {
-    //         vidx.index = src_xlet_idx;
-    //     }
-
-    //     auto src_xlet_type = obj[JSON_KEY_TYPE].toString();
-    //     if (src_xlet_type == "in") {
-    //         vidx.type = XletType::In;
-    //     } else if (src_xlet_type == "out") {
-    //         vidx.type = XletType::Out;
-    //     } else {
-    //         WARN() << "invalid xlet type:" << src_xlet_type;
-    //         continue;
-    //     }
-
-    //     auto dest_idx = obj[JSON_KEY_DEST].toInteger(-1);
-    //     if (dest_idx < 1 || dest_idx >= cellCount()) {
-    //         WARN() << "invalid xlet index:" << src_xlet_idx;
-    //         continue;
-    //     }
-
-    //     indexes[dest_idx] = vidx;
-    // }
-
-    // xlets_idx_ = indexes;
-    // return true;
+    for (int i = 0; i < data.cellCount(); i++) {
+        WARN() << data.xletAt(i).index << (int)data.xletAt(i).type;
+    }
 }
 
 } // namespace ceam
