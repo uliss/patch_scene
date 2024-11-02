@@ -18,6 +18,7 @@
 #include "ui_deviceproperties.h"
 #include "vendor_list.h"
 #include "xlet_logical_editor.h"
+#include "xlets_user_editor.h"
 
 #include <QCompleter>
 #include <QFileInfo>
@@ -77,6 +78,12 @@ DeviceProperties::DeviceProperties(const SharedDeviceData& data, QWidget* parent
     connect(ui->outputsEditLogical, &QToolButton::clicked, this, [this]() {
         auto dialog = new XletLogicalEditor(this, data_->outputs());
         dialog->setWindowTitle(tr("Logical outputs editor"));
+        dialog->exec();
+    });
+
+    connect(ui->viewsEdit, &QToolButton::clicked, this, [this]() {
+        auto dialog = new XletsUserEditor(this, data_->userViewData());
+        dialog->setWindowTitle(tr("User views editor"));
         dialog->exec();
     });
 
@@ -162,27 +169,12 @@ void DeviceProperties::updateImagePreview()
 
 void DeviceProperties::enableCategoryWidgets(bool value, ItemCategory cat)
 {
-    // ui->addInlet->setVisible(value);
-    // ui->addOutlet->setVisible(value);
     ui->batteryCount->setVisible(value);
     ui->batteryLabel->setVisible(value);
     ui->batteryType->setVisible(value);
-    // ui->inlets->setVisible(value);
     ui->inletsColumns->setVisible(value);
-    // ui->inletsColumnsLabel->setVisible(value);
-    // ui->inletsHLine->setVisible(value);
-    // ui->inletsLabel->setVisible(value);
-    // ui->moveInletDown->setVisible(value);
-    // ui->moveInletUp->setVisible(value);
-    // ui->moveOutletDown->setVisible(value);
-    // ui->moveOutletUp->setVisible(value);
-    // ui->outlets->setVisible(value);
     ui->outletsColumns->setVisible(value);
-    // ui->outletsColumnsLabel->setVisible(value);
-    // ui->outletsHLine->setVisible(value);
     ui->outletsLabel->setVisible(value);
-    // ui->removeInlet->setVisible(value);
-    // ui->removeOutlet->setVisible(value);
 
     const bool is_human = (cat == ItemCategory::Human);
     ui->model->setHidden(is_human);

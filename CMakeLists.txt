@@ -147,6 +147,9 @@ set(PROJECT_SOURCES
     xlet_logical_editor.cpp
     xlet_logical_editor.h
     xlet_logical_editor.ui
+    xlets_user_editor.cpp
+    xlets_user_editor.h
+    xlets_user_editor.ui
     xlets_user_view.cpp
     xlets_user_view.h
     xlets_view.cpp
