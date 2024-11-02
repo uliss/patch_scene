@@ -256,7 +256,7 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
     QMenu menu;
 
     auto sc = scene();
-    if (sc && sc->selectedItems().count() >= 2) {
+    if (sc && sc->selectedItems().count() > 1) {
         auto align_hor = new QAction(tr("Align horizontal"), &menu);
         connect(align_hor, SIGNAL(triggered(bool)), this, SIGNAL(alignHorizontal()));
 
