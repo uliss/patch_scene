@@ -61,10 +61,13 @@ SharedDeviceData makeDeviceData()
     data->appendOutput(XletData { "L", ConnectorModel::JACK_TRS });
     data->appendOutput(XletData { "R", ConnectorModel::JACK_TRS });
 
+#if 1
     XletsUserViewData user_view;
-    // user_view.insertXlet();
+    user_view.insertXlet({ 0, 5 }, { 0, XletType::Out });
+    user_view.insertXlet({ 0, 4 }, { 0, XletType::In });
     // user_view
     data->userViewData().push_back(user_view);
+#endif
 
     return data;
 }
