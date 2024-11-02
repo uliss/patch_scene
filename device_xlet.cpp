@@ -16,11 +16,14 @@
 #include "logging.hpp"
 #include "svg_render_factory.h"
 
+#include <QApplication>
 #include <QContextMenuEvent>
+#include <QDrag>
 #include <QGraphicsSceneContextMenuEvent>
 #include <QGraphicsSvgItem>
 #include <QJsonObject>
 #include <QMenu>
+#include <QMimeData>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 
@@ -250,6 +253,38 @@ void DeviceXlet::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
             break;
         }
     }
+}
+
+void DeviceXlet::mousePressEvent(QGraphicsSceneMouseEvent* event)
+{
+    if (drag_mode_)
+        setCursor(Qt::ClosedHandCursor);
+    else
+        QGraphicsObject::mousePressEvent(event);
+}
+
+void DeviceXlet::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+{
+    if (drag_mode_)
+        setCursor(Qt::OpenHandCursor);
+    else
+        QGraphicsObject::mouseReleaseEvent(event);
+}
+
+void DeviceXlet::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
+{
+    if (!drag_mode_)
+        return;
+
+    if (QLineF(event->screenPos(), event->buttonDownScreenPos(Qt::LeftButton)).length() < QApplication::startDragDistance()) {
+        return;
+    }
+
+    QDrag* drag = new QDrag(event->widget());
+    QMimeData* mime = new QMimeData;
+    drag->setMimeData(mime);
+    drag->exec();
+    setCursor(Qt::OpenHandCursor);
 }
 
 void DeviceXlet::updateTooltip()
