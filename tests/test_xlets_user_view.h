@@ -25,7 +25,6 @@ private slots:
     void testIndexToPos();
     void testPlaceXlets();
     void testSetData();
-    void testFactory();
 };
 
 #endif // TEST_XLETS_USER_VIEW_H

@@ -109,6 +109,109 @@ enum class ImageMirrorType : std::uint8_t {
     Horizontal
 };
 
+class XletsLogicViewData {
+public:
+    constexpr static int MAX_COL_COUNT = 24;
+    constexpr static int MIN_COL_COUNT = 2;
+    constexpr static int DEF_COL_COUNT = 8;
+
+public:
+    int maxInputColumnCount() const { return max_input_column_count_; }
+    bool setMaxInputColumnCount(int n);
+
+    int maxOutputColumnCount() const { return max_output_column_count_; }
+    bool setMaxOutputColumnCount(int n);
+
+public:
+    QJsonValue toJson() const;
+    static std::optional<XletsLogicViewData> fromJson(const QJsonValue& j);
+
+private:
+    QString name_;
+    int max_input_column_count_ { DEF_COL_COUNT };
+    int max_output_column_count_ { DEF_COL_COUNT };
+};
+
+struct XletViewIndex {
+    XletIndex index;
+    XletType type;
+
+    XletViewIndex(XletIndex i, XletType t)
+        : index(i)
+        , type(t)
+    {
+    }
+
+    bool operator==(const XletViewIndex& idx) const
+    {
+        return index == idx.index
+            && type == idx.type;
+    }
+
+    bool operator!=(const XletViewIndex& idx) const
+    {
+        return !operator==(idx);
+    }
+
+    bool isInlet() const { return type == XletType::In; }
+    bool isOutlet() const { return type == XletType::Out; }
+
+    bool isNull() const;
+};
+
+struct CellIndex {
+    int row, column;
+    CellIndex(int r = 0, int c = 0)
+        : row(r)
+        , column(c)
+    {
+    }
+
+    bool operator==(const CellIndex& c) const
+    {
+        return row == c.row && column == c.column;
+    }
+
+    bool operator!=(const CellIndex& c) const
+    {
+        return !operator==(c);
+    }
+};
+
+class XletsUserViewData {
+public:
+    static constexpr int MIN_COL_COUNT = 1;
+    static constexpr int MAX_COL_COUNT = 24;
+    static constexpr int DEF_COL_COUNT = 6;
+    static constexpr int MIN_ROW_COUNT = 1;
+    static constexpr int MAX_ROW_COUNT = 24;
+    static constexpr int DEF_ROW_COUNT = 3;
+
+public:
+    XletsUserViewData(int row = DEF_ROW_COUNT, int cols = DEF_COL_COUNT);
+
+    int columnCount() const { return col_count_; }
+    int rowCount() const { return row_count_; }
+
+    void setColumnCount(int n);
+    void setRowCount(int n);
+    int cellCount() const;
+
+    XletViewIndex xletAt(int pos) const;
+    bool insertXlet(CellIndex cellIdx, XletViewIndex vidx);
+
+    const QString& name() const { return name_; }
+
+public:
+    QJsonValue toJson() const;
+    static std::optional<XletsUserViewData> fromJson(const QJsonValue& v);
+
+private:
+    int col_count_ { DEF_COL_COUNT }, row_count_ { DEF_ROW_COUNT };
+    std::vector<XletViewIndex> xlets_idx_;
+    QString name_;
+};
+
 class DeviceData : public QSharedData {
 public:
     constexpr static const qreal MIN_ZOOM = 0.25;
@@ -182,20 +285,19 @@ public:
     bool showTitle() const { return show_title_; }
     void setShowTitle(bool value) { show_title_ = value; }
 
-    int maxInputColumnCount() const { return max_input_column_count_; }
-    bool setMaxInputColumnCount(int n);
-
-    int maxOutputColumnCount() const { return max_output_column_count_; }
-    bool setMaxOutputColumnCount(int n);
-
     SubCategory subCategory() const { return subcat_; }
     void setSubCategory(SubCategory subcat) { subcat_ = subcat; }
 
     ImageMirrorType imageMirror() const { return mirror_; }
     void setImageMirror(ImageMirrorType type) { mirror_ = type; }
 
-    const QJsonValue& viewData() const { return view_data_; }
-    void setViewData(const QJsonValue& v) { view_data_ = v; }
+    XletsLogicViewData& logicViewData() { return logic_view_data_; }
+    const XletsLogicViewData& logicViewData() const { return logic_view_data_; }
+
+    QList<XletsUserViewData>& userViewData() { return user_view_data_; }
+    const QList<XletsUserViewData>& userViewData() const { return user_view_data_; }
+
+    const QString& currentUserView() const { return current_user_view_; }
 
 private:
     static QJsonArray xletToJson(const QList<XletData>& xlets);
@@ -207,8 +309,6 @@ private:
     QString model_, vendor_, title_, title_latin_;
     QString image_;
     QPointF pos_;
-    int max_input_column_count_ { DEF_COL_COUNT };
-    int max_output_column_count_ { DEF_COL_COUNT };
     float zoom_ = { 1 };
     float zvalue_ = { 1 };
     DeviceId id_ { 0 };
@@ -218,7 +318,9 @@ private:
     BatteryType battery_type_ { BatteryType::None };
     bool show_title_ { true };
     ImageMirrorType mirror_ { ImageMirrorType::None };
-    QJsonValue view_data_;
+    XletsLogicViewData logic_view_data_;
+    QList<XletsUserViewData> user_view_data_;
+    QString current_user_view_;
 };
 
 using SharedDeviceData = QSharedDataPointer<DeviceData>;

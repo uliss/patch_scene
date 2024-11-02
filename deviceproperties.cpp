@@ -81,15 +81,15 @@ DeviceProperties::DeviceProperties(const SharedDeviceData& data, QWidget* parent
     });
 
     ui->inletsColumns->setRange(DeviceData::MIN_COL_COUNT, DeviceData::MAX_COL_COUNT);
-    ui->inletsColumns->setValue(data_->maxInputColumnCount());
+    ui->inletsColumns->setValue(data_->logicViewData().maxInputColumnCount());
     connect(ui->inletsColumns, &QSpinBox::valueChanged, this, [this](int value) {
-        data_->setMaxInputColumnCount(value);
+        data_->logicViewData().setMaxInputColumnCount(value);
     });
 
     ui->outletsColumns->setRange(DeviceData::MIN_COL_COUNT, DeviceData::MAX_COL_COUNT);
-    ui->outletsColumns->setValue(data_->maxOutputColumnCount());
+    ui->outletsColumns->setValue(data_->logicViewData().maxOutputColumnCount());
     connect(ui->outletsColumns, &QSpinBox::valueChanged, this, [this](int value) {
-        data_->setMaxOutputColumnCount(value);
+        data_->logicViewData().setMaxOutputColumnCount(value);
     });
 
     setupCategories();

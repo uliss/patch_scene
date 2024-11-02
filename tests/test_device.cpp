@@ -36,8 +36,8 @@ SharedDeviceData make_data(DeviceId id, int numIn = 0, int numOut = 0, const QSt
     auto data = new DeviceData(id);
     data->setTitle(title);
     data->setShowTitle(!title.isEmpty());
-    data->setMaxInputColumnCount(4);
-    data->setMaxOutputColumnCount(4);
+    data->logicViewData().setMaxInputColumnCount(4);
+    data->logicViewData().setMaxOutputColumnCount(4);
 
     for (auto i = 0; i < numIn; i++)
         data->appendInput({});
@@ -67,6 +67,10 @@ void TestDevice::createDefault()
     QVERIFY(dev.id() != DEV_NULL_ID);
     QCOMPARE(dev.deviceData()->inputs().count(), 4);
     QCOMPARE(dev.deviceData()->outputs().count(), 2);
+    QCOMPARE(dev.xlets().inletCount(), 4);
+    QCOMPARE(dev.xlets().outletCount(), 2);
+    QVERIFY(dev.xlets().currentView());
+    QCOMPARE(dev.xlets().userViewCount(), 0);
 
     QCOMPARE(dev.boundingRect(), QRectF(-2 * XW, 0, 4 * XW, 2 * XH + DEF_TXT_HT));
     QVERIFY(dev.xlets().currentView());

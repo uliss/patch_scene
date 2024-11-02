@@ -28,35 +28,12 @@ class QPainter;
 namespace ceam {
 
 class DeviceXlet;
+class DeviceXlets;
 class DeviceXletsView;
 class XletData;
+class XletsTableView;
 
-using CellIndex = std::pair<int, int>;
-
-struct XletViewIndex {
-    XletIndex index;
-    XletType type;
-
-    XletViewIndex(XletIndex i, XletType t)
-        : index(i)
-        , type(t)
-    {
-    }
-
-    bool operator==(const XletViewIndex& idx) const
-    {
-        return index == idx.index
-            && type == idx.type;
-    }
-
-    bool operator!=(const XletViewIndex& idx) const
-    {
-        return !operator==(idx);
-    }
-
-    bool isInlet() const { return type == XletType::In; }
-    bool isOutlet() const { return type == XletType::Out; }
-};
+using XletFactoryFn = std::function<std::unique_ptr<ceam::DeviceXletsView>(const QString&, DeviceXlets&)>;
 
 class DeviceXlets {
 public:
@@ -76,6 +53,12 @@ public:
     DeviceXlet* xletAtIndex(XletViewIndex vidx);
     const DeviceXlet* xletAtIndex(XletViewIndex vidx) const;
 
+    DeviceXlet* inletAt(XletIndex idx);
+    const DeviceXlet* inletAt(XletIndex idx) const;
+
+    DeviceXlet* outletAt(XletIndex idx);
+    const DeviceXlet* outletAt(XletIndex idx) const;
+
     /**
      * @return calc connection point in device coords for given xlet view index
      */
@@ -92,9 +75,19 @@ public:
     qsizetype outletCount() const { return outlets_.count(); }
 
     /**
+     * @return number of views
+     */
+    size_t userViewCount() const;
+
+    /**
      * remove all xlets
      */
-    void clear();
+    void clearXlets();
+
+    /**
+     * remove all views and clear current view pointer
+     */
+    void clearViews();
 
     /**
      * init default view
@@ -106,13 +99,17 @@ public:
     bool setCurrentView(const QString& name);
 
     void setData(const SharedDeviceData& data);
+    void setVisible(bool value);
+
+    bool appendView(std::unique_ptr<DeviceXletsView> view);
 
 private:
     void clearXlets(QList<DeviceXlet*>& xlets);
 
 private:
     QList<DeviceXlet*> inlets_, outlets_;
-    std::vector<std::unique_ptr<DeviceXletsView>> views_;
+    std::unique_ptr<XletsTableView> logic_view_;
+    std::vector<std::unique_ptr<DeviceXletsView>> user_views_;
     DeviceXletsView* current_view_ { nullptr };
 };
 
@@ -161,15 +158,15 @@ public:
      */
     QRectF boundingRect() const;
 
-    virtual void setData(const SharedDeviceData& data);
+    virtual bool setData(const SharedDeviceData& data);
 
     const QString& name() const { return name_; }
     void setName(const QString& name) { name_ = name; }
 };
 
 class XletsTableView : public DeviceXletsView {
-    XletIndex max_inlets_cols_, max_outlets_cols_;
     DeviceXlets& xlets_;
+    XletsLogicViewData data_;
 
 public:
     XletsTableView(const QString& name, DeviceXlets& xlets);
@@ -180,7 +177,10 @@ public:
     std::optional<QPoint> indexToPos(XletViewIndex vidx) const final;
     void placeXlets(const QPointF& origin) final;
     void paint(QPainter* painter, const QPoint& origin);
-    void setData(const SharedDeviceData& data) final;
+
+    bool setData(const SharedDeviceData& data) final;
+    XletsLogicViewData& data() { return data_; }
+    const XletsLogicViewData& data() const { return data_; }
 
     /**
      * convert xlet view index to cell index (row, col)
@@ -191,28 +191,6 @@ public:
      * convert cell index to xlet view index
      */
     std::optional<XletViewIndex> cellToIndex(CellIndex cellIdx, XletType type) const;
-
-    /**
-     * @return max number of inlets in row
-     */
-    XletIndex maxInletsCols() const { return max_inlets_cols_; }
-
-    /**
-     * @return max number of outlets in row
-     */
-    XletIndex maxOutletsCols() const { return max_outlets_cols_; }
-
-    /**
-     * Set max number of columns in row
-     * @note you should call placeXlets() to update xlet positions
-     */
-    bool setMaxInletsCols(XletIndex n);
-
-    /**
-     * Set max number of columns in row
-     * @note you should call placeXlets() to update xlet positions
-     */
-    bool setMaxOutletsCols(XletIndex n);
 
 private:
     qreal inletsHeight() const;

@@ -19,20 +19,14 @@
 namespace ceam {
 
 class XletsUserView : public DeviceXletsView {
-    int num_cols_, num_rows_;
     DeviceXlets& xlets_;
-    std::vector<XletViewIndex> xlets_idx_;
+    XletsUserViewData data_;
 
 public:
     XletsUserView(const QString& name, DeviceXlets& xlets);
 
-    int columnCount() const { return num_cols_; }
-    void setColumnCount(int n);
-
-    int rowCount() const { return num_rows_; }
-    void setRowCount(int n);
-
-    int cellCount() const;
+    XletsUserViewData& data() { return data_; }
+    const XletsUserViewData& data() const { return data_; }
 
     qreal width() const final;
     qreal height() const final;
@@ -40,6 +34,7 @@ public:
     std::optional<XletViewIndex> posToIndex(const QPoint& pos) const final;
     std::optional<QPoint> indexToPos(XletViewIndex vidx) const final;
     void placeXlets(const QPointF& origin) final;
+    void setData(const XletsUserViewData& data);
 };
 
 } // namespace ceam

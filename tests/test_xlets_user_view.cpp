@@ -30,9 +30,9 @@ void TestXletsUserView::testInit()
     DeviceXlets xlets;
     XletsUserView xv("test", xlets);
 
-    QCOMPARE(xv.columnCount(), 6);
-    QCOMPARE(xv.rowCount(), 3);
-    QCOMPARE(xv.cellCount(), 18);
+    QCOMPARE(xv.data().columnCount(), 6);
+    QCOMPARE(xv.data().rowCount(), 3);
+    QCOMPARE(xv.data().cellCount(), 18);
     QCOMPARE(xv.width(), 132);
     QCOMPARE(xv.height(), 60);
     QCOMPARE(xv.posToIndex({ 0, 0 }), std::nullopt);
@@ -45,11 +45,11 @@ void TestXletsUserView::testPosToIndex()
     DeviceXlets xlets;
     XletsUserView xv("test", xlets);
 
-    xv.setColumnCount(3);
-    xv.setRowCount(2);
-    QCOMPARE(xv.cellCount(), 6);
-    QCOMPARE(xv.columnCount(), 3);
-    QCOMPARE(xv.rowCount(), 2);
+    xv.data().setColumnCount(3);
+    xv.data().setRowCount(2);
+    QCOMPARE(xv.data().cellCount(), 6);
+    QCOMPARE(xv.data().columnCount(), 3);
+    QCOMPARE(xv.data().rowCount(), 2);
 
     QCOMPARE(xv.posToIndex({ 0, 0 }), std::nullopt);
     QCOMPARE(xv.posToIndex({ XW, 0 }), std::nullopt);
@@ -58,7 +58,7 @@ void TestXletsUserView::testPosToIndex()
     QCOMPARE(xv.posToIndex({ XW, XH }), std::nullopt);
     QCOMPARE(xv.posToIndex({ 2 * XW, XH }), std::nullopt);
 
-    QVERIFY(xv.insertXlet({ 0, 0 }, XletViewIndex { 0, XletType::In }));
+    QVERIFY(xv.data().insertXlet({ 0, 0 }, XletViewIndex { 0, XletType::In }));
 
     QCOMPARE(xv.posToIndex({ 0, 0 }), XletViewIndex(0, XletType::In));
     QCOMPARE(xv.posToIndex({ XW, 0 }), std::nullopt);
@@ -67,7 +67,7 @@ void TestXletsUserView::testPosToIndex()
     QCOMPARE(xv.posToIndex({ XW, XH }), std::nullopt);
     QCOMPARE(xv.posToIndex({ 2 * XW, XH }), std::nullopt);
 
-    QVERIFY(xv.insertXlet({ 1, 2 }, XletViewIndex { 0, XletType::Out }));
+    QVERIFY(xv.data().insertXlet({ 1, 2 }, XletViewIndex { 0, XletType::Out }));
 
     QCOMPARE(xv.posToIndex({ 0, 0 }), XletViewIndex(0, XletType::In));
     QCOMPARE(xv.posToIndex({ XW, 0 }), std::nullopt);
@@ -82,11 +82,11 @@ void TestXletsUserView::testIndexToPos()
     DeviceXlets xlets;
     XletsUserView xv("test", xlets);
 
-    xv.setColumnCount(3);
-    xv.setRowCount(2);
+    xv.data().setColumnCount(3);
+    xv.data().setRowCount(2);
 
-    QVERIFY(xv.insertXlet({ 0, 0 }, XletViewIndex { 0, XletType::In }));
-    QVERIFY(xv.insertXlet({ 1, 2 }, XletViewIndex { 0, XletType::Out }));
+    QVERIFY(xv.data().insertXlet({ 0, 0 }, XletViewIndex { 0, XletType::In }));
+    QVERIFY(xv.data().insertXlet({ 1, 2 }, XletViewIndex { 0, XletType::Out }));
 
     QCOMPARE(xv.indexToPos(XletViewIndex { 12, XletType::In }), std::nullopt);
     QCOMPARE(xv.indexToPos(XletViewIndex { 1, XletType::In }), std::nullopt);
@@ -105,8 +105,8 @@ void TestXletsUserView::testPlaceXlets()
     xlets.append({}, XletType::Out, nullptr);
 
     XletsUserView xv("test", xlets);
-    xv.setColumnCount(3);
-    xv.setRowCount(2);
+    xv.data().setColumnCount(3);
+    xv.data().setRowCount(2);
 
     xv.placeXlets({});
 
@@ -120,7 +120,7 @@ void TestXletsUserView::testPlaceXlets()
         QVERIFY(!xlets.outletAt(i)->isVisible());
     }
 
-    QVERIFY(xv.insertXlet({ 1, 1 }, { 0, XletType::In }));
+    QVERIFY(xv.data().insertXlet({ 1, 1 }, { 0, XletType::In }));
     xv.placeXlets({});
     QVERIFY(xlets.inletAt(0)->isVisible());
     QCOMPARE(xlets.inletAt(0)->pos(), QPoint(XW, XH));
@@ -136,27 +136,30 @@ void TestXletsUserView::testSetData()
 
     QVERIFY(!xlets.currentView());
     xlets.initDefaultView();
-    // QVERIFY(xlets.appendView(std::make_unique<XletsUserView>("test", xlets)));
-    // xlets.setCurrentView("test");
+    QVERIFY(xlets.currentView());
+    QCOMPARE(xlets.userViewCount(), 0);
     auto xv = dynamic_cast<XletsUserView*>(xlets.currentView());
     QVERIFY(!xv);
-    // QCOMPARE(xv->columnCount(), 6);
-    // QCOMPARE(xv->rowCount(), 3);
 
     SharedDeviceData data(new DeviceData(DEV_NULL_ID));
 
-    QJsonObject jv, jd;
-    jv["nrows"] = 2;
-    jv["ncols"] = 3;
-    jd["test"] = jv;
+    QJsonObject jv;
+    jv["num-rows"] = 2;
+    jv["num-cols"] = 3;
+    jv["name"] = "UserView";
 
-    data->setViewData(jd);
+    QJsonArray arr;
+    arr.append(jv);
+    QJsonObject jd;
+    jd["view-user"] = arr;
+    QVERIFY(data->setJson(jd));
 
     xlets.setData(data);
-    // QCOMPARE(xv->rowCount(), 2);
-    // QCOMPARE(xv->columnCount(), 3);
-}
+    QCOMPARE(xlets.userViewCount(), 1);
 
-void TestXletsUserView::testFactory()
-{
+    xlets.setCurrentView("UserView");
+    QVERIFY(dynamic_cast<XletsUserView*>(xlets.currentView()));
+    auto vuser = dynamic_cast<XletsUserView*>(xlets.currentView());
+    QCOMPARE(vuser->data().columnCount(), 3);
+    QCOMPARE(vuser->data().rowCount(), 2);
 }

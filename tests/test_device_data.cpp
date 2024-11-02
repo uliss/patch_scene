@@ -20,7 +20,7 @@
 using namespace ceam;
 
 void TestDeviceData::construct()
-{    
+{
     DeviceData data(DEV_NULL_ID);
     QVERIFY(data.isNull());
     QCOMPARE(data.id(), DEV_NULL_ID);
@@ -53,6 +53,46 @@ void TestDeviceData::toJson()
     QVERIFY(j.contains("inputs"));
     QVERIFY(j.contains("outputs"));
     QVERIFY(j.contains("show-title"));
-    QVERIFY(j.contains("input-columns"));
-    QVERIFY(j.contains("output-columns"));
+    QVERIFY(j.contains("view-logic"));
+    QVERIFY(j.contains("view-user"));
+    QVERIFY(!j.contains("input-columns"));
+    QVERIFY(!j.contains("output-columns"));
+}
+
+void TestDeviceData::fromJson()
+{
+    DeviceData data(DEV_NULL_ID);
+    QVERIFY(!data.setJson(QJsonValue {}));
+
+    QJsonObject j;
+    j["id"] = 1000;
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.id(), 1000);
+
+    j["x"] = -10;
+    j["y"] = 505.5;
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.pos(), QPointF(-10, 505.5));
+
+    j["title"] = "Test";
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.title(), "Test");
+
+    j["vendor"] = "Vendor";
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.vendor(), "Vendor");
+
+    j["model"] = "ModelX";
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.model(), "ModelX");
+
+    j["zoom"] = 3.25;
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.zoom(), 3.25);
+
+    j["input-columns"] = 3;
+    j["output-columns"] = 4;
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.logicViewData().maxInputColumnCount(), 3);
+    QCOMPARE(data.logicViewData().maxOutputColumnCount(), 4);
 }

@@ -14,8 +14,11 @@
 #include "device_xlet_view.h"
 #include "device_common.h"
 #include "device_xlet.h"
+#include "logging.hpp"
+#include "xlets_user_view.h"
 
 #include <QGraphicsScene>
+#include <QJsonObject>
 #include <QPainter>
 
 namespace {
@@ -24,6 +27,13 @@ constexpr qreal XLET_W = 22;
 constexpr qreal XLET_H = 20;
 constexpr qreal XLET_BOX_W = 8;
 constexpr qreal XLET_BOX_H = 2;
+
+constexpr const char* DEFAULT_VIEW = "logical";
+constexpr const char* JSON_KEY_CURRENT_VIEW = "current";
+constexpr const char* JSON_KEY_VIEWS = "views";
+constexpr const char* JSON_KEY_NAME = "name";
+constexpr const char* JSON_KEY_TYPE = "type";
+
 }
 
 namespace ceam {
@@ -34,7 +44,7 @@ DeviceXlets::DeviceXlets()
 
 DeviceXlets::~DeviceXlets()
 {
-    clear();
+    clearXlets();
 }
 
 bool DeviceXlets::append(const XletData& data, XletType type, QGraphicsItem* parent)
@@ -100,26 +110,47 @@ const DeviceXlet* DeviceXlets::xletAtIndex(XletViewIndex vidx) const
     return nullptr;
 }
 
-void DeviceXlets::clear()
+DeviceXlet* DeviceXlets::inletAt(XletIndex idx)
+{
+    return (idx < inlets_.size()) ? inlets_[idx] : nullptr;
+}
+
+const DeviceXlet* DeviceXlets::inletAt(XletIndex idx) const
+{
+    return (idx < inlets_.size()) ? inlets_[idx] : nullptr;
+}
+
+DeviceXlet* DeviceXlets::outletAt(XletIndex idx)
+{
+    return (idx < outlets_.size()) ? outlets_[idx] : nullptr;
+}
+
+const DeviceXlet* DeviceXlets::outletAt(XletIndex idx) const
+{
+    return (idx < outlets_.size()) ? outlets_[idx] : nullptr;
+}
+
+void DeviceXlets::clearXlets()
 {
     clearXlets(inlets_);
     clearXlets(outlets_);
 }
 
+void DeviceXlets::clearViews()
+{
+    user_views_.clear();
+    current_view_ = logic_view_.get();
+}
+
 void DeviceXlets::initDefaultView()
 {
-    if (views_.empty()) {
-        views_.push_back(std::make_unique<XletsTableView>("logical", *this));
-        current_view_ = views_.back().get();
-    } else {
-        views_.front() = std::make_unique<XletsTableView>("logical", *this);
-        current_view_ = views_.front().get();
-    }
+    logic_view_ = std::make_unique<XletsTableView>(DEFAULT_VIEW, *this);
+    current_view_ = logic_view_.get();
 }
 
 bool DeviceXlets::setCurrentView(const QString& name)
 {
-    for (auto& v : views_) {
+    for (auto& v : user_views_) {
         if (v && v->name() == name) {
             current_view_ = v.get();
             return true;
@@ -131,8 +162,39 @@ bool DeviceXlets::setCurrentView(const QString& name)
 
 void DeviceXlets::setData(const SharedDeviceData& data)
 {
-    for (auto& v : views_)
-        v->setData(data);
+    if (!data)
+        return;
+
+    if (logic_view_)
+        logic_view_->setData(data);
+
+    clearViews();
+    for (auto& x : data->userViewData()) {
+        auto view = new XletsUserView(x.name(), *this);
+        view->setData(x);
+        user_views_.emplace_back(view);
+    }
+
+    if (data->currentUserView().isEmpty() || !setCurrentView(data->currentUserView()))
+        current_view_ = logic_view_.get();
+}
+
+void DeviceXlets::setVisible(bool value)
+{
+    for (auto x : inlets_)
+        x->setVisible(value);
+
+    for (auto x : outlets_)
+        x->setVisible(value);
+}
+
+bool DeviceXlets::appendView(std::unique_ptr<DeviceXletsView> view)
+{
+    if (!view)
+        return false;
+
+    user_views_.push_back(std::move(view));
+    return true;
 }
 
 void DeviceXlets::clearXlets(QList<DeviceXlet*>& xlets)
@@ -160,14 +222,13 @@ QRectF DeviceXletsView::boundingRect() const
     return { 0, 0, width(), height() };
 }
 
-void DeviceXletsView::setData(const SharedDeviceData& /*data*/)
+bool DeviceXletsView::setData(const SharedDeviceData& /*data*/)
 {
+    return true;
 }
 
 XletsTableView::XletsTableView(const QString& name, DeviceXlets& xlets)
     : DeviceXletsView(name)
-    , max_inlets_cols_(DeviceData::DEF_COL_COUNT)
-    , max_outlets_cols_(DeviceData::DEF_COL_COUNT)
     , xlets_(xlets)
 {
 }
@@ -180,24 +241,6 @@ qreal XletsTableView::width() const
 qreal XletsTableView::height() const
 {
     return inletsHeight() + outletsHeight();
-}
-
-bool XletsTableView::setMaxInletsCols(XletIndex n)
-{
-    if (n < DeviceData::MIN_COL_COUNT || n > DeviceData::MAX_COL_COUNT)
-        return false;
-
-    max_inlets_cols_ = n;
-    return true;
-}
-
-bool XletsTableView::setMaxOutletsCols(XletIndex n)
-{
-    if (n < DeviceData::MIN_COL_COUNT || n > DeviceData::MAX_COL_COUNT)
-        return false;
-
-    max_outlets_cols_ = n;
-    return true;
 }
 
 qreal XletsTableView::inletsWidth() const
@@ -217,7 +260,7 @@ qreal XletsTableView::outletsWidth() const
 
 int XletsTableView::inletsColCount() const
 {
-    return std::min<int>(max_inlets_cols_, xlets_.inletCount());
+    return std::min<int>(data_.maxInputColumnCount(), xlets_.inletCount());
 }
 
 qreal XletsTableView::outletsHeight() const
@@ -228,29 +271,29 @@ qreal XletsTableView::outletsHeight() const
 int XletsTableView::inletsRowCount() const
 {
     auto n = xlets_.inletCount();
-    return n / max_inlets_cols_ + (n % max_inlets_cols_ > 0);
+    return n / data_.maxInputColumnCount() + (n % data_.maxInputColumnCount() > 0);
 }
 
 int XletsTableView::outletsColCount() const
 {
-    return std::min<int>(max_outlets_cols_, xlets_.outletCount());
+    return std::min<int>(data_.maxOutputColumnCount(), xlets_.outletCount());
 }
 
 int XletsTableView::outletsRowCount() const
 {
     auto n = xlets_.outletCount();
-    return n / max_outlets_cols_ + (n % max_outlets_cols_ > 0);
+    return n / data_.maxOutputColumnCount() + (n % data_.maxOutputColumnCount() > 0);
 }
 
 bool XletsTableView::checkCellIndex(CellIndex idx, XletType type) const
 {
     switch (type) {
     case XletType::In:
-        return idx.first >= 0 && idx.first < inletsRowCount()
-            && idx.second >= 0 && idx.second < inletsColCount();
+        return idx.row >= 0 && idx.row < inletsRowCount()
+            && idx.column >= 0 && idx.column < inletsColCount();
     case XletType::Out:
-        return idx.first >= 0 && idx.first < outletsRowCount()
-            && idx.second >= 0 && idx.second < outletsColCount();
+        return idx.row >= 0 && idx.row < outletsRowCount()
+            && idx.column >= 0 && idx.column < outletsColCount();
     default:
         return false;
     }
@@ -275,14 +318,14 @@ std::optional<CellIndex> XletsTableView::indexToCell(XletViewIndex vidx) const
         if (idx >= xlets_.inletCount())
             return {};
 
-        return std::make_pair(idx / maxInletsCols(), idx % maxInletsCols());
+        return CellIndex { idx / data_.maxInputColumnCount(), idx % data_.maxInputColumnCount() };
 
     } else if (vidx.isOutlet()) {
         auto idx = vidx.index;
         if (idx >= xlets_.outletCount())
             return {};
 
-        return std::make_pair(idx / maxOutletsCols(), idx % maxOutletsCols());
+        return CellIndex { idx / data_.maxOutputColumnCount(), idx % data_.maxOutputColumnCount() };
 
     } else
         return {};
@@ -295,13 +338,13 @@ std::optional<XletViewIndex> XletsTableView::cellToIndex(CellIndex cellIdx, Xlet
 
     switch (type) {
     case XletType::In: {
-        auto idx = cellIdx.first * maxInletsCols() + cellIdx.second;
+        auto idx = cellIdx.row * data_.maxInputColumnCount() + cellIdx.column;
         if (idx < xlets_.inletCount())
             return XletViewIndex { static_cast<XletIndex>(idx), type };
 
     } break;
     case XletType::Out: {
-        auto idx = cellIdx.first * maxOutletsCols() + cellIdx.second;
+        auto idx = cellIdx.row * data_.maxOutputColumnCount() + cellIdx.column;
         if (idx < xlets_.outletCount())
             return XletViewIndex { static_cast<XletIndex>(idx), type };
     } break;
@@ -337,7 +380,7 @@ std::optional<QPoint> XletsTableView::indexToPos(XletViewIndex vidx) const
 {
     auto cell = indexToCell(vidx);
     if (cell)
-        return QPointF { cell->second * XLET_W, cell->first * XLET_H }.toPoint();
+        return QPointF { cell->column * XLET_W, cell->row * XLET_H }.toPoint();
     else
         return {};
 }
@@ -384,6 +427,11 @@ std::optional<QPointF> DeviceXlets::connectionPoint(XletViewIndex vidx) const
     return xlet->pos() + QPointF(XLET_W / 2, vidx.isOutlet() * XLET_H);
 }
 
+size_t DeviceXlets::userViewCount() const
+{
+    return user_views_.size();
+}
+
 void XletsTableView::paint(QPainter* painter, const QPoint& origin)
 {
     auto xrect = boundingRect().translated(origin);
@@ -398,13 +446,13 @@ void XletsTableView::paint(QPainter* painter, const QPoint& origin)
     }
 }
 
-void XletsTableView::setData(const SharedDeviceData& data)
+bool XletsTableView::setData(const SharedDeviceData& data)
 {
     if (!data)
-        return;
+        return false;
 
-    setMaxInletsCols(data->maxInputColumnCount());
-    setMaxOutletsCols(data->maxOutputColumnCount());
+    data_ = data->logicViewData();
+    return true;
 }
 
 } // namespace ceam

@@ -13,20 +13,22 @@
  *****************************************************************************/
 #include "xlets_user_view.h"
 
+#include <QJsonObject>
+
 namespace {
-constexpr int MIN_COL_COUNT = 1;
-constexpr int MAX_COL_COUNT = 24;
-constexpr int DEF_COL_COUNT = 6;
-constexpr int MIN_ROW_COUNT = 1;
-constexpr int MAX_ROW_COUNT = 24;
-constexpr int DEF_ROW_COUNT = 6;
 
 constexpr qreal XLET_W = 22;
 constexpr qreal XLET_H = 20;
 constexpr qreal XLET_BOX_W = 8;
 constexpr qreal XLET_BOX_H = 2;
 
-const ceam::XletViewIndex NO_XLET_IDX(0, ceam::XletType::None);
+constexpr const char* JSON_KEY_NUM_COLS = "ncols";
+constexpr const char* JSON_KEY_NUM_ROWS = "nrows";
+constexpr const char* JSON_KEY_INDEXES = "indexes";
+constexpr const char* JSON_KEY_SRC = "src";
+constexpr const char* JSON_KEY_TYPE = "type";
+constexpr const char* JSON_KEY_DEST = "dest";
+constexpr const char* VIEW_NAME = "user-grid";
 
 }
 
@@ -34,38 +36,18 @@ namespace ceam {
 
 XletsUserView::XletsUserView(const QString& name, DeviceXlets& xlets)
     : DeviceXletsView(name)
-    , num_cols_(DEF_COL_COUNT)
-    , num_rows_(DEF_ROW_COUNT)
     , xlets_(xlets)
 {
-    xlets_idx_.resize(cellCount(), NO_XLET_IDX);
-}
-
-void XletsUserView::setColumnCount(int n)
-{
-    num_cols_ = qBound(MIN_COL_COUNT, n, MAX_COL_COUNT);
-    xlets_idx_.resize(cellCount(), NO_XLET_IDX);
-}
-
-void XletsUserView::setRowCount(int n)
-{
-    num_rows_ = qBound(MIN_ROW_COUNT, n, MAX_ROW_COUNT);
-    xlets_idx_.resize(cellCount(), NO_XLET_IDX);
-}
-
-int XletsUserView::cellCount() const
-{
-    return num_cols_ * num_rows_;
 }
 
 qreal XletsUserView::width() const
 {
-    return num_cols_ * XLET_W;
+    return data_.columnCount() * XLET_W;
 }
 
 qreal XletsUserView::height() const
 {
-    return num_rows_ * XLET_H;
+    return data_.rowCount() * XLET_H;
 }
 
 void XletsUserView::paint(QPainter* painter, const QPoint& origin)
@@ -74,15 +56,13 @@ void XletsUserView::paint(QPainter* painter, const QPoint& origin)
 
 std::optional<XletViewIndex> XletsUserView::posToIndex(const QPoint& pos) const
 {
-    int col = static_cast<int>(pos.x()) % static_cast<int>(XLET_W);
-    int row = pos.y() / XLET_H;
+    int col = pos.x() / static_cast<int>(XLET_W);
+    int row = pos.y() / static_cast<int>(XLET_H);
 
-    int cell_idx = col * num_cols_ + row;
-    if (cell_idx < 0 || cell_idx >= xlets_idx_.size())
-        return {};
+    int cell_idx = row * data_.columnCount() + col;
 
-    auto idx = xlets_idx_[cell_idx];
-    if (idx == NO_XLET_IDX)
+    auto idx = data_.xletAt(cell_idx);
+    if (idx.isNull())
         return {};
     else
         return idx;
@@ -90,11 +70,10 @@ std::optional<XletViewIndex> XletsUserView::posToIndex(const QPoint& pos) const
 
 std::optional<QPoint> XletsUserView::indexToPos(XletViewIndex vidx) const
 {
-    for (int i = 0; i < xlets_idx_.size(); i++) {
-        auto& vi = xlets_idx_[i];
-        if (vi == vidx) {
-            int col = i % num_cols_;
-            int row = i / num_cols_;
+    for (int i = 0; i < data_.cellCount(); i++) {
+        if (data_.xletAt(i) == vidx) {
+            int col = i % data_.columnCount();
+            int row = i / data_.columnCount();
 
             return QPoint(col * XLET_W, row * XLET_H);
         }
@@ -105,15 +84,81 @@ std::optional<QPoint> XletsUserView::indexToPos(XletViewIndex vidx) const
 
 void XletsUserView::placeXlets(const QPointF& origin)
 {
-    for (int i = 0; i < xlets_idx_.size(); i++) {
-        auto& vi = xlets_idx_[i];
-        int col = i % num_cols_;
-        int row = i / num_cols_;
+    xlets_.setVisible(false);
+
+    for (int i = 0; i < data_.cellCount(); i++) {
+        auto vi = data_.xletAt(i);
+        int col = i % data_.columnCount();
+        int row = i / data_.columnCount();
 
         auto xlet = xlets_.xletAtIndex(vi);
-        if (xlet)
+        if (xlet) {
             xlet->setPos(origin + QPoint(col * XLET_W, row * XLET_H));
+            xlet->setVisible(true);
+        }
     }
+}
+
+void XletsUserView::setData(const XletsUserViewData& data)
+{
+    data_ = data;
+
+    // auto& data = data->userViewData();
+    // if (!jv.isObject())
+    //     return false;
+
+    // auto vobj = jv.toObject();
+    // auto view_data = vobj[VIEW_NAME];
+    // if (!view_data.isObject())
+    //     return false;
+
+    // auto view = view_data.toObject();
+    // setColumnCount(view[JSON_KEY_NUM_COLS].toInt(DEF_COL_COUNT));
+    // setRowCount(view[JSON_KEY_NUM_ROWS].toInt(DEF_ROW_COUNT));
+
+    // auto idxs = view[JSON_KEY_INDEXES].toArray();
+    // if (idxs.isEmpty())
+    //     return false;
+
+    // std::vector<XletViewIndex> indexes;
+    // indexes.assign(cellCount(), XletViewIndex { 0, XletType::None });
+
+    // for (const auto& item : idxs) {
+    //     if (!item.isObject())
+    //         continue;
+
+    //     auto obj = item.toObject();
+
+    //     XletViewIndex vidx(0, XletType::None);
+    //     auto src_xlet_idx = obj[JSON_KEY_SRC].toInteger(-1);
+    //     if (src_xlet_idx < 0 || src_xlet_idx > std::numeric_limits<typeof(vidx.index)>::max()) {
+    //         WARN() << "invalid xlet index:" << src_xlet_idx;
+    //         continue;
+    //     } else {
+    //         vidx.index = src_xlet_idx;
+    //     }
+
+    //     auto src_xlet_type = obj[JSON_KEY_TYPE].toString();
+    //     if (src_xlet_type == "in") {
+    //         vidx.type = XletType::In;
+    //     } else if (src_xlet_type == "out") {
+    //         vidx.type = XletType::Out;
+    //     } else {
+    //         WARN() << "invalid xlet type:" << src_xlet_type;
+    //         continue;
+    //     }
+
+    //     auto dest_idx = obj[JSON_KEY_DEST].toInteger(-1);
+    //     if (dest_idx < 1 || dest_idx >= cellCount()) {
+    //         WARN() << "invalid xlet index:" << src_xlet_idx;
+    //         continue;
+    //     }
+
+    //     indexes[dest_idx] = vidx;
+    // }
+
+    // xlets_idx_ = indexes;
+    // return true;
 }
 
 } // namespace ceam

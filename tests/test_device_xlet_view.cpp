@@ -41,9 +41,9 @@ void TestDeviceXletView::indexToCell()
     auto view = dynamic_cast<XletsTableView*>(xv.currentView());
     QVERIFY(view);
 
-    QCOMPARE(view->maxInletsCols(), 8);
-    QCOMPARE(view->maxOutletsCols(), 8);
-    QVERIFY(view->setMaxInletsCols(4));
+    QCOMPARE(view->data().maxInputColumnCount(), 8);
+    QCOMPARE(view->data().maxOutputColumnCount(), 8);
+    QVERIFY(view->data().setMaxInputColumnCount(4));
 
     QVERIFY(!view->indexToCell({ 0, XletType::In }));
 
@@ -80,7 +80,7 @@ void TestDeviceXletView::boundingRect()
     xv.initDefaultView();
     auto view = dynamic_cast<XletsTableView*>(xv.currentView());
     QVERIFY(view);
-    QVERIFY(view->setMaxInletsCols(4));
+    QVERIFY(view->data().setMaxInputColumnCount(4));
 
     QCOMPARE(view->boundingRect(), QRectF(0, 0, 0, 0));
 
@@ -97,21 +97,21 @@ void TestDeviceXletView::boundingRect()
     xv.append({}, XletType::In, nullptr);
     QCOMPARE(view->boundingRect(), QRectF(0, 0, 4 * XW, 2 * XH));
 
-    QVERIFY(view->setMaxInletsCols(5));
+    QVERIFY(view->data().setMaxInputColumnCount(5));
     QCOMPARE(view->boundingRect(), QRectF(0, 0, 5 * XW, XH));
 
-    QVERIFY(view->setMaxInletsCols(2));
+    QVERIFY(view->data().setMaxInputColumnCount(2));
     QCOMPARE(view->boundingRect(), QRectF(0, 0, 2 * XW, 3 * XH));
 }
 
 void TestDeviceXletView::cellToIndex()
 {
     DeviceXlets xv;
-    xv.clear();
+    xv.clearXlets();
     xv.initDefaultView();
     auto view = dynamic_cast<XletsTableView*>(xv.currentView());
     QVERIFY(view);
-    QVERIFY(view->setMaxInletsCols(4));
+    QVERIFY(view->data().setMaxInputColumnCount(4));
 
     QVERIFY(!view->cellToIndex(CellIndex(0, 0), XletType::In));
     QVERIFY(!view->cellToIndex(CellIndex(1, 0), XletType::In));
@@ -151,7 +151,7 @@ void TestDeviceXletView::cellToIndex()
     QCOMPARE(view->cellToIndex({ 1, 0 }, XletType::In), XletViewIndex(4, XletType::In));
     QCOMPARE(view->cellToIndex({ 1, 1 }, XletType::In), XletViewIndex(5, XletType::In));
 
-    QVERIFY(view->setMaxOutletsCols(3));
+    QVERIFY(view->data().setMaxOutputColumnCount(3));
     xv.append({}, XletType::Out, nullptr);
     xv.append({}, XletType::Out, nullptr);
     xv.append({}, XletType::Out, nullptr);
@@ -177,7 +177,7 @@ void TestDeviceXletView::cellToIndex()
 void TestDeviceXletView::clear()
 {
     DeviceXlets xv;
-    xv.clear();
+    xv.clearXlets();
     xv.initDefaultView();
 
     xv.append({}, XletType::In, nullptr);
@@ -185,18 +185,19 @@ void TestDeviceXletView::clear()
     QCOMPARE(xv.inletCount(), 2);
     QCOMPARE(xv.outletCount(), 0);
     QVERIFY(!xv.isEmpty());
-    xv.clear();
+    xv.clearXlets();
     QCOMPARE(xv.inletCount(), 0);
     QCOMPARE(xv.outletCount(), 0);
     QVERIFY(xv.isEmpty());
-    QVERIFY(!xv.currentView());
+    QVERIFY(xv.currentView());
+    QCOMPARE(xv.userViewCount(), 0);
 
     xv.append({}, XletType::In, nullptr);
     xv.append({}, XletType::Out, nullptr);
     QVERIFY(!xv.isEmpty());
     QCOMPARE(xv.inletCount(), 1);
     QCOMPARE(xv.outletCount(), 1);
-    xv.clear();
+    xv.clearXlets();
     QVERIFY(xv.isEmpty());
     QCOMPARE(xv.inletCount(), 0);
     QCOMPARE(xv.outletCount(), 0);
@@ -208,7 +209,7 @@ void TestDeviceXletView::place()
     xv.initDefaultView();
     auto view = dynamic_cast<XletsTableView*>(xv.currentView());
     QVERIFY(view);
-    QVERIFY(view->setMaxInletsCols(4));
+    QVERIFY(view->data().setMaxInputColumnCount(4));
 
     QCOMPARE(view->boundingRect(), QRectF(0, 0, 0, 0));
 
@@ -301,7 +302,7 @@ void TestDeviceXletView::indexToCell2()
     xv.initDefaultView();
     auto view = dynamic_cast<XletsTableView*>(xv.currentView());
     QVERIFY(view);
-    QVERIFY(view->setMaxInletsCols(4));
+    QVERIFY(view->data().setMaxInputColumnCount(4));
 
     xv.append({}, XletType::In, nullptr);
     xv.append({}, XletType::In, nullptr);
@@ -328,7 +329,7 @@ void TestDeviceXletView::posToIndex()
     xv.initDefaultView();
     auto view = dynamic_cast<XletsTableView*>(xv.currentView());
     QVERIFY(view);
-    QVERIFY(view->setMaxInletsCols(4));
+    QVERIFY(view->data().setMaxInputColumnCount(4));
 
     xv.append({}, XletType::In, nullptr);
     xv.append({}, XletType::In, nullptr);
@@ -355,7 +356,7 @@ void TestDeviceXletView::xletRect()
     auto view = dynamic_cast<XletsTableView*>(xv.currentView());
     QVERIFY(view);
 
-    QVERIFY(view->setMaxInletsCols(4));
+    QVERIFY(view->data().setMaxInputColumnCount(4));
     QCOMPARE(view->xletRect({ 0, XletType::In }), QRect());
     QCOMPARE(view->xletRect({ 1, XletType::In }), QRect());
     QCOMPARE(view->xletRect({ 0, XletType::Out }), QRect());
@@ -393,7 +394,7 @@ void TestDeviceXletView::inletConnectionPoint()
     xv.initDefaultView();
     auto view = dynamic_cast<XletsTableView*>(xv.currentView());
     QVERIFY(view);
-    QVERIFY(view->setMaxInletsCols(4));
+    QVERIFY(view->data().setMaxInputColumnCount(4));
 
     QVERIFY(!xv.connectionPoint({ 0, XletType::In }));
     QVERIFY(!xv.connectionPoint({ 1, XletType::In }));
@@ -451,7 +452,7 @@ void TestDeviceXletView::outletConnectionPoint()
     xv.initDefaultView();
     auto view = dynamic_cast<XletsTableView*>(xv.currentView());
     QVERIFY(view);
-    QVERIFY(view->setMaxOutletsCols(4));
+    QVERIFY(view->data().setMaxOutputColumnCount(4));
 
     QVERIFY(!xv.connectionPoint({ 0, XletType::In }));
     QVERIFY(!xv.connectionPoint({ 1, XletType::In }));

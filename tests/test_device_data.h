@@ -22,6 +22,7 @@ class TestDeviceData : public QObject {
 private slots:
     void construct();
     void toJson();
+    void fromJson();
 };
 
 #endif // TEST_DEVICE_DATA_H
