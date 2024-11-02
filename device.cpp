@@ -60,6 +60,12 @@ SharedDeviceData makeDeviceData()
 
     data->appendOutput(XletData { "L", ConnectorModel::JACK_TRS });
     data->appendOutput(XletData { "R", ConnectorModel::JACK_TRS });
+
+    XletsUserViewData user_view;
+    // user_view.insertXlet();
+    // user_view
+    data->userViewData().push_back(user_view);
+
     return data;
 }
 
@@ -327,6 +333,13 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
         info->setFont(info_font);
         menu.setStyleSheet("QMenu::item:disabled {color: black;}");
         menu.addAction(showTitle);
+        if (!data_->userViewData().isEmpty()) {
+            auto views = menu.addMenu(tr("Views"));
+            views->addAction(tr("Logic"));
+            for (auto& x : data_->userViewData())
+                views->addAction(x.name());
+        }
+
         menu.addSeparator();
         menu.addAction(duplicateAct);
         menu.addAction(removeAct);

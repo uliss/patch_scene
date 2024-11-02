@@ -762,6 +762,7 @@ std::optional<SubCategory> SubCategory::fromJson(const QJsonValue& val)
 }
 
 XletsUserViewData::XletsUserViewData(int row, int cols)
+    : name_("User")
 {
     setColumnCount(cols);
     setRowCount(row);

@@ -13,7 +13,6 @@
  *****************************************************************************/
 #include "xlets_user_view.h"
 #include "device_xlet_view.h"
-#include "logging.hpp"
 
 #include <QJsonObject>
 
@@ -21,16 +20,6 @@ namespace {
 
 constexpr qreal XLET_W = 22;
 constexpr qreal XLET_H = 20;
-constexpr qreal XLET_BOX_W = 8;
-constexpr qreal XLET_BOX_H = 2;
-
-constexpr const char* JSON_KEY_NUM_COLS = "ncols";
-constexpr const char* JSON_KEY_NUM_ROWS = "nrows";
-constexpr const char* JSON_KEY_INDEXES = "indexes";
-constexpr const char* JSON_KEY_SRC = "src";
-constexpr const char* JSON_KEY_TYPE = "type";
-constexpr const char* JSON_KEY_DEST = "dest";
-constexpr const char* VIEW_NAME = "user-grid";
 
 }
 
@@ -104,10 +93,6 @@ void XletsUserView::placeXlets(const QPointF& origin)
 void XletsUserView::setData(const XletsUserViewData& data)
 {
     data_ = data;
-
-    for (int i = 0; i < data.cellCount(); i++) {
-        WARN() << data.xletAt(i).index << (int)data.xletAt(i).type;
-    }
 }
 
 } // namespace ceam
