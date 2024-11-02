@@ -34,6 +34,10 @@ public:
     ~XletsUserEditor();
 
 private:
+    void initInlets();
+    void initOutlets();
+
+private:
     Ui::XletsUserEditor* ui;
     SharedDeviceData data_;
     DeviceXlets inlets_, outlets_;

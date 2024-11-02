@@ -30,30 +30,12 @@ XletsUserEditor::XletsUserEditor(QWidget* parent, const SharedDeviceData& data)
 {
     ui->setupUi(this);
 
-    auto NCOLS = data->logicViewData().maxInputColumnCount();
-    auto in_cols = data->inputs().size() % NCOLS;
-    auto in_rows = data->inputs().size() / NCOLS;
     ui->inletsView->setScene(&in_scene_);
     ui->outletsView->setScene(&out_scene_);
 
-    XletsLogicView view({}, inlets_);
-    for (auto& x : data_->inputs()) {
-        auto in = inlets_.append(x, XletType::In, nullptr);
-        in_scene_.addItem(in);
-    }
-    view.placeXlets({});
-    ui->inletsView->setFixedSize(in_scene_.itemsBoundingRect().size().toSize().grownBy({3, 3, 3, 3}));
-    ui->inletsView->centerOn(in_scene_.sceneRect().center());
+    initInlets();
 
-    auto NROWS = data->logicViewData().maxOutputColumnCount();
-    XletsLogicView view2({}, outlets_);
-    for (auto& x : data_->outputs()) {
-        auto in = outlets_.append(x, XletType::Out, nullptr);
-        out_scene_.addItem(in);
-    }
-    view2.placeXlets({});
-    ui->outletsView->setFixedSize(out_scene_.itemsBoundingRect().size().toSize().grownBy({3, 3, 3, 3}));
-    ui->outletsView->centerOn(out_scene_.sceneRect().center());
+    initOutlets();
 
     ui->numCols->setValue(6);
     ui->numRows->setValue(3);
@@ -63,6 +45,37 @@ XletsUserEditor::XletsUserEditor(QWidget* parent, const SharedDeviceData& data)
 
 XletsUserEditor::~XletsUserEditor()
 {
+    inlets_.clearXlets();
+    outlets_.clearXlets();
     delete ui;
 }
+
+void XletsUserEditor::initInlets()
+{
+    XletsLogicView view({}, inlets_);
+    for (auto& x : data_->inputs()) {
+        auto in = inlets_.append(x, XletType::In, nullptr);
+        in->setDragMode(true);
+        in_scene_.addItem(in);
+    }
+
+    view.placeXlets({});
+
+    ui->inletsView->setFixedSize(in_scene_.itemsBoundingRect().size().toSize().grownBy({ 3, 3, 3, 3 }));
+    ui->inletsView->centerOn(in_scene_.sceneRect().center());
+}
+
+void XletsUserEditor::initOutlets()
+{
+    XletsLogicView view({}, outlets_);
+    for (auto& x : data_->outputs()) {
+        auto out = outlets_.append(x, XletType::Out, nullptr);
+        out->setDragMode(true);
+        out_scene_.addItem(out);
+    }
+    view.placeXlets({});
+    ui->outletsView->setFixedSize(out_scene_.itemsBoundingRect().size().toSize().grownBy({ 3, 3, 3, 3 }));
+    ui->outletsView->centerOn(out_scene_.sceneRect().center());
+}
+
 }
