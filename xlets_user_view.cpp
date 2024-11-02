@@ -12,6 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "xlets_user_view.h"
+#include "device_xlet_view.h"
 #include "logging.hpp"
 
 #include <QJsonObject>

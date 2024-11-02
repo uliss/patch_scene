@@ -15,6 +15,7 @@
 #include "device_xlet.h"
 #include "device_xlet_view.h"
 #include "socket.h"
+#include "xlets_view.h"
 
 #include <QTest>
 
@@ -38,7 +39,7 @@ void TestDeviceXletView::indexToCell()
 {
     DeviceXlets xv;
     xv.initDefaultView();
-    auto view = dynamic_cast<XletsTableView*>(xv.currentView());
+    auto view = dynamic_cast<XletsLogicView*>(xv.currentView());
     QVERIFY(view);
 
     QCOMPARE(view->data().maxInputColumnCount(), 8);
@@ -78,7 +79,7 @@ void TestDeviceXletView::boundingRect()
 {
     DeviceXlets xv;
     xv.initDefaultView();
-    auto view = dynamic_cast<XletsTableView*>(xv.currentView());
+    auto view = dynamic_cast<XletsLogicView*>(xv.currentView());
     QVERIFY(view);
     QVERIFY(view->data().setMaxInputColumnCount(4));
 
@@ -109,7 +110,7 @@ void TestDeviceXletView::cellToIndex()
     DeviceXlets xv;
     xv.clearXlets();
     xv.initDefaultView();
-    auto view = dynamic_cast<XletsTableView*>(xv.currentView());
+    auto view = dynamic_cast<XletsLogicView*>(xv.currentView());
     QVERIFY(view);
     QVERIFY(view->data().setMaxInputColumnCount(4));
 
@@ -207,7 +208,7 @@ void TestDeviceXletView::place()
 {
     DeviceXlets xv;
     xv.initDefaultView();
-    auto view = dynamic_cast<XletsTableView*>(xv.currentView());
+    auto view = dynamic_cast<XletsLogicView*>(xv.currentView());
     QVERIFY(view);
     QVERIFY(view->data().setMaxInputColumnCount(4));
 
@@ -300,7 +301,7 @@ void TestDeviceXletView::indexToCell2()
 {
     DeviceXlets xv;
     xv.initDefaultView();
-    auto view = dynamic_cast<XletsTableView*>(xv.currentView());
+    auto view = dynamic_cast<XletsLogicView*>(xv.currentView());
     QVERIFY(view);
     QVERIFY(view->data().setMaxInputColumnCount(4));
 
@@ -327,7 +328,7 @@ void TestDeviceXletView::posToIndex()
 {
     DeviceXlets xv;
     xv.initDefaultView();
-    auto view = dynamic_cast<XletsTableView*>(xv.currentView());
+    auto view = dynamic_cast<XletsLogicView*>(xv.currentView());
     QVERIFY(view);
     QVERIFY(view->data().setMaxInputColumnCount(4));
 
@@ -353,7 +354,7 @@ void TestDeviceXletView::xletRect()
 {
     DeviceXlets xv;
     xv.initDefaultView();
-    auto view = dynamic_cast<XletsTableView*>(xv.currentView());
+    auto view = dynamic_cast<XletsLogicView*>(xv.currentView());
     QVERIFY(view);
 
     QVERIFY(view->data().setMaxInputColumnCount(4));
@@ -392,7 +393,7 @@ void TestDeviceXletView::inletConnectionPoint()
 {
     DeviceXlets xv;
     xv.initDefaultView();
-    auto view = dynamic_cast<XletsTableView*>(xv.currentView());
+    auto view = dynamic_cast<XletsLogicView*>(xv.currentView());
     QVERIFY(view);
     QVERIFY(view->data().setMaxInputColumnCount(4));
 
@@ -450,7 +451,7 @@ void TestDeviceXletView::outletConnectionPoint()
 {
     DeviceXlets xv;
     xv.initDefaultView();
-    auto view = dynamic_cast<XletsTableView*>(xv.currentView());
+    auto view = dynamic_cast<XletsLogicView*>(xv.currentView());
     QVERIFY(view);
     QVERIFY(view->data().setMaxOutputColumnCount(4));
 

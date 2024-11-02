@@ -31,7 +31,7 @@ class DeviceXlet;
 class DeviceXlets;
 class XletsView;
 class XletData;
-class XletsTableView;
+class XletsLogicView;
 
 using XletFactoryFn = std::function<std::unique_ptr<ceam::XletsView>(const QString&, DeviceXlets&)>;
 
@@ -108,105 +108,9 @@ private:
 
 private:
     QList<DeviceXlet*> inlets_, outlets_;
-    std::unique_ptr<XletsTableView> logic_view_;
+    std::unique_ptr<XletsLogicView> logic_view_;
     std::vector<std::unique_ptr<XletsView>> user_views_;
     XletsView* current_view_ { nullptr };
-};
-
-class XletsView {
-    QString name_;
-
-public:
-    explicit XletsView(const QString& name);
-    virtual ~XletsView();
-
-    virtual qreal width() const = 0;
-    virtual qreal height() const = 0;
-    virtual void paint(QPainter* painter, const QPoint& origin) = 0;
-
-    /**
-     * @return calculated xlet bounding rectangle
-     * @param index - xlet view linear index
-     * @return rect, relative to QPoint(0, 0)
-     */
-    QRect xletRect(XletViewIndex idx) const;
-
-    /**
-     * convert point position to xlet view index
-     * @param pos - point position. First xlet starts at QPoint(0, 0)
-     * @note info is calculated, no DeviceXlet scene position is checked!
-     * @return xlet view index or empty
-     */
-    virtual std::optional<XletViewIndex> posToIndex(const QPoint& pos) const = 0;
-
-    /**
-     * convert xlet view index to position (top left corner)
-     * @param pos - point position. First xlet starts at QPoint(0, 0)
-     * @note info is calculated, no DeviceXlet scene position is checked!
-     * @return xlet position or empty
-     */
-    virtual std::optional<QPoint> indexToPos(XletViewIndex vidx) const = 0;
-
-    /**
-     * place xlet DeviceXlet graphics item relative to given origin point
-     * @param origin - origin point, relative to parent Device
-     */
-    virtual void placeXlets(const QPointF& origin) = 0;
-
-    /**
-     * @return bounding rect of all xlets relative to QPoint(0, 0)
-     */
-    QRectF boundingRect() const;
-
-    virtual bool setData(const SharedDeviceData& data);
-
-    const QString& name() const { return name_; }
-    void setName(const QString& name) { name_ = name; }
-};
-
-class XletsTableView : public XletsView {
-    DeviceXlets& xlets_;
-    XletsLogicViewData data_;
-
-public:
-    XletsTableView(const QString& name, DeviceXlets& xlets);
-
-    qreal width() const final;
-    qreal height() const final;
-    std::optional<XletViewIndex> posToIndex(const QPoint& pos) const final;
-    std::optional<QPoint> indexToPos(XletViewIndex vidx) const final;
-    void placeXlets(const QPointF& origin) final;
-    void paint(QPainter* painter, const QPoint& origin);
-
-    bool setData(const SharedDeviceData& data) final;
-    XletsLogicViewData& data() { return data_; }
-    const XletsLogicViewData& data() const { return data_; }
-
-    /**
-     * convert xlet view index to cell index (row, col)
-     */
-    std::optional<CellIndex> indexToCell(XletViewIndex vidx) const;
-
-    /**
-     * convert cell index to xlet view index
-     */
-    std::optional<XletViewIndex> cellToIndex(CellIndex cellIdx, XletType type) const;
-
-private:
-    qreal inletsHeight() const;
-    qreal inletsWidth() const;
-    qreal outletsHeight() const;
-    qreal outletsWidth() const;
-
-    int inletsColCount() const;
-    int inletsRowCount() const;
-    int outletsColCount() const;
-    int outletsRowCount() const;
-
-    bool checkCellIndex(CellIndex idx, XletType type) const;
-
-    QRectF inletsBRect() const;
-    QRectF outletsBRect() const;
 };
 
 } // namespace ceam

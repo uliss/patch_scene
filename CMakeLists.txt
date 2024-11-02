@@ -149,6 +149,8 @@ set(PROJECT_SOURCES
     xlet_logical_editor.ui
     xlets_user_view.cpp
     xlets_user_view.h
+    xlets_view.cpp
+    xlets_view.h
 )
 
 if(WIN32)

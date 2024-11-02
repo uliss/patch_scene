@@ -15,6 +15,7 @@
 #include "deviceproperties.h"
 #include "logging.hpp"
 #include "svg_render_factory.h"
+#include "xlets_view.h"
 
 #include <QCursor>
 #include <QGraphicsScene>

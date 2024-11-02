@@ -14,7 +14,7 @@
 #ifndef XLETS_USER_VIEW_H
 #define XLETS_USER_VIEW_H
 
-#include "device_xlet_view.h"
+#include "xlets_view.h"
 
 namespace ceam {
 

@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include "test_device.h"
 #include "device.h"
+#include "xlets_view.h"
 
 #include <QTest>
 
@@ -74,7 +75,7 @@ void TestDevice::createDefault()
 
     QCOMPARE(dev.boundingRect(), QRectF(-2 * XW, 0, 4 * XW, 2 * XH + DEF_TXT_HT));
     QVERIFY(dev.xlets().currentView());
-    auto view = dynamic_cast<XletsTableView*>(dev.xlets().currentView());
+    auto view = dynamic_cast<XletsLogicView*>(dev.xlets().currentView());
     QVERIFY(view);
 
     QCOMPARE(dev.xlets().inletCount(), 4);
