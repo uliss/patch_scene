@@ -16,6 +16,8 @@
 #include "ui_xlets_user_editor.h"
 #include "xlets_view.h"
 
+#include <QStringListModel>
+
 namespace {
 constexpr int XW = 22;
 constexpr int XH = 20;
@@ -41,6 +43,51 @@ XletsUserEditor::XletsUserEditor(QWidget* parent, const SharedDeviceData& data)
     ui->numRows->setValue(3);
 
     ui->userView->setFixedSize(6 * XW, 3 * XH);
+
+    QListWidgetItem* current_item = nullptr;
+    for (auto& uv : data->userViewData()) {
+        auto item = new QListWidgetItem(uv.name());
+        ui->userViewList->addItem(item);
+        if (uv.name() == data->currentUserView()) {
+            current_item = item;
+        }
+    }
+
+    if (current_item) {
+        ui->userViewList->setCurrentItem(current_item);
+        current_item->setSelected(true);
+    } else {
+        auto first = ui->userViewList->item(0);
+        if (first) {
+            ui->userViewList->setCurrentItem(first);
+            first->setSelected(true);
+        }
+    }
+
+    ui->editViewButtons->addSpacerItem(new QSpacerItem(50, 0));
+
+    connect(ui->addView, &QToolButton::clicked, this,
+        [this]() {
+            auto tr_name = tr("User");
+            auto new_item_count = ui->userViewList->findItems(tr_name, Qt::MatchStartsWith).size();
+            auto row = ui->userViewList->currentRow() + 1;
+
+            auto item = new QListWidgetItem(
+                (new_item_count > 0)
+                    ? tr("User %1").arg(new_item_count)
+                    : tr_name);
+
+            ui->userViewList->insertItem(row, item);
+            ui->userViewList->setCurrentItem(item);
+        });
+
+    connect(ui->removeView, &QToolButton::clicked, this,
+        [this]() {
+            auto row = ui->userViewList->currentRow();
+            auto item = ui->userViewList->takeItem(row);
+            if (item)
+                delete item;
+        });
 }
 
 XletsUserEditor::~XletsUserEditor()
