@@ -40,8 +40,9 @@ public:
 
     /**
      * append xlet to the scene
+     * @return pointer to added xlet
      */
-    bool append(const XletData& data, XletType type, QGraphicsItem* parent);
+    DeviceXlet* append(const XletData& data, XletType type, QGraphicsItem* parent);
 
     /**
      * Checks if there's no inlets and outlets

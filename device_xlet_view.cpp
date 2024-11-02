@@ -42,22 +42,24 @@ DeviceXlets::~DeviceXlets()
     clearXlets();
 }
 
-bool DeviceXlets::append(const XletData& data, XletType type, QGraphicsItem* parent)
+DeviceXlet* DeviceXlets::append(const XletData& data, XletType type, QGraphicsItem* parent)
 {
     switch (type) {
     case XletType::In: {
         auto xlet = new DeviceXlet(data, XletInfo { DEV_NULL_ID, (XletIndex)inlets_.count(), type }, parent);
         inlets_.push_back(xlet);
+        return inlets_.back();
     } break;
     case XletType::Out: {
         auto xlet = new DeviceXlet(data, XletInfo { DEV_NULL_ID, (XletIndex)outlets_.count(), type }, parent);
         outlets_.push_back(xlet);
+        return outlets_.back();
     } break;
     default:
-        return false;
+        return nullptr;
     }
 
-    return true;
+    return nullptr;
 }
 
 bool DeviceXlets::isEmpty() const
