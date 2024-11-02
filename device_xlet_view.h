@@ -29,11 +29,11 @@ namespace ceam {
 
 class DeviceXlet;
 class DeviceXlets;
-class DeviceXletsView;
+class XletsView;
 class XletData;
 class XletsTableView;
 
-using XletFactoryFn = std::function<std::unique_ptr<ceam::DeviceXletsView>(const QString&, DeviceXlets&)>;
+using XletFactoryFn = std::function<std::unique_ptr<ceam::XletsView>(const QString&, DeviceXlets&)>;
 
 class DeviceXlets {
 public:
@@ -94,14 +94,14 @@ public:
      */
     void initDefaultView();
 
-    DeviceXletsView* currentView() { return current_view_; }
-    const DeviceXletsView* currentView() const { return current_view_; }
+    XletsView* currentView() { return current_view_; }
+    const XletsView* currentView() const { return current_view_; }
     bool setCurrentView(const QString& name);
 
     void setData(const SharedDeviceData& data);
     void setVisible(bool value);
 
-    bool appendView(std::unique_ptr<DeviceXletsView> view);
+    bool appendView(std::unique_ptr<XletsView> view);
 
 private:
     void clearXlets(QList<DeviceXlet*>& xlets);
@@ -109,16 +109,16 @@ private:
 private:
     QList<DeviceXlet*> inlets_, outlets_;
     std::unique_ptr<XletsTableView> logic_view_;
-    std::vector<std::unique_ptr<DeviceXletsView>> user_views_;
-    DeviceXletsView* current_view_ { nullptr };
+    std::vector<std::unique_ptr<XletsView>> user_views_;
+    XletsView* current_view_ { nullptr };
 };
 
-class DeviceXletsView {
+class XletsView {
     QString name_;
 
 public:
-    explicit DeviceXletsView(const QString& name);
-    virtual ~DeviceXletsView();
+    explicit XletsView(const QString& name);
+    virtual ~XletsView();
 
     virtual qreal width() const = 0;
     virtual qreal height() const = 0;
@@ -164,7 +164,7 @@ public:
     void setName(const QString& name) { name_ = name; }
 };
 
-class XletsTableView : public DeviceXletsView {
+class XletsTableView : public XletsView {
     DeviceXlets& xlets_;
     XletsLogicViewData data_;
 

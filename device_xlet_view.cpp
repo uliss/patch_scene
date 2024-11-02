@@ -188,7 +188,7 @@ void DeviceXlets::setVisible(bool value)
         x->setVisible(value);
 }
 
-bool DeviceXlets::appendView(std::unique_ptr<DeviceXletsView> view)
+bool DeviceXlets::appendView(std::unique_ptr<XletsView> view)
 {
     if (!view)
         return false;
@@ -210,25 +210,25 @@ void DeviceXlets::clearXlets(QList<DeviceXlet*>& xlets)
     xlets.clear();
 }
 
-DeviceXletsView::DeviceXletsView(const QString& name)
+XletsView::XletsView(const QString& name)
     : name_(name)
 {
 }
 
-DeviceXletsView::~DeviceXletsView() { }
+XletsView::~XletsView() { }
 
-QRectF DeviceXletsView::boundingRect() const
+QRectF XletsView::boundingRect() const
 {
     return { 0, 0, width(), height() };
 }
 
-bool DeviceXletsView::setData(const SharedDeviceData& /*data*/)
+bool XletsView::setData(const SharedDeviceData& /*data*/)
 {
     return true;
 }
 
 XletsTableView::XletsTableView(const QString& name, DeviceXlets& xlets)
-    : DeviceXletsView(name)
+    : XletsView(name)
     , xlets_(xlets)
 {
 }
@@ -409,7 +409,7 @@ void XletsTableView::placeXlets(const QPointF& origin)
     }
 }
 
-QRect DeviceXletsView::xletRect(XletViewIndex idx) const
+QRect XletsView::xletRect(XletViewIndex idx) const
 {
     auto pt = indexToPos(idx);
     if (!pt)

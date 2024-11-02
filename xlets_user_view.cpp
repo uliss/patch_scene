@@ -36,7 +36,7 @@ constexpr const char* VIEW_NAME = "user-grid";
 namespace ceam {
 
 XletsUserView::XletsUserView(const QString& name, DeviceXlets& xlets)
-    : DeviceXletsView(name)
+    : XletsView(name)
     , xlets_(xlets)
 {
 }

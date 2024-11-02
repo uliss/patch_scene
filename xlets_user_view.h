@@ -18,7 +18,7 @@
 
 namespace ceam {
 
-class XletsUserView : public DeviceXletsView {
+class XletsUserView : public XletsView {
     DeviceXlets& xlets_;
     XletsUserViewData data_;
 
