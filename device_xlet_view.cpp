@@ -145,6 +145,11 @@ void DeviceXlets::initDefaultView()
 
 bool DeviceXlets::setCurrentView(const QString& name)
 {
+    if (name.isEmpty()) {
+        current_view_ = logic_view_.get();
+        return true;
+    }
+
     for (auto& v : user_views_) {
         if (v && v->name() == name) {
             current_view_ = v.get();

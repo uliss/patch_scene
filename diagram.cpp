@@ -189,10 +189,12 @@ void Diagram::updateConnectionPos(Connection* conn)
         return;
 
     auto conn_pos = devices_.connectionPoints(conn->connectionId());
-    if (conn_pos)
+    if (conn_pos) {
         conn->setPoints(conn_pos->first, conn_pos->second);
-    else
-        WARN() << "connection points not found";
+        conn->setVisible(true);
+    } else {
+        conn->setVisible(false);
+    }
 }
 
 void Diagram::updateConnectionPos(DeviceId id)

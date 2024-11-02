@@ -335,9 +335,24 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
         menu.addAction(showTitle);
         if (!data_->userViewData().isEmpty()) {
             auto views = menu.addMenu(tr("Views"));
-            views->addAction(tr("Logic"));
-            for (auto& x : data_->userViewData())
-                views->addAction(x.name());
+            auto act_view_default = views->addAction(tr("Logic"));
+            connect(act_view_default, &QAction::triggered, this,
+                [this]() {
+                    data_->setCurrentUserView({});
+                    setDeviceData(data_);
+                    emit updateDevice(data_);
+                });
+
+            for (auto& x : data_->userViewData()) {
+                auto name = x.name();
+                auto act_view_user = views->addAction(name);
+                connect(act_view_user, &QAction::triggered, this,
+                    [this, name]() {
+                        data_->setCurrentUserView(name);
+                        setDeviceData(data_);
+                        emit updateDevice(data_);
+                    });
+            }
         }
 
         menu.addSeparator();
@@ -374,13 +389,11 @@ void Device::createXlets()
 {
     xlets_.clearXlets();
 
-    // inputs_.setMaxColumnCount(data_->maxInputColumnCount());
     for (auto& data : data_->inputs()) {
         if (data.isVisible())
             xlets_.append(data, XletType::In, this);
     }
 
-    // outputs_.setMaxColumnCount(data_->maxOutputColumnCount());
     for (auto& data : data_->outputs()) {
         if (data.isVisible())
             xlets_.append(data, XletType::Out, this);
@@ -435,8 +448,8 @@ void Device::syncRect()
     rect_.setRect(-calc_wd * 0.5, 0, calc_wd, calc_ht);
 
     updateTitlePos();
-    updateImagePos(rect_);
-    updateXletsPos(rect_);
+    updateImagePos();
+    updateXletsPos();
 }
 
 void Device::updateTitlePos()
@@ -455,7 +468,7 @@ void Device::updateTitlePos()
     title_->setPos(title_bbox.left(), 0);
 }
 
-void Device::updateImagePos(const QRectF& bbox)
+void Device::updateImagePos()
 {
     if (!image_)
         return;
@@ -467,7 +480,7 @@ void Device::updateImagePos(const QRectF& bbox)
     image_->setPos(centerAlignedLeftPos(imageWidth()), yoff);
 }
 
-void Device::updateXletsPos(const QRectF& bbox)
+void Device::updateXletsPos()
 {
     auto v = xlets_.currentView();
     if (v) {

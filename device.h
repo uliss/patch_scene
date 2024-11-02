@@ -114,8 +114,8 @@ private:
     void syncXletData();
 
     void updateTitlePos();
-    void updateImagePos(const QRectF& bbox);
-    void updateXletsPos(const QRectF& bbox);
+    void updateImagePos();
+    void updateXletsPos();
 
     int calcWidth() const;
     int calcHeight() const;

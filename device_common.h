@@ -299,6 +299,7 @@ public:
     const QList<XletsUserViewData>& userViewData() const { return user_view_data_; }
 
     const QString& currentUserView() const { return current_user_view_; }
+    void setCurrentUserView(const QString& name) { current_user_view_ = name; }
 
 private:
     static QJsonArray xletToJson(const QList<XletData>& xlets);

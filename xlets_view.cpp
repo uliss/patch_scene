@@ -205,6 +205,7 @@ void XletsLogicView::placeXlets(const QPointF& origin)
         if (xlet) {
             auto pt = in_xoff + xletRect(xi).topLeft();
             xlet->setPos(pt);
+            xlet->setVisible(true);
         }
     }
 
@@ -215,6 +216,7 @@ void XletsLogicView::placeXlets(const QPointF& origin)
         if (xlet) {
             auto pt = out_xoff + xletRect(xi).topLeft();
             xlet->setPos(pt);
+            xlet->setVisible(true);
         }
     }
 }
