@@ -83,6 +83,10 @@ DeviceProperties::DeviceProperties(const SharedDeviceData& data, QWidget* parent
 
     connect(ui->viewsEdit, &QToolButton::clicked, this, [this]() {
         auto dialog = new XletsUserEditor(this, data_);
+        connect(dialog, &XletsUserEditor::acceptData, this, [this](const SharedDeviceData& data) {
+            data_ = data;
+        });
+
         dialog->setWindowTitle(tr("User views editor"));
         dialog->exec();
     });

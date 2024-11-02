@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include "xlets_user_editor.h"
 #include "device_xlet_view.h"
+#include "logging.hpp"
 #include "ui_xlets_user_editor.h"
 #include "xlets_view.h"
 
@@ -47,6 +48,8 @@ XletsUserEditor::XletsUserEditor(QWidget* parent, const SharedDeviceData& data)
     QListWidgetItem* current_item = nullptr;
     for (auto& uv : data->userViewData()) {
         auto item = new QListWidgetItem(uv.name());
+        item->setFlags(item->flags() | Qt::ItemIsEditable);
+
         ui->userViewList->addItem(item);
         if (uv.name() == data->currentUserView()) {
             current_item = item;
@@ -77,17 +80,40 @@ XletsUserEditor::XletsUserEditor(QWidget* parent, const SharedDeviceData& data)
                     ? tr("User %1").arg(new_item_count)
                     : tr_name);
 
+            item->setFlags(item->flags() | Qt::ItemIsEditable);
             ui->userViewList->insertItem(row, item);
             ui->userViewList->setCurrentItem(item);
+
+            XletsUserViewData data;
+            data.setName(item->text());
+            data_->userViewData().insert(row, data);
         });
 
     connect(ui->removeView, &QToolButton::clicked, this,
         [this]() {
             auto row = ui->userViewList->currentRow();
             auto item = ui->userViewList->takeItem(row);
-            if (item)
+            if (item) {
                 delete item;
+
+                data_->userViewData().remove(row);
+            }
         });
+
+    connect(ui->userViewList, &QListWidget::itemDoubleClicked, this, [this](QListWidgetItem* item) {
+        ui->userViewList->editItem(item);
+    });
+
+    connect(ui->userViewList, &QListWidget::itemChanged, this, [this](QListWidgetItem* item) {
+        auto text = item->text().trimmed();
+        if (text != item->text())
+            item->setText(item->text().trimmed());
+
+        auto idx = ui->userViewList->indexFromItem(item);
+        auto row = idx.row();
+        if (row >= 0 && row < data_->userViewData().count())
+            data_->userViewData()[row].setName(text);
+    });
 }
 
 XletsUserEditor::~XletsUserEditor()
@@ -95,6 +121,12 @@ XletsUserEditor::~XletsUserEditor()
     inlets_.clearXlets();
     outlets_.clearXlets();
     delete ui;
+}
+
+void XletsUserEditor::accept()
+{
+    emit acceptData(data_);
+    QDialog::accept();
 }
 
 void XletsUserEditor::initInlets()

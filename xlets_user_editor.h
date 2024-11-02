@@ -33,6 +33,12 @@ public:
     explicit XletsUserEditor(QWidget* parent, const SharedDeviceData& data);
     ~XletsUserEditor();
 
+public Q_SLOTS:
+    void accept() override;
+
+Q_SIGNALS:
+    void acceptData(SharedDeviceData);
+
 private:
     void initInlets();
     void initOutlets();
