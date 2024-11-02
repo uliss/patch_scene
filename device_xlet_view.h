@@ -33,8 +33,6 @@ class XletsView;
 class XletData;
 class XletsLogicView;
 
-using XletFactoryFn = std::function<std::unique_ptr<ceam::XletsView>(const QString&, DeviceXlets&)>;
-
 class DeviceXlets {
 public:
     DeviceXlets();
