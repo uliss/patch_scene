@@ -65,8 +65,6 @@ public:
      */
     QRectF boundingRect() const;
 
-    virtual bool setData(const SharedDeviceData& data);
-
     const QString& name() const { return name_; }
     void setName(const QString& name) { name_ = name; }
 };
@@ -85,7 +83,7 @@ public:
     void placeXlets(const QPointF& origin) final;
     void paint(QPainter* painter, const QPoint& origin);
 
-    bool setData(const SharedDeviceData& data) final;
+    bool setData(const SharedDeviceData& data);
     XletsLogicViewData& data() { return data_; }
     const XletsLogicViewData& data() const { return data_; }
 

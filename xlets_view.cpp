@@ -37,11 +37,6 @@ QRectF XletsView::boundingRect() const
     return { 0, 0, width(), height() };
 }
 
-bool XletsView::setData(const SharedDeviceData& /*data*/)
-{
-    return true;
-}
-
 XletsLogicView::XletsLogicView(const QString& name, DeviceXlets& xlets)
     : XletsView(name)
     , xlets_(xlets)
