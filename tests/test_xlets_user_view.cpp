@@ -173,3 +173,48 @@ void TestXletsUserView::testSetData()
     QCOMPARE(vuser->data().rowCount(), 4);
     QVERIFY(vuser->data().xletAt(16).isInlet());
 }
+
+void TestXletsUserView::testToJson()
+{
+    XletsUserViewData vdata { 2, 3 };
+    vdata.setName("Name");
+    vdata.insertXlet({ 0, 0 }, { 12, XletType::In });
+    vdata.insertXlet({ 1, 0 }, { 3, XletType::Out });
+
+    auto j = vdata.toJson();
+
+    QCOMPARE(j["name"].toString(), "Name");
+    QCOMPARE(j["num-rows"].toInt(), 2);
+    QCOMPARE(j["num-cols"].toInt(), 3);
+    QVERIFY(j["indexes"].isArray());
+
+    auto arr = j["indexes"].toArray();
+    QCOMPARE(arr.size(), 2);
+    QVERIFY(arr[0].isObject());
+    QVERIFY(arr[1].isObject());
+    QCOMPARE(arr[0].toObject()["src"].toInt(), 12);
+    QCOMPARE(arr[0].toObject()["type"].toString(), "in");
+    QCOMPARE(arr[1].toObject()["src"].toInt(), 3);
+    QCOMPARE(arr[1].toObject()["type"].toString(), "out");
+}
+
+void TestXletsUserView::testFromJson()
+{
+}
+
+void TestXletsUserView::testJson()
+{
+    XletsUserViewData vd0 { 2, 3 };
+    vd0.setName("Name");
+
+    auto vd1 = XletsUserViewData::fromJson(vd0.toJson());
+    QVERIFY(vd1);
+    QCOMPARE(vd0, *vd1);
+
+    vd0.insertXlet({ 0, 0 }, { 12, XletType::In });
+    vd0.insertXlet({ 1, 0 }, { 3, XletType::Out });
+
+    vd1 = XletsUserViewData::fromJson(vd0.toJson());
+    QVERIFY(vd1);
+    QCOMPARE(vd0, *vd1);
+}

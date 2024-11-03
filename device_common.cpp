@@ -138,8 +138,6 @@ ImageMirrorType imageMirrorFromJson(const QJsonValue& v)
         return ImageMirrorType::None;
 }
 
-const ceam::XletViewIndex NO_XLET_IDX(0, ceam::XletType::None);
-
 }
 
 const char* ceam::toString(ItemCategory cat)
@@ -771,13 +769,13 @@ XletsUserViewData::XletsUserViewData(int row, int cols)
 void XletsUserViewData::setColumnCount(int n)
 {
     col_count_ = qBound(MIN_COL_COUNT, n, MAX_COL_COUNT);
-    xlets_idx_.resize(cellCount(), NO_XLET_IDX);
+    xlets_idx_.resize(cellCount(), XletViewIndex::null());
 }
 
 void XletsUserViewData::setRowCount(int n)
 {
     row_count_ = qBound(MIN_ROW_COUNT, n, MAX_ROW_COUNT);
-    xlets_idx_.resize(cellCount(), NO_XLET_IDX);
+    xlets_idx_.resize(cellCount(), XletViewIndex::null());
 }
 
 int XletsUserViewData::cellCount() const
@@ -788,7 +786,7 @@ int XletsUserViewData::cellCount() const
 XletViewIndex XletsUserViewData::xletAt(int pos) const
 {
     if (pos < 0 || pos >= xlets_idx_.size())
-        return NO_XLET_IDX;
+        return XletViewIndex::null();
     else
         return xlets_idx_[pos];
 }
@@ -809,7 +807,7 @@ bool XletsUserViewData::insertXlet(CellIndex cellIdx, XletViewIndex vidx)
 
     auto it = std::find(xlets_idx_.begin(), xlets_idx_.end(), vidx);
     if (it != xlets_idx_.end()) { // xlet exists
-        *it = NO_XLET_IDX;
+        *it = XletViewIndex::null();
     }
 
     if (xlets_idx_[idx].isNull()) { // insert into free cell
@@ -820,7 +818,7 @@ bool XletsUserViewData::insertXlet(CellIndex cellIdx, XletViewIndex vidx)
             xlets_idx_.insert(xlets_idx_.begin() + idx, vidx);
             xlets_idx_.pop_back();
         } else { // insert info free space
-            auto empty_it = std::find(xlets_idx_.begin(), xlets_idx_.end(), NO_XLET_IDX);
+            auto empty_it = std::find(xlets_idx_.begin(), xlets_idx_.end(), XletViewIndex::null());
             if (empty_it == xlets_idx_.end()) // no free space
                 return false;
 
@@ -832,6 +830,17 @@ bool XletsUserViewData::insertXlet(CellIndex cellIdx, XletViewIndex vidx)
     return true;
 }
 
+bool XletsUserViewData::operator==(const XletsUserViewData& vd) const
+{
+    if (this == &vd)
+        return true;
+
+    return col_count_ == vd.col_count_
+        && row_count_ == vd.row_count_
+        && name_ == vd.name_
+        && xlets_idx_ == vd.xlets_idx_;
+}
+
 QJsonValue XletsUserViewData::toJson() const
 {
     QJsonObject obj;
@@ -839,6 +848,25 @@ QJsonValue XletsUserViewData::toJson() const
     obj[JSON_KEY_NUM_COLS] = col_count_;
     obj[JSON_KEY_NUM_ROWS] = row_count_;
     obj[JSON_KEY_NAME] = name_;
+
+    if (!xlets_idx_.empty()) {
+        QJsonArray arr;
+        int count = 0;
+
+        for (int i = 0; i < xlets_idx_.size(); i++) {
+            auto& x = xlets_idx_[i];
+            auto j = x.toJson();
+            if (j.isEmpty())
+                continue;
+
+            j[JSON_KEY_DEST] = i;
+            arr.append(j);
+            count++;
+        }
+
+        if (count > 0)
+            obj[JSON_KEY_INDEXES] = arr;
+    }
 
     return obj;
 }
@@ -865,40 +893,18 @@ std::optional<XletsUserViewData> XletsUserViewData::fromJson(const QJsonValue& v
             continue;
 
         auto obj = item.toObject();
-        XletViewIndex vidx(0, XletType::None);
-        auto src_xlet_idx = obj[JSON_KEY_SRC].toInteger(-1);
-        if (src_xlet_idx < 0 || src_xlet_idx > std::numeric_limits<typeof(vidx.index)>::max()) {
-            WARN() << "invalid xlet index:" << src_xlet_idx;
-            continue;
-        } else {
-            vidx.index = src_xlet_idx;
+        auto idx = XletViewIndex::fromJson(obj);
+        if (idx) {
+            auto dest_idx = obj[JSON_KEY_DEST].toInt(-1);
+            if (dest_idx >= 0 && dest_idx < indexes.size()) {
+                indexes[dest_idx] = *idx;
+            } else {
+                WARN() << "invalid destination index:" << dest_idx;
+            }
         }
-
-        auto src_xlet_type = obj[JSON_KEY_TYPE].toString();
-        if (src_xlet_type == "in") {
-            vidx.type = XletType::In;
-        } else if (src_xlet_type == "out") {
-            vidx.type = XletType::Out;
-        } else {
-            WARN() << "invalid xlet type:" << src_xlet_type;
-            continue;
-        }
-
-        auto dest_idx = obj[JSON_KEY_DEST].toInteger(-1);
-        if (dest_idx < 1 || dest_idx >= res.cellCount()) {
-            WARN() << "invalid xlet index:" << src_xlet_idx;
-            continue;
-        }
-
-        indexes[dest_idx] = vidx;
     }
 
     res.xlets_idx_ = indexes;
 
     return res;
-}
-
-bool XletViewIndex::isNull() const
-{
-    return *this == NO_XLET_IDX || type == XletType::None;
 }

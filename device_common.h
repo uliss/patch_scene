@@ -25,6 +25,7 @@
 #include "cell_index.h"
 #include "connection_data.h"
 #include "device_xlet.h"
+#include "xlet_view_index.h"
 
 namespace ceam {
 
@@ -133,33 +134,6 @@ private:
     int max_output_column_count_ { DEF_COL_COUNT };
 };
 
-struct XletViewIndex {
-    XletIndex index;
-    XletType type;
-
-    XletViewIndex(XletIndex i, XletType t)
-        : index(i)
-        , type(t)
-    {
-    }
-
-    bool operator==(const XletViewIndex& idx) const
-    {
-        return index == idx.index
-            && type == idx.type;
-    }
-
-    bool operator!=(const XletViewIndex& idx) const
-    {
-        return !operator==(idx);
-    }
-
-    bool isInlet() const { return type == XletType::In; }
-    bool isOutlet() const { return type == XletType::Out; }
-
-    bool isNull() const;
-};
-
 class XletsUserViewData {
 public:
     static constexpr int MIN_COL_COUNT = 1;
@@ -184,6 +158,8 @@ public:
 
     const QString& name() const { return name_; }
     void setName(const QString& name) { name_ = name; }
+
+    bool operator==(const XletsUserViewData& vd) const;
 
 public:
     QJsonValue toJson() const;

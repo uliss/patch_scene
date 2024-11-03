@@ -25,6 +25,9 @@ private slots:
     void testIndexToPos();
     void testPlaceXlets();
     void testSetData();
+    void testToJson();
+    void testFromJson();
+    void testJson();
 };
 
 #endif // TEST_XLETS_USER_VIEW_H
