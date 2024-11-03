@@ -43,6 +43,7 @@ XletsUserEditor::XletsUserEditor(QWidget* parent, const SharedDeviceData& data)
 
     initInlets();
     initOutlets();
+    initRowsAndCols();
 
     initButtons(data);
     initUserViewList(data);
@@ -53,23 +54,9 @@ XletsUserEditor::XletsUserEditor(QWidget* parent, const SharedDeviceData& data)
     ui->userView->setFixedSize(view_scene_.itemsBoundingRect().size().toSize().grownBy({ 3, 3, 3, 3 }));
     ui->userView->centerOn(view_scene_.sceneRect().center());
 
-    connect(ui->numCols, &QSpinBox::valueChanged, this,
-        [this](int v) {
-            view_scene_.setCols(v);
-            syncXletViewData(view_scene_.currentIndex(), view_scene_.data());
-            adjustUserViewSize();
-        });
-
-    connect(ui->numRows, &QSpinBox::valueChanged, this,
-        [this](int v) {
-            view_scene_.setRows(v);
-            syncXletViewData(view_scene_.currentIndex(), view_scene_.data());
-            adjustUserViewSize();
-        });
-
     connect(&view_scene_, &XletsUserScene::updated, this,
         [this]() {
-            syncXletViewData(view_scene_.currentIndex(), view_scene_.data());
+            setXletViewData(view_scene_.currentIndex(), view_scene_.data());
         });
 }
 
@@ -80,7 +67,29 @@ XletsUserEditor::~XletsUserEditor()
     delete ui;
 }
 
-void XletsUserEditor::syncXletViewData(int idx, const XletsUserViewData& data)
+void XletsUserEditor::initRowsAndCols()
+{
+    ui->numCols->setMinimum(XletsUserViewData::MIN_COL_COUNT);
+    ui->numCols->setMaximum(XletsUserViewData::MAX_COL_COUNT);
+    ui->numRows->setMinimum(XletsUserViewData::MIN_ROW_COUNT);
+    ui->numRows->setMaximum(XletsUserViewData::MAX_ROW_COUNT);
+
+    connect(ui->numCols, &QSpinBox::valueChanged, this,
+        [this](int v) {
+            view_scene_.setCols(v);
+            setXletViewData(view_scene_.currentIndex(), view_scene_.data());
+            adjustUserViewSize();
+        });
+
+    connect(ui->numRows, &QSpinBox::valueChanged, this,
+        [this](int v) {
+            view_scene_.setRows(v);
+            setXletViewData(view_scene_.currentIndex(), view_scene_.data());
+            adjustUserViewSize();
+        });
+}
+
+void XletsUserEditor::setXletViewData(int idx, const XletsUserViewData& data)
 {
     if (idx < 0 || idx >= data_->userViewData().count()) {
         WARN() << "invalid user xlet view index:" << idx;
@@ -213,8 +222,8 @@ void XletsUserEditor::initUserViewDataWith(int idx)
 {
     if (idx < 0 || idx >= data_->userViewData().size()) {
         WARN() << "invalid index:" << idx;
-        ui->numCols->setValue(6);
-        ui->numRows->setValue(3);
+        ui->numCols->setValue(XletsUserViewData::DEF_COL_COUNT);
+        ui->numRows->setValue(XletsUserViewData::DEF_ROW_COUNT);
         return;
     } else {
         auto& data = data_->userViewData()[idx];
@@ -429,8 +438,8 @@ void XletsUserViewCell::resetCell()
 
 void XletsUserViewCell::hoverCell()
 {
-    setPen(QPen(Qt::darkCyan));
-    setBrush(Qt::gray);
+    setPen(QPen(Qt::darkMagenta));
+    setBrush(Qt::lightGray);
     setZValue(1);
     update();
 }

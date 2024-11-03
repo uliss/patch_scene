@@ -87,7 +87,7 @@ public:
     explicit XletsUserEditor(QWidget* parent, const SharedDeviceData& data);
     ~XletsUserEditor();
 
-    void syncXletViewData(int idx, const XletsUserViewData& data);
+    void setXletViewData(int idx, const XletsUserViewData& data);
 
 public Q_SLOTS:
     void accept() override;
@@ -102,6 +102,7 @@ private:
     void initUserViewList(const SharedDeviceData& data);
     void initUserViewDataWith(int idx);
     void initUserViewDataWith(const QString& viewName);
+    void initRowsAndCols();
 
     void adjustUserViewSize();
 
