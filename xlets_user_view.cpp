@@ -15,6 +15,7 @@
 #include "device_xlet_view.h"
 
 #include <QJsonObject>
+#include <QPainter>
 
 namespace {
 
@@ -43,6 +44,10 @@ qreal XletsUserView::height() const
 
 void XletsUserView::paint(QPainter* painter, const QPoint& origin)
 {
+    // fill with white bg
+    auto xrect = boundingRect().translated(origin);
+    painter->setBrush(QColor(255, 255, 255));
+    painter->drawRect(xrect);
 }
 
 std::optional<XletViewIndex> XletsUserView::posToIndex(const QPoint& pos) const

@@ -339,7 +339,7 @@ bool DeviceData::setJson(const QJsonValue& v)
             subcat_ = *subcat;
     }
 
-    current_user_view_ = obj[current_user_view_].toString();
+    current_user_view_ = obj[JSON_KEY_CURRENT_USER_VIEW].toString();
 
     mirror_ = imageMirrorFromJson(obj[JSON_KEY_IMAGE_MIRROR]);
 
