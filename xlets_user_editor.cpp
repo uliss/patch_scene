@@ -44,13 +44,10 @@ XletsUserEditor::XletsUserEditor(QWidget* parent, const SharedDeviceData& data)
     initInlets();
     initOutlets();
 
-    ui->numCols->setValue(6);
-    ui->numRows->setValue(3);
-
     initButtons(data);
     initUserViewList(data);
 
-    initViewDataWith(0);
+    initUserViewDataWith(data->currentUserView());
 
     ui->userView->setScene(&view_scene_);
     ui->userView->setFixedSize(view_scene_.itemsBoundingRect().size().toSize().grownBy({ 3, 3, 3, 3 }));
@@ -208,14 +205,16 @@ void XletsUserEditor::initUserViewList(const SharedDeviceData& data)
 
     connect(ui->userViewList, &QListWidget::currentRowChanged, this,
         [this](int idx) {
-            initViewDataWith(idx);
+            initUserViewDataWith(idx);
         });
 }
 
-void XletsUserEditor::initViewDataWith(int idx)
+void XletsUserEditor::initUserViewDataWith(int idx)
 {
     if (idx < 0 || idx >= data_->userViewData().size()) {
         WARN() << "invalid index:" << idx;
+        ui->numCols->setValue(6);
+        ui->numRows->setValue(3);
         return;
     } else {
         auto& data = data_->userViewData()[idx];
@@ -226,6 +225,22 @@ void XletsUserEditor::initViewDataWith(int idx)
 
         adjustUserViewSize();
     }
+}
+
+void XletsUserEditor::initUserViewDataWith(const QString& viewName)
+{
+    if (viewName.isEmpty())
+        return initUserViewDataWith(0);
+
+    auto items = ui->userViewList->findItems(viewName, Qt::MatchExactly);
+    if (items.isEmpty())
+        return initUserViewDataWith(0);
+
+    auto idx = ui->userViewList->indexFromItem(items.front());
+    if (idx.isValid())
+        initUserViewDataWith(idx.row());
+    else
+        initUserViewDataWith(0);
 }
 
 void XletsUserEditor::adjustUserViewSize()

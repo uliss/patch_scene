@@ -100,7 +100,8 @@ private:
     void initOutlets();
     void initButtons(const SharedDeviceData& data);
     void initUserViewList(const SharedDeviceData& data);
-    void initViewDataWith(int idx);
+    void initUserViewDataWith(int idx);
+    void initUserViewDataWith(const QString& viewName);
 
     void adjustUserViewSize();
 
