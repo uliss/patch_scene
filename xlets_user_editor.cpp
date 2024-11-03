@@ -37,83 +37,15 @@ XletsUserEditor::XletsUserEditor(QWidget* parent, const SharedDeviceData& data)
     ui->outletsView->setScene(&out_scene_);
 
     initInlets();
-
     initOutlets();
 
     ui->numCols->setValue(6);
     ui->numRows->setValue(3);
 
+    initButtons(data);
+    initUserViewList(data);
+
     ui->userView->setFixedSize(6 * XW, 3 * XH);
-
-    QListWidgetItem* current_item = nullptr;
-    for (auto& uv : data->userViewData()) {
-        auto item = new QListWidgetItem(uv.name());
-        item->setFlags(item->flags() | Qt::ItemIsEditable);
-
-        ui->userViewList->addItem(item);
-        if (uv.name() == data->currentUserView()) {
-            current_item = item;
-        }
-    }
-
-    if (current_item) {
-        ui->userViewList->setCurrentItem(current_item);
-        current_item->setSelected(true);
-    } else {
-        auto first = ui->userViewList->item(0);
-        if (first) {
-            ui->userViewList->setCurrentItem(first);
-            first->setSelected(true);
-        }
-    }
-
-    ui->editViewButtons->addSpacerItem(new QSpacerItem(50, 0));
-
-    connect(ui->addView, &QToolButton::clicked, this,
-        [this]() {
-            auto tr_name = tr("User");
-            auto new_item_count = ui->userViewList->findItems(tr_name, Qt::MatchStartsWith).size();
-            auto row = ui->userViewList->currentRow() + 1;
-
-            auto item = new QListWidgetItem(
-                (new_item_count > 0)
-                    ? tr("User %1").arg(new_item_count)
-                    : tr_name);
-
-            item->setFlags(item->flags() | Qt::ItemIsEditable);
-            ui->userViewList->insertItem(row, item);
-            ui->userViewList->setCurrentItem(item);
-
-            XletsUserViewData data;
-            data.setName(item->text());
-            data_->userViewData().insert(row, data);
-        });
-
-    connect(ui->removeView, &QToolButton::clicked, this,
-        [this]() {
-            auto row = ui->userViewList->currentRow();
-            auto item = ui->userViewList->takeItem(row);
-            if (item) {
-                delete item;
-
-                data_->userViewData().remove(row);
-            }
-        });
-
-    connect(ui->userViewList, &QListWidget::itemDoubleClicked, this, [this](QListWidgetItem* item) {
-        ui->userViewList->editItem(item);
-    });
-
-    connect(ui->userViewList, &QListWidget::itemChanged, this, [this](QListWidgetItem* item) {
-        auto text = item->text().trimmed();
-        if (text != item->text())
-            item->setText(item->text().trimmed());
-
-        auto idx = ui->userViewList->indexFromItem(item);
-        auto row = idx.row();
-        if (row >= 0 && row < data_->userViewData().count())
-            data_->userViewData()[row].setName(text);
-    });
 }
 
 XletsUserEditor::~XletsUserEditor()
@@ -155,6 +87,82 @@ void XletsUserEditor::initOutlets()
     view.placeXlets({});
     ui->outletsView->setFixedSize(out_scene_.itemsBoundingRect().size().toSize().grownBy({ 3, 3, 3, 3 }));
     ui->outletsView->centerOn(out_scene_.sceneRect().center());
+}
+
+void XletsUserEditor::initButtons(const SharedDeviceData& data)
+{
+    ui->editViewButtons->addSpacerItem(new QSpacerItem(50, 0));
+
+    connect(ui->addView, &QToolButton::clicked, this,
+        [this]() {
+            auto tr_name = tr("User");
+            auto new_item_count = ui->userViewList->findItems(tr_name, Qt::MatchStartsWith).size();
+            auto row = ui->userViewList->currentRow() + 1;
+
+            auto item = new QListWidgetItem(
+                (new_item_count > 0)
+                    ? tr("User %1").arg(new_item_count)
+                    : tr_name);
+
+            item->setFlags(item->flags() | Qt::ItemIsEditable);
+            ui->userViewList->insertItem(row, item);
+            ui->userViewList->setCurrentItem(item);
+
+            XletsUserViewData data;
+            data.setName(item->text());
+            data_->userViewData().insert(row, data);
+        });
+
+    connect(ui->removeView, &QToolButton::clicked, this,
+        [this]() {
+            auto row = ui->userViewList->currentRow();
+            auto item = ui->userViewList->takeItem(row);
+            if (item) {
+                delete item;
+
+                data_->userViewData().remove(row);
+            }
+        });
+}
+
+void XletsUserEditor::initUserViewList(const SharedDeviceData& data)
+{
+    QListWidgetItem* current_item = nullptr;
+    for (auto& uv : data->userViewData()) {
+        auto item = new QListWidgetItem(uv.name());
+        item->setFlags(item->flags() | Qt::ItemIsEditable);
+
+        ui->userViewList->addItem(item);
+        if (uv.name() == data->currentUserView()) {
+            current_item = item;
+        }
+    }
+
+    if (current_item) {
+        ui->userViewList->setCurrentItem(current_item);
+        current_item->setSelected(true);
+    } else {
+        auto first = ui->userViewList->item(0);
+        if (first) {
+            ui->userViewList->setCurrentItem(first);
+            first->setSelected(true);
+        }
+    }
+
+    connect(ui->userViewList, &QListWidget::itemDoubleClicked, this, [this](QListWidgetItem* item) {
+        ui->userViewList->editItem(item);
+    });
+
+    connect(ui->userViewList, &QListWidget::itemChanged, this, [this](QListWidgetItem* item) {
+        auto text = item->text().trimmed();
+        if (text != item->text())
+            item->setText(item->text().trimmed());
+
+        auto idx = ui->userViewList->indexFromItem(item);
+        auto row = idx.row();
+        if (row >= 0 && row < data_->userViewData().count())
+            data_->userViewData()[row].setName(text);
+    });
 }
 
 }

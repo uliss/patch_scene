@@ -42,6 +42,8 @@ Q_SIGNALS:
 private:
     void initInlets();
     void initOutlets();
+    void initButtons(const SharedDeviceData& data);
+    void initUserViewList(const SharedDeviceData& data);
 
 private:
     Ui::XletsUserEditor* ui;
