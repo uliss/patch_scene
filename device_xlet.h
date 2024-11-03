@@ -95,7 +95,7 @@ public:
     XletInfo xletInfo() const;
     const Device* parentDevice() const;
 
-    void setDragMode(bool value) { drag_mode_ = value; }
+    void setDragMode(bool value, bool selfDrag = false);
 
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) final;
@@ -112,7 +112,7 @@ private:
     XletData data_;
     QGraphicsSvgItem* icon_ { nullptr };
     XletInfo info_ { DEV_NULL_ID, XLET_INDEX_NONE, XletType::In };
-    bool drag_mode_ { false };
+    bool drag_mode_ { false }, self_drag_ { false };
 };
 
 }

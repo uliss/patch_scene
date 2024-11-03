@@ -26,12 +26,68 @@ class XletsUserEditor;
 
 namespace ceam {
 
+class XletsUserScene : public QGraphicsScene {
+    Q_OBJECT
+
+public:
+    XletsUserScene(const QList<XletData>& inlets, const QList<XletData>& outlets);
+
+    const XletsUserViewData& data() const { return data_; }
+    void setData(int currentIndex, const XletsUserViewData& data);
+
+    int currentIndex() const { return idx_; }
+
+    void setSize(int rows, int cols);
+    void setRows(int v);
+    void setCols(int v);
+
+    // update xlet positions
+    void placeXlets();
+
+    // clear xlets and create them again
+    void reinitXlets();
+
+Q_SIGNALS:
+    void updated();
+
+private:
+    /**
+     * remove all cells from the scene and the cell list
+     */
+    void clearCells();
+
+private:
+    QList<QGraphicsItem*> cells_;
+    XletsUserViewData data_;
+    DeviceXlets xlets_;
+    const QList<XletData>&inlets_, &outlets_;
+    int idx_ { -1 };
+};
+
+class XletsUserViewCell : public QGraphicsRectItem {
+    CellIndex cell_;
+    XletsUserViewData& data_;
+    XletsUserScene* scene_;
+
+public:
+    XletsUserViewCell(const QRect& r, const CellIndex& idx, XletsUserViewData& data, XletsUserScene* parent);
+    void dragEnterEvent(QGraphicsSceneDragDropEvent* event) final;
+    void dragLeaveEvent(QGraphicsSceneDragDropEvent* event) final;
+    void dropEvent(QGraphicsSceneDragDropEvent* event) final;
+
+private:
+    void resetCell();
+    void hoverCell();
+};
+
 class XletsUserEditor : public QDialog {
     Q_OBJECT
 
 public:
     explicit XletsUserEditor(QWidget* parent, const SharedDeviceData& data);
     ~XletsUserEditor();
+
+    void syncXletViewData(int idx, const XletsUserViewData& data);
 
 public Q_SLOTS:
     void accept() override;
@@ -44,13 +100,18 @@ private:
     void initOutlets();
     void initButtons(const SharedDeviceData& data);
     void initUserViewList(const SharedDeviceData& data);
+    void initViewDataWith(int idx);
+
+    void adjustUserViewSize();
 
 private:
     Ui::XletsUserEditor* ui;
     SharedDeviceData data_;
     DeviceXlets inlets_, outlets_;
-    QGraphicsScene in_scene_, out_scene_, view_scene_;
+    QGraphicsScene in_scene_, out_scene_;
+    XletsUserScene view_scene_;
 };
+
 }
 
 #endif // XLETS_USER_EDITOR_H

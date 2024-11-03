@@ -807,7 +807,28 @@ bool XletsUserViewData::insertXlet(CellIndex cellIdx, XletViewIndex vidx)
     if (idx >= cellCount())
         return false;
 
-    xlets_idx_[idx] = vidx;
+    auto it = std::find(xlets_idx_.begin(), xlets_idx_.end(), vidx);
+    if (it != xlets_idx_.end()) { // xlet exists
+        *it = NO_XLET_IDX;
+    }
+
+    if (xlets_idx_[idx].isNull()) { // insert into free cell
+        xlets_idx_[idx] = vidx;
+    } else {
+        if (xlets_idx_.back().isNull()) { // insert before
+            WARN() << "insert before";
+            xlets_idx_.insert(xlets_idx_.begin() + idx, vidx);
+            xlets_idx_.pop_back();
+        } else { // insert info free space
+            auto empty_it = std::find(xlets_idx_.begin(), xlets_idx_.end(), NO_XLET_IDX);
+            if (empty_it == xlets_idx_.end()) // no free space
+                return false;
+
+            *empty_it = xlets_idx_[idx];
+            xlets_idx_[idx] = vidx;
+        }
+    }
+
     return true;
 }
 

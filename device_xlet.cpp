@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include "device_xlet.h"
 #include "device.h"
+#include "device_xlet_common.h"
 #include "logging.hpp"
 #include "svg_render_factory.h"
 
@@ -175,6 +176,12 @@ const Device* DeviceXlet::parentDevice() const
     return qgraphicsitem_cast<Device*>(parentItem());
 }
 
+void DeviceXlet::setDragMode(bool value, bool selfDrag)
+{
+    drag_mode_ = value;
+    self_drag_ = selfDrag;
+}
+
 void DeviceXlet::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 {
     if (data_.supportsPhantomPower()) {
@@ -282,6 +289,17 @@ void DeviceXlet::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 
     QDrag* drag = new QDrag(event->widget());
     QMimeData* mime = new QMimeData;
+    QByteArray idx;
+    idx.setNum((int)info_.index());
+    mime->setData(DEVICE_XLET_MIME_INDEX, idx);
+
+    QByteArray type;
+    type.setNum((int)info_.type());
+    mime->setData(DEVICE_XLET_MIME_XLET_TYPE, type);
+
+    if (self_drag_)
+        mime->setData(DEVICE_XLET_MIME_SELF_DRAG, { 1, 1 });
+
     drag->setMimeData(mime);
     drag->exec();
     setCursor(Qt::OpenHandCursor);
