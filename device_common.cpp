@@ -86,21 +86,13 @@ constexpr const char* JSON_KEY_CATEGORY = "category";
 constexpr const char* JSON_KEY_BATTERY_TYPE = "battery-type";
 constexpr const char* JSON_KEY_BATTERY_COUNT = "battery-count";
 constexpr const char* JSON_KEY_SHOW_TITLE = "show-title";
-constexpr const char* JSON_KEY_INPUT_COLUMNS = "input-columns";
-constexpr const char* JSON_KEY_OUTPUT_COLUMNS = "output-columns";
 constexpr const char* JSON_KEY_SUBCAT = "subcat";
 constexpr const char* JSON_KEY_IMAGE_MIRROR = "image-mirror";
 constexpr const char* JSON_KEY_LOGIC_VIEW = "view-logic";
 constexpr const char* JSON_KEY_USER_VIEW = "view-user";
-constexpr const char* JSON_KEY_NUM_COLS = "num-cols";
-constexpr const char* JSON_KEY_NUM_ROWS = "num-rows";
-constexpr const char* JSON_KEY_NAME = "name";
-constexpr const char* JSON_KEY_INDEXES = "indexes";
-constexpr const char* JSON_KEY_TYPE = "type";
-constexpr const char* JSON_STR_LOGIC = "logic";
 constexpr const char* JSON_KEY_CURRENT_USER_VIEW = "current-view";
-constexpr const char* JSON_KEY_SRC = "src";
-constexpr const char* JSON_KEY_DEST = "dest";
+constexpr const char* JSON_KEY_INPUT_COLUMNS = "input-columns";
+constexpr const char* JSON_KEY_OUTPUT_COLUMNS = "output-columns";
 
 constexpr const char* JSON_MIRROR_HORIZONTAL = "horizontal";
 
@@ -441,48 +433,6 @@ size_t DeviceData::calcModelId() const
         ^ ::qHash(battery_count_);
 }
 
-bool XletsLogicViewData::setMaxInputColumnCount(int n)
-{
-    if (n < MIN_COL_COUNT || n > MAX_COL_COUNT)
-        return false;
-
-    max_input_column_count_ = n;
-    return true;
-}
-
-bool XletsLogicViewData::setMaxOutputColumnCount(int n)
-{
-    if (n < MIN_COL_COUNT || n > MAX_COL_COUNT)
-        return false;
-
-    max_output_column_count_ = n;
-    return true;
-}
-
-QJsonValue XletsLogicViewData::toJson() const
-{
-    QJsonObject json;
-    json[JSON_KEY_INPUT_COLUMNS] = max_input_column_count_;
-    json[JSON_KEY_OUTPUT_COLUMNS] = max_output_column_count_;
-    json[JSON_KEY_NAME] = name_;
-    json[JSON_KEY_TYPE] = JSON_STR_LOGIC;
-    return json;
-}
-
-std::optional<XletsLogicViewData> XletsLogicViewData::fromJson(const QJsonValue& j)
-{
-    XletsLogicViewData res;
-    if (!j.isObject())
-        return res;
-
-    auto obj = j.toObject();
-
-    res.max_input_column_count_ = qBound<int>(MIN_COL_COUNT, obj[JSON_KEY_INPUT_COLUMNS].toInt(DEF_COL_COUNT), MAX_COL_COUNT);
-    res.max_output_column_count_ = qBound<int>(MIN_COL_COUNT, obj[JSON_KEY_OUTPUT_COLUMNS].toInt(DEF_COL_COUNT), MAX_COL_COUNT);
-
-    return res;
-}
-
 QJsonArray DeviceData::xletToJson(const QList<XletData>& xlets)
 {
     QJsonArray arr;
@@ -757,154 +707,4 @@ std::optional<SubCategory> SubCategory::fromJson(const QJsonValue& val)
         return {};
     } else
         return {};
-}
-
-XletsUserViewData::XletsUserViewData(int row, int cols)
-    : name_("User")
-{
-    setColumnCount(cols);
-    setRowCount(row);
-}
-
-void XletsUserViewData::setColumnCount(int n)
-{
-    col_count_ = qBound(MIN_COL_COUNT, n, MAX_COL_COUNT);
-    xlets_idx_.resize(cellCount(), XletViewIndex::null());
-}
-
-void XletsUserViewData::setRowCount(int n)
-{
-    row_count_ = qBound(MIN_ROW_COUNT, n, MAX_ROW_COUNT);
-    xlets_idx_.resize(cellCount(), XletViewIndex::null());
-}
-
-int XletsUserViewData::cellCount() const
-{
-    return col_count_ * row_count_;
-}
-
-XletViewIndex XletsUserViewData::xletAt(int pos) const
-{
-    if (pos < 0 || pos >= xlets_idx_.size())
-        return XletViewIndex::null();
-    else
-        return xlets_idx_[pos];
-}
-
-bool XletsUserViewData::insertXlet(CellIndex cellIdx, XletViewIndex vidx)
-{
-    if (cellIdx.row < 0
-        || cellIdx.row >= row_count_
-        || cellIdx.column < 0
-        || cellIdx.column >= col_count_) //
-    {
-        return false;
-    }
-
-    auto idx = cellIdx.row * col_count_ + cellIdx.column;
-    if (idx >= cellCount())
-        return false;
-
-    auto it = std::find(xlets_idx_.begin(), xlets_idx_.end(), vidx);
-    if (it != xlets_idx_.end()) { // xlet exists
-        *it = XletViewIndex::null();
-    }
-
-    if (xlets_idx_[idx].isNull()) { // insert into free cell
-        xlets_idx_[idx] = vidx;
-    } else {
-        if (xlets_idx_.back().isNull()) { // insert before
-            WARN() << "insert before";
-            xlets_idx_.insert(xlets_idx_.begin() + idx, vidx);
-            xlets_idx_.pop_back();
-        } else { // insert info free space
-            auto empty_it = std::find(xlets_idx_.begin(), xlets_idx_.end(), XletViewIndex::null());
-            if (empty_it == xlets_idx_.end()) // no free space
-                return false;
-
-            *empty_it = xlets_idx_[idx];
-            xlets_idx_[idx] = vidx;
-        }
-    }
-
-    return true;
-}
-
-bool XletsUserViewData::operator==(const XletsUserViewData& vd) const
-{
-    if (this == &vd)
-        return true;
-
-    return col_count_ == vd.col_count_
-        && row_count_ == vd.row_count_
-        && name_ == vd.name_
-        && xlets_idx_ == vd.xlets_idx_;
-}
-
-QJsonValue XletsUserViewData::toJson() const
-{
-    QJsonObject obj;
-
-    obj[JSON_KEY_NUM_COLS] = col_count_;
-    obj[JSON_KEY_NUM_ROWS] = row_count_;
-    obj[JSON_KEY_NAME] = name_;
-
-    if (!xlets_idx_.empty()) {
-        QJsonArray arr;
-        int count = 0;
-
-        for (int i = 0; i < xlets_idx_.size(); i++) {
-            auto& x = xlets_idx_[i];
-            auto j = x.toJson();
-            if (j.isEmpty())
-                continue;
-
-            j[JSON_KEY_DEST] = i;
-            arr.append(j);
-            count++;
-        }
-
-        if (count > 0)
-            obj[JSON_KEY_INDEXES] = arr;
-    }
-
-    return obj;
-}
-
-std::optional<XletsUserViewData> XletsUserViewData::fromJson(const QJsonValue& v)
-{
-    if (!v.isObject())
-        return {};
-
-    XletsUserViewData res;
-    auto obj = v.toObject();
-    res.setColumnCount(obj[JSON_KEY_NUM_COLS].toInt(DEF_COL_COUNT));
-    res.setRowCount(obj[JSON_KEY_NUM_ROWS].toInt(DEF_ROW_COUNT));
-
-    res.name_ = obj[JSON_KEY_NAME].toString("User");
-
-    auto idxs = obj[JSON_KEY_INDEXES].toArray();
-
-    std::vector<XletViewIndex> indexes;
-    indexes.assign(res.cellCount(), XletViewIndex { 0, XletType::None });
-
-    for (const auto& item : idxs) {
-        if (!item.isObject())
-            continue;
-
-        auto obj = item.toObject();
-        auto idx = XletViewIndex::fromJson(obj);
-        if (idx) {
-            auto dest_idx = obj[JSON_KEY_DEST].toInt(-1);
-            if (dest_idx >= 0 && dest_idx < indexes.size()) {
-                indexes[dest_idx] = *idx;
-            } else {
-                WARN() << "invalid destination index:" << dest_idx;
-            }
-        }
-    }
-
-    res.xlets_idx_ = indexes;
-
-    return res;
 }

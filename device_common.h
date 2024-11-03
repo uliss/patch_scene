@@ -22,10 +22,10 @@
 #include <functional>
 
 #include "battery.h"
-#include "cell_index.h"
 #include "connection_data.h"
 #include "device_xlet.h"
-#include "xlet_view_index.h"
+#include "xlets_logic_view_data.h"
+#include "xlets_user_view_data.h"
 
 namespace ceam {
 
@@ -109,66 +109,6 @@ public:
 enum class ImageMirrorType : std::uint8_t {
     None,
     Horizontal
-};
-
-class XletsLogicViewData {
-public:
-    constexpr static int MAX_COL_COUNT = 24;
-    constexpr static int MIN_COL_COUNT = 2;
-    constexpr static int DEF_COL_COUNT = 8;
-
-public:
-    int maxInputColumnCount() const { return max_input_column_count_; }
-    bool setMaxInputColumnCount(int n);
-
-    int maxOutputColumnCount() const { return max_output_column_count_; }
-    bool setMaxOutputColumnCount(int n);
-
-public:
-    QJsonValue toJson() const;
-    static std::optional<XletsLogicViewData> fromJson(const QJsonValue& j);
-
-private:
-    QString name_;
-    int max_input_column_count_ { DEF_COL_COUNT };
-    int max_output_column_count_ { DEF_COL_COUNT };
-};
-
-class XletsUserViewData {
-public:
-    static constexpr int MIN_COL_COUNT = 1;
-    static constexpr int MAX_COL_COUNT = 24;
-    static constexpr int DEF_COL_COUNT = 6;
-    static constexpr int MIN_ROW_COUNT = 1;
-    static constexpr int MAX_ROW_COUNT = 24;
-    static constexpr int DEF_ROW_COUNT = 3;
-
-public:
-    XletsUserViewData(int row = DEF_ROW_COUNT, int cols = DEF_COL_COUNT);
-
-    int columnCount() const { return col_count_; }
-    int rowCount() const { return row_count_; }
-
-    void setColumnCount(int n);
-    void setRowCount(int n);
-    int cellCount() const;
-
-    XletViewIndex xletAt(int pos) const;
-    bool insertXlet(CellIndex cellIdx, XletViewIndex vidx);
-
-    const QString& name() const { return name_; }
-    void setName(const QString& name) { name_ = name; }
-
-    bool operator==(const XletsUserViewData& vd) const;
-
-public:
-    QJsonValue toJson() const;
-    static std::optional<XletsUserViewData> fromJson(const QJsonValue& v);
-
-private:
-    int col_count_ { DEF_COL_COUNT }, row_count_ { DEF_ROW_COUNT };
-    std::vector<XletViewIndex> xlets_idx_;
-    QString name_;
 };
 
 class DeviceData : public QSharedData {
