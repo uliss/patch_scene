@@ -14,7 +14,6 @@
 #include "connection.h"
 #include "connection_style.h"
 #include "diagram_scene.h"
-#include "logging.hpp"
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneContextMenuEvent>
