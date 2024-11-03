@@ -22,6 +22,7 @@
 #include <functional>
 
 #include "battery.h"
+#include "cell_index.h"
 #include "connection_data.h"
 #include "device_xlet.h"
 
@@ -157,25 +158,6 @@ struct XletViewIndex {
     bool isOutlet() const { return type == XletType::Out; }
 
     bool isNull() const;
-};
-
-struct CellIndex {
-    int row, column;
-    CellIndex(int r = 0, int c = 0)
-        : row(r)
-        , column(c)
-    {
-    }
-
-    bool operator==(const CellIndex& c) const
-    {
-        return row == c.row && column == c.column;
-    }
-
-    bool operator!=(const CellIndex& c) const
-    {
-        return !operator==(c);
-    }
 };
 
 class XletsUserViewData {
