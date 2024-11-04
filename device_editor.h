@@ -15,7 +15,6 @@
 #define DEVICE_EDITOR_H
 
 #include "device_common.h"
-#include "device_xlet.h"
 
 #include <QDialog>
 
