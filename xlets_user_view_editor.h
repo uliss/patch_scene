@@ -11,8 +11,8 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#ifndef XLETS_USER_EDITOR_H
-#define XLETS_USER_EDITOR_H
+#ifndef XLETS_USER_VIEW_EDITOR_H
+#define XLETS_USER_VIEW_EDITOR_H
 
 #include "device_common.h"
 #include "device_xlet_view.h"
@@ -80,12 +80,12 @@ private:
     void hoverCell();
 };
 
-class XletsUserEditor : public QDialog {
+class XletsUserViewEditor : public QDialog {
     Q_OBJECT
 
 public:
-    explicit XletsUserEditor(QWidget* parent, const SharedDeviceData& data);
-    ~XletsUserEditor();
+    explicit XletsUserViewEditor(QWidget* parent, const SharedDeviceData& data);
+    ~XletsUserViewEditor();
 
     void setXletViewData(int idx, const XletsUserViewData& data);
 
@@ -116,4 +116,4 @@ private:
 
 }
 
-#endif // XLETS_USER_EDITOR_H
+#endif // XLETS_USER_VIEW_EDITOR_H

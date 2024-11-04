@@ -151,9 +151,9 @@ set(PROJECT_SOURCES
     xlet_view_index.h
     xlets_logic_view_data.cpp
     xlets_logic_view_data.h
-    xlets_user_editor.cpp
-    xlets_user_editor.h
-    xlets_user_editor.ui
+    xlets_user_view_editor.cpp
+    xlets_user_view_editor.h
+    xlets_user_view_editor.ui
     xlets_user_view.cpp
     xlets_user_view.h
     xlets_user_view_data.cpp

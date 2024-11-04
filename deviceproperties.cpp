@@ -18,7 +18,7 @@
 #include "ui_deviceproperties.h"
 #include "vendor_list.h"
 #include "xlet_logical_editor.h"
-#include "xlets_user_editor.h"
+#include "xlets_user_view_editor.h"
 
 #include <QCompleter>
 #include <QFileInfo>
@@ -82,8 +82,8 @@ DeviceProperties::DeviceProperties(const SharedDeviceData& data, QWidget* parent
     });
 
     connect(ui->viewsEdit, &QToolButton::clicked, this, [this]() {
-        auto dialog = new XletsUserEditor(this, data_);
-        connect(dialog, &XletsUserEditor::acceptData, this, [this](const SharedDeviceData& data) {
+        auto dialog = new XletsUserViewEditor(this, data_);
+        connect(dialog, &XletsUserViewEditor::acceptData, this, [this](const SharedDeviceData& data) {
             data_ = data;
         });
 

@@ -11,11 +11,11 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#include "xlets_user_editor.h"
+#include "xlets_user_view_editor.h"
 #include "device_xlet_common.h"
 #include "device_xlet_view.h"
 #include "logging.hpp"
-#include "ui_xlets_user_editor.h"
+#include "ui_xlets_user_view_editor.h"
 #include "xlets_user_view.h"
 #include "xlets_view.h"
 
@@ -30,7 +30,7 @@ constexpr int XH = 20;
 
 namespace ceam {
 
-XletsUserEditor::XletsUserEditor(QWidget* parent, const SharedDeviceData& data)
+XletsUserViewEditor::XletsUserViewEditor(QWidget* parent, const SharedDeviceData& data)
     : QDialog(parent)
     , ui(new Ui::XletsUserEditor)
     , data_(data)
@@ -60,14 +60,14 @@ XletsUserEditor::XletsUserEditor(QWidget* parent, const SharedDeviceData& data)
         });
 }
 
-XletsUserEditor::~XletsUserEditor()
+XletsUserViewEditor::~XletsUserViewEditor()
 {
     inlets_.clearXlets();
     outlets_.clearXlets();
     delete ui;
 }
 
-void XletsUserEditor::initRowsAndCols()
+void XletsUserViewEditor::initRowsAndCols()
 {
     ui->numCols->setMinimum(XletsUserViewData::MIN_COL_COUNT);
     ui->numCols->setMaximum(XletsUserViewData::MAX_COL_COUNT);
@@ -89,7 +89,7 @@ void XletsUserEditor::initRowsAndCols()
         });
 }
 
-void XletsUserEditor::setXletViewData(int idx, const XletsUserViewData& data)
+void XletsUserViewEditor::setXletViewData(int idx, const XletsUserViewData& data)
 {
     if (idx < 0 || idx >= data_->userViewData().count()) {
         WARN() << "invalid user xlet view index:" << idx;
@@ -99,13 +99,13 @@ void XletsUserEditor::setXletViewData(int idx, const XletsUserViewData& data)
     }
 }
 
-void XletsUserEditor::accept()
+void XletsUserViewEditor::accept()
 {
     emit acceptData(data_);
     QDialog::accept();
 }
 
-void XletsUserEditor::initInlets()
+void XletsUserViewEditor::initInlets()
 {
     XletsLogicView view({}, inlets_);
     for (auto& x : data_->inputs()) {
@@ -120,7 +120,7 @@ void XletsUserEditor::initInlets()
     ui->inletsView->centerOn(in_scene_.sceneRect().center());
 }
 
-void XletsUserEditor::initOutlets()
+void XletsUserViewEditor::initOutlets()
 {
     XletsLogicView view({}, outlets_);
     for (auto& x : data_->outputs()) {
@@ -133,7 +133,7 @@ void XletsUserEditor::initOutlets()
     ui->outletsView->centerOn(out_scene_.sceneRect().center());
 }
 
-void XletsUserEditor::initButtons(const SharedDeviceData& data)
+void XletsUserViewEditor::initButtons(const SharedDeviceData& data)
 {
     ui->editViewButtons->addSpacerItem(new QSpacerItem(50, 0));
 
@@ -170,7 +170,7 @@ void XletsUserEditor::initButtons(const SharedDeviceData& data)
         });
 }
 
-void XletsUserEditor::initUserViewList(const SharedDeviceData& data)
+void XletsUserViewEditor::initUserViewList(const SharedDeviceData& data)
 {
     QListWidgetItem* current_item = nullptr;
     for (auto& uv : data->userViewData()) {
@@ -218,7 +218,7 @@ void XletsUserEditor::initUserViewList(const SharedDeviceData& data)
         });
 }
 
-void XletsUserEditor::initUserViewDataWith(int idx)
+void XletsUserViewEditor::initUserViewDataWith(int idx)
 {
     if (idx < 0 || idx >= data_->userViewData().size()) {
         WARN() << "invalid index:" << idx;
@@ -236,7 +236,7 @@ void XletsUserEditor::initUserViewDataWith(int idx)
     }
 }
 
-void XletsUserEditor::initUserViewDataWith(const QString& viewName)
+void XletsUserViewEditor::initUserViewDataWith(const QString& viewName)
 {
     if (viewName.isEmpty())
         return initUserViewDataWith(0);
@@ -252,7 +252,7 @@ void XletsUserEditor::initUserViewDataWith(const QString& viewName)
         initUserViewDataWith(0);
 }
 
-void XletsUserEditor::adjustUserViewSize()
+void XletsUserViewEditor::adjustUserViewSize()
 {
     auto rect = view_scene_.itemsBoundingRect();
     auto sz = rect.size().toSize().grownBy({ 3, 3, 3, 3 });
