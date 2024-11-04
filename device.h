@@ -47,39 +47,19 @@ public:
     QRectF boundingRect() const final;
 
     /**
-     * @return inlets bounding rect in device coordinates
-     */
-    QRectF inletsRect() const;
-
-    /**
-     * @return outlets bounding rect in device coordinates
-     */
-    QRectF outletsRect() const;
-
-    /**
      * @return title bounding rect in device coordinates
      */
     QRectF titleRect() const;
 
     /**
-     * @return if device has inputs or outputs
-     */
-    bool hasXlets() const;
-
-    /**
-     * @return all inputs/outputs boundinge rect in device coords
+     * @return xlet bounding rect in device coordinates
      */
     QRectF xletRect() const;
 
     /**
-     * @return input connection point in device or scene coords
+     * @return connection point in device or scene coords
      */
-    std::optional<QPointF> inConnectionPoint(XletIndex i, bool map = false) const;
-
-    /**
-     * @return output connection point in device or scene coords
-     */
-    std::optional<QPointF> outConnectionPoint(XletIndex i, bool map = false) const;
+    std::optional<QPointF> connectionPoint(XletIndex i, XletType type, bool map = false) const;
 
     SharedDeviceData deviceData() const;
     void setDeviceData(const SharedDeviceData& data);
@@ -94,8 +74,11 @@ public:
      */
     QJsonObject toJson() const;
 
+    DeviceXlets& xlets() { return xlets_; }
+    const DeviceXlets& xlets() const { return xlets_; }
+
     static SharedDeviceData defaultDeviceData();
-    static SharedDeviceData datafromJson(const QJsonValue& j);
+    static SharedDeviceData dataFromJson(const QJsonValue& j);
 
 signals:
     void addToFavorites(SharedDeviceData data);
@@ -119,9 +102,7 @@ private:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) final;
 
     int inletsYOff() const;
-    int outletsYOff() const;
 
-    void clearXlets();
     void clearTitle();
     void clearImage();
 
@@ -133,8 +114,8 @@ private:
     void syncXletData();
 
     void updateTitlePos();
-    void updateImagePos(const QRectF& bbox);
-    void updateXletsPos(const QRectF& bbox);
+    void updateImagePos();
+    void updateXletsPos();
 
     int calcWidth() const;
     int calcHeight() const;
@@ -155,7 +136,7 @@ private:
     QGraphicsSvgItem* image_;
     mutable SharedDeviceData data_;
     QRectF rect_;
-    DeviceXletView inputs_, outputs_;
+    DeviceXlets xlets_;
 };
 }
 

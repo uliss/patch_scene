@@ -95,9 +95,15 @@ public:
     XletInfo xletInfo() const;
     const Device* parentDevice() const;
 
+    void setDragMode(bool value, bool selfDrag = false);
+
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) final;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) final;
+
+    void mousePressEvent(QGraphicsSceneMouseEvent* event) final;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) final;
+    void mouseMoveEvent(QGraphicsSceneMouseEvent* event) final;
 
 private:
     void updateTooltip();
@@ -106,6 +112,7 @@ private:
     XletData data_;
     QGraphicsSvgItem* icon_ { nullptr };
     XletInfo info_ { DEV_NULL_ID, XLET_INDEX_NONE, XletType::In };
+    bool drag_mode_ { false }, self_drag_ { false };
 };
 
 }

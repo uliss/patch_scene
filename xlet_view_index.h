@@ -11,43 +11,45 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#ifndef XLET_INFO_H
-#define XLET_INFO_H
+#ifndef XLET_VIEW_INDEX_H
+#define XLET_VIEW_INDEX_H
 
 #include "socket.h"
 
 namespace ceam {
 
-class XletInfo {
-    DeviceId id_;
-    XletIndex index_;
-    XletType type_;
+struct XletViewIndex {
+    XletIndex index;
+    XletType type;
+
+    XletViewIndex(XletIndex i, XletType t)
+        : index(i)
+        , type(t)
+    {
+    }
+
+    bool operator==(const XletViewIndex& idx) const
+    {
+        return index == idx.index
+            && type == idx.type;
+    }
+
+    bool operator!=(const XletViewIndex& idx) const
+    {
+        return !operator==(idx);
+    }
+
+    bool isInlet() const { return type == XletType::In; }
+    bool isOutlet() const { return type == XletType::Out; }
+
+    bool isNull() const;
 
 public:
-    XletInfo(DeviceId id, int index, XletType type)
-        : id_(id)
-        , type_(type)
-        , index_(index)
-    {
-    }
-
-    bool operator==(const XletInfo& xi) const
-    {
-        return xi.id_ == id_ && xi.type_ == type_ && xi.index_ == index_;
-    }
-
-    bool operator!=(const XletInfo& xi) const { return !operator==(xi); }
-
-    DeviceId id() const { return id_; }
-    XletType type() const { return type_; }
-    XletIndex index() const { return index_; }
-
-    bool isInlet() const { return type_ == XletType::In; }
-    bool isOutlet() const { return type_ == XletType::Out; }
+    QJsonObject toJson() const;
+    static std::optional<XletViewIndex> fromJson(const QJsonValue& v);
+    static XletViewIndex null() { return { 0, XletType::None }; }
 };
-
-uint qHash(const XletInfo& key, size_t seed = 0);
 
 } // namespace ceam
 
-#endif // XLET_INFO_H
+#endif // XLET_VIEW_INDEX_H

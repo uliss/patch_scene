@@ -11,18 +11,13 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#ifndef TEST_DEVICE_DATA_H
-#define TEST_DEVICE_DATA_H
+#ifndef DEVICE_XLET_COMMON_H
+#define DEVICE_XLET_COMMON_H
 
-#include <QObject>
+namespace ceam {
+constexpr const char* DEVICE_XLET_MIME_INDEX = "index";
+constexpr const char* DEVICE_XLET_MIME_XLET_TYPE = "type";
+constexpr const char* DEVICE_XLET_MIME_SELF_DRAG = "self-drag";
+}
 
-class TestDeviceData : public QObject {
-    Q_OBJECT
-
-private slots:
-    void construct();
-    void toJson();
-    void fromJson();
-};
-
-#endif // TEST_DEVICE_DATA_H
+#endif // DEVICE_XLET_COMMON_H

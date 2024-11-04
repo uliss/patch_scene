@@ -13,14 +13,18 @@
  *****************************************************************************/
 #include "device_xlet.h"
 #include "device.h"
+#include "device_xlet_common.h"
 #include "logging.hpp"
 #include "svg_render_factory.h"
 
+#include <QApplication>
 #include <QContextMenuEvent>
+#include <QDrag>
 #include <QGraphicsSceneContextMenuEvent>
 #include <QGraphicsSvgItem>
 #include <QJsonObject>
 #include <QMenu>
+#include <QMimeData>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 
@@ -33,6 +37,7 @@ constexpr const char* KEY_VISIBLE = "visible";
 constexpr const char* KEY_SOCKET = "socket";
 constexpr const char* KEY_MODEL = "model";
 constexpr const char* KEY_POWER_TYPE = "power";
+constexpr const char* KEY_BIDIRECT = "bidirect";
 
 constexpr int ICON_W = 16;
 constexpr int ICON_H = 16;
@@ -81,6 +86,9 @@ QJsonObject XletData::toJson() const
     j[KEY_SOCKET] = type_.toJson();
     j[KEY_POWER_TYPE] = powerTypeToString(power_type_);
 
+    if (bidirect_)
+        j[KEY_BIDIRECT] = bidirect_;
+
     return j;
 }
 
@@ -106,6 +114,8 @@ std::optional<XletData> XletData::fromJson(const QJsonValue& j)
     auto power_type = powerTypeFromString(obj.value(KEY_POWER_TYPE).toString({}));
     if (power_type)
         data.power_type_ = power_type.value();
+
+    data.bidirect_ = obj.value(KEY_BIDIRECT).toBool(false);
 
     return data;
 }
@@ -164,6 +174,12 @@ XletInfo DeviceXlet::xletInfo() const
 const Device* DeviceXlet::parentDevice() const
 {
     return qgraphicsitem_cast<Device*>(parentItem());
+}
+
+void DeviceXlet::setDragMode(bool value, bool selfDrag)
+{
+    drag_mode_ = value;
+    self_drag_ = selfDrag;
 }
 
 void DeviceXlet::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
@@ -229,14 +245,64 @@ void DeviceXlet::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
                 painter->setBrush(Qt::darkRed);
 
             painter->drawRect((bbox.width() - XLET_BOX_W) * 0.5, 0, XLET_BOX_W, XLET_BOX_H);
+            if (data_.isBidirect())
+                painter->drawRect((bbox.width() - XLET_BOX_W) * 0.5, bbox.bottom() - XLET_BOX_H, XLET_BOX_W, XLET_BOX_H);
+
             break;
         case XletType::Out:
             painter->drawRect((bbox.width() - XLET_BOX_W) * 0.5, bbox.bottom() - XLET_BOX_H, XLET_BOX_W, XLET_BOX_H);
+
+            if (data_.isBidirect())
+                painter->drawRect((bbox.width() - XLET_BOX_W) * 0.5, 0, XLET_BOX_W, XLET_BOX_H);
+
             break;
         default:
             break;
         }
     }
+}
+
+void DeviceXlet::mousePressEvent(QGraphicsSceneMouseEvent* event)
+{
+    if (drag_mode_)
+        setCursor(Qt::ClosedHandCursor);
+    else
+        QGraphicsObject::mousePressEvent(event);
+}
+
+void DeviceXlet::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+{
+    if (drag_mode_)
+        setCursor(Qt::OpenHandCursor);
+    else
+        QGraphicsObject::mouseReleaseEvent(event);
+}
+
+void DeviceXlet::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
+{
+    if (!drag_mode_)
+        return;
+
+    if (QLineF(event->screenPos(), event->buttonDownScreenPos(Qt::LeftButton)).length() < QApplication::startDragDistance()) {
+        return;
+    }
+
+    QDrag* drag = new QDrag(event->widget());
+    QMimeData* mime = new QMimeData;
+    QByteArray idx;
+    idx.setNum((int)info_.index());
+    mime->setData(DEVICE_XLET_MIME_INDEX, idx);
+
+    QByteArray type;
+    type.setNum((int)info_.type());
+    mime->setData(DEVICE_XLET_MIME_XLET_TYPE, type);
+
+    if (self_drag_)
+        mime->setData(DEVICE_XLET_MIME_SELF_DRAG, { 1, 1 });
+
+    drag->setMimeData(mime);
+    drag->exec();
+    setCursor(Qt::OpenHandCursor);
 }
 
 void DeviceXlet::updateTooltip()

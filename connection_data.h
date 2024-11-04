@@ -51,14 +51,28 @@ public:
 
 class ConnectionId {
     DeviceId src_ { 0 }, dest_ { 0 };
-    XletIndex out_ { 0 }, in_ { 0 };
+    XletIndex src_idx_ { 0 }, dest_idx_ { 0 };
+    XletType src_type_ { XletType::Out }, dest_type_ { XletType::In };
+
+    ConnectionId(DeviceId src, XletType srcType, XletIndex srcIdx,
+        DeviceId dest, XletType destType, XletIndex destIdx)
+        : src_(src)
+        , src_idx_(srcIdx)
+        , dest_(dest)
+        , dest_idx_(destIdx)
+        , src_type_(srcType)
+        , dest_type_(destType)
+    {
+    }
 
 public:
-    ConnectionId(DeviceId src, XletIndex out, DeviceId dest, XletIndex in)
+    ConnectionId(DeviceId src, XletIndex srcIdx, DeviceId dest, XletIndex destIdx)
         : src_(src)
-        , out_(out)
+        , src_idx_(srcIdx)
         , dest_(dest)
-        , in_(in)
+        , dest_idx_(destIdx)
+        , src_type_ { XletType::Out }
+        , dest_type_ { XletType::In }
     {
     }
 
@@ -66,18 +80,23 @@ public:
 
     DeviceId source() const { return src_; }
     DeviceId destination() const { return dest_; }
-    XletIndex sourceOutput() const { return out_; }
-    XletIndex destinationInput() const { return in_; }
+    XletIndex sourceIndex() const { return src_idx_; }
+    XletIndex destinationIndex() const { return dest_idx_; }
 
-    XletInfo sourceInfo() const { return { src_, out_, XletType::Out }; }
-    XletInfo destinationInfo() const { return { dest_, in_, XletType::In }; }
+    XletInfo sourceInfo() const { return { src_, src_idx_, src_type_ }; }
+    XletInfo destinationInfo() const { return { dest_, dest_idx_, dest_type_ }; }
+
+    XletType sourceType() const { return src_type_; }
+    XletType destinationType() const { return dest_type_; }
 
     const bool operator==(const ConnectionId& id) const
     {
         return id.src_ == src_
             && id.dest_ == dest_
-            && id.in_ == in_
-            && id.out_ == out_;
+            && id.dest_idx_ == dest_idx_
+            && id.src_idx_ == src_idx_
+            && id.src_type_ == src_type_
+            && id.dest_type_ == dest_type_;
     }
 
     bool operator!=(const ConnectionId& id) const { return !operator==(id); }
@@ -97,7 +116,9 @@ public:
 
 public:
     static std::optional<ConnectionId> fromJson(const QJsonValue& j);
-    static std::optional<ConnectionId> fromXletPair(const XletInfo& x0, const XletInfo& x1);
+    static std::optional<ConnectionId> fromXletPair(
+        const XletInfo& x0,
+        const XletInfo& x1);
 };
 
 class ConnectionViewData {

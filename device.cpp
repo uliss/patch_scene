@@ -12,9 +12,10 @@
  * this file belongs to.
  *****************************************************************************/
 #include "device.h"
-#include "deviceproperties.h"
+#include "device_editor.h"
 #include "logging.hpp"
 #include "svg_render_factory.h"
+#include "xlets_view.h"
 
 #include <QCursor>
 #include <QGraphicsScene>
@@ -59,6 +60,15 @@ SharedDeviceData makeDeviceData()
 
     data->appendOutput(XletData { "L", ConnectorModel::JACK_TRS });
     data->appendOutput(XletData { "R", ConnectorModel::JACK_TRS });
+
+#if 0
+    XletsUserViewData user_view;
+    user_view.insertXlet({ 0, 5 }, { 0, XletType::Out });
+    user_view.insertXlet({ 0, 4 }, { 0, XletType::In });
+    // user_view
+    data->userViewData().push_back(user_view);
+#endif
+
     return data;
 }
 
@@ -151,6 +161,9 @@ Device::Device(const SharedDeviceData& data)
     , title_ { nullptr }
     , image_ { nullptr }
 {
+    xlets_.initDefaultView();
+    xlets_.setData(data);
+
     if (data_->isNull() || DeviceIdFactory::instance().isUsed(data_->id())) {
         if (!data_->isNull())
             qDebug() << "device id is used #id" << data_->id();
@@ -181,75 +194,30 @@ QRectF Device::boundingRect() const
     return rect_;
 }
 
-QRectF Device::inletsRect() const
-{
-    auto bbox = inputs_.boundingRect();
-    bbox.translate(centerAlignedLeftPos(bbox.width()), inletsYOff());
-    return bbox;
-}
-
-QRectF Device::outletsRect() const
-{
-    auto bbox = outputs_.boundingRect();
-    bbox.translate(centerAlignedLeftPos(bbox.width()), outletsYOff());
-    return bbox;
-}
-
-std::optional<QPointF> Device::inConnectionPoint(XletIndex i, bool map) const
-{
-    auto pos = inputs_.connectionPoint(i);
-    if (!pos)
-        return pos;
-
-    return map ? mapToScene(*pos) : *pos;
-}
-
-std::optional<QPointF> Device::outConnectionPoint(XletIndex i, bool map) const
-{
-    auto pos = outputs_.connectionPoint(i);
-    if (!pos)
-        return pos;
-
-    return map ? mapToScene(*pos) : *pos;
-}
-
 void Device::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     paintTitleBox(painter);
 
     QPen pen(Qt::SolidPattern, 0);
+    auto view = xlets_.currentView();
 
     if (option->state & QStyle::State_Selected) {
         pen.setColor(Qt::blue);
         painter->setPen(pen);
 
-        if (hasXlets()) {
-            auto xrect = xletRect();
-            painter->setBrush(QColor(255, 255, 255));
-            painter->drawRect(xrect);
-
-            if ((inputs_.rowCount() * outputs_.rowCount()) > 1) {
-                auto out_y = outletsYOff();
-                painter->drawLine(xrect.left(), out_y, xrect.right(), out_y);
-            }
-        }
+        if (view)
+            view->paint(painter, { -static_cast<int>(view->width() / 2), inletsYOff() });
 
         pen.setStyle(Qt::DotLine);
         painter->setBrush(Qt::NoBrush);
         painter->setPen(pen);
         painter->drawRect(boundingRect());
-    } else if (hasXlets()) { // draw xlet box
-        auto xrect = xletRect();
-
+    } else if (view) { // draw xlet box
         pen.setColor(Qt::black);
         painter->setPen(pen);
-        painter->setBrush(QColor(255, 255, 255));
-        painter->drawRect(xletRect());
 
-        if ((inputs_.rowCount() * outputs_.rowCount()) > 1) {
-            auto out_y = outletsYOff();
-            painter->drawLine(xrect.left(), out_y, xrect.right(), out_y);
-        }
+        if (view)
+            view->paint(painter, { static_cast<int>(view->width() / -2), inletsYOff() });
     }
 
     Q_UNUSED(widget);
@@ -297,7 +265,7 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
     QMenu menu;
 
     auto sc = scene();
-    if (sc && sc->selectedItems().count() >= 2) {
+    if (sc && sc->selectedItems().count() > 1) {
         auto align_hor = new QAction(tr("Align horizontal"), &menu);
         connect(align_hor, SIGNAL(triggered(bool)), this, SIGNAL(alignHorizontal()));
 
@@ -356,7 +324,7 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
         auto propertiesAct = new QAction(tr("Properties"), &menu);
         connect(propertiesAct, &QAction::triggered, this,
             [this]() {
-                std::unique_ptr<DeviceProperties> dialog(new DeviceProperties(data_));
+                std::unique_ptr<DeviceEditor> dialog(new DeviceEditor(data_));
                 connect(dialog.get(), SIGNAL(acceptData(SharedDeviceData)), this, SIGNAL(updateDevice(SharedDeviceData)));
                 dialog->exec();
             });
@@ -368,6 +336,37 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
         info->setFont(info_font);
         menu.setStyleSheet("QMenu::item:disabled {color: black;}");
         menu.addAction(showTitle);
+        if (!data_->userViewData().isEmpty()) {
+            auto views = menu.addMenu(tr("Views"));
+            auto act_view_default = views->addAction(tr("Logic"));
+            act_view_default->setCheckable(true);
+            if (data_->currentUserView().isEmpty())
+                act_view_default->setChecked(true);
+
+            connect(act_view_default, &QAction::triggered, this,
+                [this]() {
+                    data_->setCurrentUserView({});
+                    setDeviceData(data_);
+                    emit updateDevice(data_);
+                });
+
+            for (auto& x : data_->userViewData()) {
+                auto name = x.name();
+                auto act_view_user = views->addAction(name);
+                act_view_user->setCheckable(true);
+
+                if (name == data_->currentUserView())
+                    act_view_user->setChecked(true);
+
+                connect(act_view_user, &QAction::triggered, this,
+                    [this, name]() {
+                        data_->setCurrentUserView(name);
+                        setDeviceData(data_);
+                        emit updateDevice(data_);
+                    });
+            }
+        }
+
         menu.addSeparator();
         menu.addAction(duplicateAct);
         menu.addAction(removeAct);
@@ -380,17 +379,6 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
     menu.exec(event->screenPos());
 
     event->accept();
-}
-
-bool Device::hasXlets() const
-{
-    return inputs_.count() > 0 || outputs_.count() > 0;
-}
-
-void Device::clearXlets()
-{
-    inputs_.clear();
-    outputs_.clear();
 }
 
 void Device::clearTitle()
@@ -411,18 +399,16 @@ void Device::clearImage()
 
 void Device::createXlets()
 {
-    clearXlets();
+    xlets_.clearXlets();
 
-    inputs_.setMaxColumnCount(data_->maxInputColumnCount());
     for (auto& data : data_->inputs()) {
         if (data.isVisible())
-            inputs_.append(data, XletType::In, this);
+            xlets_.append(data, XletType::In, this);
     }
 
-    outputs_.setMaxColumnCount(data_->maxOutputColumnCount());
     for (auto& data : data_->outputs()) {
         if (data.isVisible())
-            outputs_.append(data, XletType::Out, this);
+            xlets_.append(data, XletType::Out, this);
     }
 }
 
@@ -474,8 +460,8 @@ void Device::syncRect()
     rect_.setRect(-calc_wd * 0.5, 0, calc_wd, calc_ht);
 
     updateTitlePos();
-    updateImagePos(rect_);
-    updateXletsPos(rect_);
+    updateImagePos();
+    updateXletsPos();
 }
 
 void Device::updateTitlePos()
@@ -494,7 +480,7 @@ void Device::updateTitlePos()
     title_->setPos(title_bbox.left(), 0);
 }
 
-void Device::updateImagePos(const QRectF& bbox)
+void Device::updateImagePos()
 {
     if (!image_)
         return;
@@ -506,10 +492,13 @@ void Device::updateImagePos(const QRectF& bbox)
     image_->setPos(centerAlignedLeftPos(imageWidth()), yoff);
 }
 
-void Device::updateXletsPos(const QRectF& bbox)
+void Device::updateXletsPos()
 {
-    inputs_.placeXlets(QPoint(centerAlignedLeftPos(inputs_.width()), inletsYOff()));
-    outputs_.placeXlets(QPoint(centerAlignedLeftPos(outputs_.width()), outletsYOff()));
+    auto v = xlets_.currentView();
+    if (v) {
+        auto xoff = v->width() * 0.5;
+        v->placeXlets({ -xoff, static_cast<qreal>(inletsYOff()) });
+    }
 }
 
 QRectF Device::titleRect() const
@@ -524,14 +513,33 @@ QRectF Device::titleRect() const
 
 QRectF Device::xletRect() const
 {
-    return inletsRect().united(outletsRect());
+    auto v = xlets_.currentView();
+    if (!v || xlets_.isEmpty())
+        return {};
+
+    auto brect = v->boundingRect();
+    return brect.translated(brect.width() * -0.5, inletsYOff());
+}
+
+std::optional<QPointF> Device::connectionPoint(XletIndex i, XletType type, bool map) const
+{
+    auto view = xlets_.currentView();
+    if (!view)
+        return {};
+
+    auto pos = xlets_.connectionPoint({ i, type });
+    if (!pos)
+        return pos;
+
+    return map ? mapToScene(*pos) : *pos;
 }
 
 int Device::calcWidth() const
 {
     const auto TITLE_SIZE = data_->title().size();
 
-    int w = qMax(inputs_.width(), outputs_.width());
+    auto view = xlets_.currentView();
+    int w = view ? xlets_.currentView()->width() : 0;
 
     if (TITLE_SIZE > 0 && data_->showTitle()) {
         auto txt_wd = qBound<int>(TITLE_MIN_CHAR_WIDTH, TITLE_SIZE, TITLE_MAX_CHAR_WIDTH);
@@ -551,8 +559,10 @@ int Device::calcHeight() const
         h += title_->boundingRect().height();
 
     h += imageHeight();
-    h += inputs_.boundingRect().height();
-    h += outputs_.boundingRect().height();
+
+    auto view = xlets_.currentView();
+    if (view)
+        h += xlets_.currentView()->height();
 
     return h;
 }
@@ -578,17 +588,12 @@ int Device::inletsYOff() const
     return qRound(yoff);
 }
 
-int Device::outletsYOff() const
-{
-    return inletsYOff() + inputs_.boundingRect().height();
-}
-
 void Device::syncXletData()
 {
     {
         XletIndex in_idx = 0;
         for (auto& data : data_->inputs()) {
-            auto xlet = inputs_.xletAtIndex(in_idx++);
+            auto xlet = xlets_.xletAtIndex({ in_idx++, XletType::In });
             if (xlet)
                 data = xlet->xletData();
         }
@@ -597,7 +602,7 @@ void Device::syncXletData()
     {
         XletIndex out_idx = 0;
         for (auto& data : data_->outputs()) {
-            auto xlet = outputs_.xletAtIndex(out_idx++);
+            auto xlet = xlets_.xletAtIndex({ out_idx++, XletType::Out });
             if (xlet)
                 data = xlet->xletData();
         }
@@ -617,7 +622,7 @@ SharedDeviceData Device::defaultDeviceData()
     return makeDeviceData();
 }
 
-SharedDeviceData Device::datafromJson(const QJsonValue& j)
+SharedDeviceData Device::dataFromJson(const QJsonValue& j)
 {
     if (!j.isObject()) {
         WARN() << "not a object" << j;
@@ -656,6 +661,7 @@ void Device::setDeviceData(const SharedDeviceData& data)
     }
 
     data_ = data;
+    xlets_.setData(data);
     syncRect();
 }
 

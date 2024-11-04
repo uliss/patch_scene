@@ -27,6 +27,7 @@
 #include "tests/test_segment_points.h"
 #include "tests/test_subcategory.h"
 #include "tests/test_xlet.h"
+#include "tests/test_xlets_user_view.h"
 
 int main(int argc, char* argv[])
 {
@@ -37,6 +38,9 @@ int main(int argc, char* argv[])
     QApplication app(argc, argv);
 
     int status = 0;
+
+    TestXletsUserView test_xlets_user_view;
+    status |= QTest::qExec(&test_xlets_user_view, argc, argv);
 
     TestConnection tst_connection;
     status |= QTest::qExec(&tst_connection, argc, argv);

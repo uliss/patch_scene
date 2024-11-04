@@ -35,14 +35,17 @@ void TestSceneConnections::add()
     QCOMPARE(sc.count(), 1);
     QCOMPARE(sig_spy.count(), 1);
 
+    // already exists
     QVERIFY(!sc.add(ConnectionId { 0, 0, 1, 0 }));
     QCOMPARE(sc.count(), 1);
     QCOMPARE(sig_spy.count(), 1);
 
+    // same source
     QVERIFY(!sc.add(ConnectionId { 0, 0, 1, 1 }));
     QCOMPARE(sc.count(), 1);
     QCOMPARE(sig_spy.count(), 1);
 
+    // same destination
     QVERIFY(!sc.add(ConnectionId { 0, 1, 1, 0 }));
     QCOMPARE(sc.count(), 1);
     QCOMPARE(sig_spy.count(), 1);
@@ -62,29 +65,30 @@ void TestSceneConnections::remove()
     SceneConnections sc(&scene);
     QSignalSpy sig_spy(&sc, &SceneConnections::removed);
     QVERIFY(sig_spy.isValid());
-    QVERIFY(!sc.remove(XletInfo { 0, 0, XletType::In }));
+    QVERIFY(!sc.remove(ConnectionId { 0, 0, 0, 0 }));
     QCOMPARE(sig_spy.count(), 0);
 
     QVERIFY(sc.add(ConnectionId { 0, 0, 1, 0 }));
     QCOMPARE(sc.count(), 1);
     QVERIFY(sc.add(ConnectionId { 1, 0, 0, 0 }));
     QCOMPARE(sc.count(), 2);
+
     QCOMPARE(sig_spy.count(), 0);
 
-    QVERIFY(!sc.remove({ 0, 1, XletType::In }));
-    QVERIFY(!sc.remove({ 0, 1, XletType::None }));
-    QVERIFY(!sc.remove({ 0, 1, XletType::Out }));
+    QVERIFY(!sc.remove(ConnectionId { 0, 0, 1, 1 }));
+    QVERIFY(!sc.remove(ConnectionId { 0, 1, 1, 0 }));
+    QVERIFY(!sc.remove(ConnectionId { 1, 1, 1, 0 }));
     QCOMPARE(sig_spy.count(), 0);
 
-    QVERIFY(sc.remove({ 0, 0, XletType::Out }));
+    QVERIFY(sc.remove(ConnectionId { 0, 0, 1, 0 }));
     QCOMPARE(sc.count(), 1);
     QCOMPARE(sig_spy.count(), 1);
 
-    QVERIFY(!sc.remove({ 0, 0, XletType::Out }));
+    QVERIFY(!sc.remove(ConnectionId { 0, 0, 1, 0 }));
     QCOMPARE(sc.count(), 1);
     QCOMPARE(sig_spy.count(), 1);
 
-    QVERIFY(sc.remove({ 0, 0, XletType::In }));
+    QVERIFY(sc.remove(ConnectionId { 1, 0, 0, 0 }));
     QCOMPARE(sc.count(), 0);
     QCOMPARE(sig_spy.count(), 2);
 }

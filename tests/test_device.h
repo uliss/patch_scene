@@ -23,8 +23,7 @@ private slots:
     void qtTest();
     void createDefault();
     void createNoTitle();
-    void inletRect();
-    void outletRect();
+    void boundingRect();
     void titleRect();
     void xletRect();
 };

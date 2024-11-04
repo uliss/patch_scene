@@ -48,12 +48,12 @@ public:
     bool setViewData(const ConnectionId& id, const ConnectionViewData& viewData);
 
     /**
-     * remove connection from/to specified input/output
-     * @param xlet
+     * remove connection
+     * @param id
      * @return true if connection was removed
      * @emit removed()
      */
-    bool remove(const XletInfo& xlet);
+    bool remove(const ConnectionId& id);
 
     /**
      * remove all connections belonging to the given device id
@@ -97,7 +97,7 @@ public:
      * @return connection pointer or null if not found
      * @complexity O(1)
      */
-    Connection* findConnection(const XletInfo& xlet) const;
+    Connection* findByXlet(const XletInfo& xlet) const;
 
     /**
      * check if specified xlets can be connected
@@ -144,7 +144,7 @@ private:
     QGraphicsScene* scene_ { nullptr };
     ConnectionEditor* conn_edit_ { nullptr };
     std::unordered_set<Connection*> conn_;
-    QHash<XletInfo, Connection*> conn_src_, conn_dest_;
+    QHash<XletInfo, Connection*> conn_xlets_;
     QHash<DeviceId, QList<Connection*>> conn_dev_;
 };
 

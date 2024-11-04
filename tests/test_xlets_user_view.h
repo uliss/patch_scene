@@ -11,18 +11,23 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#ifndef TEST_DEVICE_DATA_H
-#define TEST_DEVICE_DATA_H
+#ifndef TEST_XLETS_USER_VIEW_H
+#define TEST_XLETS_USER_VIEW_H
 
 #include <QObject>
 
-class TestDeviceData : public QObject {
+class TestXletsUserView : public QObject {
     Q_OBJECT
 
 private slots:
-    void construct();
-    void toJson();
-    void fromJson();
+    void testInit();
+    void testPosToIndex();
+    void testIndexToPos();
+    void testPlaceXlets();
+    void testSetData();
+    void testToJson();
+    void testFromJson();
+    void testJson();
 };
 
-#endif // TEST_DEVICE_DATA_H
+#endif // TEST_XLETS_USER_VIEW_H

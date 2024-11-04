@@ -26,7 +26,8 @@ qt_add_executable(
     test_device_xlet_view.h test_device_xlet_view.cpp
     test_device.h test_device.cpp
     test_subcategory.h test_subcategory.cpp
-    test_segment_points.h test_segment_points.cpp)
+    test_segment_points.h test_segment_points.cpp
+    test_xlets_user_view.h test_xlets_user_view.cpp)
 
 add_custom_target(
     test_src

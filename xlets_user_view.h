@@ -11,15 +11,32 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#include "xlet_info.h"
+#ifndef XLETS_USER_VIEW_H
+#define XLETS_USER_VIEW_H
+
+#include "xlets_view.h"
 
 namespace ceam {
 
-uint qHash(const XletInfo& key, size_t seed)
-{
-    return ::qHash(key.id(), seed)
-        ^ ::qHash(key.index(), seed)
-        ^ ::qHash(static_cast<int>(key.type()), seed);
-}
+class XletsUserView : public XletsView {
+    DeviceXlets& xlets_;
+    XletsUserViewData data_;
+
+public:
+    XletsUserView(const QString& name, DeviceXlets& xlets);
+
+    XletsUserViewData& data() { return data_; }
+    const XletsUserViewData& data() const { return data_; }
+
+    qreal width() const final;
+    qreal height() const final;
+    void paint(QPainter* painter, const QPoint& origin) final;
+    std::optional<XletViewIndex> posToIndex(const QPoint& pos) const final;
+    std::optional<QPoint> indexToPos(XletViewIndex vidx) const final;
+    void placeXlets(const QPointF& origin) final;
+    void setData(const XletsUserViewData& data);
+};
 
 } // namespace ceam
+
+#endif // XLETS_USER_VIEW_H

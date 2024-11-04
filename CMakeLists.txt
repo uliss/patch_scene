@@ -71,6 +71,9 @@ set(PROJECT_SOURCES
     device.h
     device_common.cpp
     device_common.h
+    device_editor.cpp
+    device_editor.h
+    device_editor.ui
     device_item_model.cpp
     device_item_model.h
     device_library.cpp
@@ -82,9 +85,6 @@ set(PROJECT_SOURCES
     device_xlet.h
     device_xlet_view.cpp
     device_xlet_view.h
-    deviceproperties.cpp
-    deviceproperties.h
-    deviceproperties.ui
     diagram.cpp
     diagram.h
     diagram_item_model.cpp
@@ -143,7 +143,24 @@ set(PROJECT_SOURCES
     vendor_list.cpp
     vendor_list.h
     xlet_info.cpp
-    xlet_info.h)
+    xlet_info.h
+    xlet_view_index.cpp
+    xlet_view_index.h
+    xlets_logic_view_data.cpp
+    xlets_logic_view_data.h
+    xlets_logic_view_editor.cpp
+    xlets_logic_view_editor.h
+    xlets_logic_view_editor.ui
+    xlets_user_view.cpp
+    xlets_user_view.h
+    xlets_user_view_data.cpp
+    xlets_user_view_data.h
+    xlets_user_view_editor.cpp
+    xlets_user_view_editor.h
+    xlets_user_view_editor.ui
+    xlets_view.cpp
+    xlets_view.h
+)
 
 if(WIN32)
     configure_file(patch_scene_win.rc ${PROJECT_BINARY_DIR}/patch_scene_win.rc @ONLY)

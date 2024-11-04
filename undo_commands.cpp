@@ -14,6 +14,7 @@
 #include "undo_commands.h"
 #include "diagram.h"
 #include "diagram_updates_blocker.h"
+#include "logging.hpp"
 
 namespace {
 constexpr int MoveDeviceId = 1000;
@@ -89,7 +90,7 @@ DisconnectXlet::DisconnectXlet(Diagram* doc, const XletInfo& xi)
     : doc_(doc)
     , id_(0, 0, 0, 0)
 {
-    auto conn = doc->connections()->findConnection(xi);
+    auto conn = doc->connections()->findByXlet(xi);
     if (conn) {
         id_ = conn->connectionId();
         view_data_ = conn->viewData();
@@ -100,12 +101,16 @@ void DisconnectXlet::undo()
 {
     if (doc_ && id_.isValid())
         doc_->connectDevices(id_, view_data_);
+    else
+        WARN() << "can't connect:" << id_;
 }
 
 void DisconnectXlet::redo()
 {
     if (doc_ && id_.isValid())
         doc_->disconnectDevices(id_);
+    else
+        WARN() << "can't disconnect:" << id_;
 }
 
 RemoveDevice::RemoveDevice(Diagram* doc, const SharedDeviceData& data)

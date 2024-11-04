@@ -101,7 +101,6 @@ QRectF ConnectionEditor::boundingRect() const
 
 void ConnectionEditor::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    // WARN() << "2";
 }
 
 } // namespace ceam

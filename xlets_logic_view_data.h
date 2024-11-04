@@ -11,15 +11,35 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#include "xlet_info.h"
+#ifndef XLETS_LOGIC_VIEW_DATA_H
+#define XLETS_LOGIC_VIEW_DATA_H
+
+#include <QJsonValue>
 
 namespace ceam {
 
-uint qHash(const XletInfo& key, size_t seed)
-{
-    return ::qHash(key.id(), seed)
-        ^ ::qHash(key.index(), seed)
-        ^ ::qHash(static_cast<int>(key.type()), seed);
-}
+class XletsLogicViewData {
+public:
+    constexpr static int MAX_COL_COUNT = 24;
+    constexpr static int MIN_COL_COUNT = 2;
+    constexpr static int DEF_COL_COUNT = 8;
 
+public:
+    int maxInputColumnCount() const { return max_input_column_count_; }
+    bool setMaxInputColumnCount(int n);
+
+    int maxOutputColumnCount() const { return max_output_column_count_; }
+    bool setMaxOutputColumnCount(int n);
+
+public:
+    QJsonValue toJson() const;
+    static std::optional<XletsLogicViewData> fromJson(const QJsonValue& j);
+
+private:
+    QString name_;
+    int max_input_column_count_ { DEF_COL_COUNT };
+    int max_output_column_count_ { DEF_COL_COUNT };
+};
 } // namespace ceam
+
+#endif // XLETS_LOGIC_VIEW_DATA_H

@@ -11,18 +11,30 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#ifndef TEST_DEVICE_DATA_H
-#define TEST_DEVICE_DATA_H
+#ifndef CELL_INDEX_H
+#define CELL_INDEX_H
 
-#include <QObject>
+namespace ceam {
 
-class TestDeviceData : public QObject {
-    Q_OBJECT
+struct CellIndex {
+    int row, column;
+    CellIndex(int r = 0, int c = 0)
+        : row(r)
+        , column(c)
+    {
+    }
 
-private slots:
-    void construct();
-    void toJson();
-    void fromJson();
+    bool operator==(const CellIndex& c) const
+    {
+        return row == c.row && column == c.column;
+    }
+
+    bool operator!=(const CellIndex& c) const
+    {
+        return !operator==(c);
+    }
 };
 
-#endif // TEST_DEVICE_DATA_H
+}
+
+#endif // CELL_INDEX_H

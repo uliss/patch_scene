@@ -23,15 +23,15 @@ using namespace ceam;
 
 namespace {
 
-#define CONST_STR(str) constexpr const char* str_##str = #str;
+#define CONST_STR(id, str) constexpr const char* str_##id = str;
 
-CONST_STR(computer)
-CONST_STR(device)
-CONST_STR(furniture)
-CONST_STR(human)
-CONST_STR(instrument)
-CONST_STR(return )
-CONST_STR(send)
+CONST_STR(computer, QT_TRANSLATE_NOOP("ceam", "computer"))
+CONST_STR(device, QT_TRANSLATE_NOOP("ceam", "device"))
+CONST_STR(furniture, QT_TRANSLATE_NOOP("ceam", "furniture"))
+CONST_STR(human, QT_TRANSLATE_NOOP("ceam", "human"))
+CONST_STR(instrument, QT_TRANSLATE_NOOP("ceam", "instrument"))
+CONST_STR(return, QT_TRANSLATE_NOOP("ceam", "return"))
+CONST_STR(send, QT_TRANSLATE_NOOP("ceam", "send"))
 
 using DevCatTuple = std::tuple<DeviceCategory, const char*, const char*>;
 constexpr DevCatTuple DEV_CATS[] = {
@@ -86,10 +86,13 @@ constexpr const char* JSON_KEY_CATEGORY = "category";
 constexpr const char* JSON_KEY_BATTERY_TYPE = "battery-type";
 constexpr const char* JSON_KEY_BATTERY_COUNT = "battery-count";
 constexpr const char* JSON_KEY_SHOW_TITLE = "show-title";
-constexpr const char* JSON_KEY_INPUT_COLUMNS = "input-columns";
-constexpr const char* JSON_KEY_OUTPUT_COLUMNS = "output-columns";
 constexpr const char* JSON_KEY_SUBCAT = "subcat";
 constexpr const char* JSON_KEY_IMAGE_MIRROR = "image-mirror";
+constexpr const char* JSON_KEY_LOGIC_VIEW = "view-logic";
+constexpr const char* JSON_KEY_USER_VIEW = "view-user";
+constexpr const char* JSON_KEY_CURRENT_USER_VIEW = "current-view";
+constexpr const char* JSON_KEY_INPUT_COLUMNS = "input-columns";
+constexpr const char* JSON_KEY_OUTPUT_COLUMNS = "output-columns";
 
 constexpr const char* JSON_MIRROR_HORIZONTAL = "horizontal";
 
@@ -169,7 +172,7 @@ std::optional<ItemCategory> ceam::fromQString(const QString& str)
     } else if (icat == str_instrument) {
         return ItemCategory::Instrument;
     } else {
-        qWarning() << __FUNCTION__ << "unknown category:" << str;
+        WARN() << "unknown category:" << str;
         return {};
     }
 }
@@ -299,14 +302,44 @@ bool DeviceData::setJson(const QJsonValue& v)
     battery_type_ = fromJsonString(obj.value(JSON_KEY_BATTERY_TYPE).toString());
 
     show_title_ = obj[JSON_KEY_SHOW_TITLE].toBool(true);
-    max_input_column_count_ = qBound<int>(MIN_COL_COUNT, obj[JSON_KEY_INPUT_COLUMNS].toInt(DEF_COL_COUNT), MAX_COL_COUNT);
-    max_output_column_count_ = qBound<int>(MIN_COL_COUNT, obj[JSON_KEY_OUTPUT_COLUMNS].toInt(DEF_COL_COUNT), MAX_COL_COUNT);
+
+    // compatibility
+    if (obj.contains(JSON_KEY_INPUT_COLUMNS)) {
+        WARN() << "obsolete key:" << JSON_KEY_INPUT_COLUMNS;
+        if (!logic_view_data_.setMaxInputColumnCount(obj[JSON_KEY_INPUT_COLUMNS].toInt(DEF_COL_COUNT)))
+            WARN() << "can't set value:" << JSON_KEY_INPUT_COLUMNS;
+    }
+
+    // compatibility
+    if (obj.contains(JSON_KEY_OUTPUT_COLUMNS)) {
+        WARN() << "obsolete key:" << JSON_KEY_OUTPUT_COLUMNS;
+        if (!logic_view_data_.setMaxOutputColumnCount(obj[JSON_KEY_OUTPUT_COLUMNS].toInt(DEF_COL_COUNT)))
+            WARN() << "can't set value:" << JSON_KEY_OUTPUT_COLUMNS;
+    }
+
+    if (obj.contains(JSON_KEY_LOGIC_VIEW)) {
+        auto logic_view = XletsLogicViewData::fromJson(obj[JSON_KEY_LOGIC_VIEW]);
+        if (logic_view)
+            logic_view_data_ = *logic_view;
+    }
+
+    user_view_data_.clear();
+    if (obj.contains(JSON_KEY_USER_VIEW)) {
+        auto arr = obj[JSON_KEY_USER_VIEW].toArray();
+        for (const auto& x : arr) {
+            auto user_view = XletsUserViewData::fromJson(x);
+            if (user_view)
+                user_view_data_.push_back(*user_view);
+        }
+    }
 
     if (obj.contains(JSON_KEY_SUBCAT)) {
         auto subcat = SubCategory::fromJson(obj[JSON_KEY_SUBCAT]);
         if (subcat)
             subcat_ = *subcat;
     }
+
+    current_user_view_ = obj[JSON_KEY_CURRENT_USER_VIEW].toString();
 
     mirror_ = imageMirrorFromJson(obj[JSON_KEY_IMAGE_MIRROR]);
 
@@ -353,11 +386,16 @@ QJsonObject DeviceData::toJson() const
     json[JSON_KEY_INPUTS] = xletToJson(inputs_);
     json[JSON_KEY_OUTPUTS] = xletToJson(outputs_);
     json[JSON_KEY_SHOW_TITLE] = show_title_;
-    json[JSON_KEY_INPUT_COLUMNS] = max_input_column_count_;
-    json[JSON_KEY_OUTPUT_COLUMNS] = max_output_column_count_;
-
+    json[JSON_KEY_LOGIC_VIEW] = logic_view_data_.toJson();
     json[JSON_KEY_SUBCAT] = subcat_.toJson();
     json[JSON_KEY_IMAGE_MIRROR] = toJsonValue(mirror_);
+
+    QJsonArray arr;
+    for (auto& x : user_view_data_)
+        arr.append(x.toJson());
+
+    json[JSON_KEY_USER_VIEW] = arr;
+    json[JSON_KEY_CURRENT_USER_VIEW] = current_user_view_;
 
     return json;
 }
@@ -365,6 +403,11 @@ QJsonObject DeviceData::toJson() const
 const XletData& DeviceData::inputAt(XletIndex n) const
 {
     return inputs_.at(n);
+}
+
+bool DeviceData::hasAnyXput() const
+{
+    return inputs_.count() + outputs_.count();
 }
 
 void DeviceData::setBatteryCount(int v)
@@ -393,24 +436,6 @@ size_t DeviceData::calcModelId() const
         ^ ::qHash(static_cast<int>(category_))
         ^ ::qHash(static_cast<int>(battery_type_))
         ^ ::qHash(battery_count_);
-}
-
-bool DeviceData::setMaxInputColumnCount(int n)
-{
-    if (n < MIN_COL_COUNT || n > MAX_COL_COUNT)
-        return false;
-
-    max_input_column_count_ = n;
-    return true;
-}
-
-bool DeviceData::setMaxOutputColumnCount(int n)
-{
-    if (n < MIN_COL_COUNT || n > MAX_COL_COUNT)
-        return false;
-
-    max_output_column_count_ = n;
-    return true;
 }
 
 QJsonArray DeviceData::xletToJson(const QList<XletData>& xlets)

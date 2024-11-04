@@ -24,6 +24,8 @@
 #include "battery.h"
 #include "connection_data.h"
 #include "device_xlet.h"
+#include "xlets_logic_view_data.h"
+#include "xlets_user_view_data.h"
 
 namespace ceam {
 
@@ -167,6 +169,8 @@ public:
     const XletData& outputAt(XletIndex n) const { return outputs_.at(n); }
     void appendOutput(const XletData& x) { outputs_.append(x); }
 
+    bool hasAnyXput() const;
+
     const QPointF& pos() const { return pos_; }
     void setPos(const QPointF& pos) { pos_ = pos; }
 
@@ -182,17 +186,20 @@ public:
     bool showTitle() const { return show_title_; }
     void setShowTitle(bool value) { show_title_ = value; }
 
-    int maxInputColumnCount() const { return max_input_column_count_; }
-    bool setMaxInputColumnCount(int n);
-
-    int maxOutputColumnCount() const { return max_output_column_count_; }
-    bool setMaxOutputColumnCount(int n);
-
     SubCategory subCategory() const { return subcat_; }
     void setSubCategory(SubCategory subcat) { subcat_ = subcat; }
 
     ImageMirrorType imageMirror() const { return mirror_; }
     void setImageMirror(ImageMirrorType type) { mirror_ = type; }
+
+    XletsLogicViewData& logicViewData() { return logic_view_data_; }
+    const XletsLogicViewData& logicViewData() const { return logic_view_data_; }
+
+    QList<XletsUserViewData>& userViewData() { return user_view_data_; }
+    const QList<XletsUserViewData>& userViewData() const { return user_view_data_; }
+
+    const QString& currentUserView() const { return current_user_view_; }
+    void setCurrentUserView(const QString& name) { current_user_view_ = name; }
 
 private:
     static QJsonArray xletToJson(const QList<XletData>& xlets);
@@ -204,8 +211,6 @@ private:
     QString model_, vendor_, title_, title_latin_;
     QString image_;
     QPointF pos_;
-    int max_input_column_count_ { DEF_COL_COUNT };
-    int max_output_column_count_ { DEF_COL_COUNT };
     float zoom_ = { 1 };
     float zvalue_ = { 1 };
     DeviceId id_ { 0 };
@@ -215,6 +220,9 @@ private:
     BatteryType battery_type_ { BatteryType::None };
     bool show_title_ { true };
     ImageMirrorType mirror_ { ImageMirrorType::None };
+    XletsLogicViewData logic_view_data_;
+    QList<XletsUserViewData> user_view_data_;
+    QString current_user_view_;
 };
 
 using SharedDeviceData = QSharedDataPointer<DeviceData>;

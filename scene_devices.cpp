@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include "scene_devices.h"
 #include "device.h"
+#include "logging.hpp"
 
 #include <QGraphicsScene>
 #include <QJsonArray>
@@ -20,8 +21,6 @@
 #include <QSet>
 
 using namespace ceam;
-
-#define WARN() qWarning() << metaObject()->className() << __FUNCTION__
 
 SceneDevices::SceneDevices()
     : scene_(nullptr)
@@ -150,23 +149,23 @@ std::optional<DeviceConnectionData> SceneDevices::connectionInfo(const Connectio
 
         if (dev_id == id.source()) {
             const auto data = dev->deviceData();
-            if (data && id.sourceOutput() < data->outputs().size()) {
-                res->src_out = data->outputAt(id.sourceOutput());
+            if (data && id.sourceIndex() < data->outputs().size()) {
+                res->src_out = data->outputAt(id.sourceIndex());
                 res->src_data = data;
-                res->src_out_idx = id.sourceOutput();
+                res->src_out_idx = id.sourceIndex();
                 count++;
             } else {
-                WARN() << "invalid source outlet:" << (int)id.sourceOutput();
+                WARN() << "invalid source outlet:" << (int)id.sourceIndex();
             }
         } else if (dev_id == id.destination()) {
             const auto data = dev->deviceData();
-            if (data && id.destinationInput() < data->inputs().size()) {
-                res->dest_in = data->inputAt(id.destinationInput());
+            if (data && id.destinationIndex() < data->inputs().size()) {
+                res->dest_in = data->inputAt(id.destinationIndex());
                 res->dest_data = data;
-                res->dest_in_idx = id.destinationInput();
+                res->dest_in_idx = id.destinationIndex();
                 count++;
             } else {
-                WARN() << "invalid dest inlet:" << (int)id.destinationInput();
+                WARN() << "invalid dest inlet:" << (int)id.destinationIndex();
             }
         }
     }
@@ -187,11 +186,11 @@ std::optional<std::pair<QPointF, QPointF>> SceneDevices::connectionPoints(const 
     if (dest_it == devices_.end())
         return {};
 
-    auto p0 = src_it->second->outConnectionPoint(id.sourceOutput(), true);
+    auto p0 = src_it->second->connectionPoint(id.sourceIndex(), id.sourceType(), true);
     if (!p0)
         return {};
 
-    auto p1 = dest_it->second->inConnectionPoint(id.destinationInput(), true);
+    auto p1 = dest_it->second->connectionPoint(id.destinationIndex(), id.destinationType(), true);
     if (!p1)
         return {};
 
@@ -208,14 +207,14 @@ std::optional<ConnectorPair> SceneDevices::connectionPair(const ConnectionId& id
     if (dest_it == devices_.end())
         return {};
 
-    if (id.sourceOutput() >= src_it->second->deviceData()->outputs().count())
+    if (id.sourceIndex() >= src_it->second->deviceData()->outputs().count())
         return {};
 
-    if (id.destinationInput() >= dest_it->second->deviceData()->inputs().count())
+    if (id.destinationIndex() >= dest_it->second->deviceData()->inputs().count())
         return {};
 
-    auto& d0 = src_it->second->deviceData()->outputAt(id.sourceOutput());
-    auto& d1 = dest_it->second->deviceData()->inputAt(id.destinationInput());
+    auto& d0 = src_it->second->deviceData()->outputAt(id.sourceIndex());
+    auto& d1 = dest_it->second->deviceData()->inputAt(id.destinationIndex());
 
     return ConnectorPair {
         ConnectorJack { d0.connectorModel(), d0.connectorType().complement() },
@@ -232,14 +231,14 @@ bool SceneDevices::checkConnection(const ConnectionId& id) const
     if (src_it == devices_.end())
         return false;
 
-    if (id.sourceOutput() >= src_it->second->deviceData()->outputs().size())
+    if (id.sourceIndex() >= src_it->second->deviceData()->outputs().size())
         return false;
 
     auto dest_it = devices_.find(id.destination());
     if (dest_it == devices_.end())
         return false;
 
-    if (id.destinationInput() >= dest_it->second->deviceData()->inputs().size())
+    if (id.destinationIndex() >= dest_it->second->deviceData()->inputs().size())
         return false;
 
     return true;

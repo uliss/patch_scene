@@ -189,10 +189,12 @@ void Diagram::updateConnectionPos(Connection* conn)
         return;
 
     auto conn_pos = devices_.connectionPoints(conn->connectionId());
-    if (conn_pos)
+    if (conn_pos) {
         conn->setPoints(conn_pos->first, conn_pos->second);
-    else
-        qWarning() << __FUNCTION__ << "connection points not found";
+        conn->setVisible(true);
+    } else {
+        conn->setVisible(false);
+    }
 }
 
 void Diagram::updateConnectionPos(DeviceId id)
@@ -678,7 +680,7 @@ bool Diagram::loadJson(const QString& path)
     if (devs.isArray()) {
         auto arr = devs.toArray();
         for (const auto& j : arr)
-            addDevice(Device::datafromJson(j));
+            addDevice(Device::dataFromJson(j));
     }
 
     // load connections
@@ -975,7 +977,7 @@ void Diagram::mousePressEvent(QMouseEvent* event)
                 } else {
                     state_machine_.setState(DiagramState::ConnectDevice);
                     startConnectionAt(event->pos());
-                    conn_start_ = xlet;
+                    conn_begin_ = xlet;
                 }
 
                 return; //
@@ -1089,30 +1091,44 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
         tmp_connection_->setVisible(false);
         state_machine_.setState(DiagramState::Init);
 
-        auto xlet = hoverDeviceXlet(items(event->pos()), event->pos());
-        if (xlet && conn_start_) {
+        auto conn_end = hoverDeviceXlet(items(event->pos()), event->pos());
+        if (conn_end && conn_begin_) {
             if (event->modifiers().testFlag(Qt::ShiftModifier)
-                && xlet->first.id() == conn_start_->first.id()
-                && xlet->first.type() == conn_start_->first.type()) { // reconnect to other xlet of same device
+                && conn_end->first.id() == conn_begin_->first.id()
+                && conn_end->first.type() == conn_begin_->first.type()) { // reconnect to other xlet of same device
 
-                auto prev_conn = connections_->findConnection(conn_start_->first);
+                auto prev_conn = connections_->findByXlet(conn_begin_->first);
                 if (prev_conn) {
                     auto new_conn = prev_conn->connectionInfo();
-                    if (new_conn.first.setEndPoint(xlet->first)) {
+                    if (new_conn.first.setEndPoint(conn_end->first)) {
                         cmdReconnectDevice(prev_conn->connectionInfo(), new_conn);
                     }
                 }
             } else {
-                if (!connections_->checkConnection(conn_start_.value(), xlet.value()))
+                if (!connections_->checkConnection(conn_begin_.value(), conn_end.value()))
                     return;
 
-                auto conn = ConnectionId::fromXletPair(xlet->first, conn_start_->first);
-                if (conn)
+                auto& d0 = conn_begin_->second;
+                auto& d1 = conn_end->second;
+                auto c0 = conn_begin_->first;
+                auto c1 = conn_end->first;
+
+                if (c0.type() == c1.type()) {
+                    if (c0.isInlet() && !d0.isBidirect() && d1.isBidirect())
+                        std::swap(c0, c1);
+
+                    if (c0.isOutlet() && d0.isBidirect() && !d1.isBidirect())
+                        std::swap(c0, c1);
+                }
+
+                auto conn = ConnectionId::fromXletPair(c0, c1);
+                if (conn) {
                     cmdConnectDevices(conn.value());
+                }
             }
         }
 
-        conn_start_ = {};
+        conn_begin_ = {};
     } break;
     case DiagramState::ConnectionEdit:
         QGraphicsView::mouseReleaseEvent(event);
@@ -1345,17 +1361,21 @@ bool Diagram::connectDevices(const ConnectionId& id, std::optional<ConnectionVie
         updateConnectionPos(conn);
         emit sceneChanged();
         return true;
-    } else
+    } else {
+        WARN() << "can't connect:" << id;
         return false;
+    }
 }
 
 bool Diagram::disconnectDevices(const ConnectionId& id)
 {
-    if (connections_->remove(id.sourceInfo())) {
+    if (connections_->remove(id)) {
         emit sceneChanged();
         return true;
-    } else
+    } else {
+        WARN() << "can't remove connection:" << id;
         return false;
+    }
 }
 
 void Diagram::moveSelectedItemsBy(qreal dx, qreal dy)

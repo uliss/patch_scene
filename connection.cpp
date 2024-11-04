@@ -14,7 +14,6 @@
 #include "connection.h"
 #include "connection_style.h"
 #include "diagram_scene.h"
-#include "logging.hpp"
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneContextMenuEvent>
@@ -60,7 +59,7 @@ Connection::Connection(const ConnectionId& id)
     setZValue(ZVALUE_CONN);
     setCacheMode(DeviceCoordinateCache);
     setFlag(QGraphicsItem::ItemIsSelectable);
-    setToolTip(QString("In(%1) -> Out(%2)").arg((int)id.sourceOutput()).arg((int)id.destinationInput()));
+    setToolTip(tr("Out(%1) → In(%2)").arg((int)id.sourceIndex()).arg((int)id.destinationIndex()));
     setAcceptHoverEvents(true);
 }
 
@@ -156,7 +155,6 @@ void Connection::updateShape()
 
 void Connection::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-    WARN() << "CONN";
     QGraphicsObject::mousePressEvent(event);
 
     if (event->modifiers().testFlag(Qt::ControlModifier)) {
@@ -193,12 +191,12 @@ QRectF Connection::boundingRect() const
 
 XletInfo Connection::destinationInfo() const
 {
-    return { id_.destination(), id_.destinationInput(), XletType::In };
+    return { id_.destination(), id_.destinationIndex(), id_.destinationType() };
 }
 
 XletInfo Connection::sourceInfo() const
 {
-    return { id_.source(), id_.sourceOutput(), XletType::Out };
+    return { id_.source(), id_.sourceIndex(), id_.sourceType() };
 }
 
 void Connection::setPoints(const QPointF& p0, const QPointF& p1)
@@ -305,6 +303,7 @@ void Connection::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
         auto act = menu_color->addAction(QIcon(pixmap), {});
         QAction::connect(act, &QAction::triggered, dia_scene, [this, c]() {
             view_data_.setColor(c);
+            setSelected(false);
         });
     }
 

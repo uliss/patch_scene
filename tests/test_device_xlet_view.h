@@ -25,10 +25,10 @@ private slots:
     void clear();
     void create();
     void indexToCell();
+    void indexToCell2();
     void inletConnectionPoint();
     void outletConnectionPoint();
     void place();
-    void posToCell();
     void posToIndex();
     void xletRect();
 };

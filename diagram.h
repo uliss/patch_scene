@@ -301,7 +301,7 @@ private:
     SceneConnections* connections_ { nullptr };
 
     DiagramStateMachine state_machine_;
-    std::optional<std::pair<XletInfo, XletData>> conn_start_;
+    std::optional<std::pair<XletInfo, XletData>> conn_begin_;
     qreal zoom_ { 1 };
     bool show_cables_ { true };
 
