@@ -84,6 +84,11 @@ public:
     void clearXlets();
 
     /**
+     * remove specified xlet from graphics scene and xlet list
+     */
+    bool removeXlet(XletViewIndex idx);
+
+    /**
      * remove all views and clear current view pointer
      */
     void clearViews();
@@ -103,7 +108,8 @@ public:
     bool appendView(std::unique_ptr<XletsView> view);
 
 private:
-    void clearXlets(QList<DeviceXlet*>& xlets);
+    static void clearXlets(QList<DeviceXlet*>& xlets);
+    static bool removeXlet(XletViewIndex idx, QList<DeviceXlet*>& xlets);
 
 private:
     QList<DeviceXlet*> inlets_, outlets_;

@@ -133,6 +133,18 @@ void DeviceXlets::clearXlets()
     clearXlets(outlets_);
 }
 
+bool DeviceXlets::removeXlet(XletViewIndex idx)
+{
+    switch (idx.type) {
+    case XletType::In:
+        return removeXlet(idx, inlets_);
+    case XletType::Out:
+        return removeXlet(idx, outlets_);
+    default:
+        return false;
+    }
+}
+
 void DeviceXlets::clearViews()
 {
     user_views_.clear();
@@ -210,6 +222,20 @@ void DeviceXlets::clearXlets(QList<DeviceXlet*>& xlets)
     }
 
     xlets.clear();
+}
+
+bool DeviceXlets::removeXlet(XletViewIndex idx, QList<DeviceXlet*>& xlets)
+{
+    if (idx.index < xlets.count()) {
+        auto xlet = xlets[idx.index];
+        if (xlet) {
+            xlet->scene()->removeItem(xlet);
+            delete xlet;
+            xlets.removeAll(xlet);
+        }
+        return true;
+    } else
+        return false;
 }
 
 } // namespace ceam
