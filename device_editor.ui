@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>535</width>
+    <width>495</width>
     <height>310</height>
    </rect>
   </property>
@@ -124,9 +124,6 @@
         </spacer>
        </item>
       </layout>
-     </item>
-     <item row="2" column="1">
-      <widget class="QComboBox" name="category"/>
      </item>
      <item row="5" column="0">
       <widget class="QLabel" name="imageLabel">
@@ -269,6 +266,9 @@
         <widget class="QLineEdit" name="model"/>
        </item>
       </layout>
+     </item>
+     <item row="2" column="1">
+      <widget class="QComboBox" name="category"/>
      </item>
     </layout>
    </item>
