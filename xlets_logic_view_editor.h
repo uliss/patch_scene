@@ -15,6 +15,7 @@
 #define XLETS_LOGIC_VIEW_EDITOR_H
 
 #include "device_xlet.h"
+#include "xlets_logic_view_data.h"
 
 #include <QDialog>
 
@@ -28,7 +29,7 @@ class XletLogicalEditor : public QDialog {
     Q_OBJECT
 
 public:
-    explicit XletLogicalEditor(QWidget* parent, QList<XletData>& data);
+    explicit XletLogicalEditor(QWidget* parent, QList<XletData>& data, XletsLogicViewData& viewData, XletType type);
     ~XletLogicalEditor();
 
     void setupTable(size_t rows);
@@ -36,6 +37,10 @@ public:
 private:
     Ui::XletLogicalEditor* ui;
     QList<XletData>& data_;
+    XletsLogicViewData& view_data_;
+    XletType type_;
+
+private:
     void fillTable();
 
     bool duplicateXlet(int row);

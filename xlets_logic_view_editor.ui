@@ -27,7 +27,7 @@
      <column/>
     </widget>
    </item>
-   <item row="1" column="0">
+   <item row="2" column="0">
     <layout class="QHBoxLayout" name="btnContainer">
      <item>
       <widget class="QToolButton" name="addXlet">
@@ -64,11 +64,55 @@
        </property>
        <property name="sizeHint" stdset="0">
         <size>
+         <width>1000</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item alignment="Qt::AlignRight">
+      <widget class="QPushButton" name="closeButton">
+       <property name="text">
+        <string>Close</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
          <width>40</width>
          <height>20</height>
         </size>
        </property>
       </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Maximum columns</string>
+       </property>
+       <property name="buddy">
+        <cstring>maxColumns</cstring>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="maxColumns">
+       <property name="minimumSize">
+        <size>
+         <width>50</width>
+         <height>0</height>
+        </size>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

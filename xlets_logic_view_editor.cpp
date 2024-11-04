@@ -12,6 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "xlets_logic_view_editor.h"
+#include "device_common.h"
 #include "logging.hpp"
 #include "table_cell_power.h"
 #include "table_cell_socket.h"
@@ -36,10 +37,12 @@ enum {
 
 using namespace ceam;
 
-XletLogicalEditor::XletLogicalEditor(QWidget* parent, QList<XletData>& data)
+XletLogicalEditor::XletLogicalEditor(QWidget* parent, QList<XletData>& data, XletsLogicViewData& viewData, XletType type)
     : QDialog(parent)
     , ui(new Ui::XletLogicalEditor)
     , data_(data)
+    , view_data_(viewData)
+    , type_(type)
 {
     ui->setupUi(this);
 
@@ -47,6 +50,36 @@ XletLogicalEditor::XletLogicalEditor(QWidget* parent, QList<XletData>& data)
     ui->moveXletDown->setEnabled(false);
     ui->moveXletUp->setEnabled(false);
     ui->removeXlet->setEnabled(false);
+
+    connect(ui->closeButton, &QPushButton::clicked, this, [this]() {
+        close();
+    });
+
+    ui->maxColumns->setRange(DeviceData::MIN_COL_COUNT, DeviceData::MAX_COL_COUNT);
+
+    switch (type_) {
+    case XletType::In:
+        ui->maxColumns->setValue(view_data_.maxInputColumnCount());
+        break;
+    case XletType::Out:
+        ui->maxColumns->setValue(view_data_.maxOutputColumnCount());
+        break;
+    default:
+        break;
+    }
+
+    connect(ui->maxColumns, &QSpinBox::valueChanged, this, [this](int value) {
+        switch (type_) {
+        case XletType::In:
+            view_data_.setMaxInputColumnCount(value);
+            break;
+        case XletType::Out:
+            view_data_.setMaxOutputColumnCount(value);
+            break;
+        default:
+            break;
+        }
+    });
 
     connect(this, &XletLogicalEditor::finished, this, [this]() {
         syncXlets();
