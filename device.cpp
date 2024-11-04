@@ -324,7 +324,7 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
         auto propertiesAct = new QAction(tr("Properties"), &menu);
         connect(propertiesAct, &QAction::triggered, this,
             [this]() {
-                std::unique_ptr<DeviceProperties> dialog(new DeviceProperties(data_));
+                std::unique_ptr<DeviceEditor> dialog(new DeviceEditor(data_));
                 connect(dialog.get(), SIGNAL(acceptData(SharedDeviceData)), this, SIGNAL(updateDevice(SharedDeviceData)));
                 dialog->exec();
             });

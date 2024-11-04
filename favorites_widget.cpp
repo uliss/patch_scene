@@ -140,8 +140,8 @@ void FavoritesWidget::initContextMenu()
                         SharedDeviceData dev_data(new DeviceData(DEV_NULL_ID));
 
                         if (dev_data->setJson(item_data)) {
-                            auto dialog = new DeviceProperties(dev_data, this);
-                            connect(dialog, &DeviceProperties::acceptData, this,
+                            auto dialog = new DeviceEditor(dev_data, this);
+                            connect(dialog, &DeviceEditor::acceptData, this,
                                 [this, item_idx](const SharedDeviceData& data) {
                                     auto item = model_->deviceItem(item_idx.row(), item_idx.column());
                                     if (item)

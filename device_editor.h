@@ -28,12 +28,12 @@ class QTableWidgetItem;
 
 namespace ceam {
 
-class DeviceProperties : public QDialog {
+class DeviceEditor : public QDialog {
     Q_OBJECT
 
 public:
-    explicit DeviceProperties(const SharedDeviceData& data, QWidget* parent = nullptr);
-    ~DeviceProperties();
+    explicit DeviceEditor(const SharedDeviceData& data, QWidget* parent = nullptr);
+    ~DeviceEditor();
 
 signals:
     void acceptData(SharedDeviceData data);

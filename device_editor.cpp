@@ -32,7 +32,7 @@ constexpr int IMG_PREVIEW_SIZE = 30;
 
 using namespace ceam;
 
-DeviceProperties::DeviceProperties(const SharedDeviceData& data, QWidget* parent)
+DeviceEditor::DeviceEditor(const SharedDeviceData& data, QWidget* parent)
     : QDialog(parent)
     , ui(new Ui::DeviceProperties)
     , data_(data)
@@ -108,18 +108,18 @@ DeviceProperties::DeviceProperties(const SharedDeviceData& data, QWidget* parent
     setupImageMirror(data);
 }
 
-DeviceProperties::~DeviceProperties()
+DeviceEditor::~DeviceEditor()
 {
     delete ui;
 }
 
-void DeviceProperties::accept()
+void DeviceEditor::accept()
 {
     emit acceptData(data_);
     QDialog::accept();
 }
 
-void DeviceProperties::chooseImageDialog()
+void DeviceEditor::chooseImageDialog()
 {
     auto dev_pix = new DevicePixmap(this);
     dev_pix->setCurrent(data_->imageIconPath());
@@ -131,7 +131,7 @@ void DeviceProperties::chooseImageDialog()
     dev_pix->show();
 }
 
-void DeviceProperties::setupCategories()
+void DeviceEditor::setupCategories()
 {
     foreachItemCategory([this](const char* name, int i) {
         ui->category->addItem(tr(name), i);
@@ -160,7 +160,7 @@ void DeviceProperties::setupCategories()
     ui->category->setCurrentIndex(data_->categoryIndex());
 }
 
-void DeviceProperties::updateImagePreview()
+void DeviceEditor::updateImagePreview()
 {
     if (data_->image().isEmpty()) {
         ui->currentImage->setText("?");
@@ -171,7 +171,7 @@ void DeviceProperties::updateImagePreview()
     }
 }
 
-void DeviceProperties::enableCategoryWidgets(bool value, ItemCategory cat)
+void DeviceEditor::enableCategoryWidgets(bool value, ItemCategory cat)
 {
     ui->batteryCount->setVisible(value);
     ui->batteryLabel->setVisible(value);
@@ -190,7 +190,7 @@ void DeviceProperties::enableCategoryWidgets(bool value, ItemCategory cat)
     adjustSize();
 }
 
-void DeviceProperties::setupBattery(const SharedDeviceData& data)
+void DeviceEditor::setupBattery(const SharedDeviceData& data)
 {
     foreachBatteryType(
         [this](const char* name, int value) {
@@ -219,7 +219,7 @@ void DeviceProperties::setupBattery(const SharedDeviceData& data)
     });
 }
 
-void DeviceProperties::setupImageMirror(const SharedDeviceData& data)
+void DeviceEditor::setupImageMirror(const SharedDeviceData& data)
 {
     ui->imageMirror->setChecked(data->imageMirror() != ImageMirrorType::None);
     connect(ui->imageMirror, &QCheckBox::stateChanged, this,
