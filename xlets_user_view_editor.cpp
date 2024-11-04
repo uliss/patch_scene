@@ -344,6 +344,24 @@ void XletsUserScene::clearAll()
     clear();
 }
 
+void XletsUserScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
+{
+    if (event->modifiers().testFlag(Qt::AltModifier)) {
+        auto x = items(event->scenePos(), Qt::IntersectsItemShape, Qt::AscendingOrder);
+        if (x.count() >= 2
+            && qgraphicsitem_cast<XletsUserViewCell*>(x.front())) { // non empty cell
+            auto cell = qgraphicsitem_cast<XletsUserViewCell*>(x.front());
+            auto cell_idx = cell->cellIndex();
+            auto idx = data_.xletAtCell(cell_idx);
+            if (!idx.isNull() && data_.clearCell(cell_idx)) {
+                if (xlets_.removeXlet(idx))
+                    emit updated();
+            }
+        }
+    } else
+        QGraphicsScene::mousePressEvent(event);
+}
+
 void XletsUserScene::clearCells()
 {
     for (auto c : cells_) {

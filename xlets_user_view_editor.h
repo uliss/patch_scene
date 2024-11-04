@@ -52,6 +52,9 @@ public:
 Q_SIGNALS:
     void updated();
 
+protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent* event) final;
+
 private:
     /**
      * remove all cells from the scene and the cell list
@@ -72,10 +75,16 @@ class XletsUserViewCell : public QGraphicsRectItem {
     XletsUserScene* scene_;
 
 public:
+    enum { Type = QGraphicsItem::UserType + 7 };
+    int type() const override { return Type; }
+
+public:
     XletsUserViewCell(const QRect& r, const CellIndex& idx, XletsUserViewData& data, XletsUserScene* parent);
     void dragEnterEvent(QGraphicsSceneDragDropEvent* event) final;
     void dragLeaveEvent(QGraphicsSceneDragDropEvent* event) final;
     void dropEvent(QGraphicsSceneDragDropEvent* event) final;
+
+    const CellIndex& cellIndex() const { return cell_; }
 
 private:
     void resetCell();
