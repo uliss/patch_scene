@@ -169,6 +169,8 @@ public:
     const XletData& outputAt(XletIndex n) const { return outputs_.at(n); }
     void appendOutput(const XletData& x) { outputs_.append(x); }
 
+    bool hasAnyXput() const;
+
     const QPointF& pos() const { return pos_; }
     void setPos(const QPointF& pos) { pos_ = pos; }
 

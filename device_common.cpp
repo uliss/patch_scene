@@ -405,6 +405,11 @@ const XletData& DeviceData::inputAt(XletIndex n) const
     return inputs_.at(n);
 }
 
+bool DeviceData::hasAnyXput() const
+{
+    return inputs_.count() + outputs_.count();
+}
+
 void DeviceData::setBatteryCount(int v)
 {
     battery_count_ = qBound(0, v, 10);
