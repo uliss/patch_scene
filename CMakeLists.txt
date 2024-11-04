@@ -71,6 +71,9 @@ set(PROJECT_SOURCES
     device.h
     device_common.cpp
     device_common.h
+    device_editor.cpp
+    device_editor.h
+    device_editor.ui
     device_item_model.cpp
     device_item_model.h
     device_library.cpp
@@ -82,9 +85,6 @@ set(PROJECT_SOURCES
     device_xlet.h
     device_xlet_view.cpp
     device_xlet_view.h
-    deviceproperties.cpp
-    deviceproperties.h
-    deviceproperties.ui
     diagram.cpp
     diagram.h
     diagram_item_model.cpp

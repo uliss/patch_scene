@@ -11,8 +11,8 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#ifndef DEVICEPROPERTIES_H
-#define DEVICEPROPERTIES_H
+#ifndef DEVICE_EDITOR_H
+#define DEVICE_EDITOR_H
 
 #include "device_common.h"
 #include "device_xlet.h"
@@ -58,4 +58,4 @@ private:
 
 }
 
-#endif // DEVICEPROPERTIES_H
+#endif // DEVICE_EDITOR_H

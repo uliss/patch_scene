@@ -11,11 +11,11 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#include "deviceproperties.h"
+#include "device_editor.h"
 #include "device_pixmap.h"
 #include "logging.hpp"
 #include "tablecellcheckbox.h"
-#include "ui_deviceproperties.h"
+#include "ui_device_editor.h"
 #include "vendor_list.h"
 #include "xlets_logic_view_editor.h"
 #include "xlets_user_view_editor.h"

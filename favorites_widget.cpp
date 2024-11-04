@@ -14,7 +14,7 @@
 #include "favorites_widget.h"
 #include "device_common.h"
 #include "device_library.h"
-#include "deviceproperties.h"
+#include "device_editor.h"
 #include "logging.hpp"
 
 #include <QHeaderView>

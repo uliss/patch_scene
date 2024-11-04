@@ -12,7 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "device.h"
-#include "deviceproperties.h"
+#include "device_editor.h"
 #include "logging.hpp"
 #include "svg_render_factory.h"
 #include "xlets_view.h"
