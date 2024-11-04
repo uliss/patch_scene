@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>533</width>
-    <height>344</height>
+    <width>535</width>
+    <height>310</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,7 +16,139 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QGridLayout" name="gridLayout">
+     <item row="6" column="0">
+      <widget class="QLabel" name="batteryLabel">
+       <property name="text">
+        <string>&amp;Batteries</string>
+       </property>
+       <property name="buddy">
+        <cstring>batteryType</cstring>
+       </property>
+      </widget>
+     </item>
      <item row="6" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QComboBox" name="batteryType"/>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="batteryCount">
+         <property name="maximum">
+          <number>10</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_6">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="categoryLabel">
+       <property name="text">
+        <string>&amp;Category</string>
+       </property>
+       <property name="buddy">
+        <cstring>category</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="viewsLabel">
+       <property name="text">
+        <string>Views:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <layout class="QHBoxLayout" name="nameLayout">
+       <item>
+        <widget class="QLineEdit" name="deviceName"/>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="showTitle">
+         <property name="text">
+          <string>&amp;Show</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="vendorLabel">
+       <property name="text">
+        <string>Vendor</string>
+       </property>
+       <property name="buddy">
+        <cstring>vendor</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QToolButton" name="inputsEditLogical">
+         <property name="text">
+          <string>Inputs</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="outputsEditLogical">
+         <property name="text">
+          <string>Outputs</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item row="2" column="1">
+      <widget class="QComboBox" name="category"/>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="imageLabel">
+       <property name="text">
+        <string>Image</string>
+       </property>
+       <property name="buddy">
+        <cstring>imageChooseButton</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="deviceNameLabel">
+       <property name="text">
+        <string>&amp;Name</string>
+       </property>
+       <property name="buddy">
+        <cstring>deviceName</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
       <layout class="QHBoxLayout" name="imageLayout">
        <item>
         <widget class="QLabel" name="currentImage">
@@ -111,166 +243,10 @@
        </item>
       </layout>
      </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="inletsLabel">
-       <property name="text">
-        <string>Inputs</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="0">
-      <widget class="QLabel" name="batteryLabel">
-       <property name="text">
-        <string>&amp;Batteries</string>
-       </property>
-       <property name="buddy">
-        <cstring>batteryType</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="deviceNameLabel">
-       <property name="text">
-        <string>&amp;Name</string>
-       </property>
-       <property name="buddy">
-        <cstring>deviceName</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QComboBox" name="batteryType"/>
-       </item>
-       <item>
-        <widget class="QSpinBox" name="batteryCount">
-         <property name="maximum">
-          <number>10</number>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_6">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </item>
-     <item row="6" column="0">
-      <widget class="QLabel" name="imageLabel">
-       <property name="text">
-        <string>Image</string>
-       </property>
-       <property name="buddy">
-        <cstring>imageChooseButton</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="categoryLabel">
-       <property name="text">
-        <string>&amp;Category</string>
-       </property>
-       <property name="buddy">
-        <cstring>category</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="vendorLabel">
-       <property name="text">
-        <string>Vendor</string>
-       </property>
-       <property name="buddy">
-        <cstring>vendor</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QComboBox" name="category"/>
-     </item>
      <item row="4" column="1">
-      <layout class="QGridLayout" name="outputsGrid">
-       <item row="0" column="0">
-        <widget class="QToolButton" name="outputsEditLogical">
-         <property name="text">
-          <string>Edit</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
-        <widget class="QSpinBox" name="outletsColumns"/>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLabel" name="outputsLabelLogicalCols">
-         <property name="text">
-          <string>Logical columns:</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item row="3" column="1">
-      <layout class="QGridLayout" name="inputsGrid">
-       <item row="1" column="0">
-        <widget class="QToolButton" name="inputsEditLogical">
-         <property name="text">
-          <string>Edit</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLabel" name="inputsLabelLogicalCols">
-         <property name="text">
-          <string>Logical columns:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QSpinBox" name="inletsColumns"/>
-       </item>
-      </layout>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="outletsLabel">
+      <widget class="QToolButton" name="viewsEdit">
        <property name="text">
-        <string>Outputs</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <layout class="QHBoxLayout" name="nameLayout">
-       <item>
-        <widget class="QLineEdit" name="deviceName"/>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="showTitle">
-         <property name="text">
-          <string>&amp;Show</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="viewsLabel">
-       <property name="text">
-        <string>Views:</string>
+        <string>Edit</string>
        </property>
       </widget>
      </item>
@@ -293,13 +269,6 @@
         <widget class="QLineEdit" name="model"/>
        </item>
       </layout>
-     </item>
-     <item row="5" column="1">
-      <widget class="QToolButton" name="viewsEdit">
-       <property name="text">
-        <string>Edit</string>
-       </property>
-      </widget>
      </item>
     </layout>
    </item>
