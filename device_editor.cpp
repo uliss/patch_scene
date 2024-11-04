@@ -133,7 +133,7 @@ void DeviceEditor::chooseImageDialog()
 void DeviceEditor::setupCategories()
 {
     foreachItemCategory([this](const char* name, int i) {
-        ui->category->addItem(tr(name), i);
+        ui->category->addItem(QCoreApplication::translate("ceam", name), i);
     });
     connect(ui->category, &QComboBox::currentIndexChanged, this, [this](int) {
         bool ok = false;

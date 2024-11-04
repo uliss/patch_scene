@@ -23,15 +23,15 @@ using namespace ceam;
 
 namespace {
 
-#define CONST_STR(str) constexpr const char* str_##str = #str;
+#define CONST_STR(id, str) constexpr const char* str_##id = str;
 
-CONST_STR(computer)
-CONST_STR(device)
-CONST_STR(furniture)
-CONST_STR(human)
-CONST_STR(instrument)
-CONST_STR(return )
-CONST_STR(send)
+CONST_STR(computer, QT_TRANSLATE_NOOP("ceam", "computer"))
+CONST_STR(device, QT_TRANSLATE_NOOP("ceam", "device"))
+CONST_STR(furniture, QT_TRANSLATE_NOOP("ceam", "furniture"))
+CONST_STR(human, QT_TRANSLATE_NOOP("ceam", "human"))
+CONST_STR(instrument, QT_TRANSLATE_NOOP("ceam", "instrument"))
+CONST_STR(return, QT_TRANSLATE_NOOP("ceam", "return"))
+CONST_STR(send, QT_TRANSLATE_NOOP("ceam", "send"))
 
 using DevCatTuple = std::tuple<DeviceCategory, const char*, const char*>;
 constexpr DevCatTuple DEV_CATS[] = {
