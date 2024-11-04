@@ -887,49 +887,49 @@
 <context>
     <name>QAction</name>
     <message>
-        <location filename="connection.cpp" line="256"/>
+        <location filename="connection.cpp" line="254"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="262"/>
+        <location filename="connection.cpp" line="260"/>
         <source>Cord type</source>
         <translation>Тип соединения</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="264"/>
+        <location filename="connection.cpp" line="262"/>
         <source>Bezier</source>
         <translation>Кривая Безье</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="265"/>
+        <location filename="connection.cpp" line="263"/>
         <source>Linear</source>
         <translation>Прямая</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="266"/>
+        <location filename="connection.cpp" line="264"/>
         <source>Segment</source>
         <translation>Сегмент</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="286"/>
+        <location filename="connection.cpp" line="284"/>
         <source>Color</source>
         <translation>Цвет</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="313"/>
-        <location filename="connection.cpp" line="331"/>
+        <location filename="connection.cpp" line="311"/>
+        <location filename="connection.cpp" line="329"/>
         <source>Edit</source>
         <translation>Правка</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="319"/>
+        <location filename="connection.cpp" line="317"/>
         <source>Add split point</source>
         <translation>Добавить точку</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="325"/>
-        <location filename="connection.cpp" line="336"/>
+        <location filename="connection.cpp" line="323"/>
+        <location filename="connection.cpp" line="334"/>
         <source>Reset</source>
         <translation>Сбросить</translation>
     </message>
@@ -993,6 +993,54 @@
         <location filename="xlet_logical_editor.ui" line="56"/>
         <source>↓</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>XletsUserEditor</name>
+    <message>
+        <location filename="xlets_user_editor.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="xlets_user_editor.ui" line="31"/>
+        <source>Add user view</source>
+        <translation>Добавить вид</translation>
+    </message>
+    <message>
+        <location filename="xlets_user_editor.ui" line="34"/>
+        <source>+</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="xlets_user_editor.ui" line="41"/>
+        <source>Remove selected user view</source>
+        <translation>Удалить выбранный вид</translation>
+    </message>
+    <message>
+        <location filename="xlets_user_editor.ui" line="44"/>
+        <source>-</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="xlets_user_editor.ui" line="58"/>
+        <source>Inputs</source>
+        <translation>Входы</translation>
+    </message>
+    <message>
+        <location filename="xlets_user_editor.ui" line="100"/>
+        <source>Outputs</source>
+        <translation>Выходы</translation>
+    </message>
+    <message>
+        <location filename="xlets_user_editor.ui" line="139"/>
+        <source>User view</source>
+        <translation>Пользовательский вид</translation>
+    </message>
+    <message>
+        <location filename="xlets_user_editor.ui" line="148"/>
+        <source>Size</source>
+        <translation>Размер</translation>
     </message>
 </context>
 <context>
@@ -1424,7 +1472,7 @@ http://ceam.space</source>
 <context>
     <name>ceam::Connection</name>
     <message>
-        <location filename="connection.cpp" line="63"/>
+        <location filename="connection.cpp" line="62"/>
         <source>Out(%1) → In(%2)</source>
         <oldsource>In(%1) → Out(%2)</oldsource>
         <translation>Выход(%1) → Вход(%2)</translation>
@@ -1456,66 +1504,76 @@ http://ceam.space</source>
 <context>
     <name>ceam::Device</name>
     <message>
-        <location filename="device.cpp" line="307"/>
+        <location filename="device.cpp" line="275"/>
         <source>Distribute horizontal</source>
         <translation>Распределить горизонтально</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="310"/>
+        <location filename="device.cpp" line="278"/>
         <source>Distribute vertical</source>
         <translation>Распределить вертикально</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="313"/>
+        <location filename="device.cpp" line="281"/>
         <source>Place in row</source>
         <translation>Разместить в ряд</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="316"/>
+        <location filename="device.cpp" line="284"/>
         <source>Place in column</source>
         <translation>Разместить в столбец</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="334"/>
+        <location filename="device.cpp" line="302"/>
         <source>Hide title</source>
         <translation>Скрыть название</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="334"/>
+        <location filename="device.cpp" line="302"/>
         <source>Show title</source>
         <translation>Показать название</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="344"/>
+        <location filename="device.cpp" line="312"/>
         <source>Duplicate</source>
         <translation>Дублировать</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="348"/>
+        <location filename="device.cpp" line="316"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="352"/>
+        <location filename="device.cpp" line="320"/>
         <source>Add to favorites</source>
         <translation>Добавить в избранное</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="356"/>
+        <location filename="device.cpp" line="324"/>
         <source>Properties</source>
         <translation>Свойства</translation>
+    </message>
+    <message>
+        <location filename="device.cpp" line="340"/>
+        <source>Views</source>
+        <translation>Виды</translation>
+    </message>
+    <message>
+        <location filename="device.cpp" line="341"/>
+        <source>Logic</source>
+        <translation>Логический</translation>
     </message>
     <message>
         <source>Device: %1</source>
         <translation type="vanished">Устройство: %1</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="301"/>
+        <location filename="device.cpp" line="269"/>
         <source>Align horizontal</source>
         <translation>Выровнять по горизонтали</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="304"/>
+        <location filename="device.cpp" line="272"/>
         <source>Align vertical</source>
         <translation>Выровнять по вертикали</translation>
     </message>
@@ -1541,19 +1599,24 @@ http://ceam.space</source>
 <context>
     <name>ceam::DeviceProperties</name>
     <message>
-        <location filename="deviceproperties.cpp" line="40"/>
+        <location filename="deviceproperties.cpp" line="42"/>
         <source>&apos;%1&apos; properties</source>
         <translation>Свойства &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="73"/>
+        <location filename="deviceproperties.cpp" line="75"/>
         <source>Logical inputs editor</source>
         <translation>Редактор физических входов</translation>
     </message>
     <message>
-        <location filename="deviceproperties.cpp" line="78"/>
+        <location filename="deviceproperties.cpp" line="80"/>
         <source>Logical outputs editor</source>
         <translation>Редактор физических выходов</translation>
+    </message>
+    <message>
+        <location filename="deviceproperties.cpp" line="90"/>
+        <source>User views editor</source>
+        <translation>Редактор пользовательских видов</translation>
     </message>
     <message>
         <source>Type</source>
@@ -1579,7 +1642,7 @@ http://ceam.space</source>
 <context>
     <name>ceam::DeviceXlet</name>
     <message>
-        <location filename="device_xlet.cpp" line="180"/>
+        <location filename="device_xlet.cpp" line="190"/>
         <source>Phantom</source>
         <translation>Фантом</translation>
     </message>
@@ -1592,12 +1655,12 @@ http://ceam.space</source>
         <translation>Новый проект</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="807"/>
+        <location filename="diagram.cpp" line="809"/>
         <source>Generated with PatchScene</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1146"/>
+        <location filename="diagram.cpp" line="1151"/>
         <source>&amp;Add device</source>
         <translation>&amp;Добавить элемент</translation>
     </message>
@@ -1614,32 +1677,32 @@ http://ceam.space</source>
         <translation type="vanished">&amp;Установить фоновое изображение</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1158"/>
+        <location filename="diagram.cpp" line="1163"/>
         <source>Align &amp;horizontal</source>
         <translation>Выровнять по &amp;горизонтали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1162"/>
+        <location filename="diagram.cpp" line="1167"/>
         <source>Align &amp;vertical</source>
         <translation>Выровнять по &amp;вертикали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1166"/>
+        <location filename="diagram.cpp" line="1171"/>
         <source>Place in row</source>
         <translation>Разместить в ряд</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1170"/>
+        <location filename="diagram.cpp" line="1175"/>
         <source>Place in column</source>
         <translation>Разместить в столбец</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1177"/>
+        <location filename="diagram.cpp" line="1182"/>
         <source>Distribute horizontal</source>
         <translation>Распределить горизонтально</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1181"/>
+        <location filename="diagram.cpp" line="1186"/>
         <source>Distribute vertical</source>
         <translation>Распределить вертикально</translation>
     </message>
@@ -1685,27 +1748,27 @@ http://ceam.space</source>
 <context>
     <name>ceam::FavoritesWidget</name>
     <message>
-        <location filename="favorites_widget.cpp" line="125"/>
+        <location filename="favorites_widget.cpp" line="126"/>
         <source>Export to library file</source>
         <translation>Экспорт в файл библиотеки</translation>
     </message>
     <message>
-        <location filename="favorites_widget.cpp" line="128"/>
+        <location filename="favorites_widget.cpp" line="129"/>
         <source>Import from library file</source>
         <translation>Импорт из файла библиотеки</translation>
     </message>
     <message>
-        <location filename="favorites_widget.cpp" line="134"/>
+        <location filename="favorites_widget.cpp" line="135"/>
         <source>Edit</source>
         <translation>Правка</translation>
     </message>
     <message>
-        <location filename="favorites_widget.cpp" line="155"/>
+        <location filename="favorites_widget.cpp" line="156"/>
         <source>Remove</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="favorites_widget.cpp" line="160"/>
+        <location filename="favorites_widget.cpp" line="161"/>
         <source>Export</source>
         <translation>Экспортировать</translation>
     </message>
@@ -2153,6 +2216,19 @@ Do you wan&apos;t to save it before closing?</source>
         <location filename="xlet_logical_editor.cpp" line="75"/>
         <source>Bidirect</source>
         <translation>Двунаправленный</translation>
+    </message>
+</context>
+<context>
+    <name>ceam::XletsUserEditor</name>
+    <message>
+        <location filename="xlets_user_editor.cpp" line="142"/>
+        <source>User</source>
+        <translation>Пользовательский</translation>
+    </message>
+    <message>
+        <location filename="xlets_user_editor.cpp" line="148"/>
+        <source>User %1</source>
+        <translation>Пользовательский %1</translation>
     </message>
 </context>
 <context>
