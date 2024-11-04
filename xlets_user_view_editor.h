@@ -47,6 +47,8 @@ public:
     // clear xlets and create them again
     void reinitXlets();
 
+    void clearAll();
+
 Q_SIGNALS:
     void updated();
 
@@ -105,6 +107,8 @@ private:
     void initRowsAndCols();
 
     void adjustUserViewSize();
+
+    void enableUserView(bool value);
 
 private:
     Ui::XletsUserEditor* ui;

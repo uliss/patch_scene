@@ -48,7 +48,11 @@ XletsUserViewEditor::XletsUserViewEditor(QWidget* parent, const SharedDeviceData
     initButtons(data);
     initUserViewList(data);
 
-    initUserViewDataWith(data->currentUserView());
+    if (data->userViewData().isEmpty()) {
+        enableUserView(false);
+        adjustUserViewSize();
+    } else
+        initUserViewDataWith(data->currentUserView());
 
     ui->userView->setScene(&view_scene_);
     ui->userView->setFixedSize(view_scene_.itemsBoundingRect().size().toSize().grownBy({ 3, 3, 3, 3 }));
@@ -166,6 +170,7 @@ void XletsUserViewEditor::initButtons(const SharedDeviceData& data)
                 delete item;
 
                 data_->userViewData().remove(row);
+                enableUserView(!data_->userViewData().isEmpty());
             }
         });
 }
@@ -224,8 +229,12 @@ void XletsUserViewEditor::initUserViewDataWith(int idx)
         WARN() << "invalid index:" << idx;
         ui->numCols->setValue(XletsUserViewData::DEF_COL_COUNT);
         ui->numRows->setValue(XletsUserViewData::DEF_ROW_COUNT);
-        return;
+        enableUserView(false);
+        adjustUserViewSize();
+        view_scene_.clearAll();
     } else {
+        enableUserView(true);
+
         auto& data = data_->userViewData()[idx];
 
         view_scene_.setData(idx, data);
@@ -258,6 +267,15 @@ void XletsUserViewEditor::adjustUserViewSize()
     auto sz = rect.size().toSize().grownBy({ 3, 3, 3, 3 });
     ui->userView->centerOn(rect.center() + QPoint(0, 3));
     ui->userView->setFixedSize(sz);
+}
+
+void XletsUserViewEditor::enableUserView(bool value)
+{
+    ui->inletsView->setEnabled(value);
+    ui->outletsView->setEnabled(value);
+    ui->userView->setEnabled(value);
+    ui->numCols->setEnabled(value);
+    ui->numRows->setEnabled(value);
 }
 
 XletsUserScene::XletsUserScene(const QList<XletData>& inlets, const QList<XletData>& outlets)
@@ -317,6 +335,13 @@ void XletsUserScene::reinitXlets()
         in->setZValue(2);
         addItem(in);
     }
+}
+
+void XletsUserScene::clearAll()
+{
+    clearCells();
+    xlets_.clearXlets();
+    clear();
 }
 
 void XletsUserScene::clearCells()
