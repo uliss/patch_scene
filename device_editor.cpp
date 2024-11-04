@@ -53,6 +53,9 @@ DeviceEditor::DeviceEditor(const SharedDeviceData& data, QWidget* parent)
     ui->currentImage->setAlignment(Qt::AlignCenter);
     updateImagePreview();
 
+    ui->viewsEdit->setEnabled(data_->hasAnyXput());
+    ui->viewsLabel->setEnabled(data_->hasAnyXput());
+
     ui->zoom->setValue(data->zoom());
     connect(ui->zoom, &QDoubleSpinBox::valueChanged, this, [this](qreal v) { data_->setZoom(v); });
 
@@ -71,12 +74,20 @@ DeviceEditor::DeviceEditor(const SharedDeviceData& data, QWidget* parent)
     });
 
     connect(ui->inputsEditLogical, &QToolButton::clicked, this, [this]() {
-        auto dialog = new XletLogicalEditor(this, data_->inputs());
+        auto dialog = new XletLogicalEditor(this, data_->inputs(), data_->logicViewData(), XletType::In);
+        connect(dialog, &XletLogicalEditor::finished, this, [this](int) {
+            ui->viewsEdit->setEnabled(data_->hasAnyXput());
+            ui->viewsLabel->setEnabled(data_->hasAnyXput());
+        });
         dialog->setWindowTitle(tr("Logical inputs editor"));
         dialog->exec();
     });
     connect(ui->outputsEditLogical, &QToolButton::clicked, this, [this]() {
-        auto dialog = new XletLogicalEditor(this, data_->outputs());
+        auto dialog = new XletLogicalEditor(this, data_->outputs(), data_->logicViewData(), XletType::Out);
+        connect(dialog, &XletLogicalEditor::finished, this, [this](int) {
+            ui->viewsEdit->setEnabled(data_->hasAnyXput());
+            ui->viewsLabel->setEnabled(data_->hasAnyXput());
+        });
         dialog->setWindowTitle(tr("Logical outputs editor"));
         dialog->exec();
     });
@@ -89,18 +100,6 @@ DeviceEditor::DeviceEditor(const SharedDeviceData& data, QWidget* parent)
 
         dialog->setWindowTitle(tr("User views editor"));
         dialog->exec();
-    });
-
-    ui->inletsColumns->setRange(DeviceData::MIN_COL_COUNT, DeviceData::MAX_COL_COUNT);
-    ui->inletsColumns->setValue(data_->logicViewData().maxInputColumnCount());
-    connect(ui->inletsColumns, &QSpinBox::valueChanged, this, [this](int value) {
-        data_->logicViewData().setMaxInputColumnCount(value);
-    });
-
-    ui->outletsColumns->setRange(DeviceData::MIN_COL_COUNT, DeviceData::MAX_COL_COUNT);
-    ui->outletsColumns->setValue(data_->logicViewData().maxOutputColumnCount());
-    connect(ui->outletsColumns, &QSpinBox::valueChanged, this, [this](int value) {
-        data_->logicViewData().setMaxOutputColumnCount(value);
     });
 
     setupCategories();
@@ -176,15 +175,16 @@ void DeviceEditor::enableCategoryWidgets(bool value, ItemCategory cat)
     ui->batteryCount->setVisible(value);
     ui->batteryLabel->setVisible(value);
     ui->batteryType->setVisible(value);
-    ui->inletsColumns->setVisible(value);
-    ui->outletsColumns->setVisible(value);
-    ui->outletsLabel->setVisible(value);
 
     const bool is_human = (cat == ItemCategory::Human);
     ui->model->setHidden(is_human);
     ui->modelLabel->setHidden(is_human);
     ui->vendor->setHidden(is_human);
     ui->vendorLabel->setHidden(is_human);
+    ui->viewsLabel->setHidden(is_human);
+    ui->inputsEditLogical->setHidden(is_human);
+    ui->outputsEditLogical->setHidden(is_human);
+    ui->viewsEdit->setHidden(is_human);
 
     adjustSize();
     adjustSize();
