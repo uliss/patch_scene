@@ -40,6 +40,8 @@ public:
 
     XletViewIndex xletAt(int pos) const;
     bool insertXlet(CellIndex cellIdx, XletViewIndex vidx);
+    bool clearCell(CellIndex cellIdx);
+    XletViewIndex xletAtCell(CellIndex cellIdx) const;
 
     const QString& name() const { return name_; }
     void setName(const QString& name) { name_ = name; }
@@ -49,6 +51,24 @@ public:
 public:
     QJsonValue toJson() const;
     static std::optional<XletsUserViewData> fromJson(const QJsonValue& v);
+
+private:
+    int cellToIndex(CellIndex cellIdx) const
+    {
+        return cellIdx.row * col_count_ + cellIdx.column;
+    }
+
+    bool checkCell(CellIndex cellIdx) const
+    {
+        if (cellIdx.row < 0
+            || cellIdx.row >= row_count_
+            || cellIdx.column < 0
+            || cellIdx.column >= col_count_) //
+        {
+            return false;
+        } else
+            return true;
+    }
 
 private:
     int col_count_ { DEF_COL_COUNT }, row_count_ { DEF_ROW_COUNT };

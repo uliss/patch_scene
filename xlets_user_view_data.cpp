@@ -61,15 +61,10 @@ XletViewIndex XletsUserViewData::xletAt(int pos) const
 
 bool XletsUserViewData::insertXlet(CellIndex cellIdx, XletViewIndex vidx)
 {
-    if (cellIdx.row < 0
-        || cellIdx.row >= row_count_
-        || cellIdx.column < 0
-        || cellIdx.column >= col_count_) //
-    {
+    if (!checkCell(cellIdx))
         return false;
-    }
 
-    auto idx = cellIdx.row * col_count_ + cellIdx.column;
+    auto idx = cellToIndex(cellIdx);
     if (idx >= cellCount())
         return false;
 
@@ -96,6 +91,31 @@ bool XletsUserViewData::insertXlet(CellIndex cellIdx, XletViewIndex vidx)
     }
 
     return true;
+}
+
+bool XletsUserViewData::clearCell(CellIndex cellIdx)
+{
+    if (!checkCell(cellIdx))
+        return false;
+
+    auto idx = cellToIndex(cellIdx);
+    if (idx >= cellCount())
+        return false;
+
+    xlets_idx_[idx] = XletViewIndex::null();
+    return true;
+}
+
+XletViewIndex XletsUserViewData::xletAtCell(CellIndex cellIdx) const
+{
+    if (!checkCell(cellIdx))
+        return XletViewIndex::null();
+
+    auto idx = cellToIndex(cellIdx);
+    if (idx >= cellCount())
+        return XletViewIndex::null();
+
+    return xlets_idx_[idx];
 }
 
 bool XletsUserViewData::operator==(const XletsUserViewData& vd) const
