@@ -144,20 +144,20 @@ set(PROJECT_SOURCES
     vendor_list.h
     xlet_info.cpp
     xlet_info.h
-    xlet_logical_editor.cpp
-    xlet_logical_editor.h
-    xlet_logical_editor.ui
     xlet_view_index.cpp
     xlet_view_index.h
     xlets_logic_view_data.cpp
     xlets_logic_view_data.h
-    xlets_user_view_editor.cpp
-    xlets_user_view_editor.h
-    xlets_user_view_editor.ui
+    xlets_logic_view_editor.cpp
+    xlets_logic_view_editor.h
+    xlets_logic_view_editor.ui
     xlets_user_view.cpp
     xlets_user_view.h
     xlets_user_view_data.cpp
     xlets_user_view_data.h
+    xlets_user_view_editor.cpp
+    xlets_user_view_editor.h
+    xlets_user_view_editor.ui
     xlets_view.cpp
     xlets_view.h
 )

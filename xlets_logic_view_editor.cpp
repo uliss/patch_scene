@@ -11,13 +11,13 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#include "xlet_logical_editor.h"
+#include "xlets_logic_view_editor.h"
 #include "logging.hpp"
 #include "table_cell_power.h"
 #include "table_cell_socket.h"
 #include "tablecellcheckbox.h"
 #include "tablecellconnector.h"
-#include "ui_xlet_logical_editor.h"
+#include "ui_xlets_logic_view_editor.h"
 
 #include <QHeaderView>
 #include <QTableWidget>

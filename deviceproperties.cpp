@@ -17,7 +17,7 @@
 #include "tablecellcheckbox.h"
 #include "ui_deviceproperties.h"
 #include "vendor_list.h"
-#include "xlet_logical_editor.h"
+#include "xlets_logic_view_editor.h"
 #include "xlets_user_view_editor.h"
 
 #include <QCompleter>

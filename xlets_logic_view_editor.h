@@ -11,8 +11,8 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#ifndef XLET_LOGICAL_EDITOR_H
-#define XLET_LOGICAL_EDITOR_H
+#ifndef XLETS_LOGIC_VIEW_EDITOR_H
+#define XLETS_LOGIC_VIEW_EDITOR_H
 
 #include "device_xlet.h"
 
@@ -51,4 +51,4 @@ private:
 
 }
 
-#endif // XLET_LOGICAL_EDITOR_H
+#endif // XLETS_LOGIC_VIEW_EDITOR_H
