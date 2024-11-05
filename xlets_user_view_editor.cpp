@@ -220,7 +220,6 @@ void XletsUserViewEditor::initUserViewList(const SharedDeviceData& data)
 void XletsUserViewEditor::initUserViewDataWith(int idx)
 {
     if (idx < 0 || idx >= data_->userViewData().size()) {
-        // WARN() << "invalid index:" << idx;
         ui->numCols->setValue(XletsUserViewData::DEF_COL_COUNT);
         ui->numRows->setValue(XletsUserViewData::DEF_ROW_COUNT);
         enableUserView(false);
