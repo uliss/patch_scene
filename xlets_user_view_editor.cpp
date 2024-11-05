@@ -48,16 +48,12 @@ XletsUserViewEditor::XletsUserViewEditor(QWidget* parent, const SharedDeviceData
     initButtons(data);
     initUserViewList(data);
 
-    if (data->userViewData().isEmpty()) {
-        enableUserView(false);
-        adjustUserViewSize();
-    } else
+    if (data->userViewData().isEmpty())
+        initUserViewDataWith(0);
+    else
         initUserViewDataWith(data->currentUserView());
 
     ui->userView->setScene(&view_scene_);
-    ui->userView->setFixedSize(view_scene_.itemsBoundingRect().size().toSize().grownBy({ 3, 3, 3, 3 }));
-    ui->userView->centerOn(view_scene_.sceneRect().center());
-
     connect(&view_scene_, &XletsUserScene::updated, this,
         [this]() {
             setXletViewData(view_scene_.currentIndex(), view_scene_.data());
@@ -224,7 +220,7 @@ void XletsUserViewEditor::initUserViewList(const SharedDeviceData& data)
 void XletsUserViewEditor::initUserViewDataWith(int idx)
 {
     if (idx < 0 || idx >= data_->userViewData().size()) {
-        WARN() << "invalid index:" << idx;
+        // WARN() << "invalid index:" << idx;
         ui->numCols->setValue(XletsUserViewData::DEF_COL_COUNT);
         ui->numRows->setValue(XletsUserViewData::DEF_ROW_COUNT);
         enableUserView(false);
@@ -262,9 +258,13 @@ void XletsUserViewEditor::initUserViewDataWith(const QString& viewName)
 void XletsUserViewEditor::adjustUserViewSize()
 {
     auto rect = view_scene_.itemsBoundingRect();
-    auto sz = rect.size().toSize().grownBy({ 3, 3, 3, 3 });
-    ui->userView->centerOn(rect.center() + QPoint(0, 3));
-    ui->userView->setFixedSize(sz);
+    if (rect.isNull()) {
+        ui->userView->setFixedSize(XletsUserViewData::DEF_COL_COUNT * XW, XletsUserViewData::DEF_ROW_COUNT * XH);
+    } else {
+        auto sz = rect.size().toSize().grownBy({ 3, 3, 3, 3 });
+        ui->userView->centerOn(rect.center() + QPoint(0, 3));
+        ui->userView->setFixedSize(sz);
+    }
 }
 
 void XletsUserViewEditor::enableUserView(bool value)
