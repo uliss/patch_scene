@@ -54,7 +54,6 @@ DeviceEditor::DeviceEditor(const SharedDeviceData& data, QWidget* parent)
     updateImagePreview();
 
     ui->viewsEdit->setEnabled(data_->hasAnyXput());
-    ui->viewsLabel->setEnabled(data_->hasAnyXput());
 
     ui->zoom->setValue(data->zoom());
     connect(ui->zoom, &QDoubleSpinBox::valueChanged, this, [this](qreal v) { data_->setZoom(v); });
@@ -77,7 +76,6 @@ DeviceEditor::DeviceEditor(const SharedDeviceData& data, QWidget* parent)
         auto dialog = new XletLogicalEditor(this, data_->inputs(), data_->logicViewData(), XletType::In);
         connect(dialog, &XletLogicalEditor::finished, this, [this](int) {
             ui->viewsEdit->setEnabled(data_->hasAnyXput());
-            ui->viewsLabel->setEnabled(data_->hasAnyXput());
         });
         dialog->setWindowTitle(tr("Logical inputs editor"));
         dialog->exec();
@@ -86,7 +84,6 @@ DeviceEditor::DeviceEditor(const SharedDeviceData& data, QWidget* parent)
         auto dialog = new XletLogicalEditor(this, data_->outputs(), data_->logicViewData(), XletType::Out);
         connect(dialog, &XletLogicalEditor::finished, this, [this](int) {
             ui->viewsEdit->setEnabled(data_->hasAnyXput());
-            ui->viewsLabel->setEnabled(data_->hasAnyXput());
         });
         dialog->setWindowTitle(tr("Logical outputs editor"));
         dialog->exec();
@@ -181,7 +178,6 @@ void DeviceEditor::enableCategoryWidgets(bool value, ItemCategory cat)
     ui->modelLabel->setHidden(is_human);
     ui->vendor->setHidden(is_human);
     ui->vendorLabel->setHidden(is_human);
-    ui->viewsLabel->setHidden(is_human);
     ui->inputsEditLogical->setHidden(is_human);
     ui->outputsEditLogical->setHidden(is_human);
     ui->viewsEdit->setHidden(is_human);

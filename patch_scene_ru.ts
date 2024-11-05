@@ -122,6 +122,11 @@
         <translation>Свойства элемента</translation>
     </message>
     <message>
+        <location filename="device_editor.ui" line="109"/>
+        <source>User views</source>
+        <translation>Пользовательские виды</translation>
+    </message>
+    <message>
         <location filename="device_editor.ui" line="141"/>
         <source>&amp;Name</source>
         <oldsource>Name</oldsource>
@@ -184,7 +189,7 @@
         <translation>Масштаб</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="102"/>
+        <location filename="device_editor.ui" line="95"/>
         <source>Inputs</source>
         <translation>Входы</translation>
     </message>
@@ -195,21 +200,20 @@
         <translation>&amp;Батарейки</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="246"/>
         <source>Edit</source>
-        <translation>Редактировать</translation>
+        <translation type="vanished">Редактировать</translation>
     </message>
     <message>
         <source>Logical columns:</source>
         <translation type="vanished">Логические столбцы:</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="109"/>
+        <location filename="device_editor.ui" line="102"/>
         <source>Outputs</source>
         <translation>Выходы</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="81"/>
+        <location filename="device_editor.ui" line="74"/>
         <source>&amp;Show</source>
         <oldsource>Show</oldsource>
         <translation>&amp;Показывать</translation>
@@ -219,17 +223,16 @@
         <translation type="vanished">добавить вход</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="90"/>
+        <location filename="device_editor.ui" line="83"/>
         <source>Vendor</source>
         <translation>Производитель</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="69"/>
         <source>Views:</source>
-        <translation>Виды:</translation>
+        <translation type="vanished">Виды:</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="258"/>
+        <location filename="device_editor.ui" line="251"/>
         <source>&amp;Model</source>
         <oldsource>Model</oldsource>
         <translation>&amp;Модель</translation>
@@ -1004,47 +1007,42 @@
 <context>
     <name>XletsUserEditor</name>
     <message>
-        <location filename="xlets_user_view_editor.ui" line="14"/>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="xlets_user_view_editor.ui" line="31"/>
+        <location filename="xlets_user_view_editor.ui" line="28"/>
         <source>Add user view</source>
         <translation>Добавить вид</translation>
     </message>
     <message>
-        <location filename="xlets_user_view_editor.ui" line="34"/>
+        <location filename="xlets_user_view_editor.ui" line="31"/>
         <source>+</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="xlets_user_view_editor.ui" line="41"/>
+        <location filename="xlets_user_view_editor.ui" line="54"/>
         <source>Remove selected user view</source>
         <translation>Удалить выбранный вид</translation>
     </message>
     <message>
-        <location filename="xlets_user_view_editor.ui" line="44"/>
+        <location filename="xlets_user_view_editor.ui" line="57"/>
         <source>-</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="xlets_user_view_editor.ui" line="58"/>
+        <location filename="xlets_user_view_editor.ui" line="87"/>
         <source>Inputs</source>
         <translation>Входы</translation>
     </message>
     <message>
-        <location filename="xlets_user_view_editor.ui" line="100"/>
+        <location filename="xlets_user_view_editor.ui" line="129"/>
         <source>Outputs</source>
         <translation>Выходы</translation>
     </message>
     <message>
-        <location filename="xlets_user_view_editor.ui" line="139"/>
+        <location filename="xlets_user_view_editor.ui" line="162"/>
         <source>User view</source>
         <translation>Пользовательский вид</translation>
     </message>
     <message>
-        <location filename="xlets_user_view_editor.ui" line="148"/>
+        <location filename="xlets_user_view_editor.ui" line="171"/>
         <source>Size</source>
         <translation>Размер</translation>
     </message>
@@ -1492,7 +1490,7 @@ http://ceam.space</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="about_window.cpp" line="114"/>
+        <location filename="about_window.cpp" line="116"/>
         <source>About Qt</source>
         <translation>О Qt</translation>
     </message>
@@ -1627,17 +1625,17 @@ http://ceam.space</source>
         <translation>Свойства &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="device_editor.cpp" line="82"/>
+        <location filename="device_editor.cpp" line="80"/>
         <source>Logical inputs editor</source>
         <translation>Редактор физических входов</translation>
     </message>
     <message>
-        <location filename="device_editor.cpp" line="91"/>
+        <location filename="device_editor.cpp" line="88"/>
         <source>Logical outputs editor</source>
         <translation>Редактор физических выходов</translation>
     </message>
     <message>
-        <location filename="device_editor.cpp" line="101"/>
+        <location filename="device_editor.cpp" line="98"/>
         <source>User views editor</source>
         <translation>Редактор пользовательских видов</translation>
     </message>
@@ -2292,12 +2290,12 @@ Do you wan&apos;t to save it before closing?</source>
 <context>
     <name>ceam::XletsUserViewEditor</name>
     <message>
-        <location filename="xlets_user_view_editor.cpp" line="146"/>
+        <location filename="xlets_user_view_editor.cpp" line="140"/>
         <source>User</source>
         <translation>Пользовательский</translation>
     </message>
     <message>
-        <location filename="xlets_user_view_editor.cpp" line="152"/>
+        <location filename="xlets_user_view_editor.cpp" line="146"/>
         <source>User %1</source>
         <translation>Пользовательский %1</translation>
     </message>
