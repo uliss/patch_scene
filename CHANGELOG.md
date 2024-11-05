@@ -1,14 +1,17 @@
 # PatchScene CHANGELOG
 
 ## [Unreleased]
+
+## [0.4.0]
 ### Added:
 - device image mirror support
 - linear connections added
 - context menu for connection cord type
 - bezier connection editor
+- user view for devices
 
 ### Changed:
-- PSC file format update (version 7)
+- PSC file format update (version 8)
 - Phantom capable outlet view change
 
 ## [0.3.5]
