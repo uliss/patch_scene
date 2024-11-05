@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>368</width>
-    <height>331</height>
+    <width>434</width>
+    <height>411</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
-   <property name="horizontalSpacing">
+  <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,2">
+   <property name="spacing">
     <number>2</number>
    </property>
    <item row="1" column="0">
@@ -35,6 +35,22 @@
        </property>
       </widget>
      </item>
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>10</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
      <item alignment="Qt::AlignLeft">
       <widget class="QToolButton" name="removeView">
        <property name="toolTip">
@@ -44,6 +60,22 @@
         <string>-</string>
        </property>
       </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Preferred</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>80</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
     </layout>
    </item>
@@ -107,12 +139,6 @@
         <size>
          <width>400</width>
          <height>40</height>
-        </size>
-       </property>
-       <property name="baseSize">
-        <size>
-         <width>400</width>
-         <height>200</height>
         </size>
        </property>
        <property name="frameShadow">
@@ -212,6 +238,19 @@
        </property>
       </widget>
      </item>
+     <item>
+      <spacer name="verticalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
     </layout>
    </item>
    <item row="2" column="1">
@@ -228,7 +267,7 @@
     <widget class="QListWidget" name="userViewList">
      <property name="maximumSize">
       <size>
-       <width>100</width>
+       <width>140</width>
        <height>16777215</height>
       </size>
      </property>

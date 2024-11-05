@@ -139,8 +139,6 @@ void XletsUserViewEditor::initOutlets()
 
 void XletsUserViewEditor::initButtons(const SharedDeviceData& data)
 {
-    ui->editViewButtons->addSpacerItem(new QSpacerItem(50, 0));
-
     connect(ui->addView, &QToolButton::clicked, this,
         [this]() {
             auto tr_name = tr("User");
