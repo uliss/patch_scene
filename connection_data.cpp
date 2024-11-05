@@ -300,29 +300,7 @@ std::optional<ConnectionViewData> ConnectionViewData::fromJson(const QJsonValue&
 
 #else
 
-    auto color_str = obj.value(KEY_COLOR).toString("#000").toLatin1();
-    if (color_str.size() > 1 && color_str[0] == '#') {
-        switch (color_str.length()) {
-        case 4: { // #XXX
-            auto hex = QByteArray::fromHex(color_str.sliced(1));
-            data.setColor(QColor(hex[0], hex[1], hex[2]));
-        } break;
-        case 7: {
-            auto hex = QByteArray::fromHex(color_str.sliced(1));
-            auto red = hex.sliced(0, 2);
-            auto green = hex.sliced(2, 2);
-            auto blue = hex.sliced(4, 2);
-            bool ok = false;
-            int r = 0, g = 0, b = 0;
-            if ((r = red.toUShort(&ok, 16))
-                && (g = green.toUShort(&ok, 16))
-                && (b = blue.toUShort(&ok, 16))) //
-            {
-                data.setColor(QColor{r, g, b});
-            }
-        } break;
-        }
-    }
+    data.setColor(colorFromString(obj.value(KEY_COLOR).toString("#000")));
 
 #endif
 
@@ -330,6 +308,44 @@ std::optional<ConnectionViewData> ConnectionViewData::fromJson(const QJsonValue&
     data.setPenWidth(pen_wd);
 
     return data;
+}
+
+QColor ConnectionViewData::colorFromString(const QString& str)
+{
+    if (str.isEmpty())
+        return Qt::black;
+
+    auto color_str = str.toLatin1();
+    if (color_str.size() > 1 && color_str[0] == '#') {
+        switch (color_str.length()) {
+        case 4: // #RGB
+        case 5: { // #RGBA
+            bool ok = false;
+            auto hex = color_str.sliced(1, 3).toUInt(&ok, 16);
+            if (ok) {
+                int b = hex & 0x00F;
+                int g = (hex & 0x0F0) >> 4;
+                int r = (hex & 0xF00) >> 8;
+                return QColor((r | r << 4), (g | g << 4), (b | b << 4));
+            } else
+                return Qt::black;
+        }
+        case 7: // #RRGGBB
+        case 9: { // #RRGGBBAA
+            bool ok = false;
+            auto hex = color_str.sliced(1, 6).toULong(&ok, 16);
+            if (ok) {
+                int b = hex & 0x0000FF;
+                int g = (hex & 0x0FF00) >> 8;
+                int r = (hex & 0xFF0000) >> 16;
+                return QColor(r, g, b);
+            } else
+                return Qt::black;
+        } break;
+        }
+    }
+
+    return Qt::black;
 }
 
 std::optional<ConnectionId> ConnectionId::fromJson(const QJsonValue& j)

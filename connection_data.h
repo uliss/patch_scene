@@ -174,6 +174,7 @@ public:
 
 public:
     static std::optional<ConnectionViewData> fromJson(const QJsonValue& j);
+    static QColor colorFromString(const QString& j);
 };
 
 QDebug operator<<(QDebug debug, const ConnectionId& c);

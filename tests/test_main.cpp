@@ -15,6 +15,7 @@
 
 #include "tests/test_connection.h"
 #include "tests/test_connection_database.h"
+#include "tests/test_connection_view_data.h"
 #include "tests/test_connector_type.h"
 #include "tests/test_device.h"
 #include "tests/test_device_data.h"
@@ -38,6 +39,9 @@ int main(int argc, char* argv[])
     QApplication app(argc, argv);
 
     int status = 0;
+
+    TestConnectionViewData test_conn_view_data;
+    status |= QTest::qExec(&test_conn_view_data, argc, argv);
 
     TestXletsUserView test_xlets_user_view;
     status |= QTest::qExec(&test_xlets_user_view, argc, argv);
