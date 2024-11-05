@@ -93,7 +93,6 @@ void XletsUserViewEditor::setXletViewData(int idx, const XletsUserViewData& data
 {
     if (idx < 0 || idx >= data_->userViewData().count()) {
         WARN() << "invalid user xlet view index:" << idx;
-        return;
     } else {
         data_->userViewData()[idx] = data;
     }
