@@ -89,6 +89,8 @@ AboutWindow::AboutWindow(QWidget* parent)
 
     setWindowFlag(Qt::Tool, true);
 
+#if 0
+
     auto about_qt = new PSCTextBrowser(this);
 
 #define QT_PATH_STR(p) QString("\n**" #p     \
@@ -112,6 +114,8 @@ AboutWindow::AboutWindow(QWidget* parent)
         + QT_PATH_STR(SettingsPath));
 
     ui->tabWidget->addTab(about_qt, tr("About Qt"));
+
+#endif
 
     setWindowFlag(Qt::Tool, true);
     // setModal(true);
