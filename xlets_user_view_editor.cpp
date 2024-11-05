@@ -255,13 +255,17 @@ void XletsUserViewEditor::initUserViewDataWith(const QString& viewName)
 
 void XletsUserViewEditor::adjustUserViewSize()
 {
-    auto rect = view_scene_.itemsBoundingRect();
+    auto rect = view_scene_.itemsBoundingRect().adjusted(-1, -1, 1, 1);
     if (rect.isNull()) {
         ui->userView->setFixedSize(XletsUserViewData::DEF_COL_COUNT * XW, XletsUserViewData::DEF_ROW_COUNT * XH);
     } else {
-        auto sz = rect.size().toSize().grownBy({ 3, 3, 3, 3 });
-        ui->userView->centerOn(rect.center() + QPoint(0, 3));
+        auto sz = QSize { view_scene_.data().columnCount() * XW, view_scene_.data().rowCount() * XH }.grownBy({ 4, 4, 5, 5 });
+        auto rect = QRectF({ -4, -4 }, sz);
+        auto pt = rect.toRect().center();
+
+        view_scene_.setSceneRect(rect);
         ui->userView->setFixedSize(sz);
+        ui->userView->centerOn(pt);
     }
 }
 
@@ -295,6 +299,7 @@ void XletsUserScene::setSize(int rows, int cols)
 
     data_.setColumnCount(cols);
     data_.setRowCount(rows);
+    placeXlets();
 }
 
 void XletsUserScene::setRows(int v)
