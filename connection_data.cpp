@@ -293,9 +293,38 @@ std::optional<ConnectionViewData> ConnectionViewData::fromJson(const QJsonValue&
     if (segs)
         data.setSegments(*segs);
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 4, 0)
     auto color = QColor::fromString(obj.value(KEY_COLOR).toString("#000"));
     if (color.isValid())
         data.setColor(color);
+
+#else
+
+    auto color_str = obj.value(KEY_COLOR).toString("#000").toLatin1();
+    if (color_str.size() > 1 && color_str[0] == '#') {
+        switch (color_str.length()) {
+        case 4: { // #XXX
+            auto hex = QByteArray::fromHex(color_str.sliced(1));
+            data.setColor(QColor(hex[0], hex[1], hex[2]));
+        } break;
+        case 7: {
+            auto hex = QByteArray::fromHex(color_str.sliced(1));
+            auto red = hex.sliced(0, 2);
+            auto green = hex.sliced(2, 2);
+            auto blue = hex.sliced(4, 2);
+            bool ok = false;
+            int r = 0, g = 0, b = 0;
+            if ((r = red.toUShort(&ok, 16))
+                && (g = green.toUShort(&ok, 16))
+                && (b = blue.toUShort(&ok, 16))) //
+            {
+                data.setColor(QColor{r, g, b});
+            }
+        } break;
+        }
+    }
+
+#endif
 
     auto pen_wd = qBound<qreal>(PEN_WIDTH_MIN, obj.value(KEY_WIDTH).toDouble(PEN_WIDTH_DEF), PEN_WIDTH_MAX);
     data.setPenWidth(pen_wd);
