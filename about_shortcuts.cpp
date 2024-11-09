@@ -161,9 +161,13 @@ QTableWidget::item { background-color: none; border-bottom: 1px solid #EEE; }
     addEntry(tr("Toggle connections"), QKeySequence(Qt::CTRL | Qt::Key_K));
     addEntry(tr("Toggle grid"), QKeySequence(Qt::CTRL | Qt::Key_G));
 
-    addSection(tr("Connections"));
+    addSection(tr("Inputs/Outputs"));
     addEntry(tr("Disconnect"), QKeySequence(Qt::ALT), AdditonalActs::Click);
     addEntry(tr("Reconnect to next"), QKeySequence(Qt::SHIFT), AdditonalActs::Drag);
+
+    addSection(tr("Connections"));
+    addEntry(tr("Add Point"), QKeySequence(Qt::CTRL), AdditonalActs::Click);
+    addEntry(tr("Remove"), QKeySequence(Qt::ALT), AdditonalActs::Click);
 
     ui->tableWidget->resizeRowsToContents();
     adjustSize();
