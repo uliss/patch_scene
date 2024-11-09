@@ -74,6 +74,9 @@ set(PROJECT_SOURCES
     device_editor.cpp
     device_editor.h
     device_editor.ui
+    device_info_editor.h
+    device_info_editor.cpp
+    device_info_editor.ui
     device_item_model.cpp
     device_item_model.h
     device_library.cpp

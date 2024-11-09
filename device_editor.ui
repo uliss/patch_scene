@@ -241,7 +241,7 @@
       </layout>
      </item>
      <item row="1" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="0,0,0">
+      <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="0,0,0,0">
        <item>
         <widget class="QLineEdit" name="vendor"/>
        </item>
@@ -257,6 +257,13 @@
        </item>
        <item>
         <widget class="QLineEdit" name="model"/>
+       </item>
+       <item>
+        <widget class="QToolButton" name="additionalInfo">
+         <property name="text">
+          <string>Additional</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>

@@ -12,6 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "device_editor.h"
+#include "device_info_editor.h"
 #include "device_pixmap.h"
 #include "logging.hpp"
 #include "tablecellcheckbox.h"
@@ -52,6 +53,16 @@ DeviceEditor::DeviceEditor(const SharedDeviceData& data, QWidget* parent)
     ui->currentImage->setFixedSize(IMG_PREVIEW_SIZE, IMG_PREVIEW_SIZE);
     ui->currentImage->setAlignment(Qt::AlignCenter);
     updateImagePreview();
+
+    connect(ui->additionalInfo, &QToolButton::clicked, this,
+        [this]() {
+            auto dialog = new DeviceInfoEditor(data_->info(), this);
+            connect(dialog, &DeviceInfoEditor::finished, this,
+                [this, dialog](int rc) {
+                    data_->info() = dialog->data();
+                });
+            dialog->exec();
+        });
 
     ui->viewsEdit->setEnabled(data_->hasAnyXput());
 
