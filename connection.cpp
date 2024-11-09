@@ -160,6 +160,9 @@ void Connection::mousePressEvent(QGraphicsSceneMouseEvent* event)
     if (event->modifiers().testFlag(Qt::ControlModifier)) {
         emit splited(id_, event->pos());
         event->accept();
+    } else if (event->modifiers().testFlag(Qt::AltModifier)) {
+        event->accept();
+        emit removeRequested(id_);
     } else {
         toggleSelection();
     }

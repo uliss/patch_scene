@@ -63,6 +63,7 @@ signals:
     void edited(ConnectionId, ConnectionViewData);
     void reset(ConnectionId, ConnectionCordType);
     void splited(ConnectionId, QPointF);
+    void removeRequested(ConnectionId);
 
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) final;
