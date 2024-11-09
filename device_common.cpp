@@ -440,12 +440,22 @@ size_t DeviceData::calcModelId() const
 
 QString DeviceData::verboseInfo() const
 {
+    constexpr const char* NL = "<br/>\n";
+
     QString res;
     if (!vendor_.isEmpty())
-        res.append(QString("<b>Vendor:</b> %1\n").arg(vendor_));
+        res.append(QString("<b>Vendor:</b> %1%2").arg(vendor_, NL));
 
     if (!model_.isEmpty())
-        res.append(QString("<b>Model:</b> %1\n").arg(model_));
+        res.append(QString("<b>Model:</b> %1%2").arg(model_, NL));
+
+    for (auto& kv : info_) {
+        if (!kv.first.isEmpty() && !kv.second.isEmpty())
+            res.append(QString("<b>%1:</b> %2%3").arg(kv.first, kv.second, NL));
+    }
+
+    if (res.length() > strlen(NL))
+        res.resize(res.length() - strlen(NL));
 
     return res;
 }

@@ -111,6 +111,8 @@ enum class ImageMirrorType : std::uint8_t {
     Horizontal
 };
 
+using DeviceDataInfo = QList<std::pair<QString, QString>>;
+
 class DeviceData : public QSharedData {
 public:
     constexpr static const qreal MIN_ZOOM = 0.25;
@@ -203,6 +205,9 @@ public:
 
     QString verboseInfo() const;
 
+    DeviceDataInfo& info() { return info_; }
+    const DeviceDataInfo& info() const { return info_; }
+
 private:
     static QJsonArray xletToJson(const QList<XletData>& xlets);
     static bool setXletJson(const QJsonValue& v, QList<XletData>& xlets);
@@ -225,6 +230,7 @@ private:
     XletsLogicViewData logic_view_data_;
     QList<XletsUserViewData> user_view_data_;
     QString current_user_view_;
+    DeviceDataInfo info_;
 };
 
 using SharedDeviceData = QSharedDataPointer<DeviceData>;
