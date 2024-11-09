@@ -107,6 +107,29 @@
     </message>
 </context>
 <context>
+    <name>DeviceInfoEditor</name>
+    <message>
+        <location filename="device_info_editor.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="device_info_editor.ui" line="40"/>
+        <source>+</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="device_info_editor.ui" line="47"/>
+        <source>-</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="device_info_editor.ui" line="67"/>
+        <source>add IP</source>
+        <translation>Добавить IP</translation>
+    </message>
+</context>
+<context>
     <name>DevicePixmap</name>
     <message>
         <location filename="device_pixmap.ui" line="12"/>
@@ -187,6 +210,11 @@
         <location filename="device_editor.ui" line="186"/>
         <source>Scale</source>
         <translation>Масштаб</translation>
+    </message>
+    <message>
+        <location filename="device_editor.ui" line="264"/>
+        <source>Additional</source>
+        <translation>Дополнительно</translation>
     </message>
     <message>
         <location filename="device_editor.ui" line="95"/>
@@ -1635,24 +1663,37 @@ http://ceam.space</source>
 <context>
     <name>ceam::DeviceEditor</name>
     <message>
-        <location filename="device_editor.cpp" line="42"/>
+        <location filename="device_editor.cpp" line="43"/>
         <source>&apos;%1&apos; properties</source>
         <translation>Свойства &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="device_editor.cpp" line="80"/>
+        <location filename="device_editor.cpp" line="91"/>
         <source>Logical inputs editor</source>
         <translation>Редактор физических входов</translation>
     </message>
     <message>
-        <location filename="device_editor.cpp" line="88"/>
+        <location filename="device_editor.cpp" line="99"/>
         <source>Logical outputs editor</source>
         <translation>Редактор физических выходов</translation>
     </message>
     <message>
-        <location filename="device_editor.cpp" line="98"/>
+        <location filename="device_editor.cpp" line="109"/>
         <source>User views editor</source>
         <translation>Редактор пользовательских видов</translation>
+    </message>
+</context>
+<context>
+    <name>ceam::DeviceInfoEditor</name>
+    <message>
+        <location filename="device_info_editor.cpp" line="30"/>
+        <source>Name</source>
+        <translation>Имя</translation>
+    </message>
+    <message>
+        <location filename="device_info_editor.cpp" line="30"/>
+        <source>Value</source>
+        <translation>Значение</translation>
     </message>
 </context>
 <context>
