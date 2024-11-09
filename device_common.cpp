@@ -93,6 +93,7 @@ constexpr const char* JSON_KEY_USER_VIEW = "view-user";
 constexpr const char* JSON_KEY_CURRENT_USER_VIEW = "current-view";
 constexpr const char* JSON_KEY_INPUT_COLUMNS = "input-columns";
 constexpr const char* JSON_KEY_OUTPUT_COLUMNS = "output-columns";
+constexpr const char* JSON_KEY_INFO = "info";
 
 constexpr const char* JSON_MIRROR_HORIZONTAL = "horizontal";
 
@@ -343,6 +344,30 @@ bool DeviceData::setJson(const QJsonValue& v)
 
     mirror_ = imageMirrorFromJson(obj[JSON_KEY_IMAGE_MIRROR]);
 
+    info_.clear();
+    auto info_arr = obj[JSON_KEY_INFO].toArray();
+    if (!info_arr.isEmpty()) {
+        for (const auto& kv : info_arr) {
+            if (!kv.isArray()) {
+                WARN() << "array expected for" << JSON_KEY_INFO;
+                continue;
+            }
+
+            auto arr = kv.toArray();
+            if (arr.size() == 2) {
+                auto name = arr[0].toString();
+                auto value = arr[1].toString();
+                if (!name.isEmpty()) {
+                    info_.push_back({ name, value });
+                } else {
+                    WARN() << "string expected, got:" << arr[0] << "for key";
+                }
+            } else {
+                WARN() << "array size != 2 for key" << JSON_KEY_INFO;
+            }
+        }
+    }
+
     return true;
 }
 
@@ -396,6 +421,16 @@ QJsonObject DeviceData::toJson() const
 
     json[JSON_KEY_USER_VIEW] = arr;
     json[JSON_KEY_CURRENT_USER_VIEW] = current_user_view_;
+
+    QJsonArray info_arr;
+    for (auto& kv : info_) {
+        QJsonArray x;
+        x.append(kv.first);
+        x.append(kv.second);
+        info_arr.append(x);
+    }
+
+    json[JSON_KEY_INFO] = info_arr;
 
     return json;
 }
@@ -506,7 +541,8 @@ bool DeviceData::operator==(const DeviceData& data) const
         && battery_count_ == data.battery_count_
         && battery_type_ == data.battery_type_
         && category_ == data.category_
-        && show_title_ == data.show_title_;
+        && show_title_ == data.show_title_
+        && info_ == data.info_;
 }
 
 size_t ceam::qHash(const ceam::DeviceData& data)

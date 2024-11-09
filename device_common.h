@@ -125,6 +125,10 @@ public:
     explicit DeviceData(DeviceId id);
 
     bool operator==(const DeviceData& data) const;
+    bool operator!=(const DeviceData& data) const
+    {
+        return !operator==(data);
+    }
 
     bool isNull() const { return id_ == DEV_NULL_ID; }
     DeviceId id() const { return id_; }

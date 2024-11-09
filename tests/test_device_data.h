@@ -23,6 +23,7 @@ private slots:
     void construct();
     void toJson();
     void fromJson();
+    void testJson();
 };
 
 #endif // TEST_DEVICE_DATA_H

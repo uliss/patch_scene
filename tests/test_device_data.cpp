@@ -33,6 +33,8 @@ void TestDeviceData::construct()
     QCOMPARE(data.zoom(), 1);
     // for Qt6.2 using verify instead of compare
     QVERIFY(data.category() == ItemCategory::Device);
+
+    QVERIFY(data.info().isEmpty());
 }
 
 void TestDeviceData::toJson()
@@ -57,6 +59,7 @@ void TestDeviceData::toJson()
     QVERIFY(j.contains("view-user"));
     QVERIFY(!j.contains("input-columns"));
     QVERIFY(!j.contains("output-columns"));
+    QVERIFY(j.contains("info"));
 }
 
 void TestDeviceData::fromJson()
@@ -95,4 +98,31 @@ void TestDeviceData::fromJson()
     QVERIFY(data.setJson(j));
     QCOMPARE(data.logicViewData().maxInputColumnCount(), 3);
     QCOMPARE(data.logicViewData().maxOutputColumnCount(), 4);
+}
+
+void TestDeviceData::testJson()
+{
+    DeviceData d0(100), d1(100);
+    QVERIFY(d0 == d1);
+
+    d0.setId(101);
+    QVERIFY(d0 == d1);
+    d0.setTitle("title");
+    QVERIFY(d0 != d1);
+
+    auto j = d0.toJson();
+    QVERIFY(d1.setJson(j));
+    QVERIFY(d0 == d1);
+
+    d0.setBatteryCount(10);
+    QVERIFY(d0 != d1);
+    j = d0.toJson();
+    QVERIFY(d1.setJson(j));
+    QVERIFY(d0 == d1);
+
+    d0.info().append(std::pair { "test", "test" });
+    QVERIFY(d0 != d1);
+    j = d0.toJson();
+    QVERIFY(d1.setJson(j));
+    QVERIFY(d0 == d1);
 }
