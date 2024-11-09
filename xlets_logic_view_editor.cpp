@@ -14,6 +14,7 @@
 #include "xlets_logic_view_editor.h"
 #include "device_common.h"
 #include "logging.hpp"
+#include "psc_utils.h"
 #include "table_cell_power.h"
 #include "table_cell_socket.h"
 #include "tablecellcheckbox.h"
@@ -183,7 +184,9 @@ void XletLogicalEditor::setupXlets()
                     selectXletRow(nrows);
             } else {
                 ui->tableWidget->setRowCount(1);
-                insertXlet(0, XletData { {}, ConnectorModel::XLR });
+                XletData data { {}, ConnectorModel::XLR };
+                data.setName(XletData::defaultName(type_, 1));
+                insertXlet(0, data);
                 ui->tableWidget->selectRow(0);
             }
         }
@@ -242,6 +245,12 @@ bool XletLogicalEditor::duplicateXlet(int row)
 {
     XletData data;
     if (getXletData(row, data)) {
+        if (data.name().isEmpty()) {
+            data.setName(XletData::defaultName(type_, 1));
+        } else {
+            data.setName(utils::incrementString(data.name()));
+        }
+
         ui->tableWidget->insertRow(row + 1);
         insertXlet(row + 1, data);
         return true;
