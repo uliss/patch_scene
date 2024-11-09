@@ -886,49 +886,49 @@
 <context>
     <name>QAction</name>
     <message>
-        <location filename="connection.cpp" line="254"/>
+        <location filename="connection.cpp" line="257"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="260"/>
+        <location filename="connection.cpp" line="263"/>
         <source>Cord type</source>
         <translation>Тип соединения</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="262"/>
+        <location filename="connection.cpp" line="265"/>
         <source>Bezier</source>
         <translation>Кривая Безье</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="263"/>
+        <location filename="connection.cpp" line="266"/>
         <source>Linear</source>
         <translation>Прямая</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="264"/>
+        <location filename="connection.cpp" line="267"/>
         <source>Segment</source>
         <translation>Сегмент</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="284"/>
+        <location filename="connection.cpp" line="287"/>
         <source>Color</source>
         <translation>Цвет</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="311"/>
-        <location filename="connection.cpp" line="329"/>
+        <location filename="connection.cpp" line="314"/>
+        <location filename="connection.cpp" line="332"/>
         <source>Edit</source>
         <translation>Правка</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="317"/>
+        <location filename="connection.cpp" line="320"/>
         <source>Add split point</source>
         <translation>Добавить точку</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="323"/>
-        <location filename="connection.cpp" line="334"/>
+        <location filename="connection.cpp" line="326"/>
+        <location filename="connection.cpp" line="337"/>
         <source>Reset</source>
         <translation>Сбросить</translation>
     </message>
@@ -1351,6 +1351,11 @@
     </message>
     <message>
         <location filename="about_shortcuts.cpp" line="164"/>
+        <source>Inputs/Outputs</source>
+        <translation>Входы/выходы</translation>
+    </message>
+    <message>
+        <location filename="about_shortcuts.cpp" line="168"/>
         <source>Connections</source>
         <translation>Соединения</translation>
     </message>
@@ -1365,17 +1370,27 @@
         <translation>Пересоединить в соседний</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="189"/>
+        <location filename="about_shortcuts.cpp" line="169"/>
+        <source>Add Point</source>
+        <translation>Добавить точку</translation>
+    </message>
+    <message>
+        <location filename="about_shortcuts.cpp" line="170"/>
+        <source>Remove</source>
+        <translation>Удалить</translation>
+    </message>
+    <message>
+        <location filename="about_shortcuts.cpp" line="193"/>
         <source>click</source>
         <translation>клик</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="197"/>
+        <location filename="about_shortcuts.cpp" line="201"/>
         <source>drag</source>
         <translation>перетаскивание</translation>
     </message>
     <message>
-        <location filename="about_shortcuts.cpp" line="205"/>
+        <location filename="about_shortcuts.cpp" line="209"/>
         <source>double tap</source>
         <translation>двойное касание</translation>
     </message>
@@ -1543,62 +1558,62 @@ http://ceam.space</source>
 <context>
     <name>ceam::Device</name>
     <message>
-        <location filename="device.cpp" line="275"/>
+        <location filename="device.cpp" line="276"/>
         <source>Distribute horizontal</source>
         <translation>Распределить горизонтально</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="278"/>
+        <location filename="device.cpp" line="279"/>
         <source>Distribute vertical</source>
         <translation>Распределить вертикально</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="281"/>
+        <location filename="device.cpp" line="282"/>
         <source>Place in row</source>
         <translation>Разместить в ряд</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="284"/>
+        <location filename="device.cpp" line="285"/>
         <source>Place in column</source>
         <translation>Разместить в столбец</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="302"/>
+        <location filename="device.cpp" line="303"/>
         <source>Hide title</source>
         <translation>Скрыть название</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="302"/>
+        <location filename="device.cpp" line="303"/>
         <source>Show title</source>
         <translation>Показать название</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="312"/>
+        <location filename="device.cpp" line="313"/>
         <source>Duplicate</source>
         <translation>Дублировать</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="316"/>
+        <location filename="device.cpp" line="317"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="320"/>
+        <location filename="device.cpp" line="321"/>
         <source>Add to favorites</source>
         <translation>Добавить в избранное</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="324"/>
+        <location filename="device.cpp" line="325"/>
         <source>Properties</source>
         <translation>Свойства</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="340"/>
+        <location filename="device.cpp" line="341"/>
         <source>Views</source>
         <translation>Виды</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="341"/>
+        <location filename="device.cpp" line="342"/>
         <source>Logic</source>
         <translation>Логический</translation>
     </message>
@@ -1607,12 +1622,12 @@ http://ceam.space</source>
         <translation type="vanished">Устройство: %1</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="269"/>
+        <location filename="device.cpp" line="270"/>
         <source>Align horizontal</source>
         <translation>Выровнять по горизонтали</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="272"/>
+        <location filename="device.cpp" line="273"/>
         <source>Align vertical</source>
         <translation>Выровнять по вертикали</translation>
     </message>
@@ -1700,7 +1715,7 @@ http://ceam.space</source>
 <context>
     <name>ceam::DeviceXlet</name>
     <message>
-        <location filename="device_xlet.cpp" line="190"/>
+        <location filename="device_xlet.cpp" line="202"/>
         <source>Phantom</source>
         <translation>Фантом</translation>
     </message>
@@ -2246,32 +2261,32 @@ Do you wan&apos;t to save it before closing?</source>
 <context>
     <name>ceam::XletLogicalEditor</name>
     <message>
-        <location filename="xlets_logic_view_editor.cpp" line="108"/>
+        <location filename="xlets_logic_view_editor.cpp" line="109"/>
         <source>Type</source>
         <translation>Тип</translation>
     </message>
     <message>
-        <location filename="xlets_logic_view_editor.cpp" line="108"/>
+        <location filename="xlets_logic_view_editor.cpp" line="109"/>
         <source>Name</source>
         <translation>Название</translation>
     </message>
     <message>
-        <location filename="xlets_logic_view_editor.cpp" line="108"/>
+        <location filename="xlets_logic_view_editor.cpp" line="109"/>
         <source>Socket</source>
         <translation>Гнездо</translation>
     </message>
     <message>
-        <location filename="xlets_logic_view_editor.cpp" line="108"/>
+        <location filename="xlets_logic_view_editor.cpp" line="109"/>
         <source>Power</source>
         <translation>Питание</translation>
     </message>
     <message>
-        <location filename="xlets_logic_view_editor.cpp" line="108"/>
+        <location filename="xlets_logic_view_editor.cpp" line="109"/>
         <source>Phantom</source>
         <translation>Фантом</translation>
     </message>
     <message>
-        <location filename="xlets_logic_view_editor.cpp" line="108"/>
+        <location filename="xlets_logic_view_editor.cpp" line="109"/>
         <source>Bidirect</source>
         <translation>Двунаправленный</translation>
     </message>
@@ -2290,12 +2305,12 @@ Do you wan&apos;t to save it before closing?</source>
 <context>
     <name>ceam::XletsUserViewEditor</name>
     <message>
-        <location filename="xlets_user_view_editor.cpp" line="140"/>
+        <location filename="xlets_user_view_editor.cpp" line="139"/>
         <source>User</source>
         <translation>Пользовательский</translation>
     </message>
     <message>
-        <location filename="xlets_user_view_editor.cpp" line="146"/>
+        <location filename="xlets_user_view_editor.cpp" line="145"/>
         <source>User %1</source>
         <translation>Пользовательский %1</translation>
     </message>
@@ -2347,6 +2362,19 @@ Do you wan&apos;t to save it before closing?</source>
     <message>
         <source>wood winds</source>
         <translation type="vanished">духовые (деревянные)</translation>
+    </message>
+</context>
+<context>
+    <name>xlet</name>
+    <message>
+        <location filename="device_xlet.cpp" line="134"/>
+        <source>In %1</source>
+        <translation>Вход %1</translation>
+    </message>
+    <message>
+        <location filename="device_xlet.cpp" line="136"/>
+        <source>Out %1</source>
+        <translation>Выход %1</translation>
     </message>
 </context>
 </TS>
