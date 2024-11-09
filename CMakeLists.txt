@@ -109,6 +109,8 @@ set(PROJECT_SOURCES
     library_item_model.h
     library_item_model.cpp
     logging.hpp
+    psc_utils.h
+    psc_utils.cpp
     preferences_dialog.cpp
     preferences_dialog.h
     preferences_dialog.ui

@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include <QtTest>
 
+#include "tests/test_common.h"
 #include "tests/test_connection.h"
 #include "tests/test_connection_database.h"
 #include "tests/test_connection_view_data.h"
@@ -39,6 +40,9 @@ int main(int argc, char* argv[])
     QApplication app(argc, argv);
 
     int status = 0;
+
+    TestCommon test_common;
+    status |= QTest::qExec(&test_common, argc, argv);
 
     TestConnectionViewData test_conn_view_data;
     status |= QTest::qExec(&test_conn_view_data, argc, argv);
