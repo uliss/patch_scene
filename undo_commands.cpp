@@ -219,7 +219,15 @@ void DuplicateSelected::redo()
         doc_->devices().foreachSelectedDevice([this](Device* dev) {
             auto new_dev = doc_->addDevice(dev->deviceData());
             if (new_dev) {
-                new_dev->moveBy(20, 20);
+                switch (new_dev->deviceData()->category()) {
+                case ItemCategory::Furniture:
+                    new_dev->moveBy(50, 0);
+                    break;
+                default:
+                    new_dev->moveBy(20, 20);
+                    break;
+                }
+
                 new_dev->setSelected(true);
                 new_devs_.push_back(new_dev->id());
                 sel_devs_.push_back(dev->id());
