@@ -127,6 +127,18 @@ XletData XletData::createSocket(ConnectorModel model, bool female)
     return res;
 }
 
+QString XletData::defaultName(XletType type, XletIndex idx)
+{
+    switch (type) {
+    case XletType::In:
+        return QString(QT_TRANSLATE_NOOP("xlet", "In %1")).arg((int)idx);
+    case XletType::Out:
+        return QString(QT_TRANSLATE_NOOP("xlet", "Out %1")).arg((int)idx);
+    default:
+        return {};
+    }
+}
+
 bool XletData::operator==(const XletData& data) const
 {
     return name_ == data.name_

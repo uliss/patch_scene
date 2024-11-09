@@ -76,6 +76,7 @@ public:
 public:
     static std::optional<XletData> fromJson(const QJsonValue& j);
     static XletData createSocket(ConnectorModel model, bool female = true);
+    static QString defaultName(XletType type, XletIndex idx);
 };
 
 size_t qHash(const XletData& data);
