@@ -201,6 +201,8 @@ public:
     const QString& currentUserView() const { return current_user_view_; }
     void setCurrentUserView(const QString& name) { current_user_view_ = name; }
 
+    QString verboseInfo() const;
+
 private:
     static QJsonArray xletToJson(const QList<XletData>& xlets);
     static bool setXletJson(const QJsonValue& v, QList<XletData>& xlets);

@@ -438,6 +438,18 @@ size_t DeviceData::calcModelId() const
         ^ ::qHash(battery_count_);
 }
 
+QString DeviceData::verboseInfo() const
+{
+    QString res;
+    if (!vendor_.isEmpty())
+        res.append(QString("<b>Vendor:</b> %1\n").arg(vendor_));
+
+    if (!model_.isEmpty())
+        res.append(QString("<b>Model:</b> %1\n").arg(model_));
+
+    return res;
+}
+
 QJsonArray DeviceData::xletToJson(const QList<XletData>& xlets)
 {
     QJsonArray arr;
