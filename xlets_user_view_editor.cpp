@@ -205,8 +205,10 @@ void XletsUserViewEditor::initUserViewList(const SharedDeviceData& data)
 
             auto idx = ui->userViewList->indexFromItem(item);
             auto row = idx.row();
+
             if (row >= 0 && row < data_->userViewData().count()) {
                 data_->userViewData()[row].setName(text);
+                view_scene_.setName(text);
             }
         });
 
@@ -299,17 +301,18 @@ void XletsUserScene::setSize(int rows, int cols)
 
     data_.setColumnCount(cols);
     data_.setRowCount(rows);
-    placeXlets();
 }
 
 void XletsUserScene::setRows(int v)
 {
     setSize(v, data_.columnCount());
+    placeXlets();
 }
 
 void XletsUserScene::setCols(int v)
 {
     setSize(data_.rowCount(), v);
+    placeXlets();
 }
 
 void XletsUserScene::placeXlets()
@@ -382,6 +385,11 @@ void XletsUserScene::setData(int currentIndex, const XletsUserViewData& data)
 
     reinitXlets();
     placeXlets();
+}
+
+void XletsUserScene::setName(const QString& name)
+{
+    data_.setName(name);
 }
 
 XletsUserViewCell::XletsUserViewCell(const QRect& r, const CellIndex& idx, XletsUserViewData& data, XletsUserScene* parent)

@@ -34,6 +34,7 @@ public:
 
     const XletsUserViewData& data() const { return data_; }
     void setData(int currentIndex, const XletsUserViewData& data);
+    void setName(const QString& name);
 
     int currentIndex() const { return idx_; }
 
