@@ -79,7 +79,7 @@ DeviceEditor::DeviceEditor(const SharedDeviceData& data, QWidget* parent)
     connect(ui->model, &QLineEdit::textChanged, this, [this](const QString& txt) { data_->setModel(txt); });
 
     ui->showTitle->setCheckState(data->showTitle() ? Qt::Checked : Qt::Unchecked);
-    connect(ui->showTitle, &QCheckBox::stateChanged, this, [this](int state) {
+    connect(ui->showTitle, &QCheckBox::checkStateChanged, this, [this](Qt::CheckState state) {
         data_->setShowTitle(state == Qt::Checked);
     });
 
@@ -229,8 +229,10 @@ void DeviceEditor::setupBattery(const SharedDeviceData& data)
 void DeviceEditor::setupImageMirror(const SharedDeviceData& data)
 {
     ui->imageMirror->setChecked(data->imageMirror() != ImageMirrorType::None);
-    connect(ui->imageMirror, &QCheckBox::stateChanged, this,
-        [this](int state) {
-            data_->setImageMirror(state ? ImageMirrorType::Horizontal : ImageMirrorType::None);
+    connect(ui->imageMirror, &QCheckBox::checkStateChanged, this,
+        [this](Qt::CheckState state) {
+                data_->setImageMirror(state == Qt::Checked
+                                  ? ImageMirrorType::Horizontal
+                                  : ImageMirrorType::None);
         });
 }
