@@ -83,6 +83,7 @@ constexpr const char* JSON_KEY_IMAGE = "image";
 constexpr const char* JSON_KEY_INPUTS = "inputs";
 constexpr const char* JSON_KEY_OUTPUTS = "outputs";
 constexpr const char* JSON_KEY_CATEGORY = "category";
+constexpr const char* JSON_KEY_LOCKED = "locked";
 constexpr const char* JSON_KEY_BATTERY_TYPE = "battery-type";
 constexpr const char* JSON_KEY_BATTERY_COUNT = "battery-count";
 constexpr const char* JSON_KEY_SHOW_TITLE = "show-title";
@@ -303,6 +304,7 @@ bool DeviceData::setJson(const QJsonValue& v)
     battery_type_ = fromJsonString(obj.value(JSON_KEY_BATTERY_TYPE).toString());
 
     show_title_ = obj[JSON_KEY_SHOW_TITLE].toBool(true);
+    locked_ = obj[JSON_KEY_LOCKED].toBool(false);
 
     // compatibility
     if (obj.contains(JSON_KEY_INPUT_COLUMNS)) {
@@ -411,6 +413,7 @@ QJsonObject DeviceData::toJson() const
     json[JSON_KEY_INPUTS] = xletToJson(inputs_);
     json[JSON_KEY_OUTPUTS] = xletToJson(outputs_);
     json[JSON_KEY_SHOW_TITLE] = show_title_;
+    json[JSON_KEY_LOCKED] = locked_;
     json[JSON_KEY_LOGIC_VIEW] = logic_view_data_.toJson();
     json[JSON_KEY_SUBCAT] = subcat_.toJson();
     json[JSON_KEY_IMAGE_MIRROR] = toJsonValue(mirror_);

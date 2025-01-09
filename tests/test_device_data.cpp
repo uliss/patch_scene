@@ -26,6 +26,7 @@ void TestDeviceData::construct()
     QCOMPARE(data.id(), DEV_NULL_ID);
     QVERIFY(data.showInDeviceCategory());
     QVERIFY(data.showTitle());
+    QVERIFY(!data.isLocked());
     QCOMPARE(data.batteryCount(), 0);
     // for Qt6.2 using verify instead of compare
     QVERIFY(data.batteryType() == BatteryType::None);
@@ -55,6 +56,7 @@ void TestDeviceData::toJson()
     QVERIFY(j.contains("inputs"));
     QVERIFY(j.contains("outputs"));
     QVERIFY(j.contains("show-title"));
+    QVERIFY(j.contains("locked"));
     QVERIFY(j.contains("view-logic"));
     QVERIFY(j.contains("view-user"));
     QVERIFY(!j.contains("input-columns"));
@@ -98,6 +100,14 @@ void TestDeviceData::fromJson()
     QVERIFY(data.setJson(j));
     QCOMPARE(data.logicViewData().maxInputColumnCount(), 3);
     QCOMPARE(data.logicViewData().maxOutputColumnCount(), 4);
+
+    j["locked"] = true;
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.isLocked(), true);
+
+    j["locked"] = false;
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.isLocked(), false);
 }
 
 void TestDeviceData::testJson()

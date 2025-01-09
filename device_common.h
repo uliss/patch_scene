@@ -192,6 +192,9 @@ public:
     bool showTitle() const { return show_title_; }
     void setShowTitle(bool value) { show_title_ = value; }
 
+    bool isLocked() const { return locked_; }
+    void setLocked(bool value) { locked_ = value; }
+
     SubCategory subCategory() const { return subcat_; }
     void setSubCategory(SubCategory subcat) { subcat_ = subcat; }
 
@@ -230,6 +233,7 @@ private:
     ItemCategory category_ { ItemCategory::Device };
     BatteryType battery_type_ { BatteryType::None };
     bool show_title_ { true };
+    bool locked_ { false };
     ImageMirrorType mirror_ { ImageMirrorType::None };
     XletsLogicViewData logic_view_data_;
     QList<XletsUserViewData> user_view_data_;
