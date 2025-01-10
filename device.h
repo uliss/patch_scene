@@ -80,7 +80,8 @@ public:
     bool isLocked() const { return data_ && data_->isLocked(); }
     void setLocked(bool value);
 
-    void mirrorImage(ImageMirrorType type);
+    bool mirrorImage(ImageMirrorType type);
+    bool zoomImage(qreal k);
 
     static SharedDeviceData defaultDeviceData();
     static SharedDeviceData dataFromJson(const QJsonValue& j);

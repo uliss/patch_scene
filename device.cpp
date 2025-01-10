@@ -681,10 +681,10 @@ void Device::setLocked(bool value)
     update();
 }
 
-void Device::mirrorImage(ImageMirrorType type)
+bool Device::mirrorImage(ImageMirrorType type)
 {
-    if (!data_ || data_->isLocked())
-        return;
+    if (!data_ || data_->isLocked() || !image_)
+        return false;
 
     const auto im = data_->imageMirror();
 
@@ -693,13 +693,29 @@ void Device::mirrorImage(ImageMirrorType type)
     else if (im == ImageMirrorType::None)
         data_->setImageMirror(type);
     else
-        return;
+        return false;
 
-    if (image_) {
-        clearImage();
-        createImage();
-        updateImagePos();
-    }
+    clearImage();
+    createImage();
+    updateImagePos();
+    return true;
+}
+
+bool Device::zoomImage(qreal k)
+{
+    if (!data_ || data_->isLocked())
+        return false;
+
+    auto old_zoom = data_->zoom();
+    auto new_zoom = old_zoom * k;
+    data_->setZoom(new_zoom);
+
+    // no zoom change due min/max clipping
+    if (data_->zoom() == old_zoom)
+        return false;
+
+    syncRect();
+    return true;
 }
 
 SharedDeviceData Device::defaultDeviceData()
