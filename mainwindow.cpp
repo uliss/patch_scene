@@ -324,6 +324,8 @@ void MainWindow::initActions()
 
     connect(ui->actionLock, &QAction::triggered, this, [this](bool) { diagram_->cmdLockSelected(); });
     connect(ui->actionUnlock, &QAction::triggered, this, [this](bool) { diagram_->cmdUnlockSelected(); });
+
+    connect(ui->actionMirror, &QAction::triggered, this, [this](bool) { diagram_->cmdMirrorSelected(); });
 }
 
 void MainWindow::initActionsShortcuts()

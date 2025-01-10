@@ -175,6 +175,7 @@
     <addaction name="actionSetBackground"/>
     <addaction name="actionLock"/>
     <addaction name="actionUnlock"/>
+    <addaction name="actionMirror"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -939,6 +940,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+L</string>
+   </property>
+  </action>
+  <action name="actionMirror">
+   <property name="text">
+    <string>Mirror</string>
    </property>
   </action>
  </widget>
