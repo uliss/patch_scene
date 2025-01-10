@@ -219,5 +219,7 @@
         <file>devices/hdd_1.svg</file>
         <file>devices/music_stand_3.svg</file>
         <file>devices/organ_1.svg</file>
+        <file>devices/fire_extinguisher.svg</file>
+        <file>devices/bottle_1.svg</file>
     </qresource>
 </RCC>

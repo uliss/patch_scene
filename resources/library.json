@@ -3444,6 +3444,16 @@
         ],
         "furniture": [
             {
+                "title": "Bottle",
+                "title-ru": "Бутылка",
+                "image": "bottle_1"
+            },
+            {
+                "title": "Fire extinguisher",
+                "title-ru": "Огнетушитель",
+                "image": "fire_extinguisher"
+            },
+            {
                 "title": "Pocket music stand",
                 "title-ru": "Пюпитр складной",
                 "image": "music_stand_1"
