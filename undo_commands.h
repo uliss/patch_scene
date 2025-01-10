@@ -77,6 +77,54 @@ private:
     QList<DeviceId> new_devs_, sel_devs_;
 };
 
+class BaseLockDevices : public QUndoCommand {
+public:
+    BaseLockDevices(Diagram* doc, const QList<DeviceId>& devs);
+
+protected:
+    void setLocked(bool value);
+
+    Diagram* doc_;
+    QList<DeviceId> devs_;
+};
+
+class LockDevices : public BaseLockDevices {
+public:
+    LockDevices(Diagram* doc, const QList<DeviceId>& devs);
+
+    void undo() override;
+    void redo() override;
+};
+
+class UnlockDevices : public BaseLockDevices {
+public:
+    UnlockDevices(Diagram* doc, const QList<DeviceId>& devs);
+
+    void undo() override;
+    void redo() override;
+};
+
+class BaseLockSelected : public BaseLockDevices {
+public:
+    BaseLockSelected(Diagram* doc, bool lockState);
+};
+
+class LockSelected : public BaseLockSelected {
+public:
+    LockSelected(Diagram* doc);
+
+    void undo() override;
+    void redo() override;
+};
+
+class UnlockSelected : public BaseLockSelected {
+public:
+    UnlockSelected(Diagram* doc);
+
+    void undo() final;
+    void redo() final;
+};
+
 class ToggleDevices : public QUndoCommand {
 public:
     ToggleDevices(Diagram* doc, const QList<DeviceId>& ids);

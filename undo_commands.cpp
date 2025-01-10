@@ -506,3 +506,90 @@ void ReconnectDevice::redo()
         doc_->connectDevices(new_conn_.first, new_conn_.second);
     }
 }
+
+LockSelected::LockSelected(Diagram* doc)
+    : BaseLockSelected(doc, false)
+{
+}
+
+void LockSelected::undo()
+{
+    setLocked(false);
+}
+
+void LockSelected::redo()
+{
+    setLocked(true);
+}
+
+UnlockSelected::UnlockSelected(Diagram* doc)
+    : BaseLockSelected(doc, true)
+{
+}
+
+void UnlockSelected::undo()
+{
+    setLocked(true);
+}
+
+void UnlockSelected::redo()
+{
+    setLocked(false);
+}
+
+BaseLockSelected::BaseLockSelected(Diagram* doc, bool lockState)
+    : BaseLockDevices(doc, {})
+{
+    for (const auto& data : doc->devices().selectedDataList()) {
+        if (data->isLocked() == lockState)
+            devs_.push_back(data->id());
+    }
+}
+
+void BaseLockDevices::setLocked(bool value)
+{
+    if (!doc_)
+        return;
+
+    for (auto id : devs_) {
+        auto dev = doc_->devices().find(id);
+        if (dev)
+            dev->setLocked(value);
+    }
+}
+
+BaseLockDevices::BaseLockDevices(Diagram* doc, const QList<DeviceId>& devs)
+    : doc_(doc)
+    , devs_(devs)
+{
+}
+
+LockDevices::LockDevices(Diagram* doc, const QList<DeviceId>& devs)
+    : BaseLockDevices(doc, devs)
+{
+}
+
+void LockDevices::undo()
+{
+    setLocked(false);
+}
+
+void LockDevices::redo()
+{
+    setLocked(true);
+}
+
+UnlockDevices::UnlockDevices(Diagram* doc, const QList<DeviceId>& devs)
+    : BaseLockDevices(doc, devs)
+{
+}
+
+void UnlockDevices::undo()
+{
+    setLocked(true);
+}
+
+void UnlockDevices::redo()
+{
+    setLocked(false);
+}
