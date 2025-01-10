@@ -173,6 +173,8 @@
     </property>
     <addaction name="actionAddDevice"/>
     <addaction name="actionSetBackground"/>
+    <addaction name="actionLock"/>
+    <addaction name="actionUnlock"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -921,6 +923,22 @@
   <action name="actionExportSchemeToPng">
    <property name="text">
     <string>Export Scheme to PNG</string>
+   </property>
+  </action>
+  <action name="actionLock">
+   <property name="text">
+    <string>Lock</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
+   </property>
+  </action>
+  <action name="actionUnlock">
+   <property name="text">
+    <string>Unlock</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+L</string>
    </property>
   </action>
  </widget>
