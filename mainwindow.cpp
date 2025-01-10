@@ -322,10 +322,13 @@ void MainWindow::initActions()
             x->exec();
         });
 
-    connect(ui->actionLock, &QAction::triggered, this, [this](bool) { diagram_->cmdLockSelected(); });
-    connect(ui->actionUnlock, &QAction::triggered, this, [this](bool) { diagram_->cmdUnlockSelected(); });
+    connect(ui->actionDevLock, &QAction::triggered, this, [this](bool) { diagram_->cmdLockSelected(); });
+    connect(ui->actionDevUnlock, &QAction::triggered, this, [this](bool) { diagram_->cmdUnlockSelected(); });
 
     connect(ui->actionMirror, &QAction::triggered, this, [this](bool) { diagram_->cmdMirrorSelected(); });
+
+    connect(ui->actionDevZoomIn, &QAction::triggered, this, [this](bool) { diagram_->cmdZoomInSelected(); });
+    connect(ui->actionDevZoomOut, &QAction::triggered, this, [this](bool) { diagram_->cmdZoomOutSelected(); });
 }
 
 void MainWindow::initActionsShortcuts()

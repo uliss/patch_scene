@@ -173,9 +173,13 @@
     </property>
     <addaction name="actionAddDevice"/>
     <addaction name="actionSetBackground"/>
-    <addaction name="actionLock"/>
-    <addaction name="actionUnlock"/>
+    <addaction name="separator"/>
+    <addaction name="actionDevLock"/>
+    <addaction name="actionDevUnlock"/>
     <addaction name="actionMirror"/>
+    <addaction name="separator"/>
+    <addaction name="actionDevZoomIn"/>
+    <addaction name="actionDevZoomOut"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -926,7 +930,7 @@
     <string>Export Scheme to PNG</string>
    </property>
   </action>
-  <action name="actionLock">
+  <action name="actionDevLock">
    <property name="text">
     <string>Lock</string>
    </property>
@@ -934,7 +938,7 @@
     <string>Ctrl+L</string>
    </property>
   </action>
-  <action name="actionUnlock">
+  <action name="actionDevUnlock">
    <property name="text">
     <string>Unlock</string>
    </property>
@@ -945,6 +949,22 @@
   <action name="actionMirror">
    <property name="text">
     <string>Mirror</string>
+   </property>
+  </action>
+  <action name="actionDevZoomIn">
+   <property name="text">
+    <string>Zoom In</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+=</string>
+   </property>
+  </action>
+  <action name="actionDevZoomOut">
+   <property name="text">
+    <string>Zoom Out</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+-</string>
    </property>
   </action>
  </widget>

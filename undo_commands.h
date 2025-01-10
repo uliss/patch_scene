@@ -313,6 +313,18 @@ private:
     ImageMirrorType type_;
 };
 
+class ZoomSelected : public QUndoCommand {
+public:
+    ZoomSelected(Diagram* doc, qreal k);
+
+    void undo() final;
+    void redo() final;
+
+private:
+    Diagram* doc_;
+    qreal k_;
+};
+
 }
 
 #endif // UNDO_COMMANDS_H

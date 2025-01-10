@@ -623,3 +623,31 @@ void MirrorDevice::redo()
 
     dev->mirrorImage(type_);
 }
+
+ZoomSelected::ZoomSelected(Diagram* doc, qreal k)
+    : doc_(doc)
+    , k_(k)
+{
+}
+
+void ZoomSelected::undo()
+{
+    if (!doc_)
+        return;
+
+    doc_->devices().foreachDevice([this](Device* dev) {
+        if (dev->isSelected())
+            dev->zoomImage(1 / k_);
+    });
+}
+
+void ZoomSelected::redo()
+{
+    if (!doc_)
+        return;
+
+    doc_->devices().foreachDevice([this](Device* dev) {
+        if (dev->isSelected())
+            dev->zoomImage(k_);
+    });
+}
