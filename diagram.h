@@ -198,6 +198,8 @@ public slots:
     void cmdUnlockSelected();
     void cmdLock(DeviceId id);
     void cmdUnlock(DeviceId id);
+    void cmdMirrorDevice(DeviceId id);
+    void cmdMirrorSelected();
     void cmdMoveSelectedDevicesBy(qreal dx, qreal dy);
     void cmdMoveSelectedDevicesFrom(const QPointF& from, const QPointF& to);
     void cmdPaste();

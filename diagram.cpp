@@ -311,6 +311,18 @@ void Diagram::cmdUnlock(DeviceId id)
     undo_stack_->push(lock);
 }
 
+void Diagram::cmdMirrorDevice(DeviceId id)
+{
+    auto mirror = new MirrorDevice(this, id, ImageMirrorType::Horizontal);
+    undo_stack_->push(mirror);
+}
+
+void Diagram::cmdMirrorSelected()
+{
+    auto mirror = new MirrorSelected(this, ImageMirrorType::Horizontal);
+    undo_stack_->push(mirror);
+}
+
 void Diagram::cmdSelectAll()
 {
     auto sel = new AddDeviceSelection(this, devices_.idList());
@@ -591,6 +603,10 @@ Device* Diagram::addDevice(const SharedDeviceData& data)
     connect(dev, &Device::unlockSelected, this, &Diagram::cmdUnlockSelected);
     connect(dev, &Device::lock, this, &Diagram::cmdLock);
     connect(dev, &Device::unlock, this, &Diagram::cmdUnlock);
+
+    // mirror
+    connect(dev, &Device::mirrorSelected, this, &Diagram::cmdMirrorSelected);
+    connect(dev, &Device::mirror, this, &Diagram::cmdMirrorDevice);
 
     emit sceneChanged();
 
