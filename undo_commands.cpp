@@ -577,3 +577,49 @@ void UnlockDevices::redo()
 {
     setLocked(false);
 }
+
+MirrorSelected::MirrorSelected(Diagram* doc, ImageMirrorType type)
+    : doc_(doc)
+    , type_(type)
+{
+}
+
+void MirrorSelected::undo()
+{
+    MirrorSelected::redo();
+}
+
+void MirrorSelected::redo()
+{
+    if (!doc_)
+        return;
+
+    doc_->devices().foreachDevice([this](Device* dev) {
+        if (dev->isSelected())
+            dev->mirrorImage(type_);
+    });
+}
+
+MirrorDevice::MirrorDevice(Diagram* doc, DeviceId id, ImageMirrorType type)
+    : doc_(doc)
+    , id_(id)
+    , type_(type)
+{
+}
+
+void MirrorDevice::undo()
+{
+    MirrorDevice::redo();
+}
+
+void MirrorDevice::redo()
+{
+    if (!doc_)
+        return;
+
+    auto dev = doc_->devices().find(id_);
+    if (!dev)
+        return;
+
+    dev->mirrorImage(type_);
+}

@@ -288,6 +288,31 @@ private:
     ConnectionInfo old_conn_, new_conn_;
 };
 
+class MirrorSelected : public QUndoCommand {
+public:
+    MirrorSelected(Diagram* doc, ImageMirrorType type);
+
+    void undo() final;
+    void redo() final;
+
+private:
+    Diagram* doc_;
+    ImageMirrorType type_;
+};
+
+class MirrorDevice : public QUndoCommand {
+public:
+    MirrorDevice(Diagram* doc, DeviceId id, ImageMirrorType type);
+
+    void undo() final;
+    void redo() final;
+
+private:
+    Diagram* doc_;
+    DeviceId id_;
+    ImageMirrorType type_;
+};
+
 }
 
 #endif // UNDO_COMMANDS_H
