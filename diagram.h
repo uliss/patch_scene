@@ -213,6 +213,8 @@ public slots:
     void cmdSelectUnique(DeviceId id);
     void cmdToggleDevices(const QList<QGraphicsItem*>& items);
     void cmdUpdateDevice(SharedDeviceData data);
+    void cmdZoomInSelected();
+    void cmdZoomOutSelected();
 
     void clearUndoStack();
     void copySelected();

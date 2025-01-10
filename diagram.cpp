@@ -244,6 +244,18 @@ void Diagram::cmdUpdateDevice(SharedDeviceData data)
     undo_stack_->push(up);
 }
 
+void Diagram::cmdZoomInSelected()
+{
+    auto zoom = new ZoomSelected(this, 1.25);
+    undo_stack_->push(zoom);
+}
+
+void Diagram::cmdZoomOutSelected()
+{
+    auto zoom = new ZoomSelected(this, 1 / 1.25);
+    undo_stack_->push(zoom);
+}
+
 void Diagram::cmdCreateDevice(const QPointF& pos)
 {
     auto add = new CreateDevice(this, pos);
