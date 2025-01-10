@@ -1,6 +1,6 @@
 find_package(Git)
 
-set(PATCH_SCENE_FILE_FORMAT_VERSION 9)
+set(PATCH_SCENE_FILE_FORMAT_VERSION 10)
 
 add_custom_target(git_version
     ${CMAKE_COMMAND}
