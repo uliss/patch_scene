@@ -287,6 +287,30 @@ void Diagram::cmdDuplicateSelection()
     undo_stack_->push(dup);
 }
 
+void Diagram::cmdLockSelected()
+{
+    auto lock = new LockSelected(this);
+    undo_stack_->push(lock);
+}
+
+void Diagram::cmdUnlockSelected()
+{
+    auto unlock = new UnlockSelected(this);
+    undo_stack_->push(unlock);
+}
+
+void Diagram::cmdLock(DeviceId id)
+{
+    auto lock = new LockDevices(this, { id });
+    undo_stack_->push(lock);
+}
+
+void Diagram::cmdUnlock(DeviceId id)
+{
+    auto lock = new UnlockDevices(this, { id });
+    undo_stack_->push(lock);
+}
+
 void Diagram::cmdSelectAll()
 {
     auto sel = new AddDeviceSelection(this, devices_.idList());
@@ -561,6 +585,12 @@ Device* Diagram::addDevice(const SharedDeviceData& data)
 
     connect(dev, SIGNAL(placeInColumn()), this, SLOT(cmdPlaceInColumnSelected()));
     connect(dev, SIGNAL(placeInRow()), this, SLOT(cmdPlaceInRowSelected()));
+
+    // lock
+    connect(dev, &Device::lockSelected, this, &Diagram::cmdLockSelected);
+    connect(dev, &Device::unlockSelected, this, &Diagram::cmdUnlockSelected);
+    connect(dev, &Device::lock, this, &Diagram::cmdLock);
+    connect(dev, &Device::unlock, this, &Diagram::cmdUnlock);
 
     emit sceneChanged();
 

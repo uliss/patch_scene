@@ -194,6 +194,10 @@ public slots:
     void cmdDistributeVSelected();
     void cmdDuplicateDevice(const SharedDeviceData& data);
     void cmdDuplicateSelection();
+    void cmdLockSelected();
+    void cmdUnlockSelected();
+    void cmdLock(DeviceId id);
+    void cmdUnlock(DeviceId id);
     void cmdMoveSelectedDevicesBy(qreal dx, qreal dy);
     void cmdMoveSelectedDevicesFrom(const QPointF& from, const QPointF& to);
     void cmdPaste();
