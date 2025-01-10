@@ -337,6 +337,9 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
         showTitle->setText(data_->showTitle() ? tr("Hide title") : tr("Show title"));
         connect(showTitle, &QAction::triggered, this,
             [this](bool checked) {
+                if (!data_ || data_->isLocked())
+                    return;
+
                 auto data = data_;
                 auto show_title = data_->showTitle();
                 data.detach();
@@ -379,9 +382,13 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
         info_font.setBold(true);
         info->setFont(info_font);
         menu.setStyleSheet("QMenu::item:disabled {color: black;}");
-        menu.addAction(showTitle);
+
+        if (!data_->isLocked()) {
+            menu.addAction(showTitle);
+            menu.addAction(mirrorAct);
+        }
+
         menu.addAction(lockAct);
-        menu.addAction(mirrorAct);
 
         if (!data_->userViewData().isEmpty()) {
             auto views = menu.addMenu(tr("Views"));
