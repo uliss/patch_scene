@@ -77,6 +77,9 @@ public:
     DeviceXlets& xlets() { return xlets_; }
     const DeviceXlets& xlets() const { return xlets_; }
 
+    bool isLocked() const { return data_ && data_->isLocked(); }
+    void setLocked(bool value);
+
     static SharedDeviceData defaultDeviceData();
     static SharedDeviceData dataFromJson(const QJsonValue& j);
 
@@ -87,14 +90,20 @@ signals:
     void distributeHorizontal();
     void distributeVertical();
     void duplicateDevice(SharedDeviceData data);
-    void removeDevice(SharedDeviceData data);
-    void placeInRow();
     void placeInColumn();
+    void placeInRow();
+    void removeDevice(SharedDeviceData data);
     void updateDevice(SharedDeviceData data);
+
+    void lockSelected();
+    void unlockSelected();
+    void lock(DeviceId id);
+    void unlock(DeviceId id);
 
 private:
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) final;
     void paintTitleBox(QPainter* painter);
+    void paintStateIcons(QPainter* painter);
 
     void mouseMoveEvent(QGraphicsSceneMouseEvent* event) final;
     void mousePressEvent(QGraphicsSceneMouseEvent* event) final;

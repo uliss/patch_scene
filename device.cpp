@@ -220,6 +220,8 @@ void Device::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
             view->paint(painter, { static_cast<int>(view->width() / -2), inletsYOff() });
     }
 
+    paintStateIcons(painter);
+
     Q_UNUSED(widget);
 }
 
@@ -243,6 +245,23 @@ void Device::paintTitleBox(QPainter* painter)
 
     auto title_box = titleRect();
     painter->drawRoundedRect(title_box.adjusted(4, 3, -4, -4), 5, 5);
+}
+
+void Device::paintStateIcons(QPainter* painter)
+{
+    if (isLocked()) {
+        painter->save();
+        constexpr qreal WD = 8;
+        constexpr qreal HT = WD - 2;
+        constexpr qreal AWD = WD - 2;
+        painter->translate(rect_.width() / 2 - 12, 0);
+        QColor c(100, 100, 100);
+        painter->setBrush(QBrush(c));
+        painter->setPen(QPen(c, 1.5));
+        painter->drawArc(QRectF { (WD - AWD) * 0.5, 0.5 * HT, AWD, HT }, 0, 180 * 16);
+        painter->drawRect(QRectF { 0, 1.4 * HT, WD, HT });
+        painter->restore();
+    }
 }
 
 void Device::mousePressEvent(QGraphicsSceneMouseEvent* event)
@@ -296,6 +315,18 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 
         menu.addAction(place_hor);
         menu.addAction(place_ver);
+
+        // lock/unlock
+        menu.addSeparator();
+        auto lockAct = new QAction(&menu);
+        lockAct->setText(tr("Lock"));
+        connect(lockAct, &QAction::triggered, this, &Device::lockSelected);
+        auto unlockAct = new QAction(&menu);
+        unlockAct->setText(tr("Unlock"));
+        connect(unlockAct, &QAction::triggered, this, &Device::unlockSelected);
+
+        menu.addAction(lockAct);
+        menu.addAction(unlockAct);
     } else {
         auto showTitle = new QAction(&menu);
         showTitle->setChecked(data_->showTitle());
@@ -308,6 +339,12 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
                 data->setShowTitle(!show_title);
                 emit updateDevice(data);
             });
+
+        auto lockAct = new QAction(&menu);
+        lockAct->setText(data_->isLocked() ? tr("Unlock") : tr("Lock"));
+        connect(lockAct, &QAction::triggered, this, [this](bool) {
+            data_->isLocked() ? emit unlock(data_->id()) : emit lock(data_->id());
+        });
 
         auto duplicateAct = new QAction(tr("Duplicate"), &menu);
         connect(duplicateAct, &QAction::triggered, this,
@@ -336,6 +373,8 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
         info->setFont(info_font);
         menu.setStyleSheet("QMenu::item:disabled {color: black;}");
         menu.addAction(showTitle);
+        menu.addAction(lockAct);
+
         if (!data_->userViewData().isEmpty()) {
             auto views = menu.addMenu(tr("Views"));
             auto act_view_default = views->addAction(tr("Logic"));
@@ -419,7 +458,7 @@ void Device::createTitle(qreal wd)
     if (data_->showTitle()) {
         title_ = new QGraphicsTextItem(data_->title());
         title_->setTextWidth(wd);
-        title_->setToolTip(data_->modelVendor());
+        title_->setToolTip(data_->verboseInfo());
         title_->setParentItem(this);
     }
 }
@@ -432,6 +471,7 @@ void Device::createImage()
         image_ = new QGraphicsSvgItem;
         image_->setSharedRenderer(SvgRenderFactory::instance().getRender(data_->imageIconPath()));
         image_->setScale(data_->zoom());
+        image_->setToolTip(data_->verboseInfo());
         switch (data_->imageMirror()) {
         case ImageMirrorType::Horizontal: {
             auto tr = QTransform::fromScale(-1, 1).translate(-image_->boundingRect().width() * data_->zoom(), 0);
@@ -615,6 +655,15 @@ QJsonObject Device::toJson() const
     data_json["z"] = zValue();
 
     return data_json;
+}
+
+void Device::setLocked(bool value)
+{
+    if (!data_ || data_->isLocked() == value)
+        return;
+
+    data_->setLocked(value);
+    update();
 }
 
 SharedDeviceData Device::defaultDeviceData()
