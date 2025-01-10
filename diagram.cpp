@@ -1101,8 +1101,9 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
         auto src_pos = mapToScene(prev_click_pos_.toPoint());
         auto delta = src_pos - dest_pos;
 
-        devices_.foreachSelectedDevice([delta](Device* dev) {
-            dev->moveBy(delta.x(), delta.y());
+        devices_.foreachDevice([delta](Device* dev) {
+            if (dev->isSelected() && !dev->isLocked())
+                dev->moveBy(delta.x(), delta.y());
         });
 
         cmdMoveSelectedDevicesFrom(src_pos, dest_pos);
@@ -1419,7 +1420,8 @@ void Diagram::moveSelectedItemsBy(qreal dx, qreal dy)
 
             // O(N)
             devices_.foreachSelectedData([this](const SharedDeviceData& data) {
-                updateConnectionPos(data->id());
+                if (!data->isLocked())
+                    updateConnectionPos(data->id());
             });
         }
     }
