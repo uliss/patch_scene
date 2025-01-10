@@ -321,6 +321,9 @@ void MainWindow::initActions()
             auto x = new AboutShortcuts(this);
             x->exec();
         });
+
+    connect(ui->actionLock, &QAction::triggered, this, [this](bool) { diagram_->cmdLockSelected(); });
+    connect(ui->actionUnlock, &QAction::triggered, this, [this](bool) { diagram_->cmdUnlockSelected(); });
 }
 
 void MainWindow::initActionsShortcuts()
