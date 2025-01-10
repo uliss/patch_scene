@@ -316,6 +316,10 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
         menu.addAction(place_hor);
         menu.addAction(place_ver);
 
+        auto mirror = new QAction(tr("Mirror image"), &menu);
+        connect(mirror, &QAction::triggered, this, &Device::mirrorSelected);
+        menu.addAction(mirror);
+
         // lock/unlock
         menu.addSeparator();
         auto lockAct = new QAction(&menu);
@@ -346,6 +350,9 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
             data_->isLocked() ? emit unlock(data_->id()) : emit lock(data_->id());
         });
 
+        auto mirrorAct = new QAction(tr("Mirror image"), &menu);
+        connect(mirrorAct, &QAction::triggered, this, [this](bool) { emit mirror(data_->id()); });
+
         auto duplicateAct = new QAction(tr("Duplicate"), &menu);
         connect(duplicateAct, &QAction::triggered, this,
             [this]() { emit duplicateDevice(data_); });
@@ -374,6 +381,7 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
         menu.setStyleSheet("QMenu::item:disabled {color: black;}");
         menu.addAction(showTitle);
         menu.addAction(lockAct);
+        menu.addAction(mirrorAct);
 
         if (!data_->userViewData().isEmpty()) {
             auto views = menu.addMenu(tr("Views"));
@@ -664,6 +672,27 @@ void Device::setLocked(bool value)
 
     data_->setLocked(value);
     update();
+}
+
+void Device::mirrorImage(ImageMirrorType type)
+{
+    if (!data_ || data_->isLocked())
+        return;
+
+    const auto im = data_->imageMirror();
+
+    if (im == type)
+        data_->setImageMirror(ImageMirrorType::None);
+    else if (im == ImageMirrorType::None)
+        data_->setImageMirror(type);
+    else
+        return;
+
+    if (image_) {
+        clearImage();
+        createImage();
+        updateImagePos();
+    }
 }
 
 SharedDeviceData Device::defaultDeviceData()
