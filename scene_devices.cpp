@@ -457,7 +457,7 @@ bool SceneDevices::moveBy(const QHash<DeviceId, QPointF>& deltas)
 
     for (auto kv = deltas.begin(); kv != deltas.end(); ++kv) {
         auto it = devices_.find(kv.key());
-        if (it != devices_.end()) {
+        if (it != devices_.end() && !it->second->isLocked()) {
             it->second->moveBy(kv.value().x(), kv.value().y());
             count++;
         }
@@ -472,7 +472,7 @@ bool SceneDevices::moveSelectedBy(qreal dx, qreal dy)
 
     for (auto& kv : devices_) {
         auto dev = kv.second;
-        if (dev->isSelected()) {
+        if (dev->isSelected() && !dev->isLocked()) {
             dev->moveBy(dx, dy);
             res = true;
         }
