@@ -111,6 +111,36 @@ SharedDeviceData SceneDevices::remove(DeviceId id)
     return data;
 }
 
+QList<DeviceId> SceneDevices::duplicateSelected(bool selectNew, bool unselectSrc)
+{
+    QList<DeviceId> res;
+
+    for (auto& kv : devices_) {
+        auto src_dev = kv.second;
+        auto new_dev = add(src_dev->deviceData());
+        if (new_dev) {
+            switch (new_dev->deviceData()->category()) {
+            case ItemCategory::Furniture:
+                new_dev->moveBy(50, 0);
+                break;
+            default:
+                new_dev->moveBy(20, 20);
+                break;
+            }
+
+            res.push_back(new_dev->id());
+
+            if (selectNew)
+                new_dev->setSelected(true);
+
+            if (unselectSrc)
+                src_dev->setSelected(false);
+        }
+    }
+
+    return res;
+}
+
 Device* SceneDevices::find(DeviceId id)
 {
     auto it = devices_.find(id);
@@ -382,7 +412,7 @@ void SceneDevices::foreachDevice(std::function<void(Device*)> fn)
         fn(kv.second);
 }
 
-void SceneDevices::foreachSelectedDevice(std::function<void(Device*)> fn)
+void SceneDevices::foreachSelectedDevice(std::function<void(const Device*)> fn)
 {
     if (!fn)
         return;

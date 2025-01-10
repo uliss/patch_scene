@@ -70,6 +70,11 @@ public:
     SharedDeviceData remove(DeviceId id);
 
     /**
+     * Duplicate selected devices
+     */
+    QList<DeviceId> duplicateSelected(bool selectNew, bool unselectSrc);
+
+    /**
      * remove all devices
      * @emit removed(SharedDeviceData) for every deleted device
      */
@@ -142,7 +147,7 @@ public:
     QRectF boundingSelectRect() const;
 
     void foreachDevice(std::function<void(Device*)> fn);
-    void foreachSelectedDevice(std::function<void(Device*)> fn);
+    void foreachSelectedDevice(std::function<void(const Device*)> fn);
 
     void foreachData(std::function<void(const SharedDeviceData& data)> fn) const;
     void foreachSelectedData(std::function<void(const SharedDeviceData& data)> fn) const;
