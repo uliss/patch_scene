@@ -215,6 +215,12 @@ public:
     DeviceDataInfo& info() { return info_; }
     const DeviceDataInfo& info() const { return info_; }
 
+    qreal weight() const { return weight_; }
+    void setWeight(qreal w);
+
+    qreal volume() const { return volume_; }
+    void setVolume(qreal vol);
+
 private:
     static QJsonArray xletToJson(const QList<XletData>& xlets);
     static bool setXletJson(const QJsonValue& v, QList<XletData>& xlets);
@@ -239,6 +245,8 @@ private:
     QList<XletsUserViewData> user_view_data_;
     QString current_user_view_;
     DeviceDataInfo info_;
+    qreal weight_ { 0 };
+    qreal volume_ { 0 };
 };
 
 using SharedDeviceData = QSharedDataPointer<DeviceData>;

@@ -36,6 +36,8 @@ void TestDeviceData::construct()
     QVERIFY(data.category() == ItemCategory::Device);
 
     QVERIFY(data.info().isEmpty());
+    QCOMPARE(data.weight(), 0);
+    QCOMPARE(data.volume(), 0);
 }
 
 void TestDeviceData::toJson()
@@ -62,6 +64,19 @@ void TestDeviceData::toJson()
     QVERIFY(!j.contains("input-columns"));
     QVERIFY(!j.contains("output-columns"));
     QVERIFY(j.contains("info"));
+
+    QVERIFY(!j.contains("weight-kg"));
+    QVERIFY(!j.contains("volume-cm3"));
+
+    data.setWeight(1);
+    j = data.toJson();
+    QVERIFY(j.contains("weight-kg"));
+    QVERIFY(!j.contains("volume-cm3"));
+
+    data.setVolume(2);
+    j = data.toJson();
+    QVERIFY(j.contains("weight-kg"));
+    QVERIFY(j.contains("volume-cm3"));
 }
 
 void TestDeviceData::fromJson()
@@ -108,6 +123,22 @@ void TestDeviceData::fromJson()
     j["locked"] = false;
     QVERIFY(data.setJson(j));
     QCOMPARE(data.isLocked(), false);
+
+    j["weight-kg"] = 100.5;
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.weight(), 100.5);
+
+    j["weight-kg"] = -4.5;
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.weight(), 0);
+
+    j["volume-cm3"] = 2.5;
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.volume(), 2.5);
+
+    j["volume-cm3"] = -0.5;
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.volume(), 0);
 }
 
 void TestDeviceData::testJson()

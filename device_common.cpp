@@ -95,6 +95,8 @@ constexpr const char* JSON_KEY_CURRENT_USER_VIEW = "current-view";
 constexpr const char* JSON_KEY_INPUT_COLUMNS = "input-columns";
 constexpr const char* JSON_KEY_OUTPUT_COLUMNS = "output-columns";
 constexpr const char* JSON_KEY_INFO = "info";
+constexpr const char* JSON_KEY_WEIGHT_KG = "weight-kg";
+constexpr const char* JSON_KEY_VOLUME_CM3 = "volume-cm3";
 
 constexpr const char* JSON_MIRROR_HORIZONTAL = "horizontal";
 
@@ -182,8 +184,8 @@ std::optional<ItemCategory> ceam::fromQString(const QString& str)
 void ceam::foreachItemCategory(std::function<void(const char*, int)> fn)
 {
     for (int i = static_cast<int>(ItemCategory::Device);
-         i < static_cast<int>(ItemCategory::MaxCategory);
-         i++) //
+        i < static_cast<int>(ItemCategory::MaxCategory);
+        i++) //
     {
         fn(toString(static_cast<ItemCategory>(i)), i);
     }
@@ -370,6 +372,9 @@ bool DeviceData::setJson(const QJsonValue& v)
         }
     }
 
+    setWeight(obj[JSON_KEY_WEIGHT_KG].toDouble(0));
+    setVolume(obj[JSON_KEY_VOLUME_CM3].toDouble(0));
+
     return true;
 }
 
@@ -435,6 +440,12 @@ QJsonObject DeviceData::toJson() const
 
     json[JSON_KEY_INFO] = info_arr;
 
+    if (weight_ > 0)
+        json[JSON_KEY_WEIGHT_KG] = weight_;
+
+    if (volume_ > 0)
+        json[JSON_KEY_VOLUME_CM3] = volume_;
+
     return json;
 }
 
@@ -496,6 +507,16 @@ QString DeviceData::verboseInfo() const
         res.resize(res.length() - strlen(NL));
 
     return res;
+}
+
+void DeviceData::setWeight(qreal w)
+{
+    weight_ = qMax<qreal>(0, w);
+}
+
+void DeviceData::setVolume(qreal vol)
+{
+    volume_ = qMax<qreal>(0, vol);
 }
 
 QJsonArray DeviceData::xletToJson(const QList<XletData>& xlets)
@@ -651,7 +672,7 @@ SubCategory& SubCategory::operator|=(const SubCategory& cat)
         auto pval1 = std::get_if<DeviceCategoryFlags>(&cat)) {
         *pval0 |= *pval1;
     } else if (auto pval0 = std::get_if<InstrumentCategoryFlags>(this);
-               auto pval1 = std::get_if<InstrumentCategoryFlags>(&cat)) {
+        auto pval1 = std::get_if<InstrumentCategoryFlags>(&cat)) {
         *pval0 |= *pval1;
     }
 
