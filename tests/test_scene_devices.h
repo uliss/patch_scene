@@ -27,6 +27,7 @@ private slots:
     void checkConnection();
     void clear();
     void compare();
+    void duplicateSelected();
     void findConnectionInfo();
     void findConnectionPair();
     void findConnectionPoints();

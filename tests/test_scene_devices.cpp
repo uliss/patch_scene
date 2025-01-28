@@ -453,3 +453,36 @@ void TestSceneDevices::compare()
     QCOMPARE(sc, sc);
     QVERIFY(!(sc != sc));
 }
+
+void TestSceneDevices::duplicateSelected()
+{
+    SceneDevices devs;
+    QCOMPARE(devs.selectedCount(), 0);
+    size_t num = 0;
+
+    QGraphicsScene scene;
+    devs.setScene(&scene);
+    QCOMPARE(devs.selectedCount(), 0);
+
+    num = devs.duplicateSelected({ true, true }).count();
+    QCOMPARE(devs.selectedCount(), 0);
+
+    auto dev1 = devs.add(data1(100));
+    QCOMPARE(devs.count(), 1);
+    QCOMPARE(devs.selectedCount(), 0);
+    devs.setSelected({ dev1->id() }, true);
+    QCOMPARE(devs.selectedCount(), 1);
+
+    devs.duplicateSelected({ true, true });
+    QCOMPARE(devs.count(), 2);
+    QCOMPARE(devs.selectedCount(), 1);
+
+    devs.duplicateSelected({ true, true });
+    QCOMPARE(devs.count(), 3);
+    QCOMPARE(devs.selectedCount(), 1);
+
+    num = devs.duplicateSelected({ true, false }).count();
+    QCOMPARE(num, 1);
+    QCOMPARE(devs.count(), 4);
+    QCOMPARE(devs.selectedCount(), 2);
+}

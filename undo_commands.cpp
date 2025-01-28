@@ -216,8 +216,12 @@ void DuplicateSelected::redo()
         return;
 
     {
+        SceneDevices::DuplicatePolicy policy;
+        policy.select_new = true;
+        policy.unselect_origin = true;
+
         DiagramUpdatesBlocker ub(doc_);
-        new_devs_ = doc_->devices().duplicateSelected(true, true);
+        new_devs_ = doc_->devices().duplicateSelected(policy);
     }
 
     emit doc_->sceneFullUpdate();
