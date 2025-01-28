@@ -178,11 +178,11 @@ void DeviceEditor::updateImagePreview()
     }
 }
 
-void DeviceEditor::enableCategoryWidgets(bool value, ItemCategory cat)
+void DeviceEditor::enableCategoryWidgets(bool showButteries, ItemCategory cat)
 {
-    ui->batteryCount->setVisible(value);
-    ui->batteryLabel->setVisible(value);
-    ui->batteryType->setVisible(value);
+    ui->batteryCount->setVisible(showButteries);
+    ui->batteryLabel->setVisible(showButteries);
+    ui->batteryType->setVisible(showButteries);
 
     const bool is_human = (cat == ItemCategory::Human);
     ui->model->setHidden(is_human);
@@ -192,6 +192,8 @@ void DeviceEditor::enableCategoryWidgets(bool value, ItemCategory cat)
     ui->inputsEditLogical->setHidden(is_human);
     ui->outputsEditLogical->setHidden(is_human);
     ui->viewsEdit->setHidden(is_human);
+    ui->weightLabel->setHidden(is_human);
+    ui->weightInput->setHidden(is_human);
 
     adjustSize();
     adjustSize();
