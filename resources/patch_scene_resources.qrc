@@ -221,5 +221,8 @@
         <file>devices/organ_1.svg</file>
         <file>devices/fire_extinguisher.svg</file>
         <file>devices/bottle_1.svg</file>
+        <file>devices/mic_pickup_1.svg</file>
+        <file>devices/mic_pickup_2.svg</file>
+        <file>devices/mic_pickup_3.svg</file>
     </qresource>
 </RCC>

@@ -65,6 +65,44 @@
                 ]
             },
             {
+                "model": "Lavalier Mic",
+                "title-ru": "Петличный микрофон",
+                "image": "mic_pickup_1",
+                "subcat": "mic",
+                "outputs": [
+                    {
+                        "model": "xlr",
+                        "socket": "socket_male"
+                    }
+                ]
+            },
+            {
+                "model": "Pickup Mic",
+                "title-ru": "Петличный микрофон",
+                "vendor": "DPA",
+                "model": "4099",
+                "image": "mic_pickup_2",
+                "subcat": "mic",
+                "outputs": [
+                    {
+                        "model": "xlr",
+                        "socket": "socket_male"
+                    }
+                ]
+            },
+            {
+                "model": "Vocal pickup",
+                "title-ru": "Вокальная гарнитура",
+                "image": "mic_pickup_3",
+                "subcat": "mic",
+                "outputs": [
+                    {
+                        "model": "xlr",
+                        "socket": "socket_male"
+                    }
+                ]
+            },
+            {
                 "title": "Multi-format Video Mixer",
                 "model": "Livepro L1",
                 "vendor": "FeelWorld",
@@ -2631,7 +2669,7 @@
             },
             {
                 "title": "Video projector",
-                "title-ru": "Видео проектор",
+                "title-ru": "Видеопроектор",
                 "subcat": "video",
                 "image": "projector_1",
                 "inputs": [
