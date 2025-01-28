@@ -48,7 +48,7 @@ private:
     void setupImageMirror(const SharedDeviceData& data);
 
     void updateImagePreview();
-    void enableCategoryWidgets(bool value, ItemCategory cat);
+    void enableCategoryWidgets(bool showButteries, ItemCategory cat);
 
 private:
     Ui::DeviceProperties* ui;
