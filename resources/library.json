@@ -28,6 +28,32 @@
                 ]
             },
             {
+                "title": "Mic DPA4099",
+                "title-ru": "Микрофон DPA4099",
+                "image": "mic_dpa_1",
+                "subcat": "mic",
+                "zoom": 1.0,
+                "outputs": [
+                    {
+                        "model": "xlr",
+                        "socket": "socket_male"
+                    }
+                ]
+            },
+            {
+                "title": "Mic Piezo",
+                "title-ru": "Микрофон пьезо",
+                "image": "mic_piezo_1",
+                "subcat": "mic",
+                "zoom": 1.0,
+                "outputs": [
+                    {
+                        "model": "jack_ts",
+                        "socket": "plug_male"
+                    }
+                ]
+            },
+            {
                 "title": "Mic instrumental on crane stand",
                 "title-ru": "Микрофон инструментальный на угловой стойке",
                 "image": "mic_on_stand_3",
@@ -1417,6 +1443,19 @@
                         "model": "jack_mini_trs",
                         "socket": "socket_female",
                         "name": "Audio out"
+                    }
+                ]
+            },
+            {
+                "vendor": "Apple",
+                "model": "iPad",
+                "subcat": "computer",
+                "image": "ipad_1",
+                "outputs": [
+                    {
+                        "model": "usb_type_c",
+                        "socket": "socket_female",
+                        "name": "USB/Thunderbolt 1"
                     }
                 ]
             },
@@ -2939,6 +2978,13 @@
                 "subcat": "keyboard"
             },
             {
+                "title": "Music Box",
+                "title-ru": "Музыкальная шкатулка",
+                "image": "music_box_1",
+                "zoom": 1.0,
+                "subcat": "perc_tonal"
+            },
+            {
                 "title": "Balalaika",
                 "title-ru": "Балалайка",
                 "image": "balalaika_1",
@@ -3135,6 +3181,12 @@
                 "title": "Recorder",
                 "title-ru": "Блокфлейта",
                 "image": "flute_1",
+                "subcat": "wood"
+            },
+            {
+                "title": "Flute",
+                "title-ru": "Флейта",
+                "image": "flute_2",
                 "subcat": "wood"
             },
             {
@@ -3598,6 +3650,11 @@
                 "title": "Cello player",
                 "title-ru": "Виолончелист",
                 "image": "human_cello_2"
+            },
+            {
+                "title": "Contrabass player",
+                "title-ru": "Контрабасист",
+                "image": "human_contrabass_1"
             },
             {
                 "title": "Violin player",
