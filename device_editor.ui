@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>535</width>
-    <height>278</height>
+    <height>312</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,42 +16,15 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="6" column="0">
-      <widget class="QLabel" name="batteryLabel">
+     <item row="4" column="0">
+      <widget class="QLabel" name="imageLabel">
        <property name="text">
-        <string>&amp;Batteries</string>
+        <string>Image</string>
        </property>
        <property name="buddy">
-        <cstring>batteryType</cstring>
+        <cstring>imageChooseButton</cstring>
        </property>
       </widget>
-     </item>
-     <item row="6" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QComboBox" name="batteryType"/>
-       </item>
-       <item>
-        <widget class="QSpinBox" name="batteryCount">
-         <property name="maximum">
-          <number>10</number>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_6">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
      </item>
      <item row="2" column="0">
       <widget class="QLabel" name="categoryLabel">
@@ -63,89 +36,7 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <layout class="QHBoxLayout" name="nameLayout">
-       <item>
-        <widget class="QLineEdit" name="deviceName"/>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="showTitle">
-         <property name="text">
-          <string>&amp;Show</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="vendorLabel">
-       <property name="text">
-        <string>Vendor</string>
-       </property>
-       <property name="buddy">
-        <cstring>vendor</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QToolButton" name="inputsEditLogical">
-         <property name="text">
-          <string>Inputs</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QToolButton" name="outputsEditLogical">
-         <property name="text">
-          <string>Outputs</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QToolButton" name="viewsEdit">
-         <property name="text">
-          <string>User views</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="imageLabel">
-       <property name="text">
-        <string>Image</string>
-       </property>
-       <property name="buddy">
-        <cstring>imageChooseButton</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="deviceNameLabel">
-       <property name="text">
-        <string>&amp;Name</string>
-       </property>
-       <property name="buddy">
-        <cstring>deviceName</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1">
+     <item row="4" column="1">
       <layout class="QHBoxLayout" name="imageLayout">
        <item>
         <widget class="QLabel" name="currentImage">
@@ -240,6 +131,77 @@
        </item>
       </layout>
      </item>
+     <item row="0" column="1">
+      <layout class="QHBoxLayout" name="nameLayout">
+       <item>
+        <widget class="QLineEdit" name="deviceName"/>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="showTitle">
+         <property name="text">
+          <string>&amp;Show</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="deviceNameLabel">
+       <property name="text">
+        <string>&amp;Name</string>
+       </property>
+       <property name="buddy">
+        <cstring>deviceName</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="batteryLabel">
+       <property name="text">
+        <string>&amp;Batteries</string>
+       </property>
+       <property name="buddy">
+        <cstring>batteryType</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="vendorLabel">
+       <property name="text">
+        <string>Vendor</string>
+       </property>
+       <property name="buddy">
+        <cstring>vendor</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QComboBox" name="batteryType"/>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="batteryCount">
+         <property name="maximum">
+          <number>10</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_6">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
      <item row="1" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="0,0,0,0">
        <item>
@@ -267,8 +229,106 @@
        </item>
       </layout>
      </item>
+     <item row="3" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QToolButton" name="inputsEditLogical">
+         <property name="text">
+          <string>Inputs</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="outputsEditLogical">
+         <property name="text">
+          <string>Outputs</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="viewsEdit">
+         <property name="text">
+          <string>User views</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
      <item row="2" column="1">
       <widget class="QComboBox" name="category"/>
+     </item>
+     <item row="6" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="QLabel" name="weightLabel">
+         <property name="text">
+          <string>Weight</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="weightInput">
+         <property name="suffix">
+          <string> kg</string>
+         </property>
+         <property name="decimals">
+          <number>1</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="volumeLabel">
+         <property name="text">
+          <string>Volume</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="volumeInput">
+         <property name="buttonSymbols">
+          <enum>QAbstractSpinBox::UpDownArrows</enum>
+         </property>
+         <property name="showGroupSeparator" stdset="0">
+          <bool>false</bool>
+         </property>
+         <property name="suffix">
+          <string> cm³</string>
+         </property>
+         <property name="decimals">
+          <number>0</number>
+         </property>
+         <property name="maximum">
+          <double>1000000.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>
