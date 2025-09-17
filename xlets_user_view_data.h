@@ -28,13 +28,19 @@ public:
     static constexpr int MAX_ROW_COUNT = 24;
     static constexpr int DEF_ROW_COUNT = 3;
 
+    enum ResizeMethod {
+        RESIZE_RAW,
+        RESIZE_PRESERVE_POS,
+        RESIZE_PRESERVE_CELL
+    };
+
 public:
     XletsUserViewData(int row = DEF_ROW_COUNT, int cols = DEF_COL_COUNT);
 
     int columnCount() const { return col_count_; }
     int rowCount() const { return row_count_; }
 
-    void setColumnCount(int n);
+    void setColumnCount(int n, ResizeMethod resizeMethod = RESIZE_RAW);
     void setRowCount(int n);
     int cellCount() const;
 

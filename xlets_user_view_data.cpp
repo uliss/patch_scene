@@ -34,10 +34,19 @@ XletsUserViewData::XletsUserViewData(int row, int cols)
     setRowCount(row);
 }
 
-void XletsUserViewData::setColumnCount(int n)
+void XletsUserViewData::setColumnCount(int n, ResizeMethod resizeMethod)
 {
     col_count_ = qBound(MIN_COL_COUNT, n, MAX_COL_COUNT);
-    xlets_idx_.resize(cellCount(), XletViewIndex::null());
+
+    switch (resizeMethod) {
+    case RESIZE_RAW:
+        xlets_idx_.resize(cellCount(), XletViewIndex::null());
+        break;
+    case RESIZE_PRESERVE_POS:
+        break;
+    case RESIZE_PRESERVE_CELL:
+        break;
+    }
 }
 
 void XletsUserViewData::setRowCount(int n)
