@@ -98,11 +98,16 @@ PatchSceneApp::PatchSceneApp(int& argc, char** argv, int flags)
     PRINT_QT_PATH(SettingsPath);
 
     setWindowIcon(QIcon(":/app_icon.svg"));
-    window_.reset(new MainWindow);
+    window_ = new MainWindow;
     window_->show();
 
     if (parser.positionalArguments().size() > 0)
         window_->openDocument(parser.positionalArguments().at(0));
+}
+
+PatchSceneApp::~PatchSceneApp()
+{
+    delete window_;
 }
 
 bool PatchSceneApp::event(QEvent* event)

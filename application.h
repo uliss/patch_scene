@@ -25,13 +25,14 @@ class PatchSceneApp : public QApplication {
     Q_OBJECT
 public:
     PatchSceneApp(int& argc, char** argv, int flags = ApplicationFlags);
+    ~PatchSceneApp();
 
 protected:
     bool event(QEvent* event) final;
 
 private:
     QTranslator qt_translator_, translator_;
-    std::unique_ptr<MainWindow> window_ { nullptr };
+    MainWindow* window_ { nullptr };
 };
 
 }
