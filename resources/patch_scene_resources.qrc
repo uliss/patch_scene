@@ -224,5 +224,12 @@
         <file>devices/mic_pickup_1.svg</file>
         <file>devices/mic_pickup_2.svg</file>
         <file>devices/mic_pickup_3.svg</file>
+        <file>devices/ipad_1.svg</file>
+        <file>devices/flute_2.svg</file>
+        <file>devices/music_box_1.svg</file>
+        <file>devices/grand_cassa_1.svg</file>
+        <file>devices/mic_dpa_1.svg</file>
+        <file>devices/human_contrabass_1.svg</file>
+        <file>devices/mic_piezo_1.svg</file>
     </qresource>
 </RCC>
