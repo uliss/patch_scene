@@ -231,5 +231,6 @@
         <file>devices/mic_dpa_1.svg</file>
         <file>devices/human_contrabass_1.svg</file>
         <file>devices/mic_piezo_1.svg</file>
+        <file>devices/moog_dfam.svg</file>
     </qresource>
 </RCC>
