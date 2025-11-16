@@ -667,6 +667,17 @@ void Diagram::setShowCables(bool value)
     connections_->setVisible(value);
 }
 
+void Diagram::setShowPeople(bool value)
+{
+    devices_.foreachDevice([value](Device* dev) {
+        if (dev //
+            && dev->deviceData() //
+            && dev->deviceData()->category() == ItemCategory::Human) {
+            dev->setVisible(value);
+        }
+    });
+}
+
 void Diagram::setShowBackground(bool value)
 {
     background_.setVisible(value);

@@ -148,6 +148,6 @@ private:
     QHash<DeviceId, QList<Connection*>> conn_dev_;
 };
 
-}
+}  // namespace ceam
 
 #endif // SCENE_CONNECTIONS_H

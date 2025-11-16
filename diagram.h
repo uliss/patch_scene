@@ -91,6 +91,7 @@ public:
 
     bool showCables() const { return show_cables_; }
     void setShowCables(bool value);
+    void setShowPeople(bool value);
     void setShowBackground(bool value);
 
     /**

@@ -270,7 +270,7 @@ public:
 
 size_t qHash(const DeviceData& data);
 
-}
+}  // namespace ceam
 
 QDebug operator<<(QDebug debug, const ceam::DeviceData& data);
 

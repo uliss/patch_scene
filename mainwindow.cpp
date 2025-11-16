@@ -279,6 +279,10 @@ void MainWindow::initActions()
     connect(ui->actionShowBackground, &QAction::triggered, diagram_, [this](bool value) {
         diagram_->setShowBackground(value);
     });
+    connect(ui->actionShowPeople, &QAction::triggered, diagram_, [this](bool value) {
+        diagram_->setShowPeople(value);
+    });
+
     connect(ui->actionShowGrid, SIGNAL(triggered(bool)), diagram_, SLOT(setGridVisible(bool)));
     ui->actionShowGrid->setChecked(diagram_->gridIsVisible());
 
@@ -1204,12 +1208,20 @@ void MainWindow::openDocument()
     openDocument(file_name);
 }
 
+void ceam::MainWindow::resetShowPeopleAction()
+{
+    ui->actionShowPeople->setEnabled(false);
+    ui->actionShowPeople->setChecked(true);
+    ui->actionShowPeople->setEnabled(true);
+}
+
 bool MainWindow::openDocument(const QString& path)
 {
     if (checkNonSavedDoc() == NonSavedDocAction::Abort)
         return false;
 
     if (diagram_->loadJson(path)) {
+        resetShowPeopleAction();
         setProjectName(path);
         updateTitle();
         setWindowModified(false);

@@ -75,6 +75,7 @@
    <addaction name="actionShowGrid"/>
    <addaction name="actionShowCables"/>
    <addaction name="actionShowBackground"/>
+   <addaction name="actionShowPeople"/>
    <addaction name="actionProjectInfo"/>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -133,6 +134,7 @@
     <addaction name="actionShowCables"/>
     <addaction name="actionShowBackground"/>
     <addaction name="actionShowGrid"/>
+    <addaction name="actionShowPeople"/>
     <addaction name="actionShowScale"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -965,6 +967,30 @@
    </property>
    <property name="shortcut">
     <string>Alt+-</string>
+   </property>
+  </action>
+  <action name="actionShowPeople">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources/patch_scene_resources.qrc">
+     <normaloff>:/icons/person.svg</normaloff>:/icons/person.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Show people</string>
+   </property>
+   <property name="toolTip">
+    <string>Show/Hide people</string>
+   </property>
+   <property name="statusTip">
+    <string>show/hide people</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
    </property>
   </action>
  </widget>

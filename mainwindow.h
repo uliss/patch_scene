@@ -137,6 +137,7 @@ private:
     NonSavedDocAction checkNonSavedDoc();
 
     void notifyFileVersionMismatch(int fileVersion, int appFileVersion);
+    void resetShowPeopleAction();
 
 private:
     Ui::MainWindow* ui;
@@ -162,6 +163,6 @@ private:
     macos::NativeAlertDialog alert_proxy_;
 #endif
 };
-}
+} // namespace ceam
 
 #endif // MAINWINDOW_H
