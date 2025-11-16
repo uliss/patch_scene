@@ -1765,6 +1765,10 @@
                         "name": "Remote control"
                     },
                     {
+                        "model": "midi",
+                        "name": "MIDI In"
+                    },
+                    {
                         "model": "usb_b",
                         "socket": "socket_female"
                     },
@@ -1817,6 +1821,10 @@
                         "name": "Aux 6"
                     },
                     {
+                        "model": "midi",
+                        "name": "MIDI Out"
+                    },
+                    {
                         "model": "ethernet",
                         "socket": "socket_female",
                         "name": "Ultranet out"
@@ -1847,6 +1855,51 @@
                 "inputs": [
                     {
                         "model": "usb_mini_b"
+                    }
+                ]
+            },
+            {
+                "vendor": "Moog",
+                "model": "DFAM",
+                "subcat": "synth",
+                "image": "moog_dfam",
+                "inputs": [
+                    {
+                        "model": "power_dc_5.5x2.1",
+                        "name": "DC +12V",
+                        "power": "+"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "jack_ts",
+                        "name": "Output"
+                    }
+                ]
+            },
+            {
+                "vendor": "Behringer",
+                "model": "Crave",
+                "subcat": "synth",
+                "image": "synth_crave",
+                "inputs": [
+                    {
+                        "model": "usb_b",
+                        "name": "USB"
+                    },
+                    {
+                        "model": "midi",
+                        "name": "MIDI IN"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "model": "midi",
+                        "name": "MIDI OUT"
+                    },
+                    {
+                        "model": "jack_mini_trs",
+                        "name": "Phones"
                     }
                 ]
             },
