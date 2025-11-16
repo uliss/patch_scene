@@ -80,7 +80,7 @@ void ScaleWidget::paintEvent(QPaintEvent* event)
     bool flip = true;
     for (int i = 0; i <= N; i++) {
         painter.setBrush(QBrush(flip ? Qt::black : Qt::white));
-        painter.drawRect(QRect(step * i, RULER_Y, step, RULER_H));
+        painter.drawRect(QRectF(step * i, RULER_Y, step, RULER_H));
         flip = !flip;
 
         QRect txt_box;
@@ -88,8 +88,14 @@ void ScaleWidget::paintEvent(QPaintEvent* event)
             txt_opts.setAlignment(Qt::AlignLeft);
             txt_box.setRect(0, TXT_Y, TXT_W, TXT_H);
         } else {
-            txt_opts.setAlignment(Qt::AlignHCenter);
-            txt_box.setRect(step * i - TXT_W / 2, TXT_Y, TXT_W, TXT_H);
+            auto x = step * i;
+            if (x + 10 <= size.width()) {
+                txt_opts.setAlignment(Qt::AlignHCenter);
+                txt_box.setRect(x - TXT_W / 2, TXT_Y, TXT_W, TXT_H);
+            } else {
+                txt_opts.setAlignment(Qt::AlignRight);
+                txt_box.setRect(size.width() - TXT_W, TXT_Y, TXT_W, TXT_H);
+            }
         }
 
         painter.drawText(txt_box, QString("%1%2").arg(i * scale_factor).arg(i == 0 ? "" : scale_unit), txt_opts);
