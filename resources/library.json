@@ -1890,6 +1890,11 @@
                     {
                         "model": "midi",
                         "name": "MIDI IN"
+                    },
+                    {
+                        "model": "power_dc_5.5x2.1",
+                        "name": "DC +12V",
+                        "power": "+"
                     }
                 ],
                 "outputs": [
