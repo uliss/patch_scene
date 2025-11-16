@@ -24,12 +24,14 @@ class VendorList {
     QSet<QString> mics_;
     QSet<QString> phones_;
     QSet<QString> mix_;
+    QSet<QString> synths_;
+    QSet<QString> speakers_;
 
 public:
     static VendorList& instance();
 
     QStringList all() const;
 };
-}
+} // namespace ceam
 
 #endif // VENDOR_LIST_H

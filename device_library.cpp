@@ -40,7 +40,7 @@ constexpr const char* JSON_KEY_LIBRARY = "library";
 constexpr const char* JSON_KEY_RETURNS = "returns";
 constexpr const char* JSON_KEY_SENDS = "sends";
 
-}
+}  // namespace
 
 using namespace ceam;
 
