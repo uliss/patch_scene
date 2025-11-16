@@ -26,6 +26,7 @@ class VendorList {
     QSet<QString> mix_;
     QSet<QString> synths_;
     QSet<QString> speakers_;
+    QSet<QString> guitar_;
 
 public:
     static VendorList& instance();

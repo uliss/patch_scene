@@ -270,6 +270,25 @@ VendorList::VendorList()
         << "Vega"
         << "Yamaha"
         /**/;
+
+    guitar_ //
+        << "AMT Electronics"
+        << "Caline"
+        << "Digitech"
+        << "Dunlop"
+        << "Joyo"
+        << "Keeley"
+        << "Mooer"
+        << "NUX"
+        << "Shift line"
+        << "FLAMMA"
+        << "Donner"
+        << "HoTone"
+        << "Marshall"
+        << "TC Electronics"
+        << "Yerasov"
+        <<"Electro-Harmonix"
+        /**/;
 }
 
 VendorList& VendorList::instance()
@@ -286,5 +305,6 @@ QStringList VendorList::all() const
     all_.unite(mix_);
     all_.unite(synths_);
     all_.unite(speakers_);
+    all_.unite(guitar_);
     return all_.values();
 }
