@@ -196,6 +196,7 @@ add_subdirectory(3rd-party/QSimpleUpdater)
 target_compile_definitions(QSimpleUpdater PUBLIC QSU_INCLUDE_MOC)
 
 add_library(patch_scene_lib STATIC ${PROJECT_SOURCES})
+target_compile_definitions(patch_scene_lib PRIVATE -DQT_NO_VERSION_TAGGING)
 target_include_directories(patch_scene_lib PRIVATE ${PROJECT_BINARY_DIR})
 target_link_libraries(
     patch_scene_lib PRIVATE QSimpleUpdater Qt${QT_VERSION_MAJOR}::Widgets
