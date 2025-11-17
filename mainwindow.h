@@ -86,10 +86,10 @@ protected:
     void closeEvent(QCloseEvent* event) override;
 
 private slots:
-    void onAddToFavorites(SharedDeviceData data);
+    void onAddToFavorites(const SharedDeviceData& data);
     void onBatteryChange(const BatteryChange& data);
-    void onDeviceAdd(SharedDeviceData data);
-    void onDeviceRemove(SharedDeviceData data);
+    void onDeviceAdd(const SharedDeviceData& data);
+    void onDeviceRemove(const SharedDeviceData& data);
     void onDeviceTitleUpdate(DeviceId id, const QString& title);
     void onDeviceUpdate(SharedDeviceData data);
     void onConnectionAdd(ConnectionId data);
@@ -138,6 +138,7 @@ private:
 
     void notifyFileVersionMismatch(int fileVersion, int appFileVersion);
     void resetShowPeopleAction();
+    void resetShowFurnitureAction();
 
 private:
     Ui::MainWindow* ui;

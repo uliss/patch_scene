@@ -678,6 +678,17 @@ void Diagram::setShowPeople(bool value)
     });
 }
 
+void Diagram::setShowFurniture(bool value)
+{
+    devices_.foreachDevice([value](Device* dev) {
+        if (dev //
+            && dev->deviceData() //
+            && dev->deviceData()->category() == ItemCategory::Furniture) {
+            dev->setVisible(value);
+        }
+    });
+}
+
 void Diagram::setShowBackground(bool value)
 {
     background_.setVisible(value);

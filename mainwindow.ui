@@ -76,6 +76,7 @@
    <addaction name="actionShowCables"/>
    <addaction name="actionShowBackground"/>
    <addaction name="actionShowPeople"/>
+   <addaction name="actionShowFurniture"/>
    <addaction name="actionProjectInfo"/>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -135,6 +136,7 @@
     <addaction name="actionShowBackground"/>
     <addaction name="actionShowGrid"/>
     <addaction name="actionShowPeople"/>
+    <addaction name="actionShowFurniture"/>
     <addaction name="actionShowScale"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -864,6 +866,9 @@
    <property name="toolTip">
     <string>Show Grid</string>
    </property>
+   <property name="statusTip">
+    <string>show/hide grid</string>
+   </property>
    <property name="shortcut">
     <string>Ctrl+G</string>
    </property>
@@ -988,6 +993,30 @@
    </property>
    <property name="statusTip">
     <string>show/hide people</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionShowFurniture">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources/patch_scene_resources.qrc">
+     <normaloff>:/icons/table.svg</normaloff>:/icons/table.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Show furniture</string>
+   </property>
+   <property name="toolTip">
+    <string>Show/Hide furniture</string>
+   </property>
+   <property name="statusTip">
+    <string>show/hide furniture</string>
    </property>
    <property name="menuRole">
     <enum>QAction::NoRole</enum>

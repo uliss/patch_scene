@@ -234,5 +234,7 @@
         <file>devices/moog_dfam.svg</file>
         <file>devices/synth_crave.svg</file>
         <file>icons/person.svg</file>
+        <file>icons/event_seat.svg</file>
+        <file>icons/table.svg</file>
     </qresource>
 </RCC>

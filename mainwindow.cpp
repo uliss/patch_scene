@@ -282,6 +282,9 @@ void MainWindow::initActions()
     connect(ui->actionShowPeople, &QAction::triggered, diagram_, [this](bool value) {
         diagram_->setShowPeople(value);
     });
+    connect(ui->actionShowFurniture, &QAction::triggered, diagram_, [this](bool value) {
+        diagram_->setShowFurniture(value);
+    });
 
     connect(ui->actionShowGrid, SIGNAL(triggered(bool)), diagram_, SLOT(setGridVisible(bool)));
     ui->actionShowGrid->setChecked(diagram_->gridIsVisible());
@@ -571,7 +574,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
     QMainWindow::closeEvent(event);
 }
 
-void MainWindow::onAddToFavorites(SharedDeviceData data)
+void MainWindow::onAddToFavorites(const SharedDeviceData& data)
 {
     favorites_->addItem(data);
 }
@@ -582,7 +585,7 @@ void MainWindow::onBatteryChange(const BatteryChange& data)
         battery_model_->updateDeviceData(data);
 }
 
-void MainWindow::onDeviceAdd(SharedDeviceData data)
+void MainWindow::onDeviceAdd(const SharedDeviceData& data)
 {
     if (device_model_->addDevice(data))
         ui->deviceList->resizeColumnsToContents();
@@ -594,7 +597,7 @@ void MainWindow::onDeviceAdd(SharedDeviceData data)
         ui->furnitureList->resizeColumnToContents(0);
 }
 
-void MainWindow::onDeviceRemove(SharedDeviceData data)
+void MainWindow::onDeviceRemove(const SharedDeviceData& data)
 {
     if (device_model_->removeDevice(data))
         ui->deviceList->resizeColumnsToContents();
@@ -1215,6 +1218,13 @@ void ceam::MainWindow::resetShowPeopleAction()
     ui->actionShowPeople->setEnabled(true);
 }
 
+void MainWindow::resetShowFurnitureAction()
+{
+    ui->actionShowFurniture->setEnabled(false);
+    ui->actionShowFurniture->setChecked(true);
+    ui->actionShowFurniture->setEnabled(true);
+}
+
 bool MainWindow::openDocument(const QString& path)
 {
     if (checkNonSavedDoc() == NonSavedDocAction::Abort)
@@ -1222,6 +1232,7 @@ bool MainWindow::openDocument(const QString& path)
 
     if (diagram_->loadJson(path)) {
         resetShowPeopleAction();
+        resetShowFurnitureAction();
         setProjectName(path);
         updateTitle();
         setWindowModified(false);
