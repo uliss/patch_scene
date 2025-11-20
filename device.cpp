@@ -149,7 +149,7 @@ public:
                    });
     }
 };
-}
+} // namespace
 
 Device::Device()
     : Device(makeDeviceData())
