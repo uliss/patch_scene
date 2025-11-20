@@ -12,6 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "comment.h"
+#include "comment_editor.h"
 
 #include <QMenu>
 
@@ -49,12 +50,12 @@ void Comment::addEditAct(QMenu& menu)
 {
     auto act = new QAction(tr("Edit"), &menu);
 
-    // connect(act, &QAction::triggered, this,
-    //     [this]() {
-    //         std::unique_ptr<DeviceEditor> dialog(new DeviceEditor(data_));
-    //         connect(dialog.get(), SIGNAL(acceptData(SharedDeviceData)), this, SIGNAL(updateDevice(SharedDeviceData)));
-    //         dialog->exec();
-    //     });
+    connect(act, &QAction::triggered, this,
+        [this]() {
+            std::unique_ptr<CommentEditor> dialog(new CommentEditor(deviceData()));
+            connect(dialog.get(), SIGNAL(acceptData(SharedDeviceData)), this, SIGNAL(updateDevice(SharedDeviceData)));
+            dialog->exec();
+        });
 
     menu.addAction(act);
 }
