@@ -17,6 +17,7 @@
 #include "device_common.h"
 
 #include <QDialog>
+#include <unordered_map>
 
 namespace Ui {
 class DeviceProperties;
@@ -35,6 +36,20 @@ public:
     explicit DeviceEditor(const SharedDeviceData& data, QWidget* parent = nullptr);
     ~DeviceEditor();
 
+public:
+    enum EditorWidgetType {
+        Model,
+        Vendor,
+        Inputs,
+        Outputs,
+        Views,
+        Battery,
+        Weight,
+        Volume,
+    };
+
+    static bool isWidgetEnabled(ItemCategory cat, EditorWidgetType w);
+
 signals:
     void acceptData(SharedDeviceData data);
 
@@ -48,13 +63,25 @@ private:
     void setupImageMirror(const SharedDeviceData& data);
 
     void updateImagePreview();
-    void enableCategoryWidgets(bool showButteries, ItemCategory cat);
+
+    void enableBatteryWidgets(bool value);
+    void enableInputsWidgets(bool value);
+    void enableModelWidgets(bool value);
+    void enableOutputsWidgets(bool value);
+    void enableVendorWidgets(bool value);
+    void enableViewsWidgets(bool value);
+    void enableVolumeWidgets(bool value);
+    void enableWeightWidgets(bool value);
+
+    void enableWidgets(ItemCategory cat);
 
 private:
     Ui::DeviceProperties* ui;
     SharedDeviceData data_;
+
+    static std::unordered_map<EditorWidgetType, void (DeviceEditor::*)(bool)> field_edit_fn_;
 };
 
-}
+} // namespace ceam
 
 #endif // DEVICE_EDITOR_H

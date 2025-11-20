@@ -21,6 +21,9 @@
 #include "xlets_logic_view_editor.h"
 #include "xlets_user_view_editor.h"
 
+#include <unordered_map>
+#include <unordered_set>
+
 #include <QCompleter>
 #include <QFileInfo>
 #include <QStandardItemModel>
@@ -29,9 +32,22 @@ namespace {
 
 constexpr int IMG_PREVIEW_SIZE = 30;
 
-}
+} // namespace
 
 using namespace ceam;
+
+#define DECLARE_EDIT(name) { DeviceEditor::name, &DeviceEditor::enable##name##Widgets }
+
+std::unordered_map<DeviceEditor::EditorWidgetType, void (DeviceEditor::*)(bool)> DeviceEditor::field_edit_fn_ {
+    DECLARE_EDIT(Model),
+    DECLARE_EDIT(Vendor),
+    DECLARE_EDIT(Battery),
+    DECLARE_EDIT(Volume),
+    DECLARE_EDIT(Weight),
+    DECLARE_EDIT(Views),
+    DECLARE_EDIT(Inputs),
+    DECLARE_EDIT(Outputs),
+};
 
 DeviceEditor::DeviceEditor(const SharedDeviceData& data, QWidget* parent)
     : QDialog(parent)
@@ -138,6 +154,48 @@ void DeviceEditor::chooseImageDialog()
     dev_pix->show();
 }
 
+bool DeviceEditor::isWidgetEnabled(ItemCategory cat, EditorWidgetType w)
+{
+    using ItemWidgets = std::unordered_set<ceam::DeviceEditor::EditorWidgetType>;
+
+    static const std::unordered_map<ceam::ItemCategory, ItemWidgets> cat_widget_map {
+        {
+            ItemCategory::Device,
+            ItemWidgets { { Model, Vendor, Inputs, Outputs, Views, Battery, Weight, Volume } },
+        },
+        {
+            ItemCategory::Instrument,
+            ItemWidgets { { Inputs, Outputs, Battery, Weight, Volume } },
+        },
+        {
+            ItemCategory::Return,
+            ItemWidgets { { Model, Vendor, Outputs, Views } },
+        },
+        {
+            ItemCategory::Send,
+            ItemWidgets { { Model, Vendor, Inputs, Views } },
+        },
+        {
+            ItemCategory::Furniture,
+            ItemWidgets { { Battery, Weight, Volume } },
+        },
+        {
+            ItemCategory::Human,
+            {},
+        },
+        {
+            ItemCategory::Comment,
+            {},
+        },
+    };
+
+    auto x = cat_widget_map.find(cat);
+    if (x == cat_widget_map.end())
+        return false;
+
+    return x->second.find(w) != x->second.end();
+}
+
 void DeviceEditor::setupCategories()
 {
     foreachItemCategory([this](ItemCategory cat, const char* name, int i) {
@@ -155,20 +213,7 @@ void DeviceEditor::setupCategories()
         auto idx = ui->category->currentData().toInt(&ok);
         if (ok) {
             data_->setCategoryIndex(idx);
-            switch (data_->category()) {
-            case ItemCategory::Human:
-            case ItemCategory::Furniture:
-            case ItemCategory::Comment:
-                enableCategoryWidgets(false, data_->category());
-                break;
-            case ItemCategory::Device:
-            case ItemCategory::Instrument:
-            case ItemCategory::Send:
-            case ItemCategory::Return:
-            case ItemCategory::MaxCategory:
-                enableCategoryWidgets(true, data_->category());
-                break;
-            }
+            enableWidgets(data_->category());
         } else
             WARN() << "can't get category index";
     });
@@ -186,22 +231,58 @@ void DeviceEditor::updateImagePreview()
     }
 }
 
-void DeviceEditor::enableCategoryWidgets(bool showButteries, ItemCategory cat)
+void DeviceEditor::enableBatteryWidgets(bool value)
 {
-    ui->batteryCount->setVisible(showButteries);
-    ui->batteryLabel->setVisible(showButteries);
-    ui->batteryType->setVisible(showButteries);
+    ui->batteryCount->setVisible(value);
+    ui->batteryLabel->setVisible(value);
+    ui->batteryType->setVisible(value);
+}
 
-    const bool is_human = (cat == ItemCategory::Human);
-    ui->model->setHidden(is_human);
-    ui->modelLabel->setHidden(is_human);
-    ui->vendor->setHidden(is_human);
-    ui->vendorLabel->setHidden(is_human);
-    ui->inputsEditLogical->setHidden(is_human);
-    ui->outputsEditLogical->setHidden(is_human);
-    ui->viewsEdit->setHidden(is_human);
-    ui->weightLabel->setHidden(is_human);
-    ui->weightInput->setHidden(is_human);
+void DeviceEditor::enableModelWidgets(bool value)
+{
+    ui->model->setVisible(value);
+    ui->modelLabel->setVisible(value);
+}
+
+void DeviceEditor::enableInputsWidgets(bool value)
+{
+    ui->inputsEditLogical->setVisible(value);
+}
+
+void DeviceEditor::enableOutputsWidgets(bool value)
+{
+    ui->outputsEditLogical->setVisible(value);
+}
+
+void DeviceEditor::enableVendorWidgets(bool value)
+{
+    ui->vendor->setVisible(value);
+    ui->vendorLabel->setVisible(value);
+}
+
+void DeviceEditor::enableWeightWidgets(bool value)
+{
+    ui->weightLabel->setVisible(value);
+    ui->weightInput->setVisible(value);
+}
+
+void DeviceEditor::enableVolumeWidgets(bool value)
+{
+    ui->volumeInput->setVisible(value);
+    ui->volumeLabel->setVisible(value);
+}
+
+void DeviceEditor::enableViewsWidgets(bool value)
+{
+    ui->viewsEdit->setVisible(value);
+}
+
+void DeviceEditor::enableWidgets(ItemCategory cat)
+{
+    for (auto& kv : field_edit_fn_) {
+        auto mem_fn = kv.second;
+        (this->*mem_fn)(isWidgetEnabled(cat, kv.first));
+    }
 
     adjustSize();
     adjustSize();
