@@ -250,6 +250,10 @@ private:
     DeviceDataInfo info_;
     qreal weight_ { 0 };
     qreal volume_ { 0 };
+    int border_width_ { 0 };
+    int width_ { 0 };
+    int height_ { 0 };
+    QColor border_color_, background_color_, text_color_;
 };
 
 using SharedDeviceData = QSharedDataPointer<DeviceData>;
