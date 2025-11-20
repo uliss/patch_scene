@@ -93,6 +93,10 @@ void TestDeviceData::toJson()
     data.setViewHeight(-100);
     j = data.toJson();
     QVERIFY(!j.contains("view-height-px"));
+
+    data.setBorderWidth(5);
+    j = data.toJson();
+    QVERIFY(j.contains("border-width-px"));
 }
 
 void TestDeviceData::fromJson()

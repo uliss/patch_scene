@@ -232,6 +232,10 @@ public:
     int viewHeight() const { return view_height_; }
     void setViewHeight(int h);
 
+    // border width in pixels (for comments etc.)
+    int borderWidth() const { return border_width_; }
+    void setBorderWidth(int px);
+
 private:
     static QJsonArray xletToJson(const QList<XletData>& xlets);
     static bool setXletJson(const QJsonValue& v, QList<XletData>& xlets);

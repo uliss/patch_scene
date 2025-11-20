@@ -101,7 +101,7 @@ constexpr const char* JSON_KEY_VOLUME_CM3 = "volume-cm3";
 
 constexpr const char* JSON_KEY_WIDTH_PX = "view-width-px";
 constexpr const char* JSON_KEY_HEIGHT_PX = "view-height-px";
-constexpr const char* JSON_KEY_BORDER_WIDTH_PX = "border-width";
+constexpr const char* JSON_KEY_BORDER_WIDTH_PX = "border-width-px";
 constexpr const char* JSON_KEY_COLOR_BORDER = "color-border";
 constexpr const char* JSON_KEY_COLOR_BACKGROUND = "color-background";
 constexpr const char* JSON_KEY_COLOR_TEXT = "color-text";
@@ -558,6 +558,11 @@ void DeviceData::setViewWidth(int w)
 void DeviceData::setViewHeight(int h)
 {
     view_height_ = qMax<typeof(h)>(0, h);
+}
+
+void DeviceData::setBorderWidth(int px)
+{
+    border_width_ = qMax<typeof(px)>(0, px);
 }
 
 QJsonArray DeviceData::xletToJson(const QList<XletData>& xlets)
