@@ -55,6 +55,9 @@ set(PROJECT_SOURCES
     bezier_editor_handle.cpp
     comment.cpp
     comment.h
+    comment_editor.h
+    comment_editor.cpp
+    comment_editor.ui
     connection.cpp
     connection.h
     connection_data.cpp
