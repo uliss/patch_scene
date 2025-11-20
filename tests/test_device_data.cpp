@@ -189,6 +189,54 @@ void TestDeviceData::fromJson()
     j["volume-cm3"] = -0.5;
     QVERIFY(data.setJson(j));
     QCOMPARE(data.volume(), 0);
+
+    j["view-width-px"] = 300;
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.viewWidth(), 300);
+
+    j["view-width-px"] = -100;
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.viewWidth(), 0);
+
+    j["view-height-px"] = 300;
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.viewHeight(), 300);
+
+    j["view-height-px"] = -100;
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.viewHeight(), 0);
+
+    j["border-width-px"] = 300;
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.borderWidth(), 300);
+
+    j["border-width-px"] = -100;
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.borderWidth(), 0);
+
+    j["color-border"] = "#FF0000";
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.borderColor(), Qt::red);
+
+    j["color-border"] = "XXX";
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.borderColor(), QColor());
+
+    j["color-text"] = "#0000FF";
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.textColor(), Qt::blue);
+
+    j["color-text"] = "XXX";
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.textColor(), QColor());
+
+    j["color-background"] = "#00FF00";
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.backgroundColor(), Qt::green);
+
+    j["color-background"] = "??XXX";
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.backgroundColor(), QColor());
 }
 
 void TestDeviceData::testJson()
