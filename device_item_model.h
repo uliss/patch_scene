@@ -52,6 +52,6 @@ private:
     QSortFilterProxyModel* proxy_;
 };
 
-}
+}  // namespace ceam
 
 #endif // DEVICE_ITEM_MODEL_H
