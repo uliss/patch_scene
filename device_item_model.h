@@ -24,7 +24,7 @@ namespace ceam {
 class DeviceItemModel : public QStandardItemModel {
     Q_OBJECT
 public:
-    DeviceItemModel(QObject* parent);
+    explicit DeviceItemModel(QObject* parent);
 
     int deviceCount() const { return rowCount(); }
 
