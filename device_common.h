@@ -36,13 +36,14 @@ enum class ItemCategory : std::uint8_t {
     Furniture,
     Send,
     Return,
+    Comment,
     MaxCategory,
     // when add new value - update toQString, fromQString, foreachItemCategory functions!
 };
 
 const char* toString(ItemCategory cat);
 std::optional<ItemCategory> fromQString(const QString& str);
-void foreachItemCategory(std::function<void(const char*, int)> fn);
+void foreachItemCategory(const std::function<void(const char*, int)>& fn);
 
 enum class DeviceCategory {
     // clang-format off

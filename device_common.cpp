@@ -32,6 +32,7 @@ CONST_STR(human, QT_TRANSLATE_NOOP("ceam", "human"))
 CONST_STR(instrument, QT_TRANSLATE_NOOP("ceam", "instrument"))
 CONST_STR(return, QT_TRANSLATE_NOOP("ceam", "return"))
 CONST_STR(send, QT_TRANSLATE_NOOP("ceam", "send"))
+CONST_STR(comment, QT_TRANSLATE_NOOP("ceam", "comment"))
 
 using DevCatTuple = std::tuple<DeviceCategory, const char*, const char*>;
 constexpr DevCatTuple DEV_CATS[] = {
@@ -134,7 +135,7 @@ ImageMirrorType imageMirrorFromJson(const QJsonValue& v)
         return ImageMirrorType::None;
 }
 
-}
+} // namespace
 
 const char* ceam::toString(ItemCategory cat)
 {
@@ -151,6 +152,8 @@ const char* ceam::toString(ItemCategory cat)
         return str_instrument;
     case ItemCategory::Device:
         return str_device;
+    case ItemCategory::Comment:
+        return str_comment;
     case ItemCategory::MaxCategory:
     default:
         return str_device;
@@ -175,13 +178,15 @@ std::optional<ItemCategory> ceam::fromQString(const QString& str)
         return ItemCategory::Human;
     } else if (icat == str_instrument) {
         return ItemCategory::Instrument;
+    } else if (icat == str_comment) {
+        return ItemCategory::Comment;
     } else {
         WARN() << "unknown category:" << str;
         return {};
     }
 }
 
-void ceam::foreachItemCategory(std::function<void(const char*, int)> fn)
+void ceam::foreachItemCategory(const std::function<void(const char*, int)>& fn)
 {
     for (int i = static_cast<int>(ItemCategory::Device);
         i < static_cast<int>(ItemCategory::MaxCategory);
