@@ -40,6 +40,6 @@ public slots:
 private:
     Ui::DevicePixmap *ui;
 };
-}
+}  // namespace ceam
 
 #endif // DEVICE_PIXMAP_H
