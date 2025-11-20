@@ -99,6 +99,13 @@ constexpr const char* JSON_KEY_INFO = "info";
 constexpr const char* JSON_KEY_WEIGHT_KG = "weight-kg";
 constexpr const char* JSON_KEY_VOLUME_CM3 = "volume-cm3";
 
+constexpr const char* JSON_KEY_WIDTH_PX = "width-px";
+constexpr const char* JSON_KEY_HEIGHT_PX = "height-px";
+constexpr const char* JSON_KEY_BORDER_WIDTH_PX = "border-width";
+constexpr const char* JSON_KEY_COLOR_BORDER = "color-border";
+constexpr const char* JSON_KEY_COLOR_BACKGROUND = "color-background";
+constexpr const char* JSON_KEY_COLOR_TEXT = "color-text";
+
 constexpr const char* JSON_MIRROR_HORIZONTAL = "horizontal";
 
 constexpr int MAX_BATTERIES_COUNT = 10;
