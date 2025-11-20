@@ -332,102 +332,7 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
         menu.addAction(lockAct);
         menu.addAction(unlockAct);
     } else {
-        auto showTitle = new QAction(&menu);
-        showTitle->setChecked(data_->showTitle());
-        showTitle->setText(data_->showTitle() ? tr("Hide title") : tr("Show title"));
-        connect(showTitle, &QAction::triggered, this,
-            [this](bool checked) {
-                if (!data_ || data_->isLocked())
-                    return;
-
-                auto data = data_;
-                auto show_title = data_->showTitle();
-                data.detach();
-                data->setShowTitle(!show_title);
-                emit updateDevice(data);
-            });
-
-        auto lockAct = new QAction(&menu);
-        lockAct->setText(data_->isLocked() ? tr("Unlock") : tr("Lock"));
-        connect(lockAct, &QAction::triggered, this, [this](bool) {
-            data_->isLocked() ? emit unlock(data_->id()) : emit lock(data_->id());
-        });
-
-        auto mirrorAct = new QAction(tr("Mirror image"), &menu);
-        connect(mirrorAct, &QAction::triggered, this, [this](bool) { emit mirror(data_->id()); });
-
-        auto duplicateAct = new QAction(tr("Duplicate"), &menu);
-        connect(duplicateAct, &QAction::triggered, this,
-            [this]() { emit duplicateDevice(data_); });
-
-        auto removeAct = new QAction(tr("Delete"), &menu);
-        connect(removeAct, &QAction::triggered, this,
-            [this]() { emit removeDevice(data_); });
-
-        auto addToFavoritesAct = new QAction(tr("Add to favorites"), &menu);
-        connect(addToFavoritesAct, &QAction::triggered, this,
-            [this]() { emit addToFavorites(data_); });
-
-        auto propertiesAct = new QAction(tr("Properties"), &menu);
-        connect(propertiesAct, &QAction::triggered, this,
-            [this]() {
-                std::unique_ptr<DeviceEditor> dialog(new DeviceEditor(data_));
-                connect(dialog.get(), SIGNAL(acceptData(SharedDeviceData)), this, SIGNAL(updateDevice(SharedDeviceData)));
-                dialog->exec();
-            });
-
-        auto info = menu.addAction(data_->title());
-        info->setDisabled(true);
-        auto info_font = info->font();
-        info_font.setBold(true);
-        info->setFont(info_font);
-        menu.setStyleSheet("QMenu::item:disabled {color: black;}");
-
-        if (!data_->isLocked()) {
-            menu.addAction(showTitle);
-            menu.addAction(mirrorAct);
-        }
-
-        menu.addAction(lockAct);
-
-        if (!data_->userViewData().isEmpty()) {
-            auto views = menu.addMenu(tr("Views"));
-            auto act_view_default = views->addAction(tr("Logic"));
-            act_view_default->setCheckable(true);
-            if (data_->currentUserView().isEmpty())
-                act_view_default->setChecked(true);
-
-            connect(act_view_default, &QAction::triggered, this,
-                [this]() {
-                    data_->setCurrentUserView({});
-                    setDeviceData(data_);
-                    emit updateDevice(data_);
-                });
-
-            for (auto& x : data_->userViewData()) {
-                auto name = x.name();
-                auto act_view_user = views->addAction(name);
-                act_view_user->setCheckable(true);
-
-                if (name == data_->currentUserView())
-                    act_view_user->setChecked(true);
-
-                connect(act_view_user, &QAction::triggered, this,
-                    [this, name]() {
-                        data_->setCurrentUserView(name);
-                        setDeviceData(data_);
-                        emit updateDevice(data_);
-                    });
-            }
-        }
-
-        menu.addSeparator();
-        menu.addAction(duplicateAct);
-        menu.addAction(removeAct);
-
-        menu.addSeparator();
-        menu.addAction(addToFavoritesAct);
-        menu.addAction(propertiesAct);
+        createContextMenu(menu);
     }
 
     menu.exec(event->screenPos());
@@ -632,6 +537,47 @@ qreal Device::imageHeight() const
     return image_ ? (image_->boundingRect().height() * image_->scale()) : 0;
 }
 
+void Device::setMenuCaption(QMenu& menu)
+{
+    auto info = menu.addAction(data_->title());
+    info->setDisabled(true);
+    auto info_font = info->font();
+    info_font.setBold(true);
+    info->setFont(info_font);
+    menu.setStyleSheet("QMenu::item:disabled {color: black;}");
+}
+
+void Device::addTitleAction(QMenu& menu)
+{
+    auto showTitle = new QAction(&menu);
+    showTitle->setChecked(data_->showTitle());
+    showTitle->setText(data_->showTitle() ? tr("Hide title") : tr("Show title"));
+    connect(showTitle, &QAction::triggered, this,
+        [this](bool checked) {
+            if (!data_ || data_->isLocked())
+                return;
+
+            auto data = data_;
+            auto show_title = data_->showTitle();
+            data.detach();
+            data->setShowTitle(!show_title);
+            emit updateDevice(data);
+        });
+
+    menu.addAction(showTitle);
+}
+
+void Device::addLockAction(QMenu& menu)
+{
+    auto lockAct = new QAction(&menu);
+    lockAct->setText(data_->isLocked() ? tr("Unlock") : tr("Lock"));
+    connect(lockAct, &QAction::triggered, this, [this](bool) {
+        data_->isLocked() ? emit unlock(data_->id()) : emit lock(data_->id());
+    });
+
+    menu.addAction(lockAct);
+}
+
 int Device::inletsYOff() const
 {
     qreal yoff = 0;
@@ -716,6 +662,109 @@ bool Device::zoomImage(qreal k)
 
     syncRect();
     return true;
+}
+
+void Device::addMirrorAction(QMenu& menu)
+{
+    auto mirrorAct = new QAction(tr("Mirror image"), &menu);
+    connect(mirrorAct, &QAction::triggered, this, [this](bool) { emit mirror(data_->id()); });
+    menu.addAction(mirrorAct);
+}
+
+void Device::addDuplicateAct(QMenu& menu)
+{
+    auto duplicateAct = new QAction(tr("Duplicate"), &menu);
+    connect(duplicateAct, &QAction::triggered, this,
+        [this]() { emit duplicateDevice(data_); });
+
+    menu.addAction(duplicateAct);
+}
+
+void Device::addRemoveAct(QMenu& menu)
+{
+    auto removeAct = new QAction(tr("Delete"), &menu);
+    connect(removeAct, &QAction::triggered, this,
+        [this]() { emit removeDevice(data_); });
+
+    menu.addAction(removeAct);
+}
+
+void Device::addToFavoritesAct(QMenu& menu)
+{
+    auto addToFavoritesAct = new QAction(tr("Add to favorites"), &menu);
+    connect(addToFavoritesAct, &QAction::triggered, this,
+        [this]() { emit addToFavorites(data_); });
+
+    menu.addAction(addToFavoritesAct);
+}
+
+void Device::addPropertiesAct(QMenu& menu)
+{
+    auto propertiesAct = new QAction(tr("Properties"), &menu);
+    connect(propertiesAct, &QAction::triggered, this,
+        [this]() {
+            std::unique_ptr<DeviceEditor> dialog(new DeviceEditor(data_));
+            connect(dialog.get(), SIGNAL(acceptData(SharedDeviceData)), this, SIGNAL(updateDevice(SharedDeviceData)));
+            dialog->exec();
+        });
+
+    menu.addAction(propertiesAct);
+}
+
+void ceam::Device::addViewSubMenu(QMenu& menu)
+{
+    auto views = menu.addMenu(tr("Views"));
+    auto act_view_default = views->addAction(tr("Logic"));
+    act_view_default->setCheckable(true);
+    if (data_->currentUserView().isEmpty())
+        act_view_default->setChecked(true);
+
+    connect(act_view_default, &QAction::triggered, this,
+        [this]() {
+            data_->setCurrentUserView({});
+            setDeviceData(data_);
+            emit updateDevice(data_);
+        });
+
+    for (auto& x : data_->userViewData()) {
+        auto name = x.name();
+        auto act_view_user = views->addAction(name);
+        act_view_user->setCheckable(true);
+
+        if (name == data_->currentUserView())
+            act_view_user->setChecked(true);
+
+        connect(act_view_user, &QAction::triggered, this,
+            [this, name]() {
+                data_->setCurrentUserView(name);
+                setDeviceData(data_);
+                emit updateDevice(data_);
+            });
+    }
+}
+
+void Device::createContextMenu(QMenu& menu)
+{
+    setMenuCaption(menu);
+
+    if (!data_->isLocked()) {
+        addTitleAction(menu);
+        addMirrorAction(menu);
+    }
+
+    addLockAction(menu);
+
+    if (!data_->userViewData().isEmpty()) {
+        addViewSubMenu(menu);
+    }
+
+    menu.addSeparator();
+    addDuplicateAct(menu);
+    addRemoveAct(menu);
+
+    menu.addSeparator();
+    addToFavoritesAct(menu);
+    addPropertiesAct(menu);
 }
 
 SharedDeviceData Device::defaultDeviceData()

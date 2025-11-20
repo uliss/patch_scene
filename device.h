@@ -17,6 +17,7 @@
 #include "device_common.h"
 #include "device_xlet_view.h"
 
+#include <QAction>
 #include <QGraphicsObject>
 
 class QGraphicsSvgItem;
@@ -83,6 +84,8 @@ public:
     bool mirrorImage(ImageMirrorType type);
     bool zoomImage(qreal k);
 
+    virtual void createContextMenu(QMenu& menu);
+
     static SharedDeviceData defaultDeviceData();
     static SharedDeviceData dataFromJson(const QJsonValue& j);
 
@@ -143,6 +146,19 @@ private:
         return rect_.left() + (rect_.width() - width) * 0.5;
     }
 
+protected:
+    // context menu actions
+    void addDuplicateAct(QMenu& menu);
+    void addLockAction(QMenu& menu);
+    void addMirrorAction(QMenu& menu);
+    void addPropertiesAct(QMenu& menu);
+    void addRemoveAct(QMenu& menu);
+    void addTitleAction(QMenu& menu);
+    void addToFavoritesAct(QMenu& menu);
+    void setMenuCaption(QMenu& menu);
+
+    void addViewSubMenu(QMenu& menu);
+
 private:
     friend class DeviceXlet;
 
@@ -153,6 +169,6 @@ private:
     QRectF rect_;
     DeviceXlets xlets_;
 };
-}  // namespace ceam
+} // namespace ceam
 
 #endif // DEVICE_H
