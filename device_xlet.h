@@ -116,6 +116,6 @@ private:
     bool drag_mode_ { false }, self_drag_ { false };
 };
 
-}
+}  // namespace ceam
 
 #endif // DEVICE_XLET_H
