@@ -24,6 +24,7 @@ class QGraphicsScene;
 
 namespace ceam {
 
+class Comment;
 class Device;
 
 class SceneDevices : public QObject {
@@ -65,6 +66,12 @@ public:
      * @emit added(SharedDeviceData)
      */
     Device* add(const SharedDeviceData& data);
+
+    /**
+     * creates new comment and add it to the scene
+     * @return pointer to new device or nullptr on error
+     */
+    Comment* addComment();
 
     /**
      * remove device from scene
@@ -179,7 +186,7 @@ signals:
     void removed(SharedDeviceData);
 };
 
-}
+} // namespace ceam
 QDebug operator<<(QDebug debug, const ceam::SceneDevices& sc);
 
 #endif // SCENE_DEVICES_H

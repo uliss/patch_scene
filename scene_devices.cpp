@@ -12,6 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "scene_devices.h"
+#include "comment.h"
 #include "device.h"
 #include "logging.hpp"
 
@@ -89,6 +90,30 @@ Device* SceneDevices::add(const SharedDeviceData& data)
     emit added(dev->deviceData());
 
     return dev;
+}
+
+Comment* SceneDevices::addComment()
+{
+    if (!scene_)
+        return nullptr;
+
+    auto c = new Comment();
+    scene_->addItem(c);
+
+    auto id = c->id();
+    auto it = devices_.find(id);
+    if (devices_.find(id) != devices_.end()) {
+        WARN() << "device already with id" << id << "already exists in scene";
+        scene_->removeItem(it->second);
+        delete it->second;
+        it->second = c;
+    } else {
+        devices_.insert(it, { c->id(), c });
+    }
+
+    // emit added(c->deviceData());
+
+    return c;
 }
 
 SharedDeviceData SceneDevices::remove(DeviceId id)
