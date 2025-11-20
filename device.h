@@ -84,6 +84,10 @@ public:
     bool mirrorImage(ImageMirrorType type);
     bool zoomImage(qreal k);
 
+    /**
+     * fill given menu with device actions
+     * @note only for single context menu
+     */
     virtual void createContextMenu(QMenu& menu);
 
     static SharedDeviceData defaultDeviceData();
