@@ -28,6 +28,11 @@ CommentEditor::CommentEditor(const SharedDeviceData& data, QWidget* parent)
         data_->setTitle(ui->textEdit->toPlainText());
     });
     // ui->textEdit->textCursor().movePosition(QTextCursor::End);
+
+    ui->borderWidth->setValue(data->borderWidth());
+    connect(ui->borderWidth, &QSpinBox::valueChanged, this, [this](int value) {
+        data_->setBorderWidth(value);
+    });
 }
 
 CommentEditor::~CommentEditor()
