@@ -48,7 +48,7 @@ SharedDeviceData make_data(DeviceId id, int numIn = 0, int numOut = 0, const QSt
 
     return SharedDeviceData { data };
 }
-}
+} // namespace
 
 void TestDevice::qtTest()
 {
