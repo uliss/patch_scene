@@ -151,6 +151,7 @@ void DeviceEditor::setupCategories()
             switch (data_->category()) {
             case ItemCategory::Human:
             case ItemCategory::Furniture:
+            case ItemCategory::Comment:
                 enableCategoryWidgets(false, data_->category());
                 break;
             case ItemCategory::Device:
