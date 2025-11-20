@@ -77,6 +77,22 @@ void TestDeviceData::toJson()
     j = data.toJson();
     QVERIFY(j.contains("weight-kg"));
     QVERIFY(j.contains("volume-cm3"));
+
+    data.setViewWidth(1);
+    j = data.toJson();
+    QVERIFY(j.contains("view-width-px"));
+
+    data.setViewWidth(0);
+    j = data.toJson();
+    QVERIFY(!j.contains("view-width-px"));
+
+    data.setViewHeight(100);
+    j = data.toJson();
+    QVERIFY(j.contains("view-height-px"));
+
+    data.setViewHeight(-100);
+    j = data.toJson();
+    QVERIFY(!j.contains("view-height-px"));
 }
 
 void TestDeviceData::fromJson()

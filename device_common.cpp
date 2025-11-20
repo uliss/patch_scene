@@ -99,8 +99,8 @@ constexpr const char* JSON_KEY_INFO = "info";
 constexpr const char* JSON_KEY_WEIGHT_KG = "weight-kg";
 constexpr const char* JSON_KEY_VOLUME_CM3 = "volume-cm3";
 
-constexpr const char* JSON_KEY_WIDTH_PX = "width-px";
-constexpr const char* JSON_KEY_HEIGHT_PX = "height-px";
+constexpr const char* JSON_KEY_WIDTH_PX = "view-width-px";
+constexpr const char* JSON_KEY_HEIGHT_PX = "view-height-px";
 constexpr const char* JSON_KEY_BORDER_WIDTH_PX = "border-width";
 constexpr const char* JSON_KEY_COLOR_BORDER = "color-border";
 constexpr const char* JSON_KEY_COLOR_BACKGROUND = "color-background";
@@ -462,11 +462,11 @@ QJsonObject DeviceData::toJson() const
     if (border_width_ > 0)
         json[JSON_KEY_BORDER_WIDTH_PX] = border_width_;
 
-    if (width_ > 0)
-        json[JSON_KEY_WIDTH_PX] = width_;
+    if (view_width_ > 0)
+        json[JSON_KEY_WIDTH_PX] = view_width_;
 
-    if (height_ > 0)
-        json[JSON_KEY_HEIGHT_PX] = height_;
+    if (view_height_ > 0)
+        json[JSON_KEY_HEIGHT_PX] = view_height_;
 
     if (border_color_.isValid())
         json[JSON_KEY_COLOR_BORDER] = border_color_.name(QColor::HexArgb);
@@ -548,6 +548,16 @@ void DeviceData::setWeight(qreal w)
 void DeviceData::setVolume(qreal vol)
 {
     volume_ = qMax<qreal>(0, vol);
+}
+
+void DeviceData::setViewWidth(int w)
+{
+    view_width_ = qMax<typeof(w)>(0, w);
+}
+
+void DeviceData::setViewHeight(int h)
+{
+    view_height_ = qMax<typeof(h)>(0, h);
 }
 
 QJsonArray DeviceData::xletToJson(const QList<XletData>& xlets)

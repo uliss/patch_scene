@@ -224,6 +224,14 @@ public:
     qreal volume() const { return volume_; }
     void setVolume(qreal vol);
 
+    // view width in pixels (for comments etc.)
+    int viewWidth() const { return view_width_; }
+    void setViewWidth(int w);
+
+    // view height in pixels (for comments etc.)
+    int viewHeight() const { return view_height_; }
+    void setViewHeight(int h);
+
 private:
     static QJsonArray xletToJson(const QList<XletData>& xlets);
     static bool setXletJson(const QJsonValue& v, QList<XletData>& xlets);
@@ -251,8 +259,8 @@ private:
     qreal weight_ { 0 };
     qreal volume_ { 0 };
     int border_width_ { 0 };
-    int width_ { 0 };
-    int height_ { 0 };
+    int view_width_ { 0 };
+    int view_height_ { 0 };
     QColor border_color_, background_color_, text_color_;
 };
 
