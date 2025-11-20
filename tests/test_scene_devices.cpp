@@ -103,7 +103,7 @@ template <class T>
 QList<T> list(std::initializer_list<T> args) { return QList<T>(args); }
 
 QList<DeviceId> id_list(std::initializer_list<DeviceId> args) { return list<DeviceId>(args); }
-}
+} // namespace
 
 void TestSceneDevices::initTestCase()
 {
