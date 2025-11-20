@@ -39,6 +39,19 @@ private:
     DeviceId id_ { 0 };
 };
 
+class CreateComment : public QUndoCommand {
+public:
+    CreateComment(Diagram* doc, const QPointF& pos);
+
+    void undo() final;
+    void redo() final;
+
+private:
+    Diagram* doc_;
+    QPointF pos_;
+    DeviceId id_ { 0 };
+};
+
 class RemoveDevice : public QUndoCommand {
 public:
     RemoveDevice(Diagram* doc, const SharedDeviceData& data);

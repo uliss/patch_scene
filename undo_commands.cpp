@@ -655,3 +655,27 @@ void ZoomSelected::redo()
             dev->zoomImage(k_);
     });
 }
+
+CreateComment::CreateComment(Diagram* doc, const QPointF& pos)
+    : doc_(doc)
+    , pos_(pos)
+{
+}
+
+void CreateComment::undo()
+{
+    if (doc_)
+        doc_->removeDevice(id_);
+}
+
+void CreateComment::redo()
+{
+    if (!doc_)
+        return;
+
+    auto comment = doc_->addComment();
+    if (comment) {
+        comment->setPos(pos_);
+        id_ = comment->id();
+    }
+}
