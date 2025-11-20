@@ -89,6 +89,12 @@ public:
      */
     bool setDeviceData(const SharedDeviceData& data);
 
+    /**
+     * @brief add comment into the scheme, emit sceneChanged(), deviceAdded()
+     * @return pointer to new comment or nullptr on error
+     */
+    Comment* addComment();
+
     bool showCables() const { return show_cables_; }
     void setShowCables(bool value);
     void setShowPeople(bool value);
@@ -188,6 +194,7 @@ public slots:
     void cmdAlignHSelected();
     void cmdAlignVSelected();
     void cmdConnectDevices(const ConnectionId& conn);
+    void cmdCreateComment(const QPointF& pos);
     void cmdCreateDevice(const QPointF& pos);
     void cmdCutSelected();
     void cmdDisconnectDevices(const ConnectionId& conn);
@@ -214,7 +221,7 @@ public slots:
     void cmdSelectDevices(const QRectF& sel);
     void cmdSelectUnique(DeviceId id);
     void cmdToggleDevices(const QList<QGraphicsItem*>& items);
-    void cmdUpdateDevice(SharedDeviceData data);
+    void cmdUpdateDevice(const SharedDeviceData& data);
     void cmdZoomInSelected();
     void cmdZoomOutSelected();
 

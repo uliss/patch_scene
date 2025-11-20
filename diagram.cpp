@@ -34,6 +34,7 @@
 #include "logging.hpp"
 #include "scale_widget.h"
 #include "undo_commands.h"
+#include "comment.h"
 
 using namespace ceam;
 
@@ -62,13 +63,7 @@ constexpr const char* JSON_KEY_VERSION_MAJOR = "version-major";
 constexpr const char* JSON_KEY_VERSION_MINOR = "version-minor";
 constexpr const char* JSON_KEY_VERSION_PATCH = "version-patch";
 
-class MyScene : public QGraphicsScene {
-public:
-    MyScene()
-    {
-    }
-};
-}
+}  // namespace
 
 void Diagram::initUndoStack()
 {
@@ -236,7 +231,7 @@ void Diagram::cmdRemoveDevice(const SharedDeviceData& data)
     undo_stack_->push(rem);
 }
 
-void Diagram::cmdUpdateDevice(SharedDeviceData data)
+void Diagram::cmdUpdateDevice(const SharedDeviceData& data)
 {
     if (!data)
         return;
@@ -280,6 +275,12 @@ void Diagram::cmdConnectDevices(const ConnectionId& conn)
 {
     auto x = new ConnectDevices(this, conn);
     undo_stack_->push(x);
+}
+
+void Diagram::cmdCreateComment(const QPointF& pos)
+{
+    auto add = new CreateComment(this, pos);
+    undo_stack_->push(add);
 }
 
 void Diagram::cmdDisconnectDevices(const ConnectionId& conn)
@@ -659,6 +660,36 @@ bool Diagram::setDeviceData(const SharedDeviceData& data)
     updateConnectionPos(data->id());
 
     return true;
+}
+
+Comment* Diagram::addComment()
+{
+    auto comm = devices_.addComment();
+    if (!comm)
+        return nullptr;
+
+    connect(comm, SIGNAL(duplicateDevice(SharedDeviceData)), this, SLOT(cmdDuplicateDevice(SharedDeviceData)));
+    connect(comm, SIGNAL(removeDevice(SharedDeviceData)), this, SLOT(cmdRemoveDevice(SharedDeviceData)));
+    connect(comm, SIGNAL(updateDevice(SharedDeviceData)), this, SLOT(cmdUpdateDevice(SharedDeviceData)));
+
+    connect(comm, SIGNAL(alignHorizontal()), this, SLOT(cmdAlignHSelected()));
+    connect(comm, SIGNAL(alignVertical()), this, SLOT(cmdAlignVSelected()));
+
+    connect(comm, SIGNAL(distributeHorizontal()), this, SLOT(cmdDistributeHSelected()));
+    connect(comm, SIGNAL(distributeVertical()), this, SLOT(cmdDistributeVSelected()));
+
+    connect(comm, SIGNAL(placeInColumn()), this, SLOT(cmdPlaceInColumnSelected()));
+    connect(comm, SIGNAL(placeInRow()), this, SLOT(cmdPlaceInRowSelected()));
+
+    // lock
+    connect(comm, &Device::lockSelected, this, &Diagram::cmdLockSelected);
+    connect(comm, &Device::unlockSelected, this, &Diagram::cmdUnlockSelected);
+    connect(comm, &Device::lock, this, &Diagram::cmdLock);
+    connect(comm, &Device::unlock, this, &Diagram::cmdUnlock);
+
+    emit sceneChanged();
+
+    return comm;
 }
 
 void Diagram::setShowCables(bool value)
@@ -1233,8 +1264,13 @@ void Diagram::contextMenuEvent(QContextMenuEvent* event)
     connect(add_act, &QAction::triggered, this,
         [this, pos]() { cmdCreateDevice(mapToScene(pos)); });
 
+    auto add_comment = new QAction(tr("&Add comment"), this);
+    connect(add_comment, &QAction::triggered, this,
+        [this, pos]() { cmdCreateComment(mapToScene(pos)); });
+
     QMenu menu(this);
     menu.addAction(add_act);
+    menu.addAction(add_comment);
 
     background_.addToContextMenu(menu);
 
