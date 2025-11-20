@@ -186,13 +186,14 @@ std::optional<ItemCategory> ceam::fromQString(const QString& str)
     }
 }
 
-void ceam::foreachItemCategory(const std::function<void(const char*, int)>& fn)
+void ceam::foreachItemCategory(const std::function<void(ItemCategory, const char*, int)>& fn)
 {
     for (int i = static_cast<int>(ItemCategory::Device);
         i < static_cast<int>(ItemCategory::MaxCategory);
         i++) //
     {
-        fn(toString(static_cast<ItemCategory>(i)), i);
+        auto cat = static_cast<ItemCategory>(i);
+        fn(cat, toString(cat), i);
     }
 }
 

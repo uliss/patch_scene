@@ -140,7 +140,14 @@ void DeviceEditor::chooseImageDialog()
 
 void DeviceEditor::setupCategories()
 {
-    foreachItemCategory([this](const char* name, int i) {
+    foreachItemCategory([this](ItemCategory cat, const char* name, int i) {
+        switch (cat) {
+        case ItemCategory::Comment:
+            return;
+        default:
+            break;
+        }
+
         ui->category->addItem(QCoreApplication::translate("ceam", name), i);
     });
     connect(ui->category, &QComboBox::currentIndexChanged, this, [this](int) {
@@ -234,8 +241,8 @@ void DeviceEditor::setupImageMirror(const SharedDeviceData& data)
     ui->imageMirror->setChecked(data->imageMirror() != ImageMirrorType::None);
     connect(ui->imageMirror, &QCheckBox::stateChanged, this,
         [this](int state) {
-                data_->setImageMirror(state == Qt::Checked
-                                  ? ImageMirrorType::Horizontal
-                                  : ImageMirrorType::None);
+            data_->setImageMirror(state == Qt::Checked
+                    ? ImageMirrorType::Horizontal
+                    : ImageMirrorType::None);
         });
 }

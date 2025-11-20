@@ -43,7 +43,9 @@ enum class ItemCategory : std::uint8_t {
 
 const char* toString(ItemCategory cat);
 std::optional<ItemCategory> fromQString(const QString& str);
-void foreachItemCategory(const std::function<void(const char*, int)>& fn);
+
+// fn params: category enum, category name, category index
+void foreachItemCategory(const std::function<void(ItemCategory, const char*, int)>& fn);
 
 enum class DeviceCategory {
     // clang-format off
@@ -271,7 +273,7 @@ public:
 
 size_t qHash(const DeviceData& data);
 
-}  // namespace ceam
+} // namespace ceam
 
 QDebug operator<<(QDebug debug, const ceam::DeviceData& data);
 
