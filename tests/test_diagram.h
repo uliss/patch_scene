@@ -26,6 +26,8 @@ private slots:
     void moveSelectedFrom();
     void cmdPlaceInRowSelected();
     void cmdPlaceInColumnSelected();
+
+    void addComment();
 };
 
 #endif // TEST_DIAGRAM_H

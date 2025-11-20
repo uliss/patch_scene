@@ -12,9 +12,11 @@
  * this file belongs to.
  *****************************************************************************/
 #include "test_diagram.h"
+#include "comment.h"
 #include "diagram.h"
 
 #include <QJsonObject>
+#include <QSignalSpy>
 #include <QTest>
 
 using namespace ceam;
@@ -35,17 +37,23 @@ SharedDeviceData make_dev(DeviceId id, const QPointF& pos)
     return SharedDeviceData(data);
 }
 
-}
+} // namespace
 
 void TestDiagram::addDevice()
 {
     Diagram dia(100, 100);
+    QSignalSpy sig_spy(&dia, SIGNAL(sceneChanged()));
+    QVERIFY(sig_spy.isValid());
+    QCOMPARE(sig_spy.count(), 0);
+
     auto json0 = dia.toJson();
 
     dia.cmdCreateDevice({ 50, 100 });
     QCOMPARE(dia.devices().count(), 1);
+    QCOMPARE(sig_spy.count(), 1);
     dia.cmdCreateDevice({ 50, 200 });
     QCOMPARE(dia.devices().count(), 2);
+    QCOMPARE(sig_spy.count(), 2);
 
     auto json1 = dia.toJson();
 
@@ -181,4 +189,19 @@ void TestDiagram::cmdPlaceInColumnSelected()
     QCOMPARE(dia.devices().findData(102)->pos(), QPointF(10, 25));
     QCOMPARE(dia.devices().findData(100)->pos(), QPointF(10, 25 + DEF_TXT_HT));
     QCOMPARE(dia.devices().findData(101)->pos(), QPointF(10, 25 + 2 * DEF_TXT_HT));
+}
+
+void TestDiagram::addComment()
+{
+    Diagram dia(100, 100);
+    QSignalSpy sig_spy(&dia, SIGNAL(sceneChanged()));
+    QVERIFY(sig_spy.isValid());
+    QCOMPARE(sig_spy.count(), 0);
+
+    auto json0 = dia.toJson();
+
+    auto comm = dia.addComment();
+    QVERIFY(comm != nullptr);
+    QCOMPARE(comm->deviceData()->category(), ceam::ItemCategory::Comment);
+    QCOMPARE(sig_spy.count(), 1);
 }
