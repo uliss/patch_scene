@@ -24,7 +24,7 @@ struct GridHideShow {
     DiagramScene* scene { nullptr };
     QGraphicsItemGroup* grid { nullptr };
 
-    GridHideShow(DiagramScene* sc)
+    explicit GridHideShow(DiagramScene* sc)
         : scene(sc)
     {
         grid = scene->grid();
@@ -36,7 +36,7 @@ struct GridHideShow {
         scene->addItem(grid);
     }
 };
-}
+}  // namespace
 
 DiagramScene::DiagramScene(int w, int h, QObject* parent)
     : QGraphicsScene { parent }
