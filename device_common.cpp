@@ -459,6 +459,24 @@ QJsonObject DeviceData::toJson() const
     if (volume_ > 0)
         json[JSON_KEY_VOLUME_CM3] = volume_;
 
+    if (border_width_ > 0)
+        json[JSON_KEY_BORDER_WIDTH_PX] = border_width_;
+
+    if (width_ > 0)
+        json[JSON_KEY_WIDTH_PX] = width_;
+
+    if (height_ > 0)
+        json[JSON_KEY_HEIGHT_PX] = height_;
+
+    if (border_color_.isValid())
+        json[JSON_KEY_COLOR_BORDER] = border_color_.name(QColor::HexArgb);
+
+    if (background_color_.isValid())
+        json[JSON_KEY_COLOR_BACKGROUND] = background_color_.name(QColor::HexArgb);
+
+    if (text_color_.isValid())
+        json[JSON_KEY_COLOR_TEXT] = text_color_.name(QColor::HexArgb);
+
     return json;
 }
 
