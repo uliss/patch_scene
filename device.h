@@ -153,6 +153,6 @@ private:
     QRectF rect_;
     DeviceXlets xlets_;
 };
-}
+}  // namespace ceam
 
 #endif // DEVICE_H
