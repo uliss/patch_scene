@@ -388,6 +388,14 @@ bool DeviceData::setJson(const QJsonValue& v)
     setWeight(obj[JSON_KEY_WEIGHT_KG].toDouble(0));
     setVolume(obj[JSON_KEY_VOLUME_CM3].toDouble(0));
 
+    setViewHeight(obj[JSON_KEY_HEIGHT_PX].toInt(0));
+    setViewWidth(obj[JSON_KEY_WIDTH_PX].toInt(0));
+    setBorderWidth(obj[JSON_KEY_BORDER_WIDTH_PX].toInt(0));
+
+    setBorderColor(QColor::fromString(obj[JSON_KEY_COLOR_BORDER].toString()));
+    setBackgroundColor(QColor::fromString(obj[JSON_KEY_COLOR_BACKGROUND].toString()));
+    setTextColor(QColor::fromString(obj[JSON_KEY_COLOR_TEXT].toString()));
+
     return true;
 }
 
