@@ -48,6 +48,6 @@ private:
     QList<SharedDeviceData> devices_, instruments_, sends_, returns_, humans_, furniture_;
 };
 
-}
+}  // namespace ceam
 
 #endif // DEVICE_LIBRARY_H
