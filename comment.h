@@ -25,6 +25,9 @@ public:
 
 public:
     void createContextMenu(QMenu& menu);
+
+protected:
+    void addEditAct(QMenu& menu);
 };
 
 } // namespace ceam

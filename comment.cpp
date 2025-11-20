@@ -17,7 +17,21 @@
 
 using namespace ceam;
 
-Comment::Comment() { }
+namespace {
+
+SharedDeviceData commentData(const QString& title)
+{
+    QSharedDataPointer data(new DeviceData(DEV_NULL_ID));
+    data->setCategory(ItemCategory::Comment);
+    data->setTitle(title);
+    return data;
+}
+} // namespace
+
+Comment::Comment()
+    : Device(commentData(tr("Comment")))
+{
+}
 
 void Comment::createContextMenu(QMenu& menu)
 {
@@ -27,6 +41,20 @@ void Comment::createContextMenu(QMenu& menu)
     addDuplicateAct(menu);
     addRemoveAct(menu);
 
-    // menu.addSeparator();
-    // addPropertiesAct(menu);
+    menu.addSeparator();
+    addEditAct(menu);
+}
+
+void Comment::addEditAct(QMenu& menu)
+{
+    auto act = new QAction(tr("Edit"), &menu);
+
+    // connect(act, &QAction::triggered, this,
+    //     [this]() {
+    //         std::unique_ptr<DeviceEditor> dialog(new DeviceEditor(data_));
+    //         connect(dialog.get(), SIGNAL(acceptData(SharedDeviceData)), this, SIGNAL(updateDevice(SharedDeviceData)));
+    //         dialog->exec();
+    //     });
+
+    menu.addAction(act);
 }

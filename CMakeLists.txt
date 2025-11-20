@@ -53,6 +53,8 @@ set(PROJECT_SOURCES
     battery_item_model.h
     bezier_editor_handle.h
     bezier_editor_handle.cpp
+    comment.cpp
+    comment.h
     connection.cpp
     connection.h
     connection_data.cpp
@@ -203,8 +205,7 @@ target_link_libraries(
                             Qt${QT_VERSION_MAJOR}::PrintSupport Qt${QT_VERSION_MAJOR}::SvgWidgets)
 
 qt_add_executable(patch_scene MANUAL_FINALIZATION MACOSX_BUNDLE ${app_icon_macos} main.cpp
-                  resources/patch_scene_resources.qrc
-                  comment.h comment.cpp)
+                  resources/patch_scene_resources.qrc)
 
 add_dependencies(patch_scene_lib git_version)
 
