@@ -236,6 +236,15 @@ public:
     int borderWidth() const { return border_width_; }
     void setBorderWidth(int px);
 
+    QColor borderColor() const { return border_color_; }
+    void setBorderColor(const QColor& color) { border_color_ = color; }
+
+    QColor backgroundColor() const { return background_color_; }
+    void setBackgroundColor(const QColor& color) { background_color_ = color; }
+
+    QColor textColor() const { return text_color_; }
+    void setTextColor(const QColor& color) { text_color_ = color; }
+
 private:
     static QJsonArray xletToJson(const QList<XletData>& xlets);
     static bool setXletJson(const QJsonValue& v, QList<XletData>& xlets);

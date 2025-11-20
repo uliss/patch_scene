@@ -91,12 +91,42 @@ void TestDeviceData::toJson()
     QVERIFY(j.contains("view-height-px"));
 
     data.setViewHeight(-100);
+    QCOMPARE(data.viewHeight(), 0);
     j = data.toJson();
     QVERIFY(!j.contains("view-height-px"));
 
     data.setBorderWidth(5);
     j = data.toJson();
     QVERIFY(j.contains("border-width-px"));
+
+    data.setBorderWidth(-1);
+    QCOMPARE(data.borderWidth(), 0);
+    j = data.toJson();
+    QVERIFY(!j.contains("border-width-px"));
+
+    data.setBorderColor(Qt::red);
+    j = data.toJson();
+    QVERIFY(j.contains("color-border"));
+
+    data.setBorderColor({});
+    j = data.toJson();
+    QVERIFY(!j.contains("color-border"));
+
+    data.setBackgroundColor(Qt::blue);
+    j = data.toJson();
+    QVERIFY(j.contains("color-background"));
+
+    data.setBackgroundColor({});
+    j = data.toJson();
+    QVERIFY(!j.contains("color-background"));
+
+    data.setTextColor(Qt::green);
+    j = data.toJson();
+    QVERIFY(j.contains("color-text"));
+
+    data.setTextColor({});
+    j = data.toJson();
+    QVERIFY(!j.contains("color-text"));
 }
 
 void TestDeviceData::fromJson()
