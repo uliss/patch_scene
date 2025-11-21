@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include "image_widget.h"
 
+#include <QFileInfo>
 #include <QMouseEvent>
 
 namespace {
@@ -34,11 +35,15 @@ ImageWidget::ImageWidget(QWidget* parent)
 
 void ImageWidget::setImagePath(const QString& path)
 {
+    QFileInfo finfo(path);
     QIcon icon(path);
-    if (!icon.isNull())
+    if (!icon.isNull()) {
         setPixmap(icon.pixmap(IMG_PREVIEW_SIZE, IMG_PREVIEW_SIZE));
-    else
+        setToolTip(tr("Image: %1").arg(finfo.baseName()));
+    } else {
         setText("?");
+        setToolTip(tr("Image: none"));
+    }
 }
 
 void ImageWidget::mousePressEvent(QMouseEvent* event)
