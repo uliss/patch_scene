@@ -150,6 +150,7 @@ set(PROJECT_SOURCES
     tablecellconnector.h
     undo_commands.cpp
     undo_commands.h
+    user_item_types.h
     vendor_list.cpp
     vendor_list.h
     xlet_info.cpp
