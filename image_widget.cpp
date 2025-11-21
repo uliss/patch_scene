@@ -49,7 +49,10 @@ void ImageWidget::setImagePath(const QString& path)
 void ImageWidget::mousePressEvent(QMouseEvent* event)
 {
     if (event->button() == Qt::LeftButton) {
-        emit clicked();
+        if (event->modifiers().testFlag(Qt::AltModifier)) {
+            setImagePath({});
+        } else
+            emit clicked();
     } else
         QLabel::mousePressEvent(event);
 }
