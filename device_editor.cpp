@@ -218,7 +218,10 @@ void DeviceEditor::enableAdditionalWidgets(bool value)
 
 void DeviceEditor::enableBatteryWidgets(bool value)
 {
+    ui->batteryCapacity->setVisible(value);
+    ui->batteryCapacityLabel->setVisible(value);
     ui->batteryCount->setVisible(value);
+    ui->batteryCountLabel->setVisible(value);
     ui->batteryLabel->setVisible(value);
     ui->batteryType->setVisible(value);
 }
@@ -287,12 +290,14 @@ void DeviceEditor::setupBattery(const SharedDeviceData& data)
         // set single battery if has battery and battery count == 0
         if (v != 0) {
             ui->batteryCount->setEnabled(true);
+            ui->batteryCapacity->setEnabled(true);
 
             if (ui->batteryCount->value() == 0)
                 ui->batteryCount->setValue(1);
         } else {
             ui->batteryCount->setEnabled(false);
             ui->batteryCount->setValue(0);
+            ui->batteryCapacity->setEnabled(false);
         }
     });
 

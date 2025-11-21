@@ -256,7 +256,8 @@
     </message>
     <message>
         <location filename="device_editor.ui" line="113"/>
-        <source>Amount</source>
+        <source>Count</source>
+        <oldsource>Amount</oldsource>
         <translation>Количество</translation>
     </message>
     <message>
