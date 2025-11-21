@@ -13,7 +13,9 @@
  *****************************************************************************/
 #include "image_widget.h"
 
+#include <QAction>
 #include <QFileInfo>
+#include <QMenu>
 #include <QMouseEvent>
 
 namespace {
@@ -41,8 +43,7 @@ void ImageWidget::setImagePath(const QString& path)
         setPixmap(icon.pixmap(IMG_PREVIEW_SIZE, IMG_PREVIEW_SIZE));
         setToolTip(tr("Image: %1").arg(finfo.baseName()));
     } else {
-        setText("?");
-        setToolTip(tr("Image: none"));
+        clearWidget();
     }
 }
 
@@ -50,9 +51,36 @@ void ImageWidget::mousePressEvent(QMouseEvent* event)
 {
     if (event->button() == Qt::LeftButton) {
         if (event->modifiers().testFlag(Qt::AltModifier)) {
-            setImagePath({});
+            clearWidget();
         } else
             emit clicked();
     } else
         QLabel::mousePressEvent(event);
+}
+
+void ImageWidget::contextMenuEvent(QContextMenuEvent* event)
+{
+    QMenu menu;
+
+    auto select = new QAction(tr("Select"), &menu);
+    connect(select, SIGNAL(triggered()), this, SIGNAL(clicked()));
+    menu.addAction(select);
+
+    // show clear menu item only if we have pixmap
+    if (!pixmap().isNull()) {
+        auto remove = new QAction(tr("Clear"), &menu);
+        connect(remove, &QAction::triggered, this, [this]() {
+            clearWidget();
+        });
+        menu.addAction(remove);
+    }
+
+    menu.exec(event->globalPos());
+    event->accept();
+}
+
+void ImageWidget::clearWidget()
+{
+    setText("?");
+    setToolTip(tr("Image: none"));
 }

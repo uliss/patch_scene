@@ -32,6 +32,9 @@ signals:
 
 protected:
     void mousePressEvent(QMouseEvent* event) override;
+    void contextMenuEvent(QContextMenuEvent* event) override;
+
+    void clearWidget();
 };
 
 } // namespace ceam
