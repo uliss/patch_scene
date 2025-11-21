@@ -25,20 +25,20 @@ const BatteryMapType& batteryNameMap()
     // clang-format off
     static const BatteryMapType map_ = {
                                         { BatteryType::None,        { "None",         "none" } },
-                                        { BatteryType::A23,         { "A23",          "a23" } },
-                                        { BatteryType::A27,         { "A27",          "a27" } },
                                         { BatteryType::AA,          { "AA",           "aa" } },
                                         { BatteryType::AAA,         { "AAA",          "aaa" } },
                                         { BatteryType::AAAA,        { "AAAA",         "aaaa" } },
                                         { BatteryType::B,           { "B",            "b" } },
                                         { BatteryType::C,           { "C",            "c" } },
-                                        { BatteryType::CR2016,      { "CR2016",       "cr2016" } },
-                                        { BatteryType::CR2025,      { "CR2025",       "cr2025" } },
-                                        { BatteryType::CR2032,      { "CR2032",       "cr2032" } },
                                         { BatteryType::D,           { "D",            "d" } },
                                         { BatteryType::LR44,        { "LR44",         "lr44" } },
                                         { BatteryType::PP3_Krona,   { "PP3 (Krona)",  "krona" } },
                                         { BatteryType::R12x3,       { "3R12",         "3r12" } },
+                                        { BatteryType::A23,         { "A23",          "a23" } },
+                                        { BatteryType::A27,         { "A27",          "a27" } },
+                                        { BatteryType::CR2016,      { "CR2016",       "cr2016" } },
+                                        { BatteryType::CR2025,      { "CR2025",       "cr2025" } },
+                                        { BatteryType::CR2032,      { "CR2032",       "cr2032" } },
                                         };
     // clang-format on
     return map_;
