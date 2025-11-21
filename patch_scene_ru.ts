@@ -2094,6 +2094,29 @@ http://ceam.space</source>
     </message>
 </context>
 <context>
+    <name>ceam::ImageWidget</name>
+    <message>
+        <location filename="image_widget.cpp" line="44"/>
+        <source>Image: %1</source>
+        <translation>Изображение: %1</translation>
+    </message>
+    <message>
+        <location filename="image_widget.cpp" line="65"/>
+        <source>Select</source>
+        <translation>Выбрать</translation>
+    </message>
+    <message>
+        <location filename="image_widget.cpp" line="71"/>
+        <source>Clear</source>
+        <translation>Очистить</translation>
+    </message>
+    <message>
+        <location filename="image_widget.cpp" line="85"/>
+        <source>Image: none</source>
+        <translation>Изображение: none</translation>
+    </message>
+</context>
+<context>
     <name>ceam::LibraryItemModel</name>
     <message>
         <location filename="library_item_model.cpp" line="40"/>
