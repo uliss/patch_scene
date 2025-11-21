@@ -15,6 +15,9 @@
 #include "comment_editor.h"
 
 #include <QMenu>
+#include <QPainter>
+#include <QStyle>
+#include <QStyleOption>
 
 using namespace ceam;
 
@@ -58,4 +61,26 @@ void Comment::addEditAct(QMenu& menu)
         });
 
     menu.addAction(act);
+}
+
+void Comment::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+{
+    auto box = boundingRect();
+    auto wd = deviceData()->borderWidth();
+    auto bd = deviceData()->borderColor();
+    if (!bd.isValid())
+        bd = QColor::fromRgbF(0.25, 0.25, 0.25);
+
+    auto bg = deviceData()->backgroundColor();
+    if (!bg.isValid())
+        bg = Qt::white;
+
+    if (option->state & QStyle::State_Selected) {
+        bd = Qt::blue;
+    }
+
+    painter->setPen(QPen(bd, wd));
+    painter->setBrush(bg);
+    // painter->drawRect(box);
+    painter->drawRoundedRect(box, 5, 5);
 }

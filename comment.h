@@ -24,10 +24,16 @@ public:
     Comment();
 
 public:
-    void createContextMenu(QMenu& menu);
+    void createContextMenu(QMenu& menu) override;
 
 protected:
     void addEditAct(QMenu& menu);
+
+private:
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
+
+private:
+    QGraphicsTextItem* text_ { nullptr };
 };
 
 } // namespace ceam
