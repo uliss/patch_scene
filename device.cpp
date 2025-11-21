@@ -692,6 +692,7 @@ void Device::addRemoveAct(QMenu& menu)
 void Device::addToFavoritesAct(QMenu& menu)
 {
     auto addToFavoritesAct = new QAction(tr("Add to favorites"), &menu);
+    // addToFavoritesAct->setIcon(QIcon(":/icons/favorite.svg"));
     connect(addToFavoritesAct, &QAction::triggered, this,
         [this]() { emit addToFavorites(data_); });
 
