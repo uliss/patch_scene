@@ -271,16 +271,6 @@
         </widget>
        </item>
        <item>
-        <widget class="QToolButton" name="imageChooseButton">
-         <property name="toolTip">
-          <string>choose device image</string>
-         </property>
-         <property name="text">
-          <string>Choose</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <spacer name="horizontalSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -393,9 +383,6 @@
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
-       <property name="buddy">
-        <cstring>imageChooseButton</cstring>
-       </property>
       </widget>
      </item>
      <item row="2" column="1">
@@ -448,7 +435,6 @@
   <tabstop>vendor</tabstop>
   <tabstop>model</tabstop>
   <tabstop>category</tabstop>
-  <tabstop>imageChooseButton</tabstop>
   <tabstop>zoom</tabstop>
   <tabstop>batteryType</tabstop>
   <tabstop>batteryCount</tabstop>
