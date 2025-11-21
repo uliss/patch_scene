@@ -11,9 +11,16 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Additional Info Editor</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Extra information:</string>
+     </property>
+    </widget>
+   </item>
    <item>
     <widget class="QTableWidget" name="infoTable">
      <property name="columnCount">

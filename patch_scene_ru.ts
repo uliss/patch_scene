@@ -138,21 +138,26 @@
     <name>DeviceInfoEditor</name>
     <message>
         <location filename="device_info_editor.ui" line="14"/>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <source>Additional Info Editor</source>
+        <translation>Редактор дополнительной информации</translation>
     </message>
     <message>
-        <location filename="device_info_editor.ui" line="40"/>
+        <location filename="device_info_editor.ui" line="20"/>
+        <source>Extra information:</source>
+        <translation>Дополнительные сведения:</translation>
+    </message>
+    <message>
+        <location filename="device_info_editor.ui" line="47"/>
         <source>+</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="device_info_editor.ui" line="47"/>
+        <location filename="device_info_editor.ui" line="54"/>
         <source>-</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="device_info_editor.ui" line="67"/>
+        <location filename="device_info_editor.ui" line="74"/>
         <source>add IP</source>
         <translation>Добавить IP</translation>
     </message>
