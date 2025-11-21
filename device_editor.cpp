@@ -315,6 +315,9 @@ void DeviceEditor::setupBattery(const SharedDeviceData& data)
 
     ui->batteryCapacity->setValue(data->batteryCapacity());
     ui->batteryCapacity->setEnabled(data->batteryType() != BatteryType::None);
+    connect(ui->batteryCapacity, &QSpinBox::valueChanged, this, [this](int v) {
+        data_->setBatteryCapacity(v);
+    });
 }
 
 void DeviceEditor::setupImageMirror(const SharedDeviceData& data)
