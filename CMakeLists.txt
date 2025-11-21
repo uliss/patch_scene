@@ -114,6 +114,8 @@ set(PROJECT_SOURCES
     favorites_widget.h
     furniture_item_model.cpp
     furniture_item_model.h
+    image_widget.h
+    image_widget.cpp
     library_item_model.h
     library_item_model.cpp
     logging.hpp
@@ -203,7 +205,7 @@ target_compile_definitions(QSimpleUpdater PUBLIC QSU_INCLUDE_MOC)
 
 add_library(patch_scene_lib STATIC ${PROJECT_SOURCES})
 target_compile_definitions(patch_scene_lib PRIVATE -DQT_NO_VERSION_TAGGING)
-target_include_directories(patch_scene_lib PRIVATE ${PROJECT_BINARY_DIR})
+target_include_directories(patch_scene_lib PRIVATE ${PROJECT_BINARY_DIR} ${PROJECT_SOURCE_DIR})
 target_link_libraries(
     patch_scene_lib PRIVATE QSimpleUpdater Qt${QT_VERSION_MAJOR}::Widgets
                             Qt${QT_VERSION_MAJOR}::PrintSupport Qt${QT_VERSION_MAJOR}::SvgWidgets)
