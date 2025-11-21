@@ -92,6 +92,34 @@
     </message>
 </context>
 <context>
+    <name>CommentEditor</name>
+    <message>
+        <location filename="comment_editor.ui" line="14"/>
+        <source>Comment Editor</source>
+        <translation>Редактор комментария</translation>
+    </message>
+    <message>
+        <location filename="comment_editor.ui" line="25"/>
+        <source>Border width</source>
+        <translation>Толщина границы</translation>
+    </message>
+    <message>
+        <location filename="comment_editor.ui" line="35"/>
+        <source>Border color</source>
+        <translation>Цвета границы</translation>
+    </message>
+    <message>
+        <location filename="comment_editor.ui" line="42"/>
+        <source>Background color</source>
+        <translation>Цвет фона</translation>
+    </message>
+    <message>
+        <location filename="comment_editor.ui" line="49"/>
+        <source>Text color</source>
+        <translation>Цвет текста</translation>
+    </message>
+</context>
+<context>
     <name>ConnectorType</name>
     <message>
         <location filename="connector_type.cpp" line="50"/>
@@ -145,18 +173,18 @@
         <translation>Свойства элемента</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="109"/>
+        <location filename="device_editor.ui" line="245"/>
         <source>User views</source>
         <translation>Пользовательские виды</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="141"/>
+        <location filename="device_editor.ui" line="173"/>
         <source>&amp;Name</source>
         <oldsource>Name</oldsource>
         <translation>&amp;Название</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="224"/>
+        <location filename="device_editor.ui" line="356"/>
         <source>Mirror horizontally</source>
         <translation>Отразить по горизонтали</translation>
     </message>
@@ -187,37 +215,82 @@
         <translation type="vanished">Переместить выход вниз</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="131"/>
+        <location filename="device_editor.ui" line="391"/>
         <source>Image</source>
         <translation>Изображение</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="153"/>
+        <location filename="device_editor.ui" line="269"/>
         <source>...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="160"/>
+        <location filename="device_editor.ui" line="37"/>
+        <source>Weight</source>
+        <translation>Вес</translation>
+    </message>
+    <message>
+        <location filename="device_editor.ui" line="44"/>
+        <source> kg</source>
+        <translation> кг</translation>
+    </message>
+    <message>
+        <location filename="device_editor.ui" line="54"/>
+        <source>Volume</source>
+        <translation>Объём</translation>
+    </message>
+    <message>
+        <location filename="device_editor.ui" line="67"/>
+        <source> cm³</source>
+        <translation> см³</translation>
+    </message>
+    <message>
+        <location filename="device_editor.ui" line="113"/>
+        <source>Amount</source>
+        <translation>Количество</translation>
+    </message>
+    <message>
+        <location filename="device_editor.ui" line="127"/>
+        <source>Capacity</source>
+        <translation>Ёмкость</translation>
+    </message>
+    <message>
+        <location filename="device_editor.ui" line="134"/>
+        <source>min</source>
+        <translation>мин</translation>
+    </message>
+    <message>
+        <location filename="device_editor.ui" line="276"/>
         <source>choose device image</source>
         <translation>выбрать изображение устройства</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="163"/>
+        <location filename="device_editor.ui" line="279"/>
         <source>Choose</source>
         <translation>Выбрать</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="186"/>
+        <location filename="device_editor.ui" line="302"/>
         <source>Scale</source>
         <translation>Масштаб</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="264"/>
+        <location filename="device_editor.ui" line="407"/>
+        <source>Commutation</source>
+        <translation>Коммутация</translation>
+    </message>
+    <message>
+        <location filename="device_editor.ui" line="417"/>
+        <source>Physics</source>
+        <translation>Физические параметры</translation>
+    </message>
+    <message>
+        <location filename="device_editor.ui" line="220"/>
         <source>Additional</source>
         <translation>Дополнительно</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="95"/>
+        <location filename="device_editor.ui" line="231"/>
         <source>Inputs</source>
         <translation>Входы</translation>
     </message>
@@ -236,12 +309,12 @@
         <translation type="vanished">Логические столбцы:</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="102"/>
+        <location filename="device_editor.ui" line="238"/>
         <source>Outputs</source>
         <translation>Выходы</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="74"/>
+        <location filename="device_editor.ui" line="164"/>
         <source>&amp;Show</source>
         <oldsource>Show</oldsource>
         <translation>&amp;Показывать</translation>
@@ -251,7 +324,7 @@
         <translation type="vanished">добавить вход</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="83"/>
+        <location filename="device_editor.ui" line="95"/>
         <source>Vendor</source>
         <translation>Производитель</translation>
     </message>
@@ -260,7 +333,7 @@
         <translation type="vanished">Виды:</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="251"/>
+        <location filename="device_editor.ui" line="191"/>
         <source>&amp;Model</source>
         <oldsource>Model</oldsource>
         <translation>&amp;Модель</translation>
@@ -282,7 +355,7 @@
         <translation type="vanished">удалить выход</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="59"/>
+        <location filename="device_editor.ui" line="378"/>
         <source>&amp;Category</source>
         <oldsource>Category</oldsource>
         <translation>&amp;Категория</translation>
@@ -510,12 +583,12 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="706"/>
+        <location filename="mainwindow.ui" line="714"/>
         <source>Maximize</source>
         <translation>Развернуть</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="844"/>
+        <location filename="mainwindow.ui" line="852"/>
         <source>Fullscreen</source>
         <translation>Полный экран</translation>
     </message>
@@ -526,403 +599,450 @@
         <translation>Основная панель инструментов</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="91"/>
+        <location filename="mainwindow.ui" line="93"/>
         <source>&amp;File</source>
         <translation>&amp;Файл</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="95"/>
+        <location filename="mainwindow.ui" line="97"/>
         <source>Recent files</source>
         <translation>Недавние файлы</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="123"/>
+        <location filename="mainwindow.ui" line="125"/>
         <source>&amp;View</source>
         <translation>&amp;Вид</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="140"/>
+        <location filename="mainwindow.ui" line="144"/>
         <source>Edit</source>
         <translation>Правка</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="156"/>
+        <location filename="mainwindow.ui" line="160"/>
         <source>Help</source>
         <translation>Справка</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="165"/>
+        <location filename="mainwindow.ui" line="169"/>
         <source>Window</source>
         <translation>Окно</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="172"/>
+        <location filename="mainwindow.ui" line="176"/>
         <source>Objects</source>
         <translation>Объекты</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="195"/>
+        <location filename="mainwindow.ui" line="203"/>
         <source>Library</source>
         <translation>Библиотека</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="223"/>
+        <location filename="mainwindow.ui" line="231"/>
         <source>search</source>
         <translation>искать</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="248"/>
+        <location filename="mainwindow.ui" line="256"/>
         <source>Equipment</source>
         <translation>Оборудование</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="291"/>
+        <location filename="mainwindow.ui" line="299"/>
         <source>Devices</source>
         <translation>Устройства</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="329"/>
+        <location filename="mainwindow.ui" line="337"/>
         <source>Connections</source>
         <translation>Соединения</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="367"/>
+        <location filename="mainwindow.ui" line="375"/>
         <source>Batteries</source>
         <translation>Батарейки</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="405"/>
+        <location filename="mainwindow.ui" line="413"/>
         <source>Furniture</source>
         <translation>Инвентарь</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="440"/>
+        <location filename="mainwindow.ui" line="448"/>
         <source>Sends</source>
         <translation>Посылы</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="475"/>
+        <location filename="mainwindow.ui" line="483"/>
         <source>Returns</source>
         <translation>Возвраты</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="525"/>
+        <location filename="mainwindow.ui" line="533"/>
         <source>Favorites</source>
         <translation>Избранное</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="552"/>
+        <location filename="mainwindow.ui" line="560"/>
         <source>&amp;Open</source>
         <translation>&amp;Открыть</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="873"/>
+        <location filename="mainwindow.ui" line="884"/>
         <source>Alt+1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="901"/>
+        <location filename="mainwindow.ui" line="912"/>
         <source>Shortcuts</source>
         <translation>Клавиатурные комбинации</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="561"/>
-        <location filename="mainwindow.ui" line="564"/>
+        <location filename="mainwindow.ui" line="569"/>
+        <location filename="mainwindow.ui" line="572"/>
+        <location filename="mainwindow.ui" line="963"/>
         <source>Zoom In</source>
         <translation>Увеличить</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="573"/>
-        <location filename="mainwindow.ui" line="576"/>
+        <location filename="mainwindow.ui" line="581"/>
+        <location filename="mainwindow.ui" line="584"/>
+        <location filename="mainwindow.ui" line="971"/>
         <source>Zoom Out</source>
         <translation>Уменьшить</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="584"/>
+        <location filename="mainwindow.ui" line="592"/>
         <source>Zoom Normal</source>
         <translation>По умолчанию</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="587"/>
+        <location filename="mainwindow.ui" line="595"/>
         <source>Ctrl+0</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="596"/>
+        <location filename="mainwindow.ui" line="604"/>
         <source>Print</source>
         <translation>Печать</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="604"/>
+        <location filename="mainwindow.ui" line="612"/>
         <source>Select All</source>
         <translation>Выбрать всё</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="612"/>
+        <location filename="mainwindow.ui" line="620"/>
         <source>Quit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="615"/>
+        <location filename="mainwindow.ui" line="623"/>
         <source>Ctrl+Q</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="626"/>
+        <location filename="mainwindow.ui" line="634"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="634"/>
+        <location filename="mainwindow.ui" line="642"/>
         <source>Duplicate</source>
         <translation>Дублировать</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="637"/>
+        <location filename="mainwindow.ui" line="645"/>
         <source>Ctrl+D</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="645"/>
+        <location filename="mainwindow.ui" line="653"/>
         <source>Save As...</source>
         <translation>Сохранить как...</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="648"/>
+        <location filename="mainwindow.ui" line="656"/>
         <source>Ctrl+Shift+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="656"/>
+        <location filename="mainwindow.ui" line="664"/>
         <source>About PatchScene</source>
         <oldsource>About Cables</oldsource>
         <translation>О PatchScene</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="664"/>
+        <location filename="mainwindow.ui" line="672"/>
         <source>Preferences</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="672"/>
+        <location filename="mainwindow.ui" line="680"/>
         <source>Contact</source>
         <translation>Контакты</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="684"/>
+        <location filename="mainwindow.ui" line="692"/>
         <source>Undo</source>
         <translation>Отмена</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="696"/>
+        <location filename="mainwindow.ui" line="704"/>
         <source>Redo</source>
         <translation>Повторить</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="701"/>
+        <location filename="mainwindow.ui" line="709"/>
         <source>Minimize</source>
         <translation>Минимизировать</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="819"/>
+        <location filename="mainwindow.ui" line="827"/>
         <source>Export Document to ODF</source>
         <translation>Экспорт документа в ODF</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="830"/>
+        <location filename="mainwindow.ui" line="838"/>
         <source>Export Document to PDF</source>
         <translation>Экспорт документа в PDF</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="856"/>
+        <location filename="mainwindow.ui" line="864"/>
         <source>Grid</source>
         <translation>Сетка</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="859"/>
+        <location filename="mainwindow.ui" line="867"/>
         <source>Show Grid</source>
         <translation>Показать сетку</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="862"/>
+        <location filename="mainwindow.ui" line="870"/>
+        <source>show/hide grid</source>
+        <translation>показать/скрыть сетку</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="873"/>
         <source>Ctrl+G</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="870"/>
+        <location filename="mainwindow.ui" line="881"/>
         <source>Zoom Fit</source>
         <translation>Уместить в области просмотра</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="878"/>
+        <location filename="mainwindow.ui" line="889"/>
         <source>Export Scheme to SVG</source>
         <translation>Экспорт схемы в SVG</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="883"/>
+        <location filename="mainwindow.ui" line="894"/>
         <source>Export Scheme to PDF</source>
         <translation>Экспорт схемы в PDF</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="891"/>
+        <location filename="mainwindow.ui" line="902"/>
         <source>New</source>
         <translation>Новый</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="896"/>
+        <location filename="mainwindow.ui" line="907"/>
         <source>Check for updates</source>
         <translation>Проверить обновления</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="906"/>
+        <location filename="mainwindow.ui" line="917"/>
         <source>Zoom Fit Selected</source>
         <translation>Уместить выделенное в области просмотра</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="909"/>
+        <location filename="mainwindow.ui" line="920"/>
         <source>Alt+2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="921"/>
+        <location filename="mainwindow.ui" line="932"/>
         <source>Scale</source>
         <translation>Шкала масштаба</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="926"/>
+        <location filename="mainwindow.ui" line="937"/>
         <source>Export Scheme to PNG</source>
         <translation>Экспорт схемы в PNG</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="931"/>
+        <location filename="mainwindow.ui" line="942"/>
         <source>Lock</source>
         <translation>Заблокировать</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="934"/>
+        <location filename="mainwindow.ui" line="945"/>
         <source>Ctrl+L</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="939"/>
+        <location filename="mainwindow.ui" line="950"/>
         <source>Unlock</source>
         <translation>Разблокировать</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="942"/>
+        <location filename="mainwindow.ui" line="953"/>
         <source>Ctrl+Shift+L</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="947"/>
+        <location filename="mainwindow.ui" line="958"/>
         <source>Mirror</source>
         <translation>Отразить</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="714"/>
+        <location filename="mainwindow.ui" line="966"/>
+        <source>Alt+=</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="974"/>
+        <source>Alt+-</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="989"/>
+        <source>Show people</source>
+        <translation>Показать людей</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="992"/>
+        <source>Show/Hide people</source>
+        <translation>Показать/скрыть людей</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="995"/>
+        <source>show/hide people</source>
+        <translation>показать/скрыть людей</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="1013"/>
+        <source>Show furniture</source>
+        <translation>Показать инвентарь</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="1016"/>
+        <source>Show/Hide furniture</source>
+        <translation>Показать/скрыть инвентарь</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="1019"/>
+        <source>show/hide furniture</source>
+        <translation>показать/скрыть инвентарь</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="722"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="722"/>
+        <location filename="mainwindow.ui" line="730"/>
         <source>Cut</source>
         <translation>Вырезать</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="730"/>
+        <location filename="mainwindow.ui" line="738"/>
         <source>Paste</source>
         <translation>Выставить</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="762"/>
+        <location filename="mainwindow.ui" line="770"/>
         <source>Ctrl+1</source>
         <oldsource>Ctrl+V</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="745"/>
+        <location filename="mainwindow.ui" line="753"/>
         <source>Cables</source>
         <translation>Соединения</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="748"/>
+        <location filename="mainwindow.ui" line="756"/>
         <source>Show/Hide cables</source>
         <translation>Показать/Скрыть соединения</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="751"/>
+        <location filename="mainwindow.ui" line="759"/>
         <source>show/hide cables</source>
         <translation>показать/скрыть соединения</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="770"/>
+        <location filename="mainwindow.ui" line="778"/>
         <source>Ctrl+3</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="833"/>
+        <location filename="mainwindow.ui" line="841"/>
         <source>Ctrl+E</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="100"/>
+        <location filename="mainwindow.ui" line="102"/>
         <source>Export</source>
         <translation>Экспортировать</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="822"/>
+        <location filename="mainwindow.ui" line="830"/>
         <source>Ctrl+Shift+E</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="759"/>
+        <location filename="mainwindow.ui" line="767"/>
         <source>Add device</source>
         <translation>Добавить устройство</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="754"/>
+        <location filename="mainwindow.ui" line="762"/>
         <source>Ctrl+K</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="767"/>
+        <location filename="mainwindow.ui" line="775"/>
         <source>Set background</source>
         <translation>Установить фоновое изображение</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="785"/>
+        <location filename="mainwindow.ui" line="793"/>
         <source>Background</source>
         <translation>Фоновое изображение</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="794"/>
+        <location filename="mainwindow.ui" line="802"/>
         <source>Ctrl+B</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="803"/>
-        <location filename="mainwindow.ui" line="806"/>
+        <location filename="mainwindow.ui" line="811"/>
+        <location filename="mainwindow.ui" line="814"/>
         <source>Project Information</source>
         <translation>Информация о проекте</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="809"/>
+        <location filename="mainwindow.ui" line="817"/>
         <source>Ctrl+I</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="814"/>
+        <location filename="mainwindow.ui" line="822"/>
         <source>Clear</source>
         <translation>Очистить</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="788"/>
+        <location filename="mainwindow.ui" line="796"/>
         <source>Show/Hide background</source>
         <oldsource>Show/Hide images</oldsource>
         <translation>Показать/Скрыть фон</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="791"/>
+        <location filename="mainwindow.ui" line="799"/>
         <source>show/hide background</source>
         <oldsource>show/hide images</oldsource>
         <translation>показать/скрыть фон</translation>
@@ -1138,138 +1258,143 @@
         <translation>посылы</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="39"/>
+        <location filename="device_common.cpp" line="35"/>
+        <source>comment</source>
+        <translation>комментарий</translation>
+    </message>
+    <message>
+        <location filename="device_common.cpp" line="40"/>
         <source>amplifiers</source>
         <translation>усилители</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="40"/>
+        <location filename="device_common.cpp" line="41"/>
         <source>computers</source>
         <translation>компьютерное оборудование</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="41"/>
+        <location filename="device_common.cpp" line="42"/>
         <source>microphones</source>
         <translation>микрофоны</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="42"/>
+        <location filename="device_common.cpp" line="43"/>
         <source>MIDI</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="43"/>
+        <location filename="device_common.cpp" line="44"/>
         <source>miscellaneous</source>
         <translation>разное</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="44"/>
+        <location filename="device_common.cpp" line="45"/>
         <source>mixing consoles</source>
         <translation>микшеры</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="45"/>
+        <location filename="device_common.cpp" line="46"/>
         <source>network</source>
         <translation>компьютерные сети</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="46"/>
+        <location filename="device_common.cpp" line="47"/>
         <source>headphones</source>
         <translation>наушники</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="47"/>
+        <location filename="device_common.cpp" line="48"/>
         <source>photo</source>
         <translation>фото</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="48"/>
+        <location filename="device_common.cpp" line="49"/>
         <source>soundcards</source>
         <translation>звуковые карты</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="49"/>
+        <location filename="device_common.cpp" line="50"/>
         <source>speakers</source>
         <translation>акустические системы</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="50"/>
+        <location filename="device_common.cpp" line="51"/>
         <source>synths</source>
         <oldsource>synth</oldsource>
         <translation>синтезаторы</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="51"/>
+        <location filename="device_common.cpp" line="52"/>
         <source>video</source>
         <translation>видео</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="52"/>
+        <location filename="device_common.cpp" line="53"/>
         <source>power</source>
         <translation>питание</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="53"/>
+        <location filename="device_common.cpp" line="54"/>
         <source>guitars</source>
         <translation>гитарное оборудование</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="54"/>
+        <location filename="device_common.cpp" line="55"/>
         <source>lights</source>
         <translation>световое оборудование</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="55"/>
+        <location filename="device_common.cpp" line="56"/>
         <source>radio</source>
         <translation>радио-системы</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="56"/>
+        <location filename="device_common.cpp" line="57"/>
         <source>players</source>
         <translation>плейеры</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="57"/>
+        <location filename="device_common.cpp" line="58"/>
         <source>recorders</source>
         <translation>рекордеры</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="64"/>
+        <location filename="device_common.cpp" line="65"/>
         <source>keyboards</source>
         <translation>клавишные</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="65"/>
+        <location filename="device_common.cpp" line="66"/>
         <source>percussion (noise)</source>
         <translation>ударные (шумовые)</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="66"/>
+        <location filename="device_common.cpp" line="67"/>
         <source>percussion (tonal)</source>
         <translation>ударные (звуковысотные)</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="67"/>
+        <location filename="device_common.cpp" line="68"/>
         <source>strings (bowed)</source>
         <translation>струнные (смычковые)</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="68"/>
+        <location filename="device_common.cpp" line="69"/>
         <source>strings (plucked)</source>
         <translation>струнные (щипковые)</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="69"/>
+        <location filename="device_common.cpp" line="70"/>
         <source>brass</source>
         <translation>духовые (медные)</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="70"/>
+        <location filename="device_common.cpp" line="71"/>
         <source>reed</source>
         <translation>язычковые</translation>
     </message>
     <message>
-        <location filename="device_common.cpp" line="71"/>
+        <location filename="device_common.cpp" line="72"/>
         <source>woodwinds</source>
         <translation>духовые (деревянные)</translation>
     </message>
@@ -1577,6 +1702,19 @@ http://ceam.space</source>
     </message>
 </context>
 <context>
+    <name>ceam::Comment</name>
+    <message>
+        <location filename="comment.cpp" line="36"/>
+        <source>Comment</source>
+        <translation>Комментарий</translation>
+    </message>
+    <message>
+        <location filename="comment.cpp" line="54"/>
+        <source>Edit</source>
+        <translation>Правка</translation>
+    </message>
+</context>
+<context>
     <name>ceam::Connection</name>
     <message>
         <location filename="connection.cpp" line="62"/>
@@ -1632,59 +1770,59 @@ http://ceam.space</source>
     </message>
     <message>
         <location filename="device.cpp" line="319"/>
-        <location filename="device.cpp" line="353"/>
+        <location filename="device.cpp" line="669"/>
         <source>Mirror image</source>
         <translation>Отразить изображение</translation>
     </message>
     <message>
         <location filename="device.cpp" line="326"/>
-        <location filename="device.cpp" line="348"/>
+        <location filename="device.cpp" line="573"/>
         <source>Lock</source>
         <translation>Заблокировать</translation>
     </message>
     <message>
         <location filename="device.cpp" line="329"/>
-        <location filename="device.cpp" line="348"/>
+        <location filename="device.cpp" line="573"/>
         <source>Unlock</source>
         <translation>Разблокировать</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="337"/>
+        <location filename="device.cpp" line="554"/>
         <source>Hide title</source>
         <translation>Скрыть название</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="337"/>
+        <location filename="device.cpp" line="554"/>
         <source>Show title</source>
         <translation>Показать название</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="356"/>
+        <location filename="device.cpp" line="676"/>
         <source>Duplicate</source>
         <translation>Дублировать</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="360"/>
+        <location filename="device.cpp" line="685"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="364"/>
+        <location filename="device.cpp" line="694"/>
         <source>Add to favorites</source>
         <translation>Добавить в избранное</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="368"/>
+        <location filename="device.cpp" line="703"/>
         <source>Properties</source>
         <translation>Свойства</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="387"/>
+        <location filename="device.cpp" line="716"/>
         <source>Views</source>
         <translation>Виды</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="388"/>
+        <location filename="device.cpp" line="717"/>
         <source>Logic</source>
         <translation>Логический</translation>
     </message>
@@ -1706,22 +1844,22 @@ http://ceam.space</source>
 <context>
     <name>ceam::DeviceEditor</name>
     <message>
-        <location filename="device_editor.cpp" line="43"/>
+        <location filename="device_editor.cpp" line="60"/>
         <source>&apos;%1&apos; properties</source>
         <translation>Свойства &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="device_editor.cpp" line="91"/>
+        <location filename="device_editor.cpp" line="108"/>
         <source>Logical inputs editor</source>
         <translation>Редактор физических входов</translation>
     </message>
     <message>
-        <location filename="device_editor.cpp" line="99"/>
+        <location filename="device_editor.cpp" line="116"/>
         <source>Logical outputs editor</source>
         <translation>Редактор физических выходов</translation>
     </message>
     <message>
-        <location filename="device_editor.cpp" line="109"/>
+        <location filename="device_editor.cpp" line="126"/>
         <source>User views editor</source>
         <translation>Редактор пользовательских видов</translation>
     </message>
@@ -1807,17 +1945,17 @@ http://ceam.space</source>
 <context>
     <name>ceam::Diagram</name>
     <message>
-        <location filename="diagram.cpp" line="91"/>
+        <location filename="diagram.cpp" line="86"/>
         <source>New project</source>
         <translation>Новый проект</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="855"/>
+        <location filename="diagram.cpp" line="920"/>
         <source>Generated with PatchScene</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1198"/>
+        <location filename="diagram.cpp" line="1263"/>
         <source>&amp;Add device</source>
         <translation>&amp;Добавить элемент</translation>
     </message>
@@ -1834,32 +1972,37 @@ http://ceam.space</source>
         <translation type="vanished">&amp;Установить фоновое изображение</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1210"/>
+        <location filename="diagram.cpp" line="1267"/>
+        <source>&amp;Add comment</source>
+        <translation>Добавить &amp;комментарий</translation>
+    </message>
+    <message>
+        <location filename="diagram.cpp" line="1280"/>
         <source>Align &amp;horizontal</source>
         <translation>Выровнять по &amp;горизонтали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1214"/>
+        <location filename="diagram.cpp" line="1284"/>
         <source>Align &amp;vertical</source>
         <translation>Выровнять по &amp;вертикали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1218"/>
+        <location filename="diagram.cpp" line="1288"/>
         <source>Place in row</source>
         <translation>Разместить в ряд</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1222"/>
+        <location filename="diagram.cpp" line="1292"/>
         <source>Place in column</source>
         <translation>Разместить в столбец</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1229"/>
+        <location filename="diagram.cpp" line="1299"/>
         <source>Distribute horizontal</source>
         <translation>Распределить горизонтально</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1233"/>
+        <location filename="diagram.cpp" line="1303"/>
         <source>Distribute vertical</source>
         <translation>Распределить вертикально</translation>
     </message>
@@ -1984,39 +2127,39 @@ http://ceam.space</source>
         <translation>Масштаб %1%</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="358"/>
+        <location filename="mainwindow.cpp" line="368"/>
         <source>search in library</source>
         <translation>поиск в библиотеке</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="537"/>
+        <location filename="mainwindow.cpp" line="547"/>
         <source>Open image</source>
         <translation>Открыть изображение</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="539"/>
+        <location filename="mainwindow.cpp" line="549"/>
         <source>Image files (*.JPG *.jpg *.jpeg *.PNG *.png *.SVG *.svg)</source>
         <translation>Изображения (*.JPG *.jpg *.jpeg *.PNG *.png *.SVG *.svg)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="738"/>
+        <location filename="mainwindow.cpp" line="748"/>
         <source>Warning</source>
         <translation>Внимание</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="730"/>
+        <location filename="mainwindow.cpp" line="740"/>
         <source>Document is not saved!
 Do you wan&apos;t to save it before closing?</source>
         <translation>Документ не сохранен!
 Сохранить его перед закрытием?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="518"/>
+        <location filename="mainwindow.cpp" line="528"/>
         <source>New Project[*] - PatchScene</source>
         <translation>Новый проект[*] - PatchScene</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="520"/>
+        <location filename="mainwindow.cpp" line="530"/>
         <source>%1[*] - PatchScene</source>
         <translation></translation>
     </message>
@@ -2045,194 +2188,194 @@ Do you wan&apos;t to save it before closing?</source>
         <translation type="vanished">люди</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="830"/>
+        <location filename="mainwindow.cpp" line="840"/>
         <source>Event date: %1</source>
         <translation>Дата события %1</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="773"/>
-        <location filename="mainwindow.cpp" line="833"/>
+        <location filename="mainwindow.cpp" line="783"/>
+        <location filename="mainwindow.cpp" line="843"/>
         <source>Information</source>
         <translation>Информация</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="774"/>
+        <location filename="mainwindow.cpp" line="784"/>
         <source>You are opening the file created in the more recent PatchScene version, then you are using. Some features could be unsupported!</source>
         <translation>Вы открываете файл, созданный в более новой версии PatchScene, чем вы используете сейчас. Некоторые возможности могут быть недоступны!</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="837"/>
+        <location filename="mainwindow.cpp" line="847"/>
         <source>Contacts</source>
         <translation>Контакты</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="839"/>
+        <location filename="mainwindow.cpp" line="849"/>
         <source>Name</source>
         <translation>Имя</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="839"/>
+        <location filename="mainwindow.cpp" line="849"/>
         <source>Work</source>
         <translation>Должность</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="839"/>
+        <location filename="mainwindow.cpp" line="849"/>
         <source>Phone</source>
         <translation>Телефон</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="839"/>
+        <location filename="mainwindow.cpp" line="849"/>
         <source>Email</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="845"/>
+        <location filename="mainwindow.cpp" line="855"/>
         <source>Scheme</source>
         <translation>Схема</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="848"/>
+        <location filename="mainwindow.cpp" line="858"/>
         <source>Devices</source>
         <translation>Устройства</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="851"/>
+        <location filename="mainwindow.cpp" line="861"/>
         <source>Connections</source>
         <translation>Соединения</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="854"/>
+        <location filename="mainwindow.cpp" line="864"/>
         <source>Sends</source>
         <translation>Посылы</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="857"/>
+        <location filename="mainwindow.cpp" line="867"/>
         <source>Returns</source>
         <translation>Возвраты</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="861"/>
+        <location filename="mainwindow.cpp" line="871"/>
         <source>Batteries</source>
         <translation>Батарейки</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="865"/>
+        <location filename="mainwindow.cpp" line="875"/>
         <source>Created with PatchScene v%1</source>
         <translation>Создано при помощи PatchScene v%1</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="932"/>
+        <location filename="mainwindow.cpp" line="942"/>
         <source>Clear</source>
         <translation>Очистить</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="997"/>
+        <location filename="mainwindow.cpp" line="1007"/>
         <source>Save project</source>
         <translation>Сохранить проект</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="997"/>
-        <location filename="mainwindow.cpp" line="1200"/>
+        <location filename="mainwindow.cpp" line="1007"/>
+        <location filename="mainwindow.cpp" line="1210"/>
         <source>PatchScene projects (*.psc)</source>
         <translation>Проекты PatchScene (*.psc)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1026"/>
+        <location filename="mainwindow.cpp" line="1036"/>
         <source>Export element to JSON format</source>
         <translation>Экспорт элемента в JSON формат</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1026"/>
-        <location filename="mainwindow.cpp" line="1117"/>
+        <location filename="mainwindow.cpp" line="1036"/>
+        <location filename="mainwindow.cpp" line="1127"/>
         <source>JSON format (*.json)</source>
         <translation>JSON формат (*.json)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1033"/>
-        <location filename="mainwindow.cpp" line="1042"/>
-        <location filename="mainwindow.cpp" line="1125"/>
+        <location filename="mainwindow.cpp" line="1043"/>
+        <location filename="mainwindow.cpp" line="1052"/>
+        <location filename="mainwindow.cpp" line="1135"/>
         <source>JSON export error</source>
         <translation>Ошибка экспорта в JSON</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1034"/>
+        <location filename="mainwindow.cpp" line="1044"/>
         <source>Can&apos;t open file to writing: &apos;%1&apos;</source>
         <translation>Невозможно открыть файл для записи: &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1043"/>
-        <location filename="mainwindow.cpp" line="1126"/>
+        <location filename="mainwindow.cpp" line="1053"/>
+        <location filename="mainwindow.cpp" line="1136"/>
         <source>Can&apos;t write to file: &apos;%1&apos;</source>
         <translation>Ошибка при записи в файл: &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1056"/>
+        <location filename="mainwindow.cpp" line="1066"/>
         <source>Export scheme to PDF format</source>
         <translation>Экспорт схемы в PDF</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1083"/>
+        <location filename="mainwindow.cpp" line="1093"/>
         <source>Export scheme to PNG format</source>
         <translation>Экспорт схемы в PNG формат</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1083"/>
+        <location filename="mainwindow.cpp" line="1093"/>
         <source>PNG format (*.png)</source>
         <translation>PNG формат (*.png)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1103"/>
+        <location filename="mainwindow.cpp" line="1113"/>
         <source>Export scheme to SVG format</source>
         <translation>Экспорт схемы в SVG формат</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1103"/>
+        <location filename="mainwindow.cpp" line="1113"/>
         <source>SVG format (*.svg)</source>
         <translation>SVG формат (*.svg)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1117"/>
+        <location filename="mainwindow.cpp" line="1127"/>
         <source>Export elements to library</source>
         <translation>Экспортировать элементы в библиотеку</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1139"/>
+        <location filename="mainwindow.cpp" line="1149"/>
         <source>Export to OpenDocument format</source>
         <translation>Экспорт в OpenDocument формат</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1139"/>
+        <location filename="mainwindow.cpp" line="1149"/>
         <source>OpenDocument format (*.odt)</source>
         <translation>OpenDocument формат (*.odt)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1168"/>
+        <location filename="mainwindow.cpp" line="1178"/>
         <source>Export to PDF format</source>
         <translation>Экспорт в PDF формат</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1056"/>
-        <location filename="mainwindow.cpp" line="1168"/>
+        <location filename="mainwindow.cpp" line="1066"/>
+        <location filename="mainwindow.cpp" line="1178"/>
         <source>PDF format (*.pdf)</source>
         <translation>PDF формат (*.pdf)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1193"/>
+        <location filename="mainwindow.cpp" line="1203"/>
         <source>Import favorites</source>
         <translation>Импортировать избранное</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1193"/>
+        <location filename="mainwindow.cpp" line="1203"/>
         <source>Favorites collection (*.json)</source>
         <translation>Коллекция избранного (*.json)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1200"/>
+        <location filename="mainwindow.cpp" line="1210"/>
         <source>Open project</source>
         <translation>Открыть проект</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1213"/>
+        <location filename="mainwindow.cpp" line="1239"/>
         <source>Load &apos;%1&apos;</source>
         <translation>Загружен &apos;%1&apos;</translation>
     </message>
