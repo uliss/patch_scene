@@ -272,7 +272,6 @@ void DeviceEditor::enableWidgets(ItemCategory cat)
         (this->*mem_fn)(isWidgetEnabled(cat, kv.first));
     }
 
-    // ui->gridLayout->activate();
 
     adjustSize();
     adjustSize();
@@ -307,6 +306,8 @@ void DeviceEditor::setupBattery(const SharedDeviceData& data)
     connect(ui->batteryCount, &QSpinBox::valueChanged, this, [this](int v) {
         data_->setBatteryCount(v);
     });
+
+    ui->batteryCapacity->setEnabled(data->batteryType() != BatteryType::None);
 }
 
 void DeviceEditor::setupImageMirror(const SharedDeviceData& data)
