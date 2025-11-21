@@ -85,8 +85,11 @@ constexpr const char* JSON_KEY_INPUTS = "inputs";
 constexpr const char* JSON_KEY_OUTPUTS = "outputs";
 constexpr const char* JSON_KEY_CATEGORY = "category";
 constexpr const char* JSON_KEY_LOCKED = "locked";
+
 constexpr const char* JSON_KEY_BATTERY_TYPE = "battery-type";
 constexpr const char* JSON_KEY_BATTERY_COUNT = "battery-count";
+constexpr const char* JSON_KEY_BATTERY_CAPACITY = "battery-capacity";
+
 constexpr const char* JSON_KEY_SHOW_TITLE = "show-title";
 constexpr const char* JSON_KEY_SUBCAT = "subcat";
 constexpr const char* JSON_KEY_IMAGE_MIRROR = "image-mirror";
@@ -623,6 +626,7 @@ bool DeviceData::operator==(const DeviceData& data) const
         && zoom_ == data.zoom_
         && battery_count_ == data.battery_count_
         && battery_type_ == data.battery_type_
+        && battery_capacity_ == data.battery_capacity_
         && category_ == data.category_
         && show_title_ == data.show_title_
         && info_ == data.info_;
@@ -638,6 +642,7 @@ size_t ceam::qHash(const ceam::DeviceData& data)
         ^ ::qHash(data.pos().toPoint())
         ^ ::qHash(data.zoom())
         ^ ::qHash(data.batteryCount())
+        ^ ::qHash(data.batteryCapacity())
         ^ ::qHash((int)data.batteryType())
         ^ ::qHash((int)data.category())
         ^ ::qHash(data.showTitle());
