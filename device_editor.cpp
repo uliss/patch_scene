@@ -28,12 +28,6 @@
 #include <QFileInfo>
 #include <QStandardItemModel>
 
-namespace {
-
-constexpr int IMG_PREVIEW_SIZE = 30;
-
-} // namespace
-
 using namespace ceam;
 
 #define DECLARE_EDIT(name) { DeviceEditor::name, &DeviceEditor::enable##name##Widgets }
@@ -64,12 +58,8 @@ DeviceEditor::DeviceEditor(const SharedDeviceData& data, QWidget* parent)
     vend_comp->setCaseSensitivity(Qt::CaseInsensitive);
     ui->vendor->setCompleter(vend_comp);
 
-    connect(ui->imageChooseButton, SIGNAL(clicked()), this, SLOT(chooseImageDialog()));
-    ui->currentImage->setStyleSheet("background-color: white;");
-    ui->currentImage->setFrameShape(QFrame::Box);
-    ui->currentImage->setFixedSize(IMG_PREVIEW_SIZE, IMG_PREVIEW_SIZE);
-    ui->currentImage->setAlignment(Qt::AlignCenter);
-    updateImagePreview();
+    connect(ui->currentImage, SIGNAL(clicked()), this, SLOT(chooseImageDialog()));
+    ui->currentImage->setImagePath(data_->imageIconPath());
 
     connect(ui->additionalInfo, &QToolButton::clicked, this,
         [this]() {
@@ -150,7 +140,7 @@ void DeviceEditor::chooseImageDialog()
     connect(dev_pix, &DevicePixmap::choosePixmap, this,
         [this](const QString& iconName) {
             data_->setImage(iconName);
-            updateImagePreview();
+            ui->currentImage->setImagePath(data_->imageIconPath());
         });
     dev_pix->show();
 }
@@ -219,17 +209,6 @@ void DeviceEditor::setupCategories()
             WARN() << "can't get category index";
     });
     ui->category->setCurrentIndex(data_->categoryIndex());
-}
-
-void DeviceEditor::updateImagePreview()
-{
-    if (data_->image().isEmpty()) {
-        ui->currentImage->setText("?");
-    } else {
-        QIcon icon(data_->imageIconPath());
-        if (!icon.isNull())
-            ui->currentImage->setPixmap(icon.pixmap(IMG_PREVIEW_SIZE, IMG_PREVIEW_SIZE));
-    }
 }
 
 void DeviceEditor::enableAdditionalWidgets(bool value)

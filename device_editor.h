@@ -63,8 +63,6 @@ private:
     void setupCategories();
     void setupImageMirror(const SharedDeviceData& data);
 
-    void updateImagePreview();
-
     void enableAdditionalWidgets(bool value);
     void enableBatteryWidgets(bool value);
     void enableInputsWidgets(bool value);

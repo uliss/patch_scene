@@ -13,9 +13,38 @@
  *****************************************************************************/
 #include "image_widget.h"
 
+#include <QMouseEvent>
+
+namespace {
+
+constexpr int IMG_PREVIEW_SIZE = 30;
+
+} // namespace
+
 using namespace ceam;
 
 ImageWidget::ImageWidget(QWidget* parent)
     : QLabel(parent)
 {
+    setStyleSheet("background-color: white;");
+    setFrameShape(QFrame::Box);
+    setFixedSize(IMG_PREVIEW_SIZE, IMG_PREVIEW_SIZE);
+    setAlignment(Qt::AlignCenter);
+}
+
+void ImageWidget::setImagePath(const QString& path)
+{
+    QIcon icon(path);
+    if (!icon.isNull())
+        setPixmap(icon.pixmap(IMG_PREVIEW_SIZE, IMG_PREVIEW_SIZE));
+    else
+        setText("?");
+}
+
+void ImageWidget::mousePressEvent(QMouseEvent* event)
+{
+    if (event->button() == Qt::LeftButton) {
+        emit clicked();
+    } else
+        QLabel::mousePressEvent(event);
 }

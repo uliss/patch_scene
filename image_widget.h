@@ -21,8 +21,17 @@
 namespace ceam {
 
 class ImageWidget : public QLabel {
+    Q_OBJECT
 public:
     explicit ImageWidget(QWidget* parent = nullptr);
+
+    void setImagePath(const QString& path);
+
+signals:
+    void clicked();
+
+protected:
+    void mousePressEvent(QMouseEvent* event) override;
 };
 
 } // namespace ceam
