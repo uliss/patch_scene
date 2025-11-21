@@ -16,272 +16,18 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="4" column="0">
-      <widget class="QLabel" name="imageLabel">
-       <property name="text">
-        <string>Image</string>
-       </property>
-       <property name="buddy">
-        <cstring>imageChooseButton</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="categoryLabel">
-       <property name="text">
-        <string>&amp;Category</string>
-       </property>
-       <property name="buddy">
-        <cstring>category</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <layout class="QHBoxLayout" name="imageLayout">
-       <item>
-        <widget class="QLabel" name="currentImage">
-         <property name="text">
-          <string>...</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QToolButton" name="imageChooseButton">
-         <property name="toolTip">
-          <string>choose device image</string>
-         </property>
-         <property name="text">
-          <string>Choose</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>2</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QLabel" name="zoomLabel">
-         <property name="text">
-          <string>Scale</string>
-         </property>
-         <property name="buddy">
-          <cstring>zoom</cstring>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QDoubleSpinBox" name="zoom">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>80</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="minimum">
-          <double>0.500000000000000</double>
-         </property>
-         <property name="maximum">
-          <double>2.000000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>0.250000000000000</double>
-         </property>
-         <property name="value">
-          <double>1.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="imageMirror">
-         <property name="text">
-          <string>Mirror horizontally</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_5">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>2</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </item>
-     <item row="0" column="1">
-      <layout class="QHBoxLayout" name="nameLayout">
-       <item>
-        <widget class="QLineEdit" name="deviceName"/>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="showTitle">
-         <property name="text">
-          <string>&amp;Show</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="deviceNameLabel">
-       <property name="text">
-        <string>&amp;Name</string>
-       </property>
-       <property name="buddy">
-        <cstring>deviceName</cstring>
-       </property>
-      </widget>
-     </item>
      <item row="5" column="0">
       <widget class="QLabel" name="batteryLabel">
        <property name="text">
         <string>&amp;Batteries</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
        <property name="buddy">
         <cstring>batteryType</cstring>
        </property>
       </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="vendorLabel">
-       <property name="text">
-        <string>Vendor</string>
-       </property>
-       <property name="buddy">
-        <cstring>vendor</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QComboBox" name="batteryType"/>
-       </item>
-       <item>
-        <widget class="QSpinBox" name="batteryCount">
-         <property name="maximum">
-          <number>10</number>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_6">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>2</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </item>
-     <item row="1" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="0,0,0,0,0">
-       <item>
-        <widget class="QLineEdit" name="vendor"/>
-       </item>
-       <item>
-        <widget class="QLabel" name="modelLabel">
-         <property name="text">
-          <string>&amp;Model</string>
-         </property>
-         <property name="buddy">
-          <cstring>model</cstring>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="model"/>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_4">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>2</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QToolButton" name="additionalInfo">
-         <property name="text">
-          <string>Additional</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item row="3" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QToolButton" name="inputsEditLogical">
-         <property name="text">
-          <string>Inputs</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QToolButton" name="outputsEditLogical">
-         <property name="text">
-          <string>Outputs</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QToolButton" name="viewsEdit">
-         <property name="text">
-          <string>User views</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>2</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </item>
-     <item row="2" column="1">
-      <widget class="QComboBox" name="category"/>
      </item>
      <item row="6" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -342,6 +88,338 @@
         </spacer>
        </item>
       </layout>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="vendorLabel">
+       <property name="text">
+        <string>Vendor</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="buddy">
+        <cstring>vendor</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QComboBox" name="batteryType"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Amount</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="batteryCount">
+         <property name="maximum">
+          <number>10</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Capacity</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="batteryCapacity">
+         <property name="suffix">
+          <string>min</string>
+         </property>
+         <property name="maximum">
+          <number>3600</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_6">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>2</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item row="0" column="1">
+      <layout class="QHBoxLayout" name="nameLayout">
+       <item>
+        <widget class="QLineEdit" name="deviceName"/>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="showTitle">
+         <property name="text">
+          <string>&amp;Show</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="deviceNameLabel">
+       <property name="text">
+        <string>&amp;Name</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="buddy">
+        <cstring>deviceName</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="0,0,0,0,0">
+       <item>
+        <widget class="QLineEdit" name="vendor"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="modelLabel">
+         <property name="text">
+          <string>&amp;Model</string>
+         </property>
+         <property name="buddy">
+          <cstring>model</cstring>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="model"/>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Maximum</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>5</width>
+           <height>2</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QToolButton" name="additionalInfo">
+         <property name="text">
+          <string>Additional</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="3" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QToolButton" name="inputsEditLogical">
+         <property name="text">
+          <string>Inputs</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="outputsEditLogical">
+         <property name="text">
+          <string>Outputs</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="viewsEdit">
+         <property name="text">
+          <string>User views</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>2</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item row="4" column="1">
+      <layout class="QHBoxLayout" name="imageLayout">
+       <item>
+        <widget class="QLabel" name="currentImage">
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="imageChooseButton">
+         <property name="toolTip">
+          <string>choose device image</string>
+         </property>
+         <property name="text">
+          <string>Choose</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>5</width>
+           <height>2</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="zoomLabel">
+         <property name="text">
+          <string>Scale</string>
+         </property>
+         <property name="buddy">
+          <cstring>zoom</cstring>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="zoom">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>80</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="minimum">
+          <double>0.500000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>2.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.250000000000000</double>
+         </property>
+         <property name="value">
+          <double>1.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_7">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>5</width>
+           <height>2</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="imageMirror">
+         <property name="text">
+          <string>Mirror horizontally</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>2</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="categoryLabel">
+       <property name="text">
+        <string>&amp;Category</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="buddy">
+        <cstring>category</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="imageLabel">
+       <property name="text">
+        <string>Image</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="buddy">
+        <cstring>imageChooseButton</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QComboBox" name="category"/>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="commutationLabel">
+       <property name="text">
+        <string>Commutation</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="physicsLabel">
+       <property name="text">
+        <string>Physics</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

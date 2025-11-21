@@ -40,6 +40,7 @@ public:
     enum EditorWidgetType {
         Model,
         Vendor,
+        Additional,
         Inputs,
         Outputs,
         Views,
@@ -64,6 +65,7 @@ private:
 
     void updateImagePreview();
 
+    void enableAdditionalWidgets(bool value);
     void enableBatteryWidgets(bool value);
     void enableInputsWidgets(bool value);
     void enableModelWidgets(bool value);

@@ -41,6 +41,7 @@ using namespace ceam;
 std::unordered_map<DeviceEditor::EditorWidgetType, void (DeviceEditor::*)(bool)> DeviceEditor::field_edit_fn_ {
     DECLARE_EDIT(Model),
     DECLARE_EDIT(Vendor),
+    DECLARE_EDIT(Additional),
     DECLARE_EDIT(Battery),
     DECLARE_EDIT(Volume),
     DECLARE_EDIT(Weight),
@@ -161,7 +162,7 @@ bool DeviceEditor::isWidgetEnabled(ItemCategory cat, EditorWidgetType w)
     static const std::unordered_map<ceam::ItemCategory, ItemWidgets> cat_widget_map {
         {
             ItemCategory::Device,
-            ItemWidgets { { Model, Vendor, Inputs, Outputs, Views, Battery, Weight, Volume } },
+            ItemWidgets { { Model, Vendor, Additional, Inputs, Outputs, Views, Battery, Weight, Volume } },
         },
         {
             ItemCategory::Instrument,
@@ -169,11 +170,11 @@ bool DeviceEditor::isWidgetEnabled(ItemCategory cat, EditorWidgetType w)
         },
         {
             ItemCategory::Return,
-            ItemWidgets { { Model, Vendor, Outputs, Views } },
+            ItemWidgets { { Model, Vendor, Additional, Outputs, Views } },
         },
         {
             ItemCategory::Send,
-            ItemWidgets { { Model, Vendor, Inputs, Views } },
+            ItemWidgets { { Model, Vendor, Additional, Inputs, Views } },
         },
         {
             ItemCategory::Furniture,
@@ -231,6 +232,11 @@ void DeviceEditor::updateImagePreview()
     }
 }
 
+void DeviceEditor::enableAdditionalWidgets(bool value)
+{
+    ui->additionalInfo->setVisible(value);
+}
+
 void DeviceEditor::enableBatteryWidgets(bool value)
 {
     ui->batteryCount->setVisible(value);
@@ -283,6 +289,8 @@ void DeviceEditor::enableWidgets(ItemCategory cat)
         auto mem_fn = kv.second;
         (this->*mem_fn)(isWidgetEnabled(cat, kv.first));
     }
+
+    // ui->gridLayout->activate();
 
     adjustSize();
     adjustSize();
