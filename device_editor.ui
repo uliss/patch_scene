@@ -75,6 +75,26 @@
         </widget>
        </item>
        <item>
+        <widget class="QLabel" name="powerLabel">
+         <property name="text">
+          <string>Power</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="powerInput">
+         <property name="suffix">
+          <string> W</string>
+         </property>
+         <property name="maximum">
+          <number>20000</number>
+         </property>
+         <property name="singleStep">
+          <number>100</number>
+         </property>
+        </widget>
+       </item>
+       <item>
         <spacer name="horizontalSpacer_3">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>

@@ -178,23 +178,23 @@
         <translation>Свойства элемента</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="140"/>
+        <location filename="device_editor.ui" line="160"/>
         <source> min</source>
         <translation> мин</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="251"/>
+        <location filename="device_editor.ui" line="274"/>
         <source>User views</source>
         <translation>Пользовательские виды</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="179"/>
+        <location filename="device_editor.ui" line="202"/>
         <source>&amp;Name</source>
         <oldsource>Name</oldsource>
         <translation>&amp;Название</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="352"/>
+        <location filename="device_editor.ui" line="375"/>
         <source>Mirror horizontally</source>
         <translation>Отразить по горизонтали</translation>
     </message>
@@ -225,12 +225,12 @@
         <translation type="vanished">Переместить выход вниз</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="387"/>
+        <location filename="device_editor.ui" line="410"/>
         <source>Image</source>
         <translation>Изображение</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="275"/>
+        <location filename="device_editor.ui" line="298"/>
         <source>...</source>
         <translation></translation>
     </message>
@@ -255,13 +255,23 @@
         <translation> см³</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="113"/>
+        <location filename="device_editor.ui" line="80"/>
+        <source>Power</source>
+        <translation>Мощность</translation>
+    </message>
+    <message>
+        <location filename="device_editor.ui" line="87"/>
+        <source> W</source>
+        <translation> Вт</translation>
+    </message>
+    <message>
+        <location filename="device_editor.ui" line="133"/>
         <source>Count</source>
         <oldsource>Amount</oldsource>
         <translation>Количество</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="133"/>
+        <location filename="device_editor.ui" line="153"/>
         <source>Capacity</source>
         <translation>Ёмкость</translation>
     </message>
@@ -278,27 +288,27 @@
         <translation type="vanished">Выбрать</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="298"/>
+        <location filename="device_editor.ui" line="321"/>
         <source>Scale</source>
         <translation>Масштаб</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="400"/>
+        <location filename="device_editor.ui" line="423"/>
         <source>Commutation</source>
         <translation>Коммутация</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="410"/>
+        <location filename="device_editor.ui" line="433"/>
         <source>Physics</source>
         <translation>Физические параметры</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="226"/>
+        <location filename="device_editor.ui" line="249"/>
         <source>Additional</source>
         <translation>Дополнительно</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="237"/>
+        <location filename="device_editor.ui" line="260"/>
         <source>Inputs</source>
         <translation>Входы</translation>
     </message>
@@ -317,12 +327,12 @@
         <translation type="vanished">Логические столбцы:</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="244"/>
+        <location filename="device_editor.ui" line="267"/>
         <source>Outputs</source>
         <translation>Выходы</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="170"/>
+        <location filename="device_editor.ui" line="193"/>
         <source>&amp;Show</source>
         <oldsource>Show</oldsource>
         <translation>&amp;Показывать</translation>
@@ -332,7 +342,7 @@
         <translation type="vanished">добавить вход</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="95"/>
+        <location filename="device_editor.ui" line="115"/>
         <source>Vendor</source>
         <translation>Производитель</translation>
     </message>
@@ -341,7 +351,7 @@
         <translation type="vanished">Виды:</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="197"/>
+        <location filename="device_editor.ui" line="220"/>
         <source>&amp;Model</source>
         <oldsource>Model</oldsource>
         <translation>&amp;Модель</translation>
@@ -363,7 +373,7 @@
         <translation type="vanished">удалить выход</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="374"/>
+        <location filename="device_editor.ui" line="397"/>
         <source>&amp;Category</source>
         <oldsource>Category</oldsource>
         <translation>&amp;Категория</translation>

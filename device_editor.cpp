@@ -39,6 +39,7 @@ std::unordered_map<DeviceEditor::EditorWidgetType, void (DeviceEditor::*)(bool)>
     DECLARE_EDIT(Battery),
     DECLARE_EDIT(Volume),
     DECLARE_EDIT(Weight),
+    DECLARE_EDIT(Power),
     DECLARE_EDIT(Views),
     DECLARE_EDIT(Inputs),
     DECLARE_EDIT(Outputs),
@@ -120,6 +121,7 @@ DeviceEditor::DeviceEditor(const SharedDeviceData& data, QWidget* parent)
     setupCategories();
     setupBattery(data);
     setupImageMirror(data);
+    setupPhysics();
 }
 
 DeviceEditor::~DeviceEditor()
@@ -152,11 +154,11 @@ bool DeviceEditor::isWidgetEnabled(ItemCategory cat, EditorWidgetType w)
     static const std::unordered_map<ceam::ItemCategory, ItemWidgets> cat_widget_map {
         {
             ItemCategory::Device,
-            ItemWidgets { { Model, Vendor, Additional, Inputs, Outputs, Views, Battery, Weight, Volume } },
+            ItemWidgets { { Model, Vendor, Additional, Inputs, Outputs, Views, Battery, Weight, Volume, Power } },
         },
         {
             ItemCategory::Instrument,
-            ItemWidgets { { Inputs, Outputs, Battery, Weight, Volume } },
+            ItemWidgets { { Inputs, Outputs, Battery, Weight, Volume, Power } },
         },
         {
             ItemCategory::Return,
@@ -168,7 +170,7 @@ bool DeviceEditor::isWidgetEnabled(ItemCategory cat, EditorWidgetType w)
         },
         {
             ItemCategory::Furniture,
-            ItemWidgets { { Battery, Weight, Volume } },
+            ItemWidgets { { Battery, Weight, Volume, Power } },
         },
         {
             ItemCategory::Human,
@@ -242,6 +244,12 @@ void DeviceEditor::enableOutputsWidgets(bool value)
     ui->outputsEditLogical->setVisible(value);
 }
 
+void DeviceEditor::enablePowerWidgets(bool value)
+{
+    ui->powerLabel->setVisible(value);
+    ui->powerInput->setVisible(value);
+}
+
 void DeviceEditor::enableVendorWidgets(bool value)
 {
     ui->vendor->setVisible(value);
@@ -277,7 +285,8 @@ void DeviceEditor::enableWidgets(ItemCategory cat)
         || isWidgetEnabled(cat, Views));
 
     ui->physicsLabel->setVisible(isWidgetEnabled(cat, Weight)
-        || isWidgetEnabled(cat, Volume));
+        || isWidgetEnabled(cat, Volume)
+        || isWidgetEnabled(cat, Power));
 
     adjustSize();
     adjustSize();
@@ -317,6 +326,25 @@ void DeviceEditor::setupBattery(const SharedDeviceData& data)
     ui->batteryCapacity->setEnabled(data->batteryType() != BatteryType::None);
     connect(ui->batteryCapacity, &QSpinBox::valueChanged, this, [this](int v) {
         data_->setBatteryCapacity(v);
+    });
+}
+
+void DeviceEditor::setupPhysics()
+{
+    ui->weightInput->setValue(data_->weight());
+    ui->volumeInput->setValue(data_->volume());
+    ui->powerInput->setValue(data_->power());
+
+    connect(ui->weightInput, &QDoubleSpinBox::valueChanged, this, [this](qreal v) {
+        data_->setWeight(v);
+    });
+
+    connect(ui->volumeInput, &QDoubleSpinBox::valueChanged, this, [this](qreal v) {
+        data_->setVolume(v);
+    });
+
+    connect(ui->powerInput, &QSpinBox::valueChanged, this, [this](int v) {
+        data_->setPower(v);
     });
 }
 

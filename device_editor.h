@@ -45,6 +45,7 @@ public:
         Outputs,
         Views,
         Battery,
+        Power,
         Weight,
         Volume,
     };
@@ -60,6 +61,7 @@ public Q_SLOTS:
 
 private:
     void setupBattery(const SharedDeviceData& data);
+    void setupPhysics();
     void setupCategories();
     void setupImageMirror(const SharedDeviceData& data);
 
@@ -68,6 +70,7 @@ private:
     void enableInputsWidgets(bool value);
     void enableModelWidgets(bool value);
     void enableOutputsWidgets(bool value);
+    void enablePowerWidgets(bool value);
     void enableVendorWidgets(bool value);
     void enableViewsWidgets(bool value);
     void enableVolumeWidgets(bool value);
