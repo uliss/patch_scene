@@ -23,6 +23,7 @@ private slots:
     void initTestCase();
 
     void add();
+    void addComment();
     void boundingRect();
     void checkConnection();
     void clear();

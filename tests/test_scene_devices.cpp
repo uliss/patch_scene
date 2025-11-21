@@ -12,6 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "test_scene_devices.h"
+#include "comment.h"
 #include "device.h"
 #include "scene_devices.h"
 
@@ -73,6 +74,14 @@ SharedDeviceData data4(DeviceId id)
     data->setTitle("DATA4");
     data->appendInput(XletData {});
     data->appendOutput(XletData {});
+    return SharedDeviceData { data };
+}
+
+SharedDeviceData data_comment(DeviceId id)
+{
+    auto data = new DeviceData(id);
+    data->setTitle("COMMENT");
+    data->setCategory(ItemCategory::Comment);
     return SharedDeviceData { data };
 }
 
@@ -163,6 +172,28 @@ void TestSceneDevices::add()
     QVERIFY(dev.find(102));
     QCOMPARE(dev.find(102)->id(), 102);
     QVERIFY(!dev.find(103));
+
+    // add comment data
+    dev.clear();
+    auto c0 = dev.add(data_comment(200));
+    QVERIFY(c0);
+    QCOMPARE(sig_spy.count(), 6);
+    QCOMPARE(c0->deviceData()->title(), "Comment");
+    QVERIFY(dynamic_cast<Comment*>(c0) != nullptr);
+}
+
+void TestSceneDevices::addComment()
+{
+    SceneDevices dev;
+    QSignalSpy sig_spy(&dev, SIGNAL(added(SharedDeviceData)));
+    QVERIFY(sig_spy.isValid());
+
+    QGraphicsScene scene;
+    dev.setScene(&scene);
+
+    QVERIFY(dev.addComment());
+    QCOMPARE(dev.count(), 1);
+    QCOMPARE(sig_spy.count(), 0);
 }
 
 void TestSceneDevices::remove()
