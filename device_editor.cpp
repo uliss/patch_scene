@@ -272,6 +272,12 @@ void DeviceEditor::enableWidgets(ItemCategory cat)
         (this->*mem_fn)(isWidgetEnabled(cat, kv.first));
     }
 
+    ui->commutationLabel->setVisible(isWidgetEnabled(cat, Inputs)
+        || isWidgetEnabled(cat, Outputs)
+        || isWidgetEnabled(cat, Views));
+
+    ui->physicsLabel->setVisible(isWidgetEnabled(cat, Weight)
+        || isWidgetEnabled(cat, Volume));
 
     adjustSize();
     adjustSize();
