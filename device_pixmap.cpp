@@ -71,6 +71,8 @@ DevicePixmap::DevicePixmap(QWidget* parent)
     }
 
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(selectImage()));
+
+    connect(ui->imageTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(doubleClicked(QModelIndex)));
 }
 
 DevicePixmap::~DevicePixmap()
@@ -102,6 +104,21 @@ void DevicePixmap::selectImage()
     const auto row = ui->imageTable->currentRow();
     const auto col = ui->imageTable->currentColumn();
 
+    setImageCell(row, col);
+}
+
+void DevicePixmap::doubleClicked(const QModelIndex& index)
+{
+    if (index.isValid()) {
+        auto row = index.row();
+        auto col = index.column();
+        setImageCell(row, col);
+        close();
+    }
+}
+
+void DevicePixmap::setImageCell(int row, int col)
+{
     if (row >= 0 && col >= 0) {
         auto w = qobject_cast<QLabel*>(ui->imageTable->cellWidget(row, col));
         if (w) {

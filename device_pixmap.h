@@ -21,12 +21,11 @@ class DevicePixmap;
 }
 
 namespace ceam {
-class DevicePixmap : public QDialog
-{
+class DevicePixmap : public QDialog {
     Q_OBJECT
 
 public:
-    explicit DevicePixmap(QWidget *parent = nullptr);
+    explicit DevicePixmap(QWidget* parent = nullptr);
     ~DevicePixmap();
 
     void setCurrent(const QString& file);
@@ -36,10 +35,14 @@ signals:
 
 public slots:
     void selectImage();
+    void doubleClicked(const QModelIndex& index);
 
 private:
-    Ui::DevicePixmap *ui;
+    void setImageCell(int row, int col);
+
+private:
+    Ui::DevicePixmap* ui;
 };
-}  // namespace ceam
+} // namespace ceam
 
 #endif // DEVICE_PIXMAP_H
