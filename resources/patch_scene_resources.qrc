@@ -236,5 +236,6 @@
         <file>icons/person.svg</file>
         <file>icons/event_seat.svg</file>
         <file>icons/table.svg</file>
+        <file>devices/midas_mr18.svg</file>
     </qresource>
 </RCC>
