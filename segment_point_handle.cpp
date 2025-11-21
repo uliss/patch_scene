@@ -12,7 +12,6 @@
  * this file belongs to.
  *****************************************************************************/
 #include "segment_point_handle.h"
-#include "logging.hpp"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QPen>

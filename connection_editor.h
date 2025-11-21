@@ -15,6 +15,7 @@
 #define CONNECTION_EDITOR_H
 
 #include "connection_data.h"
+#include "user_item_types.h"
 
 #include <QGraphicsObject>
 #include <QMouseEvent>
@@ -25,11 +26,11 @@ class ConnectionEditor : public QGraphicsObject {
     Q_OBJECT
 
 public:
-    enum { Type = QGraphicsItem::UserType + 5 };
+    enum { Type = UserTypeConnectionEditor };
     int type() const override { return Type; }
 
 public:
-    ConnectionEditor(QObject* parent = nullptr);
+    explicit ConnectionEditor(QObject* parent = nullptr);
 
     void setConnectionData(const ConnectionId& id, const ConnectionViewData& viewData);
 

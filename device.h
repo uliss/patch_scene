@@ -16,6 +16,7 @@
 
 #include "device_common.h"
 #include "device_xlet_view.h"
+#include "user_item_types.h"
 
 #include <QAction>
 #include <QGraphicsObject>
@@ -29,7 +30,7 @@ class DeviceXlet;
 class Device : public QGraphicsObject {
     Q_OBJECT
 public:
-    enum { Type = QGraphicsItem::UserType + 1 };
+    enum { Type = UserTypeDevice };
     int type() const override { return Type; }
 
 public:

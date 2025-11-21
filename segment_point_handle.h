@@ -14,13 +14,15 @@
 #ifndef SEGMENT_POINT_HANDLE_H
 #define SEGMENT_POINT_HANDLE_H
 
+#include "user_item_types.h"
+
 #include <QGraphicsEllipseItem>
 
 namespace ceam {
 
 class SegmentPointHandle : public QGraphicsEllipseItem {
 public:
-    enum { Type = QGraphicsItem::UserType + 6 };
+    enum { Type = UserTypeSegmentPointHandle };
     int type() const override { return Type; }
 
 public:

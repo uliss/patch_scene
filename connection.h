@@ -16,6 +16,7 @@
 
 #include "connection_data.h"
 #include "connection_database.h"
+#include "user_item_types.h"
 
 #include <QGraphicsItem>
 
@@ -30,7 +31,7 @@ class Connection : public QGraphicsObject {
     Q_OBJECT
 
 public:
-    enum { Type = QGraphicsItem::UserType + 2 };
+    enum { Type = UserTypeConnection };
     int type() const override { return Type; }
 
 public:

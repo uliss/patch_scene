@@ -16,6 +16,7 @@
 
 #include "connector_type.h"
 #include "socket.h"
+#include "user_item_types.h"
 #include "xlet_info.h"
 
 #include <QGraphicsRectItem>
@@ -84,7 +85,7 @@ size_t qHash(const XletData& data);
 class DeviceXlet : public QGraphicsObject {
     Q_OBJECT
 public:
-    enum { Type = QGraphicsItem::UserType + 3 };
+    enum { Type = UserTypeXlet };
     int type() const override { return Type; }
 
 public:
@@ -116,6 +117,6 @@ private:
     bool drag_mode_ { false }, self_drag_ { false };
 };
 
-}  // namespace ceam
+} // namespace ceam
 
 #endif // DEVICE_XLET_H
