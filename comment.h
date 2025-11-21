@@ -20,9 +20,6 @@ namespace ceam {
 
 class Comment : public Device {
     Q_OBJECT
-public:
-    enum { Type = UserItemTypeComment };
-    int type() const override { return Type; }
 
 public:
     Comment();
