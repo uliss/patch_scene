@@ -25,20 +25,26 @@ const BatteryMapType& batteryNameMap()
     // clang-format off
     static const BatteryMapType map_ = {
                                         { BatteryType::None,        { "None",         "none" } },
+                                        { BatteryType::A23,         { "A23",          "a23" } },
+                                        { BatteryType::A27,         { "A27",          "a27" } },
                                         { BatteryType::AA,          { "AA",           "aa" } },
                                         { BatteryType::AAA,         { "AAA",          "aaa" } },
                                         { BatteryType::AAAA,        { "AAAA",         "aaaa" } },
                                         { BatteryType::B,           { "B",            "b" } },
                                         { BatteryType::C,           { "C",            "c" } },
-                                        { BatteryType::A23,         { "A23",          "a23" } },
-                                        { BatteryType::A27,         { "A27",          "a27" } },
+                                        { BatteryType::CR2016,      { "CR2016",       "cr2016" } },
+                                        { BatteryType::CR2025,      { "CR2025",       "cr2025" } },
+                                        { BatteryType::CR2032,      { "CR2032",       "cr2032" } },
+                                        { BatteryType::D,           { "D",            "d" } },
+                                        { BatteryType::LR44,        { "LR44",         "lr44" } },
                                         { BatteryType::PP3_Krona,   { "PP3 (Krona)",  "krona" } },
+                                        { BatteryType::R12x3,       { "3R12",         "3r12" } },
                                         };
     // clang-format on
     return map_;
 }
 
-}
+} // namespace
 
 namespace ceam {
 
@@ -66,11 +72,11 @@ BatteryType fromJsonString(const QString& str)
     return BatteryType::None;
 }
 
-void foreachBatteryType(std::function<void(const char*, int)> fn)
+void foreachBatteryType(const std::function<void(const char*, int)>& fn)
 {
     for (int i = static_cast<int>(BatteryType::None);
-         i < static_cast<int>(BatteryType::MaxBattery_);
-         i++) //
+        i < static_cast<int>(BatteryType::MaxBattery_);
+        i++) //
     {
         fn(toString(static_cast<BatteryType>(i)), i);
     }

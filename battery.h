@@ -23,21 +23,27 @@ namespace ceam {
 
 enum class BatteryType : std::uint8_t {
     None,
+    A23,
+    A27,
     AA,
     AAA,
     AAAA,
-    PP3_Krona,
     B,
     C,
-    A23,
-    A27,
+    CR2016,
+    CR2025,
+    CR2032,
+    D,
+    LR44,
+    PP3_Krona,
+    R12x3,
     MaxBattery_,
 };
 
 const char* toString(BatteryType type);
 const char* toJsonString(BatteryType type);
 BatteryType fromJsonString(const QString& str);
-void foreachBatteryType(std::function<void(const char*, int)> fn);
+void foreachBatteryType(const std::function<void(const char*, int)>& fn);
 
 class BatteryChange {
     BatteryType typeA_ { BatteryType::None }, typeB_ { BatteryType::None };
