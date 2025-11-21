@@ -73,7 +73,13 @@ Device* SceneDevices::add(const SharedDeviceData& data)
     if (!scene_ || !data)
         return nullptr;
 
-    auto dev = new Device(data);
+    Device* dev = nullptr;
+    if (data->category() == ItemCategory::Comment) {
+        dev = new Comment();
+    } else {
+        dev = new Device(data);
+    }
+
     scene_->addItem(dev);
 
     auto id = dev->id();
