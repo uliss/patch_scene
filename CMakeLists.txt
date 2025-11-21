@@ -396,3 +396,16 @@ if(WIN32)
     configure_file(scripts/mingw_deploy_all.sh ${PROJECT_BINARY_DIR}/deploy.sh @ONLY)
     install(SCRIPT ${PROJECT_BINARY_DIR}/mingw_deploy.cmake)
 endif()
+
+# SVG optimization
+find_program(SVGO_EXE
+             NAMES svgo
+             DOC "tool for optimizing SVG vector graphics files")
+
+if(SVGO_EXE)
+    message(STATUS "Found svgo executable: ${SVGO_EXE}")
+    add_custom_target(svgo_devices
+        COMMAND ${SVGO_EXE} --pretty --recursive --folder "${PROJECT_SOURCE_DIR}/resources/devices/"
+        USES_TERMINAL
+    )
+endif()
