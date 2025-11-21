@@ -313,6 +313,7 @@ void DeviceEditor::setupBattery(const SharedDeviceData& data)
         data_->setBatteryCount(v);
     });
 
+    ui->batteryCapacity->setValue(data->batteryCapacity());
     ui->batteryCapacity->setEnabled(data->batteryType() != BatteryType::None);
 }
 

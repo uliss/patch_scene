@@ -52,7 +52,7 @@ public:
     BatteryType typeA() const { return typeA_; }
     BatteryType typeB() const { return typeB_; }
 
-    operator bool() const;
+    explicit operator bool() const;
 };
 } // namespace ceam
 

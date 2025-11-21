@@ -503,6 +503,11 @@ void DeviceData::setBatteryCount(int v)
     battery_count_ = qBound(0, v, 10);
 }
 
+void DeviceData::setBatteryCapacity(int v)
+{
+    battery_capacity_ = qBound(0, v, 3600);
+}
+
 void DeviceData::setBatteryType(int type)
 {
     if (type < static_cast<int>(BatteryType::None) || type >= static_cast<int>(BatteryType::MaxBattery_))

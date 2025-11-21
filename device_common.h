@@ -186,6 +186,12 @@ public:
     int batteryCount() const { return battery_count_; }
     void setBatteryCount(int v);
 
+    /**
+     * battery capacity in minutes
+     */
+    int batteryCapacity() const { return battery_capacity_; }
+    void setBatteryCapacity(int v);
+
     BatteryType batteryType() const { return battery_type_; }
     void setBatteryType(int type);
     BatteryChange calcBatteryChange(const DeviceData& data) const;
@@ -259,6 +265,7 @@ private:
     float zvalue_ = { 1 };
     DeviceId id_ { 0 };
     int battery_count_ { 0 };
+    int battery_capacity_ { 0 };
     SubCategory subcat_;
     ItemCategory category_ { ItemCategory::Device };
     BatteryType battery_type_ { BatteryType::None };
