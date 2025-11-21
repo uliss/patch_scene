@@ -28,13 +28,13 @@
 #include <QSvgGenerator>
 
 #include "app_version.h"
+#include "comment.h"
 #include "device.h"
 #include "diagram_scene.h"
 #include "diagram_updates_blocker.h"
 #include "logging.hpp"
 #include "scale_widget.h"
 #include "undo_commands.h"
-#include "comment.h"
 
 using namespace ceam;
 
@@ -63,7 +63,7 @@ constexpr const char* JSON_KEY_VERSION_MAJOR = "version-major";
 constexpr const char* JSON_KEY_VERSION_MINOR = "version-minor";
 constexpr const char* JSON_KEY_VERSION_PATCH = "version-patch";
 
-}  // namespace
+} // namespace
 
 void Diagram::initUndoStack()
 {
@@ -1077,7 +1077,7 @@ void Diagram::mousePressEvent(QMouseEvent* event)
         auto elem = items(event->pos());
         bool device_found = std::any_of(elem.begin(), elem.end(), [](QGraphicsItem* x) { return qgraphicsitem_cast<Device*>(x); });
 
-        if (device_found) {
+        if (device_found) { // click on a single device
             const auto xlet = hoverDeviceXlet(elem, event->pos());
 
             if (xlet) {
@@ -1113,11 +1113,11 @@ void Diagram::mousePressEvent(QMouseEvent* event)
             event->accept();
         } else if (
             elem.size() > 0
-            && elem[0]) {
+            && elem[0]) { // handle click on device parts
             QGraphicsView::mousePressEvent(event);
         }
 
-        if (!event->isAccepted()) {
+        if (!event->isAccepted() || !device_found) { // unhandled device click or empty space click
             connections_->unselectAll();
             startSelectionAt(event->pos());
             state_machine_.setState(DiagramState::SelectionRect);
