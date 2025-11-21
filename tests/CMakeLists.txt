@@ -29,7 +29,8 @@ qt_add_executable(
     test_segment_points.h test_segment_points.cpp
     test_xlets_user_view.h test_xlets_user_view.cpp
     test_connection_view_data.h test_connection_view_data.cpp
-    test_common.h test_common.cpp)
+    test_common.h test_common.cpp
+    test_comment.h test_comment.cpp)
 
 add_custom_target(
     test_src
