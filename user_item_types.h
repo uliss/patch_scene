@@ -20,6 +20,7 @@ namespace ceam {
 
 enum ItemUserType {
     UserTypeDevice = QGraphicsItem::UserType + 1,
+    UserTypeComment,
     UserTypeConnection,
     UserTypeXlet,
     UserTypeConnectionEditor,
