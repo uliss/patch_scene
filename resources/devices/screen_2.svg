@@ -1,3 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="120" height="120">
+    <path d="M3.101 76.275h114.412v11.472H3.101z" style="fill:gray;stroke-width:3.77953;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4.7"/>
+    <path d="M8.992 11.472h102.01v64.182H8.992z" style="fill:#fff;stroke-width:3.77953;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4.7"/>
+    <path d="M2.17.93h114.412v11.472H2.17z" style="fill:gray;stroke-width:3.77953;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4.7"/>
     <path d="M116.93 14.04a1.954 1.954 0 0 0 1.953-1.953V1.954c0-1.08-.875-1.954-1.954-1.954H3.071a1.954 1.954 0 0 0-1.954 1.954v10.133c0 1.08.875 1.954 1.954 1.954h3.693v60.877H3.07a1.954 1.954 0 0 0-1.954 1.954v10.133c0 1.08.875 1.954 1.954 1.954h54.975v6.017l-21.32 21.701a1.953 1.953 0 1 0 2.787 2.738l7.56-7.694h25.855l7.56 7.694a1.954 1.954 0 0 0 2.787-2.738l-21.32-21.701v-6.017h54.975a1.954 1.954 0 0 0 1.954-1.954V76.872c0-1.08-.875-1.954-1.954-1.954h-3.693V14.041Zm-47.841 93.773H50.91L60 98.562zm45.887-28.988v6.226H5.024v-6.226h106.259zM10.67 74.918V14.04h98.658v60.877ZM5.024 10.133V3.907h109.952v6.226z"/>
 </svg>
