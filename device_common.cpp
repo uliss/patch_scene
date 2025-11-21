@@ -112,6 +112,7 @@ constexpr const char* JSON_KEY_COLOR_TEXT = "color-text";
 constexpr const char* JSON_MIRROR_HORIZONTAL = "horizontal";
 
 constexpr int MAX_BATTERIES_COUNT = 10;
+constexpr int MAX_BATTERY_CAPACITY_MINUTES = 3600;
 
 QString readLocalizedKey(const QJsonObject& obj, const QString& key, const QString& lang)
 {
@@ -318,8 +319,10 @@ bool DeviceData::setJson(const QJsonValue& v)
     setXletJson(obj.value(JSON_KEY_INPUTS), inputs_);
     setXletJson(obj.value(JSON_KEY_OUTPUTS), outputs_);
 
-    battery_count_ = qBound<int>(0, obj.value(JSON_KEY_BATTERY_COUNT).toInt(), MAX_BATTERIES_COUNT);
+    // batteries
     battery_type_ = fromJsonString(obj.value(JSON_KEY_BATTERY_TYPE).toString());
+    setBatteryCount(obj.value(JSON_KEY_BATTERY_COUNT).toInt());
+    setBatteryCapacity(obj.value(JSON_KEY_BATTERY_CAPACITY).toInt());
 
     show_title_ = obj[JSON_KEY_SHOW_TITLE].toBool(true);
     locked_ = obj[JSON_KEY_LOCKED].toBool(false);
@@ -436,8 +439,12 @@ QJsonObject DeviceData::toJson() const
     // json["zvalue"] = data_->zvalue;
     json[JSON_KEY_IMAGE] = image_;
     json[JSON_KEY_CATEGORY] = toString(category_);
+
+    // battery
     json[JSON_KEY_BATTERY_TYPE] = toJsonString(battery_type_);
     json[JSON_KEY_BATTERY_COUNT] = battery_count_;
+    if (battery_capacity_ > 0)
+        json[JSON_KEY_BATTERY_CAPACITY] = battery_capacity_;
 
     json[JSON_KEY_INPUTS] = xletToJson(inputs_);
     json[JSON_KEY_OUTPUTS] = xletToJson(outputs_);
@@ -503,12 +510,12 @@ bool DeviceData::hasAnyXput() const
 
 void DeviceData::setBatteryCount(int v)
 {
-    battery_count_ = qBound(0, v, 10);
+    battery_count_ = qBound(0, v, MAX_BATTERIES_COUNT);
 }
 
 void DeviceData::setBatteryCapacity(int v)
 {
-    battery_capacity_ = qBound(0, v, 3600);
+    battery_capacity_ = qBound(0, v, MAX_BATTERY_CAPACITY_MINUTES);
 }
 
 void DeviceData::setBatteryType(int type)
