@@ -196,6 +196,12 @@ public:
     void setBatteryType(int type);
     BatteryChange calcBatteryChange(const DeviceData& data) const;
 
+    /**
+     * power in watts
+     */
+    qreal power() const { return power_; }
+    void setPower(qreal v);
+
     size_t calcModelId() const;
 
     bool showTitle() const { return show_title_; }
@@ -266,6 +272,7 @@ private:
     DeviceId id_ { 0 };
     int battery_count_ { 0 };
     int battery_capacity_ { 0 };
+    int power_ { 0 };
     SubCategory subcat_;
     ItemCategory category_ { ItemCategory::Device };
     BatteryType battery_type_ { BatteryType::None };

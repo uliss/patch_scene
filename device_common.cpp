@@ -89,6 +89,7 @@ constexpr const char* JSON_KEY_LOCKED = "locked";
 constexpr const char* JSON_KEY_BATTERY_TYPE = "battery-type";
 constexpr const char* JSON_KEY_BATTERY_COUNT = "battery-count";
 constexpr const char* JSON_KEY_BATTERY_CAPACITY = "battery-capacity";
+constexpr const char* JSON_KEY_POWER = "power";
 
 constexpr const char* JSON_KEY_SHOW_TITLE = "show-title";
 constexpr const char* JSON_KEY_SUBCAT = "subcat";
@@ -113,6 +114,7 @@ constexpr const char* JSON_MIRROR_HORIZONTAL = "horizontal";
 
 constexpr int MAX_BATTERIES_COUNT = 10;
 constexpr int MAX_BATTERY_CAPACITY_MINUTES = 3600;
+constexpr int MAX_ENERGY_WATT_PER_HOUR = 20000;
 
 QString readLocalizedKey(const QJsonObject& obj, const QString& key, const QString& lang)
 {
@@ -324,6 +326,9 @@ bool DeviceData::setJson(const QJsonValue& v)
     setBatteryCount(obj.value(JSON_KEY_BATTERY_COUNT).toInt());
     setBatteryCapacity(obj.value(JSON_KEY_BATTERY_CAPACITY).toInt());
 
+    // power
+    setPower(obj.value(JSON_KEY_POWER).toDouble());
+
     show_title_ = obj[JSON_KEY_SHOW_TITLE].toBool(true);
     locked_ = obj[JSON_KEY_LOCKED].toBool(false);
 
@@ -446,6 +451,9 @@ QJsonObject DeviceData::toJson() const
     if (battery_capacity_ > 0)
         json[JSON_KEY_BATTERY_CAPACITY] = battery_capacity_;
 
+    if (power_ > 0)
+        json[JSON_KEY_POWER] = power_;
+
     json[JSON_KEY_INPUTS] = xletToJson(inputs_);
     json[JSON_KEY_OUTPUTS] = xletToJson(outputs_);
     json[JSON_KEY_SHOW_TITLE] = show_title_;
@@ -529,6 +537,11 @@ void DeviceData::setBatteryType(int type)
 BatteryChange DeviceData::calcBatteryChange(const DeviceData& data) const
 {
     return BatteryChange(battery_type_, battery_count_, data.battery_type_, data.battery_count_);
+}
+
+void DeviceData::setPower(qreal v)
+{
+    power_ = qBound<typeof(qreal)>(0, v, MAX_ENERGY_WATT_PER_HOUR);
 }
 
 size_t DeviceData::calcModelId() const

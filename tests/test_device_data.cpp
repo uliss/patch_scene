@@ -53,8 +53,10 @@ void TestDeviceData::toJson()
     QVERIFY(j.contains("zoom"));
     QVERIFY(j.contains("image"));
     QVERIFY(j.contains("category"));
+
     QVERIFY(j.contains("battery-type"));
     QVERIFY(j.contains("battery-count"));
+
     QVERIFY(j.contains("inputs"));
     QVERIFY(j.contains("outputs"));
     QVERIFY(j.contains("show-title"));
@@ -127,6 +129,23 @@ void TestDeviceData::toJson()
     data.setTextColor({});
     j = data.toJson();
     QVERIFY(!j.contains("color-text"));
+
+
+    data.setBatteryCapacity(100);
+    j = data.toJson();
+    QVERIFY(j.contains("battery-capacity"));
+
+    data.setBatteryCapacity(0);
+    j = data.toJson();
+    QVERIFY(!j.contains("battery-capacity"));
+
+    data.setPower(100);
+    j = data.toJson();
+    QVERIFY(j.contains("power"));
+
+    data.setPower(0.0);
+    j = data.toJson();
+    QVERIFY(!j.contains("power"));
 }
 
 void TestDeviceData::fromJson()
@@ -237,6 +256,34 @@ void TestDeviceData::fromJson()
     j["color-background"] = "??XXX";
     QVERIFY(data.setJson(j));
     QCOMPARE(data.backgroundColor(), QColor());
+
+    j["battery-capacity"] = -1;
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.batteryCapacity(), 0);
+
+    j["battery-capacity"] = 0;
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.batteryCapacity(), 0);
+
+    j["battery-capacity"] = 3600;
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.batteryCapacity(), 3600);
+
+    j["battery-capacity"] = 3601;
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.batteryCapacity(), 3600);
+
+    j["power"] = -1;
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.power(), 0);
+
+    j["power"] = 20000;
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.power(), 20000);
+
+    j["power"] = 20001;
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.power(), 20000);
 }
 
 void TestDeviceData::testJson()
