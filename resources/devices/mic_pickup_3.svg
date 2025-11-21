@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="40" height="45">
     <g transform="translate(-55.327 -14.227)">
-        <path d="M93.042 35.356c-.054-12.024-9.53-18.652-17.52-18.627S58.335 22.723 57.58 35.177c0 0-1.235 1.104-1.418 1.818-.139.539-.054 9.51-.054 10.352s3.472.852 3.45-.054c.022-.54 0-2.696 0-2.696M93.075 35.392s1.234 1.104 1.418 1.818c.139.539.053 9.51.054 10.352 0 .841-3.473.851-3.45-.054-.022-.54 0-2.696 0-2.696M91.76 48.138s-.564 6.954-5.573 6.954h-5.04" style="fill:none;fill-opacity:0;stroke:#000;stroke-width:1.51006;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.7;stroke-dasharray:none"/>
+        <path d="M93.042 35.356c-.054-12.024-9.53-18.652-17.52-18.627S58.335 22.723 57.58 35.177c0 0-1.235 1.104-1.418 1.818-.139.539-.054 9.51-.054 10.352s3.472.852 3.45-.054c.022-.54 0-2.696 0-2.696m33.517-9.205s1.234 1.104 1.418 1.818c.139.539.053 9.51.054 10.352 0 .841-3.473.851-3.45-.054-.022-.54 0-2.696 0-2.696m.663 3.326s-.564 6.954-5.573 6.954h-5.04" style="fill:none;fill-opacity:0;stroke:#000;stroke-width:1.51006;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.7;stroke-dasharray:none"/>
         <rect width="5.624" height="3.149" x="75.426" y="53.574" rx="2.861" ry="3.128" style="fill:none;fill-opacity:0;stroke:#000;stroke-width:1.51006;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.7;stroke-dasharray:none"/>
     </g>
 </svg>
