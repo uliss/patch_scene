@@ -26,7 +26,7 @@ class ConnectionEditor : public QGraphicsObject {
     Q_OBJECT
 
 public:
-    enum { Type = UserTypeConnectionEditor };
+    enum { Type = UserItemTypeConnectionEditor };
     int type() const override { return Type; }
 
 public:

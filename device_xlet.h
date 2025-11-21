@@ -85,7 +85,7 @@ size_t qHash(const XletData& data);
 class DeviceXlet : public QGraphicsObject {
     Q_OBJECT
 public:
-    enum { Type = UserTypeXlet };
+    enum { Type = UserItemTypeXlet };
     int type() const override { return Type; }
 
 public:

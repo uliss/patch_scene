@@ -30,7 +30,7 @@ class DeviceXlet;
 class Device : public QGraphicsObject {
     Q_OBJECT
 public:
-    enum { Type = UserTypeDevice };
+    enum { Type = UserItemTypeDevice };
     int type() const override { return Type; }
 
 public:

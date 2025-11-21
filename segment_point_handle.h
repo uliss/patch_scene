@@ -22,7 +22,7 @@ namespace ceam {
 
 class SegmentPointHandle : public QGraphicsEllipseItem {
 public:
-    enum { Type = UserTypeSegmentPointHandle };
+    enum { Type = UserItemTypeSegmentPointHandle };
     int type() const override { return Type; }
 
 public:

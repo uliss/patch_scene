@@ -31,7 +31,7 @@ class Connection : public QGraphicsObject {
     Q_OBJECT
 
 public:
-    enum { Type = UserTypeConnection };
+    enum { Type = UserItemTypeConnection };
     int type() const override { return Type; }
 
 public:

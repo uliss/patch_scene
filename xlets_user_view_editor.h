@@ -76,7 +76,7 @@ class XletsUserViewCell : public QGraphicsRectItem {
     XletsUserScene* scene_;
 
 public:
-    enum { Type = UserTypeXletViewCell };
+    enum { Type = UserItemTypeXletViewCell };
     int type() const override { return Type; }
 
 public:

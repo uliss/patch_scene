@@ -18,14 +18,14 @@
 
 namespace ceam {
 
-enum ItemUserType {
-    UserTypeDevice = QGraphicsItem::UserType + 1,
-    UserTypeComment,
-    UserTypeConnection,
-    UserTypeXlet,
-    UserTypeConnectionEditor,
-    UserTypeSegmentPointHandle,
-    UserTypeXletViewCell,
+enum UserItemType {
+    UserItemTypeDevice = QGraphicsItem::UserType + 1,
+    UserItemTypeComment,
+    UserItemTypeConnection,
+    UserItemTypeXlet,
+    UserItemTypeConnectionEditor,
+    UserItemTypeSegmentPointHandle,
+    UserItemTypeXletViewCell,
 };
 
 } // namespace ceam
