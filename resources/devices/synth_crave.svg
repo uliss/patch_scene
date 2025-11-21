@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="75" height="40">
-    <g transform="matrix(.4792 0 0 .4792 -12.844 -48.329)">
+    <g transform="translate(-12.844 -48.329)scale(.4792)">
         <path d="M29.755 104.662h151.491v76.581H29.755Z" style="fill:#f90;stroke:#000;stroke-width:1.86448;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4.7;stroke-dasharray:none"/>
         <path d="M31.56 159.615h147.158v20.252H31.56Z" style="fill:#000;fill-opacity:1;stroke:gray;stroke-width:.4;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4.7;stroke-dasharray:none"/>
         <rect width="147.24" height="2.209" x="31.567" y="159.504" ry=".335" style="fill:gray;fill-opacity:1;stroke:none;stroke-width:.332115;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4.7;stroke-dasharray:none"/>

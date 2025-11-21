@@ -1,68 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   width="40"
-   height="51.119614"
-   viewBox="0 0 40 51.119617"
-   version="1.1"
-   id="svg1"
-   inkscape:version="1.4 (e7c3feb1, 2024-10-09)"
-   sodipodi:docname="mic_piezo_1.svg"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <sodipodi:namedview
-     id="namedview1"
-     pagecolor="#ffffff"
-     bordercolor="#000000"
-     borderopacity="0.25"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     inkscape:document-units="mm"
-     inkscape:current-layer="layer1" />
-  <defs
-     id="defs1" />
-  <g
-     inkscape:label="Слой 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(-65.368916,-108.86892)">
-    <g
-       id="g11"
-       transform="matrix(0.36854199,0,0,0.36854199,42.194143,69.662567)">
-      <path
-         style="fill:none;fill-opacity:1;stroke:#509ed6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.7;stroke-dasharray:none;stroke-opacity:1"
-         d="m 107.81317,170.70419 c 0,0 5.64157,28.65988 15.16123,38.74535 4.36678,4.62633 17.09116,3.95182 27.66349,5.16228 11.68224,1.33753 19.44833,25.44437 19.44833,25.44437"
-         id="path10"
-         sodipodi:nodetypes="cssc" />
-      <path
-         style="fill:none;fill-opacity:1;stroke:#d65086;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.7;stroke-dasharray:none;stroke-opacity:1"
-         d="m 104.63669,173.48361 c 0,0 5.64157,28.65988 15.16123,38.74535 4.36678,4.62633 17.09116,3.95182 27.66349,5.16228 11.68224,1.33753 19.44833,25.44437 19.44833,25.44437"
-         id="path11"
-         sodipodi:nodetypes="cssc" />
-      <g
-         id="g7">
-        <circle
-           style="fill:#ffcc00;stroke-width:26.4583;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.7"
-           id="path4"
-           cx="105"
-           cy="148.5"
-           r="39.631084" />
-        <circle
-           style="fill:#ffffff;stroke-width:26.4583;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.7"
-           id="path3"
-           cx="105"
-           cy="148.5"
-           r="29.839876" />
-        <path
-           style="fill:#ffffff;stroke:#c5c5c5;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.7;stroke-dasharray:none;stroke-opacity:1"
-           d="M 105,161.15822 V 178.2722"
-           id="path7" />
-      </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="51.12">
+    <path d="M107.813 170.704s5.642 28.66 15.161 38.746c4.367 4.626 17.092 3.951 27.664 5.162 11.682 1.337 19.448 25.444 19.448 25.444" style="fill:none;fill-opacity:1;stroke:#509ed6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.7;stroke-dasharray:none;stroke-opacity:1" transform="translate(-23.175 -39.206)scale(.36854)"/>
+    <path d="M104.637 173.484s5.641 28.66 15.16 38.745c4.368 4.626 17.092 3.952 27.664 5.162 11.683 1.338 19.449 25.445 19.449 25.445" style="fill:none;fill-opacity:1;stroke:#d65086;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.7;stroke-dasharray:none;stroke-opacity:1" transform="translate(-23.175 -39.206)scale(.36854)"/>
+    <g transform="translate(-23.175 -39.206)scale(.36854)">
+        <circle cx="105" cy="148.5" r="39.631" style="fill:#fc0;stroke-width:26.4583;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.7"/>
+        <circle cx="105" cy="148.5" r="29.84" style="fill:#fff;stroke-width:26.4583;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.7"/>
+        <path d="M105 161.158v17.114" style="fill:#fff;stroke:#c5c5c5;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.7;stroke-dasharray:none;stroke-opacity:1"/>
     </g>
-  </g>
 </svg>

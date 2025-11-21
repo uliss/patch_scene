@@ -1,30 +1,3 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   width="20.153708"
-   height="35"
-   viewBox="0 0 20.153708 35"
-   version="1.1"
-   id="svg1"
-   xml:space="preserve"
-   inkscape:version="1.4 (e7c3feb1, 2024-10-09)"
-   sodipodi:docname="mic_pickup_1.svg"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg"><sodipodi:namedview
-     id="namedview1"
-     pagecolor="#ffffff"
-     bordercolor="#000000"
-     borderopacity="0.25"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     inkscape:document-units="mm"
-     inkscape:current-layer="svg1" /><defs
-     id="defs1" /><path
-     id="rect9"
-     style="fill:none;fill-opacity:0;stroke:#000000;stroke-width:0.734208;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.7"
-     d="m 0.650055,12.62995 h 18.853599 c 0.15675,0 0.28295,0.1262 0.28295,0.28295 v 4.1305 c 0,0.15676 -0.1262,0.28296 -0.28295,0.28296 H 0.650055 c -0.156755,0 -0.282951,-0.1262 -0.282951,-0.28296 v -4.1305 c 0,-0.15675 0.126196,-0.28295 0.282951,-0.28295 z M 9.56539,21.22549 9.64677,34.6329 h 1.261387 L 10.856147,21.14867 M 9.247826,10.6897 9.417822,21.07113 h 1.624217 L 11.149463,10.73967 M 7.636206,2.22429 7.750915,1.54837 c 0.252048,-1.48519 4.698375,-1.4283 4.883993,-0.0686 l 0.10526,0.77108 m -4.75033,4.6919 -0.03184,0.35016 1.26723,3.43735 h 1.936091 l 1.358985,-3.55569 1.9e-5,-0.4485 M 7.433821,2.54296 c 0,0 3.206862,1.05606 5.539232,-0.062 l 0.0186,4.05855 C 9.70396,7.77737 7.444019,6.65121 7.444019,6.65121 Z" /></svg>
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="20.154" height="35">
+    <path d="M.65 12.63h18.854c.156 0 .283.126.283.283v4.13a.28.28 0 0 1-.283.283H.65a.28.28 0 0 1-.283-.283v-4.13c0-.157.126-.283.283-.283m8.915 8.595.082 13.408h1.261l-.052-13.484m-1.608-10.46.17 10.382h1.624l.107-10.331M7.636 2.224l.115-.676C8.003.063 12.449.12 12.635 1.48l.105.77M7.99 6.944l-.032.35 1.267 3.437h1.936l1.36-3.555v-.449M7.433 2.543s3.207 1.056 5.54-.062l.018 4.059c-3.288 1.237-5.548.111-5.548.111Z" style="fill:none;fill-opacity:0;stroke:#000;stroke-width:.734208;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.7"/>
+</svg>
