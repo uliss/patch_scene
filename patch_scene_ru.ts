@@ -173,18 +173,23 @@
         <translation>Свойства элемента</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="245"/>
+        <location filename="device_editor.ui" line="140"/>
+        <source> min</source>
+        <translation> мин</translation>
+    </message>
+    <message>
+        <location filename="device_editor.ui" line="251"/>
         <source>User views</source>
         <translation>Пользовательские виды</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="173"/>
+        <location filename="device_editor.ui" line="179"/>
         <source>&amp;Name</source>
         <oldsource>Name</oldsource>
         <translation>&amp;Название</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="356"/>
+        <location filename="device_editor.ui" line="352"/>
         <source>Mirror horizontally</source>
         <translation>Отразить по горизонтали</translation>
     </message>
@@ -215,12 +220,12 @@
         <translation type="vanished">Переместить выход вниз</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="391"/>
+        <location filename="device_editor.ui" line="387"/>
         <source>Image</source>
         <translation>Изображение</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="269"/>
+        <location filename="device_editor.ui" line="275"/>
         <source>...</source>
         <translation></translation>
     </message>
@@ -250,47 +255,44 @@
         <translation>Количество</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="127"/>
+        <location filename="device_editor.ui" line="133"/>
         <source>Capacity</source>
         <translation>Ёмкость</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="134"/>
         <source>min</source>
-        <translation>мин</translation>
+        <translation type="vanished">мин</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="276"/>
         <source>choose device image</source>
-        <translation>выбрать изображение устройства</translation>
+        <translation type="vanished">выбрать изображение устройства</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="279"/>
         <source>Choose</source>
-        <translation>Выбрать</translation>
+        <translation type="vanished">Выбрать</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="302"/>
+        <location filename="device_editor.ui" line="298"/>
         <source>Scale</source>
         <translation>Масштаб</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="407"/>
+        <location filename="device_editor.ui" line="400"/>
         <source>Commutation</source>
         <translation>Коммутация</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="417"/>
+        <location filename="device_editor.ui" line="410"/>
         <source>Physics</source>
         <translation>Физические параметры</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="220"/>
+        <location filename="device_editor.ui" line="226"/>
         <source>Additional</source>
         <translation>Дополнительно</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="231"/>
+        <location filename="device_editor.ui" line="237"/>
         <source>Inputs</source>
         <translation>Входы</translation>
     </message>
@@ -309,12 +311,12 @@
         <translation type="vanished">Логические столбцы:</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="238"/>
+        <location filename="device_editor.ui" line="244"/>
         <source>Outputs</source>
         <translation>Выходы</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="164"/>
+        <location filename="device_editor.ui" line="170"/>
         <source>&amp;Show</source>
         <oldsource>Show</oldsource>
         <translation>&amp;Показывать</translation>
@@ -333,7 +335,7 @@
         <translation type="vanished">Виды:</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="191"/>
+        <location filename="device_editor.ui" line="197"/>
         <source>&amp;Model</source>
         <oldsource>Model</oldsource>
         <translation>&amp;Модель</translation>
@@ -355,7 +357,7 @@
         <translation type="vanished">удалить выход</translation>
     </message>
     <message>
-        <location filename="device_editor.ui" line="378"/>
+        <location filename="device_editor.ui" line="374"/>
         <source>&amp;Category</source>
         <oldsource>Category</oldsource>
         <translation>&amp;Категория</translation>
@@ -1844,22 +1846,22 @@ http://ceam.space</source>
 <context>
     <name>ceam::DeviceEditor</name>
     <message>
-        <location filename="device_editor.cpp" line="60"/>
+        <location filename="device_editor.cpp" line="54"/>
         <source>&apos;%1&apos; properties</source>
         <translation>Свойства &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="device_editor.cpp" line="108"/>
+        <location filename="device_editor.cpp" line="98"/>
         <source>Logical inputs editor</source>
         <translation>Редактор физических входов</translation>
     </message>
     <message>
-        <location filename="device_editor.cpp" line="116"/>
+        <location filename="device_editor.cpp" line="106"/>
         <source>Logical outputs editor</source>
         <translation>Редактор физических выходов</translation>
     </message>
     <message>
-        <location filename="device_editor.cpp" line="126"/>
+        <location filename="device_editor.cpp" line="116"/>
         <source>User views editor</source>
         <translation>Редактор пользовательских видов</translation>
     </message>
