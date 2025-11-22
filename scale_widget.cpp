@@ -17,9 +17,11 @@
 
 using namespace ceam;
 
+constexpr qreal WIDTH = 200.0;
+
 ScaleWidget::ScaleWidget(QWidget* parent)
     : QWidget { parent }
-    , length_(200)
+    , length_(WIDTH)
     , scale_(1)
 {
     setGeometry(0, 0, 220, 20);
@@ -48,6 +50,7 @@ void ScaleWidget::paintEvent(QPaintEvent* event)
 
     QPainter painter(this);
     painter.setFont(font());
+    QFontMetrics fm(font());
 
     QSizeF size = geometry().size();
     size.rwidth() -= 2;
@@ -55,49 +58,71 @@ void ScaleWidget::paintEvent(QPaintEvent* event)
     auto ft = font();
     ft.setPointSize(ft.pointSize() * 0.75);
     painter.setFont(ft);
-    QTextOption txt_opts(Qt::AlignHCenter);
 
     painter.setPen(QPen(Qt::black, 1));
     painter.setBrush(Qt::NoBrush);
 
-    painter.setPen(QPen(Qt::black, 1));
-
     auto scale_unit = tr("m");
     qreal scale_factor = 1;
     qreal step = 50 * scale_;
-    int N = std::ceil(length_ / step);
-    if (N < 3) {
+
+    if (scale_ >= 2.0) {
         step = 25 * scale_;
-        N *= 2;
         scale_factor = 50;
         scale_unit = tr("cm");
-    } else if (N > 7) {
+    } else if (scale_ <= 0.5) {
         step = 100 * scale_;
-        N /= 2;
         scale_factor = 2;
     }
 
-    bool flip = true;
-    for (int i = 0; i <= N; i++) {
-        painter.setBrush(QBrush(flip ? Qt::black : Qt::white));
-        painter.drawRect(QRectF(step * i, RULER_Y, step, RULER_H));
-        flip = !flip;
+    bool flip_color = true;
+    const auto W = width();
 
-        QRect txt_box;
+    QTextOption txt_opts;
+    QRect txt_box;
+    QString text;
+
+    const auto N = static_cast<int>(std::ceil(W / step));
+
+    for (int i = 0; i <= N; i++) {
+        auto x = i * step;
+        painter.setBrush(QBrush(flip_color ? Qt::black : Qt::white));
+        painter.drawRect(QRectF(x, RULER_Y, step, RULER_H));
+        flip_color = !flip_color;
+
         if (i == 0) {
-            txt_opts.setAlignment(Qt::AlignLeft);
-            txt_box.setRect(0, TXT_Y, TXT_W, TXT_H);
+            text = "0";
+        } else if (i < N) {
+            text = QString("%1%2").arg(i * scale_factor).arg(scale_unit);
         } else {
-            auto x = step * i;
-            if (x + 10 <= size.width()) {
-                txt_opts.setAlignment(Qt::AlignHCenter);
-                txt_box.setRect(x - TXT_W / 2, TXT_Y, TXT_W, TXT_H);
-            } else {
-                txt_opts.setAlignment(Qt::AlignRight);
-                txt_box.setRect(size.width() - TXT_W, TXT_Y, TXT_W, TXT_H);
-            }
+            text = QString("<%1%2").arg(i * scale_factor).arg(scale_unit);
         }
 
-        painter.drawText(txt_box, QString("%1%2").arg(i * scale_factor).arg(i == 0 ? "" : scale_unit), txt_opts);
+        auto tw = fm.boundingRect(text).width() + 2;
+
+        if (i == 0) {
+            txt_opts.setAlignment(Qt::AlignLeft);
+            txt_box.setRect(0, TXT_Y, tw, TXT_H);
+        } else if (i < N) {
+            if ((x + tw * 0.5) < W) {
+                txt_box.setRect(x - tw * 0.5, TXT_Y, tw, TXT_H);
+                txt_opts.setAlignment(Qt::AlignHCenter);
+            } else {
+                txt_box.setRect(x - tw, TXT_Y, tw, TXT_H);
+                txt_opts.setAlignment(Qt::AlignRight);
+            }
+        } else {
+            if (txt_box.right() + tw < W) {
+                txt_box.setRect(W - tw, TXT_Y, tw, TXT_H);
+                txt_opts.setAlignment(Qt::AlignRight);
+            } else
+                break;
+        }
+
+        painter.drawText(txt_box, text, txt_opts);
     }
+
+    // draw closing line
+    painter.setBrush(QBrush(Qt::black));
+    painter.drawRect(QRectF(W - 0.5, RULER_Y, 5, RULER_H));
 }
