@@ -1830,17 +1830,27 @@ http://ceam.space</source>
         <translation>Добавить в избранное</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="703"/>
+        <location filename="device.cpp" line="704"/>
+        <source>Move up</source>
+        <translation>Поднять выше</translation>
+    </message>
+    <message>
+        <location filename="device.cpp" line="709"/>
+        <source>Move down</source>
+        <translation>Опустить ниже</translation>
+    </message>
+    <message>
+        <location filename="device.cpp" line="717"/>
         <source>Properties</source>
         <translation>Свойства</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="716"/>
+        <location filename="device.cpp" line="730"/>
         <source>Views</source>
         <translation>Виды</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="717"/>
+        <location filename="device.cpp" line="731"/>
         <source>Logic</source>
         <translation>Логический</translation>
     </message>
@@ -1862,22 +1872,22 @@ http://ceam.space</source>
 <context>
     <name>ceam::DeviceEditor</name>
     <message>
-        <location filename="device_editor.cpp" line="54"/>
+        <location filename="device_editor.cpp" line="55"/>
         <source>&apos;%1&apos; properties</source>
         <translation>Свойства &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="device_editor.cpp" line="98"/>
+        <location filename="device_editor.cpp" line="99"/>
         <source>Logical inputs editor</source>
         <translation>Редактор физических входов</translation>
     </message>
     <message>
-        <location filename="device_editor.cpp" line="106"/>
+        <location filename="device_editor.cpp" line="107"/>
         <source>Logical outputs editor</source>
         <translation>Редактор физических выходов</translation>
     </message>
     <message>
-        <location filename="device_editor.cpp" line="116"/>
+        <location filename="device_editor.cpp" line="117"/>
         <source>User views editor</source>
         <translation>Редактор пользовательских видов</translation>
     </message>
@@ -1968,12 +1978,12 @@ http://ceam.space</source>
         <translation>Новый проект</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="920"/>
+        <location filename="diagram.cpp" line="936"/>
         <source>Generated with PatchScene</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1263"/>
+        <location filename="diagram.cpp" line="1279"/>
         <source>&amp;Add device</source>
         <translation>&amp;Добавить элемент</translation>
     </message>
@@ -1990,37 +2000,37 @@ http://ceam.space</source>
         <translation type="vanished">&amp;Установить фоновое изображение</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1267"/>
+        <location filename="diagram.cpp" line="1283"/>
         <source>&amp;Add comment</source>
         <translation>Добавить &amp;комментарий</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1280"/>
+        <location filename="diagram.cpp" line="1296"/>
         <source>Align &amp;horizontal</source>
         <translation>Выровнять по &amp;горизонтали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1284"/>
+        <location filename="diagram.cpp" line="1300"/>
         <source>Align &amp;vertical</source>
         <translation>Выровнять по &amp;вертикали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1288"/>
+        <location filename="diagram.cpp" line="1304"/>
         <source>Place in row</source>
         <translation>Разместить в ряд</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1292"/>
+        <location filename="diagram.cpp" line="1308"/>
         <source>Place in column</source>
         <translation>Разместить в столбец</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1299"/>
+        <location filename="diagram.cpp" line="1315"/>
         <source>Distribute horizontal</source>
         <translation>Распределить горизонтально</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1303"/>
+        <location filename="diagram.cpp" line="1319"/>
         <source>Distribute vertical</source>
         <translation>Распределить вертикально</translation>
     </message>
@@ -2475,7 +2485,7 @@ Do you wan&apos;t to save it before closing?</source>
         <translation>м</translation>
     </message>
     <message>
-        <location filename="scale_widget.cpp" line="73"/>
+        <location filename="scale_widget.cpp" line="72"/>
         <source>cm</source>
         <translation>см</translation>
     </message>
