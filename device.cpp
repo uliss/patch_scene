@@ -699,6 +699,19 @@ void Device::addToFavoritesAct(QMenu& menu)
     menu.addAction(addToFavoritesAct);
 }
 
+void Device::addZValueAction(QMenu& menu)
+{
+    auto moveUpAct = new QAction(tr("Move up"), &menu);
+    connect(moveUpAct, &QAction::triggered, this,
+        [this]() { emit moveUpper(data_); });
+    menu.addAction(moveUpAct);
+
+    auto moveDownAct = new QAction(tr("Move down"), &menu);
+    connect(moveDownAct, &QAction::triggered, this,
+        [this]() { emit moveLower(data_); });
+    menu.addAction(moveDownAct);
+}
+
 void Device::addPropertiesAct(QMenu& menu)
 {
     auto propertiesAct = new QAction(tr("Properties"), &menu);
@@ -751,6 +764,9 @@ void Device::createContextMenu(QMenu& menu)
     if (!data_->isLocked()) {
         addTitleAction(menu);
         addMirrorAction(menu);
+        menu.addSeparator();
+        addZValueAction(menu);
+        menu.addSeparator();
     }
 
     addLockAction(menu);

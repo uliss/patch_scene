@@ -101,6 +101,8 @@ signals:
     void distributeHorizontal();
     void distributeVertical();
     void duplicateDevice(SharedDeviceData data);
+    void moveLower(const SharedDeviceData& data);
+    void moveUpper(const SharedDeviceData& data);
     void placeInColumn();
     void placeInRow();
     void removeDevice(SharedDeviceData data);
@@ -160,6 +162,7 @@ protected:
     void addRemoveAct(QMenu& menu);
     void addTitleAction(QMenu& menu);
     void addToFavoritesAct(QMenu& menu);
+    void addZValueAction(QMenu& menu);
     void setMenuCaption(QMenu& menu);
 
     void addViewSubMenu(QMenu& menu);
