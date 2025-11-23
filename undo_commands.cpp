@@ -680,3 +680,52 @@ void CreateComment::redo()
         id_ = comment->id();
     }
 }
+
+constexpr auto NONE_ZVALUE = std::numeric_limits<typeof(qreal)>::lowest();
+
+MoveLower::MoveLower(Diagram* doc, DeviceId id)
+    : doc_(doc)
+    , id_(id)
+    , old_z_(NONE_ZVALUE)
+{
+}
+
+void MoveLower::undo()
+{
+    if (!doc_)
+        return;
+
+    auto dev = doc_->devices().find(id_);
+    if (!dev)
+        return;
+
+    dev->setZValue(old_z_);
+}
+
+void MoveLower::redo()
+{
+    if (!doc_)
+        return;
+
+    auto dev = doc_->devices().find(id_);
+    if (!dev)
+        return;
+
+    old_z_ = dev->zValue();
+
+    const Device* lower_dev = nullptr;
+    for (auto it : dev->collidingItems()) {
+        auto x = qgraphicsitem_cast<const Device*>(it);
+        if (x && x->zValue() < dev->zValue())
+            lower_dev = x;
+    }
+
+    if (!lower_dev) {
+        qWarning() << "UPPER NOT FOUND";
+        return;
+    }
+
+    // TODO(uliss): check this for big reals!
+    auto z = lower_dev->zValue() - 0.5;
+    dev->setZValue(z);
+}

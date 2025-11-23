@@ -338,6 +338,19 @@ private:
     qreal k_;
 };
 
-}
+class MoveLower : public QUndoCommand {
+public:
+    MoveLower(Diagram* doc, DeviceId id);
+
+    void undo() final;
+    void redo() final;
+
+private:
+    Diagram* doc_;
+    DeviceId id_;
+    qreal old_z_;
+};
+
+} // namespace ceam
 
 #endif // UNDO_COMMANDS_H
