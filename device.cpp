@@ -176,7 +176,9 @@ Device::Device(const SharedDeviceData& data)
     }
 
     setPos(data_->pos());
-    setZValue(data_->id());
+
+    data_->setZValue(data_->id());
+    setZValue(data->zValue());
     setFlag(QGraphicsItem::ItemIsSelectable);
 
     syncRect();

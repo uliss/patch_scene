@@ -76,6 +76,7 @@ constexpr InstrCatTuple INST_CATS[] = {
 constexpr const char* JSON_KEY_ID = "id";
 constexpr const char* JSON_KEY_X = "x";
 constexpr const char* JSON_KEY_Y = "y";
+constexpr const char* JSON_KEY_Z = "z";
 constexpr const char* JSON_KEY_TITLE = "title";
 constexpr const char* JSON_KEY_MODEL = "model";
 constexpr const char* JSON_KEY_VENDOR = "vendor";
@@ -310,6 +311,7 @@ bool DeviceData::setJson(const QJsonValue& v)
     model_ = obj.value(JSON_KEY_MODEL).toString();
     pos_.setX(obj.value(JSON_KEY_X).toDouble(0));
     pos_.setY(obj.value(JSON_KEY_Y).toDouble(0));
+    zvalue_ = obj.value(JSON_KEY_Z).toDouble(0);
 
     image_ = obj.value(JSON_KEY_IMAGE).toString();
     setZoom(obj.value(JSON_KEY_ZOOM).toDouble(1));
@@ -437,6 +439,7 @@ QJsonObject DeviceData::toJson() const
     json[JSON_KEY_ID] = static_cast<qint32>(id_);
     json[JSON_KEY_X] = pos_.x();
     json[JSON_KEY_Y] = pos_.y();
+    json[JSON_KEY_Z] = zvalue_;
     json[JSON_KEY_TITLE] = title_;
     json[JSON_KEY_VENDOR] = vendor_;
     json[JSON_KEY_MODEL] = model_;

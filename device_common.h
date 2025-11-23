@@ -257,6 +257,9 @@ public:
     QColor textColor() const { return text_color_; }
     void setTextColor(const QColor& color) { text_color_ = color; }
 
+    qreal zValue() const { return zvalue_; }
+    void setZValue(qreal z) { zvalue_ = z; }
+
 private:
     static QJsonArray xletToJson(const QList<XletData>& xlets);
     static bool setXletJson(const QJsonValue& v, QList<XletData>& xlets);

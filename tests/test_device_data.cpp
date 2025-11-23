@@ -47,6 +47,7 @@ void TestDeviceData::toJson()
     QVERIFY(j.contains("id"));
     QVERIFY(j.contains("x"));
     QVERIFY(j.contains("y"));
+    QVERIFY(j.contains("z"));
     QVERIFY(j.contains("title"));
     QVERIFY(j.contains("vendor"));
     QVERIFY(j.contains("model"));
@@ -129,7 +130,6 @@ void TestDeviceData::toJson()
     data.setTextColor({});
     j = data.toJson();
     QVERIFY(!j.contains("color-text"));
-
 
     data.setBatteryCapacity(100);
     j = data.toJson();
@@ -284,6 +284,10 @@ void TestDeviceData::fromJson()
     j["power"] = 20001;
     QVERIFY(data.setJson(j));
     QCOMPARE(data.power(), 20000);
+
+    j["z"] = 100;
+    QVERIFY(data.setJson(j));
+    QCOMPARE(data.zValue(), 100);
 }
 
 void TestDeviceData::testJson()
