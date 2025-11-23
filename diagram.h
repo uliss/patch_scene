@@ -225,6 +225,9 @@ public slots:
     void cmdZoomInSelected();
     void cmdZoomOutSelected();
 
+    void cmdMoveLower(const SharedDeviceData& data);
+    void cmdMoveUpper(const SharedDeviceData& data);
+
     void clearUndoStack();
     void copySelected();
     void cutSelected();

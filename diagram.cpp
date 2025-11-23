@@ -251,6 +251,18 @@ void Diagram::cmdZoomOutSelected()
     undo_stack_->push(zoom);
 }
 
+void Diagram::cmdMoveLower(const SharedDeviceData& data)
+{
+    auto move = new MoveLower(this, data->id());
+    undo_stack_->push(move);
+}
+
+void Diagram::cmdMoveUpper(const SharedDeviceData& data)
+{
+    auto move = new MoveUpper(this, data->id());
+    undo_stack_->push(move);
+}
+
 void Diagram::cmdCreateDevice(const QPointF& pos)
 {
     auto add = new CreateDevice(this, pos);
@@ -610,6 +622,10 @@ Device* Diagram::addDevice(const SharedDeviceData& data)
 
     connect(dev, SIGNAL(placeInColumn()), this, SLOT(cmdPlaceInColumnSelected()));
     connect(dev, SIGNAL(placeInRow()), this, SLOT(cmdPlaceInRowSelected()));
+
+    // move
+    connect(dev, &Device::moveLower, this, &Diagram::cmdMoveLower);
+    connect(dev, &Device::moveUpper, this, &Diagram::cmdMoveUpper);
 
     // lock
     connect(dev, &Device::lockSelected, this, &Diagram::cmdLockSelected);

@@ -681,12 +681,10 @@ void CreateComment::redo()
     }
 }
 
-constexpr auto NONE_ZVALUE = std::numeric_limits<typeof(qreal)>::lowest();
-
 MoveLower::MoveLower(Diagram* doc, DeviceId id)
     : doc_(doc)
     , id_(id)
-    , old_z_(NONE_ZVALUE)
+    , old_z_(0)
 {
 }
 
@@ -720,12 +718,55 @@ void MoveLower::redo()
             lower_dev = x;
     }
 
-    if (!lower_dev) {
-        qWarning() << "UPPER NOT FOUND";
+    if (!lower_dev)
         return;
-    }
 
     // TODO(uliss): check this for big reals!
     auto z = lower_dev->zValue() - 0.5;
+    dev->setZValue(z);
+}
+
+MoveUpper::MoveUpper(Diagram* doc, DeviceId id)
+    : doc_(doc)
+    , id_(id)
+    , old_z_(0)
+{
+}
+
+void MoveUpper::undo()
+{
+    if (!doc_)
+        return;
+
+    auto dev = doc_->devices().find(id_);
+    if (!dev)
+        return;
+
+    dev->setZValue(old_z_);
+}
+
+void MoveUpper::redo()
+{
+    if (!doc_)
+        return;
+
+    auto dev = doc_->devices().find(id_);
+    if (!dev)
+        return;
+
+    old_z_ = dev->zValue();
+
+    const Device* upper_dev = nullptr;
+    for (auto it : dev->collidingItems()) {
+        auto x = qgraphicsitem_cast<const Device*>(it);
+        if (x && x->zValue() > dev->zValue())
+            upper_dev = x;
+    }
+
+    if (!upper_dev)
+        return;
+
+    // TODO(uliss): check this for big reals!
+    auto z = upper_dev->zValue() + 0.5;
     dev->setZValue(z);
 }
