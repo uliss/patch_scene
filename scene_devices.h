@@ -158,11 +158,11 @@ public:
     QRectF boundingRect() const;
     QRectF boundingSelectRect() const;
 
-    void foreachDevice(std::function<void(Device*)> fn);
-    void foreachSelectedDevice(std::function<void(const Device*)> fn);
+    void foreachDevice(const std::function<void(Device*)>& fn);
+    void foreachSelectedDevice(const std::function<void(const Device*)>& fn);
 
-    void foreachData(std::function<void(const SharedDeviceData& data)> fn) const;
-    void foreachSelectedData(std::function<void(const SharedDeviceData& data)> fn) const;
+    void foreachData(const std::function<void(const SharedDeviceData& data)>& fn) const;
+    void foreachSelectedData(const std::function<void(const SharedDeviceData& data)>& fn) const;
 
     /**
      * return a set of device id that intersects with the given rectangle

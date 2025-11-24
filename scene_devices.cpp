@@ -444,7 +444,7 @@ QRectF SceneDevices::boundingSelectRect() const
     return rect;
 }
 
-void SceneDevices::foreachDevice(std::function<void(Device*)> fn)
+void SceneDevices::foreachDevice(const std::function<void(Device*)>& fn)
 {
     if (!fn)
         return;
@@ -453,7 +453,7 @@ void SceneDevices::foreachDevice(std::function<void(Device*)> fn)
         fn(kv.second);
 }
 
-void SceneDevices::foreachSelectedDevice(std::function<void(const Device*)> fn)
+void SceneDevices::foreachSelectedDevice(const std::function<void(const Device*)>& fn)
 {
     if (!fn)
         return;
@@ -464,7 +464,7 @@ void SceneDevices::foreachSelectedDevice(std::function<void(const Device*)> fn)
     }
 }
 
-void SceneDevices::foreachData(std::function<void(const SharedDeviceData&)> fn) const
+void SceneDevices::foreachData(const std::function<void(const SharedDeviceData&)>& fn) const
 {
     if (!fn)
         return;
@@ -473,7 +473,7 @@ void SceneDevices::foreachData(std::function<void(const SharedDeviceData&)> fn) 
         fn(kv.second->deviceData());
 }
 
-void SceneDevices::foreachSelectedData(std::function<void(const SharedDeviceData&)> fn) const
+void SceneDevices::foreachSelectedData(const std::function<void(const SharedDeviceData&)>& fn) const
 {
     if (!fn)
         return;
