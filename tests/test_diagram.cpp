@@ -37,6 +37,13 @@ SharedDeviceData make_dev(DeviceId id, const QPointF& pos)
     return SharedDeviceData(data);
 }
 
+SharedDeviceData data1(DeviceId id)
+{
+    auto data = new DeviceData(id);
+    data->setShowTitle(false);
+    return SharedDeviceData { data };
+}
+
 } // namespace
 
 void TestDiagram::addDevice()
@@ -204,4 +211,34 @@ void TestDiagram::addComment()
     QVERIFY(comm != nullptr);
     QCOMPARE(comm->deviceData()->category(), ceam::ItemCategory::Comment);
     QCOMPARE(sig_spy.count(), 1);
+}
+
+void TestDiagram::duplicateSelected()
+{
+    Diagram dia(100, 100);
+    auto& devs = dia.devices();
+    QCOMPARE(devs.selectedCount(), 0);
+    size_t num = 0;
+
+    num = dia.duplicateSelected({ true, true }).count();
+    QCOMPARE(devs.selectedCount(), 0);
+
+    auto dev1 = dia.addDevice(data1(100));
+    QCOMPARE(devs.count(), 1);
+    QCOMPARE(devs.selectedCount(), 0);
+    devs.setSelected({ dev1->id() }, true);
+    QCOMPARE(devs.selectedCount(), 1);
+
+    dia.duplicateSelected({ true, true });
+    QCOMPARE(devs.count(), 2);
+    QCOMPARE(devs.selectedCount(), 1);
+
+    dia.duplicateSelected({ true, true });
+    QCOMPARE(devs.count(), 3);
+    QCOMPARE(devs.selectedCount(), 1);
+
+    num = dia.duplicateSelected({ true, false }).count();
+    QCOMPARE(num, 1);
+    QCOMPARE(devs.count(), 4);
+    QCOMPARE(devs.selectedCount(), 2);
 }

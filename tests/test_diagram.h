@@ -28,6 +28,7 @@ private slots:
     void cmdPlaceInColumnSelected();
 
     void addComment();
+    void duplicateSelected();
 };
 
 #endif // TEST_DIAGRAM_H
