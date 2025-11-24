@@ -43,6 +43,10 @@ class Diagram : public QGraphicsView {
 public:
     Q_PROPERTY(bool showCables READ showCables WRITE setShowCables NOTIFY showCablesChanged)
 
+    struct DuplicatePolicy {
+        bool select_new { true }, unselect_origin { true };
+    };
+
 public:
     explicit Diagram(int w, int h, QWidget* parent = nullptr);
 
@@ -94,6 +98,12 @@ public:
      * @return pointer to new comment or nullptr on error
      */
     Comment* addComment();
+
+    /**
+     * duplicated selected devices
+     * @return list new device id's
+     */
+    QList<DeviceId> duplicateSelected(DuplicatePolicy policy);
 
     bool showCables() const { return show_cables_; }
     void setShowCables(bool value);

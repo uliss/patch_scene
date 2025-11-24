@@ -142,46 +142,6 @@ SharedDeviceData SceneDevices::remove(DeviceId id)
     return data;
 }
 
-QList<DeviceId> SceneDevices::duplicateSelected(DuplicatePolicy policy)
-{
-    QList<Device*> dup_list;
-    for (auto& kv : devices_) {
-        auto src_dev = kv.second;
-        if (!src_dev->isSelected())
-            continue;
-
-        dup_list << src_dev;
-    }
-
-    QList<DeviceId> res;
-    if (dup_list.empty())
-        return res;
-
-    for (auto src_dev : dup_list) {
-        auto new_dev = add(src_dev->deviceData());
-        if (new_dev) {
-            switch (new_dev->deviceData()->category()) {
-            case ItemCategory::Furniture:
-                new_dev->moveBy(50, 0);
-                break;
-            default:
-                new_dev->moveBy(20, 20);
-                break;
-            }
-
-            res.push_back(new_dev->id());
-
-            if (policy.select_new)
-                new_dev->setSelected(true);
-
-            if (policy.unselect_origin)
-                src_dev->setSelected(false);
-        }
-    }
-
-    return res;
-}
-
 Device* SceneDevices::find(DeviceId id)
 {
     auto it = devices_.find(id);

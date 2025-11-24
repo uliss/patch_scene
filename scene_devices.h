@@ -37,10 +37,6 @@ private:
 public:
     SceneDevices();
 
-    struct DuplicatePolicy {
-        bool select_new { true }, unselect_origin { true };
-    };
-
     bool operator==(const SceneDevices& sc) const;
     bool operator!=(const SceneDevices& sc) const { return !operator==(sc); }
 
@@ -79,12 +75,6 @@ public:
      * @emit removed(SharedDeviceData)
      */
     SharedDeviceData remove(DeviceId id);
-
-    /**
-     * Duplicate selected devices
-     * @return list of duplicated ids
-     */
-    QList<DeviceId> duplicateSelected(DuplicatePolicy policy);
 
     /**
      * remove all devices

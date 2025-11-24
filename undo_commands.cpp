@@ -217,12 +217,12 @@ void DuplicateSelected::redo()
         return;
 
     {
-        SceneDevices::DuplicatePolicy policy;
+        Diagram::DuplicatePolicy policy;
         policy.select_new = true;
         policy.unselect_origin = true;
 
         DiagramUpdatesBlocker ub(doc_);
-        new_devs_ = doc_->devices().duplicateSelected(policy);
+        new_devs_ = doc_->duplicateSelected(policy);
     }
 
     emit doc_->sceneFullUpdate();
@@ -706,24 +706,30 @@ void MoveLower::redo()
         return;
 
     auto dev = doc_->devices().find(id_);
-    if (!dev)
+    if (!dev) {
+        qWarning() << "device not found: " << id_;
         return;
+    }
 
     old_z_ = dev->zValue();
 
     const Device* lower_dev = nullptr;
     for (auto it : dev->collidingItems()) {
         auto x = qgraphicsitem_cast<const Device*>(it);
-        if (x && x->zValue() < dev->zValue())
+        if (x && x->zValue() <= old_z_)
             lower_dev = x;
     }
 
-    if (!lower_dev)
+    if (!lower_dev) {
+        qWarning() << "LOWER NOT FOUND";
         return;
+    }
 
     // TODO(uliss): check this for big reals!
-    auto z = lower_dev->zValue() - 0.5;
+    auto z = lower_dev->zValue() - 1;
     dev->setZValue(z);
+
+    qWarning() << dev->deviceData()->title();
 }
 
 MoveUpper::MoveUpper(Diagram* doc, DeviceId id)
@@ -751,22 +757,28 @@ void MoveUpper::redo()
         return;
 
     auto dev = doc_->devices().find(id_);
-    if (!dev)
+    if (!dev) {
+        qWarning() << "device not found: " << id_;
         return;
+    }
 
     old_z_ = dev->zValue();
 
     const Device* upper_dev = nullptr;
     for (auto it : dev->collidingItems()) {
         auto x = qgraphicsitem_cast<const Device*>(it);
-        if (x && x->zValue() > dev->zValue())
+        if (x && x->zValue() >= old_z_)
             upper_dev = x;
     }
 
-    if (!upper_dev)
+    if (!upper_dev) {
+        qWarning() << "UPPER NOT FOUND";
         return;
+    }
 
     // TODO(uliss): check this for big reals!
     auto z = upper_dev->zValue() + 0.5;
     dev->setZValue(z);
+
+    qWarning() << dev->deviceData()->title();
 }

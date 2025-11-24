@@ -708,6 +708,44 @@ Comment* Diagram::addComment()
     return comm;
 }
 
+QList<DeviceId> Diagram::duplicateSelected(DuplicatePolicy policy)
+{
+    QList<Device*> dup_list;
+
+    devices_.foreachDevice([&dup_list](Device* dev) {
+        if (dev->isSelected())
+            dup_list << dev;
+    });
+
+    QList<DeviceId> res;
+    if (dup_list.empty())
+        return res;
+
+    for (auto src_dev : dup_list) {
+        auto new_dev = addDevice(src_dev->deviceData());
+        if (new_dev) {
+            switch (new_dev->deviceData()->category()) {
+            case ItemCategory::Furniture:
+                new_dev->moveBy(50, 0);
+                break;
+            default:
+                new_dev->moveBy(20, 20);
+                break;
+            }
+
+            res.push_back(new_dev->id());
+
+            if (policy.select_new)
+                new_dev->setSelected(true);
+
+            if (policy.unselect_origin)
+                src_dev->setSelected(false);
+        }
+    }
+
+    return res;
+}
+
 void Diagram::setShowCables(bool value)
 {
     show_cables_ = value;
