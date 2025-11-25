@@ -11,12 +11,12 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#ifndef TEST_DEVICE_H
-#define TEST_DEVICE_H
+#ifndef TEST_DEVICE_ITEM_H
+#define TEST_DEVICE_ITEM_H
 
 #include <QObject>
 
-class TestDevice : public QObject {
+class TestDeviceItem : public QObject {
     Q_OBJECT
 
 private slots:
@@ -28,4 +28,4 @@ private slots:
     void xletRect();
 };
 
-#endif // TEST_DEVICE_H
+#endif // TEST_DEVICE_ITEM_H

@@ -24,7 +24,7 @@ qt_add_executable(
     test_connection_database.h test_connection_database.cpp
     test_scene_background.h test_scene_background.cpp
     test_device_xlet_view.h test_device_xlet_view.cpp
-    test_device.h test_device.cpp
+    test_device_item.h test_device_item.cpp
     test_subcategory.h test_subcategory.cpp
     test_segment_points.h test_segment_points.cpp
     test_xlets_user_view.h test_xlets_user_view.cpp

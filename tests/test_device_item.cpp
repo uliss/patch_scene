@@ -11,7 +11,7 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#include "test_device.h"
+#include "test_device_item.h"
 #include "scene_item.h"
 #include "xlets_view.h"
 
@@ -50,7 +50,7 @@ SharedDeviceData make_data(SceneItemId id, int numIn = 0, int numOut = 0, const 
 }
 } // namespace
 
-void TestDevice::qtTest()
+void TestDeviceItem::qtTest()
 {
     QGraphicsTextItem xi("text");
     QCOMPARE(xi.boundingRect().height(), DEF_TXT_HT);
@@ -62,7 +62,7 @@ void TestDevice::qtTest()
     QCOMPARE(xi.boundingRect().height(), DEF_TXT_HT);
 }
 
-void TestDevice::createDefault()
+void TestDeviceItem::createDefault()
 {
     SceneItem dev;
     QVERIFY(dev.id() != SCENE_ITEM_NULL_ID);
@@ -94,7 +94,7 @@ void TestDevice::createDefault()
     QVERIFY(!dev.xlets().connectionPoint({ 2, XletType::Out }));
 }
 
-void TestDevice::createNoTitle()
+void TestDeviceItem::createNoTitle()
 {
     {
         SceneItem dev(make_data(100, 2, 0));
@@ -122,7 +122,7 @@ void TestDevice::createNoTitle()
     }
 }
 
-void TestDevice::boundingRect()
+void TestDeviceItem::boundingRect()
 {
     {
         SceneItem dev(make_data(100, 0, 0, {}));
@@ -145,7 +145,7 @@ void TestDevice::boundingRect()
     }
 }
 
-void TestDevice::titleRect()
+void TestDeviceItem::titleRect()
 {
     {
         SceneItem dev(make_data(100, 0, 0, {}));
@@ -158,7 +158,7 @@ void TestDevice::titleRect()
     }
 }
 
-void TestDevice::xletRect()
+void TestDeviceItem::xletRect()
 {
     {
         SceneItem dev(make_data(100, 0, 0, {}));
