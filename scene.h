@@ -11,8 +11,8 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#ifndef SCENE_DEVICES_H
-#define SCENE_DEVICES_H
+#ifndef SCENE_H
+#define SCENE_H
 
 #include "connection_database.h"
 #include "device_common.h"
@@ -179,4 +179,4 @@ signals:
 } // namespace ceam
 QDebug operator<<(QDebug debug, const ceam::Scene& sc);
 
-#endif // SCENE_DEVICES_H
+#endif // SCENE_H

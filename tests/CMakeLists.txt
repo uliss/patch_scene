@@ -13,8 +13,8 @@ qt_add_executable(
     test_device_library.cpp
     test_diagram.h
     test_diagram.cpp
-    test_scene_devices.h
-    test_scene_devices.cpp
+    test_scene.h
+    test_scene.cpp
     test_xlet.h
     test_xlet.cpp
     test_scene_connections.h

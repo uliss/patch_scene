@@ -26,7 +26,7 @@
 #include "tests/test_diagram.h"
 #include "tests/test_scene_background.h"
 #include "tests/test_scene_connections.h"
-#include "tests/test_scene_devices.h"
+#include "tests/test_scene.h"
 #include "tests/test_segment_points.h"
 #include "tests/test_subcategory.h"
 #include "tests/test_xlet.h"
@@ -72,7 +72,7 @@ int main(int argc, char* argv[])
     TestSceneConnections test_scene_connections;
     status |= QTest::qExec(&test_scene_connections, argc, argv);
 
-    TestSceneDevices test_scene_devices;
+    TestScene test_scene_devices;
     status |= QTest::qExec(&test_scene_devices, argc, argv);
 
     TestXlet test_xlet;

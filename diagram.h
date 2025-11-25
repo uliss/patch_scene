@@ -21,7 +21,7 @@
 #include "diagram_state_machine.h"
 #include "scene_background.h"
 #include "scene_connections.h"
-#include "scene_devices.h"
+#include "scene.h"
 
 #include <QGraphicsItemGroup>
 #include <QGraphicsScene>

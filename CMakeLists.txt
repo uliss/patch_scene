@@ -134,8 +134,8 @@ set(PROJECT_SOURCES
     scene_background.h
     scene_connections.cpp
     scene_connections.h
-    scene_devices.cpp
-    scene_devices.h
+    scene.cpp
+    scene.h
     segment_point_handle.h
     segment_point_handle.cpp
     send_item_model.cpp

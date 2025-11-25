@@ -11,10 +11,10 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#include "test_scene_devices.h"
+#include "test_scene.h"
 #include "comment.h"
 #include "device.h"
-#include "scene_devices.h"
+#include "scene.h"
 
 #include <QGraphicsScene>
 #include <QJsonObject>
@@ -114,12 +114,12 @@ QList<T> list(std::initializer_list<T> args) { return QList<T>(args); }
 QList<DeviceId> id_list(std::initializer_list<DeviceId> args) { return list<DeviceId>(args); }
 } // namespace
 
-void TestSceneDevices::initTestCase()
+void TestScene::initTestCase()
 {
     qRegisterMetaType<SharedDeviceData>();
 }
 
-void TestSceneDevices::add()
+void TestScene::add()
 {
     Scene dev;
     QSignalSpy sig_spy(&dev, SIGNAL(added(SharedDeviceData)));
@@ -182,7 +182,7 @@ void TestSceneDevices::add()
     QVERIFY(dynamic_cast<Comment*>(c0) != nullptr);
 }
 
-void TestSceneDevices::addComment()
+void TestScene::addComment()
 {
     Scene dev;
     QSignalSpy sig_spy(&dev, SIGNAL(added(SharedDeviceData)));
@@ -196,7 +196,7 @@ void TestSceneDevices::addComment()
     QCOMPARE(sig_spy.count(), 0);
 }
 
-void TestSceneDevices::remove()
+void TestScene::remove()
 {
     Scene dev;
     QSignalSpy sig_spy(&dev, SIGNAL(removed(SharedDeviceData)));
@@ -229,7 +229,7 @@ void TestSceneDevices::remove()
     QCOMPARE(sig_spy.count(), 2);
 }
 
-void TestSceneDevices::clear()
+void TestScene::clear()
 {
     Scene dev;
     QSignalSpy sig_spy(&dev, SIGNAL(removed(SharedDeviceData)));
@@ -247,7 +247,7 @@ void TestSceneDevices::clear()
     QCOMPARE(sig_spy.count(), 3);
 }
 
-void TestSceneDevices::setSelected()
+void TestScene::setSelected()
 {
     Scene dev;
     QGraphicsScene scene;
@@ -273,7 +273,7 @@ void TestSceneDevices::setSelected()
     QCOMPARE(sorted(dev.selectedIdList()), id_list({}));
 }
 
-void TestSceneDevices::toggleSelected()
+void TestScene::toggleSelected()
 {
     Scene dev;
     QGraphicsScene scene;
@@ -300,7 +300,7 @@ void TestSceneDevices::toggleSelected()
     QCOMPARE(sorted(dev.selectedIdList()), id_list({ 102 }));
 }
 
-void TestSceneDevices::boundingRect()
+void TestScene::boundingRect()
 {
     Scene dev;
     QCOMPARE(dev.boundingRect(), QRectF {});
@@ -316,7 +316,7 @@ void TestSceneDevices::boundingRect()
     QCOMPARE(dev.boundingRect(), QRectF(-0.5 * MIN_TXT_WD, 0, MIN_TXT_WD, 100 + DEF_TXT_HT));
 }
 
-void TestSceneDevices::findConnectionInfo()
+void TestScene::findConnectionInfo()
 {
     Scene dev;
     auto info = dev.connectionInfo(ConnectionId { 100, 0, 101, 0 });
@@ -344,7 +344,7 @@ void TestSceneDevices::findConnectionInfo()
     QCOMPARE(info->dest_data->id(), 100);
 }
 
-void TestSceneDevices::findConnectionPair()
+void TestScene::findConnectionPair()
 {
     Scene dev;
     auto pair = dev.connectionPair(ConnectionId { 100, 0, 101, 0 });
@@ -373,7 +373,7 @@ void TestSceneDevices::findConnectionPair()
     QCOMPARE(pair->p1.type, ConnectorType::plug_male);
 }
 
-void TestSceneDevices::checkConnection()
+void TestScene::checkConnection()
 {
     Scene dev;
     QVERIFY(!dev.checkConnection({ 0, 0, 0, 0 }));
@@ -416,7 +416,7 @@ void TestSceneDevices::checkConnection()
     QVERIFY(!dev.checkConnection({ 101, 1, 100, 0 }));
 }
 
-void TestSceneDevices::findConnectionPoints()
+void TestScene::findConnectionPoints()
 {
     Scene dev;
     QVERIFY(!dev.connectionPoints({ 0, 0, 0, 0 }));
@@ -454,7 +454,7 @@ void TestSceneDevices::findConnectionPoints()
     QCOMPARE(pts->second, QPointF(100, 200 + DEF_TXT_HT));
 }
 
-void TestSceneDevices::toJson()
+void TestScene::toJson()
 {
     Scene dev;
     QGraphicsScene scene;
@@ -478,7 +478,7 @@ void TestSceneDevices::toJson()
     QCOMPARE(o2["category"].toString(), "device");
 }
 
-void TestSceneDevices::compare()
+void TestScene::compare()
 {
     Scene sc;
     QCOMPARE(sc, sc);

@@ -11,12 +11,12 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#ifndef TEST_SCENE_DEVICES_H
-#define TEST_SCENE_DEVICES_H
+#ifndef TEST_SCENE_H
+#define TEST_SCENE_H
 
 #include <QObject>
 
-class TestSceneDevices : public QObject {
+class TestScene : public QObject {
     Q_OBJECT
 
 private slots:
@@ -37,4 +37,4 @@ private slots:
     void toggleSelected();
 };
 
-#endif // TEST_SCENE_DEVICES_H
+#endif // TEST_SCENE_H

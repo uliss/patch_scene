@@ -11,7 +11,7 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#include "scene_devices.h"
+#include "scene.h"
 #include "comment.h"
 #include "device.h"
 #include "logging.hpp"

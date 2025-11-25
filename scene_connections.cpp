@@ -15,7 +15,7 @@
 #include "connection.h"
 #include "connection_editor.h"
 #include "logging.hpp"
-#include "scene_devices.h"
+#include "scene.h"
 
 #include <QGraphicsScene>
 
