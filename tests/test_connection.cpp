@@ -13,7 +13,7 @@
  *****************************************************************************/
 #include "test_connection.h"
 #include "connection.h"
-#include "device.h"
+#include "scene_item.h"
 
 #include <QGraphicsScene>
 #include <QJsonObject>

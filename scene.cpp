@@ -13,7 +13,7 @@
  *****************************************************************************/
 #include "scene.h"
 #include "comment.h"
-#include "device.h"
+#include "scene_item.h"
 #include "logging.hpp"
 
 #include <QGraphicsScene>

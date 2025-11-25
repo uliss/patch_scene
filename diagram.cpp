@@ -29,7 +29,7 @@
 
 #include "app_version.h"
 #include "comment.h"
-#include "device.h"
+#include "scene_item.h"
 #include "diagram_scene.h"
 #include "diagram_updates_blocker.h"
 #include "logging.hpp"

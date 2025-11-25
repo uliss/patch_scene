@@ -72,8 +72,6 @@ set(PROJECT_SOURCES
     connection_style.h
     connector_type.cpp
     connector_type.h
-    device.cpp
-    device.h
     device_common.cpp
     device_common.h
     device_editor.cpp
@@ -129,16 +127,18 @@ set(PROJECT_SOURCES
     preferences_dialog.ui
     return_item_model.cpp
     return_item_model.h
-    scale_widget.h
     scale_widget.cpp
+    scale_widget.h
+    scene.cpp
+    scene.h
     scene_background.cpp
     scene_background.h
     scene_connections.cpp
     scene_connections.h
-    scene.cpp
-    scene.h
-    segment_point_handle.h
+    scene_item.cpp
+    scene_item.h
     segment_point_handle.cpp
+    segment_point_handle.h
     send_item_model.cpp
     send_item_model.h
     svg_render_factory.cpp

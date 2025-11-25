@@ -11,8 +11,8 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#ifndef DEVICE_H
-#define DEVICE_H
+#ifndef SCENE_ITEM_H
+#define SCENE_ITEM_H
 
 #include "device_common.h"
 #include "device_xlet_view.h"
@@ -186,4 +186,4 @@ private:
 };
 } // namespace ceam
 
-#endif // DEVICE_H
+#endif // SCENE_ITEM_H

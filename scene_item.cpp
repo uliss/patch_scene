@@ -11,7 +11,7 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#include "device.h"
+#include "scene_item.h"
 #include "device_editor.h"
 #include "logging.hpp"
 #include "svg_render_factory.h"

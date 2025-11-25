@@ -12,7 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "test_device.h"
-#include "device.h"
+#include "scene_item.h"
 #include "xlets_view.h"
 
 #include <QTest>

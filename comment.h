@@ -14,7 +14,7 @@
 #ifndef COMMENT_H
 #define COMMENT_H
 
-#include "device.h"
+#include "scene_item.h"
 
 namespace ceam {
 
