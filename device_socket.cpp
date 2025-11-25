@@ -11,7 +11,7 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#include "socket.h"
+#include "device_socket.h"
 #include "QtCore/qdebug.h"
 
 #include <QCoreApplication>

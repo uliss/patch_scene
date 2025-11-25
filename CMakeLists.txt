@@ -79,8 +79,8 @@ set(PROJECT_SOURCES
     device_editor.cpp
     device_editor.h
     device_editor.ui
-    device_info_editor.h
     device_info_editor.cpp
+    device_info_editor.h
     device_info_editor.ui
     device_item_model.cpp
     device_item_model.h
@@ -89,6 +89,8 @@ set(PROJECT_SOURCES
     device_pixmap.cpp
     device_pixmap.h
     device_pixmap.ui
+    device_socket.cpp
+    device_socket.h
     device_xlet.cpp
     device_xlet.h
     device_xlet_view.cpp
@@ -138,8 +140,6 @@ set(PROJECT_SOURCES
     segment_point_handle.cpp
     send_item_model.cpp
     send_item_model.h
-    socket.cpp
-    socket.h
     svg_render_factory.cpp
     svg_render_factory.h
     table_cell_power.cpp

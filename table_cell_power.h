@@ -14,7 +14,7 @@
 #ifndef TABLE_CELL_POWER_H
 #define TABLE_CELL_POWER_H
 
-#include "socket.h"
+#include "device_socket.h"
 
 #include <QComboBox>
 #include <QWidget>

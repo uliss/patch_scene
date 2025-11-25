@@ -14,7 +14,7 @@
 #include "test_device_xlet_view.h"
 #include "device_xlet.h"
 #include "device_xlet_view.h"
-#include "socket.h"
+#include "device_socket.h"
 #include "xlets_view.h"
 
 #include <QTest>

@@ -11,8 +11,8 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#ifndef SOCKET_H
-#define SOCKET_H
+#ifndef DEVICE_SOCKET_H
+#define DEVICE_SOCKET_H
 
 #include <QObject>
 
@@ -137,4 +137,4 @@ using XletIndex = std::uint8_t;
 constexpr XletIndex XLET_INDEX_NONE = std::numeric_limits<XletIndex>::max();
 } // namespace ceam
 
-#endif // SOCKET_H
+#endif // DEVICE_SOCKET_H

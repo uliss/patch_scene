@@ -15,7 +15,7 @@
 #define DEVICE_XLET_H
 
 #include "connector_type.h"
-#include "socket.h"
+#include "device_socket.h"
 #include "user_item_types.h"
 #include "xlet_info.h"
 

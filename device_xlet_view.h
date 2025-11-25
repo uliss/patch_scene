@@ -15,7 +15,7 @@
 #define DEVICE_XLET_VIEW_H
 
 #include "device_common.h"
-#include "socket.h"
+#include "device_socket.h"
 
 #include <QList>
 #include <QPointF>

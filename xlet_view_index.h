@@ -14,7 +14,7 @@
 #ifndef XLET_VIEW_INDEX_H
 #define XLET_VIEW_INDEX_H
 
-#include "socket.h"
+#include "device_socket.h"
 
 namespace ceam {
 

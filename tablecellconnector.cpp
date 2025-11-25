@@ -12,7 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "tablecellconnector.h"
-#include "socket.h"
+#include "device_socket.h"
 
 #include <QFile>
 

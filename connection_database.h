@@ -15,7 +15,7 @@
 #define CONNECTION_DATABASE_H
 
 #include "connector_type.h"
-#include "socket.h"
+#include "device_socket.h"
 
 #include <QHash>
 

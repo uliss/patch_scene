@@ -14,7 +14,7 @@
 #ifndef TABLECELLCONNECTOR_H
 #define TABLECELLCONNECTOR_H
 
-#include "socket.h"
+#include "device_socket.h"
 
 #include <QComboBox>
 
