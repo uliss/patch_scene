@@ -39,7 +39,7 @@ QJsonObject read_json_file_object(const QString& filename)
 SharedDeviceData read_device_json_file(const QString& filename)
 {
     auto obj = read_json_file_object(filename);
-    SharedDeviceData data(new DeviceData(DEV_NULL_ID));
+    SharedDeviceData data(new DeviceData(SCENE_ITEM_NULL_ID));
     if (!data->setJson(obj))
         qWarning() << "can't set device JSON from file:";
 

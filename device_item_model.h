@@ -38,8 +38,8 @@ public:
     QStandardItem* deviceVendor(int idx);
     QStandardItem* deviceModel(int idx);
 
-    std::optional<DeviceId> deviceId(const QStandardItem* item) const;
-    std::optional<DeviceId> deviceId(int idx) const;
+    std::optional<SceneItemId> deviceId(const QStandardItem* item) const;
+    std::optional<SceneItemId> deviceId(int idx) const;
 
     SharedDeviceData updateDeviceData(const QStandardItem* item, const SharedDeviceData& data);
 

@@ -51,12 +51,12 @@ public:
 };
 
 class ConnectionId {
-    DeviceId src_ { 0 }, dest_ { 0 };
+    SceneItemId src_ { 0 }, dest_ { 0 };
     XletIndex src_idx_ { 0 }, dest_idx_ { 0 };
     XletType src_type_ { XletType::Out }, dest_type_ { XletType::In };
 
-    ConnectionId(DeviceId src, XletType srcType, XletIndex srcIdx,
-        DeviceId dest, XletType destType, XletIndex destIdx)
+    ConnectionId(SceneItemId src, XletType srcType, XletIndex srcIdx,
+        SceneItemId dest, XletType destType, XletIndex destIdx)
         : src_(src)
         , src_idx_(srcIdx)
         , dest_(dest)
@@ -67,7 +67,7 @@ class ConnectionId {
     }
 
 public:
-    ConnectionId(DeviceId src, XletIndex srcIdx, DeviceId dest, XletIndex destIdx)
+    ConnectionId(SceneItemId src, XletIndex srcIdx, SceneItemId dest, XletIndex destIdx)
         : src_(src)
         , src_idx_(srcIdx)
         , dest_(dest)
@@ -79,8 +79,8 @@ public:
 
     ConnectionId(const XletInfo& xi0, const XletInfo& xi1);
 
-    DeviceId source() const { return src_; }
-    DeviceId destination() const { return dest_; }
+    SceneItemId source() const { return src_; }
+    SceneItemId destination() const { return dest_; }
     XletIndex sourceIndex() const { return src_idx_; }
     XletIndex destinationIndex() const { return dest_idx_; }
 

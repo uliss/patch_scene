@@ -36,20 +36,20 @@ constexpr int DEF_TXT_HT = 26;
 constexpr int DEF_TXT_HT = 24;
 #endif
 
-SharedDeviceData data0(DeviceId id)
+SharedDeviceData data0(SceneItemId id)
 {
     auto data = new DeviceData(id);
     return SharedDeviceData { data };
 }
 
-SharedDeviceData data1(DeviceId id)
+SharedDeviceData data1(SceneItemId id)
 {
     auto data = new DeviceData(id);
     data->setShowTitle(false);
     return SharedDeviceData { data };
 }
 
-SharedDeviceData data2(DeviceId id)
+SharedDeviceData data2(SceneItemId id)
 {
     auto data = new DeviceData(id);
     data->setShowTitle(false);
@@ -59,7 +59,7 @@ SharedDeviceData data2(DeviceId id)
     return SharedDeviceData { data };
 }
 
-SharedDeviceData data3(DeviceId id)
+SharedDeviceData data3(SceneItemId id)
 {
     auto data = new DeviceData(id);
     data->setTitle("DATA3");
@@ -68,7 +68,7 @@ SharedDeviceData data3(DeviceId id)
     return SharedDeviceData { data };
 }
 
-SharedDeviceData data4(DeviceId id)
+SharedDeviceData data4(SceneItemId id)
 {
     auto data = new DeviceData(id);
     data->setTitle("DATA4");
@@ -77,7 +77,7 @@ SharedDeviceData data4(DeviceId id)
     return SharedDeviceData { data };
 }
 
-SharedDeviceData data_comment(DeviceId id)
+SharedDeviceData data_comment(SceneItemId id)
 {
     auto data = new DeviceData(id);
     data->setTitle("COMMENT");
@@ -85,7 +85,7 @@ SharedDeviceData data_comment(DeviceId id)
     return SharedDeviceData { data };
 }
 
-SharedDeviceData data_n(DeviceId id, int in = 0, int out = 0, const QString& title = {})
+SharedDeviceData data_n(SceneItemId id, int in = 0, int out = 0, const QString& title = {})
 {
     auto data = new DeviceData(id);
 
@@ -101,7 +101,7 @@ SharedDeviceData data_n(DeviceId id, int in = 0, int out = 0, const QString& tit
     return SharedDeviceData { data };
 }
 
-QList<DeviceId> sorted(const QList<DeviceId>& l)
+QList<SceneItemId> sorted(const QList<SceneItemId>& l)
 {
     auto res = l;
     std::sort(res.begin(), res.end());
@@ -111,7 +111,7 @@ QList<DeviceId> sorted(const QList<DeviceId>& l)
 template <class T>
 QList<T> list(std::initializer_list<T> args) { return QList<T>(args); }
 
-QList<DeviceId> id_list(std::initializer_list<DeviceId> args) { return list<DeviceId>(args); }
+QList<SceneItemId> id_list(std::initializer_list<SceneItemId> args) { return list<SceneItemId>(args); }
 } // namespace
 
 void TestScene::initTestCase()
@@ -202,7 +202,7 @@ void TestScene::remove()
     QSignalSpy sig_spy(&dev, SIGNAL(removed(SharedDeviceData)));
     QVERIFY(sig_spy.isValid());
 
-    QVERIFY(!dev.remove(DEV_NULL_ID));
+    QVERIFY(!dev.remove(SCENE_ITEM_NULL_ID));
     QVERIFY(!dev.remove(100));
     QCOMPARE(sig_spy.count(), 0);
 

@@ -41,18 +41,18 @@ public:
      * Update connected device title
      * @complexity O(n)
      */
-    bool updateDeviceTitle(DeviceId id, const QString& title);
+    bool updateDeviceTitle(SceneItemId id, const QString& title);
 
     void clearItems();
 
-    std::optional<DeviceId> deviceId(const QModelIndex& idx) const;
+    std::optional<SceneItemId> deviceId(const QModelIndex& idx) const;
 
     QSortFilterProxyModel* sortProxy() { return proxy_; }
 
     void setFullData(const QList<DeviceConnectionData>& info);
 
 private:
-    bool updateDeviceTitle(const QModelIndex& idx, DeviceId id, const QString& title);
+    bool updateDeviceTitle(const QModelIndex& idx, SceneItemId id, const QString& title);
 
 private:
     QSortFilterProxyModel* proxy_;

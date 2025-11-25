@@ -142,7 +142,7 @@ void TestXletsUserView::testSetData()
     auto xv = dynamic_cast<XletsUserView*>(xlets.currentView());
     QVERIFY(!xv);
 
-    SharedDeviceData data(new DeviceData(DEV_NULL_ID));
+    SharedDeviceData data(new DeviceData(SCENE_ITEM_NULL_ID));
     XletsUserViewData vdata { 2, 3 };
     vdata.setName("UserView");
     data->userViewData().append(vdata);

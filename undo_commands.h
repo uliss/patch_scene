@@ -36,7 +36,7 @@ public:
 private:
     Diagram* doc_;
     QPointF pos_;
-    DeviceId id_ { 0 };
+    SceneItemId id_ { 0 };
 };
 
 class CreateComment : public QUndoCommand {
@@ -49,7 +49,7 @@ public:
 private:
     Diagram* doc_;
     QPointF pos_;
-    DeviceId id_ { 0 };
+    SceneItemId id_ { 0 };
 };
 
 class RemoveDevice : public QUndoCommand {
@@ -87,23 +87,23 @@ public:
 
 private:
     Diagram* doc_;
-    QList<DeviceId> new_devs_, sel_devs_;
+    QList<SceneItemId> new_devs_, sel_devs_;
 };
 
 class BaseLockDevices : public QUndoCommand {
 public:
-    BaseLockDevices(Diagram* doc, const QList<DeviceId>& devs);
+    BaseLockDevices(Diagram* doc, const QList<SceneItemId>& devs);
 
 protected:
     void setLocked(bool value);
 
     Diagram* doc_;
-    QList<DeviceId> devs_;
+    QList<SceneItemId> devs_;
 };
 
 class LockDevices : public BaseLockDevices {
 public:
-    LockDevices(Diagram* doc, const QList<DeviceId>& devs);
+    LockDevices(Diagram* doc, const QList<SceneItemId>& devs);
 
     void undo() override;
     void redo() override;
@@ -111,7 +111,7 @@ public:
 
 class UnlockDevices : public BaseLockDevices {
 public:
-    UnlockDevices(Diagram* doc, const QList<DeviceId>& devs);
+    UnlockDevices(Diagram* doc, const QList<SceneItemId>& devs);
 
     void undo() override;
     void redo() override;
@@ -140,14 +140,14 @@ public:
 
 class ToggleDevices : public QUndoCommand {
 public:
-    ToggleDevices(Diagram* doc, const QList<DeviceId>& ids);
+    ToggleDevices(Diagram* doc, const QList<SceneItemId>& ids);
 
     void undo() final;
     void redo() final;
 
 private:
     Diagram* doc_;
-    QList<DeviceId> ids_;
+    QList<SceneItemId> ids_;
 };
 
 class MoveSelected : public QUndoCommand {
@@ -172,32 +172,32 @@ public:
 private:
     Diagram* doc_;
     SharedDeviceData src_data_;
-    DeviceId new_id_;
+    SceneItemId new_id_;
 };
 
 class AddDeviceSelection : public QUndoCommand {
 public:
-    AddDeviceSelection(Diagram* doc, const QList<DeviceId>& ids);
+    AddDeviceSelection(Diagram* doc, const QList<SceneItemId>& ids);
 
     void undo() final;
     void redo() final;
 
 private:
     Diagram* doc_;
-    QList<DeviceId> ids_;
+    QList<SceneItemId> ids_;
 };
 
 class SetDeviceSelection : public QUndoCommand {
 public:
-    SetDeviceSelection(Diagram* doc, const QSet<DeviceId>& new_sel);
+    SetDeviceSelection(Diagram* doc, const QSet<SceneItemId>& new_sel);
 
     void undo() final;
     void redo() final;
 
 private:
     Diagram* doc_;
-    QSet<DeviceId> prev_sel_;
-    QSet<DeviceId> new_sel_;
+    QSet<SceneItemId> prev_sel_;
+    QSet<SceneItemId> new_sel_;
 };
 
 class ConnectDevices : public QUndoCommand {
@@ -227,17 +227,17 @@ private:
 
 class MoveByDevices : public QUndoCommand {
 public:
-    MoveByDevices(Diagram* doc, const QHash<DeviceId, QPointF>& deltas);
+    MoveByDevices(Diagram* doc, const QHash<SceneItemId, QPointF>& deltas);
 
     void undo() final;
     void redo() final;
 
 private:
-    static QHash<DeviceId, QPointF> negate(const QHash<DeviceId, QPointF>& map);
+    static QHash<SceneItemId, QPointF> negate(const QHash<SceneItemId, QPointF>& map);
 
 private:
     Diagram* doc_;
-    QHash<DeviceId, QPointF> deltas_;
+    QHash<SceneItemId, QPointF> deltas_;
 };
 
 class CopySelected : public QUndoCommand {
@@ -274,7 +274,7 @@ public:
 private:
     Diagram* doc_;
     QList<SharedDeviceData> data_;
-    QList<DeviceId> added_;
+    QList<SceneItemId> added_;
 };
 
 class UpdateDeviceData : public QUndoCommand {
@@ -315,14 +315,14 @@ private:
 
 class MirrorDevice : public QUndoCommand {
 public:
-    MirrorDevice(Diagram* doc, DeviceId id, ImageMirrorType type);
+    MirrorDevice(Diagram* doc, SceneItemId id, ImageMirrorType type);
 
     void undo() final;
     void redo() final;
 
 private:
     Diagram* doc_;
-    DeviceId id_;
+    SceneItemId id_;
     ImageMirrorType type_;
 };
 
@@ -340,27 +340,27 @@ private:
 
 class MoveLower : public QUndoCommand {
 public:
-    MoveLower(Diagram* doc, DeviceId id);
+    MoveLower(Diagram* doc, SceneItemId id);
 
     void undo() final;
     void redo() final;
 
 private:
     Diagram* doc_;
-    DeviceId id_;
+    SceneItemId id_;
     qreal old_z_;
 };
 
 class MoveUpper : public QUndoCommand {
 public:
-    MoveUpper(Diagram* doc, DeviceId id);
+    MoveUpper(Diagram* doc, SceneItemId id);
 
     void undo() final;
     void redo() final;
 
 private:
     Diagram* doc_;
-    DeviceId id_;
+    SceneItemId id_;
     qreal old_z_;
 };
 

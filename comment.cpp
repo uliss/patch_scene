@@ -28,7 +28,7 @@ namespace {
 
 SharedDeviceData commentData(const QString& title)
 {
-    QSharedDataPointer data(new DeviceData(DEV_NULL_ID));
+    QSharedDataPointer data(new DeviceData(SCENE_ITEM_NULL_ID));
     data->setCategory(ItemCategory::Comment);
     data->setTitle(title);
     return data;

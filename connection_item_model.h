@@ -35,7 +35,7 @@ public:
     /**
      * @complexity: O(n)
      */
-    bool updateDeviceTitle(DeviceId id, const QString& title);
+    bool updateDeviceTitle(SceneItemId id, const QString& title);
 
     /**
      * @brief removeConnection
@@ -43,7 +43,7 @@ public:
      */
     bool removeConnection(const ConnectionId& data);
 
-    std::optional<DeviceId> deviceId(const QModelIndex& idx) const;
+    std::optional<SceneItemId> deviceId(const QModelIndex& idx) const;
 
     void clearItems();
 
@@ -52,7 +52,7 @@ public:
     void setFullData(const QList<DeviceConnectionData>& conn);
 
 private:
-    bool updateDeviceTitle(const QModelIndex& idx, DeviceId id, const QString& title);
+    bool updateDeviceTitle(const QModelIndex& idx, SceneItemId id, const QString& title);
 
 private:
     QSortFilterProxyModel* proxy_;

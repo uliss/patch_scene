@@ -211,7 +211,7 @@ void ceam::foreachItemCategory(const std::function<void(ItemCategory, const char
     }
 }
 
-DeviceData::DeviceData(DeviceId id)
+DeviceData::DeviceData(SceneItemId id)
     : id_(id)
 {
 }
@@ -298,9 +298,9 @@ bool DeviceData::setJson(const QJsonValue& v)
 
     auto obj = v.toObject();
 
-    auto json_id = obj.take(JSON_KEY_ID).toInteger(DEV_NULL_ID);
+    auto json_id = obj.take(JSON_KEY_ID).toInteger(SCENE_ITEM_NULL_ID);
     if (json_id < 0)
-        json_id = DEV_NULL_ID;
+        json_id = SCENE_ITEM_NULL_ID;
 
     id_ = json_id;
 

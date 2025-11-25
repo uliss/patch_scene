@@ -114,7 +114,7 @@ QStandardItem* DeviceItemModel::deviceModel(int idx)
     return item(idx, COL_DEV_MODEL);
 }
 
-std::optional<DeviceId> DeviceItemModel::deviceId(const QStandardItem* item) const
+std::optional<SceneItemId> DeviceItemModel::deviceId(const QStandardItem* item) const
 {
     if (!item)
         return {};
@@ -129,7 +129,7 @@ std::optional<DeviceId> DeviceItemModel::deviceId(const QStandardItem* item) con
     return {};
 }
 
-std::optional<DeviceId> DeviceItemModel::deviceId(int idx) const
+std::optional<SceneItemId> DeviceItemModel::deviceId(int idx) const
 {
     return deviceId(item(idx, COL_DEV_TITLE));
 }

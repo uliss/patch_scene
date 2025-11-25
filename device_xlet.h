@@ -113,7 +113,7 @@ private:
 private:
     XletData data_;
     QGraphicsSvgItem* icon_ { nullptr };
-    XletInfo info_ { DEV_NULL_ID, XLET_INDEX_NONE, XletType::In };
+    XletInfo info_ { SCENE_ITEM_NULL_ID, XLET_INDEX_NONE, XletType::In };
     bool drag_mode_ { false }, self_drag_ { false };
 };
 

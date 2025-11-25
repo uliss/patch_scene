@@ -167,7 +167,7 @@ void Diagram::initSceneBackground()
         [this]() { emit requestBackgroundChange(); });
 }
 
-bool Diagram::removeDevice(DeviceId id)
+bool Diagram::removeDevice(SceneItemId id)
 {
     auto data = devices_.remove(id);
     if (data) {
@@ -192,7 +192,7 @@ void Diagram::updateConnectionPos(Connection* conn)
     }
 }
 
-void Diagram::updateConnectionPos(DeviceId id)
+void Diagram::updateConnectionPos(SceneItemId id)
 {
     DiagramUpdatesBlocker ub(this);
 
@@ -271,7 +271,7 @@ void Diagram::cmdCreateDevice(const QPointF& pos)
 
 void Diagram::cmdToggleDevices(const QList<QGraphicsItem*>& items)
 {
-    QList<DeviceId> ids;
+    QList<SceneItemId> ids;
     ids.reserve(items.size());
     for (auto x : items) {
         auto dev = qgraphicsitem_cast<Device*>(x);
@@ -324,19 +324,19 @@ void Diagram::cmdUnlockSelected()
     undo_stack_->push(unlock);
 }
 
-void Diagram::cmdLock(DeviceId id)
+void Diagram::cmdLock(SceneItemId id)
 {
     auto lock = new LockDevices(this, { id });
     undo_stack_->push(lock);
 }
 
-void Diagram::cmdUnlock(DeviceId id)
+void Diagram::cmdUnlock(SceneItemId id)
 {
     auto lock = new UnlockDevices(this, { id });
     undo_stack_->push(lock);
 }
 
-void Diagram::cmdMirrorDevice(DeviceId id)
+void Diagram::cmdMirrorDevice(SceneItemId id)
 {
     auto mirror = new MirrorDevice(this, id, ImageMirrorType::Horizontal);
     undo_stack_->push(mirror);
@@ -362,7 +362,7 @@ void Diagram::cmdAddToSelection(const QRectF& sel)
 
 void Diagram::cmdAddToSelection(const QList<QGraphicsItem*>& items)
 {
-    QList<DeviceId> ids;
+    QList<SceneItemId> ids;
     for (auto x : items) {
         auto dev = qgraphicsitem_cast<Device*>(x);
         if (dev)
@@ -379,9 +379,9 @@ void Diagram::cmdSelectDevices(const QRectF& sel)
     undo_stack_->push(set_sel);
 }
 
-void Diagram::cmdSelectUnique(DeviceId id)
+void Diagram::cmdSelectUnique(SceneItemId id)
 {
-    QSet<DeviceId> ids { id };
+    QSet<SceneItemId> ids { id };
     auto sel = new SetDeviceSelection(this, ids);
     undo_stack_->push(sel);
 }
@@ -397,7 +397,7 @@ void Diagram::cmdDistributeHSelected()
     int count = 0;
     qreal min_x = std::numeric_limits<qreal>::max();
     qreal max_x = std::numeric_limits<qreal>::lowest();
-    std::vector<std::pair<DeviceId, qreal>> sel_data;
+    std::vector<std::pair<SceneItemId, qreal>> sel_data;
     devices_.foreachSelectedDevice([&count, &min_x, &max_x, &sel_data](const Device* dev) {
         const auto pos = dev->pos();
         min_x = std::min(min_x, pos.x());
@@ -412,9 +412,9 @@ void Diagram::cmdDistributeHSelected()
     qreal dist_wd = max_x - min_x;
     qreal step = dist_wd / (count - 1);
     std::sort(sel_data.begin(), sel_data.end(),
-        [](const std::pair<DeviceId, qreal>& a, const std::pair<DeviceId, qreal>& b) { return a.second < b.second; });
+        [](const std::pair<SceneItemId, qreal>& a, const std::pair<SceneItemId, qreal>& b) { return a.second < b.second; });
 
-    QHash<DeviceId, QPointF> deltas;
+    QHash<SceneItemId, QPointF> deltas;
     for (auto i = 0; i < sel_data.size(); i++) {
         auto id = sel_data[i].first;
         auto old_x = sel_data[i].second - min_x;
@@ -431,7 +431,7 @@ void Diagram::cmdDistributeVSelected()
     int count = 0;
     qreal min_y = std::numeric_limits<qreal>::max();
     qreal max_y = std::numeric_limits<qreal>::lowest();
-    std::vector<std::pair<DeviceId, qreal>> sel_data;
+    std::vector<std::pair<SceneItemId, qreal>> sel_data;
     devices_.foreachSelectedDevice([&count, &min_y, &max_y, &sel_data](const Device* dev) {
         const auto pos = dev->pos();
         min_y = std::min(min_y, pos.y());
@@ -446,9 +446,9 @@ void Diagram::cmdDistributeVSelected()
     qreal dist_height = max_y - min_y;
     qreal step = dist_height / (count - 1);
     std::sort(sel_data.begin(), sel_data.end(),
-        [](const std::pair<DeviceId, qreal>& a, const std::pair<DeviceId, qreal>& b) { return a.second < b.second; });
+        [](const std::pair<SceneItemId, qreal>& a, const std::pair<SceneItemId, qreal>& b) { return a.second < b.second; });
 
-    QHash<DeviceId, QPointF> deltas;
+    QHash<SceneItemId, QPointF> deltas;
     for (auto i = 0; i < sel_data.size(); i++) {
         auto id = sel_data[i].first;
         auto old_y = sel_data[i].second - min_y;
@@ -488,7 +488,7 @@ void Diagram::cmdAlignVSelected()
     }
     x /= sel_data.size();
 
-    QHash<DeviceId, QPointF> deltas;
+    QHash<SceneItemId, QPointF> deltas;
     for (auto& data : sel_data) {
         deltas.insert(data->id(), QPointF(x - data->pos().x(), 0));
     }
@@ -509,7 +509,7 @@ void Diagram::cmdAlignHSelected()
     }
     y /= sel_data.size();
 
-    QHash<DeviceId, QPointF> deltas;
+    QHash<SceneItemId, QPointF> deltas;
     for (auto& data : sel_data) {
         deltas.insert(data->id(), QPointF(0, y - data->pos().y()));
     }
@@ -534,7 +534,7 @@ void Diagram::cmdPlaceInColumnSelected()
 {
     int count = 0;
     qreal min_y = std::numeric_limits<qreal>::max();
-    std::vector<std::pair<DeviceId, const Device*>> sel_data;
+    std::vector<std::pair<SceneItemId, const Device*>> sel_data;
     devices_.foreachSelectedDevice([&count, &min_y, &sel_data](const Device* dev) {
         min_y = std::min(min_y, dev->y());
         sel_data.push_back({ dev->id(), dev });
@@ -545,14 +545,14 @@ void Diagram::cmdPlaceInColumnSelected()
         return;
 
     std::sort(sel_data.begin(), sel_data.end(),
-        [](const std::pair<DeviceId, const Device*>& a, const std::pair<DeviceId, const Device*>& b) {
+        [](const std::pair<SceneItemId, const Device*>& a, const std::pair<SceneItemId, const Device*>& b) {
             return a.second->y() < b.second->y();
         });
 
     qreal xpos = sel_data[0].second->x();
     qreal ypos = min_y;
 
-    QHash<DeviceId, QPointF> deltas;
+    QHash<SceneItemId, QPointF> deltas;
     for (auto i = 1; i < sel_data.size(); i++) {
         auto dev = sel_data[i].second;
         auto prev_dev = sel_data[i - 1].second;
@@ -568,7 +568,7 @@ void Diagram::cmdPlaceInRowSelected()
 {
     int count = 0;
     qreal min_x = std::numeric_limits<qreal>::max();
-    std::vector<std::pair<DeviceId, const Device*>> sel_data;
+    std::vector<std::pair<SceneItemId, const Device*>> sel_data;
     devices_.foreachSelectedDevice([&count, &min_x, &sel_data](const Device* dev) {
         min_x = std::min(min_x, dev->x());
         sel_data.push_back({ dev->id(), dev });
@@ -579,13 +579,13 @@ void Diagram::cmdPlaceInRowSelected()
         return;
 
     std::sort(sel_data.begin(), sel_data.end(),
-        [](const std::pair<DeviceId, const Device*>& a, const std::pair<DeviceId, const Device*>& b) {
+        [](const std::pair<SceneItemId, const Device*>& a, const std::pair<SceneItemId, const Device*>& b) {
             return a.second->x() < b.second->x();
         });
 
     qreal xpos = min_x;
     qreal ypos = sel_data[0].second->y();
-    QHash<DeviceId, QPointF> deltas;
+    QHash<SceneItemId, QPointF> deltas;
     for (auto i = 1; i < sel_data.size(); i++) {
         auto dev = sel_data[i].second;
         auto prev_dev = sel_data[i - 1].second;
@@ -708,7 +708,7 @@ Comment* Diagram::addComment()
     return comm;
 }
 
-QList<DeviceId> Diagram::duplicateSelected(DuplicatePolicy policy)
+QList<SceneItemId> Diagram::duplicateSelected(DuplicatePolicy policy)
 {
     QList<Device*> dup_list;
 
@@ -717,7 +717,7 @@ QList<DeviceId> Diagram::duplicateSelected(DuplicatePolicy policy)
             dup_list << dev;
     });
 
-    QList<DeviceId> res;
+    QList<SceneItemId> res;
     if (dup_list.empty())
         return res;
 
@@ -1570,7 +1570,7 @@ void Diagram::moveSelectedItemsBy(qreal dx, qreal dy)
         emit sceneChanged();
 }
 
-void Diagram::moveItemsBy(const QHash<DeviceId, QPointF>& deltas)
+void Diagram::moveItemsBy(const QHash<SceneItemId, QPointF>& deltas)
 {
     bool notify = false;
 
@@ -1661,7 +1661,7 @@ void Diagram::updateZoom(qreal zoom)
 
 bool Diagram::dropJson(const QPointF& pos, const QByteArray& json)
 {
-    SharedDeviceData data(new DeviceData(DEV_NULL_ID));
+    SharedDeviceData data(new DeviceData(SCENE_ITEM_NULL_ID));
     if (!data->setJson(json)) {
         qWarning() << "can't set JSON";
         return false;

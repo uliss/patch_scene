@@ -118,7 +118,7 @@ set(PROJECT_SOURCES
     furniture_item_model.h
     image_widget.h
     image_widget.cpp
-    item_id.h
+    scene_item_id.h
     library_item_model.h
     library_item_model.cpp
     logging.hpp

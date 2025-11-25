@@ -90,7 +90,7 @@ bool SceneConnections::remove(const ConnectionId& id)
     return removeConnection(src_it.value());
 }
 
-void SceneConnections::removeAll(DeviceId id)
+void SceneConnections::removeAll(SceneItemId id)
 {
     auto dev_it = conn_dev_.find(id);
     if (dev_it != conn_dev_.end()) {
@@ -145,7 +145,7 @@ QList<DeviceConnectionData> SceneConnections::infoList(const Scene& devices) con
     return res;
 }
 
-QList<Connection*> SceneConnections::findConnections(DeviceId id) const
+QList<Connection*> SceneConnections::findConnections(SceneItemId id) const
 {
     auto dev_it = conn_dev_.find(id);
     if (dev_it != conn_dev_.end()) {
@@ -154,7 +154,7 @@ QList<Connection*> SceneConnections::findConnections(DeviceId id) const
         return {};
 }
 
-QList<ConnectionInfo> SceneConnections::findConnectionsData(DeviceId id) const
+QList<ConnectionInfo> SceneConnections::findConnectionsData(SceneItemId id) const
 {
     auto dev_it = conn_dev_.find(id);
     if (dev_it != conn_dev_.end()) {

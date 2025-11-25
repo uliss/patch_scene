@@ -29,7 +29,7 @@ constexpr int DEF_TXT_HT = 26;
 constexpr int DEF_TXT_HT = 24;
 #endif
 
-SharedDeviceData make_dev(DeviceId id, const QPointF& pos)
+SharedDeviceData make_dev(SceneItemId id, const QPointF& pos)
 {
     auto data = new DeviceData(id);
     data->setTitle("abc");
@@ -37,7 +37,7 @@ SharedDeviceData make_dev(DeviceId id, const QPointF& pos)
     return SharedDeviceData(data);
 }
 
-SharedDeviceData data1(DeviceId id)
+SharedDeviceData data1(SceneItemId id)
 {
     auto data = new DeviceData(id);
     data->setShowTitle(false);

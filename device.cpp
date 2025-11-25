@@ -46,12 +46,12 @@ constexpr int TITLE_MAX_CHAR_WIDTH = 18;
 constexpr int TITLE_CHAR_WIDTH = 10;
 constexpr qreal DEF_IMAGE_WIDTH = 100;
 
-constexpr DeviceId INIT_ID = 1;
-using DeviceIdMap = std::unordered_map<DeviceId, bool>;
+constexpr SceneItemId INIT_ID = 1;
+using DeviceIdMap = std::unordered_map<SceneItemId, bool>;
 
 SharedDeviceData makeDeviceData()
 {
-    QSharedDataPointer data(new DeviceData(DEV_NULL_ID));
+    QSharedDataPointer data(new DeviceData(SCENE_ITEM_NULL_ID));
     data->setTitle("Device");
     data->appendInput(XletData { ConnectorModel::XLR });
     data->appendInput(XletData { ConnectorModel::XLR });
@@ -84,7 +84,7 @@ public:
         return instance_;
     }
 
-    DeviceId request()
+    SceneItemId request()
     {
         if (ids_.empty()) {
             ids_.insert({ INIT_ID, true });
@@ -118,7 +118,7 @@ public:
         }
     }
 
-    void release(DeviceId id)
+    void release(SceneItemId id)
     {
         auto it = std::find_if(ids_.begin(), ids_.end(),
             [id](const key_value& kv) {
@@ -136,12 +136,12 @@ public:
         }
     }
 
-    void setUsed(DeviceId id)
+    void setUsed(SceneItemId id)
     {
         ids_[id] = true;
     }
 
-    bool isUsed(DeviceId id) const
+    bool isUsed(SceneItemId id) const
     {
         return ids_.end() != std::find_if(ids_.begin(), ids_.end(), //
                    [id](const key_value& kv) {
@@ -798,7 +798,7 @@ SharedDeviceData Device::dataFromJson(const QJsonValue& j)
         return {};
     }
 
-    SharedDeviceData data(new DeviceData(DEV_NULL_ID));
+    SharedDeviceData data(new DeviceData(SCENE_ITEM_NULL_ID));
     if (!data->setJson(j))
         return {};
 

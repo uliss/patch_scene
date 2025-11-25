@@ -47,7 +47,7 @@ void CreateDevice::redo()
     }
 }
 
-AddDeviceSelection::AddDeviceSelection(Diagram* doc, const QList<DeviceId>& ids)
+AddDeviceSelection::AddDeviceSelection(Diagram* doc, const QList<SceneItemId>& ids)
     : doc_(doc)
     , ids_(ids)
 {
@@ -231,17 +231,17 @@ void DuplicateSelected::redo()
 DuplicateDevice::DuplicateDevice(Diagram* doc, const SharedDeviceData& data)
     : doc_(doc)
     , src_data_(data)
-    , new_id_(DEV_NULL_ID)
+    , new_id_(SCENE_ITEM_NULL_ID)
 {
 }
 
 void DuplicateDevice::undo()
 {
-    if (!doc_ || new_id_ == DEV_NULL_ID)
+    if (!doc_ || new_id_ == SCENE_ITEM_NULL_ID)
         return;
 
     doc_->removeDevice(new_id_);
-    new_id_ = DEV_NULL_ID;
+    new_id_ = SCENE_ITEM_NULL_ID;
 }
 
 void DuplicateDevice::redo()
@@ -254,7 +254,7 @@ void DuplicateDevice::redo()
     new_id_ = dev->id();
 }
 
-ToggleDevices::ToggleDevices(Diagram* doc, const QList<DeviceId>& ids)
+ToggleDevices::ToggleDevices(Diagram* doc, const QList<SceneItemId>& ids)
     : doc_(doc)
     , ids_(ids)
 {
@@ -272,7 +272,7 @@ void ToggleDevices::redo()
         doc_->devices().toggleSelected(ids_);
 }
 
-SetDeviceSelection::SetDeviceSelection(Diagram* doc, const QSet<DeviceId>& new_sel)
+SetDeviceSelection::SetDeviceSelection(Diagram* doc, const QSet<SceneItemId>& new_sel)
     : doc_(doc)
     , new_sel_(new_sel)
 {
@@ -326,7 +326,7 @@ void MoveSelected::redo()
     doc_->moveSelectedItemsBy(dx_, dy_);
 }
 
-MoveByDevices::MoveByDevices(Diagram* doc, const QHash<DeviceId, QPointF>& deltas)
+MoveByDevices::MoveByDevices(Diagram* doc, const QHash<SceneItemId, QPointF>& deltas)
     : doc_(doc)
     , deltas_(deltas)
 {
@@ -348,7 +348,7 @@ void MoveByDevices::redo()
     doc_->moveItemsBy(deltas_);
 }
 
-QHash<DeviceId, QPointF> MoveByDevices::negate(const QHash<DeviceId, QPointF>& map)
+QHash<SceneItemId, QPointF> MoveByDevices::negate(const QHash<SceneItemId, QPointF>& map)
 {
     auto res = map;
 
@@ -547,13 +547,13 @@ void BaseLockDevices::setLocked(bool value)
     }
 }
 
-BaseLockDevices::BaseLockDevices(Diagram* doc, const QList<DeviceId>& devs)
+BaseLockDevices::BaseLockDevices(Diagram* doc, const QList<SceneItemId>& devs)
     : doc_(doc)
     , devs_(devs)
 {
 }
 
-LockDevices::LockDevices(Diagram* doc, const QList<DeviceId>& devs)
+LockDevices::LockDevices(Diagram* doc, const QList<SceneItemId>& devs)
     : BaseLockDevices(doc, devs)
 {
 }
@@ -568,7 +568,7 @@ void LockDevices::redo()
     setLocked(true);
 }
 
-UnlockDevices::UnlockDevices(Diagram* doc, const QList<DeviceId>& devs)
+UnlockDevices::UnlockDevices(Diagram* doc, const QList<SceneItemId>& devs)
     : BaseLockDevices(doc, devs)
 {
 }
@@ -605,7 +605,7 @@ void MirrorSelected::redo()
     });
 }
 
-MirrorDevice::MirrorDevice(Diagram* doc, DeviceId id, ImageMirrorType type)
+MirrorDevice::MirrorDevice(Diagram* doc, SceneItemId id, ImageMirrorType type)
     : doc_(doc)
     , id_(id)
     , type_(type)
@@ -681,7 +681,7 @@ void CreateComment::redo()
     }
 }
 
-MoveLower::MoveLower(Diagram* doc, DeviceId id)
+MoveLower::MoveLower(Diagram* doc, SceneItemId id)
     : doc_(doc)
     , id_(id)
     , old_z_(0)
@@ -732,7 +732,7 @@ void MoveLower::redo()
     qWarning() << dev->deviceData()->title();
 }
 
-MoveUpper::MoveUpper(Diagram* doc, DeviceId id)
+MoveUpper::MoveUpper(Diagram* doc, SceneItemId id)
     : doc_(doc)
     , id_(id)
     , old_z_(0)

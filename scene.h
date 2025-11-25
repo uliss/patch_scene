@@ -32,7 +32,7 @@ class Scene : public QObject {
 
 private:
     QGraphicsScene* scene_;
-    std::unordered_map<DeviceId, Device*> items_;
+    std::unordered_map<SceneItemId, Device*> items_;
 
 public:
     Scene();
@@ -74,7 +74,7 @@ public:
      * @return removed device data on success or null device data on error
      * @emit removed(SharedDeviceData)
      */
-    SharedDeviceData remove(DeviceId id);
+    SharedDeviceData remove(SceneItemId id);
 
     /**
      * remove all scene items
@@ -87,21 +87,21 @@ public:
      * @return pointer to device or nullptr if not found
      * @complexity O(1)
      */
-    Device* find(DeviceId id);
+    Device* find(SceneItemId id);
 
     /**
      * find device by given device id
      * @return pointer to device or nullptr if not found
      * @complexity O(1)
      */
-    const Device* find(DeviceId id) const;
+    const Device* find(SceneItemId id) const;
 
     /**
      * find device data by given device id
      * @return device data or empty data if not found
      * @complexity O(1)
      */
-    SharedDeviceData findData(DeviceId id) const;
+    SharedDeviceData findData(SceneItemId id) const;
 
     std::optional<DeviceConnectionData> connectionInfo(const ConnectionId& id) const;
 
@@ -129,20 +129,20 @@ public:
     bool checkConnection(const ConnectionId& id) const;
 
     bool hasSelected() const;
-    int setSelected(const QList<DeviceId>& ids, bool value);
-    void toggleSelected(const QList<DeviceId>& ids);
+    int setSelected(const QList<SceneItemId>& ids, bool value);
+    void toggleSelected(const QList<SceneItemId>& ids);
 
-    bool moveBy(const QHash<DeviceId, QPointF>& deltas);
+    bool moveBy(const QHash<SceneItemId, QPointF>& deltas);
 
     /**
      * @complexity O(n)
      */
     bool moveSelectedBy(qreal dx, qreal dy);
 
-    QList<DeviceId> idList() const;
+    QList<SceneItemId> idList() const;
     QList<SharedDeviceData> dataList() const;
 
-    QList<DeviceId> selectedIdList() const;
+    QList<SceneItemId> selectedIdList() const;
     QList<SharedDeviceData> selectedDataList() const;
 
     QRectF boundingRect() const;
@@ -158,13 +158,13 @@ public:
      * return a set of device id that intersects with the given rectangle
      * @param rect
      */
-    QSet<DeviceId> intersected(const QRectF& rect) const;
+    QSet<SceneItemId> intersected(const QRectF& rect) const;
 
     /**
      * return a list of device id that intersects with the given rectangle
      * @param rect
      */
-    QList<DeviceId> intersectedList(const QRectF& rect) const;
+    QList<SceneItemId> intersectedList(const QRectF& rect) const;
 
     /**
      * export scene items to json array

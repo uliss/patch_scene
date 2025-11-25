@@ -97,7 +97,7 @@ bool ReturnItemModel::removeConnection(const ConnectionId& data)
     return remove_num > 0;
 }
 
-bool ReturnItemModel::updateDeviceTitle(DeviceId id, const QString& title)
+bool ReturnItemModel::updateDeviceTitle(SceneItemId id, const QString& title)
 {
     int update_num = 0;
 
@@ -121,7 +121,7 @@ void ReturnItemModel::clearItems()
     removeRows(0, rowCount());
 }
 
-std::optional<DeviceId> ReturnItemModel::deviceId(const QModelIndex& idx) const
+std::optional<SceneItemId> ReturnItemModel::deviceId(const QModelIndex& idx) const
 {
     if (idx.column() == COL_RETURN_NAME || idx.column() == COL_RETURN_DEST_NAME) {
         bool ok = false;
@@ -148,7 +148,7 @@ void ReturnItemModel::setFullData(const QList<DeviceConnectionData>& info)
     endResetModel();
 }
 
-bool ReturnItemModel::updateDeviceTitle(const QModelIndex& idx, DeviceId id, const QString& title)
+bool ReturnItemModel::updateDeviceTitle(const QModelIndex& idx, SceneItemId id, const QString& title)
 {
     if (!idx.isValid())
         return false;

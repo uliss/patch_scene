@@ -15,17 +15,17 @@
 #define XLET_INFO_H
 
 #include "device_socket.h"
-#include "item_id.h"
+#include "scene_item_id.h"
 
 namespace ceam {
 
 class XletInfo {
-    DeviceId id_;
+    SceneItemId id_;
     XletIndex index_;
     XletType type_;
 
 public:
-    XletInfo(DeviceId id, int index, XletType type)
+    XletInfo(SceneItemId id, int index, XletType type)
         : id_(id)
         , type_(type)
         , index_(index)
@@ -39,7 +39,7 @@ public:
 
     bool operator!=(const XletInfo& xi) const { return !operator==(xi); }
 
-    DeviceId id() const { return id_; }
+    SceneItemId id() const { return id_; }
     XletType type() const { return type_; }
     XletIndex index() const { return index_; }
 

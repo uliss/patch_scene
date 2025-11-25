@@ -608,7 +608,7 @@ void MainWindow::onDeviceRemove(const SharedDeviceData& data)
         ui->furnitureList->resizeColumnToContents(0);
 }
 
-void MainWindow::onDeviceTitleUpdate(DeviceId id, const QString& title)
+void MainWindow::onDeviceTitleUpdate(SceneItemId id, const QString& title)
 {
     if (conn_model_->updateDeviceTitle(id, title))
         ui->connectionList->resizeColumnsToContents();

@@ -39,7 +39,7 @@ ConnectionItemModel::ConnectionItemModel(QObject* parent)
     proxy_->setSourceModel(this);
 }
 
-bool ConnectionItemModel::updateDeviceTitle(DeviceId id, const QString& title)
+bool ConnectionItemModel::updateDeviceTitle(SceneItemId id, const QString& title)
 {
     int update_num = 0;
 
@@ -103,7 +103,7 @@ bool ConnectionItemModel::removeConnection(const ConnectionId& data)
     return remove_num > 0;
 }
 
-std::optional<DeviceId> ConnectionItemModel::deviceId(const QModelIndex& idx) const
+std::optional<SceneItemId> ConnectionItemModel::deviceId(const QModelIndex& idx) const
 {
     if (idx.column() == COL_CONN_SRC_NAME || idx.column() == COL_CONN_DEST_NAME) {
         bool ok = false;
@@ -136,7 +136,7 @@ void ConnectionItemModel::setFullData(const QList<DeviceConnectionData>& conn)
     endResetModel();
 }
 
-bool ConnectionItemModel::updateDeviceTitle(const QModelIndex& idx, DeviceId id, const QString& title)
+bool ConnectionItemModel::updateDeviceTitle(const QModelIndex& idx, SceneItemId id, const QString& title)
 {
     if (!idx.isValid())
         return false;

@@ -125,7 +125,7 @@ public:
     constexpr static int DEF_COL_COUNT = 8;
 
 public:
-    explicit DeviceData(DeviceId id);
+    explicit DeviceData(SceneItemId id);
 
     bool operator==(const DeviceData& data) const;
     bool operator!=(const DeviceData& data) const
@@ -133,9 +133,9 @@ public:
         return !operator==(data);
     }
 
-    bool isNull() const { return id_ == DEV_NULL_ID; }
-    DeviceId id() const { return id_; }
-    void setId(DeviceId id) { id_ = id; }
+    bool isNull() const { return id_ == SCENE_ITEM_NULL_ID; }
+    SceneItemId id() const { return id_; }
+    void setId(SceneItemId id) { id_ = id; }
 
     bool showInDeviceCategory() const;
 
@@ -272,7 +272,7 @@ private:
     QPointF pos_;
     float zoom_ = { 1 };
     float zvalue_ = { 1 };
-    DeviceId id_ { 0 };
+    SceneItemId id_ { 0 };
     int battery_count_ { 0 };
     int battery_capacity_ { 0 };
     int power_ { 0 };

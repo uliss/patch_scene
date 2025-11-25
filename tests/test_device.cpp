@@ -32,7 +32,7 @@ constexpr int DEF_TXT_HT = 26;
 constexpr int DEF_TXT_HT = 24;
 #endif
 
-SharedDeviceData make_data(DeviceId id, int numIn = 0, int numOut = 0, const QString& title = {})
+SharedDeviceData make_data(SceneItemId id, int numIn = 0, int numOut = 0, const QString& title = {})
 {
     auto data = new DeviceData(id);
     data->setTitle(title);
@@ -65,7 +65,7 @@ void TestDevice::qtTest()
 void TestDevice::createDefault()
 {
     Device dev;
-    QVERIFY(dev.id() != DEV_NULL_ID);
+    QVERIFY(dev.id() != SCENE_ITEM_NULL_ID);
     QCOMPARE(dev.deviceData()->inputs().count(), 4);
     QCOMPARE(dev.deviceData()->outputs().count(), 2);
     QCOMPARE(dev.xlets().inletCount(), 4);

@@ -96,7 +96,7 @@ bool SendItemModel::removeConnection(const ConnectionId& id)
     return remove_num > 0;
 }
 
-bool SendItemModel::updateDeviceTitle(DeviceId id, const QString& title)
+bool SendItemModel::updateDeviceTitle(SceneItemId id, const QString& title)
 {
     int update_num = 0;
 
@@ -120,7 +120,7 @@ void SendItemModel::clearItems()
     removeRows(0, rowCount());
 }
 
-std::optional<DeviceId> SendItemModel::deviceId(const QModelIndex& idx) const
+std::optional<SceneItemId> SendItemModel::deviceId(const QModelIndex& idx) const
 {
     if (idx.column() == COL_SEND_NAME || idx.column() == COL_SEND_SRC_NAME) {
         bool ok = false;
@@ -147,7 +147,7 @@ void SendItemModel::setFullData(const QList<DeviceConnectionData>& info)
     endResetModel();
 }
 
-bool SendItemModel::updateDeviceTitle(const QModelIndex& idx, DeviceId id, const QString& title)
+bool SendItemModel::updateDeviceTitle(const QModelIndex& idx, SceneItemId id, const QString& title)
 {
     if (!idx.isValid())
         return false;

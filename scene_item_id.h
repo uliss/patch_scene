@@ -11,16 +11,16 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#ifndef ITEM_ID_H
-#define ITEM_ID_H
+#ifndef SCENE_ITEM_ID_H
+#define SCENE_ITEM_ID_H
 
 #include <cstdint>
 
 namespace ceam {
 
-using DeviceId = std::uint32_t;
-constexpr DeviceId DEV_NULL_ID = 0;
+using SceneItemId = std::uint32_t;
+constexpr SceneItemId SCENE_ITEM_NULL_ID = 0;
 
 } // namespace ceam
 
-#endif // ITEM_ID_H
+#endif // SCENE_ITEM_ID_H

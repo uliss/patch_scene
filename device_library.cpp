@@ -182,7 +182,7 @@ bool DeviceLibrary::readItems(const QJsonValue& value, QList<SharedDeviceData>& 
 
     auto arr = value.toArray();
     for (const auto& v : arr) {
-        SharedDeviceData data(new DeviceData(DEV_NULL_ID));
+        SharedDeviceData data(new DeviceData(SCENE_ITEM_NULL_ID));
         if (data->setJson(v)) {
             data->setCategory(cat);
             items.append(data);

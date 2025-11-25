@@ -60,7 +60,7 @@ public:
      * @param id - target device id
      * @emit removed()
      */
-    void removeAll(DeviceId id);
+    void removeAll(SceneItemId id);
 
     /**
      * iterate all connections with given function
@@ -83,13 +83,13 @@ public:
      * find all incoming/outcoming connection to/from devices
      * @complexity Amort. O(1) (worst case: O(n))
      */
-    QList<Connection*> findConnections(DeviceId id) const;
+    QList<Connection*> findConnections(SceneItemId id) const;
 
     /**
      * find all incoming/outcoming connection data to/from devices
      * @complexity Amort. O(1) (worst case: O(n))
      */
-    QList<ConnectionInfo> findConnectionsData(DeviceId id) const;
+    QList<ConnectionInfo> findConnectionsData(SceneItemId id) const;
 
     /**
      * find connection by specified xlet
@@ -145,7 +145,7 @@ private:
     ConnectionEditor* conn_edit_ { nullptr };
     std::unordered_set<Connection*> conn_;
     QHash<XletInfo, Connection*> conn_xlets_;
-    QHash<DeviceId, QList<Connection*>> conn_dev_;
+    QHash<SceneItemId, QList<Connection*>> conn_dev_;
 };
 
 }  // namespace ceam

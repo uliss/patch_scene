@@ -74,8 +74,8 @@ DiagramDataItem::DiagramDataItem(const SharedDeviceData& data)
 
 SharedDeviceData DiagramDataItem::deviceData() const
 {
-    auto dev = SharedDeviceData(new DeviceData(DEV_NULL_ID));
-    dev->setId(DEV_NULL_ID);
+    auto dev = SharedDeviceData(new DeviceData(SCENE_ITEM_NULL_ID));
+    dev->setId(SCENE_ITEM_NULL_ID);
 
     auto var = data(DATA_DEVICE_DATA);
     if (var.canConvert<QByteArray>())

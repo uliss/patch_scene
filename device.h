@@ -41,7 +41,7 @@ public:
     /**
      * @return device id
      */
-    DeviceId id() const { return data_->id(); }
+    SceneItemId id() const { return data_->id(); }
 
     /**
      * return bounding rect in device coordinates
@@ -110,11 +110,11 @@ signals:
 
     void lockSelected();
     void unlockSelected();
-    void lock(DeviceId id);
-    void unlock(DeviceId id);
+    void lock(SceneItemId id);
+    void unlock(SceneItemId id);
 
     void mirrorSelected();
-    void mirror(DeviceId id);
+    void mirror(SceneItemId id);
 
 private:
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;

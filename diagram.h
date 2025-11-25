@@ -84,7 +84,7 @@ public:
      * @param id - device id
      * @return true on success, false on error
      */
-    bool removeDevice(DeviceId id);
+    bool removeDevice(SceneItemId id);
 
     /**
      * @brief setDeviceData, emit sceneChanged(), deviceUpdated() and batteryChanged()
@@ -103,7 +103,7 @@ public:
      * duplicated selected devices
      * @return list new device id's
      */
-    QList<DeviceId> duplicateSelected(DuplicatePolicy policy);
+    QList<SceneItemId> duplicateSelected(DuplicatePolicy policy);
 
     bool showCables() const { return show_cables_; }
     void setShowCables(bool value);
@@ -137,7 +137,7 @@ public:
      * move specified items by different deltas (when align, for example)
      * @param deltas
      */
-    void moveItemsBy(const QHash<DeviceId, QPointF>& deltas);
+    void moveItemsBy(const QHash<SceneItemId, QPointF>& deltas);
 
     /**
      * move selected items by specified same delta
@@ -215,9 +215,9 @@ public slots:
     void cmdDuplicateSelection();
     void cmdLockSelected();
     void cmdUnlockSelected();
-    void cmdLock(DeviceId id);
-    void cmdUnlock(DeviceId id);
-    void cmdMirrorDevice(DeviceId id);
+    void cmdLock(SceneItemId id);
+    void cmdUnlock(SceneItemId id);
+    void cmdMirrorDevice(SceneItemId id);
     void cmdMirrorSelected();
     void cmdMoveSelectedDevicesBy(qreal dx, qreal dy);
     void cmdMoveSelectedDevicesFrom(const QPointF& from, const QPointF& to);
@@ -229,7 +229,7 @@ public slots:
     void cmdRemoveSelected();
     void cmdSelectAll();
     void cmdSelectDevices(const QRectF& sel);
-    void cmdSelectUnique(DeviceId id);
+    void cmdSelectUnique(SceneItemId id);
     void cmdToggleDevices(const QList<QGraphicsItem*>& items);
     void cmdUpdateDevice(const SharedDeviceData& data);
     void cmdZoomInSelected();
@@ -262,7 +262,7 @@ signals:
     void connectionRemoved(ConnectionId data);
     void deviceAdded(SharedDeviceData data);
     void deviceRemoved(SharedDeviceData data);
-    void deviceTitleUpdated(DeviceId id, const QString& title);
+    void deviceTitleUpdated(SceneItemId id, const QString& title);
     void deviceUpdated(SharedDeviceData data);
     void requestBackgroundChange();
     void sceneChanged(); // for document changes
@@ -294,7 +294,7 @@ private:
     /**
      * @complexity O(n)
      */
-    void updateConnectionPos(DeviceId id);
+    void updateConnectionPos(SceneItemId id);
 
     /**
      * @complexity O(n)

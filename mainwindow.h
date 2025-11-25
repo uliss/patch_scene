@@ -90,7 +90,7 @@ private slots:
     void onBatteryChange(const BatteryChange& data);
     void onDeviceAdd(const SharedDeviceData& data);
     void onDeviceRemove(const SharedDeviceData& data);
-    void onDeviceTitleUpdate(DeviceId id, const QString& title);
+    void onDeviceTitleUpdate(SceneItemId id, const QString& title);
     void onDeviceUpdate(SharedDeviceData data);
     void onConnectionAdd(ConnectionId data);
     void onConnectionRemove(ConnectionId data);
