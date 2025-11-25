@@ -14,12 +14,14 @@
 #include "comment.h"
 #include "comment_editor.h"
 
+#include <QDebug>
 #include <QGraphicsSceneEvent>
 #include <QKeyEvent>
 #include <QMenu>
 #include <QPainter>
 #include <QStyle>
 #include <QStyleOption>
+#include <QTextCursor>
 #include <QTextDocument>
 
 using namespace ceam;
@@ -37,19 +39,27 @@ SharedDeviceData commentData(const QString& title)
 
 CommentItem::CommentItem()
     : SceneItem(commentData(tr("Comment")))
+    , text_(new QGraphicsTextItem(this))
 {
-    title()->setTextWidth(boundingRect().width());
-    // title()->setTextInteractionFlags(Qt::TextEditorInteraction);
-    // title()->setDefaultTextColor(Qt::red);
-
-    auto opt = title()->document()->defaultTextOption();
+    auto opt = text_->document()->defaultTextOption();
     opt.setAlignment(Qt::AlignLeft);
-    title()->document()->setDefaultTextOption(opt);
+    text_->document()->setDefaultTextOption(opt);
 
-    connect(title()->document(), &QTextDocument::documentLayoutChanged, this, [this]() {
-        // syncRect();
-        qWarning() << "CHNAGE";
-    });
+    text_->setPlainText(data_->title());
+    // text_->setTextInteractionFlags(Qt::TextEditorInteraction);
+    text_->setDefaultTextColor(Qt::red);
+    text_->setPos(-text_->boundingRect().width() * 0.5, 0);
+
+    // connect(title()->document(), &QTextDocument::documentLayoutChanged, this, [this]() {
+    //     // syncRect();
+    //     qWarning() << "CHNAGE";
+    // });
+}
+
+QRectF CommentItem::boundingRect() const
+{
+    // qWarning() << "bb: " << childrenBoundingRect();
+    return childrenBoundingRect();
 }
 
 void CommentItem::createContextMenu(QMenu& menu)
@@ -96,14 +106,14 @@ void CommentItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* optio
 
     painter->setPen(QPen(bd, wd));
     painter->setBrush(bg);
-    // painter->drawRect(box);
-    painter->drawRoundedRect(box, 5, 5);
+    painter->drawRect(box);
+    // painter->drawRoundedRect(box, 5, 5);
 }
 
 void CommentItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 {
-    if (!title()->textInteractionFlags().testFlags(Qt::TextEditorInteraction)) {
-        title()->setTextInteractionFlags(Qt::TextEditorInteraction);
+    if (!text_->textInteractionFlags().testFlags(Qt::TextEditorInteraction)) {
+        text_->setTextInteractionFlags(Qt::TextEditorInteraction);
         event->accept();
     } else
         SceneItem::mouseDoubleClickEvent(event);
@@ -111,10 +121,14 @@ void CommentItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 
 void CommentItem::keyPressEvent(QKeyEvent* event)
 {
-    if (event->key() == Qt::Key_Escape) {
-        title()->setTextInteractionFlags(Qt::NoTextInteraction);
-        qWarning() << "new text: " << title()->document()->toPlainText();
-        deviceData()->setTitle(title()->document()->toPlainText());
+    if (event->key() == Qt::Key_Escape
+        || (event->key() == Qt::Key_Enter && event->modifiers().testFlag(Qt::ControlModifier))) {
+        text_->setTextInteractionFlags(Qt::NoTextInteraction);
+        auto cursor = text_->textCursor();
+        cursor.movePosition(QTextCursor::End);
+        text_->setTextCursor(cursor);
+        // qWarning() << "new text: " << title()->document()->toPlainText();
+        deviceData()->setTitle(text_->document()->toPlainText());
         event->accept();
     } else {
         SceneItem::keyPressEvent(event);

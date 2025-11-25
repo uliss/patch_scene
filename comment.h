@@ -24,6 +24,11 @@ class CommentItem : public SceneItem {
 public:
     CommentItem();
 
+    /**
+     * return bounding rect in item coordinates
+     */
+    QRectF boundingRect() const final;
+
 public:
     void createContextMenu(QMenu& menu) override;
 
