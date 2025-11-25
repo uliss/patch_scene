@@ -35,7 +35,7 @@ SharedDeviceData commentData(const QString& title)
 }
 } // namespace
 
-Comment::Comment()
+CommentItem::CommentItem()
     : SceneItem(commentData(tr("Comment")))
 {
     title()->setTextWidth(boundingRect().width());
@@ -52,7 +52,7 @@ Comment::Comment()
     });
 }
 
-void Comment::createContextMenu(QMenu& menu)
+void CommentItem::createContextMenu(QMenu& menu)
 {
     addLockAction(menu);
 
@@ -64,7 +64,7 @@ void Comment::createContextMenu(QMenu& menu)
     addEditAct(menu);
 }
 
-void Comment::addEditAct(QMenu& menu)
+void CommentItem::addEditAct(QMenu& menu)
 {
     auto act = new QAction(tr("Edit"), &menu);
 
@@ -78,7 +78,7 @@ void Comment::addEditAct(QMenu& menu)
     menu.addAction(act);
 }
 
-void Comment::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void CommentItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     auto box = childrenBoundingRect();
     auto wd = deviceData()->borderWidth();
@@ -100,7 +100,7 @@ void Comment::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, Q
     painter->drawRoundedRect(box, 5, 5);
 }
 
-void Comment::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
+void CommentItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 {
     if (!title()->textInteractionFlags().testFlags(Qt::TextEditorInteraction)) {
         title()->setTextInteractionFlags(Qt::TextEditorInteraction);
@@ -109,7 +109,7 @@ void Comment::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
         SceneItem::mouseDoubleClickEvent(event);
 }
 
-void Comment::keyPressEvent(QKeyEvent* event)
+void CommentItem::keyPressEvent(QKeyEvent* event)
 {
     if (event->key() == Qt::Key_Escape) {
         title()->setTextInteractionFlags(Qt::NoTextInteraction);

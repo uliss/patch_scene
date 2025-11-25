@@ -24,7 +24,7 @@ class QGraphicsScene;
 
 namespace ceam {
 
-class Comment;
+class CommentItem;
 class SceneItem;
 
 class Scene : public QObject {
@@ -67,7 +67,7 @@ public:
      * creates new comment and add it to the scene
      * @return pointer to new device or nullptr on error
      */
-    Comment* addComment();
+    CommentItem* addComment();
 
     /**
      * remove item from the scene

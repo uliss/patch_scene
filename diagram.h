@@ -97,7 +97,7 @@ public:
      * @brief add comment into the scheme, emit sceneChanged(), deviceAdded()
      * @return pointer to new comment or nullptr on error
      */
-    Comment* addComment();
+    CommentItem* addComment();
 
     /**
      * duplicated selected devices

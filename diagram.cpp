@@ -678,7 +678,7 @@ bool Diagram::setDeviceData(const SharedDeviceData& data)
     return true;
 }
 
-Comment* Diagram::addComment()
+CommentItem* Diagram::addComment()
 {
     auto comm = devices_.addComment();
     if (!comm)

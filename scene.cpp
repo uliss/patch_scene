@@ -75,7 +75,7 @@ SceneItem* Scene::add(const SharedDeviceData& data)
 
     SceneItem* dev = nullptr;
     if (data->category() == ItemCategory::Comment) {
-        dev = new Comment();
+        dev = new CommentItem();
     } else {
         dev = new SceneItem(data);
     }
@@ -98,12 +98,12 @@ SceneItem* Scene::add(const SharedDeviceData& data)
     return dev;
 }
 
-Comment* Scene::addComment()
+CommentItem* Scene::addComment()
 {
     if (!scene_)
         return nullptr;
 
-    auto c = new Comment();
+    auto c = new CommentItem();
     scene_->addItem(c);
 
     auto id = c->id();

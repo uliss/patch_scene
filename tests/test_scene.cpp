@@ -179,7 +179,7 @@ void TestScene::add()
     QVERIFY(c0);
     QCOMPARE(sig_spy.count(), 6);
     QCOMPARE(c0->deviceData()->title(), "Comment");
-    QVERIFY(dynamic_cast<Comment*>(c0) != nullptr);
+    QVERIFY(dynamic_cast<CommentItem*>(c0) != nullptr);
 }
 
 void TestScene::addComment()

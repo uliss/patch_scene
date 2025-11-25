@@ -18,11 +18,11 @@
 
 namespace ceam {
 
-class Comment : public SceneItem {
+class CommentItem : public SceneItem {
     Q_OBJECT
 
 public:
-    Comment();
+    CommentItem();
 
 public:
     void createContextMenu(QMenu& menu) override;

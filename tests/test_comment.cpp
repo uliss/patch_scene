@@ -20,5 +20,5 @@ using namespace ceam;
 
 void TestComment::init()
 {
-    QCOMPARE(Comment::Type, SceneItem::Type);
+    QCOMPARE(CommentItem::Type, SceneItem::Type);
 }
