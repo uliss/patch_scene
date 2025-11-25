@@ -14,6 +14,8 @@
 #ifndef XLET_VIEW_INDEX_H
 #define XLET_VIEW_INDEX_H
 
+#include <QJsonObject>
+
 #include "device_socket.h"
 
 namespace ceam {

@@ -14,7 +14,7 @@
 #ifndef DEVICE_SOCKET_H
 #define DEVICE_SOCKET_H
 
-#include <QObject>
+#include <QString>
 
 #include <functional>
 

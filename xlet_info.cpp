@@ -13,6 +13,8 @@
  *****************************************************************************/
 #include "xlet_info.h"
 
+#include <QObject>
+
 namespace ceam {
 
 uint qHash(const XletInfo& key, size_t seed)

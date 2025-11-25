@@ -18,6 +18,7 @@
 
 #include <QColor>
 #include <QPoint>
+#include <QJsonValue>
 
 namespace ceam {
 
@@ -89,7 +90,7 @@ public:
     XletType sourceType() const { return src_type_; }
     XletType destinationType() const { return dest_type_; }
 
-    const bool operator==(const ConnectionId& id) const
+    bool operator==(const ConnectionId& id) const
     {
         return id.src_ == src_
             && id.dest_ == dest_
