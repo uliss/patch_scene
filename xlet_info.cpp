@@ -13,7 +13,7 @@
  *****************************************************************************/
 #include "xlet_info.h"
 
-#include <QObject>
+#include <QHashFunctions>
 
 namespace ceam {
 
