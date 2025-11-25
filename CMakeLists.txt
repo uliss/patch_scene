@@ -204,7 +204,8 @@ endif()
 add_subdirectory(3rd-party/QSimpleUpdater)
 target_compile_definitions(QSimpleUpdater PUBLIC QSU_INCLUDE_MOC)
 
-add_library(patch_scene_lib STATIC ${PROJECT_SOURCES})
+add_library(patch_scene_lib STATIC ${PROJECT_SOURCES}
+    device_item.h device_item.cpp)
 target_compile_definitions(patch_scene_lib PRIVATE -DQT_NO_VERSION_TAGGING)
 target_include_directories(patch_scene_lib PRIVATE ${PROJECT_BINARY_DIR} ${PROJECT_SOURCE_DIR})
 target_link_libraries(
