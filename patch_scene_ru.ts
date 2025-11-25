@@ -1722,12 +1722,23 @@ http://ceam.space</source>
 <context>
     <name>ceam::Comment</name>
     <message>
-        <location filename="comment.cpp" line="36"/>
+        <source>Comment</source>
+        <translation type="vanished">Комментарий</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="vanished">Правка</translation>
+    </message>
+</context>
+<context>
+    <name>ceam::CommentItem</name>
+    <message>
+        <location filename="comment.cpp" line="41"/>
         <source>Comment</source>
         <translation>Комментарий</translation>
     </message>
     <message>
-        <location filename="comment.cpp" line="54"/>
+        <location filename="comment.cpp" line="79"/>
         <source>Edit</source>
         <translation>Правка</translation>
     </message>
@@ -1767,106 +1778,84 @@ http://ceam.space</source>
 <context>
     <name>ceam::Device</name>
     <message>
-        <location filename="device.cpp" line="294"/>
         <source>Distribute horizontal</source>
-        <translation>Распределить горизонтально</translation>
+        <translation type="vanished">Распределить горизонтально</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="297"/>
         <source>Distribute vertical</source>
-        <translation>Распределить вертикально</translation>
+        <translation type="vanished">Распределить вертикально</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="300"/>
         <source>Place in row</source>
-        <translation>Разместить в ряд</translation>
+        <translation type="vanished">Разместить в ряд</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="303"/>
         <source>Place in column</source>
-        <translation>Разместить в столбец</translation>
+        <translation type="vanished">Разместить в столбец</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="319"/>
-        <location filename="device.cpp" line="669"/>
         <source>Mirror image</source>
-        <translation>Отразить изображение</translation>
+        <translation type="vanished">Отразить изображение</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="326"/>
-        <location filename="device.cpp" line="573"/>
         <source>Lock</source>
-        <translation>Заблокировать</translation>
+        <translation type="vanished">Заблокировать</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="329"/>
-        <location filename="device.cpp" line="573"/>
         <source>Unlock</source>
-        <translation>Разблокировать</translation>
+        <translation type="vanished">Разблокировать</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="554"/>
         <source>Hide title</source>
-        <translation>Скрыть название</translation>
+        <translation type="vanished">Скрыть название</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="554"/>
         <source>Show title</source>
-        <translation>Показать название</translation>
+        <translation type="vanished">Показать название</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="676"/>
         <source>Duplicate</source>
-        <translation>Дублировать</translation>
+        <translation type="vanished">Дублировать</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="685"/>
         <source>Delete</source>
-        <translation>Удалить</translation>
+        <translation type="vanished">Удалить</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="694"/>
         <source>Add to favorites</source>
-        <translation>Добавить в избранное</translation>
+        <translation type="vanished">Добавить в избранное</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="704"/>
         <source>Move up</source>
-        <translation>Поднять выше</translation>
+        <translation type="vanished">Поднять выше</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="709"/>
         <source>Move down</source>
-        <translation>Опустить ниже</translation>
+        <translation type="vanished">Опустить ниже</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="717"/>
         <source>Properties</source>
-        <translation>Свойства</translation>
+        <translation type="vanished">Свойства</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="730"/>
         <source>Views</source>
-        <translation>Виды</translation>
+        <translation type="vanished">Виды</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="731"/>
         <source>Logic</source>
-        <translation>Логический</translation>
+        <translation type="vanished">Логический</translation>
     </message>
     <message>
         <source>Device: %1</source>
         <translation type="vanished">Устройство: %1</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="288"/>
         <source>Align horizontal</source>
-        <translation>Выровнять по горизонтали</translation>
+        <translation type="vanished">Выровнять по горизонтали</translation>
     </message>
     <message>
-        <location filename="device.cpp" line="291"/>
         <source>Align vertical</source>
-        <translation>Выровнять по вертикали</translation>
+        <translation type="vanished">Выровнять по вертикали</translation>
     </message>
 </context>
 <context>
@@ -1903,6 +1892,39 @@ http://ceam.space</source>
         <location filename="device_info_editor.cpp" line="30"/>
         <source>Value</source>
         <translation>Значение</translation>
+    </message>
+</context>
+<context>
+    <name>ceam::DeviceItem</name>
+    <message>
+        <location filename="device_item.cpp" line="408"/>
+        <source>Hide title</source>
+        <translation>Скрыть название</translation>
+    </message>
+    <message>
+        <location filename="device_item.cpp" line="408"/>
+        <source>Show title</source>
+        <translation>Показать название</translation>
+    </message>
+    <message>
+        <location filename="device_item.cpp" line="426"/>
+        <source>Mirror image</source>
+        <translation>Отразить изображение</translation>
+    </message>
+    <message>
+        <location filename="device_item.cpp" line="433"/>
+        <source>Add to favorites</source>
+        <translation>Добавить в избранное</translation>
+    </message>
+    <message>
+        <location filename="device_item.cpp" line="443"/>
+        <source>Views</source>
+        <translation>Виды</translation>
+    </message>
+    <message>
+        <location filename="device_item.cpp" line="444"/>
+        <source>Logic</source>
+        <translation>Логический</translation>
     </message>
 </context>
 <context>
@@ -1965,7 +1987,7 @@ http://ceam.space</source>
 <context>
     <name>ceam::DeviceXlet</name>
     <message>
-        <location filename="device_xlet.cpp" line="202"/>
+        <location filename="device_xlet.cpp" line="203"/>
         <source>Phantom</source>
         <translation>Фантом</translation>
     </message>
@@ -1978,12 +2000,12 @@ http://ceam.space</source>
         <translation>Новый проект</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="936"/>
+        <location filename="diagram.cpp" line="974"/>
         <source>Generated with PatchScene</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1279"/>
+        <location filename="diagram.cpp" line="1318"/>
         <source>&amp;Add device</source>
         <translation>&amp;Добавить элемент</translation>
     </message>
@@ -2000,37 +2022,37 @@ http://ceam.space</source>
         <translation type="vanished">&amp;Установить фоновое изображение</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1283"/>
+        <location filename="diagram.cpp" line="1322"/>
         <source>&amp;Add comment</source>
         <translation>Добавить &amp;комментарий</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1296"/>
+        <location filename="diagram.cpp" line="1335"/>
         <source>Align &amp;horizontal</source>
         <translation>Выровнять по &amp;горизонтали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1300"/>
+        <location filename="diagram.cpp" line="1339"/>
         <source>Align &amp;vertical</source>
         <translation>Выровнять по &amp;вертикали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1304"/>
+        <location filename="diagram.cpp" line="1343"/>
         <source>Place in row</source>
         <translation>Разместить в ряд</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1308"/>
+        <location filename="diagram.cpp" line="1347"/>
         <source>Place in column</source>
         <translation>Разместить в столбец</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1315"/>
+        <location filename="diagram.cpp" line="1354"/>
         <source>Distribute horizontal</source>
         <translation>Распределить горизонтально</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1319"/>
+        <location filename="diagram.cpp" line="1358"/>
         <source>Distribute vertical</source>
         <translation>Распределить вертикально</translation>
     </message>
@@ -2514,6 +2536,81 @@ Do you wan&apos;t to save it before closing?</source>
     </message>
 </context>
 <context>
+    <name>ceam::SceneItem</name>
+    <message>
+        <location filename="scene_item.cpp" line="199"/>
+        <source>Align horizontal</source>
+        <translation>Выровнять по горизонтали</translation>
+    </message>
+    <message>
+        <location filename="scene_item.cpp" line="202"/>
+        <source>Align vertical</source>
+        <translation>Выровнять по вертикали</translation>
+    </message>
+    <message>
+        <location filename="scene_item.cpp" line="205"/>
+        <source>Distribute horizontal</source>
+        <translation>Распределить горизонтально</translation>
+    </message>
+    <message>
+        <location filename="scene_item.cpp" line="208"/>
+        <source>Distribute vertical</source>
+        <translation>Распределить вертикально</translation>
+    </message>
+    <message>
+        <location filename="scene_item.cpp" line="211"/>
+        <source>Place in row</source>
+        <translation>Разместить в ряд</translation>
+    </message>
+    <message>
+        <location filename="scene_item.cpp" line="214"/>
+        <source>Place in column</source>
+        <translation>Разместить в столбец</translation>
+    </message>
+    <message>
+        <location filename="scene_item.cpp" line="230"/>
+        <source>Mirror image</source>
+        <translation>Отразить изображение</translation>
+    </message>
+    <message>
+        <location filename="scene_item.cpp" line="237"/>
+        <location filename="scene_item.cpp" line="267"/>
+        <source>Lock</source>
+        <translation>Заблокировать</translation>
+    </message>
+    <message>
+        <location filename="scene_item.cpp" line="240"/>
+        <location filename="scene_item.cpp" line="267"/>
+        <source>Unlock</source>
+        <translation>Разблокировать</translation>
+    </message>
+    <message>
+        <location filename="scene_item.cpp" line="294"/>
+        <source>Duplicate</source>
+        <translation>Дублировать</translation>
+    </message>
+    <message>
+        <location filename="scene_item.cpp" line="303"/>
+        <source>Delete</source>
+        <translation>Удалить</translation>
+    </message>
+    <message>
+        <location filename="scene_item.cpp" line="312"/>
+        <source>Move up</source>
+        <translation>Поднять выше</translation>
+    </message>
+    <message>
+        <location filename="scene_item.cpp" line="317"/>
+        <source>Move down</source>
+        <translation>Опустить ниже</translation>
+    </message>
+    <message>
+        <location filename="scene_item.cpp" line="325"/>
+        <source>Properties</source>
+        <translation>Свойства</translation>
+    </message>
+</context>
+<context>
     <name>ceam::SendItemModel</name>
     <message>
         <location filename="send_item_model.cpp" line="51"/>
@@ -2645,12 +2742,12 @@ Do you wan&apos;t to save it before closing?</source>
 <context>
     <name>xlet</name>
     <message>
-        <location filename="device_xlet.cpp" line="134"/>
+        <location filename="device_xlet.cpp" line="135"/>
         <source>In %1</source>
         <translation>Вход %1</translation>
     </message>
     <message>
-        <location filename="device_xlet.cpp" line="136"/>
+        <location filename="device_xlet.cpp" line="137"/>
         <source>Out %1</source>
         <translation>Выход %1</translation>
     </message>
