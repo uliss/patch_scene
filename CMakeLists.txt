@@ -80,6 +80,8 @@ set(PROJECT_SOURCES
     device_info_editor.cpp
     device_info_editor.h
     device_info_editor.ui
+    device_item.cpp
+    device_item.h
     device_item_model.cpp
     device_item_model.h
     device_library.cpp
@@ -204,8 +206,7 @@ endif()
 add_subdirectory(3rd-party/QSimpleUpdater)
 target_compile_definitions(QSimpleUpdater PUBLIC QSU_INCLUDE_MOC)
 
-add_library(patch_scene_lib STATIC ${PROJECT_SOURCES}
-    device_item.h device_item.cpp)
+add_library(patch_scene_lib STATIC ${PROJECT_SOURCES})
 target_compile_definitions(patch_scene_lib PRIVATE -DQT_NO_VERSION_TAGGING)
 target_include_directories(patch_scene_lib PRIVATE ${PROJECT_BINARY_DIR} ${PROJECT_SOURCE_DIR})
 target_link_libraries(
