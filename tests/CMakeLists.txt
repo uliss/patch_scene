@@ -30,7 +30,7 @@ qt_add_executable(
     test_xlets_user_view.h test_xlets_user_view.cpp
     test_connection_view_data.h test_connection_view_data.cpp
     test_common.h test_common.cpp
-    test_comment.h test_comment.cpp)
+    test_comment_item.h test_comment_item.cpp)
 
 add_custom_target(
     test_src

@@ -11,14 +11,14 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#include "test_comment.h"
+#include "test_comment_item.h"
 #include "comment.h"
 
 #include <QTest>
 
 using namespace ceam;
 
-void TestComment::init()
+void TestCommentItem::init()
 {
     QCOMPARE(CommentItem::Type, SceneItem::Type);
 }

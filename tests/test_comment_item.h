@@ -11,16 +11,16 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#ifndef TEST_COMMENT_H
-#define TEST_COMMENT_H
+#ifndef TEST_COMMENT_ITEM_H
+#define TEST_COMMENT_ITEM_H
 
 #include <QObject>
 
-class TestComment : public QObject {
+class TestCommentItem : public QObject {
     Q_OBJECT
 
 private slots:
     void init();
 };
 
-#endif // TEST_COMMENT_H
+#endif // TEST_COMMENT_ITEM_H

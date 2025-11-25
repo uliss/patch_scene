@@ -13,7 +13,7 @@
  *****************************************************************************/
 #include <QtTest>
 
-#include "tests/test_comment.h"
+#include "tests/test_comment_item.h"
 #include "tests/test_common.h"
 #include "tests/test_connection.h"
 #include "tests/test_connection_database.h"
@@ -93,7 +93,7 @@ int main(int argc, char* argv[])
     TestSegmentPoints test_segpoints;
     status |= QTest::qExec(&test_segpoints, argc, argv);
 
-    TestComment test_comment;
+    TestCommentItem test_comment;
     status |= QTest::qExec(&test_comment, argc, argv);
 
     return status;
