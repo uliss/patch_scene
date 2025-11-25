@@ -132,12 +132,9 @@ QString powerTypeToString(PowerType type);
 std::optional<PowerType> powerTypeFromString(const QString& str);
 void foreachPowerType(const std::function<void(PowerType, int /*idx*/)>& fn);
 
-using DeviceId = std::uint32_t;
-constexpr DeviceId DEV_NULL_ID = 0;
-
 using XletIndex = std::uint8_t;
 
 constexpr XletIndex XLET_INDEX_NONE = std::numeric_limits<XletIndex>::max();
-}
+} // namespace ceam
 
 #endif // SOCKET_H

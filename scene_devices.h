@@ -167,7 +167,7 @@ public:
     QList<DeviceId> intersectedList(const QRectF& rect) const;
 
     /**
-     * export scene devices to json array
+     * export scene items to json array
      */
     QJsonValue toJson() const;
 

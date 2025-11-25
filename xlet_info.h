@@ -15,6 +15,7 @@
 #define XLET_INFO_H
 
 #include "socket.h"
+#include "item_id.h"
 
 namespace ceam {
 
