@@ -14,10 +14,13 @@
 #include "comment.h"
 #include "comment_editor.h"
 
+#include <QGraphicsSceneEvent>
+#include <QKeyEvent>
 #include <QMenu>
 #include <QPainter>
 #include <QStyle>
 #include <QStyleOption>
+#include <QTextDocument>
 
 using namespace ceam;
 
@@ -35,6 +38,18 @@ SharedDeviceData commentData(const QString& title)
 Comment::Comment()
     : Device(commentData(tr("Comment")))
 {
+    title()->setTextWidth(boundingRect().width());
+    // title()->setTextInteractionFlags(Qt::TextEditorInteraction);
+    // title()->setDefaultTextColor(Qt::red);
+
+    auto opt = title()->document()->defaultTextOption();
+    opt.setAlignment(Qt::AlignLeft);
+    title()->document()->setDefaultTextOption(opt);
+
+    connect(title()->document(), &QTextDocument::documentLayoutChanged, this, [this]() {
+        // syncRect();
+        qWarning() << "CHNAGE";
+    });
 }
 
 void Comment::createContextMenu(QMenu& menu)
@@ -65,7 +80,7 @@ void Comment::addEditAct(QMenu& menu)
 
 void Comment::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    auto box = boundingRect();
+    auto box = childrenBoundingRect();
     auto wd = deviceData()->borderWidth();
     auto bd = deviceData()->borderColor();
     if (!bd.isValid())
@@ -83,4 +98,25 @@ void Comment::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, Q
     painter->setBrush(bg);
     // painter->drawRect(box);
     painter->drawRoundedRect(box, 5, 5);
+}
+
+void Comment::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
+{
+    if (!title()->textInteractionFlags().testFlags(Qt::TextEditorInteraction)) {
+        title()->setTextInteractionFlags(Qt::TextEditorInteraction);
+        event->accept();
+    } else
+        Device::mouseDoubleClickEvent(event);
+}
+
+void Comment::keyPressEvent(QKeyEvent* event)
+{
+    if (event->key() == Qt::Key_Escape) {
+        title()->setTextInteractionFlags(Qt::NoTextInteraction);
+        qWarning() << "new text: " << title()->document()->toPlainText();
+        deviceData()->setTitle(title()->document()->toPlainText());
+        event->accept();
+    } else {
+        Device::keyPressEvent(event);
+    }
 }

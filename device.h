@@ -135,7 +135,6 @@ private:
     void createTitle(qreal wd);
     void createImage();
 
-    void syncRect();
     void syncXletData();
 
     void updateTitlePos();
@@ -166,6 +165,14 @@ protected:
     void setMenuCaption(QMenu& menu);
 
     void addViewSubMenu(QMenu& menu);
+
+    void syncRect();
+
+    QGraphicsTextItem* title() { return title_; }
+    const QGraphicsTextItem* title() const { return title_; }
+
+    QGraphicsSvgItem* image() { return image_; }
+    const QGraphicsSvgItem* image() const { return image_; }
 
 private:
     friend class DeviceXlet;

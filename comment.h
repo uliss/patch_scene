@@ -32,6 +32,8 @@ protected:
 
 private:
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
+    void keyPressEvent(QKeyEvent* event) override;
 
 private:
     QGraphicsTextItem* text_ { nullptr };
