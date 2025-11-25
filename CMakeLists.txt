@@ -118,6 +118,7 @@ set(PROJECT_SOURCES
     furniture_item_model.h
     image_widget.h
     image_widget.cpp
+    item_id.h
     library_item_model.h
     library_item_model.cpp
     logging.hpp
@@ -211,8 +212,7 @@ target_link_libraries(
                             Qt${QT_VERSION_MAJOR}::PrintSupport Qt${QT_VERSION_MAJOR}::SvgWidgets)
 
 qt_add_executable(patch_scene MANUAL_FINALIZATION MACOSX_BUNDLE ${app_icon_macos} main.cpp
-                  resources/patch_scene_resources.qrc
-                  item_id.h)
+                  resources/patch_scene_resources.qrc)
 
 add_dependencies(patch_scene_lib git_version)
 
