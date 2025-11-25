@@ -33,18 +33,18 @@ bool Scene::operator==(const Scene& sc) const
     if (this == &sc)
         return true;
 
-    if (devices_.size() != sc.devices_.size())
+    if (items_.size() != sc.items_.size())
         return false;
 
     QSet<DeviceData> d0, d1;
 
-    for (auto& kv : devices_) {
+    for (auto& kv : items_) {
         auto data = kv.second->deviceData();
         data->setId(DEV_NULL_ID);
         d0.insert(*data);
     }
 
-    for (auto& kv : sc.devices_) {
+    for (auto& kv : sc.items_) {
         auto data = kv.second->deviceData();
         data->setId(DEV_NULL_ID);
         d1.insert(*data);
@@ -53,7 +53,7 @@ bool Scene::operator==(const Scene& sc) const
     return d0 == d1;
 }
 
-void Scene::setScene(QGraphicsScene* scene)
+void Scene::setGraphicsScene(QGraphicsScene* scene)
 {
     scene_ = scene;
 }
@@ -62,7 +62,7 @@ size_t Scene::selectedCount() const
 {
     size_t res = 0;
 
-    for (auto& kv : devices_)
+    for (auto& kv : items_)
         res += kv.second->isSelected();
 
     return res;
@@ -83,14 +83,14 @@ Device* Scene::add(const SharedDeviceData& data)
     scene_->addItem(dev);
 
     auto id = dev->id();
-    auto it = devices_.find(id);
-    if (devices_.find(id) != devices_.end()) {
+    auto it = items_.find(id);
+    if (items_.find(id) != items_.end()) {
         WARN() << "device already with id" << id << "already exists in scene";
         scene_->removeItem(it->second);
         delete it->second;
         it->second = dev;
     } else {
-        devices_.insert(it, { dev->id(), dev });
+        items_.insert(it, { dev->id(), dev });
     }
 
     emit added(dev->deviceData());
@@ -107,14 +107,14 @@ Comment* Scene::addComment()
     scene_->addItem(c);
 
     auto id = c->id();
-    auto it = devices_.find(id);
-    if (devices_.find(id) != devices_.end()) {
+    auto it = items_.find(id);
+    if (items_.find(id) != items_.end()) {
         WARN() << "device already with id" << id << "already exists in scene";
         scene_->removeItem(it->second);
         delete it->second;
         it->second = c;
     } else {
-        devices_.insert(it, { c->id(), c });
+        items_.insert(it, { c->id(), c });
     }
 
     // emit added(c->deviceData());
@@ -127,8 +127,8 @@ SharedDeviceData Scene::remove(DeviceId id)
     if (!scene_)
         return {};
 
-    auto it = devices_.find(id);
-    if (it == devices_.end()) {
+    auto it = items_.find(id);
+    if (it == items_.end()) {
         WARN() << "device not found:" << id;
         return {};
     }
@@ -136,7 +136,7 @@ SharedDeviceData Scene::remove(DeviceId id)
     auto data = it->second->deviceData();
     scene_->removeItem(it->second);
     delete it->second;
-    devices_.erase(it);
+    items_.erase(it);
 
     emit removed(data);
     return data;
@@ -144,24 +144,24 @@ SharedDeviceData Scene::remove(DeviceId id)
 
 Device* Scene::find(DeviceId id)
 {
-    auto it = devices_.find(id);
-    return it == devices_.end()
+    auto it = items_.find(id);
+    return it == items_.end()
         ? nullptr
         : it->second;
 }
 
 const Device* Scene::find(DeviceId id) const
 {
-    auto it = devices_.find(id);
-    return it == devices_.end()
+    auto it = items_.find(id);
+    return it == items_.end()
         ? nullptr
         : it->second;
 }
 
 SharedDeviceData Scene::findData(DeviceId id) const
 {
-    auto it = devices_.find(id);
-    return it == devices_.end()
+    auto it = items_.find(id);
+    return it == items_.end()
         ? SharedDeviceData {}
         : it->second->deviceData();
 }
@@ -171,7 +171,7 @@ std::optional<DeviceConnectionData> Scene::connectionInfo(const ConnectionId& id
     std::optional<DeviceConnectionData> res = DeviceConnectionData();
     int count = 0;
 
-    for (auto& kv : devices_) {
+    for (auto& kv : items_) {
         if (count == 2)
             break;
 
@@ -209,12 +209,12 @@ std::optional<DeviceConnectionData> Scene::connectionInfo(const ConnectionId& id
 
 std::optional<std::pair<QPointF, QPointF>> Scene::connectionPoints(const ConnectionId& id) const
 {
-    auto src_it = devices_.find(id.source());
-    if (src_it == devices_.end())
+    auto src_it = items_.find(id.source());
+    if (src_it == items_.end())
         return {};
 
-    auto dest_it = devices_.find(id.destination());
-    if (dest_it == devices_.end())
+    auto dest_it = items_.find(id.destination());
+    if (dest_it == items_.end())
         return {};
 
     auto p0 = src_it->second->connectionPoint(id.sourceIndex(), id.sourceType(), true);
@@ -230,12 +230,12 @@ std::optional<std::pair<QPointF, QPointF>> Scene::connectionPoints(const Connect
 
 std::optional<ConnectorPair> Scene::connectionPair(const ConnectionId& id) const
 {
-    auto src_it = devices_.find(id.source());
-    if (src_it == devices_.end())
+    auto src_it = items_.find(id.source());
+    if (src_it == items_.end())
         return {};
 
-    auto dest_it = devices_.find(id.destination());
-    if (dest_it == devices_.end())
+    auto dest_it = items_.find(id.destination());
+    if (dest_it == items_.end())
         return {};
 
     if (id.sourceIndex() >= src_it->second->deviceData()->outputs().count())
@@ -258,15 +258,15 @@ bool Scene::checkConnection(const ConnectionId& id) const
     if (!id.isValid())
         return false;
 
-    auto src_it = devices_.find(id.source());
-    if (src_it == devices_.end())
+    auto src_it = items_.find(id.source());
+    if (src_it == items_.end())
         return false;
 
     if (id.sourceIndex() >= src_it->second->deviceData()->outputs().size())
         return false;
 
-    auto dest_it = devices_.find(id.destination());
-    if (dest_it == devices_.end())
+    auto dest_it = items_.find(id.destination());
+    if (dest_it == items_.end())
         return false;
 
     if (id.destinationIndex() >= dest_it->second->deviceData()->inputs().size())
@@ -277,7 +277,7 @@ bool Scene::checkConnection(const ConnectionId& id) const
 
 bool Scene::hasSelected() const
 {
-    for (auto& kv : devices_)
+    for (auto& kv : items_)
         if (kv.second->isSelected())
             return true;
 
@@ -291,8 +291,8 @@ int Scene::setSelected(const QList<DeviceId>& ids, bool value)
     int count = 0;
 
     for (auto id : ids) {
-        auto it = devices_.find(id);
-        if (it != devices_.end()) {
+        auto it = items_.find(id);
+        if (it != items_.end()) {
             it->second->setSelected(value);
             count++;
         }
@@ -306,8 +306,8 @@ void Scene::toggleSelected(const QList<DeviceId>& ids)
     QSignalBlocker sb(scene_);
 
     for (auto id : ids) {
-        auto it = devices_.find(id);
-        if (it != devices_.end())
+        auto it = items_.find(id);
+        if (it != items_.end())
             it->second->setSelected(!it->second->isSelected());
     }
 }
@@ -315,22 +315,22 @@ void Scene::toggleSelected(const QList<DeviceId>& ids)
 void Scene::clear()
 {
     if (scene_) {
-        for (auto& kv : devices_) {
+        for (auto& kv : items_) {
             scene_->removeItem(kv.second);
             emit removed(kv.second->deviceData());
             delete kv.second;
         }
     }
 
-    devices_.clear();
+    items_.clear();
 }
 
 QList<DeviceId> Scene::idList() const
 {
     QList<DeviceId> res;
-    res.reserve(devices_.size());
+    res.reserve(items_.size());
 
-    for (auto& kv : devices_)
+    for (auto& kv : items_)
         res.push_back(kv.second->id());
 
     return res;
@@ -339,9 +339,9 @@ QList<DeviceId> Scene::idList() const
 QList<SharedDeviceData> Scene::dataList() const
 {
     QList<SharedDeviceData> res;
-    res.reserve(devices_.size());
+    res.reserve(items_.size());
 
-    for (auto& kv : devices_)
+    for (auto& kv : items_)
         res.push_back(kv.second->deviceData());
 
     return res;
@@ -371,7 +371,7 @@ QRectF Scene::boundingRect() const
 {
     QRectF rect;
     int i = 0;
-    for (auto& kv : devices_) {
+    for (auto& kv : items_) {
         auto dev = kv.second;
         auto item_rect = dev->mapRectToScene(dev->boundingRect());
 
@@ -388,7 +388,7 @@ QRectF Scene::boundingSelectRect() const
 {
     QRectF rect;
     int i = 0;
-    for (auto& kv : devices_) {
+    for (auto& kv : items_) {
         auto dev = kv.second;
         if (!dev->isSelected())
             continue;
@@ -409,7 +409,7 @@ void Scene::foreachDevice(const std::function<void(Device*)>& fn)
     if (!fn)
         return;
 
-    for (auto& kv : devices_)
+    for (auto& kv : items_)
         fn(kv.second);
 }
 
@@ -418,7 +418,7 @@ void Scene::foreachSelectedDevice(const std::function<void(const Device*)>& fn)
     if (!fn)
         return;
 
-    for (auto& kv : devices_) {
+    for (auto& kv : items_) {
         if (kv.second->isSelected())
             fn(kv.second);
     }
@@ -429,7 +429,7 @@ void Scene::foreachData(const std::function<void(const SharedDeviceData&)>& fn) 
     if (!fn)
         return;
 
-    for (auto& kv : devices_)
+    for (auto& kv : items_)
         fn(kv.second->deviceData());
 }
 
@@ -438,7 +438,7 @@ void Scene::foreachSelectedData(const std::function<void(const SharedDeviceData&
     if (!fn)
         return;
 
-    for (auto& kv : devices_) {
+    for (auto& kv : items_) {
         if (kv.second->isSelected())
             fn(kv.second->deviceData());
     }
@@ -448,7 +448,7 @@ QSet<DeviceId> Scene::intersected(const QRectF& rect) const
 {
     QSet<DeviceId> res;
 
-    for (auto& kv : devices_) {
+    for (auto& kv : items_) {
         auto dev = kv.second;
         auto scene_bbox = dev->mapRectToScene(dev->boundingRect());
         if (scene_bbox.intersects(rect))
@@ -462,7 +462,7 @@ QList<DeviceId> Scene::intersectedList(const QRectF& rect) const
 {
     QList<DeviceId> res;
 
-    for (auto& kv : devices_) {
+    for (auto& kv : items_) {
         auto dev = kv.second;
         auto scene_bbox = dev->mapRectToScene(dev->boundingRect());
         if (scene_bbox.intersects(rect))
@@ -476,7 +476,7 @@ QJsonValue Scene::toJson() const
 {
     QJsonArray res;
 
-    for (auto& kv : devices_)
+    for (auto& kv : items_)
         res << kv.second->toJson();
 
     return res;
@@ -487,8 +487,8 @@ bool Scene::moveBy(const QHash<DeviceId, QPointF>& deltas)
     int count = 0;
 
     for (auto kv = deltas.begin(); kv != deltas.end(); ++kv) {
-        auto it = devices_.find(kv.key());
-        if (it != devices_.end() && !it->second->isLocked()) {
+        auto it = items_.find(kv.key());
+        if (it != items_.end() && !it->second->isLocked()) {
             it->second->moveBy(kv.value().x(), kv.value().y());
             count++;
         }
@@ -501,7 +501,7 @@ bool Scene::moveSelectedBy(qreal dx, qreal dy)
 {
     bool res = false;
 
-    for (auto& kv : devices_) {
+    for (auto& kv : items_) {
         auto dev = kv.second;
         if (dev->isSelected() && !dev->isLocked()) {
             dev->moveBy(dx, dy);

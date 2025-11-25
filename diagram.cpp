@@ -142,7 +142,7 @@ void Diagram::initSceneConnections()
 
 void Diagram::initSceneDevices()
 {
-    devices_.setScene(scene_);
+    devices_.setGraphicsScene(scene_);
     connect(&devices_, SIGNAL(added(SharedDeviceData)), this, SIGNAL(deviceAdded(SharedDeviceData)));
     connect(&devices_, SIGNAL(removed(SharedDeviceData)), this, SIGNAL(deviceRemoved(SharedDeviceData)));
 }

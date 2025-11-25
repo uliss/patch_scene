@@ -32,7 +32,7 @@ class Scene : public QObject {
 
 private:
     QGraphicsScene* scene_;
-    std::unordered_map<DeviceId, Device*> devices_;
+    std::unordered_map<DeviceId, Device*> items_;
 
 public:
     Scene();
@@ -41,17 +41,17 @@ public:
     bool operator!=(const Scene& sc) const { return !operator==(sc); }
 
     /**
-     * set scene to operate on
+     * set graphics scene to operate on
      */
-    void setScene(QGraphicsScene* scene);
+    void setGraphicsScene(QGraphicsScene* scene);
 
     /**
-     * return number of all devices
+     * return number of all scene items
      */
-    size_t count() const { return devices_.size(); }
+    size_t count() const { return items_.size(); }
 
     /**
-     * return number of selected devices
+     * return number of selected scene items
      * @complexity O(n)
      */
     size_t selectedCount() const;
@@ -70,15 +70,15 @@ public:
     Comment* addComment();
 
     /**
-     * remove device from scene
+     * remove item from the scene
      * @return removed device data on success or null device data on error
      * @emit removed(SharedDeviceData)
      */
     SharedDeviceData remove(DeviceId id);
 
     /**
-     * remove all devices
-     * @emit removed(SharedDeviceData) for every deleted device
+     * remove all scene items
+     * @emit removed(SharedDeviceData) for every deleted item
      */
     void clear();
 

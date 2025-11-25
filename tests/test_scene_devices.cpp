@@ -133,7 +133,7 @@ void TestSceneDevices::add()
     QCOMPARE(sig_spy.count(), 0);
 
     QGraphicsScene scene;
-    dev.setScene(&scene);
+    dev.setGraphicsScene(&scene);
     QCOMPARE(dev.count(), 0);
     QCOMPARE(scene.items().size(), 0);
 
@@ -189,7 +189,7 @@ void TestSceneDevices::addComment()
     QVERIFY(sig_spy.isValid());
 
     QGraphicsScene scene;
-    dev.setScene(&scene);
+    dev.setGraphicsScene(&scene);
 
     QVERIFY(dev.addComment());
     QCOMPARE(dev.count(), 1);
@@ -207,7 +207,7 @@ void TestSceneDevices::remove()
     QCOMPARE(sig_spy.count(), 0);
 
     QGraphicsScene scene;
-    dev.setScene(&scene);
+    dev.setGraphicsScene(&scene);
     QVERIFY(dev.add(data1(100)));
     QVERIFY(dev.add(data1(101)));
     QVERIFY(!dev.hasSelected());
@@ -236,7 +236,7 @@ void TestSceneDevices::clear()
     QVERIFY(sig_spy.isValid());
 
     QGraphicsScene scene;
-    dev.setScene(&scene);
+    dev.setGraphicsScene(&scene);
 
     QVERIFY(dev.add(data1(100)));
     QVERIFY(dev.add(data1(101)));
@@ -251,7 +251,7 @@ void TestSceneDevices::setSelected()
 {
     Scene dev;
     QGraphicsScene scene;
-    dev.setScene(&scene);
+    dev.setGraphicsScene(&scene);
     QVERIFY(dev.add(data1(100)));
     QVERIFY(dev.add(data1(101)));
     QVERIFY(dev.add(data1(102)));
@@ -277,7 +277,7 @@ void TestSceneDevices::toggleSelected()
 {
     Scene dev;
     QGraphicsScene scene;
-    dev.setScene(&scene);
+    dev.setGraphicsScene(&scene);
     QVERIFY(dev.add(data1(100)));
     QVERIFY(dev.add(data1(101)));
     QVERIFY(dev.add(data1(102)));
@@ -306,7 +306,7 @@ void TestSceneDevices::boundingRect()
     QCOMPARE(dev.boundingRect(), QRectF {});
 
     QGraphicsScene scene;
-    dev.setScene(&scene);
+    dev.setGraphicsScene(&scene);
     auto dev1 = dev.add(data3(100));
     QCOMPARE(dev1->deviceData()->title(), "DATA3");
     QCOMPARE(dev.boundingRect(), QRectF(-0.5 * MIN_TXT_WD, 0, MIN_TXT_WD, DEF_TXT_HT));
@@ -323,7 +323,7 @@ void TestSceneDevices::findConnectionInfo()
     QVERIFY(!info);
 
     QGraphicsScene scene;
-    dev.setScene(&scene);
+    dev.setGraphicsScene(&scene);
 
     info = dev.connectionInfo(ConnectionId { 100, 0, 101, 0 });
     QVERIFY(!info);
@@ -351,7 +351,7 @@ void TestSceneDevices::findConnectionPair()
     QVERIFY(!pair);
 
     QGraphicsScene scene;
-    dev.setScene(&scene);
+    dev.setGraphicsScene(&scene);
 
     auto data = data0(100);
     data->setId(100);
@@ -379,7 +379,7 @@ void TestSceneDevices::checkConnection()
     QVERIFY(!dev.checkConnection({ 0, 0, 0, 0 }));
 
     QGraphicsScene scene;
-    dev.setScene(&scene);
+    dev.setGraphicsScene(&scene);
 
     dev.add(data_n(100, 1, 5));
     dev.add(data_n(101, 5, 1));
@@ -422,7 +422,7 @@ void TestSceneDevices::findConnectionPoints()
     QVERIFY(!dev.connectionPoints({ 0, 0, 0, 0 }));
 
     QGraphicsScene scene;
-    dev.setScene(&scene);
+    dev.setGraphicsScene(&scene);
 
     auto dev1 = dev.add(data1(100));
     auto dev2 = dev.add(data1(101));
@@ -458,7 +458,7 @@ void TestSceneDevices::toJson()
 {
     Scene dev;
     QGraphicsScene scene;
-    dev.setScene(&scene);
+    dev.setGraphicsScene(&scene);
 
     auto dev1 = dev.add(data1(100));
     auto dev2 = dev.add(data1(101));
