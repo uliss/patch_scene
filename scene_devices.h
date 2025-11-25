@@ -27,7 +27,7 @@ namespace ceam {
 class Comment;
 class Device;
 
-class SceneDevices : public QObject {
+class Scene : public QObject {
     Q_OBJECT
 
 private:
@@ -35,10 +35,10 @@ private:
     std::unordered_map<DeviceId, Device*> devices_;
 
 public:
-    SceneDevices();
+    Scene();
 
-    bool operator==(const SceneDevices& sc) const;
-    bool operator!=(const SceneDevices& sc) const { return !operator==(sc); }
+    bool operator==(const Scene& sc) const;
+    bool operator!=(const Scene& sc) const { return !operator==(sc); }
 
     /**
      * set scene to operate on
@@ -177,6 +177,6 @@ signals:
 };
 
 } // namespace ceam
-QDebug operator<<(QDebug debug, const ceam::SceneDevices& sc);
+QDebug operator<<(QDebug debug, const ceam::Scene& sc);
 
 #endif // SCENE_DEVICES_H

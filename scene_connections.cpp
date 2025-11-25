@@ -130,7 +130,7 @@ void SceneConnections::unselectAll()
     }
 }
 
-QList<DeviceConnectionData> SceneConnections::infoList(const SceneDevices& devices) const
+QList<DeviceConnectionData> SceneConnections::infoList(const Scene& devices) const
 {
     QList<DeviceConnectionData> res;
     res.reserve(conn_.size());

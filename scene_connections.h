@@ -26,7 +26,7 @@ namespace ceam {
 
 class Connection;
 class ConnectionEditor;
-class SceneDevices;
+class Scene;
 
 class SceneConnections : public QObject {
     Q_OBJECT
@@ -77,7 +77,7 @@ public:
      */
     void unselectAll();
 
-    QList<DeviceConnectionData> infoList(const SceneDevices& devices) const;
+    QList<DeviceConnectionData> infoList(const Scene& devices) const;
 
     /**
      * find all incoming/outcoming connection to/from devices

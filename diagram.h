@@ -162,7 +162,7 @@ public:
     SceneConnections* connections() { return connections_; }
     const SceneConnections* connections() const { return connections_; }
 
-    SceneDevices& devices() { return devices_; }
+    Scene& devices() { return devices_; }
 
     // clip buffer
     void clearClipBuffer();
@@ -326,7 +326,7 @@ private:
 
     QPointF prev_move_pos_;
     QPointF prev_click_pos_;
-    SceneDevices devices_;
+    Scene devices_;
     SceneBackground background_;
     SceneConnections* connections_ { nullptr };
 

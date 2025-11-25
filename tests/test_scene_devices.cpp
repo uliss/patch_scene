@@ -121,7 +121,7 @@ void TestSceneDevices::initTestCase()
 
 void TestSceneDevices::add()
 {
-    SceneDevices dev;
+    Scene dev;
     QSignalSpy sig_spy(&dev, SIGNAL(added(SharedDeviceData)));
     QVERIFY(sig_spy.isValid());
     QCOMPARE(sig_spy.count(), 0);
@@ -184,7 +184,7 @@ void TestSceneDevices::add()
 
 void TestSceneDevices::addComment()
 {
-    SceneDevices dev;
+    Scene dev;
     QSignalSpy sig_spy(&dev, SIGNAL(added(SharedDeviceData)));
     QVERIFY(sig_spy.isValid());
 
@@ -198,7 +198,7 @@ void TestSceneDevices::addComment()
 
 void TestSceneDevices::remove()
 {
-    SceneDevices dev;
+    Scene dev;
     QSignalSpy sig_spy(&dev, SIGNAL(removed(SharedDeviceData)));
     QVERIFY(sig_spy.isValid());
 
@@ -231,7 +231,7 @@ void TestSceneDevices::remove()
 
 void TestSceneDevices::clear()
 {
-    SceneDevices dev;
+    Scene dev;
     QSignalSpy sig_spy(&dev, SIGNAL(removed(SharedDeviceData)));
     QVERIFY(sig_spy.isValid());
 
@@ -249,7 +249,7 @@ void TestSceneDevices::clear()
 
 void TestSceneDevices::setSelected()
 {
-    SceneDevices dev;
+    Scene dev;
     QGraphicsScene scene;
     dev.setScene(&scene);
     QVERIFY(dev.add(data1(100)));
@@ -275,7 +275,7 @@ void TestSceneDevices::setSelected()
 
 void TestSceneDevices::toggleSelected()
 {
-    SceneDevices dev;
+    Scene dev;
     QGraphicsScene scene;
     dev.setScene(&scene);
     QVERIFY(dev.add(data1(100)));
@@ -302,7 +302,7 @@ void TestSceneDevices::toggleSelected()
 
 void TestSceneDevices::boundingRect()
 {
-    SceneDevices dev;
+    Scene dev;
     QCOMPARE(dev.boundingRect(), QRectF {});
 
     QGraphicsScene scene;
@@ -318,7 +318,7 @@ void TestSceneDevices::boundingRect()
 
 void TestSceneDevices::findConnectionInfo()
 {
-    SceneDevices dev;
+    Scene dev;
     auto info = dev.connectionInfo(ConnectionId { 100, 0, 101, 0 });
     QVERIFY(!info);
 
@@ -346,7 +346,7 @@ void TestSceneDevices::findConnectionInfo()
 
 void TestSceneDevices::findConnectionPair()
 {
-    SceneDevices dev;
+    Scene dev;
     auto pair = dev.connectionPair(ConnectionId { 100, 0, 101, 0 });
     QVERIFY(!pair);
 
@@ -375,7 +375,7 @@ void TestSceneDevices::findConnectionPair()
 
 void TestSceneDevices::checkConnection()
 {
-    SceneDevices dev;
+    Scene dev;
     QVERIFY(!dev.checkConnection({ 0, 0, 0, 0 }));
 
     QGraphicsScene scene;
@@ -418,7 +418,7 @@ void TestSceneDevices::checkConnection()
 
 void TestSceneDevices::findConnectionPoints()
 {
-    SceneDevices dev;
+    Scene dev;
     QVERIFY(!dev.connectionPoints({ 0, 0, 0, 0 }));
 
     QGraphicsScene scene;
@@ -456,7 +456,7 @@ void TestSceneDevices::findConnectionPoints()
 
 void TestSceneDevices::toJson()
 {
-    SceneDevices dev;
+    Scene dev;
     QGraphicsScene scene;
     dev.setScene(&scene);
 
@@ -480,7 +480,7 @@ void TestSceneDevices::toJson()
 
 void TestSceneDevices::compare()
 {
-    SceneDevices sc;
+    Scene sc;
     QCOMPARE(sc, sc);
     QVERIFY(!(sc != sc));
 }

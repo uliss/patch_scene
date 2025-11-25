@@ -23,12 +23,12 @@
 
 using namespace ceam;
 
-SceneDevices::SceneDevices()
+Scene::Scene()
     : scene_(nullptr)
 {
 }
 
-bool SceneDevices::operator==(const SceneDevices& sc) const
+bool Scene::operator==(const Scene& sc) const
 {
     if (this == &sc)
         return true;
@@ -53,12 +53,12 @@ bool SceneDevices::operator==(const SceneDevices& sc) const
     return d0 == d1;
 }
 
-void SceneDevices::setScene(QGraphicsScene* scene)
+void Scene::setScene(QGraphicsScene* scene)
 {
     scene_ = scene;
 }
 
-size_t SceneDevices::selectedCount() const
+size_t Scene::selectedCount() const
 {
     size_t res = 0;
 
@@ -68,7 +68,7 @@ size_t SceneDevices::selectedCount() const
     return res;
 }
 
-Device* SceneDevices::add(const SharedDeviceData& data)
+Device* Scene::add(const SharedDeviceData& data)
 {
     if (!scene_ || !data)
         return nullptr;
@@ -98,7 +98,7 @@ Device* SceneDevices::add(const SharedDeviceData& data)
     return dev;
 }
 
-Comment* SceneDevices::addComment()
+Comment* Scene::addComment()
 {
     if (!scene_)
         return nullptr;
@@ -122,7 +122,7 @@ Comment* SceneDevices::addComment()
     return c;
 }
 
-SharedDeviceData SceneDevices::remove(DeviceId id)
+SharedDeviceData Scene::remove(DeviceId id)
 {
     if (!scene_)
         return {};
@@ -142,7 +142,7 @@ SharedDeviceData SceneDevices::remove(DeviceId id)
     return data;
 }
 
-Device* SceneDevices::find(DeviceId id)
+Device* Scene::find(DeviceId id)
 {
     auto it = devices_.find(id);
     return it == devices_.end()
@@ -150,7 +150,7 @@ Device* SceneDevices::find(DeviceId id)
         : it->second;
 }
 
-const Device* SceneDevices::find(DeviceId id) const
+const Device* Scene::find(DeviceId id) const
 {
     auto it = devices_.find(id);
     return it == devices_.end()
@@ -158,7 +158,7 @@ const Device* SceneDevices::find(DeviceId id) const
         : it->second;
 }
 
-SharedDeviceData SceneDevices::findData(DeviceId id) const
+SharedDeviceData Scene::findData(DeviceId id) const
 {
     auto it = devices_.find(id);
     return it == devices_.end()
@@ -166,7 +166,7 @@ SharedDeviceData SceneDevices::findData(DeviceId id) const
         : it->second->deviceData();
 }
 
-std::optional<DeviceConnectionData> SceneDevices::connectionInfo(const ConnectionId& id) const
+std::optional<DeviceConnectionData> Scene::connectionInfo(const ConnectionId& id) const
 {
     std::optional<DeviceConnectionData> res = DeviceConnectionData();
     int count = 0;
@@ -207,7 +207,7 @@ std::optional<DeviceConnectionData> SceneDevices::connectionInfo(const Connectio
         return {};
 }
 
-std::optional<std::pair<QPointF, QPointF>> SceneDevices::connectionPoints(const ConnectionId& id) const
+std::optional<std::pair<QPointF, QPointF>> Scene::connectionPoints(const ConnectionId& id) const
 {
     auto src_it = devices_.find(id.source());
     if (src_it == devices_.end())
@@ -228,7 +228,7 @@ std::optional<std::pair<QPointF, QPointF>> SceneDevices::connectionPoints(const 
     return std::pair { *p0, *p1 };
 }
 
-std::optional<ConnectorPair> SceneDevices::connectionPair(const ConnectionId& id) const
+std::optional<ConnectorPair> Scene::connectionPair(const ConnectionId& id) const
 {
     auto src_it = devices_.find(id.source());
     if (src_it == devices_.end())
@@ -253,7 +253,7 @@ std::optional<ConnectorPair> SceneDevices::connectionPair(const ConnectionId& id
     };
 }
 
-bool SceneDevices::checkConnection(const ConnectionId& id) const
+bool Scene::checkConnection(const ConnectionId& id) const
 {
     if (!id.isValid())
         return false;
@@ -275,7 +275,7 @@ bool SceneDevices::checkConnection(const ConnectionId& id) const
     return true;
 }
 
-bool SceneDevices::hasSelected() const
+bool Scene::hasSelected() const
 {
     for (auto& kv : devices_)
         if (kv.second->isSelected())
@@ -284,7 +284,7 @@ bool SceneDevices::hasSelected() const
     return false;
 }
 
-int SceneDevices::setSelected(const QList<DeviceId>& ids, bool value)
+int Scene::setSelected(const QList<DeviceId>& ids, bool value)
 {
     QSignalBlocker sb(scene_);
 
@@ -301,7 +301,7 @@ int SceneDevices::setSelected(const QList<DeviceId>& ids, bool value)
     return count;
 }
 
-void SceneDevices::toggleSelected(const QList<DeviceId>& ids)
+void Scene::toggleSelected(const QList<DeviceId>& ids)
 {
     QSignalBlocker sb(scene_);
 
@@ -312,7 +312,7 @@ void SceneDevices::toggleSelected(const QList<DeviceId>& ids)
     }
 }
 
-void SceneDevices::clear()
+void Scene::clear()
 {
     if (scene_) {
         for (auto& kv : devices_) {
@@ -325,7 +325,7 @@ void SceneDevices::clear()
     devices_.clear();
 }
 
-QList<DeviceId> SceneDevices::idList() const
+QList<DeviceId> Scene::idList() const
 {
     QList<DeviceId> res;
     res.reserve(devices_.size());
@@ -336,7 +336,7 @@ QList<DeviceId> SceneDevices::idList() const
     return res;
 }
 
-QList<SharedDeviceData> SceneDevices::dataList() const
+QList<SharedDeviceData> Scene::dataList() const
 {
     QList<SharedDeviceData> res;
     res.reserve(devices_.size());
@@ -347,7 +347,7 @@ QList<SharedDeviceData> SceneDevices::dataList() const
     return res;
 }
 
-QList<DeviceId> SceneDevices::selectedIdList() const
+QList<DeviceId> Scene::selectedIdList() const
 {
     QList<DeviceId> res;
 
@@ -358,7 +358,7 @@ QList<DeviceId> SceneDevices::selectedIdList() const
     return res;
 }
 
-QList<SharedDeviceData> SceneDevices::selectedDataList() const
+QList<SharedDeviceData> Scene::selectedDataList() const
 {
     QList<SharedDeviceData> res;
     foreachSelectedData([&res](const SharedDeviceData& data) {
@@ -367,7 +367,7 @@ QList<SharedDeviceData> SceneDevices::selectedDataList() const
     return res;
 }
 
-QRectF SceneDevices::boundingRect() const
+QRectF Scene::boundingRect() const
 {
     QRectF rect;
     int i = 0;
@@ -384,7 +384,7 @@ QRectF SceneDevices::boundingRect() const
     return rect;
 }
 
-QRectF SceneDevices::boundingSelectRect() const
+QRectF Scene::boundingSelectRect() const
 {
     QRectF rect;
     int i = 0;
@@ -404,7 +404,7 @@ QRectF SceneDevices::boundingSelectRect() const
     return rect;
 }
 
-void SceneDevices::foreachDevice(const std::function<void(Device*)>& fn)
+void Scene::foreachDevice(const std::function<void(Device*)>& fn)
 {
     if (!fn)
         return;
@@ -413,7 +413,7 @@ void SceneDevices::foreachDevice(const std::function<void(Device*)>& fn)
         fn(kv.second);
 }
 
-void SceneDevices::foreachSelectedDevice(const std::function<void(const Device*)>& fn)
+void Scene::foreachSelectedDevice(const std::function<void(const Device*)>& fn)
 {
     if (!fn)
         return;
@@ -424,7 +424,7 @@ void SceneDevices::foreachSelectedDevice(const std::function<void(const Device*)
     }
 }
 
-void SceneDevices::foreachData(const std::function<void(const SharedDeviceData&)>& fn) const
+void Scene::foreachData(const std::function<void(const SharedDeviceData&)>& fn) const
 {
     if (!fn)
         return;
@@ -433,7 +433,7 @@ void SceneDevices::foreachData(const std::function<void(const SharedDeviceData&)
         fn(kv.second->deviceData());
 }
 
-void SceneDevices::foreachSelectedData(const std::function<void(const SharedDeviceData&)>& fn) const
+void Scene::foreachSelectedData(const std::function<void(const SharedDeviceData&)>& fn) const
 {
     if (!fn)
         return;
@@ -444,7 +444,7 @@ void SceneDevices::foreachSelectedData(const std::function<void(const SharedDevi
     }
 }
 
-QSet<DeviceId> SceneDevices::intersected(const QRectF& rect) const
+QSet<DeviceId> Scene::intersected(const QRectF& rect) const
 {
     QSet<DeviceId> res;
 
@@ -458,7 +458,7 @@ QSet<DeviceId> SceneDevices::intersected(const QRectF& rect) const
     return res;
 }
 
-QList<DeviceId> SceneDevices::intersectedList(const QRectF& rect) const
+QList<DeviceId> Scene::intersectedList(const QRectF& rect) const
 {
     QList<DeviceId> res;
 
@@ -472,7 +472,7 @@ QList<DeviceId> SceneDevices::intersectedList(const QRectF& rect) const
     return res;
 }
 
-QJsonValue SceneDevices::toJson() const
+QJsonValue Scene::toJson() const
 {
     QJsonArray res;
 
@@ -482,7 +482,7 @@ QJsonValue SceneDevices::toJson() const
     return res;
 }
 
-bool SceneDevices::moveBy(const QHash<DeviceId, QPointF>& deltas)
+bool Scene::moveBy(const QHash<DeviceId, QPointF>& deltas)
 {
     int count = 0;
 
@@ -497,7 +497,7 @@ bool SceneDevices::moveBy(const QHash<DeviceId, QPointF>& deltas)
     return count > 0;
 }
 
-bool SceneDevices::moveSelectedBy(qreal dx, qreal dy)
+bool Scene::moveSelectedBy(qreal dx, qreal dy)
 {
     bool res = false;
 
@@ -512,7 +512,7 @@ bool SceneDevices::moveSelectedBy(qreal dx, qreal dy)
     return res;
 }
 
-QDebug operator<<(QDebug debug, const ceam::SceneDevices& sc)
+QDebug operator<<(QDebug debug, const ceam::Scene& sc)
 {
     sc.foreachData([&debug](const SharedDeviceData& data) {
         if (data)
