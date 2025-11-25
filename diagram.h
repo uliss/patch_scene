@@ -48,7 +48,7 @@ public:
     };
 
 public:
-    explicit Diagram(int w, int h, QWidget* parent = nullptr);
+    Diagram(int w, int h, QWidget* parent = nullptr);
 
     /**
      * Return hash map of all connections of all selected devices
@@ -84,14 +84,14 @@ public:
      * @param id - device id
      * @return true on success, false on error
      */
-    bool removeDevice(SceneItemId id);
+    bool removeItem(SceneItemId id);
 
     /**
-     * @brief setDeviceData, emit sceneChanged(), deviceUpdated() and batteryChanged()
+     * @brief setItemData, emit sceneChanged(), deviceUpdated() and batteryChanged()
      * @param data - device data
      * @return true on success, false on error
      */
-    bool setDeviceData(const SharedDeviceData& data);
+    bool setItemData(const SharedDeviceData& data);
 
     /**
      * @brief add comment into the scheme, emit sceneChanged(), deviceAdded()
@@ -162,7 +162,8 @@ public:
     SceneConnections* connections() { return connections_; }
     const SceneConnections* connections() const { return connections_; }
 
-    Scene& devices() { return devices_; }
+    Scene& itemScene() { return item_scene_; }
+    const Scene& itemScene() const { return item_scene_; }
 
     // clip buffer
     void clearClipBuffer();
@@ -319,14 +320,14 @@ private:
     void fitRect(const QRectF& rect);
 
 private:
-    DiagramScene* scene_ { nullptr };
+    DiagramScene* graphics_scene_ { nullptr };
     QGraphicsRectItem* selection_ { nullptr };
     QGraphicsLineItem* tmp_connection_ { nullptr };
     QUndoStack* undo_stack_ { nullptr };
 
     QPointF prev_move_pos_;
     QPointF prev_click_pos_;
-    Scene devices_;
+    Scene item_scene_;
     SceneBackground background_;
     SceneConnections* connections_ { nullptr };
 

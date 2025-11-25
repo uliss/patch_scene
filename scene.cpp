@@ -13,8 +13,9 @@
  *****************************************************************************/
 #include "scene.h"
 #include "comment.h"
-#include "scene_item.h"
+#include "device_item.h"
 #include "logging.hpp"
+#include "scene_item.h"
 
 #include <QGraphicsScene>
 #include <QJsonArray>
@@ -73,29 +74,29 @@ SceneItem* Scene::add(const SharedDeviceData& data)
     if (!scene_ || !data)
         return nullptr;
 
-    SceneItem* dev = nullptr;
+    SceneItem* item = nullptr;
     if (data->category() == ItemCategory::Comment) {
-        dev = new CommentItem();
+        item = new CommentItem();
     } else {
-        dev = new SceneItem(data);
+        item = new DeviceItem(data);
     }
 
-    scene_->addItem(dev);
+    scene_->addItem(item);
 
-    auto id = dev->id();
+    auto id = item->id();
     auto it = items_.find(id);
     if (items_.find(id) != items_.end()) {
-        WARN() << "device already with id" << id << "already exists in scene";
+        WARN() << "item already with id" << id << "already exists in scene";
         scene_->removeItem(it->second);
         delete it->second;
-        it->second = dev;
+        it->second = item;
     } else {
-        items_.insert(it, { dev->id(), dev });
+        items_.insert(it, { item->id(), item });
     }
 
-    emit added(dev->deviceData());
+    emit added(item->deviceData());
 
-    return dev;
+    return item;
 }
 
 CommentItem* Scene::addComment()
@@ -404,7 +405,7 @@ QRectF Scene::boundingSelectRect() const
     return rect;
 }
 
-void Scene::foreachDevice(const std::function<void(SceneItem*)>& fn)
+void Scene::foreachItem(const std::function<void(SceneItem*)>& fn)
 {
     if (!fn)
         return;
@@ -413,7 +414,7 @@ void Scene::foreachDevice(const std::function<void(SceneItem*)>& fn)
         fn(kv.second);
 }
 
-void Scene::foreachSelectedDevice(const std::function<void(const SceneItem*)>& fn)
+void Scene::foreachSelectedItem(const std::function<void(const SceneItem*)>& fn) const
 {
     if (!fn)
         return;

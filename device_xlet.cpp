@@ -12,9 +12,10 @@
  * this file belongs to.
  *****************************************************************************/
 #include "device_xlet.h"
-#include "scene_item.h"
+#include "device_item.h"
 #include "device_xlet_common.h"
 #include "logging.hpp"
+#include "scene_item.h"
 #include "svg_render_factory.h"
 
 #include <QApplication>
@@ -206,7 +207,7 @@ void DeviceXlet::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
         connect(phantom_on, &QAction::triggered, this, [this](bool checked) {
             data_.setPhantom(checked);
             update(boundingRect());
-            auto dev = qgraphicsitem_cast<SceneItem*>(parentItem());
+            auto dev = dynamic_cast<DeviceItem*>(parentItem());
             if (dev)
                 dev->syncXletData();
         });

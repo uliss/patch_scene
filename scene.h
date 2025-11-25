@@ -16,6 +16,7 @@
 
 #include "connection_database.h"
 #include "device_common.h"
+#include "device_item.h"
 
 #include <QObject>
 #include <unordered_map>
@@ -148,8 +149,8 @@ public:
     QRectF boundingRect() const;
     QRectF boundingSelectRect() const;
 
-    void foreachDevice(const std::function<void(SceneItem*)>& fn);
-    void foreachSelectedDevice(const std::function<void(const SceneItem*)>& fn);
+    void foreachItem(const std::function<void(SceneItem*)>& fn);
+    void foreachSelectedItem(const std::function<void(const SceneItem*)>& fn) const;
 
     void foreachData(const std::function<void(const SharedDeviceData& data)>& fn) const;
     void foreachSelectedData(const std::function<void(const SharedDeviceData& data)>& fn) const;

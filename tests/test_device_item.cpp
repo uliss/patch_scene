@@ -12,7 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "test_device_item.h"
-#include "scene_item.h"
+#include "device_item.h"
 #include "xlets_view.h"
 
 #include <QTest>
@@ -64,7 +64,7 @@ void TestDeviceItem::qtTest()
 
 void TestDeviceItem::createDefault()
 {
-    SceneItem dev;
+    DeviceItem dev;
     QVERIFY(dev.id() != SCENE_ITEM_NULL_ID);
     QCOMPARE(dev.deviceData()->inputs().count(), 4);
     QCOMPARE(dev.deviceData()->outputs().count(), 2);
@@ -97,7 +97,7 @@ void TestDeviceItem::createDefault()
 void TestDeviceItem::createNoTitle()
 {
     {
-        SceneItem dev(make_data(100, 2, 0));
+        DeviceItem dev(make_data(100, 2, 0));
         QCOMPARE(dev.id(), 100);
 
         QCOMPARE(dev.deviceData()->inputs().count(), 2);
@@ -108,14 +108,14 @@ void TestDeviceItem::createNoTitle()
     }
 
     {
-        SceneItem dev(make_data(100, 0, 1));
+        DeviceItem dev(make_data(100, 0, 1));
 
         QCOMPARE(dev.boundingRect(), QRectF(-0.5 * XW, 0, XW, XH));
         QCOMPARE(dev.xletRect(), QRect(-0.5 * XW, 0, XW, XH));
     }
 
     {
-        SceneItem dev(make_data(100, 2, 1));
+        DeviceItem dev(make_data(100, 2, 1));
 
         QCOMPARE(dev.boundingRect(), QRectF(-1 * XW, 0, 2 * XW, 2 * XH));
         QCOMPARE(dev.xletRect(), QRect(-1 * XW, 0, 2 * XW, 2 * XH));
@@ -125,22 +125,22 @@ void TestDeviceItem::createNoTitle()
 void TestDeviceItem::boundingRect()
 {
     {
-        SceneItem dev(make_data(100, 0, 0, {}));
+        DeviceItem dev(make_data(100, 0, 0, {}));
         QCOMPARE(dev.boundingRect(), QRect(0, 0, 0, 0));
     }
 
     {
-        SceneItem dev(make_data(100, 1, 0, {}));
+        DeviceItem dev(make_data(100, 1, 0, {}));
         QCOMPARE(dev.boundingRect(), QRectF(-0.5 * XW, 0, XW, XH));
     }
 
     {
-        SceneItem dev(make_data(100, 2, 0, {}));
+        DeviceItem dev(make_data(100, 2, 0, {}));
         QCOMPARE(dev.boundingRect(), QRectF(-1 * XW, 0, 2 * XW, XH));
     }
 
     {
-        SceneItem dev(make_data(100, 2, 0, "MIN"));
+        DeviceItem dev(make_data(100, 2, 0, "MIN"));
         QCOMPARE(dev.boundingRect(), QRectF(-0.5 * MIN_TXT_WD, 0, MIN_TXT_WD, DEF_TXT_HT + XH));
     }
 }
@@ -148,12 +148,12 @@ void TestDeviceItem::boundingRect()
 void TestDeviceItem::titleRect()
 {
     {
-        SceneItem dev(make_data(100, 0, 0, {}));
+        DeviceItem dev(make_data(100, 0, 0, {}));
         QCOMPARE(dev.titleRect(), QRect());
     }
 
     {
-        SceneItem dev(make_data(100, 0, 0, "..."));
+        DeviceItem dev(make_data(100, 0, 0, "..."));
         QCOMPARE(dev.titleRect(), QRectF(-0.5 * MIN_TITLE_WD, 0, MIN_TITLE_WD, DEF_TXT_HT));
     }
 }
@@ -161,52 +161,52 @@ void TestDeviceItem::titleRect()
 void TestDeviceItem::xletRect()
 {
     {
-        SceneItem dev(make_data(100, 0, 0, {}));
+        DeviceItem dev(make_data(100, 0, 0, {}));
         QCOMPARE(dev.xletRect(), QRect());
     }
 
     {
-        SceneItem dev(make_data(100, 1, 0, {}));
+        DeviceItem dev(make_data(100, 1, 0, {}));
         QCOMPARE(dev.xletRect(), QRect(-0.5 * XW, 0, XW, XH));
     }
 
     {
-        SceneItem dev(make_data(100, 2, 0, {}));
+        DeviceItem dev(make_data(100, 2, 0, {}));
         QCOMPARE(dev.xletRect(), QRect(-XW, 0, 2 * XW, XH));
     }
 
     {
-        SceneItem dev(make_data(100, 5, 0, {}));
+        DeviceItem dev(make_data(100, 5, 0, {}));
         QCOMPARE(dev.xletRect(), QRect(-2 * XW, 0, 4 * XW, 2 * XH));
     }
 
     {
-        SceneItem dev(make_data(100, 0, 1, {}));
+        DeviceItem dev(make_data(100, 0, 1, {}));
         QCOMPARE(dev.xletRect(), QRect(-0.5 * XW, 0, XW, XH));
     }
 
     {
-        SceneItem dev(make_data(100, 0, 2, {}));
+        DeviceItem dev(make_data(100, 0, 2, {}));
         QCOMPARE(dev.xletRect(), QRect(-XW, 0, 2 * XW, XH));
     }
 
     {
-        SceneItem dev(make_data(100, 0, 5, {}));
+        DeviceItem dev(make_data(100, 0, 5, {}));
         QCOMPARE(dev.xletRect(), QRect(-2 * XW, 0, 4 * XW, 2 * XH));
     }
 
     {
-        SceneItem dev(make_data(100, 2, 2, {}));
+        DeviceItem dev(make_data(100, 2, 2, {}));
         QCOMPARE(dev.xletRect(), QRect(-XW, 0, 2 * XW, 2 * XH));
     }
 
     {
-        SceneItem dev(make_data(100, 2, 1, {}));
+        DeviceItem dev(make_data(100, 2, 1, {}));
         QCOMPARE(dev.xletRect(), QRect(-XW, 0, 2 * XW, 2 * XH));
     }
 
     {
-        SceneItem dev(make_data(100, 1, 2, {}));
+        DeviceItem dev(make_data(100, 1, 2, {}));
         QCOMPARE(dev.xletRect(), QRect(-XW, 0, 2 * XW, 2 * XH));
     }
 }

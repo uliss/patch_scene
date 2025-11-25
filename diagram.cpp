@@ -29,11 +29,11 @@
 
 #include "app_version.h"
 #include "comment.h"
-#include "scene_item.h"
 #include "diagram_scene.h"
 #include "diagram_updates_blocker.h"
 #include "logging.hpp"
 #include "scale_widget.h"
+#include "scene_item.h"
 #include "undo_commands.h"
 
 using namespace ceam;
@@ -119,7 +119,7 @@ void Diagram::initSelectionRect()
     pen.setDashPattern({ 2, 2 });
     selection_->setPen(pen);
     selection_->setVisible(false);
-    scene_->addItem(selection_);
+    graphics_scene_->addItem(selection_);
 }
 
 void Diagram::initLiveConnection()
@@ -127,12 +127,12 @@ void Diagram::initLiveConnection()
     tmp_connection_ = new QGraphicsLineItem();
     tmp_connection_->setZValue(ZVALUE_LIVE_CONN);
     tmp_connection_->setVisible(false);
-    scene_->addItem(tmp_connection_);
+    graphics_scene_->addItem(tmp_connection_);
 }
 
 void Diagram::initSceneConnections()
 {
-    connections_ = new SceneConnections(scene_, this);
+    connections_ = new SceneConnections(graphics_scene_, this);
     connect(connections_, &SceneConnections::added, this, &Diagram::connectionAdded);
     connect(connections_, &SceneConnections::removed, this, &Diagram::connectionRemoved);
     connect(connections_, &SceneConnections::visibleChanged, this, &Diagram::showCablesChanged);
@@ -142,24 +142,24 @@ void Diagram::initSceneConnections()
 
 void Diagram::initSceneDevices()
 {
-    devices_.setGraphicsScene(scene_);
-    connect(&devices_, SIGNAL(added(SharedDeviceData)), this, SIGNAL(deviceAdded(SharedDeviceData)));
-    connect(&devices_, SIGNAL(removed(SharedDeviceData)), this, SIGNAL(deviceRemoved(SharedDeviceData)));
+    item_scene_.setGraphicsScene(graphics_scene_);
+    connect(&item_scene_, SIGNAL(added(SharedDeviceData)), this, SIGNAL(deviceAdded(SharedDeviceData)));
+    connect(&item_scene_, SIGNAL(removed(SharedDeviceData)), this, SIGNAL(deviceRemoved(SharedDeviceData)));
 }
 
 void Diagram::initScene(int w, int h)
 {
-    scene_ = new DiagramScene(w, h, this);
-    connect(scene_, &DiagramScene::removeConnection, this, &Diagram::cmdDisconnectDevices);
-    setScene(scene_);
+    graphics_scene_ = new DiagramScene(w, h, this);
+    connect(graphics_scene_, &DiagramScene::removeConnection, this, &Diagram::cmdDisconnectDevices);
+    setScene(graphics_scene_);
 
     // NB: should be called after setScene(scene_)!
-    scene_->initGrid();
+    graphics_scene_->initGrid();
 }
 
 void Diagram::initSceneBackground()
 {
-    background_.setScene(scene_);
+    background_.setScene(graphics_scene_);
     connect(&background_, &SceneBackground::backgroundChanged, this,
         [this]() { emit sceneChanged(); });
 
@@ -167,9 +167,9 @@ void Diagram::initSceneBackground()
         [this]() { emit requestBackgroundChange(); });
 }
 
-bool Diagram::removeDevice(SceneItemId id)
+bool Diagram::removeItem(SceneItemId id)
 {
-    auto data = devices_.remove(id);
+    auto data = item_scene_.remove(id);
     if (data) {
         connections_->removeAll(id);
         emit sceneChanged();
@@ -183,7 +183,7 @@ void Diagram::updateConnectionPos(Connection* conn)
     if (!conn)
         return;
 
-    auto conn_pos = devices_.connectionPoints(conn->connectionId());
+    auto conn_pos = item_scene_.connectionPoints(conn->connectionId());
     if (conn_pos) {
         conn->setPoints(conn_pos->first, conn_pos->second);
         conn->setVisible(true);
@@ -205,7 +205,7 @@ void Diagram::updateConnectionStyle(Connection* conn)
     if (!conn)
         return;
 
-    auto pair = devices_.connectionPair(conn->connectionId());
+    auto pair = item_scene_.connectionPair(conn->connectionId());
     if (!pair) {
         qWarning() << "connection pair not found";
         return;
@@ -227,7 +227,7 @@ void Diagram::cmdRemoveSelected()
 
 void Diagram::cmdRemoveDevice(const SharedDeviceData& data)
 {
-    auto rem = new RemoveDevice(this, data);
+    auto rem = new RemoveItem(this, data);
     undo_stack_->push(rem);
 }
 
@@ -279,7 +279,7 @@ void Diagram::cmdToggleDevices(const QList<QGraphicsItem*>& items)
             ids.push_back(dev->id());
     }
 
-    auto tgl = new ToggleDevices(this, ids);
+    auto tgl = new ToggleSelected(this, ids);
     undo_stack_->push(tgl);
 }
 
@@ -326,13 +326,13 @@ void Diagram::cmdUnlockSelected()
 
 void Diagram::cmdLock(SceneItemId id)
 {
-    auto lock = new LockDevices(this, { id });
+    auto lock = new LockItems(this, { id });
     undo_stack_->push(lock);
 }
 
 void Diagram::cmdUnlock(SceneItemId id)
 {
-    auto lock = new UnlockDevices(this, { id });
+    auto lock = new UnlockItems(this, { id });
     undo_stack_->push(lock);
 }
 
@@ -350,13 +350,13 @@ void Diagram::cmdMirrorSelected()
 
 void Diagram::cmdSelectAll()
 {
-    auto sel = new AddDeviceSelection(this, devices_.idList());
+    auto sel = new AddToSelected(this, item_scene_.idList());
     undo_stack_->push(sel);
 }
 
 void Diagram::cmdAddToSelection(const QRectF& sel)
 {
-    auto sel_devs = new AddDeviceSelection(this, devices_.intersectedList(sel));
+    auto sel_devs = new AddToSelected(this, item_scene_.intersectedList(sel));
     undo_stack_->push(sel_devs);
 }
 
@@ -369,20 +369,20 @@ void Diagram::cmdAddToSelection(const QList<QGraphicsItem*>& items)
             ids.push_back(dev->id());
     }
 
-    auto add_sel = new AddDeviceSelection(this, ids);
+    auto add_sel = new AddToSelected(this, ids);
     undo_stack_->push(add_sel);
 }
 
 void Diagram::cmdSelectDevices(const QRectF& sel)
 {
-    auto set_sel = new SetDeviceSelection(this, devices_.intersected(sel));
+    auto set_sel = new SetSelected(this, item_scene_.intersected(sel));
     undo_stack_->push(set_sel);
 }
 
 void Diagram::cmdSelectUnique(SceneItemId id)
 {
     QSet<SceneItemId> ids { id };
-    auto sel = new SetDeviceSelection(this, ids);
+    auto sel = new SetSelected(this, ids);
     undo_stack_->push(sel);
 }
 
@@ -398,7 +398,7 @@ void Diagram::cmdDistributeHSelected()
     qreal min_x = std::numeric_limits<qreal>::max();
     qreal max_x = std::numeric_limits<qreal>::lowest();
     std::vector<std::pair<SceneItemId, qreal>> sel_data;
-    devices_.foreachSelectedDevice([&count, &min_x, &max_x, &sel_data](const SceneItem* dev) {
+    item_scene_.foreachSelectedItem([&count, &min_x, &max_x, &sel_data](const SceneItem* dev) {
         const auto pos = dev->pos();
         min_x = std::min(min_x, pos.x());
         max_x = std::max(max_x, pos.x());
@@ -422,7 +422,7 @@ void Diagram::cmdDistributeHSelected()
         deltas[id] = { new_x, 0 };
     }
 
-    auto move_by = new MoveByDevices(this, deltas);
+    auto move_by = new MoveByItems(this, deltas);
     undo_stack_->push(move_by);
 }
 
@@ -432,7 +432,7 @@ void Diagram::cmdDistributeVSelected()
     qreal min_y = std::numeric_limits<qreal>::max();
     qreal max_y = std::numeric_limits<qreal>::lowest();
     std::vector<std::pair<SceneItemId, qreal>> sel_data;
-    devices_.foreachSelectedDevice([&count, &min_y, &max_y, &sel_data](const SceneItem* dev) {
+    item_scene_.foreachSelectedItem([&count, &min_y, &max_y, &sel_data](const SceneItem* dev) {
         const auto pos = dev->pos();
         min_y = std::min(min_y, pos.y());
         max_y = std::max(max_y, pos.y());
@@ -456,7 +456,7 @@ void Diagram::cmdDistributeVSelected()
         deltas[id] = { 0, new_y };
     }
 
-    auto move_by = new MoveByDevices(this, deltas);
+    auto move_by = new MoveByItems(this, deltas);
     undo_stack_->push(move_by);
 }
 
@@ -468,7 +468,7 @@ void Diagram::cmdMoveSelectedDevicesBy(qreal dx, qreal dy)
 
 void Diagram::cmdMoveSelectedDevicesFrom(const QPointF& from, const QPointF& to)
 {
-    if (!devices_.hasSelected())
+    if (!item_scene_.hasSelected())
         return;
 
     const auto delta = to - from;
@@ -478,7 +478,7 @@ void Diagram::cmdMoveSelectedDevicesFrom(const QPointF& from, const QPointF& to)
 
 void Diagram::cmdAlignVSelected()
 {
-    auto sel_data = devices_.selectedDataList();
+    auto sel_data = item_scene_.selectedDataList();
     if (sel_data.empty())
         return;
 
@@ -493,13 +493,13 @@ void Diagram::cmdAlignVSelected()
         deltas.insert(data->id(), QPointF(x - data->pos().x(), 0));
     }
 
-    auto move_by = new MoveByDevices(this, deltas);
+    auto move_by = new MoveByItems(this, deltas);
     undo_stack_->push(move_by);
 }
 
 void Diagram::cmdAlignHSelected()
 {
-    auto sel_data = devices_.selectedDataList();
+    auto sel_data = item_scene_.selectedDataList();
     if (sel_data.empty())
         return;
 
@@ -514,7 +514,7 @@ void Diagram::cmdAlignHSelected()
         deltas.insert(data->id(), QPointF(0, y - data->pos().y()));
     }
 
-    auto move_by = new MoveByDevices(this, deltas);
+    auto move_by = new MoveByItems(this, deltas);
     undo_stack_->push(move_by);
 }
 
@@ -535,7 +535,7 @@ void Diagram::cmdPlaceInColumnSelected()
     int count = 0;
     qreal min_y = std::numeric_limits<qreal>::max();
     std::vector<std::pair<SceneItemId, const SceneItem*>> sel_data;
-    devices_.foreachSelectedDevice([&count, &min_y, &sel_data](const SceneItem* dev) {
+    item_scene_.foreachSelectedItem([&count, &min_y, &sel_data](const SceneItem* dev) {
         min_y = std::min(min_y, dev->y());
         sel_data.push_back({ dev->id(), dev });
 
@@ -560,7 +560,7 @@ void Diagram::cmdPlaceInColumnSelected()
         deltas[dev->id()] = { xpos - dev->x(), ypos - dev->y() };
     }
 
-    auto move_by = new MoveByDevices(this, deltas);
+    auto move_by = new MoveByItems(this, deltas);
     undo_stack_->push(move_by);
 }
 
@@ -569,7 +569,7 @@ void Diagram::cmdPlaceInRowSelected()
     int count = 0;
     qreal min_x = std::numeric_limits<qreal>::max();
     std::vector<std::pair<SceneItemId, const SceneItem*>> sel_data;
-    devices_.foreachSelectedDevice([&count, &min_x, &sel_data](const SceneItem* dev) {
+    item_scene_.foreachSelectedItem([&count, &min_x, &sel_data](const SceneItem* dev) {
         min_x = std::min(min_x, dev->x());
         sel_data.push_back({ dev->id(), dev });
 
@@ -593,7 +593,7 @@ void Diagram::cmdPlaceInRowSelected()
         deltas[dev->id()] = { xpos - dev->x(), ypos - dev->y() };
     }
 
-    auto move_by = new MoveByDevices(this, deltas);
+    auto move_by = new MoveByItems(this, deltas);
     undo_stack_->push(move_by);
 }
 
@@ -605,7 +605,7 @@ void Diagram::cmdReconnectDevice(const ConnectionInfo& old_conn, const Connectio
 
 SceneItem* Diagram::addDevice(const SharedDeviceData& data)
 {
-    auto dev = devices_.add(data);
+    auto dev = item_scene_.add(data);
     if (!dev)
         return nullptr;
 
@@ -648,12 +648,12 @@ void Diagram::saveClickPos(const QPointF& pos)
     prev_click_pos_ = pos;
 }
 
-bool Diagram::setDeviceData(const SharedDeviceData& data)
+bool Diagram::setItemData(const SharedDeviceData& data)
 {
     if (!data)
         return false;
 
-    auto dev = devices_.find(data->id());
+    auto dev = item_scene_.find(data->id());
     if (!dev) {
         qWarning() << "device not found:" << data->id();
         return false;
@@ -680,7 +680,7 @@ bool Diagram::setDeviceData(const SharedDeviceData& data)
 
 CommentItem* Diagram::addComment()
 {
-    auto comm = devices_.addComment();
+    auto comm = item_scene_.addComment();
     if (!comm)
         return nullptr;
 
@@ -712,7 +712,7 @@ QList<SceneItemId> Diagram::duplicateSelected(DuplicatePolicy policy)
 {
     QList<SceneItem*> dup_list;
 
-    devices_.foreachDevice([&dup_list](SceneItem* dev) {
+    item_scene_.foreachItem([&dup_list](SceneItem* dev) {
         if (dev->isSelected())
             dup_list << dev;
     });
@@ -754,7 +754,7 @@ void Diagram::setShowCables(bool value)
 
 void Diagram::setShowPeople(bool value)
 {
-    devices_.foreachDevice([value](SceneItem* dev) {
+    item_scene_.foreachItem([value](SceneItem* dev) {
         if (dev //
             && dev->deviceData() //
             && dev->deviceData()->category() == ItemCategory::Human) {
@@ -765,7 +765,7 @@ void Diagram::setShowPeople(bool value)
 
 void Diagram::setShowFurniture(bool value)
 {
-    devices_.foreachDevice([value](SceneItem* dev) {
+    item_scene_.foreachItem([value](SceneItem* dev) {
         if (dev //
             && dev->deviceData() //
             && dev->deviceData()->category() == ItemCategory::Furniture) {
@@ -889,7 +889,7 @@ void Diagram::zoomOut()
 
 void Diagram::zoomFitBest()
 {
-    auto rect = scene_->bestFitRect();
+    auto rect = graphics_scene_->bestFitRect();
     if (rect.isEmpty())
         return;
 
@@ -898,7 +898,7 @@ void Diagram::zoomFitBest()
 
 void Diagram::zoomFitSelected()
 {
-    auto rect = devices_.boundingSelectRect();
+    auto rect = item_scene_.boundingSelectRect();
     if (rect.isEmpty())
         return;
 
@@ -907,7 +907,7 @@ void Diagram::zoomFitSelected()
 
 void Diagram::setGridVisible(bool value)
 {
-    scene_->setGridVisible(value);
+    graphics_scene_->setGridVisible(value);
 }
 
 void Diagram::setScaleVisible(bool value)
@@ -932,7 +932,7 @@ void Diagram::redo()
 
 void Diagram::copySelected()
 {
-    auto sel_data = devices_.selectedDataList();
+    auto sel_data = item_scene_.selectedDataList();
     if (sel_data.empty())
         return;
 
@@ -953,54 +953,54 @@ void Diagram::printScheme() const
 {
     QPrinter printer;
     if (QPrintDialog(&printer).exec() == QDialog::Accepted) {
-        scene_->printDiagram(&printer);
+        graphics_scene_->printDiagram(&printer);
     }
 }
 
 void Diagram::printScheme(QPrinter* printer) const
 {
-    scene_->printDiagram(printer);
+    graphics_scene_->printDiagram(printer);
 }
 
 void Diagram::renderToSvg(const QString& filename, const QString& title) const
 {
-    auto grid = scene_->gridVisible();
+    auto grid = graphics_scene_->gridVisible();
     if (grid)
-        scene_->setGridVisible(false);
+        graphics_scene_->setGridVisible(false);
 
     QSvgGenerator svg_gen;
     svg_gen.setFileName(filename);
     svg_gen.setTitle(title);
     svg_gen.setDescription(tr("Generated with PatchScene"));
-    auto svg_size = devices_.boundingRect().size();
+    auto svg_size = item_scene_.boundingRect().size();
     svg_gen.setSize(svg_size.toSize());
     svg_gen.setViewBox({ { 0, 0 }, svg_size });
     QPainter p(&svg_gen);
 
-    scene_->renderDiagram(&p);
+    graphics_scene_->renderDiagram(&p);
 
     if (grid)
-        scene_->setGridVisible(true);
+        graphics_scene_->setGridVisible(true);
 
     p.end();
 }
 
 void Diagram::renderToPng(const QString& filename) const
 {
-    auto grid = scene_->gridVisible();
+    auto grid = graphics_scene_->gridVisible();
     if (grid)
-        scene_->setGridVisible(false);
+        graphics_scene_->setGridVisible(false);
 
-    auto img_size = devices_.boundingRect().size().toSize() * 4;
+    auto img_size = item_scene_.boundingRect().size().toSize() * 4;
     QImage img(img_size, QImage::Format_RGB32);
     img.fill(Qt::white);
     QPainter p(&img);
     p.setRenderHint(QPainter::Antialiasing, true);
 
-    scene_->renderDiagram(&p);
+    graphics_scene_->renderDiagram(&p);
 
     if (grid)
-        scene_->setGridVisible(true);
+        graphics_scene_->setGridVisible(true);
 
     p.end();
 
@@ -1009,7 +1009,7 @@ void Diagram::renderToPng(const QString& filename) const
 
 void Diagram::clearAll()
 {
-    devices_.clear();
+    item_scene_.clear();
 
     QSignalBlocker conn_block(connections_);
     connections_->clear();
@@ -1055,12 +1055,12 @@ QJsonObject Diagram::toJson() const
 {
     QJsonObject json;
 
-    json[JSON_KEY_DEVICES] = devices_.toJson();
+    json[JSON_KEY_DEVICES] = item_scene_.toJson();
 
     QJsonArray cons;
 
     connections_->foreachConn([this, &cons](const ConnectionId& id, const ConnectionViewData& viewData) {
-        if (devices_.checkConnection(id)) {
+        if (item_scene_.checkConnection(id)) {
             auto obj = id.toJson();
             obj[JSON_KEY_VIEW] = viewData.toJson();
             cons.append(obj);
@@ -1129,9 +1129,10 @@ void Diagram::mousePressEvent(QMouseEvent* event)
     switch (state_machine_.state()) {
     case DiagramState::Init: {
         auto elem = items(event->pos());
-        bool device_found = std::any_of(elem.begin(), elem.end(), [](QGraphicsItem* x) { return qgraphicsitem_cast<SceneItem*>(x); });
+        bool item_found = std::any_of(elem.begin(), elem.end(),
+            [](QGraphicsItem* x) { return qgraphicsitem_cast<SceneItem*>(x); });
 
-        if (device_found) { // click on a single device
+        if (item_found) { // click on a single device
             const auto xlet = hoverDeviceXlet(elem, event->pos());
 
             if (xlet) {
@@ -1156,7 +1157,7 @@ void Diagram::mousePressEvent(QMouseEvent* event)
             else
                 selectTopDevice(elem);
 
-            if (scene_->selectedItems().empty()) {
+            if (graphics_scene_->selectedItems().empty()) {
                 state_machine_.setState(DiagramState::Init);
             } else {
                 saveClickPos(event->position());
@@ -1171,7 +1172,7 @@ void Diagram::mousePressEvent(QMouseEvent* event)
             QGraphicsView::mousePressEvent(event);
         }
 
-        if (!event->isAccepted() || !device_found) { // unhandled device click or empty space click
+        if (!event->isAccepted() || !item_found) { // unhandled device click or empty space click
             connections_->unselectAll();
             startSelectionAt(event->pos());
             state_machine_.setState(DiagramState::SelectionRect);
@@ -1236,7 +1237,7 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
         auto src_pos = mapToScene(prev_click_pos_.toPoint());
         auto delta = src_pos - dest_pos;
 
-        devices_.foreachDevice([delta](SceneItem* dev) {
+        item_scene_.foreachItem([delta](SceneItem* dev) {
             if (dev->isSelected() && !dev->isLocked())
                 dev->moveBy(delta.x(), delta.y());
         });
@@ -1328,7 +1329,7 @@ void Diagram::contextMenuEvent(QContextMenuEvent* event)
 
     background_.addToContextMenu(menu);
 
-    if (devices_.selectedCount() >= 2) {
+    if (item_scene_.selectedCount() >= 2) {
         menu.addSeparator();
 
         auto hor_align = new QAction(tr("Align &horizontal"), this);
@@ -1347,7 +1348,7 @@ void Diagram::contextMenuEvent(QContextMenuEvent* event)
         connect(place_ver, SIGNAL(triggered(bool)), this, SLOT(cmdPlaceInColumnSelected()));
         menu.addAction(place_ver);
 
-        if (devices_.selectedCount() >= 3) {
+        if (item_scene_.selectedCount() >= 3) {
             menu.addSeparator();
 
             auto distrib_hor = new QAction(tr("Distribute horizontal"), &menu);
@@ -1555,11 +1556,11 @@ void Diagram::moveSelectedItemsBy(qreal dx, qreal dy)
 
     {
         DiagramUpdatesBlocker ub(this);
-        if (devices_.moveSelectedBy(dx, dy)) { // O(N)
+        if (item_scene_.moveSelectedBy(dx, dy)) { // O(N)
             notify = true;
 
             // O(N)
-            devices_.foreachSelectedData([this](const SharedDeviceData& data) {
+            item_scene_.foreachSelectedData([this](const SharedDeviceData& data) {
                 if (!data->isLocked())
                     updateConnectionPos(data->id());
             });
@@ -1577,7 +1578,7 @@ void Diagram::moveItemsBy(const QHash<SceneItemId, QPointF>& deltas)
     {
         DiagramUpdatesBlocker ub(this);
 
-        if (devices_.moveBy(deltas)) {
+        if (item_scene_.moveBy(deltas)) {
             notify = true;
 
             for (auto it = deltas.begin(); it != deltas.end(); ++it)
@@ -1606,7 +1607,7 @@ void Diagram::setClipBuffer(const QList<SharedDeviceData>& data)
 
 QImage Diagram::toImage() const
 {
-    return scene_->renderToImage(4);
+    return graphics_scene_->renderToImage(4);
 }
 
 std::pair<QByteArray, QSize> Diagram::toSvg() const
@@ -1620,7 +1621,7 @@ std::pair<QByteArray, QSize> Diagram::toSvg() const
     QSvgGenerator svg_gen;
     svg_gen.setOutputDevice(&buf);
 
-    auto items_bbox = scene_->bestFitRect().toRect();
+    auto items_bbox = graphics_scene_->bestFitRect().toRect();
 
     svg_gen.setSize(items_bbox.size());
     svg_gen.setViewBox(QRect { 0, 0, items_bbox.width(), items_bbox.height() });
@@ -1629,7 +1630,7 @@ std::pair<QByteArray, QSize> Diagram::toSvg() const
     svg_gen.setDescription(QString("create with PatchScene v%1").arg(app_version()));
 
     QPainter painter(&svg_gen);
-    scene_->renderDiagram(&painter, items_bbox);
+    graphics_scene_->renderDiagram(&painter, items_bbox);
     painter.end();
 
     return { buf.data(), items_bbox.size() };
@@ -1637,7 +1638,7 @@ std::pair<QByteArray, QSize> Diagram::toSvg() const
 
 bool Diagram::gridIsVisible() const
 {
-    return scene_->gridVisible();
+    return graphics_scene_->gridVisible();
 }
 
 void Diagram::clearUndoStack()
@@ -1714,7 +1715,7 @@ QHash<ConnectionId, ConnectionViewData> Diagram::findSelectedConnections() const
 {
     QHash<ConnectionId, ConnectionViewData> res;
 
-    for (auto id : devices_.selectedIdList()) {
+    for (auto id : item_scene_.selectedIdList()) {
         for (auto& data : connections_->findConnectionsData(id)) {
             res.insert(data.first, data.second);
         }

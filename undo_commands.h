@@ -18,7 +18,6 @@
 #include <QPointF>
 #include <QUndoCommand>
 
-#include "connection.h"
 #include "device_common.h"
 
 namespace ceam {
@@ -52,9 +51,9 @@ private:
     SceneItemId id_ { 0 };
 };
 
-class RemoveDevice : public QUndoCommand {
+class RemoveItem : public QUndoCommand {
 public:
-    RemoveDevice(Diagram* doc, const SharedDeviceData& data);
+    RemoveItem(Diagram* doc, const SharedDeviceData& data);
 
     void undo() final;
     void redo() final;
@@ -67,7 +66,7 @@ private:
 
 class RemoveSelected : public QUndoCommand {
 public:
-    RemoveSelected(Diagram* doc);
+    explicit RemoveSelected(Diagram* doc);
 
     void undo() final;
     void redo() final;
@@ -80,7 +79,7 @@ private:
 
 class DuplicateSelected : public QUndoCommand {
 public:
-    DuplicateSelected(Diagram* doc);
+    explicit DuplicateSelected(Diagram* doc);
 
     void undo() final;
     void redo() final;
@@ -90,9 +89,9 @@ private:
     QList<SceneItemId> new_devs_, sel_devs_;
 };
 
-class BaseLockDevices : public QUndoCommand {
+class BaseLockItems : public QUndoCommand {
 public:
-    BaseLockDevices(Diagram* doc, const QList<SceneItemId>& devs);
+    BaseLockItems(Diagram* doc, const QList<SceneItemId>& devs);
 
 protected:
     void setLocked(bool value);
@@ -101,30 +100,30 @@ protected:
     QList<SceneItemId> devs_;
 };
 
-class LockDevices : public BaseLockDevices {
+class LockItems : public BaseLockItems {
 public:
-    LockDevices(Diagram* doc, const QList<SceneItemId>& devs);
+    LockItems(Diagram* doc, const QList<SceneItemId>& devs);
 
     void undo() override;
     void redo() override;
 };
 
-class UnlockDevices : public BaseLockDevices {
+class UnlockItems : public BaseLockItems {
 public:
-    UnlockDevices(Diagram* doc, const QList<SceneItemId>& devs);
+    UnlockItems(Diagram* doc, const QList<SceneItemId>& devs);
 
     void undo() override;
     void redo() override;
 };
 
-class BaseLockSelected : public BaseLockDevices {
+class BaseLockSelected : public BaseLockItems {
 public:
     BaseLockSelected(Diagram* doc, bool lockState);
 };
 
 class LockSelected : public BaseLockSelected {
 public:
-    LockSelected(Diagram* doc);
+    explicit LockSelected(Diagram* doc);
 
     void undo() override;
     void redo() override;
@@ -132,15 +131,15 @@ public:
 
 class UnlockSelected : public BaseLockSelected {
 public:
-    UnlockSelected(Diagram* doc);
+    explicit UnlockSelected(Diagram* doc);
 
     void undo() final;
     void redo() final;
 };
 
-class ToggleDevices : public QUndoCommand {
+class ToggleSelected : public QUndoCommand {
 public:
-    ToggleDevices(Diagram* doc, const QList<SceneItemId>& ids);
+    ToggleSelected(Diagram* doc, const QList<SceneItemId>& ids);
 
     void undo() final;
     void redo() final;
@@ -175,9 +174,9 @@ private:
     SceneItemId new_id_;
 };
 
-class AddDeviceSelection : public QUndoCommand {
+class AddToSelected : public QUndoCommand {
 public:
-    AddDeviceSelection(Diagram* doc, const QList<SceneItemId>& ids);
+    AddToSelected(Diagram* doc, const QList<SceneItemId>& ids);
 
     void undo() final;
     void redo() final;
@@ -187,9 +186,9 @@ private:
     QList<SceneItemId> ids_;
 };
 
-class SetDeviceSelection : public QUndoCommand {
+class SetSelected : public QUndoCommand {
 public:
-    SetDeviceSelection(Diagram* doc, const QSet<SceneItemId>& new_sel);
+    SetSelected(Diagram* doc, const QSet<SceneItemId>& new_sel);
 
     void undo() final;
     void redo() final;
@@ -225,9 +224,9 @@ private:
     ConnectionViewData view_data_;
 };
 
-class MoveByDevices : public QUndoCommand {
+class MoveByItems : public QUndoCommand {
 public:
-    MoveByDevices(Diagram* doc, const QHash<SceneItemId, QPointF>& deltas);
+    MoveByItems(Diagram* doc, const QHash<SceneItemId, QPointF>& deltas);
 
     void undo() final;
     void redo() final;
@@ -242,7 +241,7 @@ private:
 
 class CopySelected : public QUndoCommand {
 public:
-    CopySelected(Diagram* doc);
+    explicit CopySelected(Diagram* doc);
 
     void undo() final;
     void redo() final;
@@ -254,7 +253,7 @@ private:
 
 class CutSelected : public QUndoCommand {
 public:
-    CutSelected(Diagram* doc);
+    explicit CutSelected(Diagram* doc);
 
     void undo() final;
     void redo() final;
@@ -266,7 +265,7 @@ private:
 
 class PasteFromClipBuffer : public QUndoCommand {
 public:
-    PasteFromClipBuffer(Diagram* doc);
+    explicit PasteFromClipBuffer(Diagram* doc);
 
     void undo() final;
     void redo() final;

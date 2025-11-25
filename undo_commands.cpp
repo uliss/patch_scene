@@ -32,7 +32,7 @@ CreateDevice::CreateDevice(Diagram* doc, const QPointF& pos)
 void CreateDevice::undo()
 {
     if (doc_)
-        doc_->removeDevice(id_);
+        doc_->removeItem(id_);
 }
 
 void CreateDevice::redo()
@@ -47,25 +47,25 @@ void CreateDevice::redo()
     }
 }
 
-AddDeviceSelection::AddDeviceSelection(Diagram* doc, const QList<SceneItemId>& ids)
+AddToSelected::AddToSelected(Diagram* doc, const QList<SceneItemId>& ids)
     : doc_(doc)
     , ids_(ids)
 {
 }
 
-void AddDeviceSelection::undo()
+void AddToSelected::undo()
 {
     if (doc_) {
         DiagramUpdatesBlocker ub(doc_);
-        doc_->devices().setSelected(ids_, false);
+        doc_->itemScene().setSelected(ids_, false);
     }
 }
 
-void AddDeviceSelection::redo()
+void AddToSelected::redo()
 {
     if (doc_) {
         DiagramUpdatesBlocker ub(doc_);
-        doc_->devices().setSelected(ids_, true);
+        doc_->itemScene().setSelected(ids_, true);
     }
 }
 
@@ -114,7 +114,7 @@ void DisconnectXlet::redo()
         WARN() << "can't disconnect:" << id_;
 }
 
-RemoveDevice::RemoveDevice(Diagram* doc, const SharedDeviceData& data)
+RemoveItem::RemoveItem(Diagram* doc, const SharedDeviceData& data)
     : doc_(doc)
     , data_(data)
 {
@@ -122,20 +122,22 @@ RemoveDevice::RemoveDevice(Diagram* doc, const SharedDeviceData& data)
         conn_info_ = doc_->connections()->findConnectionsData(data->id());
 }
 
-void RemoveDevice::undo()
+void RemoveItem::undo()
 {
     if (doc_ && data_) {
         doc_->addDevice(data_);
+
+        // TODO(uliss): device/comment
 
         for (auto& conn : conn_info_)
             doc_->connectDevices(conn.first, conn.second);
     }
 }
 
-void RemoveDevice::redo()
+void RemoveItem::redo()
 {
     if (doc_ && data_)
-        doc_->removeDevice(data_->id());
+        doc_->removeItem(data_->id());
 }
 
 RemoveSelected::RemoveSelected(Diagram* doc)
@@ -144,7 +146,7 @@ RemoveSelected::RemoveSelected(Diagram* doc)
     if (!doc_)
         return;
 
-    data_ = doc_->devices().selectedDataList();
+    data_ = doc_->itemScene().selectedDataList();
     conn_data_ = doc_->findSelectedConnections();
 
     // append selected connections
@@ -174,7 +176,7 @@ void RemoveSelected::redo()
         return;
 
     for (const auto& data : data_)
-        doc_->removeDevice(data->id());
+        doc_->removeItem(data->id());
 
     // only connection is selected
     if (data_.isEmpty()) {
@@ -186,7 +188,7 @@ void RemoveSelected::redo()
 DuplicateSelected::DuplicateSelected(Diagram* doc)
     : doc_(doc)
 {
-    sel_devs_ = doc_->devices().selectedIdList();
+    sel_devs_ = doc_->itemScene().selectedIdList();
 }
 
 void DuplicateSelected::undo()
@@ -198,11 +200,11 @@ void DuplicateSelected::undo()
         // remove duplicated devices
         DiagramUpdatesBlocker ub(doc_);
         for (auto id : new_devs_)
-            doc_->removeDevice(id);
+            doc_->removeItem(id);
 
         // restore selection
         for (auto id : sel_devs_) {
-            auto dev = doc_->devices().find(id);
+            auto dev = doc_->itemScene().find(id);
             if (dev)
                 dev->setSelected(true);
         }
@@ -240,7 +242,7 @@ void DuplicateDevice::undo()
     if (!doc_ || new_id_ == SCENE_ITEM_NULL_ID)
         return;
 
-    doc_->removeDevice(new_id_);
+    doc_->removeItem(new_id_);
     new_id_ = SCENE_ITEM_NULL_ID;
 }
 
@@ -254,50 +256,50 @@ void DuplicateDevice::redo()
     new_id_ = dev->id();
 }
 
-ToggleDevices::ToggleDevices(Diagram* doc, const QList<SceneItemId>& ids)
+ToggleSelected::ToggleSelected(Diagram* doc, const QList<SceneItemId>& ids)
     : doc_(doc)
     , ids_(ids)
 {
 }
 
-void ToggleDevices::undo()
+void ToggleSelected::undo()
 {
     if (doc_)
-        doc_->devices().toggleSelected(ids_);
+        doc_->itemScene().toggleSelected(ids_);
 }
 
-void ToggleDevices::redo()
+void ToggleSelected::redo()
 {
     if (doc_)
-        doc_->devices().toggleSelected(ids_);
+        doc_->itemScene().toggleSelected(ids_);
 }
 
-SetDeviceSelection::SetDeviceSelection(Diagram* doc, const QSet<SceneItemId>& new_sel)
+SetSelected::SetSelected(Diagram* doc, const QSet<SceneItemId>& new_sel)
     : doc_(doc)
     , new_sel_(new_sel)
 {
     if (doc_) {
-        doc_->devices().foreachSelectedData([this](const SharedDeviceData& data) {
+        doc_->itemScene().foreachSelectedData([this](const SharedDeviceData& data) {
             prev_sel_.insert(data->id());
         });
     }
 }
 
-void SetDeviceSelection::undo()
+void SetSelected::undo()
 {
     if (doc_) {
         DiagramUpdatesBlocker ub(doc_);
-        doc_->devices().foreachDevice([this](SceneItem* dev) {
+        doc_->itemScene().foreachItem([this](SceneItem* dev) {
             dev->setSelected(prev_sel_.contains(dev->id()));
         });
     }
 }
 
-void SetDeviceSelection::redo()
+void SetSelected::redo()
 {
     if (doc_) {
         DiagramUpdatesBlocker ub(doc_);
-        doc_->devices().foreachDevice([this](SceneItem* dev) {
+        doc_->itemScene().foreachItem([this](SceneItem* dev) {
             dev->setSelected(new_sel_.contains(dev->id()));
         });
     }
@@ -326,13 +328,13 @@ void MoveSelected::redo()
     doc_->moveSelectedItemsBy(dx_, dy_);
 }
 
-MoveByDevices::MoveByDevices(Diagram* doc, const QHash<SceneItemId, QPointF>& deltas)
+MoveByItems::MoveByItems(Diagram* doc, const QHash<SceneItemId, QPointF>& deltas)
     : doc_(doc)
     , deltas_(deltas)
 {
 }
 
-void MoveByDevices::undo()
+void MoveByItems::undo()
 {
     if (!doc_)
         return;
@@ -340,7 +342,7 @@ void MoveByDevices::undo()
     doc_->moveItemsBy(negate(deltas_));
 }
 
-void MoveByDevices::redo()
+void MoveByItems::redo()
 {
     if (!doc_)
         return;
@@ -348,7 +350,7 @@ void MoveByDevices::redo()
     doc_->moveItemsBy(deltas_);
 }
 
-QHash<SceneItemId, QPointF> MoveByDevices::negate(const QHash<SceneItemId, QPointF>& map)
+QHash<SceneItemId, QPointF> MoveByItems::negate(const QHash<SceneItemId, QPointF>& map)
 {
     auto res = map;
 
@@ -364,7 +366,7 @@ CutSelected::CutSelected(Diagram* doc)
     : doc_(doc)
 {
     if (doc_)
-        data_ = doc_->devices().selectedDataList();
+        data_ = doc_->itemScene().selectedDataList();
 }
 
 void CutSelected::undo()
@@ -393,7 +395,7 @@ void CutSelected::redo()
 
     // remove selected
     for (const auto& data : data_)
-        doc_->removeDevice(data->id());
+        doc_->removeItem(data->id());
 }
 
 PasteFromClipBuffer::PasteFromClipBuffer(Diagram* doc)
@@ -409,7 +411,7 @@ void PasteFromClipBuffer::undo()
         return;
 
     for (auto id : added_)
-        doc_->removeDevice(id);
+        doc_->removeItem(id);
 }
 
 void PasteFromClipBuffer::redo()
@@ -448,7 +450,7 @@ void CopySelected::redo()
     if (!doc_)
         return;
 
-    auto data = doc_->devices().selectedDataList();
+    auto data = doc_->itemScene().selectedDataList();
     if (!data.isEmpty())
         doc_->setClipBuffer(data);
 }
@@ -458,19 +460,19 @@ UpdateDeviceData::UpdateDeviceData(Diagram* doc, const SharedDeviceData& data)
     , new_data_(data)
 {
     if (doc_ && data)
-        old_data_ = doc_->devices().findData(data->id());
+        old_data_ = doc_->itemScene().findData(data->id());
 }
 
 void UpdateDeviceData::undo()
 {
     if (doc_)
-        doc_->setDeviceData(old_data_);
+        doc_->setItemData(old_data_);
 }
 
 void UpdateDeviceData::redo()
 {
     if (doc_)
-        doc_->setDeviceData(new_data_);
+        doc_->setItemData(new_data_);
 }
 
 ReconnectDevice::ReconnectDevice(Diagram* doc, const ConnectionInfo& old_conn, const ConnectionInfo& new_conn)
@@ -527,58 +529,58 @@ void UnlockSelected::redo()
 }
 
 BaseLockSelected::BaseLockSelected(Diagram* doc, bool lockState)
-    : BaseLockDevices(doc, {})
+    : BaseLockItems(doc, {})
 {
-    for (const auto& data : doc->devices().selectedDataList()) {
+    for (const auto& data : doc->itemScene().selectedDataList()) {
         if (data->isLocked() == lockState)
             devs_.push_back(data->id());
     }
 }
 
-void BaseLockDevices::setLocked(bool value)
+void BaseLockItems::setLocked(bool value)
 {
     if (!doc_)
         return;
 
     for (auto id : devs_) {
-        auto dev = doc_->devices().find(id);
+        auto dev = doc_->itemScene().find(id);
         if (dev)
             dev->setLocked(value);
     }
 }
 
-BaseLockDevices::BaseLockDevices(Diagram* doc, const QList<SceneItemId>& devs)
+BaseLockItems::BaseLockItems(Diagram* doc, const QList<SceneItemId>& devs)
     : doc_(doc)
     , devs_(devs)
 {
 }
 
-LockDevices::LockDevices(Diagram* doc, const QList<SceneItemId>& devs)
-    : BaseLockDevices(doc, devs)
+LockItems::LockItems(Diagram* doc, const QList<SceneItemId>& devs)
+    : BaseLockItems(doc, devs)
 {
 }
 
-void LockDevices::undo()
+void LockItems::undo()
 {
     setLocked(false);
 }
 
-void LockDevices::redo()
+void LockItems::redo()
 {
     setLocked(true);
 }
 
-UnlockDevices::UnlockDevices(Diagram* doc, const QList<SceneItemId>& devs)
-    : BaseLockDevices(doc, devs)
+UnlockItems::UnlockItems(Diagram* doc, const QList<SceneItemId>& devs)
+    : BaseLockItems(doc, devs)
 {
 }
 
-void UnlockDevices::undo()
+void UnlockItems::undo()
 {
     setLocked(true);
 }
 
-void UnlockDevices::redo()
+void UnlockItems::redo()
 {
     setLocked(false);
 }
@@ -599,9 +601,12 @@ void MirrorSelected::redo()
     if (!doc_)
         return;
 
-    doc_->devices().foreachDevice([this](SceneItem* dev) {
-        if (dev->isSelected())
-            dev->mirrorImage(type_);
+    doc_->itemScene().foreachItem([this](SceneItem* item) {
+        if (item->isSelected()) {
+            auto dev = dynamic_cast<DeviceItem*>(item);
+            if (dev)
+                dev->mirrorImage(type_);
+        }
     });
 }
 
@@ -622,7 +627,7 @@ void MirrorDevice::redo()
     if (!doc_)
         return;
 
-    auto dev = doc_->devices().find(id_);
+    auto dev = dynamic_cast<DeviceItem*>(doc_->itemScene().find(id_));
     if (!dev)
         return;
 
@@ -640,9 +645,12 @@ void ZoomSelected::undo()
     if (!doc_)
         return;
 
-    doc_->devices().foreachDevice([this](SceneItem* dev) {
-        if (dev->isSelected())
-            dev->zoomImage(1 / k_);
+    doc_->itemScene().foreachItem([this](SceneItem* item) {
+        if (item->isSelected()) {
+            auto dev = dynamic_cast<DeviceItem*>(item);
+            if (dev)
+                dev->zoomImage(1 / k_);
+        }
     });
 }
 
@@ -651,9 +659,12 @@ void ZoomSelected::redo()
     if (!doc_)
         return;
 
-    doc_->devices().foreachDevice([this](SceneItem* dev) {
-        if (dev->isSelected())
-            dev->zoomImage(k_);
+    doc_->itemScene().foreachItem([this](SceneItem* item) {
+        if (item->isSelected()) {
+            auto dev = dynamic_cast<DeviceItem*>(item);
+            if (dev)
+                dev->zoomImage(k_);
+        }
     });
 }
 
@@ -666,7 +677,7 @@ CreateComment::CreateComment(Diagram* doc, const QPointF& pos)
 void CreateComment::undo()
 {
     if (doc_)
-        doc_->removeDevice(id_);
+        doc_->removeItem(id_);
 }
 
 void CreateComment::redo()
@@ -693,7 +704,7 @@ void MoveLower::undo()
     if (!doc_)
         return;
 
-    auto dev = doc_->devices().find(id_);
+    auto dev = doc_->itemScene().find(id_);
     if (!dev)
         return;
 
@@ -705,7 +716,7 @@ void MoveLower::redo()
     if (!doc_)
         return;
 
-    auto dev = doc_->devices().find(id_);
+    auto dev = doc_->itemScene().find(id_);
     if (!dev) {
         qWarning() << "device not found: " << id_;
         return;
@@ -744,7 +755,7 @@ void MoveUpper::undo()
     if (!doc_)
         return;
 
-    auto dev = doc_->devices().find(id_);
+    auto dev = doc_->itemScene().find(id_);
     if (!dev)
         return;
 
@@ -756,7 +767,7 @@ void MoveUpper::redo()
     if (!doc_)
         return;
 
-    auto dev = doc_->devices().find(id_);
+    auto dev = doc_->itemScene().find(id_);
     if (!dev) {
         qWarning() << "device not found: " << id_;
         return;

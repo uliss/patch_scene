@@ -15,17 +15,12 @@
 #define SCENE_ITEM_H
 
 #include "device_common.h"
-#include "device_xlet_view.h"
 #include "user_item_types.h"
 
 #include <QAction>
 #include <QGraphicsObject>
 
-class QGraphicsSvgItem;
-
 namespace ceam {
-
-class DeviceXlet;
 
 class SceneItem : public QGraphicsObject {
     Q_OBJECT
@@ -43,28 +38,10 @@ public:
      */
     SceneItemId id() const { return data_->id(); }
 
-    /**
-     * return bounding rect in item coordinates
-     */
-    QRectF boundingRect() const final;
-
-    /**
-     * @return title bounding rect in item coordinates
-     */
-    QRectF titleRect() const;
-
-    /**
-     * @return xlet bounding rect in item coordinates
-     */
-    QRectF xletRect() const;
-
-    /**
-     * @return connection point in item or scene coords
-     */
-    std::optional<QPointF> connectionPoint(XletIndex i, XletType type, bool map = false) const;
-
     SharedDeviceData deviceData() const;
-    void setDeviceData(const SharedDeviceData& data);
+    virtual bool setDeviceData(const SharedDeviceData& data);
+
+    virtual std::optional<QPointF> connectionPoint(XletIndex i, XletType type, bool map) const;
 
     /**
      * move item into random neighborhood within the specified delta
@@ -76,14 +53,8 @@ public:
      */
     QJsonObject toJson() const;
 
-    DeviceXlets& xlets() { return xlets_; }
-    const DeviceXlets& xlets() const { return xlets_; }
-
     bool isLocked() const { return data_ && data_->isLocked(); }
     void setLocked(bool value);
-
-    bool mirrorImage(ImageMirrorType type);
-    bool zoomImage(qreal k);
 
     /**
      * fill given menu with device actions
@@ -117,72 +88,22 @@ signals:
     void mirror(SceneItemId id);
 
 private:
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
-    void paintTitleBox(QPainter* painter);
-    void paintStateIcons(QPainter* painter);
-
     void mouseMoveEvent(QGraphicsSceneMouseEvent* event) final;
     void mousePressEvent(QGraphicsSceneMouseEvent* event) final;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) final;
     void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) final;
 
-    int inletsYOff() const;
-
-    void clearTitle();
-    void clearImage();
-
-    void createXlets();
-    void createTitle(qreal wd);
-    void createImage();
-
-    void syncXletData();
-
-    void updateTitlePos();
-    void updateImagePos();
-    void updateXletsPos();
-
-    int calcWidth() const;
-    int calcHeight() const;
-
-    qreal imageWidth() const;
-    qreal imageHeight() const;
-
-    qreal centerAlignedLeftPos(qreal width) const
-    {
-        return rect_.left() + (rect_.width() - width) * 0.5;
-    }
-
 protected:
     // context menu actions
     void addDuplicateAct(QMenu& menu);
     void addLockAction(QMenu& menu);
-    void addMirrorAction(QMenu& menu);
     void addPropertiesAct(QMenu& menu);
     void addRemoveAct(QMenu& menu);
-    void addTitleAction(QMenu& menu);
-    void addToFavoritesAct(QMenu& menu);
     void addZValueAction(QMenu& menu);
     void setMenuCaption(QMenu& menu);
 
-    void addViewSubMenu(QMenu& menu);
-
-    void syncRect();
-
-    QGraphicsTextItem* title() { return title_; }
-    const QGraphicsTextItem* title() const { return title_; }
-
-    QGraphicsSvgItem* image() { return image_; }
-    const QGraphicsSvgItem* image() const { return image_; }
-
-private:
-    friend class DeviceXlet;
-
-private:
-    QGraphicsTextItem* title_;
-    QGraphicsSvgItem* image_;
+protected:
     mutable SharedDeviceData data_;
-    QRectF rect_;
-    DeviceXlets xlets_;
 };
 } // namespace ceam
 

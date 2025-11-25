@@ -166,7 +166,7 @@ void MainWindow::initDiagram()
     connect(diagram_, SIGNAL(deviceAdded(SharedDeviceData)), this, SLOT(onDeviceAdd(SharedDeviceData)));
     connect(diagram_, SIGNAL(deviceRemoved(SharedDeviceData)), this, SLOT(onDeviceRemove(SharedDeviceData)));
     connect(diagram_, SIGNAL(deviceUpdated(SharedDeviceData)), this, SLOT(onDeviceUpdate(SharedDeviceData)));
-    connect(diagram_, SIGNAL(deviceTitleUpdated(DeviceId, QString)), this, SLOT(onDeviceTitleUpdate(DeviceId, QString)));
+    connect(diagram_, &Diagram::deviceTitleUpdated, this, &MainWindow::onDeviceTitleUpdate);
 
     connect(diagram_, SIGNAL(batteryChanged(BatteryChange)), this, SLOT(onBatteryChange(BatteryChange)));
     connect(diagram_, &Diagram::connectionAdded, this, &MainWindow::onConnectionAdd);
@@ -183,8 +183,8 @@ void MainWindow::initDiagram()
         battery_model_->clearItems();
     });
     connect(diagram_, &Diagram::sceneFullUpdate, this, [this]() {
-        auto dev_data = diagram_->devices().dataList();
-        auto all_conn_info = diagram_->connections()->infoList(diagram_->devices());
+        auto dev_data = diagram_->itemScene().dataList();
+        auto all_conn_info = diagram_->connections()->infoList(diagram_->itemScene());
 
         battery_model_->setFullData(dev_data);
         conn_model_->setFullData(all_conn_info);
@@ -215,7 +215,7 @@ void MainWindow::initDeviceList()
     connect(device_model_, &QStandardItemModel::itemChanged, this, [this](QStandardItem* item) {
         auto id = device_model_->deviceId(item);
         if (id) {
-            auto old_data = diagram_->devices().findData(id.value());
+            auto old_data = diagram_->itemScene().findData(id.value());
             if (old_data) {
                 auto new_data = device_model_->updateDeviceData(item, old_data);
                 diagram_->cmdUpdateDevice(new_data);
@@ -672,7 +672,7 @@ void MainWindow::onDeviceUpdate(SharedDeviceData data)
 
 void MainWindow::onConnectionAdd(ConnectionId data)
 {
-    auto conn_info = diagram_->devices().connectionInfo(data);
+    auto conn_info = diagram_->itemScene().connectionInfo(data);
     if (conn_info) {
         if (!conn_info->src_data || !conn_info->dest_data)
             return;
