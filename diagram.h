@@ -77,7 +77,7 @@ public:
      * @param data - device data
      * @return pointer to new device or nullptr on error
      */
-    Device* addDevice(const SharedDeviceData& data);
+    SceneItem* addDevice(const SharedDeviceData& data);
 
     /**
      * @brief remove device from scheme, emit sceneChanged(), deviceRemoved(), connectionRemoved()

@@ -151,12 +151,12 @@ public:
 };
 } // namespace
 
-Device::Device()
-    : Device(makeDeviceData())
+SceneItem::SceneItem()
+    : SceneItem(makeDeviceData())
 {
 }
 
-Device::Device(const SharedDeviceData& data)
+SceneItem::SceneItem(const SharedDeviceData& data)
     : data_(data)
     , title_ { nullptr }
     , image_ { nullptr }
@@ -186,17 +186,17 @@ Device::Device(const SharedDeviceData& data)
     setCacheMode(DeviceCoordinateCache);
 }
 
-Device::~Device()
+SceneItem::~SceneItem()
 {
     DeviceIdFactory::instance().release(data_->id());
 }
 
-QRectF Device::boundingRect() const
+QRectF SceneItem::boundingRect() const
 {
     return rect_;
 }
 
-void Device::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void SceneItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     paintTitleBox(painter);
 
@@ -227,7 +227,7 @@ void Device::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
     Q_UNUSED(widget);
 }
 
-void Device::paintTitleBox(QPainter* painter)
+void SceneItem::paintTitleBox(QPainter* painter)
 {
     if (!title_ || !data_->showTitle())
         return;
@@ -249,7 +249,7 @@ void Device::paintTitleBox(QPainter* painter)
     painter->drawRoundedRect(title_box.adjusted(4, 3, -4, -4), 5, 5);
 }
 
-void Device::paintStateIcons(QPainter* painter)
+void SceneItem::paintStateIcons(QPainter* painter)
 {
     if (isLocked()) {
         painter->save();
@@ -266,22 +266,22 @@ void Device::paintStateIcons(QPainter* painter)
     }
 }
 
-void Device::mousePressEvent(QGraphicsSceneMouseEvent* event)
+void SceneItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
     Q_UNUSED(event);
 }
 
-void Device::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
+void SceneItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
     Q_UNUSED(event);
 }
 
-void Device::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+void SceneItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
     Q_UNUSED(event);
 }
 
-void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
+void SceneItem::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 {
     QMenu menu;
 
@@ -319,17 +319,17 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
         menu.addAction(place_ver);
 
         auto mirror = new QAction(tr("Mirror image"), &menu);
-        connect(mirror, &QAction::triggered, this, &Device::mirrorSelected);
+        connect(mirror, &QAction::triggered, this, &SceneItem::mirrorSelected);
         menu.addAction(mirror);
 
         // lock/unlock
         menu.addSeparator();
         auto lockAct = new QAction(&menu);
         lockAct->setText(tr("Lock"));
-        connect(lockAct, &QAction::triggered, this, &Device::lockSelected);
+        connect(lockAct, &QAction::triggered, this, &SceneItem::lockSelected);
         auto unlockAct = new QAction(&menu);
         unlockAct->setText(tr("Unlock"));
-        connect(unlockAct, &QAction::triggered, this, &Device::unlockSelected);
+        connect(unlockAct, &QAction::triggered, this, &SceneItem::unlockSelected);
 
         menu.addAction(lockAct);
         menu.addAction(unlockAct);
@@ -342,7 +342,7 @@ void Device::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
     event->accept();
 }
 
-void Device::clearTitle()
+void SceneItem::clearTitle()
 {
     if (title_) {
         delete title_;
@@ -350,7 +350,7 @@ void Device::clearTitle()
     }
 }
 
-void Device::clearImage()
+void SceneItem::clearImage()
 {
     if (image_) {
         delete image_;
@@ -358,7 +358,7 @@ void Device::clearImage()
     }
 }
 
-void Device::createXlets()
+void SceneItem::createXlets()
 {
     xlets_.clearXlets();
 
@@ -373,7 +373,7 @@ void Device::createXlets()
     }
 }
 
-void Device::createTitle(qreal wd)
+void SceneItem::createTitle(qreal wd)
 {
     clearTitle();
 
@@ -385,7 +385,7 @@ void Device::createTitle(qreal wd)
     }
 }
 
-void Device::createImage()
+void SceneItem::createImage()
 {
     clearImage();
 
@@ -407,7 +407,7 @@ void Device::createImage()
     }
 }
 
-void Device::syncRect()
+void SceneItem::syncRect()
 {
     prepareGeometryChange();
 
@@ -426,7 +426,7 @@ void Device::syncRect()
     updateXletsPos();
 }
 
-void Device::updateTitlePos()
+void SceneItem::updateTitlePos()
 {
     if (!title_)
         return;
@@ -442,7 +442,7 @@ void Device::updateTitlePos()
     title_->setPos(title_bbox.left(), 0);
 }
 
-void Device::updateImagePos()
+void SceneItem::updateImagePos()
 {
     if (!image_)
         return;
@@ -454,7 +454,7 @@ void Device::updateImagePos()
     image_->setPos(centerAlignedLeftPos(imageWidth()), yoff);
 }
 
-void Device::updateXletsPos()
+void SceneItem::updateXletsPos()
 {
     auto v = xlets_.currentView();
     if (v) {
@@ -463,7 +463,7 @@ void Device::updateXletsPos()
     }
 }
 
-QRectF Device::titleRect() const
+QRectF SceneItem::titleRect() const
 {
     if (!title_ || !data_->showTitle())
         return {};
@@ -473,7 +473,7 @@ QRectF Device::titleRect() const
     return title_box;
 }
 
-QRectF Device::xletRect() const
+QRectF SceneItem::xletRect() const
 {
     auto v = xlets_.currentView();
     if (!v || xlets_.isEmpty())
@@ -483,7 +483,7 @@ QRectF Device::xletRect() const
     return brect.translated(brect.width() * -0.5, inletsYOff());
 }
 
-std::optional<QPointF> Device::connectionPoint(XletIndex i, XletType type, bool map) const
+std::optional<QPointF> SceneItem::connectionPoint(XletIndex i, XletType type, bool map) const
 {
     auto view = xlets_.currentView();
     if (!view)
@@ -496,7 +496,7 @@ std::optional<QPointF> Device::connectionPoint(XletIndex i, XletType type, bool 
     return map ? mapToScene(*pos) : *pos;
 }
 
-int Device::calcWidth() const
+int SceneItem::calcWidth() const
 {
     const auto TITLE_SIZE = data_->title().size();
 
@@ -514,7 +514,7 @@ int Device::calcWidth() const
     return w;
 }
 
-int Device::calcHeight() const
+int SceneItem::calcHeight() const
 {
     int h = 0;
     if (title_ && data_->showTitle())
@@ -529,17 +529,17 @@ int Device::calcHeight() const
     return h;
 }
 
-qreal Device::imageWidth() const
+qreal SceneItem::imageWidth() const
 {
     return image_ ? (image_->boundingRect().width() * image_->scale()) : 0;
 }
 
-qreal Device::imageHeight() const
+qreal SceneItem::imageHeight() const
 {
     return image_ ? (image_->boundingRect().height() * image_->scale()) : 0;
 }
 
-void Device::setMenuCaption(QMenu& menu)
+void SceneItem::setMenuCaption(QMenu& menu)
 {
     auto info = menu.addAction(data_->title());
     info->setDisabled(true);
@@ -549,7 +549,7 @@ void Device::setMenuCaption(QMenu& menu)
     menu.setStyleSheet("QMenu::item:disabled {color: black;}");
 }
 
-void Device::addTitleAction(QMenu& menu)
+void SceneItem::addTitleAction(QMenu& menu)
 {
     auto showTitle = new QAction(&menu);
     showTitle->setChecked(data_->showTitle());
@@ -569,7 +569,7 @@ void Device::addTitleAction(QMenu& menu)
     menu.addAction(showTitle);
 }
 
-void Device::addLockAction(QMenu& menu)
+void SceneItem::addLockAction(QMenu& menu)
 {
     auto lockAct = new QAction(&menu);
     lockAct->setText(data_->isLocked() ? tr("Unlock") : tr("Lock"));
@@ -580,7 +580,7 @@ void Device::addLockAction(QMenu& menu)
     menu.addAction(lockAct);
 }
 
-int Device::inletsYOff() const
+int SceneItem::inletsYOff() const
 {
     qreal yoff = 0;
     if (title_ && data_->showTitle())
@@ -591,7 +591,7 @@ int Device::inletsYOff() const
     return qRound(yoff);
 }
 
-void Device::syncXletData()
+void SceneItem::syncXletData()
 {
     {
         XletIndex in_idx = 0;
@@ -612,7 +612,7 @@ void Device::syncXletData()
     }
 }
 
-QJsonObject Device::toJson() const
+QJsonObject SceneItem::toJson() const
 {
     auto data_json = deviceData()->toJson();
     data_json["z"] = zValue();
@@ -620,7 +620,7 @@ QJsonObject Device::toJson() const
     return data_json;
 }
 
-void Device::setLocked(bool value)
+void SceneItem::setLocked(bool value)
 {
     if (!data_ || data_->isLocked() == value)
         return;
@@ -629,7 +629,7 @@ void Device::setLocked(bool value)
     update();
 }
 
-bool Device::mirrorImage(ImageMirrorType type)
+bool SceneItem::mirrorImage(ImageMirrorType type)
 {
     if (!data_ || data_->isLocked() || !image_)
         return false;
@@ -649,7 +649,7 @@ bool Device::mirrorImage(ImageMirrorType type)
     return true;
 }
 
-bool Device::zoomImage(qreal k)
+bool SceneItem::zoomImage(qreal k)
 {
     if (!data_ || data_->isLocked())
         return false;
@@ -666,14 +666,14 @@ bool Device::zoomImage(qreal k)
     return true;
 }
 
-void Device::addMirrorAction(QMenu& menu)
+void SceneItem::addMirrorAction(QMenu& menu)
 {
     auto mirrorAct = new QAction(tr("Mirror image"), &menu);
     connect(mirrorAct, &QAction::triggered, this, [this](bool) { emit mirror(data_->id()); });
     menu.addAction(mirrorAct);
 }
 
-void Device::addDuplicateAct(QMenu& menu)
+void SceneItem::addDuplicateAct(QMenu& menu)
 {
     auto duplicateAct = new QAction(tr("Duplicate"), &menu);
     connect(duplicateAct, &QAction::triggered, this,
@@ -682,7 +682,7 @@ void Device::addDuplicateAct(QMenu& menu)
     menu.addAction(duplicateAct);
 }
 
-void Device::addRemoveAct(QMenu& menu)
+void SceneItem::addRemoveAct(QMenu& menu)
 {
     auto removeAct = new QAction(tr("Delete"), &menu);
     connect(removeAct, &QAction::triggered, this,
@@ -691,7 +691,7 @@ void Device::addRemoveAct(QMenu& menu)
     menu.addAction(removeAct);
 }
 
-void Device::addToFavoritesAct(QMenu& menu)
+void SceneItem::addToFavoritesAct(QMenu& menu)
 {
     auto addToFavoritesAct = new QAction(tr("Add to favorites"), &menu);
     // addToFavoritesAct->setIcon(QIcon(":/icons/favorite.svg"));
@@ -701,7 +701,7 @@ void Device::addToFavoritesAct(QMenu& menu)
     menu.addAction(addToFavoritesAct);
 }
 
-void Device::addZValueAction(QMenu& menu)
+void SceneItem::addZValueAction(QMenu& menu)
 {
     auto moveUpAct = new QAction(tr("Move up"), &menu);
     connect(moveUpAct, &QAction::triggered, this,
@@ -714,7 +714,7 @@ void Device::addZValueAction(QMenu& menu)
     menu.addAction(moveDownAct);
 }
 
-void Device::addPropertiesAct(QMenu& menu)
+void SceneItem::addPropertiesAct(QMenu& menu)
 {
     auto propertiesAct = new QAction(tr("Properties"), &menu);
     connect(propertiesAct, &QAction::triggered, this,
@@ -727,7 +727,7 @@ void Device::addPropertiesAct(QMenu& menu)
     menu.addAction(propertiesAct);
 }
 
-void ceam::Device::addViewSubMenu(QMenu& menu)
+void ceam::SceneItem::addViewSubMenu(QMenu& menu)
 {
     auto views = menu.addMenu(tr("Views"));
     auto act_view_default = views->addAction(tr("Logic"));
@@ -759,7 +759,7 @@ void ceam::Device::addViewSubMenu(QMenu& menu)
     }
 }
 
-void Device::createContextMenu(QMenu& menu)
+void SceneItem::createContextMenu(QMenu& menu)
 {
     setMenuCaption(menu);
 
@@ -786,12 +786,12 @@ void Device::createContextMenu(QMenu& menu)
     addPropertiesAct(menu);
 }
 
-SharedDeviceData Device::defaultDeviceData()
+SharedDeviceData SceneItem::defaultDeviceData()
 {
     return makeDeviceData();
 }
 
-SharedDeviceData Device::dataFromJson(const QJsonValue& j)
+SharedDeviceData SceneItem::dataFromJson(const QJsonValue& j)
 {
     if (!j.isObject()) {
         WARN() << "not a object" << j;
@@ -812,7 +812,7 @@ SharedDeviceData Device::dataFromJson(const QJsonValue& j)
     return data;
 }
 
-SharedDeviceData Device::deviceData() const
+SharedDeviceData SceneItem::deviceData() const
 {
     auto dev_pos = pos();
 
@@ -822,7 +822,7 @@ SharedDeviceData Device::deviceData() const
     return data_;
 }
 
-void Device::setDeviceData(const SharedDeviceData& data)
+void SceneItem::setDeviceData(const SharedDeviceData& data)
 {
     if (data->isNull()) {
         WARN() << "NULL data";
@@ -834,7 +834,7 @@ void Device::setDeviceData(const SharedDeviceData& data)
     syncRect();
 }
 
-void Device::randomizePos(qint64 delta)
+void SceneItem::randomizePos(qint64 delta)
 {
     auto value = qAbs(delta);
     auto dx = QRandomGenerator::global()->bounded(-value, value);

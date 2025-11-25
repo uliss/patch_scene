@@ -68,16 +68,16 @@ size_t Scene::selectedCount() const
     return res;
 }
 
-Device* Scene::add(const SharedDeviceData& data)
+SceneItem* Scene::add(const SharedDeviceData& data)
 {
     if (!scene_ || !data)
         return nullptr;
 
-    Device* dev = nullptr;
+    SceneItem* dev = nullptr;
     if (data->category() == ItemCategory::Comment) {
         dev = new Comment();
     } else {
-        dev = new Device(data);
+        dev = new SceneItem(data);
     }
 
     scene_->addItem(dev);
@@ -142,7 +142,7 @@ SharedDeviceData Scene::remove(SceneItemId id)
     return data;
 }
 
-Device* Scene::find(SceneItemId id)
+SceneItem* Scene::find(SceneItemId id)
 {
     auto it = items_.find(id);
     return it == items_.end()
@@ -150,7 +150,7 @@ Device* Scene::find(SceneItemId id)
         : it->second;
 }
 
-const Device* Scene::find(SceneItemId id) const
+const SceneItem* Scene::find(SceneItemId id) const
 {
     auto it = items_.find(id);
     return it == items_.end()
@@ -404,7 +404,7 @@ QRectF Scene::boundingSelectRect() const
     return rect;
 }
 
-void Scene::foreachDevice(const std::function<void(Device*)>& fn)
+void Scene::foreachDevice(const std::function<void(SceneItem*)>& fn)
 {
     if (!fn)
         return;
@@ -413,7 +413,7 @@ void Scene::foreachDevice(const std::function<void(Device*)>& fn)
         fn(kv.second);
 }
 
-void Scene::foreachSelectedDevice(const std::function<void(const Device*)>& fn)
+void Scene::foreachSelectedDevice(const std::function<void(const SceneItem*)>& fn)
 {
     if (!fn)
         return;

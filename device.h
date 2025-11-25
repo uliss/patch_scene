@@ -27,39 +27,39 @@ namespace ceam {
 
 class DeviceXlet;
 
-class Device : public QGraphicsObject {
+class SceneItem : public QGraphicsObject {
     Q_OBJECT
 public:
     enum { Type = UserItemTypeDevice };
     int type() const override { return Type; }
 
 public:
-    Device();
-    explicit Device(const SharedDeviceData& data);
-    ~Device();
+    SceneItem();
+    explicit SceneItem(const SharedDeviceData& data);
+    ~SceneItem();
 
     /**
-     * @return device id
+     * @return item id
      */
     SceneItemId id() const { return data_->id(); }
 
     /**
-     * return bounding rect in device coordinates
+     * return bounding rect in item coordinates
      */
     QRectF boundingRect() const final;
 
     /**
-     * @return title bounding rect in device coordinates
+     * @return title bounding rect in item coordinates
      */
     QRectF titleRect() const;
 
     /**
-     * @return xlet bounding rect in device coordinates
+     * @return xlet bounding rect in item coordinates
      */
     QRectF xletRect() const;
 
     /**
-     * @return connection point in device or scene coords
+     * @return connection point in item or scene coords
      */
     std::optional<QPointF> connectionPoint(XletIndex i, XletType type, bool map = false) const;
 
@@ -67,12 +67,12 @@ public:
     void setDeviceData(const SharedDeviceData& data);
 
     /**
-     * move device into random neighborhood within the specified delta
+     * move item into random neighborhood within the specified delta
      */
     void randomizePos(qint64 delta);
 
     /**
-     * export device state/data to json
+     * export item state/data to json
      */
     QJsonObject toJson() const;
 

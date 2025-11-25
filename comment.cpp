@@ -36,7 +36,7 @@ SharedDeviceData commentData(const QString& title)
 } // namespace
 
 Comment::Comment()
-    : Device(commentData(tr("Comment")))
+    : SceneItem(commentData(tr("Comment")))
 {
     title()->setTextWidth(boundingRect().width());
     // title()->setTextInteractionFlags(Qt::TextEditorInteraction);
@@ -106,7 +106,7 @@ void Comment::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
         title()->setTextInteractionFlags(Qt::TextEditorInteraction);
         event->accept();
     } else
-        Device::mouseDoubleClickEvent(event);
+        SceneItem::mouseDoubleClickEvent(event);
 }
 
 void Comment::keyPressEvent(QKeyEvent* event)
@@ -117,6 +117,6 @@ void Comment::keyPressEvent(QKeyEvent* event)
         deviceData()->setTitle(title()->document()->toPlainText());
         event->accept();
     } else {
-        Device::keyPressEvent(event);
+        SceneItem::keyPressEvent(event);
     }
 }

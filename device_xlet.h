@@ -26,7 +26,7 @@ class QGraphicsSvgItem;
 
 namespace ceam {
 
-class Device;
+class SceneItem;
 
 class XletData {
     QString name_;
@@ -95,7 +95,7 @@ public:
 
     const XletData& xletData() const;
     XletInfo xletInfo() const;
-    const Device* parentDevice() const;
+    const SceneItem* parentDevice() const;
 
     void setDragMode(bool value, bool selfDrag = false);
 

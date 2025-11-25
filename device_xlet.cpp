@@ -183,9 +183,9 @@ XletInfo DeviceXlet::xletInfo() const
         return info_;
 }
 
-const Device* DeviceXlet::parentDevice() const
+const SceneItem* DeviceXlet::parentDevice() const
 {
-    return qgraphicsitem_cast<Device*>(parentItem());
+    return qgraphicsitem_cast<SceneItem*>(parentItem());
 }
 
 void DeviceXlet::setDragMode(bool value, bool selfDrag)
@@ -206,7 +206,7 @@ void DeviceXlet::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
         connect(phantom_on, &QAction::triggered, this, [this](bool checked) {
             data_.setPhantom(checked);
             update(boundingRect());
-            auto dev = qgraphicsitem_cast<Device*>(parentItem());
+            auto dev = qgraphicsitem_cast<SceneItem*>(parentItem());
             if (dev)
                 dev->syncXletData();
         });

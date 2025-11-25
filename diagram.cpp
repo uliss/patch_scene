@@ -274,7 +274,7 @@ void Diagram::cmdToggleDevices(const QList<QGraphicsItem*>& items)
     QList<SceneItemId> ids;
     ids.reserve(items.size());
     for (auto x : items) {
-        auto dev = qgraphicsitem_cast<Device*>(x);
+        auto dev = qgraphicsitem_cast<SceneItem*>(x);
         if (dev)
             ids.push_back(dev->id());
     }
@@ -364,7 +364,7 @@ void Diagram::cmdAddToSelection(const QList<QGraphicsItem*>& items)
 {
     QList<SceneItemId> ids;
     for (auto x : items) {
-        auto dev = qgraphicsitem_cast<Device*>(x);
+        auto dev = qgraphicsitem_cast<SceneItem*>(x);
         if (dev)
             ids.push_back(dev->id());
     }
@@ -398,7 +398,7 @@ void Diagram::cmdDistributeHSelected()
     qreal min_x = std::numeric_limits<qreal>::max();
     qreal max_x = std::numeric_limits<qreal>::lowest();
     std::vector<std::pair<SceneItemId, qreal>> sel_data;
-    devices_.foreachSelectedDevice([&count, &min_x, &max_x, &sel_data](const Device* dev) {
+    devices_.foreachSelectedDevice([&count, &min_x, &max_x, &sel_data](const SceneItem* dev) {
         const auto pos = dev->pos();
         min_x = std::min(min_x, pos.x());
         max_x = std::max(max_x, pos.x());
@@ -432,7 +432,7 @@ void Diagram::cmdDistributeVSelected()
     qreal min_y = std::numeric_limits<qreal>::max();
     qreal max_y = std::numeric_limits<qreal>::lowest();
     std::vector<std::pair<SceneItemId, qreal>> sel_data;
-    devices_.foreachSelectedDevice([&count, &min_y, &max_y, &sel_data](const Device* dev) {
+    devices_.foreachSelectedDevice([&count, &min_y, &max_y, &sel_data](const SceneItem* dev) {
         const auto pos = dev->pos();
         min_y = std::min(min_y, pos.y());
         max_y = std::max(max_y, pos.y());
@@ -534,8 +534,8 @@ void Diagram::cmdPlaceInColumnSelected()
 {
     int count = 0;
     qreal min_y = std::numeric_limits<qreal>::max();
-    std::vector<std::pair<SceneItemId, const Device*>> sel_data;
-    devices_.foreachSelectedDevice([&count, &min_y, &sel_data](const Device* dev) {
+    std::vector<std::pair<SceneItemId, const SceneItem*>> sel_data;
+    devices_.foreachSelectedDevice([&count, &min_y, &sel_data](const SceneItem* dev) {
         min_y = std::min(min_y, dev->y());
         sel_data.push_back({ dev->id(), dev });
 
@@ -545,7 +545,7 @@ void Diagram::cmdPlaceInColumnSelected()
         return;
 
     std::sort(sel_data.begin(), sel_data.end(),
-        [](const std::pair<SceneItemId, const Device*>& a, const std::pair<SceneItemId, const Device*>& b) {
+        [](const std::pair<SceneItemId, const SceneItem*>& a, const std::pair<SceneItemId, const SceneItem*>& b) {
             return a.second->y() < b.second->y();
         });
 
@@ -568,8 +568,8 @@ void Diagram::cmdPlaceInRowSelected()
 {
     int count = 0;
     qreal min_x = std::numeric_limits<qreal>::max();
-    std::vector<std::pair<SceneItemId, const Device*>> sel_data;
-    devices_.foreachSelectedDevice([&count, &min_x, &sel_data](const Device* dev) {
+    std::vector<std::pair<SceneItemId, const SceneItem*>> sel_data;
+    devices_.foreachSelectedDevice([&count, &min_x, &sel_data](const SceneItem* dev) {
         min_x = std::min(min_x, dev->x());
         sel_data.push_back({ dev->id(), dev });
 
@@ -579,7 +579,7 @@ void Diagram::cmdPlaceInRowSelected()
         return;
 
     std::sort(sel_data.begin(), sel_data.end(),
-        [](const std::pair<SceneItemId, const Device*>& a, const std::pair<SceneItemId, const Device*>& b) {
+        [](const std::pair<SceneItemId, const SceneItem*>& a, const std::pair<SceneItemId, const SceneItem*>& b) {
             return a.second->x() < b.second->x();
         });
 
@@ -603,7 +603,7 @@ void Diagram::cmdReconnectDevice(const ConnectionInfo& old_conn, const Connectio
     undo_stack_->push(recon);
 }
 
-Device* Diagram::addDevice(const SharedDeviceData& data)
+SceneItem* Diagram::addDevice(const SharedDeviceData& data)
 {
     auto dev = devices_.add(data);
     if (!dev)
@@ -624,18 +624,18 @@ Device* Diagram::addDevice(const SharedDeviceData& data)
     connect(dev, SIGNAL(placeInRow()), this, SLOT(cmdPlaceInRowSelected()));
 
     // move
-    connect(dev, &Device::moveLower, this, &Diagram::cmdMoveLower);
-    connect(dev, &Device::moveUpper, this, &Diagram::cmdMoveUpper);
+    connect(dev, &SceneItem::moveLower, this, &Diagram::cmdMoveLower);
+    connect(dev, &SceneItem::moveUpper, this, &Diagram::cmdMoveUpper);
 
     // lock
-    connect(dev, &Device::lockSelected, this, &Diagram::cmdLockSelected);
-    connect(dev, &Device::unlockSelected, this, &Diagram::cmdUnlockSelected);
-    connect(dev, &Device::lock, this, &Diagram::cmdLock);
-    connect(dev, &Device::unlock, this, &Diagram::cmdUnlock);
+    connect(dev, &SceneItem::lockSelected, this, &Diagram::cmdLockSelected);
+    connect(dev, &SceneItem::unlockSelected, this, &Diagram::cmdUnlockSelected);
+    connect(dev, &SceneItem::lock, this, &Diagram::cmdLock);
+    connect(dev, &SceneItem::unlock, this, &Diagram::cmdUnlock);
 
     // mirror
-    connect(dev, &Device::mirrorSelected, this, &Diagram::cmdMirrorSelected);
-    connect(dev, &Device::mirror, this, &Diagram::cmdMirrorDevice);
+    connect(dev, &SceneItem::mirrorSelected, this, &Diagram::cmdMirrorSelected);
+    connect(dev, &SceneItem::mirror, this, &Diagram::cmdMirrorDevice);
 
     emit sceneChanged();
 
@@ -698,10 +698,10 @@ Comment* Diagram::addComment()
     connect(comm, SIGNAL(placeInRow()), this, SLOT(cmdPlaceInRowSelected()));
 
     // lock
-    connect(comm, &Device::lockSelected, this, &Diagram::cmdLockSelected);
-    connect(comm, &Device::unlockSelected, this, &Diagram::cmdUnlockSelected);
-    connect(comm, &Device::lock, this, &Diagram::cmdLock);
-    connect(comm, &Device::unlock, this, &Diagram::cmdUnlock);
+    connect(comm, &SceneItem::lockSelected, this, &Diagram::cmdLockSelected);
+    connect(comm, &SceneItem::unlockSelected, this, &Diagram::cmdUnlockSelected);
+    connect(comm, &SceneItem::lock, this, &Diagram::cmdLock);
+    connect(comm, &SceneItem::unlock, this, &Diagram::cmdUnlock);
 
     emit sceneChanged();
 
@@ -710,9 +710,9 @@ Comment* Diagram::addComment()
 
 QList<SceneItemId> Diagram::duplicateSelected(DuplicatePolicy policy)
 {
-    QList<Device*> dup_list;
+    QList<SceneItem*> dup_list;
 
-    devices_.foreachDevice([&dup_list](Device* dev) {
+    devices_.foreachDevice([&dup_list](SceneItem* dev) {
         if (dev->isSelected())
             dup_list << dev;
     });
@@ -754,7 +754,7 @@ void Diagram::setShowCables(bool value)
 
 void Diagram::setShowPeople(bool value)
 {
-    devices_.foreachDevice([value](Device* dev) {
+    devices_.foreachDevice([value](SceneItem* dev) {
         if (dev //
             && dev->deviceData() //
             && dev->deviceData()->category() == ItemCategory::Human) {
@@ -765,7 +765,7 @@ void Diagram::setShowPeople(bool value)
 
 void Diagram::setShowFurniture(bool value)
 {
-    devices_.foreachDevice([value](Device* dev) {
+    devices_.foreachDevice([value](SceneItem* dev) {
         if (dev //
             && dev->deviceData() //
             && dev->deviceData()->category() == ItemCategory::Furniture) {
@@ -845,7 +845,7 @@ bool Diagram::loadJson(const QString& path)
     if (devs.isArray()) {
         auto arr = devs.toArray();
         for (const auto& j : arr)
-            addDevice(Device::dataFromJson(j));
+            addDevice(SceneItem::dataFromJson(j));
     }
 
     // load connections
@@ -1129,7 +1129,7 @@ void Diagram::mousePressEvent(QMouseEvent* event)
     switch (state_machine_.state()) {
     case DiagramState::Init: {
         auto elem = items(event->pos());
-        bool device_found = std::any_of(elem.begin(), elem.end(), [](QGraphicsItem* x) { return qgraphicsitem_cast<Device*>(x); });
+        bool device_found = std::any_of(elem.begin(), elem.end(), [](QGraphicsItem* x) { return qgraphicsitem_cast<SceneItem*>(x); });
 
         if (device_found) { // click on a single device
             const auto xlet = hoverDeviceXlet(elem, event->pos());
@@ -1236,7 +1236,7 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
         auto src_pos = mapToScene(prev_click_pos_.toPoint());
         auto delta = src_pos - dest_pos;
 
-        devices_.foreachDevice([delta](Device* dev) {
+        devices_.foreachDevice([delta](SceneItem* dev) {
             if (dev->isSelected() && !dev->isLocked())
                 dev->moveBy(delta.x(), delta.y());
         });
@@ -1490,7 +1490,7 @@ bool Diagram::viewportEvent(QEvent* event)
 void Diagram::selectTopDevice(const QList<QGraphicsItem*>& devs)
 {
     for (auto x : devs) {
-        auto dev = qgraphicsitem_cast<Device*>(x);
+        auto dev = qgraphicsitem_cast<SceneItem*>(x);
         if (dev)
             return cmdSelectUnique(dev->id());
     }
@@ -1499,7 +1499,7 @@ void Diagram::selectTopDevice(const QList<QGraphicsItem*>& devs)
 void Diagram::selectBottomDevice(const QList<QGraphicsItem*>& devs)
 {
     for (auto it = devs.crbegin(); it != devs.crend(); ++it) {
-        auto dev = qgraphicsitem_cast<Device*>(*it);
+        auto dev = qgraphicsitem_cast<SceneItem*>(*it);
         if (dev)
             return cmdSelectUnique(dev->id());
     }

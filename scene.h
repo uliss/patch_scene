@@ -25,14 +25,14 @@ class QGraphicsScene;
 namespace ceam {
 
 class Comment;
-class Device;
+class SceneItem;
 
 class Scene : public QObject {
     Q_OBJECT
 
 private:
     QGraphicsScene* scene_;
-    std::unordered_map<SceneItemId, Device*> items_;
+    std::unordered_map<SceneItemId, SceneItem*> items_;
 
 public:
     Scene();
@@ -61,7 +61,7 @@ public:
      * @return pointer to new device or nullptr on error
      * @emit added(SharedDeviceData)
      */
-    Device* add(const SharedDeviceData& data);
+    SceneItem* add(const SharedDeviceData& data);
 
     /**
      * creates new comment and add it to the scene
@@ -87,14 +87,14 @@ public:
      * @return pointer to device or nullptr if not found
      * @complexity O(1)
      */
-    Device* find(SceneItemId id);
+    SceneItem* find(SceneItemId id);
 
     /**
      * find device by given device id
      * @return pointer to device or nullptr if not found
      * @complexity O(1)
      */
-    const Device* find(SceneItemId id) const;
+    const SceneItem* find(SceneItemId id) const;
 
     /**
      * find device data by given device id
@@ -148,8 +148,8 @@ public:
     QRectF boundingRect() const;
     QRectF boundingSelectRect() const;
 
-    void foreachDevice(const std::function<void(Device*)>& fn);
-    void foreachSelectedDevice(const std::function<void(const Device*)>& fn);
+    void foreachDevice(const std::function<void(SceneItem*)>& fn);
+    void foreachSelectedDevice(const std::function<void(const SceneItem*)>& fn);
 
     void foreachData(const std::function<void(const SharedDeviceData& data)>& fn) const;
     void foreachSelectedData(const std::function<void(const SharedDeviceData& data)>& fn) const;

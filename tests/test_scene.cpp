@@ -128,7 +128,7 @@ void TestScene::add()
 
     QCOMPARE(dev.count(), 0);
     QVERIFY(!dev.add({}));
-    QVERIFY(!dev.add(Device::defaultDeviceData()));
+    QVERIFY(!dev.add(SceneItem::defaultDeviceData()));
     QCOMPARE(dev.count(), 0);
     QCOMPARE(sig_spy.count(), 0);
 

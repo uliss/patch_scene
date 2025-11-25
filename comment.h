@@ -18,7 +18,7 @@
 
 namespace ceam {
 
-class Comment : public Device {
+class Comment : public SceneItem {
     Q_OBJECT
 
 public:

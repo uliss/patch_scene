@@ -40,7 +40,7 @@ void CreateDevice::redo()
     if (!doc_)
         return;
 
-    auto dev = doc_->addDevice(Device::defaultDeviceData());
+    auto dev = doc_->addDevice(SceneItem::defaultDeviceData());
     if (dev) {
         dev->setPos(pos_);
         id_ = dev->id();
@@ -287,7 +287,7 @@ void SetDeviceSelection::undo()
 {
     if (doc_) {
         DiagramUpdatesBlocker ub(doc_);
-        doc_->devices().foreachDevice([this](Device* dev) {
+        doc_->devices().foreachDevice([this](SceneItem* dev) {
             dev->setSelected(prev_sel_.contains(dev->id()));
         });
     }
@@ -297,7 +297,7 @@ void SetDeviceSelection::redo()
 {
     if (doc_) {
         DiagramUpdatesBlocker ub(doc_);
-        doc_->devices().foreachDevice([this](Device* dev) {
+        doc_->devices().foreachDevice([this](SceneItem* dev) {
             dev->setSelected(new_sel_.contains(dev->id()));
         });
     }
@@ -599,7 +599,7 @@ void MirrorSelected::redo()
     if (!doc_)
         return;
 
-    doc_->devices().foreachDevice([this](Device* dev) {
+    doc_->devices().foreachDevice([this](SceneItem* dev) {
         if (dev->isSelected())
             dev->mirrorImage(type_);
     });
@@ -640,7 +640,7 @@ void ZoomSelected::undo()
     if (!doc_)
         return;
 
-    doc_->devices().foreachDevice([this](Device* dev) {
+    doc_->devices().foreachDevice([this](SceneItem* dev) {
         if (dev->isSelected())
             dev->zoomImage(1 / k_);
     });
@@ -651,7 +651,7 @@ void ZoomSelected::redo()
     if (!doc_)
         return;
 
-    doc_->devices().foreachDevice([this](Device* dev) {
+    doc_->devices().foreachDevice([this](SceneItem* dev) {
         if (dev->isSelected())
             dev->zoomImage(k_);
     });
@@ -713,9 +713,9 @@ void MoveLower::redo()
 
     old_z_ = dev->zValue();
 
-    const Device* lower_dev = nullptr;
+    const SceneItem* lower_dev = nullptr;
     for (auto it : dev->collidingItems()) {
-        auto x = qgraphicsitem_cast<const Device*>(it);
+        auto x = qgraphicsitem_cast<const SceneItem*>(it);
         if (x && x->zValue() <= old_z_)
             lower_dev = x;
     }
@@ -764,9 +764,9 @@ void MoveUpper::redo()
 
     old_z_ = dev->zValue();
 
-    const Device* upper_dev = nullptr;
+    const SceneItem* upper_dev = nullptr;
     for (auto it : dev->collidingItems()) {
-        auto x = qgraphicsitem_cast<const Device*>(it);
+        auto x = qgraphicsitem_cast<const SceneItem*>(it);
         if (x && x->zValue() >= old_z_)
             upper_dev = x;
     }
