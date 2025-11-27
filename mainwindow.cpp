@@ -218,7 +218,7 @@ void MainWindow::initDeviceList()
             auto old_data = diagram_->itemScene().findData(id.value());
             if (old_data) {
                 auto new_data = device_model_->updateDeviceData(item, old_data);
-                diagram_->cmdUpdateDevice(new_data);
+                diagram_->cmdUpdateItem(new_data);
             } else {
                 WARN() << "device not found:" << static_cast<int>(id.value());
             }

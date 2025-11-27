@@ -225,13 +225,13 @@ void Diagram::cmdRemoveSelected()
     undo_stack_->push(del_sel);
 }
 
-void Diagram::cmdRemoveDevice(const SharedDeviceData& data)
+void Diagram::cmdRemoveItem(const SharedDeviceData& data)
 {
     auto rem = new RemoveItem(this, data);
     undo_stack_->push(rem);
 }
 
-void Diagram::cmdUpdateDevice(const SharedDeviceData& data)
+void Diagram::cmdUpdateItem(const SharedDeviceData& data)
 {
     if (!data)
         return;
@@ -269,7 +269,7 @@ void Diagram::cmdCreateDevice(const QPointF& pos)
     undo_stack_->push(add);
 }
 
-void Diagram::cmdToggleDevices(const QList<QGraphicsItem*>& items)
+void Diagram::cmdToggleSelected(const QList<QGraphicsItem*>& items)
 {
     QList<SceneItemId> ids;
     ids.reserve(items.size());
@@ -300,9 +300,9 @@ void Diagram::cmdDisconnectDevices(const ConnectionId& conn)
     cmdDisconnectXlet(conn.sourceInfo());
 }
 
-void Diagram::cmdDuplicateDevice(const SharedDeviceData& data)
+void Diagram::cmdDuplicateItems(const SharedDeviceData& data)
 {
-    auto dup = new DuplicateDevice(this, data);
+    auto dup = new DuplicateItem(this, data);
     undo_stack_->push(dup);
 }
 
@@ -373,7 +373,7 @@ void Diagram::cmdAddToSelection(const QList<QGraphicsItem*>& items)
     undo_stack_->push(add_sel);
 }
 
-void Diagram::cmdSelectDevices(const QRectF& sel)
+void Diagram::cmdSelectItems(const QRectF& sel)
 {
     auto set_sel = new SetSelected(this, item_scene_.intersected(sel));
     undo_stack_->push(set_sel);
@@ -460,13 +460,13 @@ void Diagram::cmdDistributeVSelected()
     undo_stack_->push(move_by);
 }
 
-void Diagram::cmdMoveSelectedDevicesBy(qreal dx, qreal dy)
+void Diagram::cmdMoveSelectedItemsBy(qreal dx, qreal dy)
 {
     auto move_by = new MoveSelected(this, dx, dy);
     undo_stack_->push(move_by);
 }
 
-void Diagram::cmdMoveSelectedDevicesFrom(const QPointF& from, const QPointF& to)
+void Diagram::cmdMoveSelectedItemsFrom(const QPointF& from, const QPointF& to)
 {
     if (!item_scene_.hasSelected())
         return;
@@ -603,25 +603,25 @@ void Diagram::cmdReconnectDevice(const ConnectionInfo& old_conn, const Connectio
     undo_stack_->push(recon);
 }
 
-SceneItem* Diagram::addDevice(const SharedDeviceData& data)
+SceneItem* Diagram::addItem(const SharedDeviceData& data)
 {
     auto dev = item_scene_.add(data);
     if (!dev)
         return nullptr;
 
-    connect(dev, SIGNAL(addToFavorites(SharedDeviceData)), this, SIGNAL(addToFavorites(SharedDeviceData)));
-    connect(dev, SIGNAL(duplicateDevice(SharedDeviceData)), this, SLOT(cmdDuplicateDevice(SharedDeviceData)));
-    connect(dev, SIGNAL(removeDevice(SharedDeviceData)), this, SLOT(cmdRemoveDevice(SharedDeviceData)));
-    connect(dev, SIGNAL(updateDevice(SharedDeviceData)), this, SLOT(cmdUpdateDevice(SharedDeviceData)));
+    connect(dev, &SceneItem::addToFavorites, this, &Diagram::addToFavorites);
+    connect(dev, &SceneItem::duplicateDevice, this, &Diagram::cmdDuplicateItems);
+    connect(dev, &SceneItem::removeDevice, this, &Diagram::cmdRemoveItem);
+    connect(dev, &SceneItem::updateDevice, this, &Diagram::cmdUpdateItem);
 
-    connect(dev, SIGNAL(alignHorizontal()), this, SLOT(cmdAlignHSelected()));
-    connect(dev, SIGNAL(alignVertical()), this, SLOT(cmdAlignVSelected()));
+    connect(dev, &SceneItem::alignHorizontal, this, &Diagram::cmdAlignHSelected);
+    connect(dev, &SceneItem::alignVertical, this, &Diagram::cmdAlignVSelected);
 
-    connect(dev, SIGNAL(distributeHorizontal()), this, SLOT(cmdDistributeHSelected()));
-    connect(dev, SIGNAL(distributeVertical()), this, SLOT(cmdDistributeVSelected()));
+    connect(dev, &SceneItem::distributeHorizontal, this, &Diagram::cmdDistributeHSelected);
+    connect(dev, &SceneItem::distributeVertical, this, &Diagram::cmdDistributeVSelected);
 
-    connect(dev, SIGNAL(placeInColumn()), this, SLOT(cmdPlaceInColumnSelected()));
-    connect(dev, SIGNAL(placeInRow()), this, SLOT(cmdPlaceInRowSelected()));
+    connect(dev, &SceneItem::placeInColumn, this, &Diagram::cmdPlaceInColumnSelected);
+    connect(dev, &SceneItem::placeInRow, this, &Diagram::cmdPlaceInRowSelected);
 
     // move
     connect(dev, &SceneItem::moveLower, this, &Diagram::cmdMoveLower);
@@ -678,36 +678,6 @@ bool Diagram::setItemData(const SharedDeviceData& data)
     return true;
 }
 
-CommentItem* Diagram::addComment()
-{
-    auto comm = item_scene_.addComment();
-    if (!comm)
-        return nullptr;
-
-    connect(comm, SIGNAL(duplicateDevice(SharedDeviceData)), this, SLOT(cmdDuplicateDevice(SharedDeviceData)));
-    connect(comm, SIGNAL(removeDevice(SharedDeviceData)), this, SLOT(cmdRemoveDevice(SharedDeviceData)));
-    connect(comm, SIGNAL(updateDevice(SharedDeviceData)), this, SLOT(cmdUpdateDevice(SharedDeviceData)));
-
-    connect(comm, SIGNAL(alignHorizontal()), this, SLOT(cmdAlignHSelected()));
-    connect(comm, SIGNAL(alignVertical()), this, SLOT(cmdAlignVSelected()));
-
-    connect(comm, SIGNAL(distributeHorizontal()), this, SLOT(cmdDistributeHSelected()));
-    connect(comm, SIGNAL(distributeVertical()), this, SLOT(cmdDistributeVSelected()));
-
-    connect(comm, SIGNAL(placeInColumn()), this, SLOT(cmdPlaceInColumnSelected()));
-    connect(comm, SIGNAL(placeInRow()), this, SLOT(cmdPlaceInRowSelected()));
-
-    // lock
-    connect(comm, &SceneItem::lockSelected, this, &Diagram::cmdLockSelected);
-    connect(comm, &SceneItem::unlockSelected, this, &Diagram::cmdUnlockSelected);
-    connect(comm, &SceneItem::lock, this, &Diagram::cmdLock);
-    connect(comm, &SceneItem::unlock, this, &Diagram::cmdUnlock);
-
-    emit sceneChanged();
-
-    return comm;
-}
-
 QList<SceneItemId> Diagram::duplicateSelected(DuplicatePolicy policy)
 {
     QList<SceneItem*> dup_list;
@@ -722,7 +692,7 @@ QList<SceneItemId> Diagram::duplicateSelected(DuplicatePolicy policy)
         return res;
 
     for (auto src_dev : dup_list) {
-        auto new_dev = addDevice(src_dev->deviceData());
+        auto new_dev = addItem(src_dev->deviceData());
         if (new_dev) {
             switch (new_dev->deviceData()->category()) {
             case ItemCategory::Furniture:
@@ -845,7 +815,7 @@ bool Diagram::loadJson(const QString& path)
     if (devs.isArray()) {
         auto arr = devs.toArray();
         for (const auto& j : arr)
-            addDevice(SceneItem::dataFromJson(j));
+            addItem(SceneItem::dataFromJson(j));
     }
 
     // load connections
@@ -1108,13 +1078,13 @@ void Diagram::showConnectionEditor()
 {
     switch (state_machine_.state()) {
     case DiagramState::Init: // normal mode
-    case DiagramState::ConnectionEdit: // update editor
-        state_machine_.setState(DiagramState::ConnectionEdit);
+    case DiagramState::EditConnection: // update editor
+        state_machine_.setState(DiagramState::EditConnection);
         connections_->showEditor(true);
         break;
-    case DiagramState::Move:
+    case DiagramState::MoveItem:
     case DiagramState::ConnectDevice:
-    case DiagramState::SelectDevice:
+    case DiagramState::SelectItem:
     case DiagramState::SelectionRect:
         break;
     }
@@ -1128,12 +1098,12 @@ void Diagram::mousePressEvent(QMouseEvent* event)
 
     switch (state_machine_.state()) {
     case DiagramState::Init: {
-        auto elem = items(event->pos());
-        bool item_found = std::any_of(elem.begin(), elem.end(),
+        auto elems = items(event->pos());
+        bool item_found = std::any_of(elems.begin(), elems.end(),
             [](QGraphicsItem* x) { return qgraphicsitem_cast<SceneItem*>(x); });
 
         if (item_found) { // click on a single device
-            auto xlet = hoverDeviceXlet(elem, event->pos());
+            auto xlet = hoverDeviceXlet(elems, event->pos());
 
             if (xlet) { // click on xlet
                 bool disconnect = event->modifiers().testFlag(Qt::AltModifier);
@@ -1149,26 +1119,26 @@ void Diagram::mousePressEvent(QMouseEvent* event)
                 return; //
 
             } else if (event->modifiers().testFlag(Qt::ControlModifier)) { // add/remove to/from selection
-                cmdToggleDevices(elem);
+                cmdToggleSelected(elems);
             } else if (event->modifiers().testFlag(Qt::ShiftModifier)) { // add to selection
-                cmdAddToSelection(elem);
+                cmdAddToSelection(elems);
             } else if (event->modifiers().testFlag(Qt::AltModifier))
-                selectBottomDevice(elem);
+                selectBottomDevice(elems);
             else
-                selectTopDevice(elem);
+                selectTopDevice(elems);
 
             if (graphics_scene_->selectedItems().empty()) {
                 state_machine_.setState(DiagramState::Init);
             } else {
                 saveClickPos(event->position());
-                state_machine_.setState(DiagramState::SelectDevice);
+                state_machine_.setState(DiagramState::SelectItem);
                 connections_->unselectAll();
             }
 
             event->accept();
         } else if (
-            elem.size() > 0
-            && elem[0]) { // handle click on device parts
+            elems.size() > 0
+            && elems[0]) { // handle click on device parts
             QGraphicsView::mousePressEvent(event);
         }
 
@@ -1186,7 +1156,7 @@ void Diagram::mousePressEvent(QMouseEvent* event)
         selection_->setVisible(false);
         state_machine_.setState(DiagramState::Init);
     } break;
-    case DiagramState::ConnectionEdit: {
+    case DiagramState::EditConnection: {
         QGraphicsView::mousePressEvent(event);
         if (!event->isAccepted()) {
             state_machine_.setState(DiagramState::Init);
@@ -1205,10 +1175,10 @@ void Diagram::mouseMoveEvent(QMouseEvent* event)
     case DiagramState::SelectionRect: {
         drawSelectionTo(event->pos());
     } break;
-    case DiagramState::SelectDevice: {
-        state_machine_.setState(DiagramState::Move);
+    case DiagramState::SelectItem: {
+        state_machine_.setState(DiagramState::MoveItem);
     } break;
-    case DiagramState::Move: {
+    case DiagramState::MoveItem: {
         auto delta = (event->position() - prev_move_pos_) / zoom_;
         moveSelectedItemsBy(delta.x(), delta.y());
         prev_move_pos_ = event->position();
@@ -1216,7 +1186,7 @@ void Diagram::mouseMoveEvent(QMouseEvent* event)
     case DiagramState::ConnectDevice:
         drawConnectionTo(event->pos());
         break;
-    case DiagramState::ConnectionEdit:
+    case DiagramState::EditConnection:
         event->accept();
         QGraphicsView::mouseMoveEvent(event);
         // WARN() << "connection edit move";
@@ -1230,7 +1200,7 @@ void Diagram::mouseMoveEvent(QMouseEvent* event)
 void Diagram::mouseReleaseEvent(QMouseEvent* event)
 {
     switch (state_machine_.state()) {
-    case DiagramState::Move: { // finish item moving
+    case DiagramState::MoveItem: { // finish item moving
         state_machine_.setState(DiagramState::Init);
 
         auto dest_pos = mapToScene(event->position().toPoint());
@@ -1242,14 +1212,14 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
                 dev->moveBy(delta.x(), delta.y());
         });
 
-        cmdMoveSelectedDevicesFrom(src_pos, dest_pos);
+        cmdMoveSelectedItemsFrom(src_pos, dest_pos);
     } break;
     case DiagramState::SelectionRect: { // finish selection
         auto bbox = selection_->mapRectToScene(selection_->rect());
         if (event->modifiers().testFlag(Qt::ShiftModifier))
             cmdAddToSelection(bbox);
         else
-            cmdSelectDevices(bbox);
+            cmdSelectItems(bbox);
 
         selection_->setVisible(false);
         state_machine_.setState(DiagramState::Init);
@@ -1297,7 +1267,7 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
 
         conn_begin_ = {};
     } break;
-    case DiagramState::ConnectionEdit:
+    case DiagramState::EditConnection:
         QGraphicsView::mouseReleaseEvent(event);
         break;
     default:
@@ -1422,13 +1392,13 @@ void Diagram::keyPressEvent(QKeyEvent* event)
     if (event->key() == Qt::Key_Backspace && event->modifiers().testFlag(Qt::ControlModifier)) {
         cmdRemoveSelected();
     } else if (event->key() == Qt::Key_Down) {
-        cmdMoveSelectedDevicesBy(0, MOVE_STEP);
+        cmdMoveSelectedItemsBy(0, MOVE_STEP);
     } else if (event->key() == Qt::Key_Up) {
-        cmdMoveSelectedDevicesBy(0, -MOVE_STEP);
+        cmdMoveSelectedItemsBy(0, -MOVE_STEP);
     } else if (event->key() == Qt::Key_Left) {
-        cmdMoveSelectedDevicesBy(-MOVE_STEP, 0);
+        cmdMoveSelectedItemsBy(-MOVE_STEP, 0);
     } else if (event->key() == Qt::Key_Right) {
-        cmdMoveSelectedDevicesBy(MOVE_STEP, 0);
+        cmdMoveSelectedItemsBy(MOVE_STEP, 0);
     } else
         QGraphicsView::keyPressEvent(event);
 }
@@ -1669,7 +1639,7 @@ bool Diagram::dropJson(const QPointF& pos, const QByteArray& json)
     }
 
     data->setPos(pos);
-    cmdDuplicateDevice(data);
+    cmdDuplicateItems(data);
     return true;
 }
 

@@ -161,9 +161,9 @@ private:
     qreal dx_, dy_;
 };
 
-class DuplicateDevice : public QUndoCommand {
+class DuplicateItem : public QUndoCommand {
 public:
-    DuplicateDevice(Diagram* doc, const SharedDeviceData& data);
+    DuplicateItem(Diagram* doc, const SharedDeviceData& data);
 
     void undo() final;
     void redo() final;

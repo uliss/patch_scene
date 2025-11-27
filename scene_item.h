@@ -88,9 +88,9 @@ signals:
     void mirror(SceneItemId id);
 
 private:
-    void mouseMoveEvent(QGraphicsSceneMouseEvent* event) final;
-    void mousePressEvent(QGraphicsSceneMouseEvent* event) final;
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) final;
+    void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
+    void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
     void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) final;
 
 protected:

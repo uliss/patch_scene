@@ -18,11 +18,11 @@ namespace ceam {
 
 enum class DiagramState {
     Init,
-    Move,
     ConnectDevice,
-    SelectDevice,
+    EditConnection,
+    MoveItem,
+    SelectItem,
     SelectionRect,
-    ConnectionEdit,
 };
 
 class DiagramStateMachine {
@@ -33,6 +33,6 @@ public:
     DiagramState state() const { return state_; }
     void setState(DiagramState state);
 };
-}
+} // namespace ceam
 
 #endif // DIAGRAM_STATE_MACHINE_H

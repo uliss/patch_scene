@@ -37,11 +37,26 @@ protected:
 
 private:
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
+    // void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
     void keyPressEvent(QKeyEvent* event) override;
+
+    void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
+    void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
 
 private:
     QGraphicsTextItem* text_ { nullptr };
+    enum State {
+        NORMAL,
+        RESIZE_LEFT_TOP,
+        RESIZE_RIGHT_BOTTOM,
+        RESIZE_RIGHT_TOP,
+        RESIZE_LEFT_BOTTOM
+    };
+
+    State state_ { NORMAL };
+    QPointF click_pos_;
+    QRectF rect_;
 };
 
 } // namespace ceam

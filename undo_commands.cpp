@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include "undo_commands.h"
 #include "comment_item.h"
+#include "device_item.h"
 #include "diagram.h"
 #include "diagram_updates_blocker.h"
 #include "logging.hpp"
@@ -40,7 +41,7 @@ void CreateDevice::redo()
     if (!doc_)
         return;
 
-    auto dev = doc_->addDevice(SceneItem::defaultDeviceData());
+    auto dev = doc_->addItem(SceneItem::defaultDeviceData());
     if (dev) {
         dev->setPos(pos_);
         id_ = dev->id();
@@ -125,7 +126,7 @@ RemoveItem::RemoveItem(Diagram* doc, const SharedDeviceData& data)
 void RemoveItem::undo()
 {
     if (doc_ && data_) {
-        doc_->addDevice(data_);
+        doc_->addItem(data_);
 
         // TODO(uliss): device/comment
 
@@ -161,7 +162,7 @@ void RemoveSelected::undo()
         return;
 
     for (const auto& x : data_) {
-        auto dev = doc_->addDevice(x);
+        auto dev = doc_->addItem(x);
         if (dev)
             dev->setSelected(true);
     }
@@ -230,14 +231,14 @@ void DuplicateSelected::redo()
     emit doc_->sceneFullUpdate();
 }
 
-DuplicateDevice::DuplicateDevice(Diagram* doc, const SharedDeviceData& data)
+DuplicateItem::DuplicateItem(Diagram* doc, const SharedDeviceData& data)
     : doc_(doc)
     , src_data_(data)
     , new_id_(SCENE_ITEM_NULL_ID)
 {
 }
 
-void DuplicateDevice::undo()
+void DuplicateItem::undo()
 {
     if (!doc_ || new_id_ == SCENE_ITEM_NULL_ID)
         return;
@@ -246,12 +247,12 @@ void DuplicateDevice::undo()
     new_id_ = SCENE_ITEM_NULL_ID;
 }
 
-void DuplicateDevice::redo()
+void DuplicateItem::redo()
 {
     if (!doc_)
         return;
 
-    auto dev = doc_->addDevice(src_data_);
+    auto dev = doc_->addItem(src_data_);
     dev->moveBy(20, 20);
     new_id_ = dev->id();
 }
@@ -379,7 +380,7 @@ void CutSelected::undo()
 
     // restore selected
     for (const auto& data : data_) {
-        auto dev = doc_->addDevice(data);
+        auto dev = doc_->addItem(data);
         if (dev)
             dev->setSelected(true);
     }
@@ -422,7 +423,7 @@ void PasteFromClipBuffer::redo()
     added_.clear();
     for (const auto& data : data_) {
 
-        auto dev = doc_->addDevice(data);
+        auto dev = doc_->addItem(data);
         if (dev) {
             dev->randomizePos(50);
             added_.push_back(dev->id());
@@ -685,7 +686,7 @@ void CreateComment::redo()
     if (!doc_)
         return;
 
-    auto comment = doc_->addComment();
+    auto comment = doc_->addItem(DeviceData::makeComment({ "Comment" }));
     if (comment) {
         comment->setPos(pos_);
         id_ = comment->id();
@@ -724,20 +725,20 @@ void MoveLower::redo()
 
     old_z_ = dev->zValue();
 
-    const SceneItem* lower_dev = nullptr;
+    const SceneItem* lower_item = nullptr;
     for (auto it : dev->collidingItems()) {
         auto x = qgraphicsitem_cast<const SceneItem*>(it);
         if (x && x->zValue() <= old_z_)
-            lower_dev = x;
+            lower_item = x;
     }
 
-    if (!lower_dev) {
+    if (!lower_item) {
         qWarning() << "LOWER NOT FOUND";
         return;
     }
 
     // TODO(uliss): check this for big reals!
-    auto z = lower_dev->zValue() - 1;
+    auto z = lower_item->zValue() - 1;
     dev->setZValue(z);
 
     qWarning() << dev->deviceData()->title();
@@ -775,20 +776,20 @@ void MoveUpper::redo()
 
     old_z_ = dev->zValue();
 
-    const SceneItem* upper_dev = nullptr;
+    const SceneItem* upper_item = nullptr;
     for (auto it : dev->collidingItems()) {
         auto x = qgraphicsitem_cast<const SceneItem*>(it);
         if (x && x->zValue() >= old_z_)
-            upper_dev = x;
+            upper_item = x;
     }
 
-    if (!upper_dev) {
+    if (!upper_item) {
         qWarning() << "UPPER NOT FOUND";
         return;
     }
 
     // TODO(uliss): check this for big reals!
-    auto z = upper_dev->zValue() + 0.5;
+    auto z = upper_item->zValue() + 0.5;
     dev->setZValue(z);
 
     qWarning() << dev->deviceData()->title();

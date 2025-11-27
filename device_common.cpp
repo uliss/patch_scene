@@ -604,6 +604,14 @@ void DeviceData::setBorderWidth(int px)
     border_width_ = qMax<typeof(px)>(0, px);
 }
 
+QSharedDataPointer<DeviceData> DeviceData::makeComment(const QString& txt)
+{
+    QSharedDataPointer<DeviceData> res(new DeviceData(SCENE_ITEM_NULL_ID));
+    res->setCategory(ItemCategory::Comment);
+    res->setTitle(txt);
+    return res;
+}
+
 QJsonArray DeviceData::xletToJson(const QList<XletData>& xlets)
 {
     QJsonArray arr;

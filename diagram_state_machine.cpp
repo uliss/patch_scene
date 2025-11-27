@@ -23,15 +23,15 @@ const char* toString(DiagramState st)
     switch (st) {
     case DiagramState::Init:
         return "[INIT]";
-    case DiagramState::Move:
+    case DiagramState::MoveItem:
         return "[MOVE]";
     case DiagramState::ConnectDevice:
         return "[CONNECT_DEV]";
-    case DiagramState::SelectDevice:
+    case DiagramState::SelectItem:
         return "[SELECT_DEV]";
     case DiagramState::SelectionRect:
         return "[SELECT_RECT]";
-    case DiagramState::ConnectionEdit:
+    case DiagramState::EditConnection:
         return "[CONNECT_EDIT]";
     default:
         return "[?]";

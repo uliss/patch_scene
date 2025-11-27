@@ -73,35 +73,29 @@ public:
     bool loadJson(const QString& path);
 
     /**
-     * @brief add device into the scheme, emit sceneChanged(), deviceAdded()
-     * @param data - device data
-     * @return pointer to new device or nullptr on error
+     * @brief add item into the scheme, emit sceneChanged() and possibly deviceAdded()
+     * @param data - item data
+     * @return pointer to new item or nullptr on error
      */
-    SceneItem* addDevice(const SharedDeviceData& data);
+    SceneItem* addItem(const SharedDeviceData& data);
 
     /**
-     * @brief remove device from scheme, emit sceneChanged(), deviceRemoved(), connectionRemoved()
-     * @param id - device id
+     * @brief remove item from the scheme, emit sceneChanged(), deviceRemoved(), connectionRemoved()
+     * @param id - item id
      * @return true on success, false on error
      */
     bool removeItem(SceneItemId id);
 
     /**
      * @brief setItemData, emit sceneChanged(), deviceUpdated() and batteryChanged()
-     * @param data - device data
+     * @param data - item data
      * @return true on success, false on error
      */
     bool setItemData(const SharedDeviceData& data);
 
     /**
-     * @brief add comment into the scheme, emit sceneChanged(), deviceAdded()
-     * @return pointer to new comment or nullptr on error
-     */
-    CommentItem* addComment();
-
-    /**
-     * duplicated selected devices
-     * @return list new device id's
+     * duplicated selected items
+     * @return list new item id's
      */
     QList<SceneItemId> duplicateSelected(DuplicatePolicy policy);
 
@@ -212,7 +206,7 @@ public slots:
     void cmdDisconnectXlet(const XletInfo& xi);
     void cmdDistributeHSelected();
     void cmdDistributeVSelected();
-    void cmdDuplicateDevice(const SharedDeviceData& data);
+    void cmdDuplicateItems(const SharedDeviceData& data);
     void cmdDuplicateSelection();
     void cmdLockSelected();
     void cmdUnlockSelected();
@@ -220,19 +214,19 @@ public slots:
     void cmdUnlock(SceneItemId id);
     void cmdMirrorDevice(SceneItemId id);
     void cmdMirrorSelected();
-    void cmdMoveSelectedDevicesBy(qreal dx, qreal dy);
-    void cmdMoveSelectedDevicesFrom(const QPointF& from, const QPointF& to);
+    void cmdMoveSelectedItemsBy(qreal dx, qreal dy);
+    void cmdMoveSelectedItemsFrom(const QPointF& from, const QPointF& to);
     void cmdPaste();
     void cmdPlaceInColumnSelected();
     void cmdPlaceInRowSelected();
     void cmdReconnectDevice(const ConnectionInfo& old_conn, const ConnectionInfo& new_conn);
-    void cmdRemoveDevice(const SharedDeviceData& data);
+    void cmdRemoveItem(const SharedDeviceData& data);
     void cmdRemoveSelected();
     void cmdSelectAll();
-    void cmdSelectDevices(const QRectF& sel);
+    void cmdSelectItems(const QRectF& sel);
     void cmdSelectUnique(SceneItemId id);
-    void cmdToggleDevices(const QList<QGraphicsItem*>& items);
-    void cmdUpdateDevice(const SharedDeviceData& data);
+    void cmdToggleSelected(const QList<QGraphicsItem*>& items);
+    void cmdUpdateItem(const SharedDeviceData& data);
     void cmdZoomInSelected();
     void cmdZoomOutSelected();
 

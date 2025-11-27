@@ -46,7 +46,7 @@ SharedDeviceData data1(SceneItemId id)
 
 } // namespace
 
-void TestDiagram::addDevice()
+void TestDiagram::addItem()
 {
     Diagram dia(100, 100);
     QSignalSpy sig_spy(&dia, SIGNAL(sceneChanged()));
@@ -81,7 +81,7 @@ void TestDiagram::addDevice()
     QCOMPARE(json1, json3);
 }
 
-void TestDiagram::removeDevice()
+void TestDiagram::removeItem()
 {
     Diagram dia(100, 100);
 
@@ -90,9 +90,9 @@ void TestDiagram::removeDevice()
     dia.itemScene().add(make_dev(101, { 100, 200 }));
     QCOMPARE(dia.itemScene().count(), 2);
 
-    dia.cmdRemoveDevice(dia.itemScene().findData(100));
+    dia.cmdRemoveItem(dia.itemScene().findData(100));
     QCOMPARE(dia.itemScene().count(), 1);
-    dia.cmdRemoveDevice(dia.itemScene().findData(101));
+    dia.cmdRemoveItem(dia.itemScene().findData(101));
     QCOMPARE(dia.itemScene().count(), 0);
 
     dia.undo();
@@ -118,7 +118,7 @@ void TestDiagram::moveSelectedBy()
     dia.itemScene().add(make_dev(100, { 50, 100 }));
     dia.itemScene().setSelected({ 100 }, true);
 
-    dia.cmdMoveSelectedDevicesBy(10, 20);
+    dia.cmdMoveSelectedItemsBy(10, 20);
     QCOMPARE(dia.itemScene().findData(100)->pos(), QPointF(60, 120));
 
     dia.undo();
@@ -134,7 +134,7 @@ void TestDiagram::moveSelectedFrom()
     dia.itemScene().add(make_dev(100, { 50, 100 }));
     dia.itemScene().setSelected({ 100 }, true);
 
-    dia.cmdMoveSelectedDevicesFrom({ 0, 0 }, { 100, 50 });
+    dia.cmdMoveSelectedItemsFrom({ 0, 0 }, { 100, 50 });
     QCOMPARE(dia.itemScene().findData(100)->pos(), QPointF(150, 150));
 
     dia.undo();
@@ -198,21 +198,6 @@ void TestDiagram::cmdPlaceInColumnSelected()
     QCOMPARE(dia.itemScene().findData(101)->pos(), QPointF(10, 25 + 2 * DEF_TXT_HT));
 }
 
-void TestDiagram::addComment()
-{
-    Diagram dia(100, 100);
-    QSignalSpy sig_spy(&dia, SIGNAL(sceneChanged()));
-    QVERIFY(sig_spy.isValid());
-    QCOMPARE(sig_spy.count(), 0);
-
-    auto json0 = dia.toJson();
-
-    auto comm = dia.addComment();
-    QVERIFY(comm != nullptr);
-    QCOMPARE(comm->deviceData()->category(), ceam::ItemCategory::Comment);
-    QCOMPARE(sig_spy.count(), 1);
-}
-
 void TestDiagram::duplicateSelected()
 {
     Diagram dia(100, 100);
@@ -223,7 +208,7 @@ void TestDiagram::duplicateSelected()
     num = dia.duplicateSelected({ true, true }).count();
     QCOMPARE(devs.selectedCount(), 0);
 
-    auto dev1 = dia.addDevice(data1(100));
+    auto dev1 = dia.addItem(data1(100));
     QCOMPARE(devs.count(), 1);
     QCOMPARE(devs.selectedCount(), 0);
     devs.setSelected({ dev1->id() }, true);

@@ -260,6 +260,9 @@ public:
     qreal zValue() const { return zvalue_; }
     void setZValue(qreal z) { zvalue_ = z; }
 
+public:
+    static QSharedDataPointer<DeviceData> makeComment(const QString& txt);
+
 private:
     static QJsonArray xletToJson(const QList<XletData>& xlets);
     static bool setXletJson(const QJsonValue& v, QList<XletData>& xlets);

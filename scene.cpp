@@ -118,8 +118,6 @@ CommentItem* Scene::addComment()
         items_.insert(it, { c->id(), c });
     }
 
-    // emit added(c->deviceData());
-
     return c;
 }
 

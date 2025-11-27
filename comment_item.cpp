@@ -28,17 +28,12 @@ using namespace ceam;
 
 namespace {
 
-SharedDeviceData commentData(const QString& title)
-{
-    QSharedDataPointer data(new DeviceData(SCENE_ITEM_NULL_ID));
-    data->setCategory(ItemCategory::Comment);
-    data->setTitle(title);
-    return data;
-}
+constexpr qreal SZ = 8;
+
 } // namespace
 
 CommentItem::CommentItem()
-    : SceneItem(commentData(tr("Comment")))
+    : SceneItem(DeviceData::makeComment(tr("Comment")))
     , text_(new QGraphicsTextItem(this))
 {
     auto opt = text_->document()->defaultTextOption();
@@ -48,7 +43,14 @@ CommentItem::CommentItem()
     text_->setPlainText(data_->title());
     // text_->setTextInteractionFlags(Qt::TextEditorInteraction);
     text_->setDefaultTextColor(Qt::red);
-    text_->setPos(-text_->boundingRect().width() * 0.5, 0);
+
+    auto x = text_->boundingRect().width() * 0.5;
+    auto h = text_->boundingRect().height();
+    text_->setPos(-x, 0);
+
+    prepareGeometryChange();
+    rect_ = text_->boundingRect().adjusted(-SZ, -SZ, SZ, SZ);
+    rect_.moveLeft(-x - SZ);
 
     // connect(title()->document(), &QTextDocument::documentLayoutChanged, this, [this]() {
     //     // syncRect();
@@ -59,7 +61,7 @@ CommentItem::CommentItem()
 QRectF CommentItem::boundingRect() const
 {
     // qWarning() << "bb: " << childrenBoundingRect();
-    return childrenBoundingRect();
+    return rect_;
 }
 
 void CommentItem::createContextMenu(QMenu& menu)
@@ -90,7 +92,6 @@ void CommentItem::addEditAct(QMenu& menu)
 
 void CommentItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    auto box = childrenBoundingRect();
     auto wd = deviceData()->borderWidth();
     auto bd = deviceData()->borderColor();
     if (!bd.isValid())
@@ -106,18 +107,29 @@ void CommentItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* optio
 
     painter->setPen(QPen(bd, wd));
     painter->setBrush(bg);
-    painter->drawRect(box);
+    painter->drawRect(rect_);
+
+    if (state_ != NORMAL) {
+        painter->setPen(QPen(Qt::black, 0));
+        painter->setBrush(Qt::cyan);
+
+        painter->drawRect(QRectF { rect_.topLeft(), QSizeF { SZ, SZ } });
+        painter->drawRect(QRectF { rect_.topRight() - QPointF { SZ, 0 }, QSizeF { SZ, SZ } });
+        painter->drawRect(QRectF { rect_.bottomRight() - QPointF { SZ, SZ }, QSizeF { SZ, SZ } });
+        painter->drawRect(QRectF { rect_.bottomLeft() - QPointF { 0, SZ }, QSizeF { SZ, SZ } });
+    }
+
     // painter->drawRoundedRect(box, 5, 5);
 }
 
-void CommentItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
-{
-    if (!text_->textInteractionFlags().testFlags(Qt::TextEditorInteraction)) {
-        text_->setTextInteractionFlags(Qt::TextEditorInteraction);
-        event->accept();
-    } else
-        SceneItem::mouseDoubleClickEvent(event);
-}
+// void CommentItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
+// {
+//     if (!text_->textInteractionFlags().testFlags(Qt::TextEditorInteraction)) {
+//         text_->setTextInteractionFlags(Qt::TextEditorInteraction);
+//         event->accept();
+//     } else
+//         SceneItem::mouseDoubleClickEvent(event);
+// }
 
 void CommentItem::keyPressEvent(QKeyEvent* event)
 {
@@ -132,5 +144,95 @@ void CommentItem::keyPressEvent(QKeyEvent* event)
         event->accept();
     } else {
         SceneItem::keyPressEvent(event);
+    }
+}
+
+void CommentItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
+{
+    auto w = rect_.width();
+    auto h = rect_.height();
+    auto y = rect_.top();
+    auto x = rect_.left();
+
+    switch (state_) {
+    case NORMAL: {
+        auto pos = event->pos();
+        qWarning() << "press: " << pos << ", rect: " << rect_;
+
+        if (QRectF { x, y, SZ, SZ }.contains(pos)) {
+            qWarning() << "left-top";
+            state_ = RESIZE_LEFT_TOP;
+        } else if (QRectF { rect_.right() - SZ, y, SZ, SZ }.contains(pos)) {
+            state_ = RESIZE_RIGHT_TOP;
+        } else if (QRectF { rect_.right() - SZ, rect_.bottom() - SZ, SZ, SZ }.contains(pos)) {
+            state_ = RESIZE_RIGHT_BOTTOM;
+        } else if (QRectF { x, rect_.bottom() - SZ, SZ, SZ }.contains(pos)) {
+            state_ = RESIZE_LEFT_BOTTOM;
+        } else {
+            QGraphicsItem::mousePressEvent(event);
+            return;
+        }
+
+        qWarning() << "state: " << state_;
+
+        click_pos_ = pos;
+        event->accept();
+        update();
+    } break;
+    default:
+        QGraphicsItem::mousePressEvent(event);
+        break;
+    }
+}
+
+void CommentItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
+{
+    auto delta = event->pos() - click_pos_;
+
+    switch (state_) {
+    case RESIZE_LEFT_TOP: {
+        qWarning() << "resize left-top";
+        prepareGeometryChange();
+        setPos(pos() + delta);
+        rect_.setHeight(rect_.height() - delta.y());
+        rect_.setWidth(rect_.width() - delta.x());
+        text_->setTextWidth(rect_.width() - 2 * SZ);
+        update();
+    } break;
+    case RESIZE_RIGHT_BOTTOM: {
+        qWarning() << "resize right-bottom";
+        prepareGeometryChange();
+        rect_.setBottomRight(event->pos());
+        text_->setTextWidth(rect_.width() - 2 * SZ);
+        update();
+    } break;
+    case RESIZE_RIGHT_TOP: {
+        prepareGeometryChange();
+        setY(y() + delta.y());
+        rect_.setRight(event->pos().x());
+        rect_.setHeight(rect_.height() - delta.y());
+        text_->setTextWidth(rect_.width() - 2 * SZ);
+        update();
+    } break;
+    case RESIZE_LEFT_BOTTOM: {
+        prepareGeometryChange();
+        setX(x() + delta.x());
+        rect_.setWidth(rect_.width() - delta.x());
+        rect_.setBottom(event->pos().y());
+        text_->setTextWidth(rect_.width() - 2 * SZ);
+        update();
+    } break;
+    case NORMAL:
+    default:
+        break;
+    }
+}
+
+void CommentItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+{
+    if (state_ != NORMAL) {
+        state_ = NORMAL;
+        event->accept();
+        update();
     }
 }
