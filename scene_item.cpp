@@ -348,7 +348,6 @@ void SceneItem::createContextMenu(QMenu& menu)
 
 void SceneItem::showEditDialog()
 {
-    qWarning() << __FUNCTION__;
 }
 
 SharedItemData SceneItem::defaultDeviceData()
