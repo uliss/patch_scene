@@ -367,6 +367,6 @@ private:
     void drawSelectionTo(const QPoint& pos);
 };
 
-}
+} // namespace ceam
 
 #endif // DIAGRAM_H
