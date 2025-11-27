@@ -23,7 +23,7 @@
 namespace ceam {
 
 class Diagram;
-class DeviceData;
+class ItemData;
 
 class CreateDevice : public QUndoCommand {
 public:
@@ -53,14 +53,14 @@ private:
 
 class RemoveItem : public QUndoCommand {
 public:
-    RemoveItem(Diagram* doc, const SharedDeviceData& data);
+    RemoveItem(Diagram* doc, const SharedItemData& data);
 
     void undo() final;
     void redo() final;
 
 private:
     Diagram* doc_;
-    SharedDeviceData data_;
+    SharedItemData data_;
     QList<ConnectionInfo> conn_info_;
 };
 
@@ -73,7 +73,7 @@ public:
 
 private:
     Diagram* doc_;
-    QList<SharedDeviceData> data_;
+    QList<SharedItemData> data_;
     QHash<ConnectionId, ConnectionViewData> conn_data_;
 };
 
@@ -163,14 +163,14 @@ private:
 
 class DuplicateItem : public QUndoCommand {
 public:
-    DuplicateItem(Diagram* doc, const SharedDeviceData& data);
+    DuplicateItem(Diagram* doc, const SharedItemData& data);
 
     void undo() final;
     void redo() final;
 
 private:
     Diagram* doc_;
-    SharedDeviceData src_data_;
+    SharedItemData src_data_;
     SceneItemId new_id_;
 };
 
@@ -248,7 +248,7 @@ public:
 
 private:
     Diagram* doc_;
-    QList<SharedDeviceData> old_clip_buf_;
+    QList<SharedItemData> old_clip_buf_;
 };
 
 class CutSelected : public QUndoCommand {
@@ -260,7 +260,7 @@ public:
 
 private:
     Diagram* doc_;
-    QList<SharedDeviceData> data_, prev_clip_buf_;
+    QList<SharedItemData> data_, prev_clip_buf_;
 };
 
 class PasteFromClipBuffer : public QUndoCommand {
@@ -272,20 +272,20 @@ public:
 
 private:
     Diagram* doc_;
-    QList<SharedDeviceData> data_;
+    QList<SharedItemData> data_;
     QList<SceneItemId> added_;
 };
 
 class UpdateDeviceData : public QUndoCommand {
 public:
-    UpdateDeviceData(Diagram* doc, const SharedDeviceData& data);
+    UpdateDeviceData(Diagram* doc, const SharedItemData& data);
 
     void undo() final;
     void redo() final;
 
 private:
     Diagram* doc_;
-    SharedDeviceData old_data_, new_data_;
+    SharedItemData old_data_, new_data_;
 };
 
 class ReconnectDevice : public QUndoCommand {

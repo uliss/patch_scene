@@ -51,7 +51,7 @@ FurnitureItemModel::FurnitureItemModel(QObject* parent)
     proxy_->setSourceModel(this);
 }
 
-bool FurnitureItemModel::addFurniture(const SharedDeviceData& data)
+bool FurnitureItemModel::addFurniture(const SharedItemData& data)
 {
     if (!data || data->category() != ItemCategory::Furniture || data->title().isEmpty())
         return false;
@@ -69,7 +69,7 @@ bool FurnitureItemModel::addFurniture(const SharedDeviceData& data)
     return true;
 }
 
-bool FurnitureItemModel::removeFurniture(const SharedDeviceData& data)
+bool FurnitureItemModel::removeFurniture(const SharedItemData& data)
 {
     if (!data || data->category() != ItemCategory::Furniture)
         return false;
@@ -95,7 +95,7 @@ void FurnitureItemModel::clearItems()
     removeRows(0, rowCount());
 }
 
-void FurnitureItemModel::setFullData(const QList<SharedDeviceData>& data)
+void FurnitureItemModel::setFullData(const QList<SharedItemData>& data)
 {
     beginResetModel();
 

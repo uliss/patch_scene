@@ -32,9 +32,9 @@ constexpr int DEF_TXT_HT = 26;
 constexpr int DEF_TXT_HT = 24;
 #endif
 
-SharedDeviceData make_data(SceneItemId id, int numIn = 0, int numOut = 0, const QString& title = {})
+SharedItemData make_data(SceneItemId id, int numIn = 0, int numOut = 0, const QString& title = {})
 {
-    auto data = new DeviceData(id);
+    auto data = new ItemData(id);
     data->setTitle(title);
     data->setShowTitle(!title.isEmpty());
     data->logicViewData().setMaxInputColumnCount(4);
@@ -46,7 +46,7 @@ SharedDeviceData make_data(SceneItemId id, int numIn = 0, int numOut = 0, const 
     for (auto i = 0; i < numOut; i++)
         data->appendOutput({});
 
-    return SharedDeviceData { data };
+    return SharedItemData { data };
 }
 } // namespace
 

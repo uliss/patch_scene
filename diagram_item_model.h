@@ -31,9 +31,9 @@ enum {
 
 class DiagramDataItem : public QStandardItem {
 public:
-    DiagramDataItem(const SharedDeviceData& data);
-    SharedDeviceData deviceData() const;
-    void setDeviceData(const SharedDeviceData& data);
+    DiagramDataItem(const SharedItemData& data);
+    SharedItemData deviceData() const;
+    void setDeviceData(const SharedItemData& data);
 
     bool match(const QRegularExpression& re) const;
 };
@@ -44,9 +44,9 @@ public:
     QMimeData* mimeData(const QModelIndexList& indexes) const override;
 
     DiagramDataItem* deviceItem(int row, int column) const;
-    void addDeviceItem(const SharedDeviceData& data);
+    void addDeviceItem(const SharedItemData& data);
 
-    QList<SharedDeviceData> allDeviceData() const;
+    QList<SharedItemData> allDeviceData() const;
 };
 }
 

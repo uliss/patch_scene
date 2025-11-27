@@ -102,7 +102,7 @@ public:
     const XletsView* currentView() const { return current_view_; }
     bool setCurrentView(const QString& name);
 
-    void setData(const SharedDeviceData& data);
+    void setData(const SharedItemData& data);
     void setVisible(bool value);
 
     bool appendView(std::unique_ptr<XletsView> view);

@@ -77,7 +77,7 @@ public:
      * @param data - item data
      * @return pointer to new item or nullptr on error
      */
-    SceneItem* addItem(const SharedDeviceData& data);
+    SceneItem* addItem(const SharedItemData& data);
 
     /**
      * @brief remove item from the scheme, emit sceneChanged(), deviceRemoved(), connectionRemoved()
@@ -91,7 +91,7 @@ public:
      * @param data - item data
      * @return true on success, false on error
      */
-    bool setItemData(const SharedDeviceData& data);
+    bool setItemData(const SharedItemData& data);
 
     /**
      * duplicated selected items
@@ -161,8 +161,8 @@ public:
 
     // clip buffer
     void clearClipBuffer();
-    const QList<SharedDeviceData>& clipBuffer() const;
-    void setClipBuffer(const QList<SharedDeviceData>& data);
+    const QList<SharedItemData>& clipBuffer() const;
+    void setClipBuffer(const QList<SharedItemData>& data);
 
     /**
      * render diagram as image
@@ -206,7 +206,7 @@ public slots:
     void cmdDisconnectXlet(const XletInfo& xi);
     void cmdDistributeHSelected();
     void cmdDistributeVSelected();
-    void cmdDuplicateItems(const SharedDeviceData& data);
+    void cmdDuplicateItems(const SharedItemData& data);
     void cmdDuplicateSelection();
     void cmdLockSelected();
     void cmdUnlockSelected();
@@ -220,18 +220,18 @@ public slots:
     void cmdPlaceInColumnSelected();
     void cmdPlaceInRowSelected();
     void cmdReconnectDevice(const ConnectionInfo& old_conn, const ConnectionInfo& new_conn);
-    void cmdRemoveItem(const SharedDeviceData& data);
+    void cmdRemoveItem(const SharedItemData& data);
     void cmdRemoveSelected();
     void cmdSelectAll();
     void cmdSelectItems(const QRectF& sel);
     void cmdSelectUnique(SceneItemId id);
     void cmdToggleSelected(const QList<QGraphicsItem*>& items);
-    void cmdUpdateItem(const SharedDeviceData& data);
+    void cmdUpdateItem(const SharedItemData& data);
     void cmdZoomInSelected();
     void cmdZoomOutSelected();
 
-    void cmdMoveLower(const SharedDeviceData& data);
-    void cmdMoveUpper(const SharedDeviceData& data);
+    void cmdMoveLower(const SharedItemData& data);
+    void cmdMoveUpper(const SharedItemData& data);
 
     void clearUndoStack();
     void copySelected();
@@ -249,16 +249,16 @@ public slots:
     void zoomFitSelected();
 
 signals:
-    void addToFavorites(SharedDeviceData data);
+    void addToFavorites(SharedItemData data);
     void batteryChanged(const BatteryChange& data);
     void canRedoChanged(bool);
     void canUndoChanged(bool);
     void connectionAdded(ConnectionId data);
     void connectionRemoved(ConnectionId data);
-    void deviceAdded(SharedDeviceData data);
-    void deviceRemoved(SharedDeviceData data);
+    void deviceAdded(SharedItemData data);
+    void deviceRemoved(SharedItemData data);
     void deviceTitleUpdated(SceneItemId id, const QString& title);
-    void deviceUpdated(SharedDeviceData data);
+    void deviceUpdated(SharedItemData data);
     void requestBackgroundChange();
     void sceneChanged(); // for document changes
     void sceneClearAll();
@@ -331,7 +331,7 @@ private:
     qreal zoom_ { 1 };
     bool show_cables_ { true };
 
-    QList<SharedDeviceData> clip_buffer_;
+    QList<SharedItemData> clip_buffer_;
     DiagramMeta meta_;
     ConnectionDatabase conn_database_;
     ScaleWidget* scale_;

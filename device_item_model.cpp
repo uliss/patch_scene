@@ -41,7 +41,7 @@ DeviceItemModel::DeviceItemModel(QObject* parent)
     proxy_->setSourceModel(this);
 }
 
-bool DeviceItemModel::addDevice(const SharedDeviceData& data)
+bool DeviceItemModel::addDevice(const SharedItemData& data)
 {
     if (!data || !data->showInDeviceCategory())
         return false;
@@ -62,7 +62,7 @@ bool DeviceItemModel::addDevice(const SharedDeviceData& data)
     return true;
 }
 
-bool DeviceItemModel::removeDevice(const SharedDeviceData& data)
+bool DeviceItemModel::removeDevice(const SharedItemData& data)
 {
     if (!data || data->category() != ItemCategory::Device)
         return false;
@@ -83,7 +83,7 @@ void DeviceItemModel::clearItems()
     removeRows(0, rowCount());
 }
 
-void DeviceItemModel::setDeviceData(const QList<SharedDeviceData>& data)
+void DeviceItemModel::setDeviceData(const QList<SharedItemData>& data)
 {
     beginResetModel();
 
@@ -134,7 +134,7 @@ std::optional<SceneItemId> DeviceItemModel::deviceId(int idx) const
     return deviceId(item(idx, COL_DEV_TITLE));
 }
 
-SharedDeviceData DeviceItemModel::updateDeviceData(const QStandardItem* item, const SharedDeviceData& data)
+SharedItemData DeviceItemModel::updateDeviceData(const QStandardItem* item, const SharedItemData& data)
 {
     if (!item)
         return data;

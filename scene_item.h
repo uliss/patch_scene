@@ -30,7 +30,7 @@ public:
 
 public:
     SceneItem();
-    explicit SceneItem(const SharedDeviceData& data);
+    explicit SceneItem(const SharedItemData& data);
     ~SceneItem();
 
     /**
@@ -38,8 +38,8 @@ public:
      */
     SceneItemId id() const { return data_->id(); }
 
-    SharedDeviceData deviceData() const;
-    virtual bool setDeviceData(const SharedDeviceData& data);
+    SharedItemData deviceData() const;
+    virtual bool setDeviceData(const SharedItemData& data);
 
     virtual std::optional<QPointF> connectionPoint(XletIndex i, XletType type, bool map) const;
 
@@ -62,22 +62,22 @@ public:
      */
     virtual void createContextMenu(QMenu& menu);
 
-    static SharedDeviceData defaultDeviceData();
-    static SharedDeviceData dataFromJson(const QJsonValue& j);
+    static SharedItemData defaultDeviceData();
+    static SharedItemData dataFromJson(const QJsonValue& j);
 
 signals:
-    void addToFavorites(SharedDeviceData data);
+    void addToFavorites(SharedItemData data);
     void alignHorizontal();
     void alignVertical();
     void distributeHorizontal();
     void distributeVertical();
-    void duplicateDevice(SharedDeviceData data);
-    void moveLower(const SharedDeviceData& data);
-    void moveUpper(const SharedDeviceData& data);
+    void duplicateDevice(SharedItemData data);
+    void moveLower(const SharedItemData& data);
+    void moveUpper(const SharedItemData& data);
     void placeInColumn();
     void placeInRow();
-    void removeDevice(SharedDeviceData data);
-    void updateDevice(SharedDeviceData data);
+    void removeDevice(SharedItemData data);
+    void updateDevice(SharedItemData data);
 
     void lockSelected();
     void unlockSelected();
@@ -103,7 +103,7 @@ protected:
     void setMenuCaption(QMenu& menu);
 
 protected:
-    mutable SharedDeviceData data_;
+    mutable SharedItemData data_;
 };
 } // namespace ceam
 

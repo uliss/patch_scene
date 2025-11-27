@@ -211,23 +211,23 @@ void ceam::foreachItemCategory(const std::function<void(ItemCategory, const char
     }
 }
 
-DeviceData::DeviceData(SceneItemId id)
+ItemData::ItemData(SceneItemId id)
     : id_(id)
 {
 }
 
-bool DeviceData::showInDeviceCategory() const
+bool ItemData::showInDeviceCategory() const
 {
     return category_ == ItemCategory::Device
         || (category_ == ItemCategory::Instrument && (inputs_.size() > 0 || outputs_.size() > 0));
 }
 
-void DeviceData::setZoom(qreal z)
+void ItemData::setZoom(qreal z)
 {
     zoom_ = qBound(MIN_ZOOM, z, MAX_ZOOM);
 }
 
-QString DeviceData::title() const
+QString ItemData::title() const
 {
     if (title_.isEmpty())
         return modelVendor();
@@ -235,22 +235,22 @@ QString DeviceData::title() const
         return title_;
 }
 
-void DeviceData::setTitle(const QString& title)
+void ItemData::setTitle(const QString& title)
 {
     title_ = title.trimmed();
 }
 
-void DeviceData::setVendor(const QString& vendor)
+void ItemData::setVendor(const QString& vendor)
 {
     vendor_ = vendor.trimmed();
 }
 
-void DeviceData::setModel(const QString& model)
+void ItemData::setModel(const QString& model)
 {
     model_ = model.trimmed();
 }
 
-QString DeviceData::modelVendor() const
+QString ItemData::modelVendor() const
 {
     const bool v = !vendor_.isEmpty();
     const bool m = !model_.isEmpty();
@@ -267,17 +267,17 @@ QString DeviceData::modelVendor() const
         return "????";
 }
 
-void DeviceData::setImage(const QString& image)
+void ItemData::setImage(const QString& image)
 {
     image_ = image.trimmed();
 }
 
-QString DeviceData::imageIconPath() const
+QString ItemData::imageIconPath() const
 {
     return image_.isEmpty() ? QString {} : QString(":/devices/%1.svg").arg(image_);
 }
 
-bool DeviceData::setCategoryIndex(int idx)
+bool ItemData::setCategoryIndex(int idx)
 {
     if (idx < 0 || idx >= static_cast<int>(ItemCategory::MaxCategory))
         return false;
@@ -286,7 +286,7 @@ bool DeviceData::setCategoryIndex(int idx)
     return true;
 }
 
-bool DeviceData::setJson(const QJsonValue& v)
+bool ItemData::setJson(const QJsonValue& v)
 {
     if (v.isUndefined())
         return false;
@@ -412,7 +412,7 @@ bool DeviceData::setJson(const QJsonValue& v)
     return true;
 }
 
-bool DeviceData::setJson(const QByteArray& json)
+bool ItemData::setJson(const QByteArray& json)
 {
     if (json.isEmpty()) {
         qDebug() << __FUNCTION__ << "empty data";
@@ -432,7 +432,7 @@ bool DeviceData::setJson(const QByteArray& json)
     return setJson(doc.object());
 }
 
-QJsonObject DeviceData::toJson() const
+QJsonObject ItemData::toJson() const
 {
     QJsonObject json;
 
@@ -509,27 +509,27 @@ QJsonObject DeviceData::toJson() const
     return json;
 }
 
-const XletData& DeviceData::inputAt(XletIndex n) const
+const XletData& ItemData::inputAt(XletIndex n) const
 {
     return inputs_.at(n);
 }
 
-bool DeviceData::hasAnyXput() const
+bool ItemData::hasAnyXput() const
 {
     return inputs_.count() + outputs_.count();
 }
 
-void DeviceData::setBatteryCount(int v)
+void ItemData::setBatteryCount(int v)
 {
     battery_count_ = qBound(0, v, MAX_BATTERIES_COUNT);
 }
 
-void DeviceData::setBatteryCapacity(int v)
+void ItemData::setBatteryCapacity(int v)
 {
     battery_capacity_ = qBound(0, v, MAX_BATTERY_CAPACITY_MINUTES);
 }
 
-void DeviceData::setBatteryType(int type)
+void ItemData::setBatteryType(int type)
 {
     if (type < static_cast<int>(BatteryType::None) || type >= static_cast<int>(BatteryType::MaxBattery_))
         return;
@@ -537,17 +537,17 @@ void DeviceData::setBatteryType(int type)
     battery_type_ = static_cast<BatteryType>(type);
 }
 
-BatteryChange DeviceData::calcBatteryChange(const DeviceData& data) const
+BatteryChange ItemData::calcBatteryChange(const ItemData& data) const
 {
     return BatteryChange(battery_type_, battery_count_, data.battery_type_, data.battery_count_);
 }
 
-void DeviceData::setPower(qreal v)
+void ItemData::setPower(qreal v)
 {
     power_ = qBound<typeof(qreal)>(0, v, MAX_ENERGY_WATT_PER_HOUR);
 }
 
-size_t DeviceData::calcModelId() const
+size_t ItemData::calcModelId() const
 {
     return ::qHash(title_)
         ^ ::qHash(model_)
@@ -557,7 +557,7 @@ size_t DeviceData::calcModelId() const
         ^ ::qHash(battery_count_);
 }
 
-QString DeviceData::verboseInfo() const
+QString ItemData::verboseInfo() const
 {
     constexpr const char* NL = "<br/>\n";
 
@@ -579,40 +579,40 @@ QString DeviceData::verboseInfo() const
     return res;
 }
 
-void DeviceData::setWeight(qreal w)
+void ItemData::setWeight(qreal w)
 {
     weight_ = qMax<qreal>(0, w);
 }
 
-void DeviceData::setVolume(qreal vol)
+void ItemData::setVolume(qreal vol)
 {
     volume_ = qMax<qreal>(0, vol);
 }
 
-void DeviceData::setViewWidth(int w)
+void ItemData::setViewWidth(int w)
 {
     view_width_ = qMax<typeof(w)>(0, w);
 }
 
-void DeviceData::setViewHeight(int h)
+void ItemData::setViewHeight(int h)
 {
     view_height_ = qMax<typeof(h)>(0, h);
 }
 
-void DeviceData::setBorderWidth(int px)
+void ItemData::setBorderWidth(int px)
 {
     border_width_ = qMax<typeof(px)>(0, px);
 }
 
-QSharedDataPointer<DeviceData> DeviceData::makeComment(const QString& txt)
+QSharedDataPointer<ItemData> ItemData::makeComment(const QString& txt)
 {
-    QSharedDataPointer<DeviceData> res(new DeviceData(SCENE_ITEM_NULL_ID));
+    QSharedDataPointer<ItemData> res(new ItemData(SCENE_ITEM_NULL_ID));
     res->setCategory(ItemCategory::Comment);
     res->setTitle(txt);
     return res;
 }
 
-QJsonArray DeviceData::xletToJson(const QList<XletData>& xlets)
+QJsonArray ItemData::xletToJson(const QList<XletData>& xlets)
 {
     QJsonArray arr;
     for (auto& x : xlets)
@@ -621,7 +621,7 @@ QJsonArray DeviceData::xletToJson(const QList<XletData>& xlets)
     return arr;
 }
 
-bool DeviceData::setXletJson(const QJsonValue& v, QList<XletData>& xlets)
+bool ItemData::setXletJson(const QJsonValue& v, QList<XletData>& xlets)
 {
     if (v.isUndefined())
         return false;
@@ -643,7 +643,7 @@ bool DeviceData::setXletJson(const QJsonValue& v, QList<XletData>& xlets)
     return true;
 }
 
-bool DeviceData::operator==(const DeviceData& data) const
+bool ItemData::operator==(const ItemData& data) const
 {
     if (this == &data)
         return true;
@@ -663,7 +663,7 @@ bool DeviceData::operator==(const DeviceData& data) const
         && info_ == data.info_;
 }
 
-size_t ceam::qHash(const ceam::DeviceData& data)
+size_t ceam::qHash(const ceam::ItemData& data)
 {
     return ::qHash(data.inputs())
         ^ ::qHash(data.outputs())
@@ -679,7 +679,7 @@ size_t ceam::qHash(const ceam::DeviceData& data)
         ^ ::qHash(data.showTitle());
 }
 
-QDebug operator<<(QDebug debug, const ceam::DeviceData& data)
+QDebug operator<<(QDebug debug, const ceam::ItemData& data)
 {
     QDebugStateSaver saver(debug);
 

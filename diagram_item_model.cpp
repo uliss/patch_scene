@@ -42,15 +42,15 @@ DiagramDataItem* DiagramItemModel::deviceItem(int row, int column) const
     return dynamic_cast<DiagramDataItem*>(item(row, column));
 }
 
-void DiagramItemModel::addDeviceItem(const SharedDeviceData& data)
+void DiagramItemModel::addDeviceItem(const SharedItemData& data)
 {
     if (data)
         appendRow(new DiagramDataItem(data));
 }
 
-QList<SharedDeviceData> DiagramItemModel::allDeviceData() const
+QList<SharedItemData> DiagramItemModel::allDeviceData() const
 {
-    QList<SharedDeviceData> res;
+    QList<SharedItemData> res;
 
     for (int row = 0; row < rowCount(); row++) {
         for (int col = 0; col < columnCount(); col++) {
@@ -63,7 +63,7 @@ QList<SharedDeviceData> DiagramItemModel::allDeviceData() const
     return res;
 }
 
-DiagramDataItem::DiagramDataItem(const SharedDeviceData& data)
+DiagramDataItem::DiagramDataItem(const SharedItemData& data)
 {
     setEditable(false);
     setDragEnabled(true);
@@ -72,9 +72,9 @@ DiagramDataItem::DiagramDataItem(const SharedDeviceData& data)
     setDeviceData(data);
 }
 
-SharedDeviceData DiagramDataItem::deviceData() const
+SharedItemData DiagramDataItem::deviceData() const
 {
-    auto dev = SharedDeviceData(new DeviceData(SCENE_ITEM_NULL_ID));
+    auto dev = SharedItemData(new ItemData(SCENE_ITEM_NULL_ID));
     dev->setId(SCENE_ITEM_NULL_ID);
 
     auto var = data(DATA_DEVICE_DATA);
@@ -84,7 +84,7 @@ SharedDeviceData DiagramDataItem::deviceData() const
     return dev;
 }
 
-void DiagramDataItem::setDeviceData(const SharedDeviceData& data)
+void DiagramDataItem::setDeviceData(const SharedItemData& data)
 {
     if (data) {
         setText(data->title());

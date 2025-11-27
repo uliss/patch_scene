@@ -27,17 +27,17 @@ class DeviceInfoEditor : public QDialog {
     Q_OBJECT
 
 public:
-    explicit DeviceInfoEditor(const DeviceDataInfo& data, QWidget* parent = nullptr);
+    explicit DeviceInfoEditor(const ItemDataInfo& data, QWidget* parent = nullptr);
     ~DeviceInfoEditor();
 
-    const DeviceDataInfo& data() const { return data_; }
+    const ItemDataInfo& data() const { return data_; }
 
 private:
     bool insertEntry(int row, const QString& name, const QString& value);
 
 private:
     Ui::DeviceInfoEditor* ui;
-    DeviceDataInfo data_;
+    ItemDataInfo data_;
 };
 }
 

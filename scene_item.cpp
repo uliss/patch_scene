@@ -41,9 +41,9 @@ constexpr int DEF_HEIGHT = 40;
 constexpr SceneItemId INIT_ID = 1;
 using DeviceIdMap = std::unordered_map<SceneItemId, bool>;
 
-SharedDeviceData makeDeviceData()
+SharedItemData makeDeviceData()
 {
-    QSharedDataPointer data(new DeviceData(SCENE_ITEM_NULL_ID));
+    QSharedDataPointer data(new ItemData(SCENE_ITEM_NULL_ID));
     data->setTitle("Device");
     data->appendInput(XletData { ConnectorModel::XLR });
     data->appendInput(XletData { ConnectorModel::XLR });
@@ -148,7 +148,7 @@ SceneItem::SceneItem()
 {
 }
 
-SceneItem::SceneItem(const SharedDeviceData& data)
+SceneItem::SceneItem(const SharedItemData& data)
     : data_(data)
 {
     if (data_->isNull() || DeviceIdFactory::instance().isUsed(data_->id())) {
@@ -326,7 +326,7 @@ void SceneItem::addPropertiesAct(QMenu& menu)
     connect(propertiesAct, &QAction::triggered, this,
         [this]() {
             std::unique_ptr<DeviceEditor> dialog(new DeviceEditor(data_));
-            connect(dialog.get(), SIGNAL(acceptData(SharedDeviceData)), this, SIGNAL(updateDevice(SharedDeviceData)));
+            connect(dialog.get(), &DeviceEditor::acceptData, this, &SceneItem::updateDevice);
             dialog->exec();
         });
 
@@ -342,19 +342,19 @@ void SceneItem::createContextMenu(QMenu& menu)
     addPropertiesAct(menu);
 }
 
-SharedDeviceData SceneItem::defaultDeviceData()
+SharedItemData SceneItem::defaultDeviceData()
 {
     return makeDeviceData();
 }
 
-SharedDeviceData SceneItem::dataFromJson(const QJsonValue& j)
+SharedItemData SceneItem::dataFromJson(const QJsonValue& j)
 {
     if (!j.isObject()) {
         WARN() << "not a object" << j;
         return {};
     }
 
-    SharedDeviceData data(new DeviceData(SCENE_ITEM_NULL_ID));
+    SharedItemData data(new ItemData(SCENE_ITEM_NULL_ID));
     if (!data->setJson(j))
         return {};
 
@@ -368,7 +368,7 @@ SharedDeviceData SceneItem::dataFromJson(const QJsonValue& j)
     return data;
 }
 
-SharedDeviceData SceneItem::deviceData() const
+SharedItemData SceneItem::deviceData() const
 {
     auto dev_pos = pos();
 
@@ -378,7 +378,7 @@ SharedDeviceData SceneItem::deviceData() const
     return data_;
 }
 
-bool SceneItem::setDeviceData(const SharedDeviceData& data)
+bool SceneItem::setDeviceData(const SharedItemData& data)
 {
     if (data->isNull()) {
         WARN() << "NULL data";

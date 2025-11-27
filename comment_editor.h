@@ -26,18 +26,18 @@ class CommentEditor : public QDialog {
     Q_OBJECT
 
 public:
-    explicit CommentEditor(const SharedDeviceData& data, QWidget* parent = nullptr);
+    explicit CommentEditor(const SharedItemData& data, QWidget* parent = nullptr);
     ~CommentEditor();
 
 public Q_SLOTS:
     void accept() override;
 
 signals:
-    void acceptData(SharedDeviceData data);
+    void acceptData(SharedItemData data);
 
 private:
     Ui::CommentEditor* ui;
-    SharedDeviceData data_;
+    SharedItemData data_;
 };
 } // namespace ceam
 

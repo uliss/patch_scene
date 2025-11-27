@@ -13,8 +13,8 @@
  *****************************************************************************/
 #include "test_scene.h"
 #include "comment_item.h"
-#include "scene_item.h"
 #include "scene.h"
+#include "scene_item.h"
 
 #include <QGraphicsScene>
 #include <QJsonObject>
@@ -36,58 +36,58 @@ constexpr int DEF_TXT_HT = 26;
 constexpr int DEF_TXT_HT = 24;
 #endif
 
-SharedDeviceData data0(SceneItemId id)
+SharedItemData data0(SceneItemId id)
 {
-    auto data = new DeviceData(id);
-    return SharedDeviceData { data };
+    auto data = new ItemData(id);
+    return SharedItemData { data };
 }
 
-SharedDeviceData data1(SceneItemId id)
+SharedItemData data1(SceneItemId id)
 {
-    auto data = new DeviceData(id);
+    auto data = new ItemData(id);
     data->setShowTitle(false);
-    return SharedDeviceData { data };
+    return SharedItemData { data };
 }
 
-SharedDeviceData data2(SceneItemId id)
+SharedItemData data2(SceneItemId id)
 {
-    auto data = new DeviceData(id);
+    auto data = new ItemData(id);
     data->setShowTitle(false);
     data->setTitle("DATA2");
     data->setVendor("VENDOR2");
     data->setModel("MODEL2");
-    return SharedDeviceData { data };
+    return SharedItemData { data };
 }
 
-SharedDeviceData data3(SceneItemId id)
+SharedItemData data3(SceneItemId id)
 {
-    auto data = new DeviceData(id);
+    auto data = new ItemData(id);
     data->setTitle("DATA3");
     data->setVendor("VENDOR3");
     data->setModel("MODEL3");
-    return SharedDeviceData { data };
+    return SharedItemData { data };
 }
 
-SharedDeviceData data4(SceneItemId id)
+SharedItemData data4(SceneItemId id)
 {
-    auto data = new DeviceData(id);
+    auto data = new ItemData(id);
     data->setTitle("DATA4");
     data->appendInput(XletData {});
     data->appendOutput(XletData {});
-    return SharedDeviceData { data };
+    return SharedItemData { data };
 }
 
-SharedDeviceData data_comment(SceneItemId id)
+SharedItemData data_comment(SceneItemId id)
 {
-    auto data = new DeviceData(id);
+    auto data = new ItemData(id);
     data->setTitle("COMMENT");
     data->setCategory(ItemCategory::Comment);
-    return SharedDeviceData { data };
+    return SharedItemData { data };
 }
 
-SharedDeviceData data_n(SceneItemId id, int in = 0, int out = 0, const QString& title = {})
+SharedItemData data_n(SceneItemId id, int in = 0, int out = 0, const QString& title = {})
 {
-    auto data = new DeviceData(id);
+    auto data = new ItemData(id);
 
     data->setTitle(title);
     data->setShowTitle(!title.isEmpty());
@@ -98,7 +98,7 @@ SharedDeviceData data_n(SceneItemId id, int in = 0, int out = 0, const QString& 
     for (int i = 0; i < out; i++)
         data->appendOutput(XletData {});
 
-    return SharedDeviceData { data };
+    return SharedItemData { data };
 }
 
 QList<SceneItemId> sorted(const QList<SceneItemId>& l)
@@ -116,13 +116,13 @@ QList<SceneItemId> id_list(std::initializer_list<SceneItemId> args) { return lis
 
 void TestScene::initTestCase()
 {
-    qRegisterMetaType<SharedDeviceData>();
+    qRegisterMetaType<SharedItemData>();
 }
 
 void TestScene::add()
 {
     Scene dev;
-    QSignalSpy sig_spy(&dev, SIGNAL(added(SharedDeviceData)));
+    QSignalSpy sig_spy(&dev, &Scene::added);
     QVERIFY(sig_spy.isValid());
     QCOMPARE(sig_spy.count(), 0);
 
@@ -185,7 +185,7 @@ void TestScene::add()
 void TestScene::addComment()
 {
     Scene dev;
-    QSignalSpy sig_spy(&dev, SIGNAL(added(SharedDeviceData)));
+    QSignalSpy sig_spy(&dev, &Scene::added);
     QVERIFY(sig_spy.isValid());
 
     QGraphicsScene scene;
@@ -199,7 +199,7 @@ void TestScene::addComment()
 void TestScene::remove()
 {
     Scene dev;
-    QSignalSpy sig_spy(&dev, SIGNAL(removed(SharedDeviceData)));
+    QSignalSpy sig_spy(&dev, &Scene::removed);
     QVERIFY(sig_spy.isValid());
 
     QVERIFY(!dev.remove(SCENE_ITEM_NULL_ID));
@@ -220,11 +220,11 @@ void TestScene::remove()
     QVERIFY(dev.remove(100));
     QCOMPARE(dev.idList(), id_list({ 101 }));
     QCOMPARE(sig_spy.count(), 1);
-    QCOMPARE(qvariant_cast<SharedDeviceData>(sig_spy.at(0).at(0))->id(), 100);
+    QCOMPARE(qvariant_cast<SharedItemData>(sig_spy.at(0).at(0))->id(), 100);
     QVERIFY(dev.remove(101));
     QCOMPARE(dev.idList(), id_list({}));
     QCOMPARE(sig_spy.count(), 2);
-    QCOMPARE(qvariant_cast<SharedDeviceData>(sig_spy.at(1).at(0))->id(), 101);
+    QCOMPARE(qvariant_cast<SharedItemData>(sig_spy.at(1).at(0))->id(), 101);
     QVERIFY(!dev.remove(102));
     QCOMPARE(sig_spy.count(), 2);
 }
@@ -232,7 +232,7 @@ void TestScene::remove()
 void TestScene::clear()
 {
     Scene dev;
-    QSignalSpy sig_spy(&dev, SIGNAL(removed(SharedDeviceData)));
+    QSignalSpy sig_spy(&dev, &Scene::removed);
     QVERIFY(sig_spy.isValid());
 
     QGraphicsScene scene;

@@ -143,8 +143,8 @@ void Diagram::initSceneConnections()
 void Diagram::initSceneDevices()
 {
     item_scene_.setGraphicsScene(graphics_scene_);
-    connect(&item_scene_, SIGNAL(added(SharedDeviceData)), this, SIGNAL(deviceAdded(SharedDeviceData)));
-    connect(&item_scene_, SIGNAL(removed(SharedDeviceData)), this, SIGNAL(deviceRemoved(SharedDeviceData)));
+    connect(&item_scene_, &Scene::added, this, &Diagram::deviceAdded);
+    connect(&item_scene_, &Scene::removed, this, &Diagram::deviceRemoved);
 }
 
 void Diagram::initScene(int w, int h)
@@ -225,13 +225,13 @@ void Diagram::cmdRemoveSelected()
     undo_stack_->push(del_sel);
 }
 
-void Diagram::cmdRemoveItem(const SharedDeviceData& data)
+void Diagram::cmdRemoveItem(const SharedItemData& data)
 {
     auto rem = new RemoveItem(this, data);
     undo_stack_->push(rem);
 }
 
-void Diagram::cmdUpdateItem(const SharedDeviceData& data)
+void Diagram::cmdUpdateItem(const SharedItemData& data)
 {
     if (!data)
         return;
@@ -251,13 +251,13 @@ void Diagram::cmdZoomOutSelected()
     undo_stack_->push(zoom);
 }
 
-void Diagram::cmdMoveLower(const SharedDeviceData& data)
+void Diagram::cmdMoveLower(const SharedItemData& data)
 {
     auto move = new MoveLower(this, data->id());
     undo_stack_->push(move);
 }
 
-void Diagram::cmdMoveUpper(const SharedDeviceData& data)
+void Diagram::cmdMoveUpper(const SharedItemData& data)
 {
     auto move = new MoveUpper(this, data->id());
     undo_stack_->push(move);
@@ -300,7 +300,7 @@ void Diagram::cmdDisconnectDevices(const ConnectionId& conn)
     cmdDisconnectXlet(conn.sourceInfo());
 }
 
-void Diagram::cmdDuplicateItems(const SharedDeviceData& data)
+void Diagram::cmdDuplicateItems(const SharedItemData& data)
 {
     auto dup = new DuplicateItem(this, data);
     undo_stack_->push(dup);
@@ -603,7 +603,7 @@ void Diagram::cmdReconnectDevice(const ConnectionInfo& old_conn, const Connectio
     undo_stack_->push(recon);
 }
 
-SceneItem* Diagram::addItem(const SharedDeviceData& data)
+SceneItem* Diagram::addItem(const SharedItemData& data)
 {
     auto dev = item_scene_.add(data);
     if (!dev)
@@ -648,7 +648,7 @@ void Diagram::saveClickPos(const QPointF& pos)
     prev_click_pos_ = pos;
 }
 
-bool Diagram::setItemData(const SharedDeviceData& data)
+bool Diagram::setItemData(const SharedItemData& data)
 {
     if (!data)
         return false;
@@ -1530,7 +1530,7 @@ void Diagram::moveSelectedItemsBy(qreal dx, qreal dy)
             notify = true;
 
             // O(N)
-            item_scene_.foreachSelectedData([this](const SharedDeviceData& data) {
+            item_scene_.foreachSelectedData([this](const SharedItemData& data) {
                 if (!data->isLocked())
                     updateConnectionPos(data->id());
             });
@@ -1565,12 +1565,12 @@ void Diagram::clearClipBuffer()
     clip_buffer_.clear();
 }
 
-const QList<SharedDeviceData>& Diagram::clipBuffer() const
+const QList<SharedItemData>& Diagram::clipBuffer() const
 {
     return clip_buffer_;
 }
 
-void Diagram::setClipBuffer(const QList<SharedDeviceData>& data)
+void Diagram::setClipBuffer(const QList<SharedItemData>& data)
 {
     clip_buffer_ = data;
 }
@@ -1632,7 +1632,7 @@ void Diagram::updateZoom(qreal zoom)
 
 bool Diagram::dropJson(const QPointF& pos, const QByteArray& json)
 {
-    SharedDeviceData data(new DeviceData(SCENE_ITEM_NULL_ID));
+    SharedItemData data(new ItemData(SCENE_ITEM_NULL_ID));
     if (!data->setJson(json)) {
         qWarning() << "can't set JSON";
         return false;

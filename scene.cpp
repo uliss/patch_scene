@@ -37,7 +37,7 @@ bool Scene::operator==(const Scene& sc) const
     if (items_.size() != sc.items_.size())
         return false;
 
-    QSet<DeviceData> d0, d1;
+    QSet<ItemData> d0, d1;
 
     for (auto& kv : items_) {
         auto data = kv.second->deviceData();
@@ -69,7 +69,7 @@ size_t Scene::selectedCount() const
     return res;
 }
 
-SceneItem* Scene::add(const SharedDeviceData& data)
+SceneItem* Scene::add(const SharedItemData& data)
 {
     if (!scene_ || !data)
         return nullptr;
@@ -121,7 +121,7 @@ CommentItem* Scene::addComment()
     return c;
 }
 
-SharedDeviceData Scene::remove(SceneItemId id)
+SharedItemData Scene::remove(SceneItemId id)
 {
     if (!scene_)
         return {};
@@ -157,11 +157,11 @@ const SceneItem* Scene::find(SceneItemId id) const
         : it->second;
 }
 
-SharedDeviceData Scene::findData(SceneItemId id) const
+SharedItemData Scene::findData(SceneItemId id) const
 {
     auto it = items_.find(id);
     return it == items_.end()
-        ? SharedDeviceData {}
+        ? SharedItemData {}
         : it->second->deviceData();
 }
 
@@ -335,9 +335,9 @@ QList<SceneItemId> Scene::idList() const
     return res;
 }
 
-QList<SharedDeviceData> Scene::dataList() const
+QList<SharedItemData> Scene::dataList() const
 {
-    QList<SharedDeviceData> res;
+    QList<SharedItemData> res;
     res.reserve(items_.size());
 
     for (auto& kv : items_)
@@ -350,17 +350,17 @@ QList<SceneItemId> Scene::selectedIdList() const
 {
     QList<SceneItemId> res;
 
-    foreachSelectedData([&res](const SharedDeviceData& data) {
+    foreachSelectedData([&res](const SharedItemData& data) {
         res.push_back(data->id());
     });
 
     return res;
 }
 
-QList<SharedDeviceData> Scene::selectedDataList() const
+QList<SharedItemData> Scene::selectedDataList() const
 {
-    QList<SharedDeviceData> res;
-    foreachSelectedData([&res](const SharedDeviceData& data) {
+    QList<SharedItemData> res;
+    foreachSelectedData([&res](const SharedItemData& data) {
         res.push_back(data);
     });
     return res;
@@ -423,7 +423,7 @@ void Scene::foreachSelectedItem(const std::function<void(const SceneItem*)>& fn)
     }
 }
 
-void Scene::foreachData(const std::function<void(const SharedDeviceData&)>& fn) const
+void Scene::foreachData(const std::function<void(const SharedItemData&)>& fn) const
 {
     if (!fn)
         return;
@@ -432,7 +432,7 @@ void Scene::foreachData(const std::function<void(const SharedDeviceData&)>& fn) 
         fn(kv.second->deviceData());
 }
 
-void Scene::foreachSelectedData(const std::function<void(const SharedDeviceData&)>& fn) const
+void Scene::foreachSelectedData(const std::function<void(const SharedItemData&)>& fn) const
 {
     if (!fn)
         return;
@@ -513,7 +513,7 @@ bool Scene::moveSelectedBy(qreal dx, qreal dy)
 
 QDebug operator<<(QDebug debug, const ceam::Scene& sc)
 {
-    sc.foreachData([&debug](const SharedDeviceData& data) {
+    sc.foreachData([&debug](const SharedItemData& data) {
         if (data)
             debug << *data << "\n";
     });

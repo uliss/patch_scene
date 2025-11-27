@@ -66,8 +66,8 @@ public slots:
     bool saveDocumentAs();
     void documentProperties();
     void duplicateSelection();
-    void exportAllItems(const QList<SharedDeviceData>& data);
-    void exportItemData(const SharedDeviceData& data);
+    void exportAllItems(const QList<SharedItemData>& data);
+    void exportItemData(const SharedItemData& data);
     void exportSchemeToPdf();
     void exportSchemeToPng();
     void exportSchemeToSvg();
@@ -86,12 +86,12 @@ protected:
     void closeEvent(QCloseEvent* event) override;
 
 private slots:
-    void onAddToFavorites(const SharedDeviceData& data);
+    void onAddToFavorites(const SharedItemData& data);
     void onBatteryChange(const BatteryChange& data);
-    void onDeviceAdd(const SharedDeviceData& data);
-    void onDeviceRemove(const SharedDeviceData& data);
+    void onDeviceAdd(const SharedItemData& data);
+    void onDeviceRemove(const SharedItemData& data);
     void onDeviceTitleUpdate(SceneItemId id, const QString& title);
-    void onDeviceUpdate(SharedDeviceData data);
+    void onDeviceUpdate(SharedItemData data);
     void onConnectionAdd(ConnectionId data);
     void onConnectionRemove(ConnectionId data);
 
@@ -129,7 +129,7 @@ private:
     void readRecentFiles();
     void writeRecentFiles() const;
     void syncRecentFilesMenu();
-    void updateDeviceView(const SharedDeviceData& data, int idx);
+    void updateDeviceView(const SharedItemData& data, int idx);
 
     void importFavorites(const QString& filename);
 

@@ -42,7 +42,7 @@ FavoritesWidget::FavoritesWidget(QWidget* parent)
     initContextMenu();
 }
 
-void FavoritesWidget::addItem(const SharedDeviceData& data)
+void FavoritesWidget::addItem(const SharedItemData& data)
 {
     if (data->isNull())
         return;
@@ -53,7 +53,7 @@ void FavoritesWidget::addItem(const SharedDeviceData& data)
 void FavoritesWidget::setFromVariant(const QList<QVariant>& items)
 {
     for (auto& x : items) {
-        SharedDeviceData data(new DeviceData(SCENE_ITEM_NULL_ID));
+        SharedItemData data(new ItemData(SCENE_ITEM_NULL_ID));
 
         if (data->setJson(x.toJsonValue()))
             model_->addDeviceItem(data);
@@ -137,12 +137,12 @@ void FavoritesWidget::initContextMenu()
                 [this, item_idx]() {
                     auto item_data = item_idx.data(DATA_DEVICE_DATA).toByteArray();
                     if (!item_data.isNull()) {
-                        SharedDeviceData dev_data(new DeviceData(SCENE_ITEM_NULL_ID));
+                        SharedItemData dev_data(new ItemData(SCENE_ITEM_NULL_ID));
 
                         if (dev_data->setJson(item_data)) {
                             auto dialog = new DeviceEditor(dev_data, this);
                             connect(dialog, &DeviceEditor::acceptData, this,
-                                [this, item_idx](const SharedDeviceData& data) {
+                                [this, item_idx](const SharedItemData& data) {
                                     auto item = model_->deviceItem(item_idx.row(), item_idx.column());
                                     if (item)
                                         item->setDeviceData(data);

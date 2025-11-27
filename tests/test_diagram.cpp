@@ -29,19 +29,19 @@ constexpr int DEF_TXT_HT = 26;
 constexpr int DEF_TXT_HT = 24;
 #endif
 
-SharedDeviceData make_dev(SceneItemId id, const QPointF& pos)
+SharedItemData make_dev(SceneItemId id, const QPointF& pos)
 {
-    auto data = new DeviceData(id);
+    auto data = new ItemData(id);
     data->setTitle("abc");
     data->setPos(pos);
-    return SharedDeviceData(data);
+    return SharedItemData(data);
 }
 
-SharedDeviceData data1(SceneItemId id)
+SharedItemData data1(SceneItemId id)
 {
-    auto data = new DeviceData(id);
+    auto data = new ItemData(id);
     data->setShowTitle(false);
-    return SharedDeviceData { data };
+    return SharedItemData { data };
 }
 
 } // namespace

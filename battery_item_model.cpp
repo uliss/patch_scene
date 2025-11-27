@@ -30,7 +30,7 @@ BatteryItemModel::BatteryItemModel(QObject* parent)
     proxy_->setSourceModel(this);
 }
 
-bool BatteryItemModel::addDeviceData(const SharedDeviceData& data)
+bool BatteryItemModel::addDeviceData(const SharedItemData& data)
 {
     if (!data || data->batteryCount() == 0)
         return false;
@@ -41,7 +41,7 @@ bool BatteryItemModel::addDeviceData(const SharedDeviceData& data)
     return true;
 }
 
-void BatteryItemModel::removeDeviceData(const SharedDeviceData& data)
+void BatteryItemModel::removeDeviceData(const SharedItemData& data)
 {
     if (!data || data->batteryCount() == 0)
         return;
@@ -80,7 +80,7 @@ void BatteryItemModel::clearItems()
     removeRows(0, rowCount());
 }
 
-void BatteryItemModel::setFullData(const QList<SharedDeviceData>& data)
+void BatteryItemModel::setFullData(const QList<SharedItemData>& data)
 {
     beginResetModel();
 

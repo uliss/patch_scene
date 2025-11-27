@@ -22,7 +22,7 @@ QString make_test_filename(const QString& filename);
 
 QJsonObject read_json_file_object(const QString& filename);
 QJsonArray read_json_file_array(const QString& filename);
-ceam::SharedDeviceData read_device_json_file(const QString& filename);
+ceam::SharedItemData read_device_json_file(const QString& filename);
 
 bool compare_json_files(const QString& file1, const QString& file2);
 

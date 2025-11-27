@@ -114,9 +114,9 @@ enum class ImageMirrorType : std::uint8_t {
     Horizontal
 };
 
-using DeviceDataInfo = QList<std::pair<QString, QString>>;
+using ItemDataInfo = QList<std::pair<QString, QString>>;
 
-class DeviceData : public QSharedData {
+class ItemData : public QSharedData {
 public:
     constexpr static const qreal MIN_ZOOM = 0.25;
     constexpr static const qreal MAX_ZOOM = 4;
@@ -125,10 +125,10 @@ public:
     constexpr static int DEF_COL_COUNT = 8;
 
 public:
-    explicit DeviceData(SceneItemId id);
+    explicit ItemData(SceneItemId id);
 
-    bool operator==(const DeviceData& data) const;
-    bool operator!=(const DeviceData& data) const
+    bool operator==(const ItemData& data) const;
+    bool operator!=(const ItemData& data) const
     {
         return !operator==(data);
     }
@@ -194,7 +194,7 @@ public:
 
     BatteryType batteryType() const { return battery_type_; }
     void setBatteryType(int type);
-    BatteryChange calcBatteryChange(const DeviceData& data) const;
+    BatteryChange calcBatteryChange(const ItemData& data) const;
 
     /**
      * power in watts
@@ -227,8 +227,8 @@ public:
 
     QString verboseInfo() const;
 
-    DeviceDataInfo& info() { return info_; }
-    const DeviceDataInfo& info() const { return info_; }
+    ItemDataInfo& info() { return info_; }
+    const ItemDataInfo& info() const { return info_; }
 
     qreal weight() const { return weight_; }
     void setWeight(qreal w);
@@ -261,7 +261,7 @@ public:
     void setZValue(qreal z) { zvalue_ = z; }
 
 public:
-    static QSharedDataPointer<DeviceData> makeComment(const QString& txt);
+    static QSharedDataPointer<ItemData> makeComment(const QString& txt);
 
 private:
     static QJsonArray xletToJson(const QList<XletData>& xlets);
@@ -288,7 +288,7 @@ private:
     XletsLogicViewData logic_view_data_;
     QList<XletsUserViewData> user_view_data_;
     QString current_user_view_;
-    DeviceDataInfo info_;
+    ItemDataInfo info_;
     qreal weight_ { 0 };
     qreal volume_ { 0 };
     int border_width_ { 0 };
@@ -297,11 +297,11 @@ private:
     QColor border_color_, background_color_, text_color_;
 };
 
-using SharedDeviceData = QSharedDataPointer<DeviceData>;
+using SharedItemData = QSharedDataPointer<ItemData>;
 
 class DeviceConnectionData {
 public:
-    SharedDeviceData src_data, dest_data;
+    SharedItemData src_data, dest_data;
     XletData src_out, dest_in;
     XletIndex src_out_idx, dest_in_idx;
 
@@ -316,10 +316,10 @@ public:
     }
 };
 
-size_t qHash(const DeviceData& data);
+size_t qHash(const ItemData& data);
 
 } // namespace ceam
 
-QDebug operator<<(QDebug debug, const ceam::DeviceData& data);
+QDebug operator<<(QDebug debug, const ceam::ItemData& data);
 
 #endif // DEVICE_COMMON_H

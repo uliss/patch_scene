@@ -115,7 +115,7 @@ void DisconnectXlet::redo()
         WARN() << "can't disconnect:" << id_;
 }
 
-RemoveItem::RemoveItem(Diagram* doc, const SharedDeviceData& data)
+RemoveItem::RemoveItem(Diagram* doc, const SharedItemData& data)
     : doc_(doc)
     , data_(data)
 {
@@ -231,7 +231,7 @@ void DuplicateSelected::redo()
     emit doc_->sceneFullUpdate();
 }
 
-DuplicateItem::DuplicateItem(Diagram* doc, const SharedDeviceData& data)
+DuplicateItem::DuplicateItem(Diagram* doc, const SharedItemData& data)
     : doc_(doc)
     , src_data_(data)
     , new_id_(SCENE_ITEM_NULL_ID)
@@ -280,7 +280,7 @@ SetSelected::SetSelected(Diagram* doc, const QSet<SceneItemId>& new_sel)
     , new_sel_(new_sel)
 {
     if (doc_) {
-        doc_->itemScene().foreachSelectedData([this](const SharedDeviceData& data) {
+        doc_->itemScene().foreachSelectedData([this](const SharedItemData& data) {
             prev_sel_.insert(data->id());
         });
     }
@@ -456,7 +456,7 @@ void CopySelected::redo()
         doc_->setClipBuffer(data);
 }
 
-UpdateDeviceData::UpdateDeviceData(Diagram* doc, const SharedDeviceData& data)
+UpdateDeviceData::UpdateDeviceData(Diagram* doc, const SharedItemData& data)
     : doc_(doc)
     , new_data_(data)
 {
@@ -686,7 +686,7 @@ void CreateComment::redo()
     if (!doc_)
         return;
 
-    auto comment = doc_->addItem(DeviceData::makeComment({ "Comment" }));
+    auto comment = doc_->addItem(ItemData::makeComment({ "Comment" }));
     if (comment) {
         comment->setPos(pos_);
         id_ = comment->id();

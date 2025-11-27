@@ -258,7 +258,7 @@ void XletsLogicView::paint(QPainter* painter, const QPoint& origin)
     }
 }
 
-bool XletsLogicView::setData(const SharedDeviceData& data)
+bool XletsLogicView::setData(const SharedItemData& data)
 {
     if (!data)
         return false;

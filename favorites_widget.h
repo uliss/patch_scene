@@ -24,9 +24,9 @@ namespace ceam {
 class FavoritesWidget : public QTreeView {
     Q_OBJECT
 public:
-    FavoritesWidget(QWidget* parent = nullptr);
+    explicit FavoritesWidget(QWidget* parent = nullptr);
 
-    void addItem(const SharedDeviceData& data);
+    void addItem(const SharedItemData& data);
 
     void setFromVariant(const QList<QVariant>& items);
     QList<QVariant> toVariant() const;
@@ -34,14 +34,14 @@ public:
     bool importElements(const QString& filename);
 
 signals:
-    void requestExportAll(const QList<SharedDeviceData>& data);
+    void requestExportAll(const QList<SharedItemData>& data);
     void requestImportAll();
-    void requestItemExport(const SharedDeviceData& data);
+    void requestItemExport(const SharedItemData& data);
 
 private:
     DiagramItemModel* model_ { nullptr };
     void initContextMenu();
 };
-}
+} // namespace ceam
 
 #endif // FAVORITES_WIDGET_H

@@ -85,7 +85,7 @@ bool LibraryItemModel::filterAcceptsRow(int sourceRow, const QModelIndex& source
         return false;
 }
 
-void LibraryItemModel::loadSection(QStandardItem* parent, const QList<SharedDeviceData>& data)
+void LibraryItemModel::loadSection(QStandardItem* parent, const QList<SharedItemData>& data)
 {
     auto subcats = DeviceLibrary::splitBySubcategory(data);
     if (subcats.size() > 1) {

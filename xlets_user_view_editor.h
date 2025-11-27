@@ -96,7 +96,7 @@ class XletsUserViewEditor : public QDialog {
     Q_OBJECT
 
 public:
-    explicit XletsUserViewEditor(QWidget* parent, const SharedDeviceData& data);
+    explicit XletsUserViewEditor(QWidget* parent, const SharedItemData& data);
     ~XletsUserViewEditor();
 
     void setXletViewData(int idx, const XletsUserViewData& data);
@@ -105,13 +105,13 @@ public Q_SLOTS:
     void accept() override;
 
 Q_SIGNALS:
-    void acceptData(SharedDeviceData);
+    void acceptData(SharedItemData);
 
 private:
     void initInlets();
     void initOutlets();
-    void initButtons(const SharedDeviceData& data);
-    void initUserViewList(const SharedDeviceData& data);
+    void initButtons(const SharedItemData& data);
+    void initUserViewList(const SharedItemData& data);
     void initUserViewDataWith(int idx);
     void initUserViewDataWith(const QString& viewName);
     void initRowsAndCols();
@@ -122,7 +122,7 @@ private:
 
 private:
     Ui::XletsUserEditor* ui;
-    SharedDeviceData data_;
+    SharedItemData data_;
     DeviceXlets inlets_, outlets_;
     QGraphicsScene in_scene_, out_scene_;
     XletsUserScene view_scene_;

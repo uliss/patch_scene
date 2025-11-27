@@ -72,7 +72,7 @@ void TestConnection::testConnection()
 void TestConnection::findConnected()
 {
     QGraphicsScene sc;
-    auto d1 = new DeviceItem(SharedDeviceData { new DeviceData(100) });
+    auto d1 = new DeviceItem(SharedItemData { new ItemData(100) });
     auto data = d1->deviceData();
     data->appendInput({});
     data->appendOutput({});
@@ -80,7 +80,7 @@ void TestConnection::findConnected()
 
     d1->setPos(10, 0);
     sc.addItem(d1);
-    auto d2 = new DeviceItem(SharedDeviceData { new DeviceData(200) });
+    auto d2 = new DeviceItem(SharedItemData { new ItemData(200) });
     data = d2->deviceData();
     data->appendInput({});
     data->appendOutput({});

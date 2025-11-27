@@ -27,7 +27,7 @@ class DeviceItem : public SceneItem {
     Q_OBJECT
 public:
     DeviceItem();
-    explicit DeviceItem(const SharedDeviceData& data);
+    explicit DeviceItem(const SharedItemData& data);
 
     /**
      * return bounding rect in device coordinates
@@ -44,7 +44,7 @@ public:
      */
     QRectF xletRect() const;
 
-    bool setDeviceData(const SharedDeviceData& data) override;
+    bool setDeviceData(const SharedItemData& data) override;
 
     /**
      * @return connection point in device or scene coords

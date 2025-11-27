@@ -26,14 +26,14 @@ class FurnitureItemModel : public QStandardItemModel {
 public:
     explicit FurnitureItemModel(QObject* parent = nullptr);
 
-    bool addFurniture(const SharedDeviceData& data);
-    bool removeFurniture(const SharedDeviceData& data);
+    bool addFurniture(const SharedItemData& data);
+    bool removeFurniture(const SharedItemData& data);
 
     QSortFilterProxyModel* proxyModel() { return proxy_; }
 
     void clearItems();
 
-    void setFullData(const QList<SharedDeviceData>& data);
+    void setFullData(const QList<SharedItemData>& data);
 
 private:
     QHash<size_t, std::pair<QString, int>> furniture_map_;

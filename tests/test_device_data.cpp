@@ -21,7 +21,7 @@ using namespace ceam;
 
 void TestDeviceData::construct()
 {
-    DeviceData data(SCENE_ITEM_NULL_ID);
+    ItemData data(SCENE_ITEM_NULL_ID);
     QVERIFY(data.isNull());
     QCOMPARE(data.id(), SCENE_ITEM_NULL_ID);
     QVERIFY(data.showInDeviceCategory());
@@ -42,7 +42,7 @@ void TestDeviceData::construct()
 
 void TestDeviceData::toJson()
 {
-    DeviceData data(SCENE_ITEM_NULL_ID);
+    ItemData data(SCENE_ITEM_NULL_ID);
     auto j = data.toJson();
     QVERIFY(j.contains("id"));
     QVERIFY(j.contains("x"));
@@ -150,7 +150,7 @@ void TestDeviceData::toJson()
 
 void TestDeviceData::fromJson()
 {
-    DeviceData data(SCENE_ITEM_NULL_ID);
+    ItemData data(SCENE_ITEM_NULL_ID);
     QVERIFY(!data.setJson(QJsonValue {}));
 
     QJsonObject j;
@@ -292,7 +292,7 @@ void TestDeviceData::fromJson()
 
 void TestDeviceData::testJson()
 {
-    DeviceData d0(100), d1(100);
+    ItemData d0(100), d1(100);
     QVERIFY(d0 == d1);
 
     d0.setId(101);

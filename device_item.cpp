@@ -39,7 +39,7 @@ DeviceItem::DeviceItem()
     syncRect();
 }
 
-DeviceItem::DeviceItem(const SharedDeviceData& data)
+DeviceItem::DeviceItem(const SharedItemData& data)
     : SceneItem(data)
     , title_ { nullptr }
     , image_ { nullptr }
@@ -301,7 +301,7 @@ QRectF DeviceItem::xletRect() const
     return brect.translated(brect.width() * -0.5, inletsYOff());
 }
 
-bool DeviceItem::setDeviceData(const SharedDeviceData& data)
+bool DeviceItem::setDeviceData(const SharedItemData& data)
 {
     if (SceneItem::setDeviceData(data)) {
         xlets_.setData(data);

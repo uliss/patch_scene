@@ -28,11 +28,11 @@ public:
 
     int deviceCount() const { return rowCount(); }
 
-    bool addDevice(const SharedDeviceData& data);
-    bool removeDevice(const SharedDeviceData& data);
+    bool addDevice(const SharedItemData& data);
+    bool removeDevice(const SharedItemData& data);
     void clearItems();
 
-    void setDeviceData(const QList<SharedDeviceData>& data);
+    void setDeviceData(const QList<SharedItemData>& data);
 
     QStandardItem* deviceTitle(int idx);
     QStandardItem* deviceVendor(int idx);
@@ -41,7 +41,7 @@ public:
     std::optional<SceneItemId> deviceId(const QStandardItem* item) const;
     std::optional<SceneItemId> deviceId(int idx) const;
 
-    SharedDeviceData updateDeviceData(const QStandardItem* item, const SharedDeviceData& data);
+    SharedItemData updateDeviceData(const QStandardItem* item, const SharedItemData& data);
 
     QSortFilterProxyModel* sortProxy() { return proxy_; }
 

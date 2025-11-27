@@ -45,7 +45,7 @@ std::unordered_map<DeviceEditor::EditorWidgetType, void (DeviceEditor::*)(bool)>
     DECLARE_EDIT(Outputs),
 };
 
-DeviceEditor::DeviceEditor(const SharedDeviceData& data, QWidget* parent)
+DeviceEditor::DeviceEditor(const SharedItemData& data, QWidget* parent)
     : QDialog(parent)
     , ui(new Ui::DeviceProperties)
     , data_(data)
@@ -110,7 +110,7 @@ DeviceEditor::DeviceEditor(const SharedDeviceData& data, QWidget* parent)
 
     connect(ui->viewsEdit, &QToolButton::clicked, this, [this]() {
         auto dialog = new XletsUserViewEditor(this, data_);
-        connect(dialog, &XletsUserViewEditor::acceptData, this, [this](const SharedDeviceData& data) {
+        connect(dialog, &XletsUserViewEditor::acceptData, this, [this](const SharedItemData& data) {
             data_ = data;
         });
 
@@ -292,7 +292,7 @@ void DeviceEditor::enableWidgets(ItemCategory cat)
     adjustSize();
 }
 
-void DeviceEditor::setupBattery(const SharedDeviceData& data)
+void DeviceEditor::setupBattery(const SharedItemData& data)
 {
     foreachBatteryType(
         [this](const char* name, int value) {
@@ -348,7 +348,7 @@ void DeviceEditor::setupPhysics()
     });
 }
 
-void DeviceEditor::setupImageMirror(const SharedDeviceData& data)
+void DeviceEditor::setupImageMirror(const SharedItemData& data)
 {
     ui->imageMirror->setChecked(data->imageMirror() != ImageMirrorType::None);
     connect(ui->imageMirror, &QCheckBox::stateChanged, this,

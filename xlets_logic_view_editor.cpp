@@ -56,7 +56,7 @@ XletLogicalEditor::XletLogicalEditor(QWidget* parent, QList<XletData>& data, Xle
         close();
     });
 
-    ui->maxColumns->setRange(DeviceData::MIN_COL_COUNT, DeviceData::MAX_COL_COUNT);
+    ui->maxColumns->setRange(ItemData::MIN_COL_COUNT, ItemData::MAX_COL_COUNT);
 
     switch (type_) {
     case XletType::In:

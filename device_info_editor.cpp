@@ -21,7 +21,7 @@ constexpr int COLUMN_VALUE = 1;
 
 using namespace ceam;
 
-DeviceInfoEditor::DeviceInfoEditor(const DeviceDataInfo& data, QWidget* parent)
+DeviceInfoEditor::DeviceInfoEditor(const ItemDataInfo& data, QWidget* parent)
     : QDialog(parent)
     , ui(new Ui::DeviceInfoEditor)
     , data_(data)

@@ -121,7 +121,7 @@ bool DeviceLibrary::writeFile(const QString& filename)
     return file.write(doc.toJson()) > 0;
 }
 
-void DeviceLibrary::addItems(const QList<SharedDeviceData>& items)
+void DeviceLibrary::addItems(const QList<SharedItemData>& items)
 {
     for (auto& x : items) {
         if (!x)
@@ -152,9 +152,9 @@ void DeviceLibrary::addItems(const QList<SharedDeviceData>& items)
     }
 }
 
-QMap<SubCategory, QList<SharedDeviceData>> DeviceLibrary::splitBySubcategory(const QList<SharedDeviceData>& items)
+QMap<SubCategory, QList<SharedItemData>> DeviceLibrary::splitBySubcategory(const QList<SharedItemData>& items)
 {
-    QMap<SubCategory, QList<SharedDeviceData>> res;
+    QMap<SubCategory, QList<SharedItemData>> res;
 
     for (auto& data : items) {
         auto subcat = data->subCategory();
@@ -170,7 +170,7 @@ QMap<SubCategory, QList<SharedDeviceData>> DeviceLibrary::splitBySubcategory(con
     return res;
 }
 
-bool DeviceLibrary::readItems(const QJsonValue& value, QList<SharedDeviceData>& items, ItemCategory cat)
+bool DeviceLibrary::readItems(const QJsonValue& value, QList<SharedItemData>& items, ItemCategory cat)
 {
     if (value.isUndefined())
         return false;
@@ -182,7 +182,7 @@ bool DeviceLibrary::readItems(const QJsonValue& value, QList<SharedDeviceData>& 
 
     auto arr = value.toArray();
     for (const auto& v : arr) {
-        SharedDeviceData data(new DeviceData(SCENE_ITEM_NULL_ID));
+        SharedItemData data(new ItemData(SCENE_ITEM_NULL_ID));
         if (data->setJson(v)) {
             data->setCategory(cat);
             items.append(data);
@@ -192,7 +192,7 @@ bool DeviceLibrary::readItems(const QJsonValue& value, QList<SharedDeviceData>& 
     return true;
 }
 
-bool DeviceLibrary::writeItems(QJsonObject& value, const QList<SharedDeviceData>& items, ItemCategory cat)
+bool DeviceLibrary::writeItems(QJsonObject& value, const QList<SharedItemData>& items, ItemCategory cat)
 {
     QJsonArray arr;
     for (auto& x : items) {

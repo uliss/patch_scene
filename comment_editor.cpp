@@ -16,7 +16,7 @@
 
 using namespace ceam;
 
-CommentEditor::CommentEditor(const SharedDeviceData& data, QWidget* parent)
+CommentEditor::CommentEditor(const SharedItemData& data, QWidget* parent)
     : QDialog(parent)
     , ui(new Ui::CommentEditor)
     , data_(data)

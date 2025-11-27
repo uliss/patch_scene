@@ -27,15 +27,15 @@ class BatteryItemModel : public QStandardItemModel {
 public:
     explicit BatteryItemModel(QObject* parent = nullptr);
 
-    bool addDeviceData(const SharedDeviceData& data);
-    void removeDeviceData(const SharedDeviceData& data);
+    bool addDeviceData(const SharedItemData& data);
+    void removeDeviceData(const SharedItemData& data);
     void updateDeviceData(const BatteryChange& data);
 
     QSortFilterProxyModel* sortProxy() { return proxy_; }
 
     void clearItems();
 
-    void setFullData(const QList<SharedDeviceData>& data);
+    void setFullData(const QList<SharedItemData>& data);
 
 private:
     void updateData();

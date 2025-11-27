@@ -141,19 +141,19 @@ void MainWindow::initFavorites()
 
     favorites_->setFromVariant(settings_.readFavorites());
     connect(favorites_,
-        SIGNAL(requestItemExport(SharedDeviceData)),
+        &FavoritesWidget::requestItemExport,
         this,
-        SLOT(exportItemData(SharedDeviceData)));
+        &MainWindow::exportItemData);
 
     connect(favorites_,
-        SIGNAL(requestExportAll(QList<SharedDeviceData>)),
+        &FavoritesWidget::requestExportAll,
         this,
-        SLOT(exportAllItems(QList<SharedDeviceData>)));
+        &MainWindow::exportAllItems);
 
     connect(favorites_,
-        SIGNAL(requestImportAll()),
+        SIGNAL(requestImportAll),
         this,
-        SLOT(importFavorites()));
+        SLOT(importFavorites));
 }
 
 void MainWindow::initDiagram()
@@ -163,12 +163,12 @@ void MainWindow::initDiagram()
     ui->gridLayout->addWidget(diagram_, 1, 1);
 
     connect(diagram_, &Diagram::sceneChanged, this, [this]() { setWindowModified(true); });
-    connect(diagram_, SIGNAL(deviceAdded(SharedDeviceData)), this, SLOT(onDeviceAdd(SharedDeviceData)));
-    connect(diagram_, SIGNAL(deviceRemoved(SharedDeviceData)), this, SLOT(onDeviceRemove(SharedDeviceData)));
-    connect(diagram_, SIGNAL(deviceUpdated(SharedDeviceData)), this, SLOT(onDeviceUpdate(SharedDeviceData)));
+    connect(diagram_, &Diagram::deviceAdded, this, &MainWindow::onDeviceAdd);
+    connect(diagram_, &Diagram::deviceRemoved, this, &MainWindow::onDeviceRemove);
+    connect(diagram_, &Diagram::deviceUpdated, this, &MainWindow::onDeviceUpdate);
     connect(diagram_, &Diagram::deviceTitleUpdated, this, &MainWindow::onDeviceTitleUpdate);
 
-    connect(diagram_, SIGNAL(batteryChanged(BatteryChange)), this, SLOT(onBatteryChange(BatteryChange)));
+    connect(diagram_, &Diagram::batteryChanged, this, &MainWindow::onBatteryChange);
     connect(diagram_, &Diagram::connectionAdded, this, &MainWindow::onConnectionAdd);
     connect(diagram_, &Diagram::connectionRemoved, this, &MainWindow::onConnectionRemove);
 
@@ -199,7 +199,7 @@ void MainWindow::initDiagram()
         ui->returnList->resizeColumnsToContents();
         ui->sendList->resizeColumnsToContents();
     });
-    connect(diagram_, SIGNAL(addToFavorites(SharedDeviceData)), this, SLOT(onAddToFavorites(SharedDeviceData)));
+    connect(diagram_, &Diagram::addToFavorites, this, &MainWindow::onAddToFavorites);
     connect(diagram_, &Diagram::zoomChanged, this, [this](qreal z) {
         statusBar()->showMessage(tr("Zoom %1%").arg(qRound(z * 100)), 1000);
     });
@@ -574,7 +574,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
     QMainWindow::closeEvent(event);
 }
 
-void MainWindow::onAddToFavorites(const SharedDeviceData& data)
+void MainWindow::onAddToFavorites(const SharedItemData& data)
 {
     favorites_->addItem(data);
 }
@@ -585,7 +585,7 @@ void MainWindow::onBatteryChange(const BatteryChange& data)
         battery_model_->updateDeviceData(data);
 }
 
-void MainWindow::onDeviceAdd(const SharedDeviceData& data)
+void MainWindow::onDeviceAdd(const SharedItemData& data)
 {
     if (device_model_->addDevice(data))
         ui->deviceList->resizeColumnsToContents();
@@ -597,7 +597,7 @@ void MainWindow::onDeviceAdd(const SharedDeviceData& data)
         ui->furnitureList->resizeColumnToContents(0);
 }
 
-void MainWindow::onDeviceRemove(const SharedDeviceData& data)
+void MainWindow::onDeviceRemove(const SharedItemData& data)
 {
     if (device_model_->removeDevice(data))
         ui->deviceList->resizeColumnsToContents();
@@ -620,7 +620,7 @@ void MainWindow::onDeviceTitleUpdate(SceneItemId id, const QString& title)
         ui->returnList->resizeColumnsToContents();
 }
 
-void MainWindow::updateDeviceView(const SharedDeviceData& data, int idx)
+void MainWindow::updateDeviceView(const SharedItemData& data, int idx)
 {
     if (data->category() != ItemCategory::Device) {
         device_model_->removeRow(idx);
@@ -649,7 +649,7 @@ void MainWindow::updateDeviceView(const SharedDeviceData& data, int idx)
     ui->deviceList->resizeColumnsToContents();
 }
 
-void MainWindow::onDeviceUpdate(SharedDeviceData data)
+void MainWindow::onDeviceUpdate(SharedItemData data)
 {
     if (!data) {
         WARN() << "invalid data";
@@ -1023,7 +1023,7 @@ void MainWindow::duplicateSelection()
     diagram_->cmdDuplicateSelection();
 }
 
-void MainWindow::exportItemData(const SharedDeviceData& data)
+void MainWindow::exportItemData(const SharedItemData& data)
 {
     if (!data)
         return;
@@ -1120,7 +1120,7 @@ void MainWindow::exportSchemeToSvg()
     diagram_->renderToSvg(svg_file, project_name_);
 }
 
-void MainWindow::exportAllItems(const QList<SharedDeviceData>& data)
+void MainWindow::exportAllItems(const QList<SharedItemData>& data)
 {
     auto path = QStandardPaths::locate(QStandardPaths::DocumentsLocation, {}, QStandardPaths::LocateDirectory);
 

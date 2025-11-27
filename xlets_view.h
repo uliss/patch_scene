@@ -83,7 +83,7 @@ public:
     void placeXlets(const QPointF& origin) final;
     void paint(QPainter* painter, const QPoint& origin);
 
-    bool setData(const SharedDeviceData& data);
+    bool setData(const SharedItemData& data);
     XletsLogicViewData& data() { return data_; }
     const XletsLogicViewData& data() const { return data_; }
 

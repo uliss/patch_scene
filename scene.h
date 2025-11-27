@@ -59,9 +59,9 @@ public:
     /**
      * create new device and add it to the scene
      * @return pointer to new device or nullptr on error
-     * @emit added(SharedDeviceData)
+     * @emit added(SharedItemData)
      */
-    SceneItem* add(const SharedDeviceData& data);
+    SceneItem* add(const SharedItemData& data);
 
     /**
      * creates new comment and add it to the scene
@@ -72,36 +72,36 @@ public:
     /**
      * remove item from the scene
      * @return removed device data on success or null device data on error
-     * @emit removed(SharedDeviceData)
+     * @emit removed(SharedItemData)
      */
-    SharedDeviceData remove(SceneItemId id);
+    SharedItemData remove(SceneItemId id);
 
     /**
      * remove all scene items
-     * @emit removed(SharedDeviceData) for every deleted item
+     * @emit removed(SharedItemData) for every deleted item
      */
     void clear();
 
     /**
      * find device by given device id
-     * @return pointer to device or nullptr if not found
+     * @return pointer to item or nullptr if not found
      * @complexity O(1)
      */
     SceneItem* find(SceneItemId id);
 
     /**
-     * find device by given device id
-     * @return pointer to device or nullptr if not found
+     * find item by given item id
+     * @return pointer to item or nullptr if not found
      * @complexity O(1)
      */
     const SceneItem* find(SceneItemId id) const;
 
     /**
-     * find device data by given device id
+     * find item data by given device id
      * @return device data or empty data if not found
      * @complexity O(1)
      */
-    SharedDeviceData findData(SceneItemId id) const;
+    SharedItemData findData(SceneItemId id) const;
 
     std::optional<DeviceConnectionData> connectionInfo(const ConnectionId& id) const;
 
@@ -140,10 +140,10 @@ public:
     bool moveSelectedBy(qreal dx, qreal dy);
 
     QList<SceneItemId> idList() const;
-    QList<SharedDeviceData> dataList() const;
+    QList<SharedItemData> dataList() const;
 
     QList<SceneItemId> selectedIdList() const;
-    QList<SharedDeviceData> selectedDataList() const;
+    QList<SharedItemData> selectedDataList() const;
 
     QRectF boundingRect() const;
     QRectF boundingSelectRect() const;
@@ -151,8 +151,8 @@ public:
     void foreachItem(const std::function<void(SceneItem*)>& fn);
     void foreachSelectedItem(const std::function<void(const SceneItem*)>& fn) const;
 
-    void foreachData(const std::function<void(const SharedDeviceData& data)>& fn) const;
-    void foreachSelectedData(const std::function<void(const SharedDeviceData& data)>& fn) const;
+    void foreachData(const std::function<void(const SharedItemData& data)>& fn) const;
+    void foreachSelectedData(const std::function<void(const SharedItemData& data)>& fn) const;
 
     /**
      * return a set of device id that intersects with the given rectangle
@@ -172,8 +172,8 @@ public:
     QJsonValue toJson() const;
 
 signals:
-    void added(SharedDeviceData);
-    void removed(SharedDeviceData);
+    void added(SharedItemData);
+    void removed(SharedItemData);
 };
 
 } // namespace ceam

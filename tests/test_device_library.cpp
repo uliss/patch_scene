@@ -31,7 +31,7 @@ void TestDeviceLibrary::addItems()
     QVERIFY(lib.sends().isEmpty());
     QVERIFY(lib.returns().isEmpty());
 
-    QList<SharedDeviceData> items;
+    QList<SharedItemData> items;
     lib.addItems(items);
     QVERIFY(lib.devices().isEmpty());
     QVERIFY(lib.instruments().isEmpty());

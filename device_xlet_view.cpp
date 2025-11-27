@@ -174,7 +174,7 @@ bool DeviceXlets::setCurrentView(const QString& name)
     return false;
 }
 
-void DeviceXlets::setData(const SharedDeviceData& data)
+void DeviceXlets::setData(const SharedItemData& data)
 {
     if (!data)
         return;

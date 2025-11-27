@@ -28,24 +28,24 @@ public:
     bool readFile(const QString& filename);
     bool writeFile(const QString& filename);
 
-    const QList<SharedDeviceData>& devices() const { return devices_; }
-    const QList<SharedDeviceData>& furniture() const { return furniture_; }
-    const QList<SharedDeviceData>& humans() const { return humans_; }
-    const QList<SharedDeviceData>& instruments() const { return instruments_; }
-    const QList<SharedDeviceData>& returns() const { return returns_; }
-    const QList<SharedDeviceData>& sends() const { return sends_; }
+    const QList<SharedItemData>& devices() const { return devices_; }
+    const QList<SharedItemData>& furniture() const { return furniture_; }
+    const QList<SharedItemData>& humans() const { return humans_; }
+    const QList<SharedItemData>& instruments() const { return instruments_; }
+    const QList<SharedItemData>& returns() const { return returns_; }
+    const QList<SharedItemData>& sends() const { return sends_; }
 
-    void addItems(const QList<SharedDeviceData>& items);
+    void addItems(const QList<SharedItemData>& items);
 
 public:
-    static QMap<SubCategory, QList<SharedDeviceData>> splitBySubcategory(const QList<SharedDeviceData>& items);
+    static QMap<SubCategory, QList<SharedItemData>> splitBySubcategory(const QList<SharedItemData>& items);
 
 private:
-    static bool readItems(const QJsonValue& value, QList<SharedDeviceData>& items, ItemCategory cat);
-    static bool writeItems(QJsonObject& value, const QList<SharedDeviceData>& items, ItemCategory cat);
+    static bool readItems(const QJsonValue& value, QList<SharedItemData>& items, ItemCategory cat);
+    static bool writeItems(QJsonObject& value, const QList<SharedItemData>& items, ItemCategory cat);
 
 private:
-    QList<SharedDeviceData> devices_, instruments_, sends_, returns_, humans_, furniture_;
+    QList<SharedItemData> devices_, instruments_, sends_, returns_, humans_, furniture_;
 };
 
 }  // namespace ceam

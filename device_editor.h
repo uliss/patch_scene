@@ -33,7 +33,7 @@ class DeviceEditor : public QDialog {
     Q_OBJECT
 
 public:
-    explicit DeviceEditor(const SharedDeviceData& data, QWidget* parent = nullptr);
+    explicit DeviceEditor(const SharedItemData& data, QWidget* parent = nullptr);
     ~DeviceEditor();
 
 public:
@@ -53,17 +53,17 @@ public:
     static bool isWidgetEnabled(ItemCategory cat, EditorWidgetType w);
 
 signals:
-    void acceptData(SharedDeviceData data);
+    void acceptData(SharedItemData data);
 
 public Q_SLOTS:
     void accept() override;
     void chooseImageDialog();
 
 private:
-    void setupBattery(const SharedDeviceData& data);
+    void setupBattery(const SharedItemData& data);
     void setupPhysics();
     void setupCategories();
-    void setupImageMirror(const SharedDeviceData& data);
+    void setupImageMirror(const SharedItemData& data);
 
     void enableAdditionalWidgets(bool value);
     void enableBatteryWidgets(bool value);
@@ -80,7 +80,7 @@ private:
 
 private:
     Ui::DeviceProperties* ui;
-    SharedDeviceData data_;
+    SharedItemData data_;
 
     static std::unordered_map<EditorWidgetType, void (DeviceEditor::*)(bool)> field_edit_fn_;
 };

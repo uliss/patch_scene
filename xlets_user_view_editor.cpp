@@ -30,7 +30,7 @@ constexpr int XH = 20;
 
 namespace ceam {
 
-XletsUserViewEditor::XletsUserViewEditor(QWidget* parent, const SharedDeviceData& data)
+XletsUserViewEditor::XletsUserViewEditor(QWidget* parent, const SharedItemData& data)
     : QDialog(parent)
     , ui(new Ui::XletsUserEditor)
     , data_(data)
@@ -132,7 +132,7 @@ void XletsUserViewEditor::initOutlets()
     ui->outletsView->centerOn(out_scene_.sceneRect().center());
 }
 
-void XletsUserViewEditor::initButtons(const SharedDeviceData& data)
+void XletsUserViewEditor::initButtons(const SharedItemData& data)
 {
     connect(ui->addView, &QToolButton::clicked, this,
         [this]() {
@@ -168,7 +168,7 @@ void XletsUserViewEditor::initButtons(const SharedDeviceData& data)
         });
 }
 
-void XletsUserViewEditor::initUserViewList(const SharedDeviceData& data)
+void XletsUserViewEditor::initUserViewList(const SharedItemData& data)
 {
     QListWidgetItem* current_item = nullptr;
     for (auto& uv : data->userViewData()) {

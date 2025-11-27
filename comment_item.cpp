@@ -33,7 +33,7 @@ constexpr qreal SZ = 8;
 } // namespace
 
 CommentItem::CommentItem()
-    : SceneItem(DeviceData::makeComment(tr("Comment")))
+    : SceneItem(ItemData::makeComment(tr("Comment")))
     , text_(new QGraphicsTextItem(this))
 {
     auto opt = text_->document()->defaultTextOption();
@@ -83,7 +83,7 @@ void CommentItem::addEditAct(QMenu& menu)
     connect(act, &QAction::triggered, this,
         [this]() {
             std::unique_ptr<CommentEditor> dialog(new CommentEditor(deviceData()));
-            connect(dialog.get(), SIGNAL(acceptData(SharedDeviceData)), this, SIGNAL(updateDevice(SharedDeviceData)));
+            connect(dialog.get(), &CommentEditor::acceptData, this, &CommentItem::updateDevice);
             dialog->exec();
         });
 

@@ -32,7 +32,7 @@ protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const final;
 
 private:
-    void loadSection(QStandardItem* parent, const QList<SharedDeviceData>& data);
+    void loadSection(QStandardItem* parent, const QList<SharedItemData>& data);
 
 private:
     DiagramItemModel* model_;
