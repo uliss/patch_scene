@@ -339,10 +339,10 @@ private:
 private:
     void initLiveConnection();
     void initScale();
-    void initScene(int w, int h);
+    void initGraphicsScene(int w, int h);
     void initSceneBackground();
     void initSceneConnections();
-    void initSceneDevices();
+    void initItemScene();
     void initSelectionRect();
     void initUndoStack();
 

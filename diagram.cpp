@@ -28,7 +28,6 @@
 #include <QSvgGenerator>
 
 #include "app_version.h"
-#include "comment_item.h"
 #include "diagram_scene.h"
 #include "diagram_updates_blocker.h"
 #include "logging.hpp"
@@ -98,9 +97,9 @@ Diagram::Diagram(int w, int h, QWidget* parent)
 
     setRenderHint(QPainter::Antialiasing);
 
-    initScene(w, h);
+    initGraphicsScene(w, h);
     initSceneConnections();
-    initSceneDevices();
+    initItemScene();
     initSceneBackground();
     initScale();
 
@@ -140,14 +139,14 @@ void Diagram::initSceneConnections()
     connect(connections_, &SceneConnections::edit, this, &Diagram::showConnectionEditor);
 }
 
-void Diagram::initSceneDevices()
+void Diagram::initItemScene()
 {
     item_scene_.setGraphicsScene(graphics_scene_);
     connect(&item_scene_, &Scene::added, this, &Diagram::deviceAdded);
     connect(&item_scene_, &Scene::removed, this, &Diagram::deviceRemoved);
 }
 
-void Diagram::initScene(int w, int h)
+void Diagram::initGraphicsScene(int w, int h)
 {
     graphics_scene_ = new DiagramScene(w, h, this);
     connect(graphics_scene_, &DiagramScene::removeConnection, this, &Diagram::cmdDisconnectDevices);

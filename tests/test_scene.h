@@ -22,8 +22,7 @@ class TestScene : public QObject {
 private slots:
     void initTestCase();
 
-    void add();
-    void addComment();
+    void addItem();
     void boundingRect();
     void checkConnection();
     void clear();

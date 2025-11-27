@@ -99,28 +99,6 @@ SceneItem* Scene::add(const SharedItemData& data)
     return item;
 }
 
-CommentItem* Scene::addComment()
-{
-    if (!scene_)
-        return nullptr;
-
-    auto c = new CommentItem();
-    scene_->addItem(c);
-
-    auto id = c->id();
-    auto it = items_.find(id);
-    if (items_.find(id) != items_.end()) {
-        WARN() << "device already with id" << id << "already exists in scene";
-        scene_->removeItem(it->second);
-        delete it->second;
-        it->second = c;
-    } else {
-        items_.insert(it, { c->id(), c });
-    }
-
-    return c;
-}
-
 SharedItemData Scene::remove(SceneItemId id)
 {
     if (!scene_)

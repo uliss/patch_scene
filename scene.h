@@ -57,17 +57,11 @@ public:
     size_t selectedCount() const;
 
     /**
-     * create new device and add it to the scene
-     * @return pointer to new device or nullptr on error
+     * create new item and add it to the scene
+     * @return pointer to new item or nullptr on error
      * @emit added(SharedItemData)
      */
     SceneItem* add(const SharedItemData& data);
-
-    /**
-     * creates new comment and add it to the scene
-     * @return pointer to new device or nullptr on error
-     */
-    CommentItem* addComment();
 
     /**
      * remove item from the scene

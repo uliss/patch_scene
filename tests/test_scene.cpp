@@ -119,7 +119,7 @@ void TestScene::initTestCase()
     qRegisterMetaType<SharedItemData>();
 }
 
-void TestScene::add()
+void TestScene::addItem()
 {
     Scene dev;
     QSignalSpy sig_spy(&dev, &Scene::added);
@@ -180,20 +180,6 @@ void TestScene::add()
     QCOMPARE(sig_spy.count(), 6);
     QCOMPARE(c0->itemData()->title(), "Comment");
     QVERIFY(dynamic_cast<CommentItem*>(c0) != nullptr);
-}
-
-void TestScene::addComment()
-{
-    Scene dev;
-    QSignalSpy sig_spy(&dev, &Scene::added);
-    QVERIFY(sig_spy.isValid());
-
-    QGraphicsScene scene;
-    dev.setGraphicsScene(&scene);
-
-    QVERIFY(dev.addComment());
-    QCOMPARE(dev.count(), 1);
-    QCOMPARE(sig_spy.count(), 0);
 }
 
 void TestScene::remove()
