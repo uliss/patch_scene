@@ -16,12 +16,12 @@
 
 #include "connection.h"
 #include "connection_database.h"
-#include "scene_item.h"
 #include "diagram_meta.h"
 #include "diagram_state_machine.h"
+#include "scene.h"
 #include "scene_background.h"
 #include "scene_connections.h"
-#include "scene.h"
+#include "scene_item.h"
 
 #include <QGraphicsItemGroup>
 #include <QGraphicsScene>
@@ -310,7 +310,6 @@ private:
 
     void selectTopDevice(const QList<QGraphicsItem*>& devs);
     void selectBottomDevice(const QList<QGraphicsItem*>& devs);
-    std::optional<std::pair<XletInfo, XletData>> hoverDeviceXlet(const QList<QGraphicsItem*>& devs, const QPoint& pt) const;
     void updateZoom(qreal zoom);
 
     bool dropJson(const QPointF& pos, const QByteArray& json);
@@ -318,6 +317,8 @@ private:
     QJsonValue appInfoJson() const;
 
     void fitRect(const QRectF& rect);
+
+    static std::optional<std::pair<XletInfo, XletData>> hoverDeviceXlet(const QList<QGraphicsItem*>& devs, const QPoint& pt);
 
 private:
     DiagramScene* graphics_scene_ { nullptr };
