@@ -46,3 +46,31 @@ void DiagramStateMachine::setState(DiagramState state)
     qDebug() << toString(state_) << "->" << toString(state);
     state_ = state;
 }
+
+QDebug operator<<(QDebug debug, const ceam::DiagramStateMachine& x)
+{
+    switch (x.state()) {
+    case DiagramState::Init:
+        debug << "state init";
+        break;
+    case DiagramState::ConnectDevice:
+        debug << "state connect";
+        break;
+    case DiagramState::EditConnection:
+        debug << "state edit connection";
+        break;
+    case DiagramState::MoveItem:
+        debug << "state move item";
+        break;
+    case DiagramState::SelectItem:
+        debug << "state select";
+        break;
+    case DiagramState::SelectionRect:
+        debug << "state selecion rect";
+        break;
+    default:
+        break;
+    }
+
+    return debug;
+}

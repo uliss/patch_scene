@@ -14,6 +14,8 @@
 #ifndef DIAGRAM_STATE_MACHINE_H
 #define DIAGRAM_STATE_MACHINE_H
 
+#include <QDebug>
+
 namespace ceam {
 
 enum class DiagramState {
@@ -34,5 +36,7 @@ public:
     void setState(DiagramState state);
 };
 } // namespace ceam
+
+QDebug operator<<(QDebug debug, const ceam::DiagramStateMachine& x);
 
 #endif // DIAGRAM_STATE_MACHINE_H
