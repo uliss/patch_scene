@@ -70,6 +70,8 @@ public:
      */
     void createContextMenu(QMenu& menu) override;
 
+    void showEditDialog() override;
+
 private:
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
     void paintTitleBox(QPainter* painter);

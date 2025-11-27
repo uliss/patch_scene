@@ -12,6 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "device_item.h"
+#include "device_editor.h"
 #include "svg_render_factory.h"
 #include "xlets_view.h"
 
@@ -495,6 +496,13 @@ void DeviceItem::createContextMenu(QMenu& menu)
     menu.addSeparator();
     addToFavoritesAct(menu);
     addPropertiesAct(menu);
+}
+
+void DeviceItem::showEditDialog()
+{
+    DeviceEditor dlg(data_);
+    connect(&dlg, &DeviceEditor::acceptData, this, &DeviceItem::updateDevice);
+    dlg.exec();
 }
 
 } // namespace ceam
