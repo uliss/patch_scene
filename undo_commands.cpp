@@ -12,7 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "undo_commands.h"
-#include "comment.h"
+#include "comment_item.h"
 #include "diagram.h"
 #include "diagram_updates_blocker.h"
 #include "logging.hpp"

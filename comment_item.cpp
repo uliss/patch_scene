@@ -11,7 +11,7 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#include "comment.h"
+#include "comment_item.h"
 #include "comment_editor.h"
 
 #include <QDebug>

@@ -12,7 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "test_scene.h"
-#include "comment.h"
+#include "comment_item.h"
 #include "scene_item.h"
 #include "scene.h"
 

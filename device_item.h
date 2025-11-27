@@ -24,6 +24,7 @@ namespace ceam {
 class DeviceXlet;
 
 class DeviceItem : public SceneItem {
+    Q_OBJECT
 public:
     DeviceItem();
     explicit DeviceItem(const SharedDeviceData& data);

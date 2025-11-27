@@ -53,8 +53,8 @@ set(PROJECT_SOURCES
     battery_item_model.h
     bezier_editor_handle.h
     bezier_editor_handle.cpp
-    comment.cpp
-    comment.h
+    comment_item.cpp
+    comment_item.h
     comment_editor.h
     comment_editor.cpp
     comment_editor.ui

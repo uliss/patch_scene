@@ -11,8 +11,8 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
  *****************************************************************************/
-#ifndef COMMENT_H
-#define COMMENT_H
+#ifndef COMMENT_ITEM_H
+#define COMMENT_ITEM_H
 
 #include "scene_item.h"
 
@@ -46,4 +46,4 @@ private:
 
 } // namespace ceam
 
-#endif // COMMENT_H
+#endif // COMMENT_ITEM_H

@@ -12,7 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "test_comment_item.h"
-#include "comment.h"
+#include "comment_item.h"
 
 #include <QTest>
 

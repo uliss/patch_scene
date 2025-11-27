@@ -12,7 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "scene.h"
-#include "comment.h"
+#include "comment_item.h"
 #include "device_item.h"
 #include "logging.hpp"
 #include "scene_item.h"

@@ -12,7 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "test_diagram.h"
-#include "comment.h"
+#include "comment_item.h"
 #include "diagram.h"
 
 #include <QJsonObject>
