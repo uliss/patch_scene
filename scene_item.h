@@ -76,6 +76,8 @@ public:
      */
     virtual void createContextMenu(QMenu& menu);
 
+    virtual void showEditDialog();
+
     static SharedItemData defaultDeviceData();
     static SharedItemData dataFromJson(const QJsonValue& j);
 

@@ -195,7 +195,7 @@ void SceneItem::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
     QMenu menu;
 
     auto sc = scene();
-    if (sc && sc->selectedItems().count() > 1) {
+    if (sc && sc->selectedItems().count() > 1) { // multiple selection
         auto align_hor = new QAction(tr("Align horizontal"), &menu);
         connect(align_hor, SIGNAL(triggered(bool)), this, SIGNAL(alignHorizontal()));
 
@@ -242,8 +242,12 @@ void SceneItem::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 
         menu.addAction(lockAct);
         menu.addAction(unlockAct);
-    } else {
-        createContextMenu(menu);
+    } else { // single item context menu
+        if (event->modifiers().testFlag(Qt::AltModifier)) {
+            return showEditDialog();
+        } else {
+            createContextMenu(menu);
+        }
     }
 
     menu.exec(event->screenPos());
@@ -340,6 +344,11 @@ void SceneItem::createContextMenu(QMenu& menu)
 
     menu.addSeparator();
     addPropertiesAct(menu);
+}
+
+void SceneItem::showEditDialog()
+{
+    qWarning() << __FUNCTION__;
 }
 
 SharedItemData SceneItem::defaultDeviceData()
