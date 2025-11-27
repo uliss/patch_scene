@@ -1101,7 +1101,7 @@ void Diagram::mousePressEvent(QMouseEvent* event)
         bool item_found = std::any_of(elems.begin(), elems.end(),
             [](QGraphicsItem* x) { return qgraphicsitem_cast<SceneItem*>(x); });
 
-        if (item_found) { // click on a single device
+        if (item_found) { // click on the item
             auto xlet = hoverDeviceXlet(elems, event->pos());
 
             if (xlet) { // click on xlet
@@ -1137,11 +1137,11 @@ void Diagram::mousePressEvent(QMouseEvent* event)
             event->accept();
         } else if (
             elems.size() > 0
-            && elems[0]) { // handle click on device parts
+            && elems[0]) { // click on other elements
             QGraphicsView::mousePressEvent(event);
         }
 
-        if (!event->isAccepted() || !item_found) { // unhandled device click or empty space click
+        if (!event->isAccepted() || !item_found) { // unhandled item click or empty space click
             connections_->unselectAll();
             startSelectionAt(event->pos());
             state_machine_.setState(DiagramState::SelectionRect);
