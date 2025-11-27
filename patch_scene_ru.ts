@@ -199,32 +199,6 @@
         <translation>Отразить по горизонтали</translation>
     </message>
     <message>
-        <source>&amp;Inputs</source>
-        <oldsource>Inputs</oldsource>
-        <translation type="vanished">&amp;Входы</translation>
-    </message>
-    <message>
-        <source>Move input up</source>
-        <translation type="vanished">Переместить вход наверх</translation>
-    </message>
-    <message>
-        <source>Move input down</source>
-        <translation type="vanished">Переместить вход вниз</translation>
-    </message>
-    <message>
-        <source>&amp;Outputs</source>
-        <oldsource>Outputs</oldsource>
-        <translation type="vanished">В&amp;ыходы</translation>
-    </message>
-    <message>
-        <source>Move output up</source>
-        <translation type="vanished">Переместить выход наверх</translation>
-    </message>
-    <message>
-        <source>Move output down</source>
-        <translation type="vanished">Переместить выход вниз</translation>
-    </message>
-    <message>
         <location filename="device_editor.ui" line="410"/>
         <source>Image</source>
         <translation>Изображение</translation>
@@ -276,18 +250,6 @@
         <translation>Ёмкость</translation>
     </message>
     <message>
-        <source>min</source>
-        <translation type="vanished">мин</translation>
-    </message>
-    <message>
-        <source>choose device image</source>
-        <translation type="vanished">выбрать изображение устройства</translation>
-    </message>
-    <message>
-        <source>Choose</source>
-        <translation type="vanished">Выбрать</translation>
-    </message>
-    <message>
         <location filename="device_editor.ui" line="321"/>
         <source>Scale</source>
         <translation>Масштаб</translation>
@@ -319,14 +281,6 @@
         <translation>&amp;Батарейки</translation>
     </message>
     <message>
-        <source>Edit</source>
-        <translation type="vanished">Редактировать</translation>
-    </message>
-    <message>
-        <source>Logical columns:</source>
-        <translation type="vanished">Логические столбцы:</translation>
-    </message>
-    <message>
         <location filename="device_editor.ui" line="267"/>
         <source>Outputs</source>
         <translation>Выходы</translation>
@@ -338,39 +292,15 @@
         <translation>&amp;Показывать</translation>
     </message>
     <message>
-        <source>add input</source>
-        <translation type="vanished">добавить вход</translation>
-    </message>
-    <message>
         <location filename="device_editor.ui" line="115"/>
         <source>Vendor</source>
         <translation>Производитель</translation>
-    </message>
-    <message>
-        <source>Views:</source>
-        <translation type="vanished">Виды:</translation>
     </message>
     <message>
         <location filename="device_editor.ui" line="220"/>
         <source>&amp;Model</source>
         <oldsource>Model</oldsource>
         <translation>&amp;Модель</translation>
-    </message>
-    <message>
-        <source>columns in raw</source>
-        <translation type="vanished">столбцов в ряду</translation>
-    </message>
-    <message>
-        <source>remove input</source>
-        <translation type="vanished">удалить вход</translation>
-    </message>
-    <message>
-        <source>add output</source>
-        <translation type="vanished">добавить выход</translation>
-    </message>
-    <message>
-        <source>remove output</source>
-        <translation type="vanished">удалить выход</translation>
     </message>
     <message>
         <location filename="device_editor.ui" line="397"/>
@@ -1123,10 +1053,6 @@
         <source>Reset</source>
         <translation>Сбросить</translation>
     </message>
-    <message>
-        <source>Reset key points</source>
-        <translation type="vanished">Сброс ключевых точек</translation>
-    </message>
 </context>
 <context>
     <name>Updater</name>
@@ -1720,25 +1646,14 @@ http://ceam.space</source>
     </message>
 </context>
 <context>
-    <name>ceam::Comment</name>
-    <message>
-        <source>Comment</source>
-        <translation type="vanished">Комментарий</translation>
-    </message>
-    <message>
-        <source>Edit</source>
-        <translation type="vanished">Правка</translation>
-    </message>
-</context>
-<context>
     <name>ceam::CommentItem</name>
     <message>
-        <location filename="comment.cpp" line="41"/>
+        <location filename="comment_item.cpp" line="41"/>
         <source>Comment</source>
         <translation>Комментарий</translation>
     </message>
     <message>
-        <location filename="comment.cpp" line="79"/>
+        <location filename="comment_item.cpp" line="79"/>
         <source>Edit</source>
         <translation>Правка</translation>
     </message>
@@ -1773,89 +1688,6 @@ http://ceam.space</source>
         <location filename="connection_item_model.cpp" line="35"/>
         <source>Destination</source>
         <translation>Назначение</translation>
-    </message>
-</context>
-<context>
-    <name>ceam::Device</name>
-    <message>
-        <source>Distribute horizontal</source>
-        <translation type="vanished">Распределить горизонтально</translation>
-    </message>
-    <message>
-        <source>Distribute vertical</source>
-        <translation type="vanished">Распределить вертикально</translation>
-    </message>
-    <message>
-        <source>Place in row</source>
-        <translation type="vanished">Разместить в ряд</translation>
-    </message>
-    <message>
-        <source>Place in column</source>
-        <translation type="vanished">Разместить в столбец</translation>
-    </message>
-    <message>
-        <source>Mirror image</source>
-        <translation type="vanished">Отразить изображение</translation>
-    </message>
-    <message>
-        <source>Lock</source>
-        <translation type="vanished">Заблокировать</translation>
-    </message>
-    <message>
-        <source>Unlock</source>
-        <translation type="vanished">Разблокировать</translation>
-    </message>
-    <message>
-        <source>Hide title</source>
-        <translation type="vanished">Скрыть название</translation>
-    </message>
-    <message>
-        <source>Show title</source>
-        <translation type="vanished">Показать название</translation>
-    </message>
-    <message>
-        <source>Duplicate</source>
-        <translation type="vanished">Дублировать</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Удалить</translation>
-    </message>
-    <message>
-        <source>Add to favorites</source>
-        <translation type="vanished">Добавить в избранное</translation>
-    </message>
-    <message>
-        <source>Move up</source>
-        <translation type="vanished">Поднять выше</translation>
-    </message>
-    <message>
-        <source>Move down</source>
-        <translation type="vanished">Опустить ниже</translation>
-    </message>
-    <message>
-        <source>Properties</source>
-        <translation type="vanished">Свойства</translation>
-    </message>
-    <message>
-        <source>Views</source>
-        <translation type="vanished">Виды</translation>
-    </message>
-    <message>
-        <source>Logic</source>
-        <translation type="vanished">Логический</translation>
-    </message>
-    <message>
-        <source>Device: %1</source>
-        <translation type="vanished">Устройство: %1</translation>
-    </message>
-    <message>
-        <source>Align horizontal</source>
-        <translation type="vanished">Выровнять по горизонтали</translation>
-    </message>
-    <message>
-        <source>Align vertical</source>
-        <translation type="vanished">Выровнять по вертикали</translation>
     </message>
 </context>
 <context>
@@ -1946,45 +1778,6 @@ http://ceam.space</source>
     </message>
 </context>
 <context>
-    <name>ceam::DeviceProperties</name>
-    <message>
-        <source>&apos;%1&apos; properties</source>
-        <translation type="vanished">Свойства &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Logical inputs editor</source>
-        <translation type="vanished">Редактор физических входов</translation>
-    </message>
-    <message>
-        <source>Logical outputs editor</source>
-        <translation type="vanished">Редактор физических выходов</translation>
-    </message>
-    <message>
-        <source>User views editor</source>
-        <translation type="vanished">Редактор пользовательских видов</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation type="vanished">Тип</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="vanished">Название</translation>
-    </message>
-    <message>
-        <source>Socket</source>
-        <translation type="vanished">Гнездо</translation>
-    </message>
-    <message>
-        <source>Phantom</source>
-        <translation type="vanished">Фантом</translation>
-    </message>
-    <message>
-        <source>Power</source>
-        <translation type="vanished">Питание</translation>
-    </message>
-</context>
-<context>
     <name>ceam::DeviceXlet</name>
     <message>
         <location filename="device_xlet.cpp" line="203"/>
@@ -2008,18 +1801,6 @@ http://ceam.space</source>
         <location filename="diagram.cpp" line="1318"/>
         <source>&amp;Add device</source>
         <translation>&amp;Добавить элемент</translation>
-    </message>
-    <message>
-        <source>&amp;Clear background</source>
-        <translation type="vanished">&amp;Удалить фоновое изображение</translation>
-    </message>
-    <message>
-        <source>&amp;Replace background</source>
-        <translation type="vanished">&amp;Заменить фоновое изображение</translation>
-    </message>
-    <message>
-        <source>&amp;Set background</source>
-        <translation type="vanished">&amp;Установить фоновое изображение</translation>
     </message>
     <message>
         <location filename="diagram.cpp" line="1322"/>
@@ -2235,30 +2016,6 @@ Do you wan&apos;t to save it before closing?</source>
         <location filename="mainwindow.cpp" line="530"/>
         <source>%1[*] - PatchScene</source>
         <translation></translation>
-    </message>
-    <message>
-        <source>devices</source>
-        <translation type="vanished">устройства</translation>
-    </message>
-    <message>
-        <source>instruments</source>
-        <translation type="vanished">инструменты</translation>
-    </message>
-    <message>
-        <source>sends</source>
-        <translation type="vanished">посылы</translation>
-    </message>
-    <message>
-        <source>returns</source>
-        <translation type="vanished">возвраты</translation>
-    </message>
-    <message>
-        <source>furniture</source>
-        <translation type="vanished">инвентарь</translation>
-    </message>
-    <message>
-        <source>humans</source>
-        <translation type="vanished">люди</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="840"/>
@@ -2667,17 +2424,6 @@ Do you wan&apos;t to save it before closing?</source>
     </message>
 </context>
 <context>
-    <name>ceam::XletsUserEditor</name>
-    <message>
-        <source>User</source>
-        <translation type="vanished">Пользовательский</translation>
-    </message>
-    <message>
-        <source>User %1</source>
-        <translation type="vanished">Пользовательский %1</translation>
-    </message>
-</context>
-<context>
     <name>ceam::XletsUserViewEditor</name>
     <message>
         <location filename="xlets_user_view_editor.cpp" line="139"/>
@@ -2706,37 +2452,6 @@ Do you wan&apos;t to save it before closing?</source>
         <location filename="macos_utils.mm" line="74"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
-    </message>
-</context>
-<context>
-    <name>dev</name>
-    <message>
-        <source>percussion (noise)</source>
-        <translation type="vanished">ударные (шумовые)</translation>
-    </message>
-    <message>
-        <source>percussion (tonal)</source>
-        <translation type="vanished">ударные (звуковысотные)</translation>
-    </message>
-    <message>
-        <source>bowed strings</source>
-        <translation type="vanished">струнные (смычковые)</translation>
-    </message>
-    <message>
-        <source>plucked strings</source>
-        <translation type="vanished">струнные (щипковые)</translation>
-    </message>
-    <message>
-        <source>brass</source>
-        <translation type="vanished">духовые (медные)</translation>
-    </message>
-    <message>
-        <source>reed</source>
-        <translation type="vanished">язычковые</translation>
-    </message>
-    <message>
-        <source>wood winds</source>
-        <translation type="vanished">духовые (деревянные)</translation>
     </message>
 </context>
 <context>
