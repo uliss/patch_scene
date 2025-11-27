@@ -16,7 +16,6 @@
 
 #include "connection_database.h"
 #include "device_common.h"
-#include "device_item.h"
 
 #include <QObject>
 #include <unordered_map>
