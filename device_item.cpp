@@ -301,9 +301,9 @@ QRectF DeviceItem::xletRect() const
     return brect.translated(brect.width() * -0.5, inletsYOff());
 }
 
-bool DeviceItem::setDeviceData(const SharedItemData& data)
+bool DeviceItem::setItemData(const SharedItemData& data)
 {
-    if (SceneItem::setDeviceData(data)) {
+    if (SceneItem::setItemData(data)) {
         xlets_.setData(data);
         syncRect();
         return true;
@@ -449,7 +449,7 @@ void DeviceItem::addViewSubMenu(QMenu& menu)
     connect(act_view_default, &QAction::triggered, this,
         [this]() {
             data_->setCurrentUserView({});
-            setDeviceData(data_);
+            setItemData(data_);
             emit updateDevice(data_);
         });
 
@@ -464,7 +464,7 @@ void DeviceItem::addViewSubMenu(QMenu& menu)
         connect(act_view_user, &QAction::triggered, this,
             [this, name]() {
                 data_->setCurrentUserView(name);
-                setDeviceData(data_);
+                setItemData(data_);
                 emit updateDevice(data_);
             });
     }

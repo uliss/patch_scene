@@ -178,7 +178,7 @@ void TestScene::add()
     auto c0 = dev.add(data_comment(200));
     QVERIFY(c0);
     QCOMPARE(sig_spy.count(), 6);
-    QCOMPARE(c0->deviceData()->title(), "Comment");
+    QCOMPARE(c0->itemData()->title(), "Comment");
     QVERIFY(dynamic_cast<CommentItem*>(c0) != nullptr);
 }
 
@@ -308,7 +308,7 @@ void TestScene::boundingRect()
     QGraphicsScene scene;
     dev.setGraphicsScene(&scene);
     auto dev1 = dev.add(data3(100));
-    QCOMPARE(dev1->deviceData()->title(), "DATA3");
+    QCOMPARE(dev1->itemData()->title(), "DATA3");
     QCOMPARE(dev.boundingRect(), QRectF(-0.5 * MIN_TXT_WD, 0, MIN_TXT_WD, DEF_TXT_HT));
 
     auto dev2 = dev.add(data3(100));
@@ -441,7 +441,7 @@ void TestScene::findConnectionPoints()
     dev2 = dev.add(data4(101));
     dev1->setPos(100, 200);
     dev2->setPos(300, 400);
-    QCOMPARE(dev1->deviceData()->title(), "DATA4");
+    QCOMPARE(dev1->itemData()->title(), "DATA4");
 
     pts = dev.connectionPoints({ 100, 0, 101, 0 });
     QVERIFY(pts);

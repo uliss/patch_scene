@@ -73,18 +73,18 @@ void TestConnection::findConnected()
 {
     QGraphicsScene sc;
     auto d1 = new DeviceItem(SharedItemData { new ItemData(100) });
-    auto data = d1->deviceData();
+    auto data = d1->itemData();
     data->appendInput({});
     data->appendOutput({});
-    d1->setDeviceData(data);
+    d1->setItemData(data);
 
     d1->setPos(10, 0);
     sc.addItem(d1);
     auto d2 = new DeviceItem(SharedItemData { new ItemData(200) });
-    data = d2->deviceData();
+    data = d2->itemData();
     data->appendInput({});
     data->appendOutput({});
-    d2->setDeviceData(data);
+    d2->setItemData(data);
     d2->setPos(10, 100);
     sc.addItem(d2);
 

@@ -741,7 +741,7 @@ void MoveLower::redo()
     auto z = lower_item->zValue() - 1;
     dev->setZValue(z);
 
-    qWarning() << dev->deviceData()->title();
+    qWarning() << dev->itemData()->title();
 }
 
 MoveUpper::MoveUpper(Diagram* doc, SceneItemId id)
@@ -792,5 +792,5 @@ void MoveUpper::redo()
     auto z = upper_item->zValue() + 0.5;
     dev->setZValue(z);
 
-    qWarning() << dev->deviceData()->title();
+    qWarning() << dev->itemData()->title();
 }

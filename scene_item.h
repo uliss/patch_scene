@@ -38,9 +38,23 @@ public:
      */
     SceneItemId id() const { return data_->id(); }
 
-    SharedItemData deviceData() const;
-    virtual bool setDeviceData(const SharedItemData& data);
+    /**
+     * item data
+     */
+    SharedItemData itemData() const;
 
+    /**
+     * set item data
+     */
+    virtual bool setItemData(const SharedItemData& data);
+
+    /**
+     * return xlet connection point position
+     * @param i - xlet index
+     * @param type - xlet type
+     * @param map - map to scene coordinates
+     * @return connection point in item or scene coordinates
+     */
     virtual std::optional<QPointF> connectionPoint(XletIndex i, XletType type, bool map) const;
 
     /**

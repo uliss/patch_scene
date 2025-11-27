@@ -66,8 +66,8 @@ void TestDeviceItem::createDefault()
 {
     DeviceItem dev;
     QVERIFY(dev.id() != SCENE_ITEM_NULL_ID);
-    QCOMPARE(dev.deviceData()->inputs().count(), 4);
-    QCOMPARE(dev.deviceData()->outputs().count(), 2);
+    QCOMPARE(dev.itemData()->inputs().count(), 4);
+    QCOMPARE(dev.itemData()->outputs().count(), 2);
     QCOMPARE(dev.xlets().inletCount(), 4);
     QCOMPARE(dev.xlets().outletCount(), 2);
     QVERIFY(dev.xlets().currentView());
@@ -100,8 +100,8 @@ void TestDeviceItem::createNoTitle()
         DeviceItem dev(make_data(100, 2, 0));
         QCOMPARE(dev.id(), 100);
 
-        QCOMPARE(dev.deviceData()->inputs().count(), 2);
-        QCOMPARE(dev.deviceData()->outputs().count(), 0);
+        QCOMPARE(dev.itemData()->inputs().count(), 2);
+        QCOMPARE(dev.itemData()->outputs().count(), 0);
 
         QCOMPARE(dev.boundingRect(), QRectF(-1 * XW, 0, 2 * XW, XH));
         QCOMPARE(dev.xletRect(), QRect(-1 * XW, 0, 2 * XW, XH));

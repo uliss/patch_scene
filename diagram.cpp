@@ -659,13 +659,13 @@ bool Diagram::setItemData(const SharedItemData& data)
         return false;
     }
 
-    const bool title_update = (dev->deviceData()->title() != data->title());
+    const bool title_update = (dev->itemData()->title() != data->title());
 
-    auto battery_change = dev->deviceData()->calcBatteryChange(*data);
+    auto battery_change = dev->itemData()->calcBatteryChange(*data);
 
-    dev->setDeviceData(data);
+    dev->setItemData(data);
     emit sceneChanged();
-    emit deviceUpdated(dev->deviceData());
+    emit deviceUpdated(dev->itemData());
 
     if (battery_change)
         emit batteryChanged(battery_change);
@@ -692,9 +692,9 @@ QList<SceneItemId> Diagram::duplicateSelected(DuplicatePolicy policy)
         return res;
 
     for (auto src_dev : dup_list) {
-        auto new_dev = addItem(src_dev->deviceData());
+        auto new_dev = addItem(src_dev->itemData());
         if (new_dev) {
-            switch (new_dev->deviceData()->category()) {
+            switch (new_dev->itemData()->category()) {
             case ItemCategory::Furniture:
                 new_dev->moveBy(50, 0);
                 break;
@@ -726,8 +726,8 @@ void Diagram::setShowPeople(bool value)
 {
     item_scene_.foreachItem([value](SceneItem* dev) {
         if (dev //
-            && dev->deviceData() //
-            && dev->deviceData()->category() == ItemCategory::Human) {
+            && dev->itemData() //
+            && dev->itemData()->category() == ItemCategory::Human) {
             dev->setVisible(value);
         }
     });
@@ -737,8 +737,8 @@ void Diagram::setShowFurniture(bool value)
 {
     item_scene_.foreachItem([value](SceneItem* dev) {
         if (dev //
-            && dev->deviceData() //
-            && dev->deviceData()->category() == ItemCategory::Furniture) {
+            && dev->itemData() //
+            && dev->itemData()->category() == ItemCategory::Furniture) {
             dev->setVisible(value);
         }
     });

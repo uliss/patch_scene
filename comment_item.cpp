@@ -82,7 +82,7 @@ void CommentItem::addEditAct(QMenu& menu)
 
     connect(act, &QAction::triggered, this,
         [this]() {
-            std::unique_ptr<CommentEditor> dialog(new CommentEditor(deviceData()));
+            std::unique_ptr<CommentEditor> dialog(new CommentEditor(itemData()));
             connect(dialog.get(), &CommentEditor::acceptData, this, &CommentItem::updateDevice);
             dialog->exec();
         });
@@ -92,12 +92,12 @@ void CommentItem::addEditAct(QMenu& menu)
 
 void CommentItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    auto wd = deviceData()->borderWidth();
-    auto bd = deviceData()->borderColor();
+    auto wd = itemData()->borderWidth();
+    auto bd = itemData()->borderColor();
     if (!bd.isValid())
         bd = QColor::fromRgbF(0.25, 0.25, 0.25);
 
-    auto bg = deviceData()->backgroundColor();
+    auto bg = itemData()->backgroundColor();
     if (!bg.isValid())
         bg = Qt::white;
 
@@ -140,7 +140,7 @@ void CommentItem::keyPressEvent(QKeyEvent* event)
         cursor.movePosition(QTextCursor::End);
         text_->setTextCursor(cursor);
         // qWarning() << "new text: " << title()->document()->toPlainText();
-        deviceData()->setTitle(text_->document()->toPlainText());
+        itemData()->setTitle(text_->document()->toPlainText());
         event->accept();
     } else {
         SceneItem::keyPressEvent(event);

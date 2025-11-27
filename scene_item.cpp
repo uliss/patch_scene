@@ -274,7 +274,7 @@ void SceneItem::addLockAction(QMenu& menu)
 
 QJsonObject SceneItem::toJson() const
 {
-    auto data_json = deviceData()->toJson();
+    auto data_json = itemData()->toJson();
     data_json["z"] = zValue();
 
     return data_json;
@@ -368,7 +368,7 @@ SharedItemData SceneItem::dataFromJson(const QJsonValue& j)
     return data;
 }
 
-SharedItemData SceneItem::deviceData() const
+SharedItemData SceneItem::itemData() const
 {
     auto dev_pos = pos();
 
@@ -378,7 +378,7 @@ SharedItemData SceneItem::deviceData() const
     return data_;
 }
 
-bool SceneItem::setDeviceData(const SharedItemData& data)
+bool SceneItem::setItemData(const SharedItemData& data)
 {
     if (data->isNull()) {
         WARN() << "NULL data";

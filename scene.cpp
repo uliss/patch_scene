@@ -40,13 +40,13 @@ bool Scene::operator==(const Scene& sc) const
     QSet<ItemData> d0, d1;
 
     for (auto& kv : items_) {
-        auto data = kv.second->deviceData();
+        auto data = kv.second->itemData();
         data->setId(SCENE_ITEM_NULL_ID);
         d0.insert(*data);
     }
 
     for (auto& kv : sc.items_) {
-        auto data = kv.second->deviceData();
+        auto data = kv.second->itemData();
         data->setId(SCENE_ITEM_NULL_ID);
         d1.insert(*data);
     }
@@ -94,7 +94,7 @@ SceneItem* Scene::add(const SharedItemData& data)
         items_.insert(it, { item->id(), item });
     }
 
-    emit added(item->deviceData());
+    emit added(item->itemData());
 
     return item;
 }
@@ -132,7 +132,7 @@ SharedItemData Scene::remove(SceneItemId id)
         return {};
     }
 
-    auto data = it->second->deviceData();
+    auto data = it->second->itemData();
     scene_->removeItem(it->second);
     delete it->second;
     items_.erase(it);
@@ -162,7 +162,7 @@ SharedItemData Scene::findData(SceneItemId id) const
     auto it = items_.find(id);
     return it == items_.end()
         ? SharedItemData {}
-        : it->second->deviceData();
+        : it->second->itemData();
 }
 
 std::optional<DeviceConnectionData> Scene::connectionInfo(const ConnectionId& id) const
@@ -178,7 +178,7 @@ std::optional<DeviceConnectionData> Scene::connectionInfo(const ConnectionId& id
         const auto dev = kv.second;
 
         if (dev_id == id.source()) {
-            const auto data = dev->deviceData();
+            const auto data = dev->itemData();
             if (data && id.sourceIndex() < data->outputs().size()) {
                 res->src_out = data->outputAt(id.sourceIndex());
                 res->src_data = data;
@@ -188,7 +188,7 @@ std::optional<DeviceConnectionData> Scene::connectionInfo(const ConnectionId& id
                 WARN() << "invalid source outlet:" << (int)id.sourceIndex();
             }
         } else if (dev_id == id.destination()) {
-            const auto data = dev->deviceData();
+            const auto data = dev->itemData();
             if (data && id.destinationIndex() < data->inputs().size()) {
                 res->dest_in = data->inputAt(id.destinationIndex());
                 res->dest_data = data;
@@ -237,14 +237,14 @@ std::optional<ConnectorPair> Scene::connectionPair(const ConnectionId& id) const
     if (dest_it == items_.end())
         return {};
 
-    if (id.sourceIndex() >= src_it->second->deviceData()->outputs().count())
+    if (id.sourceIndex() >= src_it->second->itemData()->outputs().count())
         return {};
 
-    if (id.destinationIndex() >= dest_it->second->deviceData()->inputs().count())
+    if (id.destinationIndex() >= dest_it->second->itemData()->inputs().count())
         return {};
 
-    auto& d0 = src_it->second->deviceData()->outputAt(id.sourceIndex());
-    auto& d1 = dest_it->second->deviceData()->inputAt(id.destinationIndex());
+    auto& d0 = src_it->second->itemData()->outputAt(id.sourceIndex());
+    auto& d1 = dest_it->second->itemData()->inputAt(id.destinationIndex());
 
     return ConnectorPair {
         ConnectorJack { d0.connectorModel(), d0.connectorType().complement() },
@@ -261,14 +261,14 @@ bool Scene::checkConnection(const ConnectionId& id) const
     if (src_it == items_.end())
         return false;
 
-    if (id.sourceIndex() >= src_it->second->deviceData()->outputs().size())
+    if (id.sourceIndex() >= src_it->second->itemData()->outputs().size())
         return false;
 
     auto dest_it = items_.find(id.destination());
     if (dest_it == items_.end())
         return false;
 
-    if (id.destinationIndex() >= dest_it->second->deviceData()->inputs().size())
+    if (id.destinationIndex() >= dest_it->second->itemData()->inputs().size())
         return false;
 
     return true;
@@ -316,7 +316,7 @@ void Scene::clear()
     if (scene_) {
         for (auto& kv : items_) {
             scene_->removeItem(kv.second);
-            emit removed(kv.second->deviceData());
+            emit removed(kv.second->itemData());
             delete kv.second;
         }
     }
@@ -341,7 +341,7 @@ QList<SharedItemData> Scene::dataList() const
     res.reserve(items_.size());
 
     for (auto& kv : items_)
-        res.push_back(kv.second->deviceData());
+        res.push_back(kv.second->itemData());
 
     return res;
 }
@@ -429,7 +429,7 @@ void Scene::foreachData(const std::function<void(const SharedItemData&)>& fn) co
         return;
 
     for (auto& kv : items_)
-        fn(kv.second->deviceData());
+        fn(kv.second->itemData());
 }
 
 void Scene::foreachSelectedData(const std::function<void(const SharedItemData&)>& fn) const
@@ -439,7 +439,7 @@ void Scene::foreachSelectedData(const std::function<void(const SharedItemData&)>
 
     for (auto& kv : items_) {
         if (kv.second->isSelected())
-            fn(kv.second->deviceData());
+            fn(kv.second->itemData());
     }
 }
 

@@ -44,7 +44,7 @@ public:
      */
     QRectF xletRect() const;
 
-    bool setDeviceData(const SharedItemData& data) override;
+    bool setItemData(const SharedItemData& data) override;
 
     /**
      * @return connection point in device or scene coords
