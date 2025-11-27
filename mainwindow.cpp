@@ -151,9 +151,9 @@ void MainWindow::initFavorites()
         &MainWindow::exportAllItems);
 
     connect(favorites_,
-        SIGNAL(requestImportAll),
+        SIGNAL(requestImportAll()),
         this,
-        SLOT(importFavorites));
+        SLOT(importFavorites()));
 }
 
 void MainWindow::initDiagram()
