@@ -220,7 +220,7 @@ void MainWindow::initDeviceList()
                 auto new_data = device_model_->updateDeviceData(item, old_data);
                 diagram_->cmdUpdateDevice(new_data);
             } else {
-                WARN() << "device not found:" << (int)id.value();
+                WARN() << "device not found:" << static_cast<int>(id.value());
             }
         }
     });
