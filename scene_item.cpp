@@ -177,6 +177,7 @@ SceneItem::~SceneItem()
 
 void SceneItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
+    qWarning() << __FUNCTION__;
     Q_UNUSED(event);
 }
 
@@ -243,11 +244,7 @@ void SceneItem::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
         menu.addAction(lockAct);
         menu.addAction(unlockAct);
     } else { // single item context menu
-        if (event->modifiers().testFlag(Qt::AltModifier)) {
-            return showEditDialog();
-        } else {
-            createContextMenu(menu);
-        }
+        createContextMenu(menu);
     }
 
     menu.exec(event->screenPos());
