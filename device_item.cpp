@@ -477,7 +477,10 @@ void DeviceItem::createContextMenu(QMenu& menu)
 
     if (!data_->isLocked()) {
         addTitleAction(menu);
-        addMirrorAction(menu);
+
+        if (!data_->image().isEmpty())
+            addMirrorAction(menu);
+
         menu.addSeparator();
         addZValueAction(menu);
         menu.addSeparator();
