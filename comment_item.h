@@ -31,6 +31,7 @@ public:
 
 public:
     void createContextMenu(QMenu& menu) override;
+    void showEditDialog() override;
 
 protected:
     void addEditAct(QMenu& menu);

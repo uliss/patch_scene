@@ -76,6 +76,13 @@ void CommentItem::createContextMenu(QMenu& menu)
     addEditAct(menu);
 }
 
+void CommentItem::showEditDialog()
+{
+    CommentEditor dlg(itemData());
+    connect(&dlg, &CommentEditor::acceptData, this, &CommentItem::updateDevice);
+    dlg.exec();
+}
+
 void CommentItem::addEditAct(QMenu& menu)
 {
     auto act = new QAction(tr("Edit"), &menu);
