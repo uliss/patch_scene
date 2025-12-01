@@ -103,11 +103,12 @@ signals:
     void mirrorSelected();
     void mirror(SceneItemId id);
 
-private:
+protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
     void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
     void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) final;
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
 
 protected:
     // context menu actions

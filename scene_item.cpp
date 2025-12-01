@@ -177,7 +177,6 @@ SceneItem::~SceneItem()
 
 void SceneItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-    qWarning() << __FUNCTION__;
     Q_UNUSED(event);
 }
 
@@ -249,6 +248,11 @@ void SceneItem::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 
     menu.exec(event->screenPos());
 
+    event->accept();
+}
+
+void SceneItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
     event->accept();
 }
 
