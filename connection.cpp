@@ -51,7 +51,7 @@ QPainterPath makeSegmentsPath(const QPoint& from, const QPoint& to, const Segmen
     return line;
 }
 
-}
+} // namespace
 
 Connection::Connection(const ConnectionId& id)
     : id_(id)
@@ -59,7 +59,10 @@ Connection::Connection(const ConnectionId& id)
     setZValue(ZVALUE_CONN);
     setCacheMode(DeviceCoordinateCache);
     setFlag(QGraphicsItem::ItemIsSelectable);
-    setToolTip(tr("Out(%1) → In(%2)").arg((int)id.sourceIndex()).arg((int)id.destinationIndex()));
+    setToolTip(tr("Out(%1) → In(%2)")
+            .arg(static_cast<int>(id.sourceIndex()))
+            .arg(static_cast<int>(id.destinationIndex())));
+
     setAcceptHoverEvents(true);
 }
 
@@ -247,18 +250,12 @@ void Connection::setCordType(ConnectionCordType type)
 
 void Connection::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 {
-    auto dia_scene = qobject_cast<DiagramScene*>(scene());
-    if (!dia_scene)
-        return;
-
     emit selected(this, true);
     QMenu menu;
 
     auto act_del = menu.addAction(QAction::tr("Delete"));
-    QAction::connect(act_del, &QAction::triggered, dia_scene,
-        [this, dia_scene]() {
-            emit dia_scene->removeConnection(id_);
-        });
+    QAction::connect(act_del, &QAction::triggered, this,
+        [this]() { emit removeRequested(id_); });
 
     auto menu_ct = menu.addMenu(QAction::tr("Cord type"));
 
@@ -268,19 +265,19 @@ void Connection::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 
     act_bezier->setCheckable(true);
     act_bezier->setChecked(view_data_.cordType() == ConnectionCordType::Bezier);
-    QAction::connect(act_bezier, &QAction::triggered, dia_scene, [this]() {
+    QAction::connect(act_bezier, &QAction::triggered, this, [this]() {
         setCordType(ConnectionCordType::Bezier);
     });
 
     act_linear->setCheckable(true);
     act_linear->setChecked(view_data_.cordType() == ConnectionCordType::Linear);
-    QAction::connect(act_linear, &QAction::triggered, dia_scene, [this]() {
+    QAction::connect(act_linear, &QAction::triggered, this, [this]() {
         setCordType(ConnectionCordType::Linear);
     });
 
     act_segment->setCheckable(true);
     act_segment->setChecked(view_data_.cordType() == ConnectionCordType::Segmented);
-    QAction::connect(act_segment, &QAction::triggered, dia_scene, [this]() {
+    QAction::connect(act_segment, &QAction::triggered, this, [this]() {
         setCordType(ConnectionCordType::Segmented);
     });
 
@@ -304,7 +301,7 @@ void Connection::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
         QPixmap pixmap(64, 64);
         pixmap.fill(c);
         auto act = menu_color->addAction(QIcon(pixmap), {});
-        QAction::connect(act, &QAction::triggered, dia_scene, [this, c]() {
+        QAction::connect(act, &QAction::triggered, this, [this, c]() {
             view_data_.setColor(c);
             setSelected(false);
         });
@@ -312,30 +309,30 @@ void Connection::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 
     if (view_data_.cordType() == ConnectionCordType::Segmented) {
         auto act_edit = menu.addAction(QAction::tr("Edit"));
-        QAction::connect(act_edit, &QAction::triggered, dia_scene, [this]() {
+        QAction::connect(act_edit, &QAction::triggered, this, [this]() {
             emit edited(id_, view_data_);
         });
 
         auto pos = event->scenePos();
         auto act_split = menu.addAction(QAction::tr("Add split point"));
-        QAction::connect(act_split, &QAction::triggered, dia_scene, [this, pos]() {
+        QAction::connect(act_split, &QAction::triggered, this, [this, pos]() {
             emit splited(id_, pos);
         });
 
         if (!view_data_.segments().isEmpty()) {
             auto act_reset = menu.addAction(QAction::tr("Reset"));
-            QAction::connect(act_reset, &QAction::triggered, dia_scene, [this]() {
+            QAction::connect(act_reset, &QAction::triggered, this, [this]() {
                 emit reset(id_, view_data_.cordType());
             });
         }
     } else if (view_data_.cordType() == ConnectionCordType::Bezier) {
         auto act_edit = menu.addAction(QAction::tr("Edit"));
-        QAction::connect(act_edit, &QAction::triggered, dia_scene, [this]() {
+        QAction::connect(act_edit, &QAction::triggered, this, [this]() {
             emit edited(id_, view_data_);
         });
 
         auto act_reset = menu.addAction(QAction::tr("Reset"));
-        QAction::connect(act_reset, &QAction::triggered, dia_scene, [this]() {
+        QAction::connect(act_reset, &QAction::triggered, this, [this]() {
             emit reset(id_, view_data_.cordType());
         });
     }
