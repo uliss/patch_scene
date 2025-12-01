@@ -46,4 +46,4 @@ int app_file_format_version()
     return PATCH_SCENE_FILE_FORMAT_VERSION;
 }
 
-}
+} // namespace ceam
