@@ -251,7 +251,7 @@ void SceneItem::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
     event->accept();
 }
 
-void SceneItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+void SceneItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 {
     event->accept();
 }
