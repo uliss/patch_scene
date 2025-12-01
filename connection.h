@@ -87,6 +87,6 @@ private:
     bool hover_ { false };
 };
 
-}
+} // namespace ceam
 
 #endif // CONNECTION_H
