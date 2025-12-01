@@ -32,7 +32,7 @@ class SceneConnections : public QObject {
     Q_OBJECT
 
 public:
-    SceneConnections(QGraphicsScene* scene, QObject* parent = nullptr);
+    explicit SceneConnections(QGraphicsScene* scene, QObject* parent = nullptr);
 
     /**
      * adds new connection by given data
@@ -135,6 +135,8 @@ signals:
     void update(ConnectionId);
     void edit(ConnectionId);
     void visibleChanged(bool);
+
+    void removeRequested(ConnectionId);
 
 private:
     bool addConnection(Connection* c);
