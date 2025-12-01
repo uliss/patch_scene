@@ -308,7 +308,10 @@ bool SceneConnections::addConnection(Connection* c)
 
     connect(
         c, &Connection::removeRequested, this,
-        [this](ConnectionId id) { remove(id); },
+        [this](ConnectionId id) {
+            showEditor(false);
+            emit removeRequested(id);
+        },
         Qt::SingleShotConnection);
 
     emit added(c->connectionId());
