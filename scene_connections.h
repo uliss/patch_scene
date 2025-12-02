@@ -129,6 +129,13 @@ public:
      */
     void clear();
 
+    /**
+     * find connection by id
+     * @note mainly for testing
+     * @complexity O(n)
+     */
+    const Connection* findById(const ConnectionId& id) const;
+
 signals:
     void added(ConnectionId);
     void removed(ConnectionId);
@@ -150,6 +157,6 @@ private:
     QHash<SceneItemId, QList<Connection*>> conn_dev_;
 };
 
-}  // namespace ceam
+} // namespace ceam
 
 #endif // SCENE_CONNECTIONS_H

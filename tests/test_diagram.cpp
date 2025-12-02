@@ -248,4 +248,44 @@ void TestDiagram::mousePress()
 
     QTest::mouseRelease(dia.viewport(), Qt::LeftButton, {}, { 10, 10 });
     QCOMPARE(dia.state(), DiagramState::Init);
+
+    dia.cmdCreateDevice({ 10, 10 });
+    QCOMPARE(dia.itemScene().count(), 1);
+    QCOMPARE(dia.itemScene().selectedCount(), 0);
+
+    QPoint pt { 212, 162 };
+
+    // +200, +150
+    // click select item
+    QTest::mousePress(dia.viewport(), Qt::LeftButton, {}, pt);
+    QCOMPARE(dia.state(), DiagramState::SelectItem);
+    QCOMPARE(dia.itemScene().selectedCount(), 1);
+
+    QTest::mouseRelease(dia.viewport(), Qt::LeftButton, {}, pt);
+    QCOMPARE(dia.state(), DiagramState::Init);
+    QCOMPARE(dia.itemScene().selectedCount(), 1);
+
+    // click+ctl toggle selected item
+    QTest::mousePress(dia.viewport(), Qt::LeftButton, Qt::ControlModifier, pt);
+    QCOMPARE(dia.state(), DiagramState::Init);
+    QCOMPARE(dia.itemScene().selectedCount(), 0);
+
+    QTest::mouseRelease(dia.viewport(), Qt::LeftButton, Qt::ControlModifier, pt);
+    QCOMPARE(dia.state(), DiagramState::Init);
+    QCOMPARE(dia.itemScene().selectedCount(), 0);
+
+    // click+ctl toggle selected item
+    QTest::mousePress(dia.viewport(), Qt::LeftButton, Qt::ControlModifier, pt);
+    QCOMPARE(dia.state(), DiagramState::SelectItem);
+    QCOMPARE(dia.itemScene().selectedCount(), 1);
+
+    QTest::mouseRelease(dia.viewport(), Qt::LeftButton, Qt::ControlModifier, pt);
+    QCOMPARE(dia.state(), DiagramState::Init);
+    QCOMPARE(dia.itemScene().selectedCount(), 1);
+}
+
+void TestDiagram::mouseSelect()
+{
+    Diagram dia(100, 100);
+    dia.show();
 }

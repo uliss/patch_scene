@@ -42,13 +42,13 @@ Connection* SceneConnections::add(const ConnectionId& id)
 
     auto src_it = conn_xlets_.find(id.sourceInfo());
     if (src_it != conn_xlets_.end()) {
-        qWarning() << "connection already exists";
+        WARN() << "connection already exists";
         return nullptr;
     }
 
     auto dest_it = conn_xlets_.find(id.destinationInfo());
     if (dest_it != conn_xlets_.end()) {
-        qWarning() << "connection already exists";
+        WARN() << "connection already exists";
         return nullptr;
     }
 
@@ -245,6 +245,16 @@ void SceneConnections::clear()
     conn_.clear();
     conn_xlets_.clear();
     conn_dev_.clear();
+}
+
+const Connection* SceneConnections::findById(const ConnectionId& id) const
+{
+    for (auto c : conn_) {
+        if (c->connectionId() == id)
+            return c;
+    }
+
+    return nullptr;
 }
 
 bool SceneConnections::addConnection(Connection* c)
