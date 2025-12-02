@@ -256,6 +256,7 @@ public slots:
 
     // for tests
     DiagramState state() const { return state_machine_.state(); }
+    bool isSelectionRectVisible() const { return selection_->isVisible(); }
 
 signals:
     void addToFavorites(SharedItemData data);
