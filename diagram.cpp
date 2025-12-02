@@ -1280,6 +1280,7 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
         break;
     default:
         state_machine_.setState(DiagramState::Init);
+        event->accept();
         break;
     }
 }
