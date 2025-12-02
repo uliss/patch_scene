@@ -652,19 +652,19 @@ bool Diagram::setItemData(const SharedItemData& data)
     if (!data)
         return false;
 
-    auto dev = item_scene_.find(data->id());
-    if (!dev) {
-        qWarning() << "device not found:" << data->id();
+    auto item = item_scene_.find(data->id());
+    if (!item) {
+        qWarning() << "item not found:" << data->id();
         return false;
     }
 
-    const bool title_update = (dev->itemData()->title() != data->title());
+    const bool title_update = (item->itemData()->title() != data->title());
 
-    auto battery_change = dev->itemData()->calcBatteryChange(*data);
+    auto battery_change = item->itemData()->calcBatteryChange(*data);
 
-    dev->setItemData(data);
+    item->setItemData(data);
     emit sceneChanged();
-    emit deviceUpdated(dev->itemData());
+    emit deviceUpdated(item->itemData());
 
     if (battery_change)
         emit batteryChanged(battery_change);
@@ -690,25 +690,25 @@ QList<SceneItemId> Diagram::duplicateSelected(DuplicatePolicy policy)
     if (dup_list.empty())
         return res;
 
-    for (auto src_dev : dup_list) {
-        auto new_dev = addItem(src_dev->itemData());
-        if (new_dev) {
-            switch (new_dev->itemData()->category()) {
+    for (auto src_item : dup_list) {
+        auto new_item = addItem(src_item->itemData());
+        if (new_item) {
+            switch (new_item->itemData()->category()) {
             case ItemCategory::Furniture:
-                new_dev->moveBy(50, 0);
+                new_item->moveBy(50, 0);
                 break;
             default:
-                new_dev->moveBy(20, 20);
+                new_item->moveBy(20, 20);
                 break;
             }
 
-            res.push_back(new_dev->id());
+            res.push_back(new_item->id());
 
             if (policy.select_new)
-                new_dev->setSelected(true);
+                new_item->setSelected(true);
 
             if (policy.unselect_origin)
-                src_dev->setSelected(false);
+                src_item->setSelected(false);
         }
     }
 
