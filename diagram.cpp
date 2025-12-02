@@ -214,7 +214,7 @@ void Diagram::updateConnectionStyle(Connection* conn)
     if (style != ConnectionStyle::NotFound) {
         conn->setStyle(style);
     } else {
-        qWarning() << "style not found";
+        WARN() << "style not found";
     }
 }
 
