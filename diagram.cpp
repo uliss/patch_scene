@@ -1501,6 +1501,16 @@ std::optional<std::pair<XletInfo, XletData>> Diagram::hoverDeviceXlet(const QLis
 
 bool Diagram::connectDevices(const ConnectionId& id, std::optional<ConnectionViewData> viewData)
 {
+    if (!item_scene_.findData(id.source())) {
+        WARN() << "connection source not found: " << id.source();
+        return false;
+    }
+
+    if (!item_scene_.findData(id.destination())) {
+        WARN() << "connection destination not found: " << id.destination();
+        return false;
+    }
+
     auto conn = connections_->add(id);
     if (conn) {
         if (!viewData)
