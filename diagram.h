@@ -248,6 +248,9 @@ public slots:
     void zoomFitBest();
     void zoomFitSelected();
 
+    // for tests
+    DiagramState state() const { return state_machine_.state(); }
+
 signals:
     void addToFavorites(SharedItemData data);
     void batteryChanged(const BatteryChange& data);
