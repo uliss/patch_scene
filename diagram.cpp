@@ -604,41 +604,41 @@ void Diagram::cmdReconnectDevice(const ConnectionInfo& old_conn, const Connectio
 
 SceneItem* Diagram::addItem(const SharedItemData& data)
 {
-    auto dev = item_scene_.add(data);
-    if (!dev)
+    auto item = item_scene_.add(data);
+    if (!item)
         return nullptr;
 
-    connect(dev, &SceneItem::addToFavorites, this, &Diagram::addToFavorites);
-    connect(dev, &SceneItem::duplicateDevice, this, &Diagram::cmdDuplicateItems);
-    connect(dev, &SceneItem::removeDevice, this, &Diagram::cmdRemoveItem);
-    connect(dev, &SceneItem::updateDevice, this, &Diagram::cmdUpdateItem);
+    connect(item, &SceneItem::addToFavorites, this, &Diagram::addToFavorites);
+    connect(item, &SceneItem::duplicateDevice, this, &Diagram::cmdDuplicateItems);
+    connect(item, &SceneItem::removeDevice, this, &Diagram::cmdRemoveItem);
+    connect(item, &SceneItem::updateDevice, this, &Diagram::cmdUpdateItem);
 
-    connect(dev, &SceneItem::alignHorizontal, this, &Diagram::cmdAlignHSelected);
-    connect(dev, &SceneItem::alignVertical, this, &Diagram::cmdAlignVSelected);
+    connect(item, &SceneItem::alignHorizontal, this, &Diagram::cmdAlignHSelected);
+    connect(item, &SceneItem::alignVertical, this, &Diagram::cmdAlignVSelected);
 
-    connect(dev, &SceneItem::distributeHorizontal, this, &Diagram::cmdDistributeHSelected);
-    connect(dev, &SceneItem::distributeVertical, this, &Diagram::cmdDistributeVSelected);
+    connect(item, &SceneItem::distributeHorizontal, this, &Diagram::cmdDistributeHSelected);
+    connect(item, &SceneItem::distributeVertical, this, &Diagram::cmdDistributeVSelected);
 
-    connect(dev, &SceneItem::placeInColumn, this, &Diagram::cmdPlaceInColumnSelected);
-    connect(dev, &SceneItem::placeInRow, this, &Diagram::cmdPlaceInRowSelected);
+    connect(item, &SceneItem::placeInColumn, this, &Diagram::cmdPlaceInColumnSelected);
+    connect(item, &SceneItem::placeInRow, this, &Diagram::cmdPlaceInRowSelected);
 
     // move
-    connect(dev, &SceneItem::moveLower, this, &Diagram::cmdMoveLower);
-    connect(dev, &SceneItem::moveUpper, this, &Diagram::cmdMoveUpper);
+    connect(item, &SceneItem::moveLower, this, &Diagram::cmdMoveLower);
+    connect(item, &SceneItem::moveUpper, this, &Diagram::cmdMoveUpper);
 
     // lock
-    connect(dev, &SceneItem::lockSelected, this, &Diagram::cmdLockSelected);
-    connect(dev, &SceneItem::unlockSelected, this, &Diagram::cmdUnlockSelected);
-    connect(dev, &SceneItem::lock, this, &Diagram::cmdLock);
-    connect(dev, &SceneItem::unlock, this, &Diagram::cmdUnlock);
+    connect(item, &SceneItem::lockSelected, this, &Diagram::cmdLockSelected);
+    connect(item, &SceneItem::unlockSelected, this, &Diagram::cmdUnlockSelected);
+    connect(item, &SceneItem::lock, this, &Diagram::cmdLock);
+    connect(item, &SceneItem::unlock, this, &Diagram::cmdUnlock);
 
     // mirror
-    connect(dev, &SceneItem::mirrorSelected, this, &Diagram::cmdMirrorSelected);
-    connect(dev, &SceneItem::mirror, this, &Diagram::cmdMirrorDevice);
+    connect(item, &SceneItem::mirrorSelected, this, &Diagram::cmdMirrorSelected);
+    connect(item, &SceneItem::mirror, this, &Diagram::cmdMirrorDevice);
 
     emit sceneChanged();
 
-    return dev;
+    return item;
 }
 
 void Diagram::saveClickPos(const QPointF& pos)
