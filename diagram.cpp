@@ -723,11 +723,11 @@ void Diagram::setShowCables(bool value)
 
 void Diagram::setShowPeople(bool value)
 {
-    item_scene_.foreachItem([value](SceneItem* dev) {
-        if (dev //
-            && dev->itemData() //
-            && dev->itemData()->category() == ItemCategory::Human) {
-            dev->setVisible(value);
+    item_scene_.foreachItem([value](SceneItem* item) {
+        if (item //
+            && item->itemData() //
+            && item->itemData()->category() == ItemCategory::Human) {
+            item->setVisible(value);
         }
     });
 }
