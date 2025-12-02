@@ -55,6 +55,12 @@ public:
      */
     QHash<ConnectionId, ConnectionViewData> findSelectedConnections() const;
 
+    /**
+     * returns pointer to object connection or nullptr if not found
+     * @complexity O(N)
+     */
+    const Connection* findConnection(const ConnectionId& id) const;
+
     void printScheme() const;
     void printScheme(QPrinter* printer) const;
     void renderToSvg(const QString& filename, const QString& title) const;

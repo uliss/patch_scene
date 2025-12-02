@@ -1693,3 +1693,8 @@ QHash<ConnectionId, ConnectionViewData> Diagram::findSelectedConnections() const
 
     return res;
 }
+
+const Connection* Diagram::findConnection(const ConnectionId& id) const
+{
+    return connections_->findById(id);
+}
