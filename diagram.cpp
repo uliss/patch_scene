@@ -681,9 +681,9 @@ QList<SceneItemId> Diagram::duplicateSelected(DuplicatePolicy policy)
 {
     QList<SceneItem*> dup_list;
 
-    item_scene_.foreachItem([&dup_list](SceneItem* dev) {
-        if (dev->isSelected())
-            dup_list << dev;
+    item_scene_.foreachItem([&dup_list](SceneItem* item) {
+        if (item->isSelected())
+            dup_list << item;
     });
 
     QList<SceneItemId> res;
