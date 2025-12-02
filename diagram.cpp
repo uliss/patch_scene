@@ -1461,9 +1461,9 @@ bool Diagram::viewportEvent(QEvent* event)
 void Diagram::selectTopDevice(const QList<QGraphicsItem*>& devs)
 {
     for (auto x : devs) {
-        auto dev = qgraphicsitem_cast<SceneItem*>(x);
-        if (dev)
-            return cmdSelectUnique(dev->id());
+        auto item = qgraphicsitem_cast<SceneItem*>(x);
+        if (item)
+            return cmdSelectUnique(item->id());
     }
 }
 
