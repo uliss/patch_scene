@@ -1642,7 +1642,7 @@ bool Diagram::dropJson(const QPointF& pos, const QByteArray& json)
     return true;
 }
 
-QJsonValue Diagram::appInfoJson() const
+QJsonValue Diagram::appInfoJson()
 {
     QJsonObject obj;
 

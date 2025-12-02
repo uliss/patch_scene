@@ -311,7 +311,7 @@ private:
 
     bool dropJson(const QPointF& pos, const QByteArray& json);
 
-    QJsonValue appInfoJson() const;
+    static QJsonValue appInfoJson();
 
     void fitRect(const QRectF& rect);
 
