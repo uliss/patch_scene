@@ -24,6 +24,7 @@ private slots:
     void cmdPlaceInColumnSelected();
     void cmdPlaceInRowSelected();
     void duplicateSelected();
+    void mouseMove();
     void mousePress();
     void mouseSelect();
     void moveSelectedBy();

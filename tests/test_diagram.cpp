@@ -227,6 +227,45 @@ void TestDiagram::duplicateSelected()
     QCOMPARE(devs.selectedCount(), 2);
 }
 
+void TestDiagram::mouseMove()
+{
+    Diagram dia(100, 100);
+    dia.show();
+
+    dia.cmdCreateDevice({ 10, 10 });
+    QCOMPARE(dia.itemScene().count(), 1);
+    QCOMPARE(dia.itemScene().selectedCount(), 0);
+
+    // +200, +150
+    QPoint pt { 212, 162 };
+
+    // click select item
+    QTest::mousePress(dia.viewport(), Qt::LeftButton, {}, pt);
+    QCOMPARE(dia.state(), DiagramState::SelectItem);
+    QCOMPARE(dia.itemScene().selectedCount(), 1);
+    QVERIFY(!dia.isSelectionRectVisible());
+
+    // move selected item
+    QTest::mouseMove(dia.viewport(), pt + QPoint { 20, 20 });
+    QCOMPARE(dia.state(), DiagramState::MoveItem);
+    QCOMPARE(dia.itemScene().selectedCount(), 1);
+
+    // finish moving
+    QTest::mouseRelease(dia.viewport(), Qt::LeftButton, {}, pt + QPoint { 20, 20 });
+    QCOMPARE(dia.state(), DiagramState::Init);
+
+    // dia.selected
+
+    auto selected = dia.itemScene().selectedIdList();
+    QCOMPARE(selected.count(), 1);
+    auto item = dia.itemScene().find(selected.front());
+    QVERIFY(item);
+    QCOMPARE(item->pos(), QPointF(30, 30));
+
+    dia.undo();
+    QCOMPARE(item->pos(), QPointF(10, 10));
+}
+
 void TestDiagram::mousePress()
 {
     Diagram dia(100, 100);
@@ -252,9 +291,9 @@ void TestDiagram::mousePress()
     QCOMPARE(dia.itemScene().count(), 1);
     QCOMPARE(dia.itemScene().selectedCount(), 0);
 
+    // +200, +150
     QPoint pt { 212, 162 };
 
-    // +200, +150
     // click select item
     QTest::mousePress(dia.viewport(), Qt::LeftButton, {}, pt);
     QCOMPARE(dia.state(), DiagramState::SelectItem);
@@ -287,4 +326,41 @@ void TestDiagram::mouseSelect()
 {
     Diagram dia(100, 100);
     dia.show();
+
+    dia.cmdCreateDevice({ 10, 10 });
+    dia.cmdCreateDevice({ 20, 20 });
+
+    // +200, +150
+    // select single
+    QTest::mousePress(dia.viewport(), Qt::LeftButton, {}, { 200, 150 });
+    QCOMPARE(dia.state(), DiagramState::SelectionRect);
+    QVERIFY(dia.isSelectionRectVisible());
+
+    QTest::mouseMove(dia.viewport(), { 215, 165 });
+    QCOMPARE(dia.state(), DiagramState::SelectionRect);
+    QVERIFY(dia.isSelectionRectVisible());
+
+    QTest::mouseRelease(dia.viewport(), Qt::LeftButton, {}, { 215, 215 });
+    QCOMPARE(dia.state(), DiagramState::Init);
+    QVERIFY(!dia.isSelectionRectVisible());
+
+    QCOMPARE(dia.itemScene().selectedCount(), 1);
+
+    // select all
+    QTest::mousePress(dia.viewport(), Qt::LeftButton, {}, { 200, 150 });
+    QCOMPARE(dia.state(), DiagramState::SelectionRect);
+    QVERIFY(dia.isSelectionRectVisible());
+
+    QTest::mouseMove(dia.viewport(), { 225, 175 });
+    QCOMPARE(dia.state(), DiagramState::SelectionRect);
+    QVERIFY(dia.isSelectionRectVisible());
+
+    QTest::mouseRelease(dia.viewport(), Qt::LeftButton, {}, { 225, 175 });
+    QCOMPARE(dia.state(), DiagramState::Init);
+    QVERIFY(!dia.isSelectionRectVisible());
+
+    QCOMPARE(dia.itemScene().selectedCount(), 2);
+
+    dia.undo();
+    QCOMPARE(dia.itemScene().selectedCount(), 0);
 }
