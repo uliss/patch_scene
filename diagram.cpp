@@ -1207,9 +1207,9 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
         auto src_pos = mapToScene(prev_click_pos_.toPoint());
         auto delta = src_pos - dest_pos;
 
-        item_scene_.foreachItem([delta](SceneItem* dev) {
-            if (dev->isSelected() && !dev->isLocked())
-                dev->moveBy(delta.x(), delta.y());
+        item_scene_.foreachItem([delta](SceneItem* item) {
+            if (item->isSelected() && !item->isLocked())
+                item->moveBy(delta.x(), delta.y());
         });
 
         cmdMoveSelectedItemsFrom(src_pos, dest_pos);
