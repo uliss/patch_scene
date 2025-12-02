@@ -22,4 +22,10 @@
 #define WARN() qWarning() << __FUNCTION__
 #endif
 
+#ifdef __clang__
+#define DBG() qDebug() << __PRETTY_FUNCTION__
+#else
+#define DBG() qDebug() << __FUNCTION__
+#endif
+
 #endif // CEAM_LOGGING_HPP
