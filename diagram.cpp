@@ -1470,9 +1470,9 @@ void Diagram::selectTopDevice(const QList<QGraphicsItem*>& devs)
 void Diagram::selectBottomDevice(const QList<QGraphicsItem*>& devs)
 {
     for (auto it = devs.crbegin(); it != devs.crend(); ++it) {
-        auto dev = qgraphicsitem_cast<SceneItem*>(*it);
-        if (dev)
-            return cmdSelectUnique(dev->id());
+        auto item = qgraphicsitem_cast<SceneItem*>(*it);
+        if (item)
+            return cmdSelectUnique(item->id());
     }
 }
 
