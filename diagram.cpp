@@ -734,11 +734,11 @@ void Diagram::setShowPeople(bool value)
 
 void Diagram::setShowFurniture(bool value)
 {
-    item_scene_.foreachItem([value](SceneItem* dev) {
-        if (dev //
-            && dev->itemData() //
-            && dev->itemData()->category() == ItemCategory::Furniture) {
-            dev->setVisible(value);
+    item_scene_.foreachItem([value](SceneItem* item) {
+        if (item //
+            && item->itemData() //
+            && item->itemData()->category() == ItemCategory::Furniture) {
+            item->setVisible(value);
         }
     });
 }
