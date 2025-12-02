@@ -1145,6 +1145,7 @@ void Diagram::mousePressEvent(QMouseEvent* event)
             connections_->unselectAll();
             startSelectionAt(event->pos());
             state_machine_.setState(DiagramState::SelectionRect);
+            event->accept();
         }
     } break;
     case DiagramState::ConnectDevice: {
@@ -1177,11 +1178,16 @@ void Diagram::mouseMoveEvent(QMouseEvent* event)
     } break;
     case DiagramState::SelectItem: {
         state_machine_.setState(DiagramState::MoveItem);
+        auto delta = (event->position() - prev_move_pos_) / zoom_;
+        moveSelectedItemsBy(delta.x(), delta.y());
+        prev_move_pos_ = event->position();
+        event->accept();
     } break;
     case DiagramState::MoveItem: {
         auto delta = (event->position() - prev_move_pos_) / zoom_;
         moveSelectedItemsBy(delta.x(), delta.y());
         prev_move_pos_ = event->position();
+        event->accept();
     } break;
     case DiagramState::ConnectDevice:
         drawConnectionTo(event->pos());
@@ -1213,6 +1219,7 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
         });
 
         cmdMoveSelectedItemsFrom(src_pos, dest_pos);
+        event->accept();
     } break;
     case DiagramState::SelectionRect: { // finish selection
         auto bbox = selection_->mapRectToScene(selection_->rect());
@@ -1223,6 +1230,7 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
 
         selection_->setVisible(false);
         state_machine_.setState(DiagramState::Init);
+        event->accept();
     } break;
     case DiagramState::ConnectDevice: { // finish connection
         tmp_connection_->setVisible(false);
