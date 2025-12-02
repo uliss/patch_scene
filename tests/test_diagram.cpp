@@ -227,3 +227,25 @@ void TestDiagram::duplicateSelected()
     QCOMPARE(devs.count(), 4);
     QCOMPARE(devs.selectedCount(), 2);
 }
+
+void TestDiagram::mousePress()
+{
+    Diagram dia(100, 100);
+    QCOMPARE(dia.state(), DiagramState::Init);
+    dia.show();
+
+    QTest::mousePress(dia.viewport(), Qt::LeftButton);
+    QCOMPARE(dia.state(), DiagramState::SelectionRect);
+
+    QTest::mouseRelease(dia.viewport(), Qt::LeftButton);
+    QCOMPARE(dia.state(), DiagramState::Init);
+
+    QTest::mousePress(dia.viewport(), Qt::LeftButton);
+    QCOMPARE(dia.state(), DiagramState::SelectionRect);
+
+    QTest::mouseMove(dia.viewport(), { 10, 10 });
+    QCOMPARE(dia.state(), DiagramState::SelectionRect);
+
+    QTest::mouseRelease(dia.viewport(), Qt::LeftButton, {}, { 10, 10 });
+    QCOMPARE(dia.state(), DiagramState::Init);
+}

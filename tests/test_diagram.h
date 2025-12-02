@@ -21,13 +21,13 @@ class TestDiagram : public QObject {
 
 private slots:
     void addItem();
-    void removeItem();
+    void cmdPlaceInColumnSelected();
+    void cmdPlaceInRowSelected();
+    void duplicateSelected();
+    void mousePress();
     void moveSelectedBy();
     void moveSelectedFrom();
-    void cmdPlaceInRowSelected();
-    void cmdPlaceInColumnSelected();
-
-    void duplicateSelected();
+    void removeItem();
 };
 
 #endif // TEST_DIAGRAM_H
