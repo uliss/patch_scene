@@ -1173,6 +1173,7 @@ void Diagram::mouseMoveEvent(QMouseEvent* event)
     switch (state_machine_.state()) {
     case DiagramState::SelectionRect: {
         drawSelectionTo(event->pos());
+        event->accept();
     } break;
     case DiagramState::SelectItem: {
         state_machine_.setState(DiagramState::MoveItem);
