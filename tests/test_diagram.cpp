@@ -254,8 +254,6 @@ void TestDiagram::mouseMove()
     QTest::mouseRelease(dia.viewport(), Qt::LeftButton, {}, pt + QPoint { 20, 20 });
     QCOMPARE(dia.state(), DiagramState::Init);
 
-    // dia.selected
-
     auto selected = dia.itemScene().selectedIdList();
     QCOMPARE(selected.count(), 1);
     auto item = dia.itemScene().find(selected.front());
