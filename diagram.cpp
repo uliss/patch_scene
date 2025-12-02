@@ -206,7 +206,7 @@ void Diagram::updateConnectionStyle(Connection* conn)
 
     auto pair = item_scene_.connectionPair(conn->connectionId());
     if (!pair) {
-        qWarning() << "connection pair not found";
+        WARN() << "connection pair not found";
         return;
     }
 
