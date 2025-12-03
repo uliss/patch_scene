@@ -15,17 +15,10 @@
 #include "device_editor.h"
 #include "logging.hpp"
 
-// #include <QCursor>
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
-// #include <QJsonArray>
-// #include <QJsonObject>
 #include <QMenu>
-// #include <QPainter>
-// #include <QPen>
 #include <QRandomGenerator>
-// #include <QStyleOptionGraphicsItem>
-// #include <QTextDocument>
 
 #include <unordered_map>
 
@@ -192,7 +185,6 @@ void SceneItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 void SceneItem::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 {
-    WARN() << "context";
     QMenu menu;
 
     auto sc = scene();
@@ -254,7 +246,10 @@ void SceneItem::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 
 void SceneItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 {
-    event->accept();
+    if (event->modifiers().testFlag(Qt::ShiftModifier)) {
+        showEditDialog();
+        event->accept();
+    }
 }
 
 void SceneItem::setMenuCaption(QMenu& menu)
@@ -350,6 +345,7 @@ void SceneItem::createContextMenu(QMenu& menu)
 
 void SceneItem::showEditDialog()
 {
+    // reimplement this
 }
 
 SharedItemData SceneItem::defaultDeviceData()

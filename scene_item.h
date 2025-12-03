@@ -108,6 +108,8 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
     void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) final;
+
+    // Shift+double click calls showEditDialog()
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
 
 protected:
