@@ -137,6 +137,8 @@ void Diagram::initSceneConnections()
     connect(connections_, &SceneConnections::visibleChanged, this, &Diagram::showCablesChanged);
     connect(connections_, &SceneConnections::update, this, &Diagram::sceneChanged);
     connect(connections_, &SceneConnections::edit, this, &Diagram::showConnectionEditor);
+
+    connect(connections_, &SceneConnections::removeRequested, this, &Diagram::cmdDisconnectDevices);
 }
 
 void Diagram::initItemScene()
