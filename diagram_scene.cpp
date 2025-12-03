@@ -13,30 +13,14 @@
  *****************************************************************************/
 #include "diagram_scene.h"
 
+#include <QAction>
 #include <QGraphicsItemGroup>
+#include <QGraphicsSceneContextMenuEvent>
+#include <QMenu>
 #include <QPainter>
 #include <QPrinter>
 
 using namespace ceam;
-
-namespace {
-struct GridHideShow {
-    DiagramScene* scene { nullptr };
-    QGraphicsItemGroup* grid { nullptr };
-
-    explicit GridHideShow(DiagramScene* sc)
-        : scene(sc)
-    {
-        grid = scene->grid();
-        scene->removeItem(grid);
-    }
-
-    ~GridHideShow()
-    {
-        scene->addItem(grid);
-    }
-};
-}  // namespace
 
 DiagramScene::DiagramScene(int w, int h, QObject* parent)
     : QGraphicsScene { parent }
@@ -44,63 +28,10 @@ DiagramScene::DiagramScene(int w, int h, QObject* parent)
     setSceneRect(-w / 2, -h / 2, w, h);
 }
 
-void DiagramScene::initGrid()
-{
-    if (!grid_) {
-        grid_ = new QGraphicsItemGroup;
-        addItem(grid_);
-    }
-
-    auto rect = sceneRect();
-
-    // axis
-    QPen pen(QColor(100, 100, 100));
-    pen.setWidth(0);
-
-    auto x_axis = new QGraphicsLineItem;
-    x_axis->setPen(pen);
-    x_axis->setLine(QLine(QPoint(rect.left(), 0), QPoint(rect.right(), 0)));
-    grid_->addToGroup(x_axis);
-
-    auto y_axis = new QGraphicsLineItem;
-    y_axis->setPen(pen);
-    y_axis->setLine(QLine(QPoint(0, rect.top()), QPoint(0, rect.bottom())));
-    grid_->addToGroup(y_axis);
-
-    // grid lines
-    pen.setColor(QColor(100, 100, 100, 100));
-    pen.setWidth(0);
-
-    for (int i = 0; i <= rect.width() / 50; i++) {
-        auto x = 50 * (int(rect.left() + i * 50) / 50);
-        auto p0 = QPoint(x, rect.top());
-        auto p1 = QPoint(x, rect.bottom());
-        auto line = new QGraphicsLineItem;
-        line->setPen(pen);
-        line->setLine(QLine(p0, p1));
-        grid_->addToGroup(line);
-    }
-
-    for (int i = 0; i <= rect.height() / 50; i++) {
-        auto y = 50 * (int(rect.top() + i * 50) / 50);
-        auto p0 = QPoint(rect.left(), y);
-        auto p1 = QPoint(rect.right(), y);
-        auto line = new QGraphicsLineItem;
-        line->setPen(pen);
-        line->setLine(QLine(p0, p1));
-        grid_->addToGroup(line);
-    }
-}
-
-bool DiagramScene::gridVisible() const
-{
-    return grid_ && grid_->isVisible();
-}
-
 void DiagramScene::setGridVisible(bool value)
 {
-    if (grid_)
-        grid_->setVisible(value);
+    grid_visible_ = value;
+    update();
 }
 
 void DiagramScene::setCacheMode(QGraphicsItem::CacheMode mode)
@@ -154,8 +85,44 @@ void DiagramScene::printDiagram(QPrinter* printer)
     painter.end();
 }
 
-QRectF DiagramScene::bestFitRect()
+QRectF DiagramScene::bestFitRect() const
 {
-    GridHideShow gsh(this);
     return itemsBoundingRect();
+}
+
+void DiagramScene::drawBackground(QPainter* painter, const QRectF& rect)
+{
+    if (!grid_visible_)
+        return;
+
+    // axis
+    QPen pen(QColor(100, 100, 100));
+    pen.setWidth(0);
+    painter->setBrush(Qt::NoBrush);
+    painter->setPen(pen);
+    painter->drawLine(QLine(QPoint(rect.left(), 0), QPoint(rect.right(), 0)));
+    painter->drawLine(QLine(QPoint(0, rect.top()), QPoint(0, rect.bottom())));
+
+    auto p0 = QPoint(0, rect.top());
+    auto p1 = QPoint(0, rect.bottom());
+
+    pen.setColor(QColor(100, 100, 100, 100));
+    painter->setPen(pen);
+
+    // grid
+    for (int i = 0; i <= rect.width() / 50; i++) {
+        auto x = 50 * (static_cast<int>(rect.left() + i * 50) / 50);
+        p0.rx() = x;
+        p1.rx() = x;
+        painter->drawLine(QLine(p0, p1));
+    }
+
+    p0.rx() = rect.left();
+    p1.rx() = rect.right();
+    for (int i = 0; i <= rect.height() / 50; i++) {
+        auto y = 50 * (static_cast<int>(rect.top() + i * 50) / 50);
+        p0.ry() = y;
+        p1.ry() = y;
+        painter->drawLine(QLine(p0, p1));
+    }
 }

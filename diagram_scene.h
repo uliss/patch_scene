@@ -29,9 +29,7 @@ class DiagramScene : public QGraphicsScene {
 public:
     explicit DiagramScene(int w, int h, QObject* parent = nullptr);
 
-    void initGrid();
-
-    bool gridVisible() const;
+    bool gridVisible() const { return grid_visible_; }
     void setGridVisible(bool value);
 
     void setCacheMode(QGraphicsItem::CacheMode mode);
@@ -40,14 +38,16 @@ public:
     QImage renderToImage(qreal scale);
     void printDiagram(QPrinter* printer);
 
-    QRectF bestFitRect();
-    QGraphicsItemGroup* grid() { return grid_; }
+    QRectF bestFitRect() const;
 
 signals:
     void removeConnection(const ConnectionId&);
 
+protected:
+    void drawBackground(QPainter* painter, const QRectF& rect) override;
+
 private:
-    QGraphicsItemGroup* grid_ { nullptr };
+    bool grid_visible_ { true };
 };
 
 } // namespace ceam
