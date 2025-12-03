@@ -151,9 +151,6 @@ void Diagram::initGraphicsScene(int w, int h)
     graphics_scene_ = new DiagramScene(w, h, this);
     connect(graphics_scene_, &DiagramScene::removeConnection, this, &Diagram::cmdDisconnectDevices);
     setScene(graphics_scene_);
-
-    // NB: should be called after setScene(scene_)!
-    graphics_scene_->initGrid();
 }
 
 void Diagram::initSceneBackground()
@@ -1205,6 +1202,9 @@ void Diagram::mouseMoveEvent(QMouseEvent* event)
 
 void Diagram::mouseReleaseEvent(QMouseEvent* event)
 {
+    if (event->button() == Qt::RightButton)
+        return QGraphicsView::mouseReleaseEvent(event);
+
     switch (state_machine_.state()) {
     case DiagramState::MoveItem: { // finish item moving
         state_machine_.setState(DiagramState::Init);
@@ -1287,6 +1287,7 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
 
 void Diagram::contextMenuEvent(QContextMenuEvent* event)
 {
+    // call default implementation
     QGraphicsView::contextMenuEvent(event);
     if (event->isAccepted())
         return;
