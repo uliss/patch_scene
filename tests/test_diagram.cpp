@@ -462,5 +462,8 @@ void TestDiagram::mouseSelect()
     QCOMPARE(dia.itemScene().selectedCount(), 2);
 
     dia.undo();
+    QCOMPARE(dia.itemScene().selectedCount(), 1);
+
+    dia.undo();
     QCOMPARE(dia.itemScene().selectedCount(), 0);
 }
