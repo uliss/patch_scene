@@ -13,10 +13,7 @@
  *****************************************************************************/
 #include "diagram_scene.h"
 
-#include <QAction>
 #include <QGraphicsItemGroup>
-#include <QGraphicsSceneContextMenuEvent>
-#include <QMenu>
 #include <QPainter>
 #include <QPrinter>
 
@@ -109,7 +106,7 @@ void DiagramScene::drawBackground(QPainter* painter, const QRectF& rect)
     pen.setColor(QColor(100, 100, 100, 100));
     painter->setPen(pen);
 
-    // grid
+    // horizontal grid lines
     for (int i = 0; i <= rect.width() / 50; i++) {
         auto x = 50 * (static_cast<int>(rect.left() + i * 50) / 50);
         p0.rx() = x;
@@ -117,6 +114,7 @@ void DiagramScene::drawBackground(QPainter* painter, const QRectF& rect)
         painter->drawLine(QLine(p0, p1));
     }
 
+    // vertical grid lines
     p0.rx() = rect.left();
     p1.rx() = rect.right();
     for (int i = 0; i <= rect.height() / 50; i++) {
