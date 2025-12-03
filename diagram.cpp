@@ -1089,7 +1089,8 @@ void Diagram::showConnectionEditor()
 void Diagram::mousePressEvent(QMouseEvent* event)
 {
     if (event->button() == Qt::RightButton) {
-        return emit customContextMenuRequested(event->pos());
+        QGraphicsView::mousePressEvent(event);
+        return event->accept();
     }
 
     switch (state_machine_.state()) {
