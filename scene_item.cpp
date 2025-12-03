@@ -192,6 +192,7 @@ void SceneItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 void SceneItem::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 {
+    WARN() << "context";
     QMenu menu;
 
     auto sc = scene();

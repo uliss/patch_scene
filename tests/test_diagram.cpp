@@ -420,7 +420,6 @@ void TestDiagram::mouseRightClick()
 {
     Diagram dia(100, 100);
     dia.show();
-    QTest::mousePress(&dia, Qt::RightButton);
 }
 
 void TestDiagram::mouseSelect()

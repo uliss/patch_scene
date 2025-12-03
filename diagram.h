@@ -254,6 +254,7 @@ public slots:
     void zoomFitBest();
     void zoomFitSelected();
 
+public:
     // for tests
     DiagramState state() const { return state_machine_.state(); }
     bool isSelectionRectVisible() const { return selection_->isVisible(); }
@@ -347,12 +348,12 @@ private:
     ScaleWidget* scale_;
 
 private:
+    void initGraphicsScene(int w, int h);
+    void initItemScene();
     void initLiveConnection();
     void initScale();
-    void initGraphicsScene(int w, int h);
     void initSceneBackground();
     void initSceneConnections();
-    void initItemScene();
     void initSelectionRect();
     void initUndoStack();
 
