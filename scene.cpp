@@ -208,18 +208,26 @@ std::optional<std::pair<QPointF, QPointF>> Scene::connectionPoints(const Connect
 std::optional<ConnectorPair> Scene::connectionPair(const ConnectionId& id) const
 {
     auto src_it = items_.find(id.source());
-    if (src_it == items_.end())
+    if (src_it == items_.end()) {
+        // WARN() << "source not found: " << id.source();
         return {};
+    }
 
     auto dest_it = items_.find(id.destination());
-    if (dest_it == items_.end())
+    if (dest_it == items_.end()) {
+        // WARN() << "destination not found: " << id.source();
         return {};
+    }
 
-    if (id.sourceIndex() >= src_it->second->itemData()->outputs().count())
+    if (id.sourceIndex() >= src_it->second->itemData()->outputs().count()) {
+        // WARN() << "invalid source index: " << id.sourceIndex();
         return {};
+    }
 
-    if (id.destinationIndex() >= dest_it->second->itemData()->inputs().count())
+    if (id.destinationIndex() >= dest_it->second->itemData()->inputs().count()) {
+        // WARN() << "invalid destination index: " << id.destinationIndex();
         return {};
+    }
 
     auto& d0 = src_it->second->itemData()->outputAt(id.sourceIndex());
     auto& d1 = dest_it->second->itemData()->inputAt(id.destinationIndex());
