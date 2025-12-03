@@ -12,6 +12,7 @@
  * this file belongs to.
  *****************************************************************************/
 #include "diagram_scene.h"
+#include "logging.hpp"
 
 #include <QGraphicsItemGroup>
 #include <QPainter>
