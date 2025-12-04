@@ -26,6 +26,7 @@ using namespace ceam;
 
 Scene::Scene()
     : scene_(nullptr)
+    , edited_comment_id_ { SCENE_ITEM_NULL_ID }
 {
 }
 
@@ -76,7 +77,11 @@ SceneItem* Scene::add(const SharedItemData& data)
 
     SceneItem* item = nullptr;
     if (data->category() == ItemCategory::Comment) {
-        item = new CommentItem();
+        auto x = new CommentItem();
+        connect(x, &CommentItem::editComment, this, [this](SceneItemId id) {
+            edited_comment_id_ = id;
+        });
+        item = x;
     } else {
         item = new DeviceItem(data);
     }
@@ -480,6 +485,18 @@ bool Scene::moveBy(const QHash<SceneItemId, QPointF>& deltas)
     }
 
     return count > 0;
+}
+
+void Scene::doneCommentEditors()
+{
+    if (edited_comment_id_ == SCENE_ITEM_NULL_ID)
+        return;
+
+    auto comment = dynamic_cast<CommentItem*>(find(edited_comment_id_));
+    if (!comment)
+        return;
+
+    comment->setEditable(false);
 }
 
 bool Scene::moveSelectedBy(qreal dx, qreal dy)

@@ -33,6 +33,7 @@ class Scene : public QObject {
 private:
     QGraphicsScene* scene_;
     std::unordered_map<SceneItemId, SceneItem*> items_;
+    SceneItemId edited_comment_id_;
 
 public:
     Scene();
@@ -127,6 +128,11 @@ public:
     void toggleSelected(const QList<SceneItemId>& ids);
 
     bool moveBy(const QHash<SceneItemId, QPointF>& deltas);
+
+    /**
+     * finish all comments editing if any exists
+     */
+    void doneCommentEditors();
 
     /**
      * @complexity O(n)
