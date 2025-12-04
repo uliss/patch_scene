@@ -57,8 +57,16 @@ void CommentTextItem::setEditable(bool value)
         emit editComment(parent->id());
     } else {
         setTextInteractionFlags(Qt::NoTextInteraction);
+        auto cursor = textCursor();
+        cursor.clearSelection();
+        setTextCursor(cursor);
         emit editComment(SCENE_ITEM_NULL_ID);
     }
+}
+
+bool CommentTextItem::isEdited() const
+{
+    return textInteractionFlags().testFlags(Qt::TextEditorInteraction);
 }
 
 void CommentTextItem::keyPressEvent(QKeyEvent* event)
@@ -76,7 +84,7 @@ void CommentTextItem::keyPressEvent(QKeyEvent* event)
 
 void CommentTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 {
-    if (!textInteractionFlags().testFlags(Qt::TextEditorInteraction)) {
+    if (!isEdited()) {
         setEditable(true);
         event->accept();
     } else {
@@ -112,7 +120,6 @@ CommentItem::CommentItem()
 
 QRectF CommentItem::boundingRect() const
 {
-    // qWarning() << "bb: " << childrenBoundingRect();
     return rect_;
 }
 
@@ -120,6 +127,11 @@ void CommentItem::setEditable(bool value)
 {
     QSignalBlocker sb(text_);
     text_->setEditable(value);
+}
+
+bool CommentItem::isEdited() const
+{
+    return text_->isEdited();
 }
 
 void CommentItem::createContextMenu(QMenu& menu)
@@ -195,40 +207,20 @@ void CommentItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* optio
 
 void CommentItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 {
-    if (event->modifiers().testFlag(Qt::AltModifier)) {
-        WARN() << "change size";
-        text_->setTextInteractionFlags(Qt::NoTextInteraction);
-        state_ = RESIZE_LEFT_TOP;
-        update();
-        return event->accept();
-    }
-    // } else {
-    //     WARN() << "DOUBLE";
-    // }
-
-    // if (!text_->textInteractionFlags().testFlags(Qt::TextEditorInteraction)) {
-    //     text_->setTextInteractionFlags(Qt::TextEditorInteraction);
-    //     event->accept();
-    // } else
-    // SceneItem::mouseDoubleClickEvent(event);
     text_->setEditable(true);
 }
 
 void CommentItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-    WARN() << " comment";
     auto w = rect_.width();
     auto h = rect_.height();
     auto y = rect_.top();
     auto x = rect_.left();
 
-    switch (state_) {
-    case NORMAL: {
+    if (state_ == NORMAL && event->modifiers().testFlag(Qt::AltModifier)) {
         auto pos = event->pos();
-        qWarning() << "press: " << pos << ", rect: " << rect_;
 
         if (QRectF { x, y, SZ, SZ }.contains(pos)) {
-            qWarning() << "left-top";
             state_ = RESIZE_LEFT_TOP;
         } else if (QRectF { rect_.right() - SZ, y, SZ, SZ }.contains(pos)) {
             state_ = RESIZE_RIGHT_TOP;
@@ -237,25 +229,19 @@ void CommentItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
         } else if (QRectF { x, rect_.bottom() - SZ, SZ, SZ }.contains(pos)) {
             state_ = RESIZE_LEFT_BOTTOM;
         } else {
-            QGraphicsItem::mousePressEvent(event);
-            return;
+            return QGraphicsItem::mousePressEvent(event);
         }
-
-        qWarning() << "state: " << state_;
 
         click_pos_ = pos;
         event->accept();
         update();
-    } break;
-    default:
+    } else {
         QGraphicsItem::mousePressEvent(event);
-        break;
     }
 }
 
 void CommentItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
-    WARN() << "move";
     auto delta = event->pos() - click_pos_;
 
     switch (state_) {
@@ -299,10 +285,9 @@ void CommentItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 
 void CommentItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
-    WARN() << "move";
-
     if (state_ != NORMAL) {
         state_ = NORMAL;
+        rect_ = rect_.normalized();
         event->accept();
         update();
     }

@@ -29,6 +29,11 @@ public:
      */
     void setEditable(bool value);
 
+    /**
+     * check if edited
+     */
+    bool isEdited() const;
+
 signals:
     void editComment(SceneItemId);
 
@@ -53,6 +58,11 @@ public:
      * @emits none
      */
     void setEditable(bool value);
+
+    /**
+     * check if comment is edited
+     */
+    bool isEdited() const;
 
 signals:
     void editComment(SceneItemId);
