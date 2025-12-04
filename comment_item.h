@@ -23,11 +23,18 @@ class CommentTextItem : public QGraphicsTextItem {
 public:
     explicit CommentTextItem(QGraphicsItem* parent = nullptr);
 
+    /**
+     * set editable
+     * @emits editComment()
+     */
     void setEditable(bool value);
+
+signals:
+    void editComment(SceneItemId);
 
 protected:
     void keyPressEvent(QKeyEvent* event) override;
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
 };
 
 class CommentItem : public SceneItem {
@@ -40,6 +47,15 @@ public:
      * return bounding rect in item coordinates
      */
     QRectF boundingRect() const final;
+
+    /**
+     * set editable
+     * @emits none
+     */
+    void setEditable(bool value);
+
+signals:
+    void editComment(SceneItemId);
 
 public:
     void createContextMenu(QMenu& menu) override;

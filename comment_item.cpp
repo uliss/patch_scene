@@ -51,8 +51,13 @@ void CommentTextItem::setEditable(bool value)
         auto cursor = textCursor();
         cursor.movePosition(QTextCursor::End);
         setTextCursor(cursor);
+
+        static_assert(std::is_base_of<QGraphicsItem, CommentItem>::value, "");
+        auto parent = static_cast<CommentItem*>(parentItem());
+        emit editComment(parent->id());
     } else {
         setTextInteractionFlags(Qt::NoTextInteraction);
+        emit editComment(SCENE_ITEM_NULL_ID);
     }
 }
 
@@ -85,6 +90,7 @@ CommentItem::CommentItem()
     , text_(new CommentTextItem(this))
 {
     text_->setPlainText(data_->title());
+    connect(text_, &CommentTextItem::editComment, this, &CommentItem::editComment);
 
     auto x = text_->boundingRect().width() * 0.5;
     auto h = text_->boundingRect().height();
@@ -108,6 +114,12 @@ QRectF CommentItem::boundingRect() const
 {
     // qWarning() << "bb: " << childrenBoundingRect();
     return rect_;
+}
+
+void CommentItem::setEditable(bool value)
+{
+    QSignalBlocker sb(text_);
+    text_->setEditable(value);
 }
 
 void CommentItem::createContextMenu(QMenu& menu)
