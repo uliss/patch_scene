@@ -86,6 +86,7 @@ private:
     CommentTextItem* text_ { nullptr };
     enum State {
         NORMAL,
+        EDIT,
         RESIZE_LEFT_TOP,
         RESIZE_RIGHT_BOTTOM,
         RESIZE_RIGHT_TOP,

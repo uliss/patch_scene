@@ -39,7 +39,7 @@ CommentTextItem::CommentTextItem(QGraphicsItem* parent)
     opt.setAlignment(Qt::AlignLeft);
     document()->setDefaultTextOption(opt);
 
-    setDefaultTextColor(Qt::gray);
+    setDefaultTextColor(QColor(80, 80, 80));
 }
 
 void CommentTextItem::setEditable(bool value)
@@ -97,7 +97,10 @@ CommentItem::CommentItem()
     , text_(new CommentTextItem(this))
 {
     text_->setPlainText(data_->title());
-    connect(text_, &CommentTextItem::editComment, this, &CommentItem::editComment);
+    connect(text_, &CommentTextItem::editComment, this, [this](SceneItemId id) {
+        state_ = EDIT;
+        emit CommentItem::editComment(id);
+    });
 
     auto x = text_->boundingRect().width() * 0.5;
     auto h = text_->boundingRect().height();
@@ -126,6 +129,11 @@ void CommentItem::setEditable(bool value)
 {
     QSignalBlocker sb(text_);
     text_->setEditable(value);
+
+    if (!value && state_ != NORMAL) {
+        state_ = NORMAL;
+        update();
+    }
 }
 
 bool CommentItem::isEdited() const
@@ -197,19 +205,38 @@ void CommentItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* optio
     painter->drawRect(rect_);
 
     if (state_ != NORMAL) {
-        painter->setPen(QPen(Qt::black, 0));
+        painter->setPen(QPen(Qt::black, 2));
         painter->setBrush(Qt::cyan);
 
-        painter->drawRect(QRectF { rect_.topLeft(), QSizeF { SZ, SZ } });
-        painter->drawRect(QRectF { rect_.topRight() - QPointF { SZ, 0 }, QSizeF { SZ, SZ } });
-        painter->drawRect(QRectF { rect_.bottomRight() - QPointF { SZ, SZ }, QSizeF { SZ, SZ } });
-        painter->drawRect(QRectF { rect_.bottomLeft() - QPointF { 0, SZ }, QSizeF { SZ, SZ } });
+        auto x = rect_.x() + 1;
+        auto y = rect_.y() + 1;
+        // left top
+        painter->drawLine(QLineF { x, y, x + SZ, y });
+        painter->drawLine(QLineF { x, y, x, y + SZ });
+
+        // right top
+        auto r = rect_.right() - 1;
+        painter->drawLine(QLineF { r - SZ, y, r, y });
+        painter->drawLine(QLineF { r, y, r, y + SZ });
+
+        // left bottom
+        auto b = rect_.bottom() - 1;
+        painter->drawLine(QLineF { x, b - SZ, x, b });
+        painter->drawLine(QLineF { x, b, x + SZ, b });
+
+        // right bottom
+        painter->drawLine(QLineF { r, b, r, b - SZ });
+        painter->drawLine(QLineF { r - SZ, b, r, b });
     }
+
+    paintStateIcons(painter, rect_);
 }
 
 void CommentItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 {
     text_->setEditable(true);
+    state_ = EDIT;
+    update();
 }
 
 void CommentItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
@@ -219,27 +246,27 @@ void CommentItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
     auto y = rect_.top();
     auto x = rect_.left();
 
-    if (state_ == NORMAL && event->modifiers().testFlag(Qt::AltModifier)) {
-        auto pos = event->pos();
+    auto pos = event->pos();
 
-        if (QRectF { x, y, SZ, SZ }.contains(pos)) {
-            state_ = RESIZE_LEFT_TOP;
-        } else if (QRectF { rect_.right() - SZ, y, SZ, SZ }.contains(pos)) {
-            state_ = RESIZE_RIGHT_TOP;
-        } else if (QRectF { rect_.right() - SZ, rect_.bottom() - SZ, SZ, SZ }.contains(pos)) {
-            state_ = RESIZE_RIGHT_BOTTOM;
-        } else if (QRectF { x, rect_.bottom() - SZ, SZ, SZ }.contains(pos)) {
-            state_ = RESIZE_LEFT_BOTTOM;
-        } else {
-            return QGraphicsItem::mousePressEvent(event);
-        }
-
-        click_pos_ = pos;
-        event->accept();
-        update();
+    if (QRectF { x, y, SZ, SZ }.contains(pos)) {
+        state_ = RESIZE_LEFT_TOP;
+        setCursor(Qt::SizeAllCursor);
+    } else if (QRectF { rect_.right() - SZ, y, SZ, SZ }.contains(pos)) {
+        state_ = RESIZE_RIGHT_TOP;
+        setCursor(Qt::SizeAllCursor);
+    } else if (QRectF { rect_.right() - SZ, rect_.bottom() - SZ, SZ, SZ }.contains(pos)) {
+        state_ = RESIZE_RIGHT_BOTTOM;
+        setCursor(Qt::SizeAllCursor);
+    } else if (QRectF { x, rect_.bottom() - SZ, SZ, SZ }.contains(pos)) {
+        state_ = RESIZE_LEFT_BOTTOM;
+        setCursor(Qt::SizeAllCursor);
     } else {
-        QGraphicsItem::mousePressEvent(event);
+        setCursor({});
+        return QGraphicsItem::mousePressEvent(event);
     }
+
+    click_pos_ = pos;
+    event->accept();
 }
 
 void CommentItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
@@ -248,7 +275,6 @@ void CommentItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 
     switch (state_) {
     case RESIZE_LEFT_TOP: {
-        qWarning() << "resize left-top";
         prepareGeometryChange();
         setPos(pos() + delta);
         rect_.setHeight(rect_.height() - delta.y());
@@ -257,7 +283,6 @@ void CommentItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
         update();
     } break;
     case RESIZE_RIGHT_BOTTOM: {
-        qWarning() << "resize right-bottom";
         prepareGeometryChange();
         rect_.setBottomRight(event->pos());
         text_->setTextWidth(rect_.width() - 2 * SZ);
@@ -288,7 +313,8 @@ void CommentItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 void CommentItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
     if (state_ != NORMAL) {
-        state_ = NORMAL;
+        // state_ = NORMAL;
+        setCursor({});
         rect_ = rect_.normalized();
         event->accept();
         update();
