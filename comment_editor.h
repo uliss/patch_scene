@@ -33,7 +33,7 @@ public Q_SLOTS:
     void accept() override;
 
 signals:
-    void acceptData(SharedItemData data);
+    void acceptData(const SharedItemData& data);
 
 private:
     Ui::CommentEditor* ui;
