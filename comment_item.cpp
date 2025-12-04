@@ -13,7 +13,6 @@
  *****************************************************************************/
 #include "comment_item.h"
 #include "comment_editor.h"
-#include "logging.hpp"
 
 #include <QDebug>
 #include <QGraphicsSceneEvent>
@@ -148,9 +147,10 @@ void CommentItem::createContextMenu(QMenu& menu)
 
 void CommentItem::showEditDialog()
 {
-    CommentEditor dlg(itemData());
+    CommentEditor dlg(data_);
     connect(&dlg, &CommentEditor::acceptData, this, [this](const SharedItemData& data) {
         emit CommentItem::updateDevice(data);
+
         data_ = data;
         text_->setPlainText(data_->title());
     });
@@ -163,7 +163,7 @@ void CommentItem::addEditAct(QMenu& menu)
 
     connect(act, &QAction::triggered, this,
         [this]() {
-            std::unique_ptr<CommentEditor> dialog(new CommentEditor(itemData()));
+            std::unique_ptr<CommentEditor> dialog(new CommentEditor(data_));
             connect(dialog.get(), &CommentEditor::acceptData, this, &CommentItem::updateDevice);
             dialog->exec();
         });
@@ -177,12 +177,12 @@ void CommentItem::addEditAct(QMenu& menu)
 
 void CommentItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    auto wd = itemData()->borderWidth();
-    auto bd = itemData()->borderColor();
+    auto wd = data_->borderWidth();
+    auto bd = data_->borderColor();
     if (!bd.isValid())
         bd = QColor::fromRgbF(0.25, 0.25, 0.25);
 
-    auto bg = itemData()->backgroundColor();
+    auto bg = data_->backgroundColor();
     if (!bg.isValid())
         bg = Qt::white;
 
