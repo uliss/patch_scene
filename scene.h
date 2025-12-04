@@ -130,11 +130,6 @@ public:
     bool moveBy(const QHash<SceneItemId, QPointF>& deltas);
 
     /**
-     * finish all comments editing if any exists
-     */
-    void doneCommentEditors();
-
-    /**
      * @complexity O(n)
      */
     bool moveSelectedBy(qreal dx, qreal dy);
@@ -171,9 +166,15 @@ public:
      */
     QJsonValue toJson() const;
 
+    /**
+     * done comment editimg if any
+     */
+    void doneCommentEditor();
+
 signals:
     void added(SharedItemData);
     void removed(SharedItemData);
+    void showCommentEditor(bool);
 };
 
 } // namespace ceam

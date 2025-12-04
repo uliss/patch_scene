@@ -80,6 +80,7 @@ SceneItem* Scene::add(const SharedItemData& data)
         auto x = new CommentItem();
         connect(x, &CommentItem::editComment, this, [this](SceneItemId id) {
             edited_comment_id_ = id;
+            emit showCommentEditor(id == SCENE_ITEM_NULL_ID);
         });
         item = x;
     } else {
@@ -487,7 +488,7 @@ bool Scene::moveBy(const QHash<SceneItemId, QPointF>& deltas)
     return count > 0;
 }
 
-void Scene::doneCommentEditors()
+void Scene::doneCommentEditor()
 {
     if (edited_comment_id_ == SCENE_ITEM_NULL_ID)
         return;
