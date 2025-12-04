@@ -75,7 +75,6 @@ public:
 private:
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
     void paintTitleBox(QPainter* painter);
-    void paintStateIcons(QPainter* painter);
 
     int inletsYOff() const;
 

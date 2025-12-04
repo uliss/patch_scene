@@ -18,6 +18,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 #include <QMenu>
+#include <QPainter>
 #include <QRandomGenerator>
 
 #include <unordered_map>
@@ -407,4 +408,21 @@ void SceneItem::randomizePos(qint64 delta)
     auto dy = QRandomGenerator::global()->bounded(-value, value);
 
     setPos(x() + dx, y() + dy);
+}
+
+void SceneItem::paintStateIcons(QPainter* painter, const QRectF& rect)
+{
+    if (isLocked()) {
+        painter->save();
+        constexpr qreal WD = 8;
+        constexpr qreal HT = WD - 2;
+        constexpr qreal AWD = WD - 2;
+        painter->translate(rect.width() / 2 - 12, rect.y());
+        QColor c(100, 100, 100);
+        painter->setBrush(QBrush(c));
+        painter->setPen(QPen(c, 1.5));
+        painter->drawArc(QRectF { (WD - AWD) * 0.5, 0.5 * HT, AWD, HT }, 0, 180 * 16);
+        painter->drawRect(QRectF { 0, 1.4 * HT, WD, HT });
+        painter->restore();
+    }
 }

@@ -121,6 +121,8 @@ protected:
     void addZValueAction(QMenu& menu);
     void setMenuCaption(QMenu& menu);
 
+    void paintStateIcons(QPainter* painter, const QRectF& rect);
+
 protected:
     mutable SharedItemData data_;
 };

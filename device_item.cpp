@@ -82,7 +82,7 @@ void DeviceItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
             view->paint(painter, { static_cast<int>(view->width() / -2), inletsYOff() });
     }
 
-    paintStateIcons(painter);
+    paintStateIcons(painter, rect_);
 
     Q_UNUSED(widget);
 }
@@ -107,23 +107,6 @@ void DeviceItem::paintTitleBox(QPainter* painter)
 
     auto title_box = titleRect();
     painter->drawRoundedRect(title_box.adjusted(4, 3, -4, -4), 5, 5);
-}
-
-void DeviceItem::paintStateIcons(QPainter* painter)
-{
-    if (isLocked()) {
-        painter->save();
-        constexpr qreal WD = 8;
-        constexpr qreal HT = WD - 2;
-        constexpr qreal AWD = WD - 2;
-        painter->translate(rect_.width() / 2 - 12, 0);
-        QColor c(100, 100, 100);
-        painter->setBrush(QBrush(c));
-        painter->setPen(QPen(c, 1.5));
-        painter->drawArc(QRectF { (WD - AWD) * 0.5, 0.5 * HT, AWD, HT }, 0, 180 * 16);
-        painter->drawRect(QRectF { 0, 1.4 * HT, WD, HT });
-        painter->restore();
-    }
 }
 
 int DeviceItem::inletsYOff() const
