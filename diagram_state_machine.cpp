@@ -33,6 +33,8 @@ const char* toString(DiagramState st)
         return "[SELECT_RECT]";
     case DiagramState::EditConnection:
         return "[CONNECT_EDIT]";
+    case DiagramState::EditComment:
+        return "[CONNECT_COMMENT]";
     default:
         return "[?]";
     }

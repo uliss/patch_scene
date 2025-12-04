@@ -22,6 +22,7 @@ enum class DiagramState {
     Init,
     ConnectDevice,
     EditConnection,
+    EditComment,
     MoveItem,
     SelectItem,
     SelectionRect,
