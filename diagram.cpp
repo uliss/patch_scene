@@ -115,9 +115,11 @@ void Diagram::initSelectionRect()
     selection_ = new QGraphicsRectItem();
     selection_->setZValue(ZVALUE_SELECTION);
     auto pen = QPen(Qt::blue);
+    pen.setWidth(1);
     pen.setDashPattern({ 2, 2 });
     selection_->setPen(pen);
     selection_->setVisible(false);
+    selection_->setBrush(QColor(50, 50, 255, 25));
     graphics_scene_->addItem(selection_);
 }
 
