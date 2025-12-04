@@ -18,6 +18,18 @@
 
 namespace ceam {
 
+class CommentTextItem : public QGraphicsTextItem {
+    Q_OBJECT
+public:
+    explicit CommentTextItem(QGraphicsItem* parent = nullptr);
+
+    void setEditable(bool value);
+
+protected:
+    void keyPressEvent(QKeyEvent* event) override;
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
+};
+
 class CommentItem : public SceneItem {
     Q_OBJECT
 
@@ -38,15 +50,14 @@ protected:
 
 private:
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
-    // void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
-    void keyPressEvent(QKeyEvent* event) override;
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
 
     void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
     void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
 
 private:
-    QGraphicsTextItem* text_ { nullptr };
+    CommentTextItem* text_ { nullptr };
     enum State {
         NORMAL,
         RESIZE_LEFT_TOP,
