@@ -14,7 +14,7 @@
 #include "diagram_scene.h"
 #include "logging.hpp"
 
-#include <QGraphicsItemGroup>
+#include <QKeyEvent>
 #include <QPainter>
 #include <QPrinter>
 
@@ -108,7 +108,7 @@ void DiagramScene::drawBackground(QPainter* painter, const QRectF& rect)
     painter->setPen(pen);
 
     // horizontal grid lines
-    for (int i = 0; i <= rect.width() / 50; i++) {
+    for (int i = 0; i <= qCeil(rect.width() / 50); i++) {
         auto x = 50 * (static_cast<int>(rect.left() + i * 50) / 50);
         p0.rx() = x;
         p1.rx() = x;
@@ -118,10 +118,51 @@ void DiagramScene::drawBackground(QPainter* painter, const QRectF& rect)
     // vertical grid lines
     p0.rx() = rect.left();
     p1.rx() = rect.right();
-    for (int i = 0; i <= rect.height() / 50; i++) {
+    for (int i = 0; i <= qCeil(rect.height() / 50); i++) {
         auto y = 50 * (static_cast<int>(rect.top() + i * 50) / 50);
         p0.ry() = y;
         p1.ry() = y;
         painter->drawLine(QLine(p0, p1));
     }
+}
+
+void DiagramScene::keyPressEvent(QKeyEvent* event)
+{
+    // WARN() << "key: " << event->isAccepted();
+    return QGraphicsScene::keyPressEvent(event);
+    // if (event->isAccepted()) {
+    //     WARN() << "accepted";
+    //     return;
+    // }
+
+    // auto mods = event->modifiers();
+    // int MOVE_STEP = 2;
+    // if (mods.testFlags(Qt::ControlModifier))
+    //     MOVE_STEP = 50;
+    // else if (mods.testFlags(Qt::ShiftModifier))
+    //     MOVE_STEP = 10;
+
+    // if (event->key() == Qt::Key_Backspace && event->modifiers().testFlag(Qt::ControlModifier)) {
+    //     WARN() << "remove";
+    //     event->accept();
+    //     // cmdRemoveSelected();
+    // } else if (event->key() == Qt::Key_Down) {
+    //     WARN() << "move down";
+    //     event->accept();
+    //     // cmdMoveSelectedItemsBy(0, MOVE_STEP);
+    // } else if (event->key() == Qt::Key_Up) {
+    //     WARN() << "move up";
+    //     event->accept();
+    //     // cmdMoveSelectedItemsBy(0, -MOVE_STEP);
+    // } else if (event->key() == Qt::Key_Left) {
+    //     WARN() << "move left";
+    //     event->accept();
+    //     // cmdMoveSelectedItemsBy(-MOVE_STEP, 0);
+    // } else if (event->key() == Qt::Key_Right) {
+    //     WARN() << "move right";
+    //     event->accept();
+    //     // cmdMoveSelectedItemsBy(MOVE_STEP, 0);
+    // }
+
+    // // WARN() << "key";
 }
