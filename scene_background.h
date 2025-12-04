@@ -99,6 +99,6 @@ private:
     QSvgRenderer svg_renderer_;
 };
 
-}
+} // namespace ceam
 
 #endif // SCENE_BACKGROUND_H
