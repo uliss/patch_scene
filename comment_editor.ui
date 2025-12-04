@@ -27,26 +27,19 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QSpinBox" name="borderWidth"/>
+      <widget class="QSpinBox" name="borderWidth">
+       <property name="minimumSize">
+        <size>
+         <width>30</width>
+         <height>0</height>
+        </size>
+       </property>
+      </widget>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
         <string>Border color</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Background color</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>Text color</string>
        </property>
       </widget>
      </item>
@@ -57,10 +50,24 @@
        </property>
       </widget>
      </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Background color</string>
+       </property>
+      </widget>
+     </item>
      <item row="2" column="1">
       <widget class="QToolButton" name="backgroundColorBtn">
        <property name="text">
         <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Text color</string>
        </property>
       </widget>
      </item>
