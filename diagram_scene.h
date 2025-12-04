@@ -45,6 +45,7 @@ signals:
 
 protected:
     void drawBackground(QPainter* painter, const QRectF& rect) override;
+    void keyPressEvent(QKeyEvent* event) override;
 
 private:
     bool grid_visible_ { true };
