@@ -36,36 +36,26 @@ CommentEditor::CommentEditor(const SharedItemData& data, QWidget* parent)
     });
 
     connect(ui->borderColorBtn, &QToolButton::clicked, this, [this]() {
-        QColorDialog cd(ui->borderColorBtn);
-        cd.setCurrentColor(data_->borderColor());
-        connect(&cd, &QColorDialog::accepted, this, [this, &cd]() {
-            data_->setBorderColor(cd.currentColor());
-            updateButtonColors();
-        });
-        cd.exec();
+        auto color = data_->borderColor();
+        if (showColorDialog(color, ui->borderColorBtn))
+            data_->setBorderColor(color);
     });
 
     connect(ui->backgroundColorBtn, &QToolButton::clicked, this, [this]() {
-        QColorDialog cd(ui->backgroundColorBtn);
-        cd.setCurrentColor(data_->backgroundColor());
-        connect(&cd, &QColorDialog::accepted, this, [this, &cd]() {
-            data_->setBackgroundColor(cd.currentColor());
-            updateButtonColors();
-        });
-        cd.exec();
+        auto color = data_->backgroundColor();
+        if (showColorDialog(color, ui->backgroundColorBtn))
+            data_->setBackgroundColor(color);
     });
 
     connect(ui->textColorBtn, &QToolButton::clicked, this, [this]() {
-        QColorDialog cd(ui->textColorBtn);
-        cd.setCurrentColor(data_->textColor());
-        connect(&cd, &QColorDialog::accepted, this, [this, &cd]() {
-            data_->setTextColor(cd.currentColor());
-            updateButtonColors();
-        });
-        cd.exec();
+        auto color = data_->textColor();
+        if (showColorDialog(color, ui->textColorBtn))
+            data_->setTextColor(color);
     });
 
-    updateButtonColors();
+    updateButtonColor(data_->borderColor(), ui->borderColorBtn);
+    updateButtonColor(data_->backgroundColor(), ui->backgroundColorBtn);
+    updateButtonColor(data_->textColor(), ui->textColorBtn);
 }
 
 CommentEditor::~CommentEditor()
@@ -79,22 +69,36 @@ void CommentEditor::accept()
     QDialog::accept();
 }
 
-void CommentEditor::updateButtonColors()
+bool CommentEditor::showColorDialog(QColor& color, QToolButton* btn)
 {
-    QPixmap pix(64, 64);
+    if (!btn)
+        return false;
 
-    if (data_->textColor().isValid()) {
-        pix.fill(data_->textColor());
-        ui->textColorBtn->setIcon(pix);
+    QColorDialog dialog(btn);
+    if (color.isValid())
+        dialog.setCurrentColor(color);
+
+    dialog.setOption(QColorDialog::ShowAlphaChannel, true);
+
+    if (dialog.exec() == QDialog::Accepted) {
+        QColor new_color = dialog.selectedColor();
+        if (color != new_color && updateButtonColor(new_color, btn)) {
+            color = new_color;
+            return true;
+        }
     }
 
-    if (data_->borderColor().isValid()) {
-        pix.fill(data_->borderColor());
-        ui->borderColorBtn->setIcon(pix);
-    }
+    return false;
+}
 
-    if (data_->backgroundColor().isValid()) {
-        pix.fill(data_->backgroundColor());
-        ui->backgroundColorBtn->setIcon(pix);
+bool CommentEditor::updateButtonColor(const QColor& c, QToolButton* btn)
+{
+    if (c.isValid()) {
+        QPixmap pix(64, 64);
+        pix.fill(c);
+        btn->setIcon(pix);
+        return true;
+    } else {
+        return false;
     }
 }

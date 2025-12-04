@@ -21,6 +21,8 @@ namespace Ui {
 class CommentEditor;
 }
 
+class QToolButton;
+
 namespace ceam {
 class CommentEditor : public QDialog {
     Q_OBJECT
@@ -36,7 +38,8 @@ signals:
     void acceptData(const SharedItemData& data);
 
 private:
-    void updateButtonColors();
+    static bool showColorDialog(QColor& color, QToolButton* btn);
+    static bool updateButtonColor(const QColor& c, QToolButton* btn);
 
 private:
     Ui::CommentEditor* ui;
