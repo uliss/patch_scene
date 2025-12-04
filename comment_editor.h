@@ -36,6 +36,9 @@ signals:
     void acceptData(const SharedItemData& data);
 
 private:
+    void updateButtonColors();
+
+private:
     Ui::CommentEditor* ui;
     SharedItemData data_;
 };

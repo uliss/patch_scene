@@ -153,6 +153,8 @@ void CommentItem::showEditDialog()
 
         data_ = data;
         text_->setPlainText(data_->title());
+        text_->setDefaultTextColor(data_->textColor());
+        update();
     });
     dlg.exec();
 }
