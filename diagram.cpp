@@ -1092,13 +1092,13 @@ void Diagram::showConnectionEditor()
     }
 }
 
-void Diagram::showCommentEditor()
+void Diagram::showCommentEditor(bool value)
 {
     switch (state_machine_.state()) {
     case DiagramState::Init: // normal mode
     case DiagramState::EditComment: // update editor
-        state_machine_.setState(DiagramState::EditComment);
-        setMouseTracking(true);
+        state_machine_.setState(value ? DiagramState::EditComment : DiagramState::Init);
+        setMouseTracking(value);
         break;
     default:
         break;
