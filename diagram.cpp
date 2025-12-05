@@ -292,7 +292,7 @@ void Diagram::cmdConnectDevices(const ConnectionId& conn)
 
 void Diagram::cmdCreateComment(const QPointF& pos)
 {
-    auto add = new CreateComment(this, pos);
+    auto add = new CreateComment(this, pos, tr("Comment"));
     undo_stack_->push(add);
 }
 
