@@ -12,7 +12,6 @@
  * this file belongs to.
  *****************************************************************************/
 #include "undo_commands.h"
-#include "comment_item.h"
 #include "device_item.h"
 #include "diagram.h"
 #include "diagram_updates_blocker.h"
@@ -669,9 +668,10 @@ void ZoomSelected::redo()
     });
 }
 
-CreateComment::CreateComment(Diagram* doc, const QPointF& pos)
+CreateComment::CreateComment(Diagram* doc, const QPointF& pos, const QString& txt)
     : doc_(doc)
     , pos_(pos)
+    , txt_(txt)
 {
 }
 
@@ -686,7 +686,7 @@ void CreateComment::redo()
     if (!doc_)
         return;
 
-    auto comment = doc_->addItem(ItemData::makeComment({ "Comment" }));
+    auto comment = doc_->addItem(ItemData::makeComment(txt_));
     if (comment) {
         comment->setPos(pos_);
         id_ = comment->id();
@@ -719,7 +719,7 @@ void MoveLower::redo()
 
     auto dev = doc_->itemScene().find(id_);
     if (!dev) {
-        qWarning() << "device not found: " << id_;
+        WARN() << "device not found: " << id_;
         return;
     }
 
@@ -733,15 +733,13 @@ void MoveLower::redo()
     }
 
     if (!lower_item) {
-        qWarning() << "LOWER NOT FOUND";
+        WARN() << "LOWER NOT FOUND";
         return;
     }
 
     // TODO(uliss): check this for big reals!
     auto z = lower_item->zValue() - 1;
     dev->setZValue(z);
-
-    qWarning() << dev->itemData()->title();
 }
 
 MoveUpper::MoveUpper(Diagram* doc, SceneItemId id)
@@ -770,7 +768,7 @@ void MoveUpper::redo()
 
     auto dev = doc_->itemScene().find(id_);
     if (!dev) {
-        qWarning() << "device not found: " << id_;
+        WARN() << "device not found: " << id_;
         return;
     }
 
@@ -784,13 +782,11 @@ void MoveUpper::redo()
     }
 
     if (!upper_item) {
-        qWarning() << "UPPER NOT FOUND";
+        WARN() << "UPPER NOT FOUND";
         return;
     }
 
     // TODO(uliss): check this for big reals!
     auto z = upper_item->zValue() + 0.5;
     dev->setZValue(z);
-
-    qWarning() << dev->itemData()->title();
 }

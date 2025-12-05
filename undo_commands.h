@@ -40,7 +40,7 @@ private:
 
 class CreateComment : public QUndoCommand {
 public:
-    CreateComment(Diagram* doc, const QPointF& pos);
+    CreateComment(Diagram* doc, const QPointF& pos, const QString& txt = {});
 
     void undo() final;
     void redo() final;
@@ -49,6 +49,7 @@ private:
     Diagram* doc_;
     QPointF pos_;
     SceneItemId id_ { 0 };
+    QString txt_;
 };
 
 class RemoveItem : public QUndoCommand {
