@@ -323,7 +323,7 @@ void CommentItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 void CommentItem::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 {
-    WARN() << "enter";
+    Q_UNUSED(event);
 }
 
 void CommentItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
