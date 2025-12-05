@@ -178,7 +178,7 @@ void TestScene::addItem()
     auto c0 = dev.add(data_comment(200));
     QVERIFY(c0);
     QCOMPARE(sig_spy.count(), 6);
-    QCOMPARE(c0->itemData()->title(), "Comment");
+    QCOMPARE(c0->itemData()->category(), ItemCategory::Comment);
     QVERIFY(dynamic_cast<CommentItem*>(c0) != nullptr);
 }
 
