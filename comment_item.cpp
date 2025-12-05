@@ -272,37 +272,27 @@ void CommentItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 void CommentItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
     auto delta = event->pos() - click_pos_;
+    auto dx = delta.x();
+    auto dy = delta.y();
 
     switch (state_) {
     case RESIZE_LEFT_TOP: {
-        prepareGeometryChange();
         setPos(pos() + delta);
-        rect_.setHeight(rect_.height() - delta.y());
-        rect_.setWidth(rect_.width() - delta.x());
-        text_->setTextWidth(rect_.width() - 2 * SZ);
-        update();
+        syncSize(-dx, -dy);
     } break;
     case RESIZE_RIGHT_BOTTOM: {
-        prepareGeometryChange();
-        rect_.setBottomRight(event->pos());
-        text_->setTextWidth(rect_.width() - 2 * SZ);
-        update();
+        syncSize(dx, dy);
+        click_pos_ = event->pos();
     } break;
     case RESIZE_RIGHT_TOP: {
-        prepareGeometryChange();
-        setY(y() + delta.y());
-        rect_.setRight(event->pos().x());
-        rect_.setHeight(rect_.height() - delta.y());
-        text_->setTextWidth(rect_.width() - 2 * SZ);
-        update();
+        setY(y() + dy);
+        syncSize(dx, -dy);
+        click_pos_.rx() = event->pos().x();
     } break;
     case RESIZE_LEFT_BOTTOM: {
-        prepareGeometryChange();
-        setX(x() + delta.x());
-        rect_.setWidth(rect_.width() - delta.x());
-        rect_.setBottom(event->pos().y());
-        text_->setTextWidth(rect_.width() - 2 * SZ);
-        update();
+        setX(x() + dx);
+        syncSize(-dx, dy);
+        click_pos_.ry() = event->pos().y();
     } break;
     case NORMAL:
     default:
@@ -354,5 +344,26 @@ void CommentItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
 void CommentItem::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 {
     unsetCursor();
-    WARN() << "leave";
+    Q_UNUSED(event);
+}
+
+void CommentItem::syncSize(qreal dw, qreal dh)
+{
+    constexpr auto INDENT = SZ * 2;
+    constexpr auto MIN_W = SZ * 6;
+    constexpr auto MIN_H = INDENT * 2;
+
+    prepareGeometryChange();
+    auto new_wd = qMax(MIN_W, rect_.width() + dw);
+
+    {
+        rect_.setWidth(new_wd);
+        QSignalBlocker sb(text_);
+        text_->setTextWidth(new_wd - INDENT);
+    }
+
+    auto new_ht = qMax(MIN_H, rect_.height() + dh);
+    new_ht = qMax(new_ht, text_->boundingRect().height() + INDENT);
+    rect_.setHeight(new_ht);
+    update();
 }

@@ -86,6 +86,8 @@ private:
     void hoverMoveEvent(QGraphicsSceneHoverEvent* event) override;
     void hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
 
+    void syncSize(qreal dw, qreal dh);
+
 private:
     CommentTextItem* text_ { nullptr };
     enum State {
