@@ -35,6 +35,6 @@ public:
     QList<QUrl> readRecentFiles() const;
     void writeRecentFiles(const QList<QUrl>& files) const;
 };
-}
+} // namespace ceam
 
 #endif // APP_SETTINGS_H
