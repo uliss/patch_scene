@@ -33,7 +33,8 @@ constexpr qreal SZ = 8;
 constexpr auto TXT_PAD = SZ * 2;
 constexpr auto MIN_W = SZ * 6;
 constexpr auto MIN_H = TXT_PAD * 2;
-
+constexpr qreal LOCK_ICON_XPAD = 10;
+constexpr qreal LOCK_ICON_YPAD = 1;
 } // namespace
 
 CommentTextItem::CommentTextItem(QGraphicsItem* parent)
@@ -263,7 +264,7 @@ void CommentItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* optio
         painter->drawLine(QLineF { r - SZ, b, r, b });
     }
 
-    paintStateIcons(painter, rect_);
+    paintStateIcons(painter, rect_.topRight() - QPointF { LOCK_ICON_XPAD, LOCK_ICON_YPAD });
 }
 
 void CommentItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)

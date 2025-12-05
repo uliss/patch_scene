@@ -82,7 +82,7 @@ void DeviceItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
             view->paint(painter, { static_cast<int>(view->width() / -2), inletsYOff() });
     }
 
-    paintStateIcons(painter, rect_);
+    paintStateIcons(painter, { rect_.width() / 2 - 12, rect_.y() });
 
     Q_UNUSED(widget);
 }

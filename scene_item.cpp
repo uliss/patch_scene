@@ -410,14 +410,14 @@ void SceneItem::randomizePos(qint64 delta)
     setPos(x() + dx, y() + dy);
 }
 
-void SceneItem::paintStateIcons(QPainter* painter, const QRectF& rect)
+void SceneItem::paintStateIcons(QPainter* painter, const QPointF& pos)
 {
     if (isLocked()) {
         painter->save();
         constexpr qreal WD = 8;
         constexpr qreal HT = WD - 2;
         constexpr qreal AWD = WD - 2;
-        painter->translate(rect.width() / 2 - 12, rect.y());
+        painter->translate(pos);
         QColor c(100, 100, 100);
         painter->setBrush(QBrush(c));
         painter->setPen(QPen(c, 1.5));
