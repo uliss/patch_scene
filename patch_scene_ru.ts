@@ -104,17 +104,17 @@
         <translation>Толщина границы</translation>
     </message>
     <message>
-        <location filename="comment_editor.ui" line="35"/>
+        <location filename="comment_editor.ui" line="42"/>
         <source>Border color</source>
         <translation>Цвета границы</translation>
     </message>
     <message>
-        <location filename="comment_editor.ui" line="42"/>
+        <location filename="comment_editor.ui" line="56"/>
         <source>Background color</source>
         <translation>Цвет фона</translation>
     </message>
     <message>
-        <location filename="comment_editor.ui" line="49"/>
+        <location filename="comment_editor.ui" line="70"/>
         <source>Text color</source>
         <translation>Цвет текста</translation>
     </message>
@@ -1007,49 +1007,49 @@
 <context>
     <name>QAction</name>
     <message>
-        <location filename="connection.cpp" line="257"/>
+        <location filename="connection.cpp" line="258"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="263"/>
+        <location filename="connection.cpp" line="262"/>
         <source>Cord type</source>
         <translation>Тип соединения</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="265"/>
+        <location filename="connection.cpp" line="264"/>
         <source>Bezier</source>
         <translation>Кривая Безье</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="266"/>
+        <location filename="connection.cpp" line="265"/>
         <source>Linear</source>
         <translation>Прямая</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="267"/>
+        <location filename="connection.cpp" line="266"/>
         <source>Segment</source>
         <translation>Сегмент</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="287"/>
+        <location filename="connection.cpp" line="286"/>
         <source>Color</source>
         <translation>Цвет</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="314"/>
-        <location filename="connection.cpp" line="332"/>
+        <location filename="connection.cpp" line="313"/>
+        <location filename="connection.cpp" line="331"/>
         <source>Edit</source>
         <translation>Правка</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="320"/>
+        <location filename="connection.cpp" line="319"/>
         <source>Add split point</source>
         <translation>Добавить точку</translation>
     </message>
     <message>
-        <location filename="connection.cpp" line="326"/>
-        <location filename="connection.cpp" line="337"/>
+        <location filename="connection.cpp" line="325"/>
+        <location filename="connection.cpp" line="336"/>
         <source>Reset</source>
         <translation>Сбросить</translation>
     </message>
@@ -1648,14 +1648,19 @@ http://ceam.space</source>
 <context>
     <name>ceam::CommentItem</name>
     <message>
-        <location filename="comment_item.cpp" line="41"/>
+        <location filename="comment_item.cpp" line="100"/>
         <source>Comment</source>
         <translation>Комментарий</translation>
     </message>
     <message>
-        <location filename="comment_item.cpp" line="79"/>
+        <location filename="comment_item.cpp" line="206"/>
         <source>Edit</source>
         <translation>Правка</translation>
+    </message>
+    <message>
+        <location filename="comment_item.cpp" line="217"/>
+        <source>Properties</source>
+        <translation>Свойства</translation>
     </message>
 </context>
 <context>
@@ -1729,32 +1734,32 @@ http://ceam.space</source>
 <context>
     <name>ceam::DeviceItem</name>
     <message>
-        <location filename="device_item.cpp" line="408"/>
+        <location filename="device_item.cpp" line="392"/>
         <source>Hide title</source>
         <translation>Скрыть название</translation>
     </message>
     <message>
-        <location filename="device_item.cpp" line="408"/>
+        <location filename="device_item.cpp" line="392"/>
         <source>Show title</source>
         <translation>Показать название</translation>
     </message>
     <message>
-        <location filename="device_item.cpp" line="426"/>
+        <location filename="device_item.cpp" line="410"/>
         <source>Mirror image</source>
         <translation>Отразить изображение</translation>
     </message>
     <message>
-        <location filename="device_item.cpp" line="433"/>
+        <location filename="device_item.cpp" line="417"/>
         <source>Add to favorites</source>
         <translation>Добавить в избранное</translation>
     </message>
     <message>
-        <location filename="device_item.cpp" line="443"/>
+        <location filename="device_item.cpp" line="427"/>
         <source>Views</source>
         <translation>Виды</translation>
     </message>
     <message>
-        <location filename="device_item.cpp" line="444"/>
+        <location filename="device_item.cpp" line="428"/>
         <source>Logic</source>
         <translation>Логический</translation>
     </message>
@@ -1788,52 +1793,57 @@ http://ceam.space</source>
 <context>
     <name>ceam::Diagram</name>
     <message>
-        <location filename="diagram.cpp" line="86"/>
+        <location filename="diagram.cpp" line="85"/>
         <source>New project</source>
         <translation>Новый проект</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="974"/>
+        <location filename="diagram.cpp" line="295"/>
+        <source>Comment</source>
+        <translation>Комментарий</translation>
+    </message>
+    <message>
+        <location filename="diagram.cpp" line="945"/>
         <source>Generated with PatchScene</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1318"/>
+        <location filename="diagram.cpp" line="1332"/>
         <source>&amp;Add device</source>
         <translation>&amp;Добавить элемент</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1322"/>
+        <location filename="diagram.cpp" line="1336"/>
         <source>&amp;Add comment</source>
         <translation>Добавить &amp;комментарий</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1335"/>
+        <location filename="diagram.cpp" line="1349"/>
         <source>Align &amp;horizontal</source>
         <translation>Выровнять по &amp;горизонтали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1339"/>
+        <location filename="diagram.cpp" line="1353"/>
         <source>Align &amp;vertical</source>
         <translation>Выровнять по &amp;вертикали</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1343"/>
+        <location filename="diagram.cpp" line="1357"/>
         <source>Place in row</source>
         <translation>Разместить в ряд</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1347"/>
+        <location filename="diagram.cpp" line="1361"/>
         <source>Place in column</source>
         <translation>Разместить в столбец</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1354"/>
+        <location filename="diagram.cpp" line="1368"/>
         <source>Distribute horizontal</source>
         <translation>Распределить горизонтально</translation>
     </message>
     <message>
-        <location filename="diagram.cpp" line="1358"/>
+        <location filename="diagram.cpp" line="1372"/>
         <source>Distribute vertical</source>
         <translation>Распределить вертикально</translation>
     </message>
@@ -2295,74 +2305,74 @@ Do you wan&apos;t to save it before closing?</source>
 <context>
     <name>ceam::SceneItem</name>
     <message>
-        <location filename="scene_item.cpp" line="199"/>
+        <location filename="scene_item.cpp" line="193"/>
         <source>Align horizontal</source>
         <translation>Выровнять по горизонтали</translation>
     </message>
     <message>
-        <location filename="scene_item.cpp" line="202"/>
+        <location filename="scene_item.cpp" line="196"/>
         <source>Align vertical</source>
         <translation>Выровнять по вертикали</translation>
     </message>
     <message>
-        <location filename="scene_item.cpp" line="205"/>
+        <location filename="scene_item.cpp" line="199"/>
         <source>Distribute horizontal</source>
         <translation>Распределить горизонтально</translation>
     </message>
     <message>
-        <location filename="scene_item.cpp" line="208"/>
+        <location filename="scene_item.cpp" line="202"/>
         <source>Distribute vertical</source>
         <translation>Распределить вертикально</translation>
     </message>
     <message>
-        <location filename="scene_item.cpp" line="211"/>
+        <location filename="scene_item.cpp" line="205"/>
         <source>Place in row</source>
         <translation>Разместить в ряд</translation>
     </message>
     <message>
-        <location filename="scene_item.cpp" line="214"/>
+        <location filename="scene_item.cpp" line="208"/>
         <source>Place in column</source>
         <translation>Разместить в столбец</translation>
     </message>
     <message>
-        <location filename="scene_item.cpp" line="230"/>
+        <location filename="scene_item.cpp" line="224"/>
         <source>Mirror image</source>
         <translation>Отразить изображение</translation>
     </message>
     <message>
-        <location filename="scene_item.cpp" line="237"/>
-        <location filename="scene_item.cpp" line="267"/>
+        <location filename="scene_item.cpp" line="231"/>
+        <location filename="scene_item.cpp" line="269"/>
         <source>Lock</source>
         <translation>Заблокировать</translation>
     </message>
     <message>
-        <location filename="scene_item.cpp" line="240"/>
-        <location filename="scene_item.cpp" line="267"/>
+        <location filename="scene_item.cpp" line="234"/>
+        <location filename="scene_item.cpp" line="269"/>
         <source>Unlock</source>
         <translation>Разблокировать</translation>
     </message>
     <message>
-        <location filename="scene_item.cpp" line="294"/>
+        <location filename="scene_item.cpp" line="296"/>
         <source>Duplicate</source>
         <translation>Дублировать</translation>
     </message>
     <message>
-        <location filename="scene_item.cpp" line="303"/>
+        <location filename="scene_item.cpp" line="305"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="scene_item.cpp" line="312"/>
+        <location filename="scene_item.cpp" line="314"/>
         <source>Move up</source>
         <translation>Поднять выше</translation>
     </message>
     <message>
-        <location filename="scene_item.cpp" line="317"/>
+        <location filename="scene_item.cpp" line="319"/>
         <source>Move down</source>
         <translation>Опустить ниже</translation>
     </message>
     <message>
-        <location filename="scene_item.cpp" line="325"/>
+        <location filename="scene_item.cpp" line="327"/>
         <source>Properties</source>
         <translation>Свойства</translation>
     </message>
