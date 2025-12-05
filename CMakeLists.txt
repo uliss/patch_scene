@@ -254,15 +254,9 @@ if(QT_VERSION_MAJOR EQUAL 6)
     message(STATUS "qt translation dir: ${QT_INSTALL_TRANSLATIONS}")
 
     if(EXISTS "${QT_INSTALL_TRANSLATIONS}/qtbase_ru.qm")
-        qt_add_resources(patch_scene "tr"
+        qt_add_resources(patch_scene "qtbase_translations"
             PREFIX "/i18n"
             FILES "${QT_INSTALL_TRANSLATIONS}/qtbase_ru.qm")
-        # set(qtbase_tr "${CMAKE_CURRENT_BINARY_DIR}/qtbase_translations.qrc")
-        # configure_file("${PROJECT_SOURCE_DIR}/resources/qtbase_translations.qrc"
-        #                "${qtbase_tr}" @ONLY)
-
-        # qt_add_resources(patch_scene_resources ${qtbase_tr})
-        # target_link_libraries(patch_scene PRIVATE ${patch_scene_resources})
     endif()
 
     qt_add_translations(
