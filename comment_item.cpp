@@ -309,20 +309,20 @@ void CommentItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     switch (state_) {
     case RESIZE_LEFT_TOP: {
         setPos(pos() + delta);
-        syncSize(-dx, -dy);
+        increaseSize(-dx, -dy);
     } break;
     case RESIZE_RIGHT_BOTTOM: {
-        syncSize(dx, dy);
+        increaseSize(dx, dy);
         click_pos_ = event->pos();
     } break;
     case RESIZE_RIGHT_TOP: {
         setY(y() + dy);
-        syncSize(dx, -dy);
+        increaseSize(dx, -dy);
         click_pos_.rx() = event->pos().x();
     } break;
     case RESIZE_LEFT_BOTTOM: {
         setX(x() + dx);
-        syncSize(-dx, dy);
+        increaseSize(-dx, dy);
         click_pos_.ry() = event->pos().y();
     } break;
     case NORMAL:
@@ -378,7 +378,7 @@ void CommentItem::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
     Q_UNUSED(event);
 }
 
-void CommentItem::syncSize(qreal dw, qreal dh)
+void CommentItem::increaseSize(qreal dw, qreal dh)
 {
     prepareGeometryChange();
     auto new_wd = qMax(MIN_W, rect_.width() + dw);
