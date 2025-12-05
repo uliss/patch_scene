@@ -80,7 +80,7 @@ SceneItem* Scene::add(const SharedItemData& data)
         auto x = new CommentItem(data);
         connect(x, &CommentItem::editComment, this, [this](SceneItemId id) {
             edited_comment_id_ = id;
-            emit showCommentEditor(id == SCENE_ITEM_NULL_ID);
+            emit showCommentEditor(id != SCENE_ITEM_NULL_ID);
         });
         item = x;
     } else {
