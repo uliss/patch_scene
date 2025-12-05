@@ -176,6 +176,7 @@
      <string>Objects</string>
     </property>
     <addaction name="actionAddDevice"/>
+    <addaction name="actionAddComment"/>
     <addaction name="actionSetBackground"/>
     <addaction name="separator"/>
     <addaction name="actionDevLock"/>
@@ -1020,6 +1021,17 @@
    </property>
    <property name="menuRole">
     <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionAddComment">
+   <property name="text">
+    <string>Add Comment</string>
+   </property>
+   <property name="toolTip">
+    <string>Add comment</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+2</string>
    </property>
   </action>
  </widget>

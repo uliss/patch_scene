@@ -306,6 +306,14 @@ void MainWindow::initActions()
         diagram_->cmdCreateDevice(diagram_->mapToScene(pos));
     });
 
+    connect(ui->actionAddComment, &QAction::triggered, this, [this]() {
+        auto pos = diagram_->mapFromGlobal(QCursor::pos());
+        if (pos.x() < 0 || pos.y() < 0)
+            return;
+
+        diagram_->cmdCreateComment(diagram_->mapToScene(pos));
+    });
+
     // zoom
     connect(ui->actionZoomIn, SIGNAL(triggered()), diagram_, SLOT(zoomIn()));
     connect(ui->actionZoomNormal, SIGNAL(triggered()), diagram_, SLOT(zoomNormal()));
