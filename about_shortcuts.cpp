@@ -87,7 +87,7 @@ QString toString(const QList<QKeySequence>& seq)
     return seq_txt;
 }
 
-}
+} // namespace
 
 namespace ceam {
 
