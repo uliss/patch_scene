@@ -148,6 +148,7 @@ void Diagram::initItemScene()
     item_scene_.setGraphicsScene(graphics_scene_);
     connect(&item_scene_, &Scene::added, this, &Diagram::deviceAdded);
     connect(&item_scene_, &Scene::removed, this, &Diagram::deviceRemoved);
+    connect(&item_scene_, &Scene::showCommentEditor, this, &Diagram::showCommentEditor);
 }
 
 void Diagram::initGraphicsScene(int w, int h)
@@ -1086,6 +1087,20 @@ void Diagram::showConnectionEditor()
     case DiagramState::ConnectDevice:
     case DiagramState::SelectItem:
     case DiagramState::SelectionRect:
+    default:
+        break;
+    }
+}
+
+void Diagram::showCommentEditor()
+{
+    switch (state_machine_.state()) {
+    case DiagramState::Init: // normal mode
+    case DiagramState::EditComment: // update editor
+        state_machine_.setState(DiagramState::EditComment);
+        setMouseTracking(true);
+        break;
+    default:
         break;
     }
 }
@@ -1117,7 +1132,8 @@ void Diagram::mousePressEvent(QMouseEvent* event)
                     conn_begin_ = xlet;
                 }
 
-                return; //
+                // accept?
+                return event->accept();
 
             } else if (event->modifiers().testFlag(Qt::ControlModifier)) { // add/remove to/from selection
                 cmdToggleSelected(elems);
@@ -1137,14 +1153,10 @@ void Diagram::mousePressEvent(QMouseEvent* event)
             }
 
             event->accept();
-        } else if (
-            elems.size() > 0
-            && elems[0]) { // click on other elements
+        } else {
             QGraphicsView::mousePressEvent(event);
-        }
-
-        if (!event->isAccepted() || !item_found) { // unhandled item click or empty space click
             connections_->unselectAll();
+            item_scene_.doneCommentEditor();
             startSelectionAt(event->pos());
             state_machine_.setState(DiagramState::SelectionRect);
             event->accept();
@@ -1163,6 +1175,14 @@ void Diagram::mousePressEvent(QMouseEvent* event)
         if (!event->isAccepted()) {
             state_machine_.setState(DiagramState::Init);
             connections_->showEditor(false);
+        }
+    } break;
+    case DiagramState::EditComment: {
+        QGraphicsView::mousePressEvent(event);
+        if (!event->isAccepted()) {
+            item_scene_.doneCommentEditor();
+            state_machine_.setState(DiagramState::Init);
+            setMouseTracking(false);
         }
     } break;
     default:
@@ -1198,6 +1218,11 @@ void Diagram::mouseMoveEvent(QMouseEvent* event)
         event->accept();
         QGraphicsView::mouseMoveEvent(event);
         // WARN() << "connection edit move";
+        break;
+    case DiagramState::EditComment:
+        // WARN() << "connection edit move";
+        QGraphicsView::mouseMoveEvent(event);
+        // event->accept();
         break;
     default:
         QGraphicsView::mouseMoveEvent(event);
@@ -1283,8 +1308,12 @@ void Diagram::mouseReleaseEvent(QMouseEvent* event)
     case DiagramState::EditConnection:
         QGraphicsView::mouseReleaseEvent(event);
         break;
+    case DiagramState::EditComment:
+        QGraphicsView::mouseReleaseEvent(event);
+        break;
     default:
         state_machine_.setState(DiagramState::Init);
+        QGraphicsView::mouseReleaseEvent(event);
         event->accept();
         break;
     }
@@ -1396,6 +1425,21 @@ void Diagram::dropEvent(QDropEvent* event)
 
 void Diagram::keyPressEvent(QKeyEvent* event)
 {
+    switch (state_machine_.state()) {
+    case DiagramState::EditComment:
+        return QGraphicsView::keyPressEvent(event);
+    case DiagramState::Init:
+    case DiagramState::ConnectDevice:
+    case DiagramState::EditConnection:
+    case DiagramState::MoveItem:
+    case DiagramState::SelectItem:
+    case DiagramState::SelectionRect:
+        break;
+    }
+
+    if (!item_scene_.hasSelected())
+        return QGraphicsView::keyPressEvent(event);
+
     auto mods = event->modifiers();
 
     int MOVE_STEP = 2;
@@ -1406,14 +1450,19 @@ void Diagram::keyPressEvent(QKeyEvent* event)
 
     if (event->key() == Qt::Key_Backspace && event->modifiers().testFlag(Qt::ControlModifier)) {
         cmdRemoveSelected();
+        event->accept();
     } else if (event->key() == Qt::Key_Down) {
         cmdMoveSelectedItemsBy(0, MOVE_STEP);
+        event->accept();
     } else if (event->key() == Qt::Key_Up) {
         cmdMoveSelectedItemsBy(0, -MOVE_STEP);
+        event->accept();
     } else if (event->key() == Qt::Key_Left) {
         cmdMoveSelectedItemsBy(-MOVE_STEP, 0);
+        event->accept();
     } else if (event->key() == Qt::Key_Right) {
         cmdMoveSelectedItemsBy(MOVE_STEP, 0);
+        event->accept();
     } else
         QGraphicsView::keyPressEvent(event);
 }

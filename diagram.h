@@ -247,6 +247,7 @@ public slots:
     void setGridVisible(bool value);
     void setScaleVisible(bool value);
     void showConnectionEditor();
+    void showCommentEditor();
     void undo();
     void zoomIn();
     void zoomNormal();
