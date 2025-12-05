@@ -30,6 +30,9 @@ using namespace ceam;
 namespace {
 
 constexpr qreal SZ = 8;
+constexpr auto TXT_PAD = SZ * 2;
+constexpr auto MIN_W = SZ * 6;
+constexpr auto MIN_H = TXT_PAD * 2;
 
 } // namespace
 
@@ -94,7 +97,12 @@ void CommentTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 }
 
 CommentItem::CommentItem()
-    : SceneItem(ItemData::makeComment(tr("Comment")))
+    : CommentItem(ItemData::makeComment(tr("Comment")))
+{
+}
+
+CommentItem::CommentItem(const SharedItemData& data)
+    : SceneItem(data)
     , text_(new CommentTextItem(this))
 {
     text_->setPlainText(data_->title());
@@ -104,20 +112,42 @@ CommentItem::CommentItem()
         emit CommentItem::editComment(id);
     });
 
-    auto x = text_->boundingRect().width() * 0.5;
-    auto h = text_->boundingRect().height();
-    text_->setPos(-x, 0);
+    text_->setPos(SZ, SZ);
+
+    const auto view_wd = data_->viewWidth();
+    const auto view_ht = data_->viewHeight();
+    const auto text_rect = text_->boundingRect();
+    auto text_ht = text_rect.height();
 
     prepareGeometryChange();
-    rect_ = childrenBoundingRect().adjusted(-SZ, -SZ, SZ, SZ);
-    rect_.moveLeft(-x - SZ);
+
+    // view width is defined
+    if (view_wd > 0) {
+        auto w = qMax<qreal>(MIN_W, view_wd);
+        text_->setTextWidth(w - TXT_PAD);
+        // should update
+        text_ht = qCeil(text_->boundingRect().height());
+        rect_.setWidth(w);
+    } else {
+        rect_.setWidth(qCeil(text_rect.width() + TXT_PAD));
+    }
+
+    // view height is defined
+    if (view_ht > 0) {
+        auto h = qMax<qreal>(text_ht + TXT_PAD, view_ht);
+        rect_.setHeight(h);
+    } else {
+        rect_.setHeight(qCeil(text_ht + TXT_PAD));
+    }
+
+    // update data view width if some changes were done
+    data_->setViewWidth(rect_.width());
+    // update data view width if some changes were done
+    data_->setViewHeight(rect_.height());
 
     connect(text_->document(), &QTextDocument::contentsChanged, this, [this]() {
         prepareGeometryChange();
         rect_ = childrenBoundingRect().adjusted(-SZ, -SZ, SZ, SZ);
-    });
-
-    connect(text_->document(), &QTextDocument::contentsChanged, this, [this]() {
         data_->setTitle(text_->document()->toPlainText());
     });
 
@@ -349,21 +379,21 @@ void CommentItem::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 
 void CommentItem::syncSize(qreal dw, qreal dh)
 {
-    constexpr auto INDENT = SZ * 2;
-    constexpr auto MIN_W = SZ * 6;
-    constexpr auto MIN_H = INDENT * 2;
-
     prepareGeometryChange();
     auto new_wd = qMax(MIN_W, rect_.width() + dw);
 
     {
         rect_.setWidth(new_wd);
         QSignalBlocker sb(text_);
-        text_->setTextWidth(new_wd - INDENT);
+        text_->setTextWidth(new_wd - TXT_PAD);
     }
 
     auto new_ht = qMax(MIN_H, rect_.height() + dh);
-    new_ht = qMax(new_ht, text_->boundingRect().height() + INDENT);
+    new_ht = qMax(new_ht, text_->boundingRect().height() + TXT_PAD);
     rect_.setHeight(new_ht);
     update();
+
+    data_->setViewHeight(rect_.height());
+    data_->setViewWidth(rect_.width());
+    data_->setPos(pos());
 }

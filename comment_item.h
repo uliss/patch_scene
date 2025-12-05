@@ -47,6 +47,7 @@ class CommentItem : public SceneItem {
 
 public:
     CommentItem();
+    explicit CommentItem(const SharedItemData& data);
 
     /**
      * return bounding rect in item coordinates
