@@ -41,7 +41,7 @@ public:
         }
     }
 };
-}
+} // namespace
 
 AboutWindow::AboutWindow(QWidget* parent)
     : QDialog(parent)
@@ -58,7 +58,7 @@ AboutWindow::AboutWindow(QWidget* parent)
                             "Developed in **CEAM** (Center of electroacoustic music in Moscow Conservetory)\n\n"
                             "Version: %1 (build %2)\n\n"
                             "Copyright: Serge Poltavski, 2024\n\n")
-                             .arg(app_version(), app_git_version()));
+            .arg(app_version(), app_git_version()));
 
     auto license = new PSCTextBrowser(this);
     ui->tabWidget->addTab(license, tr("License"));
