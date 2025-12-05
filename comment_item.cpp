@@ -13,6 +13,7 @@
  *****************************************************************************/
 #include "comment_item.h"
 #include "comment_editor.h"
+#include "logging.hpp"
 
 #include <QDebug>
 #include <QGraphicsSceneEvent>
@@ -98,7 +99,12 @@ CommentItem::CommentItem()
 {
     text_->setPlainText(data_->title());
     connect(text_, &CommentTextItem::editComment, this, [this](SceneItemId id) {
-        state_ = EDIT;
+        if (text_->isEdited())
+            state_ = EDIT;
+        else
+            state_ = NORMAL;
+
+        update();
         emit CommentItem::editComment(id);
     });
 
@@ -118,6 +124,8 @@ CommentItem::CommentItem()
     connect(text_->document(), &QTextDocument::contentsChanged, this, [this]() {
         data_->setTitle(text_->document()->toPlainText());
     });
+
+    setAcceptHoverEvents(true);
 }
 
 QRectF CommentItem::boundingRect() const
@@ -241,28 +249,24 @@ void CommentItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 
 void CommentItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-    auto w = rect_.width();
-    auto h = rect_.height();
-    auto y = rect_.top();
-    auto x = rect_.left();
+    auto x0 = rect_.left();
+    auto y0 = rect_.top();
+    auto x1 = rect_.right() - SZ;
+    auto y1 = rect_.bottom() - SZ;
 
     auto pos = event->pos();
 
-    if (QRectF { x, y, SZ, SZ }.contains(pos)) {
+    if (QRectF { x0, y0, SZ, SZ }.contains(pos)) {
         state_ = RESIZE_LEFT_TOP;
-        setCursor(Qt::SizeAllCursor);
-    } else if (QRectF { rect_.right() - SZ, y, SZ, SZ }.contains(pos)) {
+    } else if (QRectF { x1, y0, SZ, SZ }.contains(pos)) {
         state_ = RESIZE_RIGHT_TOP;
-        setCursor(Qt::SizeAllCursor);
-    } else if (QRectF { rect_.right() - SZ, rect_.bottom() - SZ, SZ, SZ }.contains(pos)) {
+    } else if (QRectF { x1, y1, SZ, SZ }.contains(pos)) {
         state_ = RESIZE_RIGHT_BOTTOM;
-        setCursor(Qt::SizeAllCursor);
-    } else if (QRectF { x, rect_.bottom() - SZ, SZ, SZ }.contains(pos)) {
+    } else if (QRectF { x0, y1, SZ, SZ }.contains(pos)) {
         state_ = RESIZE_LEFT_BOTTOM;
-        setCursor(Qt::SizeAllCursor);
     } else {
         setCursor({});
-        return QGraphicsItem::mousePressEvent(event);
+        return QGraphicsObject::mousePressEvent(event);
     }
 
     click_pos_ = pos;
@@ -306,6 +310,7 @@ void CommentItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     } break;
     case NORMAL:
     default:
+        QGraphicsObject::mouseMoveEvent(event);
         break;
     }
 }
@@ -313,10 +318,43 @@ void CommentItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 void CommentItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
     if (state_ != NORMAL) {
-        // state_ = NORMAL;
-        setCursor({});
+        unsetCursor();
         rect_ = rect_.normalized();
         event->accept();
         update();
     }
+}
+
+void CommentItem::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
+{
+    WARN() << "enter";
+}
+
+void CommentItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
+{
+    if (state_ == NORMAL)
+        return;
+
+    auto l = rect_.x();
+    auto t = rect_.y();
+    auto r = rect_.right() - SZ;
+    auto b = rect_.bottom() - SZ;
+
+    if (QRectF { l, t, SZ, SZ }.contains(event->pos())) {
+        setCursor(Qt::SizeFDiagCursor);
+    } else if (QRectF { r, t, SZ, SZ }.contains(event->pos())) {
+        setCursor(Qt::SizeBDiagCursor);
+    } else if (QRectF { r, b, SZ, SZ }.contains(event->pos())) {
+        setCursor(Qt::SizeFDiagCursor);
+    } else if (QRectF { l, b, SZ, SZ }.contains(event->pos())) {
+        setCursor(Qt::SizeBDiagCursor);
+    } else {
+        unsetCursor();
+    }
+}
+
+void CommentItem::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
+{
+    unsetCursor();
+    WARN() << "leave";
 }
