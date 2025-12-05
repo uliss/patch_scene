@@ -336,13 +336,15 @@ void CommentItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
     auto r = rect_.right() - SZ;
     auto b = rect_.bottom() - SZ;
 
-    if (QRectF { l, t, SZ, SZ }.contains(event->pos())) {
+    const auto pos = event->pos();
+
+    if (QRectF { l, t, SZ, SZ }.contains(pos)) {
         setCursor(Qt::SizeFDiagCursor);
-    } else if (QRectF { r, t, SZ, SZ }.contains(event->pos())) {
+    } else if (QRectF { r, t, SZ, SZ }.contains(pos)) {
         setCursor(Qt::SizeBDiagCursor);
-    } else if (QRectF { r, b, SZ, SZ }.contains(event->pos())) {
+    } else if (QRectF { r, b, SZ, SZ }.contains(pos)) {
         setCursor(Qt::SizeFDiagCursor);
-    } else if (QRectF { l, b, SZ, SZ }.contains(event->pos())) {
+    } else if (QRectF { l, b, SZ, SZ }.contains(pos)) {
         setCursor(Qt::SizeBDiagCursor);
     } else {
         unsetCursor();
