@@ -99,11 +99,7 @@ CommentItem::CommentItem()
 {
     text_->setPlainText(data_->title());
     connect(text_, &CommentTextItem::editComment, this, [this](SceneItemId id) {
-        if (text_->isEdited())
-            state_ = EDIT;
-        else
-            state_ = NORMAL;
-
+        state_ = text_->isEdited() ? EDIT : NORMAL;
         update();
         emit CommentItem::editComment(id);
     });
