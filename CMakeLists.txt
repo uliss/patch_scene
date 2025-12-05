@@ -175,8 +175,7 @@ set(PROJECT_SOURCES
     xlets_user_view_editor.h
     xlets_user_view_editor.ui
     xlets_view.cpp
-    xlets_view.h
-)
+    xlets_view.h)
 
 if(WIN32)
     configure_file(patch_scene_win.rc ${PROJECT_BINARY_DIR}/patch_scene_win.rc @ONLY)
@@ -245,6 +244,26 @@ if(QT_VERSION_MAJOR EQUAL 6)
     # qt_standard_project_setup(I18N_TRANSLATED_LANGUAGES ru)
     set(LUPDATE_OPTIONS "")
     # set(LUPDATE_OPTIONS "-no-obsolete")
+
+    # Get the path to Qt's translations
+    get_target_property(QT_QMAKE_EXECUTABLE Qt6::qmake IMPORTED_LOCATION)
+    execute_process(COMMAND ${QT_QMAKE_EXECUTABLE} -query QT_INSTALL_TRANSLATIONS
+                    OUTPUT_VARIABLE QT_INSTALL_TRANSLATIONS)
+
+    string(STRIP "${QT_INSTALL_TRANSLATIONS}" QT_INSTALL_TRANSLATIONS)
+    message(STATUS "qt translation dir: ${QT_INSTALL_TRANSLATIONS}")
+
+    if(EXISTS "${QT_INSTALL_TRANSLATIONS}/qtbase_ru.qm")
+        qt_add_resources(patch_scene "tr"
+            PREFIX "/i18n"
+            FILES "${QT_INSTALL_TRANSLATIONS}/qtbase_ru.qm")
+        # set(qtbase_tr "${CMAKE_CURRENT_BINARY_DIR}/qtbase_translations.qrc")
+        # configure_file("${PROJECT_SOURCE_DIR}/resources/qtbase_translations.qrc"
+        #                "${qtbase_tr}" @ONLY)
+
+        # qt_add_resources(patch_scene_resources ${qtbase_tr})
+        # target_link_libraries(patch_scene PRIVATE ${patch_scene_resources})
+    endif()
 
     qt_add_translations(
         patch_scene
@@ -401,14 +420,15 @@ if(WIN32)
 endif()
 
 # SVG optimization
-find_program(SVGO_EXE
-             NAMES svgo
-             DOC "tool for optimizing SVG vector graphics files")
+find_program(
+    SVGO_EXE
+    NAMES svgo
+    DOC "tool for optimizing SVG vector graphics files")
 
 if(SVGO_EXE)
     message(STATUS "Found svgo executable: ${SVGO_EXE}")
-    add_custom_target(svgo_devices
+    add_custom_target(
+        svgo_devices
         COMMAND ${SVGO_EXE} --pretty --recursive --folder "${PROJECT_SOURCE_DIR}/resources/devices/"
-        USES_TERMINAL
-    )
+        USES_TERMINAL)
 endif()
