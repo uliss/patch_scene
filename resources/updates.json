@@ -2,22 +2,22 @@
   "updates": {
     "windows": {
       "open-url": "",
-      "latest-version": "0.4.0",
-      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.4.0/PatchScene-win-v0.4.0-setup.exe",
+      "latest-version": "0.5.0",
+      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.5.0/PatchScene-win-v0.5.0-setup.exe",
       "changelog": "",
       "mandatory": false
     },
     "macos-x86_64": {
       "open-url": "",
-      "latest-version": "0.4.0",
-      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.4.0/PatchScene-mac-v0.4.0-x86_64.dmg",
+      "latest-version": "0.5.0",
+      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.5.0/PatchScene-mac-v0.5.0-x86_64.dmg",
       "changelog": "",
       "mandatory": false
     },
     "macos-arm64": {
       "open-url": "",
-      "latest-version": "0.4.0",
-      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.4.0/PatchScene-mac-v0.4.0-arm64.dmg",
+      "latest-version": "0.5.0",
+      "download-url": "https://github.com/uliss/patch_scene/releases/download/v0.5.0/PatchScene-mac-v0.5.0-arm64.dmg",
       "changelog": "",
       "mandatory": false
     }
