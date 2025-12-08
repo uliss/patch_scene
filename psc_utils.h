@@ -27,6 +27,6 @@ namespace utils {
      */
     QString incrementString(const QString& str);
 }
-}
+} // namespace ceam
 
 #endif // PSC_UTILS_H

@@ -33,6 +33,6 @@ private:
     Ui::PreferencesDialog* ui;
 };
 
-}
+} // namespace ceam
 
 #endif // PREFERENCES_DIALOG_H

@@ -141,6 +141,46 @@ const SceneItem* Scene::find(SceneItemId id) const
         : it->second;
 }
 
+const SceneItem* Scene::findFirstLower(SceneItemId id) const
+{
+    auto item = find(id);
+    if (!item)
+        return nullptr;
+
+    auto z = item->zValue();
+
+    const SceneItem* lower_item = nullptr;
+    for (auto it : item->collidingItems()) {
+        auto x = qgraphicsitem_cast<const SceneItem*>(it);
+        if (x && x->zValue() < z) { // find first item that is lower then current
+            lower_item = x;
+            break;
+        }
+    }
+
+    return lower_item;
+}
+
+const SceneItem* Scene::findFirstUpper(SceneItemId id) const
+{
+    auto item = find(id);
+    if (!item)
+        return nullptr;
+
+    auto z = item->zValue();
+
+    const SceneItem* upper_item = nullptr;
+    for (auto it : item->collidingItems()) {
+        auto x = qgraphicsitem_cast<const SceneItem*>(it);
+        if (x && x->zValue() > z) { // find first item that is upper then current
+            upper_item = x;
+            break;
+        }
+    }
+
+    return upper_item;
+}
+
 SharedItemData Scene::findData(SceneItemId id) const
 {
     auto it = items_.find(id);

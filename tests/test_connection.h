@@ -20,12 +20,13 @@ class TestConnection : public QObject {
     Q_OBJECT
 
 private slots:
+    void dataHash();
     void dataInit();
     void dataJson();
-    void dataHash();
-    void testConnection();
     void findConnected();
     void makeSegments();
+    void testConnection();
+    void testRemoveRequested();
 };
 
 #endif // TEST_CONNECTION_H

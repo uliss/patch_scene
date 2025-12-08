@@ -23,30 +23,31 @@
 namespace ceam {
 
 class Diagram;
+class DiagramScene;
 class ItemData;
 
 class CreateDevice : public QUndoCommand {
 public:
-    CreateDevice(Diagram* doc, const QPointF& pos);
+    CreateDevice(DiagramScene* doc, const QPointF& pos);
 
     void undo() final;
     void redo() final;
 
 private:
-    Diagram* doc_;
+    DiagramScene* doc_;
     QPointF pos_;
     SceneItemId id_ { 0 };
 };
 
 class CreateComment : public QUndoCommand {
 public:
-    CreateComment(Diagram* doc, const QPointF& pos, const QString& txt = {});
+    CreateComment(DiagramScene* doc, const QPointF& pos, const QString& txt = {});
 
     void undo() final;
     void redo() final;
 
 private:
-    Diagram* doc_;
+    DiagramScene* doc_;
     QPointF pos_;
     SceneItemId id_ { 0 };
     QString txt_;
@@ -54,56 +55,56 @@ private:
 
 class RemoveItem : public QUndoCommand {
 public:
-    RemoveItem(Diagram* doc, const SharedItemData& data);
+    RemoveItem(DiagramScene* doc, const SharedItemData& data);
 
     void undo() final;
     void redo() final;
 
 private:
-    Diagram* doc_;
+    DiagramScene* doc_;
     SharedItemData data_;
     QList<ConnectionInfo> conn_info_;
 };
 
 class RemoveSelected : public QUndoCommand {
 public:
-    explicit RemoveSelected(Diagram* doc);
+    explicit RemoveSelected(DiagramScene* doc);
 
     void undo() final;
     void redo() final;
 
 private:
-    Diagram* doc_;
+    DiagramScene* doc_;
     QList<SharedItemData> data_;
     QHash<ConnectionId, ConnectionViewData> conn_data_;
 };
 
 class DuplicateSelected : public QUndoCommand {
 public:
-    explicit DuplicateSelected(Diagram* doc);
+    explicit DuplicateSelected(DiagramScene* doc);
 
     void undo() final;
     void redo() final;
 
 private:
-    Diagram* doc_;
+    DiagramScene* doc_;
     QList<SceneItemId> new_devs_, sel_devs_;
 };
 
 class BaseLockItems : public QUndoCommand {
 public:
-    BaseLockItems(Diagram* doc, const QList<SceneItemId>& devs);
+    BaseLockItems(DiagramScene* doc, const QList<SceneItemId>& devs);
 
 protected:
     void setLocked(bool value);
 
-    Diagram* doc_;
+    DiagramScene* doc_;
     QList<SceneItemId> devs_;
 };
 
 class LockItems : public BaseLockItems {
 public:
-    LockItems(Diagram* doc, const QList<SceneItemId>& devs);
+    LockItems(DiagramScene* doc, const QList<SceneItemId>& devs);
 
     void undo() override;
     void redo() override;
@@ -111,7 +112,7 @@ public:
 
 class UnlockItems : public BaseLockItems {
 public:
-    UnlockItems(Diagram* doc, const QList<SceneItemId>& devs);
+    UnlockItems(DiagramScene* doc, const QList<SceneItemId>& devs);
 
     void undo() override;
     void redo() override;
@@ -119,12 +120,12 @@ public:
 
 class BaseLockSelected : public BaseLockItems {
 public:
-    BaseLockSelected(Diagram* doc, bool lockState);
+    BaseLockSelected(DiagramScene* doc, bool lockState);
 };
 
 class LockSelected : public BaseLockSelected {
 public:
-    explicit LockSelected(Diagram* doc);
+    explicit LockSelected(DiagramScene* doc);
 
     void undo() override;
     void redo() override;
@@ -132,7 +133,7 @@ public:
 
 class UnlockSelected : public BaseLockSelected {
 public:
-    explicit UnlockSelected(Diagram* doc);
+    explicit UnlockSelected(DiagramScene* doc);
 
     void undo() final;
     void redo() final;
@@ -140,94 +141,94 @@ public:
 
 class ToggleSelected : public QUndoCommand {
 public:
-    ToggleSelected(Diagram* doc, const QList<SceneItemId>& ids);
+    ToggleSelected(DiagramScene* doc, const QList<SceneItemId>& ids);
 
     void undo() final;
     void redo() final;
 
 private:
-    Diagram* doc_;
+    DiagramScene* doc_;
     QList<SceneItemId> ids_;
 };
 
 class MoveSelected : public QUndoCommand {
 public:
-    MoveSelected(Diagram* doc, qreal dx, qreal dy);
+    MoveSelected(DiagramScene* doc, qreal dx, qreal dy);
 
     void undo() final;
     void redo() final;
 
 private:
-    Diagram* doc_;
+    DiagramScene* doc_;
     qreal dx_, dy_;
 };
 
 class DuplicateItem : public QUndoCommand {
 public:
-    DuplicateItem(Diagram* doc, const SharedItemData& data);
+    DuplicateItem(DiagramScene* doc, const SharedItemData& data);
 
     void undo() final;
     void redo() final;
 
 private:
-    Diagram* doc_;
+    DiagramScene* doc_;
     SharedItemData src_data_;
     SceneItemId new_id_;
 };
 
 class AddToSelected : public QUndoCommand {
 public:
-    AddToSelected(Diagram* doc, const QList<SceneItemId>& ids);
+    AddToSelected(DiagramScene* doc, const QList<SceneItemId>& ids);
 
     void undo() final;
     void redo() final;
 
 private:
-    Diagram* doc_;
+    DiagramScene* doc_;
     QList<SceneItemId> ids_;
 };
 
 class SetSelected : public QUndoCommand {
 public:
-    SetSelected(Diagram* doc, const QSet<SceneItemId>& new_sel);
+    SetSelected(DiagramScene* doc, const QSet<SceneItemId>& new_sel);
 
     void undo() final;
     void redo() final;
 
 private:
-    Diagram* doc_;
+    DiagramScene* doc_;
     QSet<SceneItemId> prev_sel_;
     QSet<SceneItemId> new_sel_;
 };
 
 class ConnectDevices : public QUndoCommand {
 public:
-    ConnectDevices(Diagram* doc, const ConnectionId& id);
+    ConnectDevices(DiagramScene* doc, const ConnectionId& id);
 
     void undo() final;
     void redo() final;
 
 private:
-    Diagram* doc_;
+    DiagramScene* doc_;
     ConnectionId id_;
 };
 
 class DisconnectXlet : public QUndoCommand {
 public:
-    DisconnectXlet(Diagram* doc, const XletInfo& xi);
+    DisconnectXlet(DiagramScene* doc, const XletInfo& xi);
 
     void undo() final;
     void redo() final;
 
 private:
-    Diagram* doc_;
+    DiagramScene* doc_;
     ConnectionId id_;
     ConnectionViewData view_data_;
 };
 
 class MoveByItems : public QUndoCommand {
 public:
-    MoveByItems(Diagram* doc, const QHash<SceneItemId, QPointF>& deltas);
+    MoveByItems(DiagramScene* doc, const QHash<SceneItemId, QPointF>& deltas);
 
     void undo() final;
     void redo() final;
@@ -236,7 +237,7 @@ private:
     static QHash<SceneItemId, QPointF> negate(const QHash<SceneItemId, QPointF>& map);
 
 private:
-    Diagram* doc_;
+    DiagramScene* doc_;
     QHash<SceneItemId, QPointF> deltas_;
 };
 
@@ -279,49 +280,49 @@ private:
 
 class UpdateDeviceData : public QUndoCommand {
 public:
-    UpdateDeviceData(Diagram* doc, const SharedItemData& data);
+    UpdateDeviceData(DiagramScene* doc, const SharedItemData& data);
 
     void undo() final;
     void redo() final;
 
 private:
-    Diagram* doc_;
+    DiagramScene* doc_;
     SharedItemData old_data_, new_data_;
 };
 
 class ReconnectDevice : public QUndoCommand {
 public:
-    ReconnectDevice(Diagram* doc, const ConnectionInfo& old_conn, const ConnectionInfo& new_conn);
+    ReconnectDevice(DiagramScene* doc, const ConnectionInfo& old_conn, const ConnectionInfo& new_conn);
 
     void undo() final;
     void redo() final;
 
 private:
-    Diagram* doc_;
+    DiagramScene* doc_;
     ConnectionInfo old_conn_, new_conn_;
 };
 
 class MirrorSelected : public QUndoCommand {
 public:
-    MirrorSelected(Diagram* doc, ImageMirrorType type);
+    MirrorSelected(DiagramScene* doc, ImageMirrorType type);
 
     void undo() final;
     void redo() final;
 
 private:
-    Diagram* doc_;
+    DiagramScene* doc_;
     ImageMirrorType type_;
 };
 
 class MirrorDevice : public QUndoCommand {
 public:
-    MirrorDevice(Diagram* doc, SceneItemId id, ImageMirrorType type);
+    MirrorDevice(DiagramScene* doc, SceneItemId id, ImageMirrorType type);
 
     void undo() final;
     void redo() final;
 
 private:
-    Diagram* doc_;
+    DiagramScene* doc_;
     SceneItemId id_;
     ImageMirrorType type_;
 };
@@ -340,26 +341,26 @@ private:
 
 class MoveLower : public QUndoCommand {
 public:
-    MoveLower(Diagram* doc, SceneItemId id);
+    MoveLower(DiagramScene* doc, SceneItemId id);
 
     void undo() final;
     void redo() final;
 
 private:
-    Diagram* doc_;
+    DiagramScene* doc_;
     SceneItemId id_;
     qreal old_z_;
 };
 
 class MoveUpper : public QUndoCommand {
 public:
-    MoveUpper(Diagram* doc, SceneItemId id);
+    MoveUpper(DiagramScene* doc, SceneItemId id);
 
     void undo() final;
     void redo() final;
 
 private:
-    Diagram* doc_;
+    DiagramScene* doc_;
     SceneItemId id_;
     qreal old_z_;
 };

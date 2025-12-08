@@ -45,6 +45,6 @@ private:
     void syncContacts();
 };
 
-}
+} // namespace ceam
 
 #endif // DIAGRAM_META_DIALOG_H

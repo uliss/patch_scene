@@ -24,11 +24,11 @@ namespace ceam {
 class TableCellPower : public QComboBox {
     Q_OBJECT
 public:
-    TableCellPower(PowerType type, QWidget* parent = nullptr);
+    explicit TableCellPower(PowerType type, QWidget* parent = nullptr);
 
     PowerType powerType() const;
 };
 
-}
+} // namespace ceam
 
 #endif // TABLE_CELL_POWER_H

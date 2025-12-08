@@ -49,6 +49,6 @@ private:
     SceneBackground* bg_;
 };
 
-}
+} // namespace ceam
 
 #endif // BACKGROUND_PROPERTIES_DIALOG_H

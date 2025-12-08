@@ -25,7 +25,7 @@ namespace macos {
     class NativeAlertDialog : public QObject {
         Q_OBJECT
     public:
-        NativeAlertDialog(QObject* parent = nullptr);
+        explicit NativeAlertDialog(QObject* parent = nullptr);
 
         /**
          * creates local loop event cycle and waits for signal
@@ -46,7 +46,7 @@ namespace macos {
         QMutex mtx_;
         int rc_;
     };
-}
-}
+} // namespace macos
+} // namespace ceam
 
 #endif // MACOS_UTILS_H

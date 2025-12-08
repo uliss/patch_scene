@@ -32,7 +32,7 @@ class ConnectorType {
         MaxConnectorType,
     };
 
-    ConnectorType(Type t)
+    explicit ConnectorType(Type t)
         : type_(t)
     {
     }
@@ -68,7 +68,7 @@ public:
 public:
     static std::optional<ConnectorType> fromJson(const QJsonValue& val);
     static std::optional<ConnectorType> fromInt(int val);
-    static void foreachType(const std::function<void(const ConnectorType&)> fn);
+    static void foreachType(const std::function<void(const ConnectorType&)>& fn);
 
     static const ConnectorType socket_male, socket_female, plug_male, plug_female;
 

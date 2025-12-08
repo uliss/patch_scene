@@ -15,11 +15,9 @@
 #define DIAGRAM_H
 
 #include "connection.h"
-#include "connection_database.h"
 #include "diagram_meta.h"
 #include "diagram_state_machine.h"
 #include "scene.h"
-#include "scene_background.h"
 #include "scene_connections.h"
 #include "scene_item.h"
 
@@ -43,23 +41,8 @@ class Diagram : public QGraphicsView {
 public:
     Q_PROPERTY(bool showCables READ showCables WRITE setShowCables NOTIFY showCablesChanged)
 
-    struct DuplicatePolicy {
-        bool select_new { true }, unselect_origin { true };
-    };
-
 public:
     Diagram(int w, int h, QWidget* parent = nullptr);
-
-    /**
-     * Return hash map of all connections of all selected devices
-     */
-    QHash<ConnectionId, ConnectionViewData> findSelectedConnections() const;
-
-    /**
-     * returns pointer to object connection or nullptr if not found
-     * @complexity O(N)
-     */
-    const Connection* findConnection(const ConnectionId& id) const;
 
     void printScheme() const;
     void printScheme(QPrinter* printer) const;
@@ -99,12 +82,6 @@ public:
      */
     bool setItemData(const SharedItemData& data);
 
-    /**
-     * duplicated selected items
-     * @return list new item id's
-     */
-    QList<SceneItemId> duplicateSelected(DuplicatePolicy policy);
-
     bool showCables() const { return show_cables_; }
     void setShowCables(bool value);
     void setShowPeople(bool value);
@@ -117,11 +94,6 @@ public:
      * @return true on success, false on error
      */
     bool setBackground(const QString& path);
-
-    /**
-     * clears background, emit sceneChanged()
-     */
-    void clearBackground();
 
     /**
      * Diagram meta information
@@ -152,18 +124,11 @@ public:
      */
     bool connectDevices(const ConnectionId& id, std::optional<ConnectionViewData> viewData);
 
-    /**
-     * @brief disconnect devices, emit sceneChanged() and connectionRemoved()
-     * @param id - connection id
-     * @return true on success, false on error
-     */
-    bool disconnectDevices(const ConnectionId& id);
+    SceneConnections* connections();
+    const SceneConnections* connections() const;
 
-    SceneConnections* connections() { return connections_; }
-    const SceneConnections* connections() const { return connections_; }
-
-    Scene& itemScene() { return item_scene_; }
-    const Scene& itemScene() const { return item_scene_; }
+    Scene& itemScene();
+    const Scene& itemScene() const;
 
     // clip buffer
     void clearClipBuffer();
@@ -200,10 +165,6 @@ public:
 
 public slots:
     // undo/redo commands
-    void cmdAddToSelection(const QList<QGraphicsItem*>& items);
-    void cmdAddToSelection(const QRectF& sel);
-    void cmdAlignHSelected();
-    void cmdAlignVSelected();
     void cmdConnectDevices(const ConnectionId& conn);
     void cmdCreateComment(const QPointF& pos);
     void cmdCreateDevice(const QPointF& pos);
@@ -213,7 +174,7 @@ public slots:
     void cmdDistributeHSelected();
     void cmdDistributeVSelected();
     void cmdDuplicateItems(const SharedItemData& data);
-    void cmdDuplicateSelection();
+    void cmdDuplicateSelected();
     void cmdLockSelected();
     void cmdUnlockSelected();
     void cmdLock(SceneItemId id);
@@ -239,15 +200,12 @@ public slots:
     void cmdMoveLower(const SharedItemData& data);
     void cmdMoveUpper(const SharedItemData& data);
 
-    void clearUndoStack();
     void copySelected();
     void cutSelected();
     void paste();
     void redo();
     void setGridVisible(bool value);
     void setScaleVisible(bool value);
-    void showConnectionEditor();
-    void showCommentEditor(bool value);
     void undo();
     void zoomIn();
     void zoomNormal();
@@ -257,8 +215,7 @@ public slots:
 
 public:
     // for tests
-    DiagramState state() const { return state_machine_.state(); }
-    bool isSelectionRectVisible() const { return selection_->isVisible(); }
+    DiagramState state() const;
 
 signals:
     void addToFavorites(SharedItemData data);
@@ -283,100 +240,24 @@ signals:
 protected:
     bool viewportEvent(QEvent* event) override;
     void contextMenuEvent(QContextMenuEvent* event) override;
-    void dragEnterEvent(QDragEnterEvent* event) override;
-    void dragMoveEvent(QDragMoveEvent* event) override;
-    void dropEvent(QDropEvent* event) override;
-    void keyPressEvent(QKeyEvent* event) override;
-    void mouseMoveEvent(QMouseEvent* event) override;
-    void mousePressEvent(QMouseEvent* event) override;
-    void mouseReleaseEvent(QMouseEvent* event) override;
     void wheelEvent(QWheelEvent* event) final;
 
 private:
-    /**
-     * @complexity O(1)
-     */
-    void updateConnectionPos(Connection* conn);
-
-    /**
-     * @complexity O(n)
-     */
-    void updateConnectionPos(SceneItemId id);
-
-    /**
-     * @complexity O(n)
-     */
-    void updateConnectionStyle(Connection* conn);
-
-    /**
-     * save click event position
-     * @param pos - event position (not mapped!)
-     */
-    void saveClickPos(const QPointF& pos);
-
-    void selectTopDevice(const QList<QGraphicsItem*>& devs);
-    void selectBottomDevice(const QList<QGraphicsItem*>& devs);
-    void updateZoom(qreal zoom);
-
-    bool dropJson(const QPointF& pos, const QByteArray& json);
-
-    static QJsonValue appInfoJson();
+    void initGraphicsScene(int w, int h);
+    void initScale();
 
     void fitRect(const QRectF& rect);
-
-    static std::optional<std::pair<XletInfo, XletData>> hoverDeviceXlet(const QList<QGraphicsItem*>& devs, const QPoint& pt);
+    void updateZoom(qreal zoom);
 
 private:
-    DiagramScene* graphics_scene_ { nullptr };
-    QGraphicsRectItem* selection_ { nullptr };
-    QGraphicsLineItem* tmp_connection_ { nullptr };
-    QUndoStack* undo_stack_ { nullptr };
+    DiagramScene* diagram_scene_ { nullptr };
+    ScaleWidget* scale_ { nullptr };
 
-    QPointF prev_move_pos_;
-    QPointF prev_click_pos_;
-    Scene item_scene_;
-    SceneBackground background_;
-    SceneConnections* connections_ { nullptr };
-
-    DiagramStateMachine state_machine_;
-    std::optional<std::pair<XletInfo, XletData>> conn_begin_;
     qreal zoom_ { 1 };
     bool show_cables_ { true };
 
     QList<SharedItemData> clip_buffer_;
     DiagramMeta meta_;
-    ConnectionDatabase conn_database_;
-    ScaleWidget* scale_;
-
-private:
-    void initGraphicsScene(int w, int h);
-    void initItemScene();
-    void initLiveConnection();
-    void initScale();
-    void initSceneBackground();
-    void initSceneConnections();
-    void initSelectionRect();
-    void initUndoStack();
-
-    /**
-     * @param pos - position in view coordinates
-     */
-    void startSelectionAt(const QPoint& pos);
-
-    /**
-     * @param pos - position in view coordinates
-     */
-    void startConnectionAt(const QPoint& pos);
-
-    /**
-     * @param pos - position in view coordinates
-     */
-    void drawConnectionTo(const QPoint& pos);
-
-    /**
-     * @param pos - position in view coordinates
-     */
-    void drawSelectionTo(const QPoint& pos);
 };
 
 } // namespace ceam

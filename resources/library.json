@@ -487,7 +487,7 @@
             },
             {
                 "title": "Turntable",
-                "vendor": "Проигрыватель винила",
+                "title-ru": "Проигрыватель винила",
                 "image": "turntable_1",
                 "subcat": [
                     "play"
@@ -3123,6 +3123,12 @@
                 ]
             },
             {
+                "title": "Acoustic guitar",
+                "title-ru": "Акустическая гитара",
+                "image": "guitar_acoustic_1",
+                "subcat": "plucked"
+            },
+            {
                 "title": "Viola da gamba",
                 "title-ru": "Виола да гамба",
                 "image": "gamba_1",
@@ -3253,6 +3259,12 @@
                 "title-ru": "Тамбурин",
                 "image": "tambourine_1",
                 "subcat": "perc_noise"
+            },
+            {
+                "title": "Lute",
+                "title-ru": "Лютня",
+                "image": "lute_1",
+                "subcat": "plucked"
             },
             {
                 "title": "Harpsichord",
@@ -3633,9 +3645,39 @@
                 "image": "music_stand_low_2"
             },
             {
+                "title": "Music stand with lights",
+                "title-ru": "Пюпитр с подсветкой",
+                "image": "music_stand_low_3"
+            },
+            {
+                "title": "Music lights",
+                "title-ru": "Подсветка для нот",
+                "image": "lights_3"
+            },
+            {
                 "title": "Chair",
                 "title-ru": "Стул",
                 "image": "chair_1"
+            },
+            {
+                "title": "Floor light",
+                "title-ru": "Светильник напольный",
+                "image": "light_floor_1"
+            },
+            {
+                "title": "Gramophone",
+                "title-ru": "Грамофон",
+                "image": "gramophone_1"
+            },
+            {
+                "title": "Bar Chair",
+                "title-ru": "Стул барный",
+                "image": "chair_4"
+            },
+            {
+                "title": "Piano Chair",
+                "title-ru": "Банкетка",
+                "image": "chair_piano"
             },
             {
                 "title": "Camera on the tripod",
@@ -3678,9 +3720,34 @@
                 "image": "teapot_1"
             },
             {
+                "title": "Motor",
+                "title-ru": "Мотор",
+                "image": "motor_1"
+            },
+            {
+                "title": "Bicycle",
+                "title-ru": "Велосипед",
+                "image": "bike_1"
+            },
+            {
                 "title": "Frying pan",
                 "title-ru": "Сковорода",
                 "image": "pan_1"
+            },
+            {
+                "title": "Typewriter",
+                "title-ru": "Пишущая машинка",
+                "image": "typewriter_1"
+            },
+            {
+                "title": "Phone",
+                "title-ru": "Телефон",
+                "image": "phone_old_1"
+            },
+            {
+                "title": "Printer",
+                "title-ru": "Принтер",
+                "image": "printer_1"
             },
             {
                 "title": "Equipment box",
@@ -3691,6 +3758,21 @@
                 "title": "Lamp",
                 "title-ru": "Лампа",
                 "image": "lamp_1"
+            },
+            {
+                "title": "Candle",
+                "title-ru": "Свеча",
+                "image": "candle_1"
+            },
+            {
+                "title": "Candles",
+                "title-ru": "Свечи",
+                "image": "candle_2"
+            },
+            {
+                "title": "Flashlight",
+                "title-ru": "Фонарик",
+                "image": "flashlight_1"
             },
             {
                 "title": "Stage",
@@ -3783,6 +3865,11 @@
                 "title": "Viola d'Amore player",
                 "title-ru": "Исполнитель на виоле д'аморе",
                 "image": "human_amore_1"
+            },
+            {
+                "title": "Lute player",
+                "title-ru": "Лютнист",
+                "image": "human_lute_1"
             },
             {
                 "title": "Composer",

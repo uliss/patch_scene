@@ -32,7 +32,7 @@ class SceneConnections : public QObject {
     Q_OBJECT
 
 public:
-    explicit SceneConnections(QGraphicsScene* scene, QObject* parent = nullptr);
+    explicit SceneConnections(QGraphicsScene* scene);
 
     /**
      * adds new connection by given data
@@ -65,7 +65,7 @@ public:
     /**
      * iterate all connections with given function
      */
-    void foreachConn(std::function<void(const ConnectionId&, const ConnectionViewData&)> fn) const;
+    void foreachConn(const std::function<void(const ConnectionId&, const ConnectionViewData&)>& fn) const;
 
     /**
      * return all selected connections as list

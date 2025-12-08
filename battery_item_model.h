@@ -44,6 +44,6 @@ private:
     QSortFilterProxyModel* proxy_;
     std::unordered_map<BatteryType, int> batteries_;
 };
-}
+} // namespace ceam
 
 #endif // BATTERY_ITEM_MODEL_H

@@ -114,6 +114,6 @@ private:
     QRectF outletsBRect() const;
 };
 
-}
+} // namespace ceam
 
 #endif // XLETS_VIEW_H

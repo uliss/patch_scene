@@ -36,6 +36,6 @@ private:
     qreal scale_;
 };
 
-}
+} // namespace ceam
 
 #endif // SCALE_WIDGET_H

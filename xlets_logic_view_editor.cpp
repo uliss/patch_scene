@@ -34,7 +34,7 @@ enum {
     COL_BIDIRECT,
     COL_MAX,
 };
-}
+} // namespace
 
 using namespace ceam;
 

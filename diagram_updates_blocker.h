@@ -17,14 +17,23 @@
 namespace ceam {
 
 class Diagram;
+class DiagramScene;
 
 class DiagramUpdatesBlocker {
     Diagram* diagram_ { nullptr };
     int view_mode_ { 0 };
 
 public:
-    DiagramUpdatesBlocker(Diagram* diagram);
+    explicit DiagramUpdatesBlocker(Diagram* diagram);
     ~DiagramUpdatesBlocker();
+};
+
+class DiagramSceneUpdatesBlocker {
+    DiagramScene* diagram_ { nullptr };
+
+public:
+    explicit DiagramSceneUpdatesBlocker(DiagramScene* diagram);
+    ~DiagramSceneUpdatesBlocker();
 };
 
 } // namespace ceam

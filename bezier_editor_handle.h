@@ -27,7 +27,7 @@ class BezierEditorHandle : public QGraphicsItem {
 
 public:
     BezierEditorHandle(const QPoint& srcPoint, const QPoint& bezyOffset,
-        QGraphicsItem* parent, std::function<void(const QPointF& pos)> fn);
+        QGraphicsItem* parent, const std::function<void(const QPointF& pos)>& fn);
 
     void setHandlePos(const QPointF& pos);
 

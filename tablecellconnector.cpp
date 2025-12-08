@@ -53,7 +53,7 @@ public:
         }
     }
 };
-}
+} // namespace
 
 TableCellConnector::TableCellConnector(QWidget* parent)
     : QComboBox { parent }

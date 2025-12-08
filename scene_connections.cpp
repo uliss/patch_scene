@@ -21,8 +21,8 @@
 
 using namespace ceam;
 
-SceneConnections::SceneConnections(QGraphicsScene* scene, QObject* parent)
-    : QObject(parent)
+SceneConnections::SceneConnections(QGraphicsScene* scene)
+    : QObject(scene)
     , scene_(scene)
 {
     conn_edit_ = new ConnectionEditor(this);
@@ -101,7 +101,7 @@ void SceneConnections::removeAll(SceneItemId id)
     }
 }
 
-void SceneConnections::foreachConn(std::function<void(const ConnectionId&, const ConnectionViewData&)> fn) const
+void SceneConnections::foreachConn(const std::function<void(const ConnectionId&, const ConnectionViewData&)>& fn) const
 {
     if (!fn)
         return;

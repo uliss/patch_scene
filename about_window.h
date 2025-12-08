@@ -33,6 +33,6 @@ private:
     Ui::AboutWindow* ui;
 };
 
-}
+} // namespace ceam
 
 #endif // ABOUT_WINDOW_H

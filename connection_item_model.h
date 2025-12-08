@@ -28,7 +28,7 @@ class XletData;
 class ConnectionItemModel : public QStandardItemModel {
     Q_OBJECT
 public:
-    ConnectionItemModel(QObject* parent);
+    explicit ConnectionItemModel(QObject* parent);
 
     bool addConnection(const DeviceConnectionData& info);
 
@@ -57,6 +57,6 @@ private:
 private:
     QSortFilterProxyModel* proxy_;
 };
-}
+} // namespace ceam
 
 #endif // CONNECTION_ITEM_MODEL_H

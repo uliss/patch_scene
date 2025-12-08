@@ -128,6 +128,6 @@ private:
     XletsUserScene view_scene_;
 };
 
-}
+} // namespace ceam
 
 #endif // XLETS_USER_VIEW_EDITOR_H

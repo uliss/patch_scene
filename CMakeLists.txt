@@ -175,7 +175,8 @@ set(PROJECT_SOURCES
     xlets_user_view_editor.h
     xlets_user_view_editor.ui
     xlets_view.cpp
-    xlets_view.h)
+    xlets_view.h
+    z_values.h)
 
 if(WIN32)
     configure_file(patch_scene_win.rc ${PROJECT_BINARY_DIR}/patch_scene_win.rc @ONLY)
@@ -420,7 +421,7 @@ find_program(
     DOC "tool for optimizing SVG vector graphics files")
 
 if(SVGO_EXE)
-    message(STATUS "Found svgo executable: ${SVGO_EXE}")
+    message(STATUS "Found svgo executable: ${SVGO_EXE}. Target svgo_devices is available")
     add_custom_target(
         svgo_devices
         COMMAND ${SVGO_EXE} --pretty --recursive --folder "${PROJECT_SOURCE_DIR}/resources/devices/"

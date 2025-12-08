@@ -16,6 +16,7 @@
 #include "logging.hpp"
 
 #include <QDebug>
+#include <QGraphicsScene>
 #include <QGraphicsSceneEvent>
 #include <QKeyEvent>
 #include <QMenu>
@@ -75,6 +76,9 @@ bool CommentTextItem::isEdited() const
 
 void CommentTextItem::keyPressEvent(QKeyEvent* event)
 {
+    if (isLocked())
+        return;
+
     if (event->key() == Qt::Key_Escape
         || (event->key() == Qt::Key_Return
             && event->modifiers().testFlag(Qt::ControlModifier))) {
@@ -88,6 +92,9 @@ void CommentTextItem::keyPressEvent(QKeyEvent* event)
 
 void CommentTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 {
+    if (isLocked())
+        return;
+
     if (!isEdited()) {
         setEditable(true);
         event->accept();
@@ -95,6 +102,12 @@ void CommentTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
         // allow select words on double click
         QGraphicsTextItem::mouseDoubleClickEvent(event);
     }
+}
+
+bool CommentTextItem::isLocked() const
+{
+    auto par = static_cast<const CommentItem*>(parentItem());
+    return par->isLocked();
 }
 
 CommentItem::CommentItem()
@@ -143,7 +156,7 @@ CommentItem::CommentItem(const SharedItemData& data)
 
     // update data view width if some changes were done
     data_->setViewWidth(rect_.width());
-    // update data view width if some changes were done
+    // update data view height if some changes were done
     data_->setViewHeight(rect_.height());
 
     connect(text_->document(), &QTextDocument::contentsChanged, this, [this]() {
@@ -162,13 +175,7 @@ QRectF CommentItem::boundingRect() const
 
 void CommentItem::setEditable(bool value)
 {
-    QSignalBlocker sb(text_);
     text_->setEditable(value);
-
-    if (!value && state_ != NORMAL) {
-        state_ = NORMAL;
-        update();
-    }
 }
 
 bool CommentItem::isEdited() const
@@ -183,6 +190,9 @@ void CommentItem::createContextMenu(QMenu& menu)
     menu.addSeparator();
     addDuplicateAct(menu);
     addRemoveAct(menu);
+
+    menu.addSeparator();
+    addZValueAction(menu);
 
     menu.addSeparator();
     addEditAct(menu);
@@ -204,16 +214,9 @@ void CommentItem::showEditDialog()
 
 void CommentItem::addEditAct(QMenu& menu)
 {
-    auto act = new QAction(tr("Edit"), &menu);
-
-    connect(act, &QAction::triggered, this,
-        [this]() {
-            std::unique_ptr<CommentEditor> dialog(new CommentEditor(data_));
-            connect(dialog.get(), &CommentEditor::acceptData, this, &CommentItem::updateDevice);
-            dialog->exec();
-        });
-
-    menu.addAction(act);
+    auto edit = new QAction(tr("Edit"), &menu);
+    connect(edit, &QAction::triggered, this, [this]() { setEditable(true); });
+    menu.addAction(edit);
 
     auto props = new QAction(tr("Properties"), &menu);
     connect(props, &QAction::triggered, this, [this]() { showEditDialog(); });
@@ -269,13 +272,18 @@ void CommentItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* optio
 
 void CommentItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 {
-    text_->setEditable(true);
-    state_ = EDIT;
-    update();
+    if (isLocked())
+        return;
+
+    setEditable(true);
+    scene()->sendEvent(text_, event);
 }
 
 void CommentItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
+    if (isLocked())
+        return;
+
     auto x0 = rect_.left();
     auto y0 = rect_.top();
     auto x1 = rect_.right() - SZ;
@@ -302,6 +310,9 @@ void CommentItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 
 void CommentItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
+    if (isLocked())
+        return;
+
     auto delta = event->pos() - click_pos_;
     auto dx = delta.x();
     auto dy = delta.y();
@@ -334,6 +345,9 @@ void CommentItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 
 void CommentItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
+    if (isLocked())
+        return;
+
     if (state_ != NORMAL) {
         unsetCursor();
         rect_ = rect_.normalized();
@@ -349,7 +363,7 @@ void CommentItem::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 
 void CommentItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
 {
-    if (state_ == NORMAL)
+    if (state_ == NORMAL || isLocked())
         return;
 
     auto l = rect_.x();
@@ -374,6 +388,9 @@ void CommentItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
 
 void CommentItem::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 {
+    if (state_ == NORMAL || isLocked())
+        return;
+
     unsetCursor();
     Q_UNUSED(event);
 }

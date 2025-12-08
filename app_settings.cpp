@@ -30,7 +30,7 @@ constexpr const char* SKEY_MAXIMIZED = "maximized";
 constexpr const char* SKEY_POS = "pos";
 constexpr const char* SKEY_SIZE = "size";
 constexpr const char* SKEY_ITEMS = "items";
-}
+} // namespace
 
 using namespace ceam;
 

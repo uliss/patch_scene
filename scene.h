@@ -92,6 +92,22 @@ public:
     const SceneItem* find(SceneItemId id) const;
 
     /**
+     * find first item that is lower than specified
+     * @param id
+     * @return pointer to item or nullptr
+     * @complexity ~O(n)?
+     */
+    const SceneItem* findFirstLower(SceneItemId id) const;
+
+    /**
+     * find first item that is upper than specified
+     * @param id
+     * @return pointer to item or nullptr
+     * @complexity ~O(n)?
+     */
+    const SceneItem* findFirstUpper(SceneItemId id) const;
+
+    /**
      * find item data by given device id
      * @return device data or empty data if not found
      * @complexity O(1)

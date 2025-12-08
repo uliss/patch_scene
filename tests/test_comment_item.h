@@ -21,6 +21,7 @@ class TestCommentItem : public QObject {
 
 private slots:
     void init();
+    void setEdited();
 };
 
 #endif // TEST_COMMENT_ITEM_H

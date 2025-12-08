@@ -127,7 +127,7 @@ QJsonValue toJson(ceam::XletType xt)
     }
 }
 
-}
+} // namespace
 
 namespace ceam {
 

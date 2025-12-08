@@ -31,7 +31,7 @@ enum {
 
 class DiagramDataItem : public QStandardItem {
 public:
-    DiagramDataItem(const SharedItemData& data);
+    explicit DiagramDataItem(const SharedItemData& data);
     SharedItemData deviceData() const;
     void setDeviceData(const SharedItemData& data);
 
@@ -39,8 +39,9 @@ public:
 };
 
 class DiagramItemModel : public QStandardItemModel {
+    Q_OBJECT
 public:
-    DiagramItemModel(QObject* parent = nullptr);
+    explicit DiagramItemModel(QObject* parent = nullptr);
     QMimeData* mimeData(const QModelIndexList& indexes) const override;
 
     DiagramDataItem* deviceItem(int row, int column) const;
@@ -48,6 +49,6 @@ public:
 
     QList<SharedItemData> allDeviceData() const;
 };
-}
+} // namespace ceam
 
 #endif // DIAGRAM_ITEM_MODEL_H

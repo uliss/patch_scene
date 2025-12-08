@@ -16,9 +16,15 @@
 #include <QGraphicsSceneMoveEvent>
 #include <QPainter>
 
+constexpr qreal BORDER_WIDTH = 1;
+constexpr auto HALF_WIDTH = BORDER_WIDTH * 0.5;
+
 namespace ceam {
 
-BezierEditorHandle::BezierEditorHandle(const QPoint& srcPoint, const QPoint& bezyOffset, QGraphicsItem* parent, std::function<void(const QPointF&)> fn)
+BezierEditorHandle::BezierEditorHandle(const QPoint& srcPoint,
+    const QPoint& bezyOffset,
+    QGraphicsItem* parent,
+    const std::function<void(const QPointF&)>& fn)
     : QGraphicsItem(parent)
     , fn_(fn)
     , src_pos_(srcPoint)
@@ -34,7 +40,12 @@ void BezierEditorHandle::setHandlePos(const QPointF& pos)
     prepareGeometryChange();
     shape_.clear();
     shape_.addEllipse(ellipse_);
-    shape_.addPolygon({ mapFromScene(src_pos_), mapFromScene(pos) });
+    shape_.addPolygon({
+        mapFromScene(src_pos_) - QPointF { HALF_WIDTH, 0 },
+        mapFromScene(pos) - QPointF { HALF_WIDTH, 0 },
+        mapFromScene(pos) + QPointF { HALF_WIDTH, 0 },
+        mapFromScene(src_pos_) + QPointF { HALF_WIDTH, 0 },
+    });
     setPos(pos);
 }
 
@@ -56,12 +67,12 @@ QRectF BezierEditorHandle::boundingRect() const
 
 void BezierEditorHandle::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    painter->setPen(QPen(Qt::darkGray, 1));
+    painter->setPen(QPen(Qt::darkGray, BORDER_WIDTH));
     painter->drawLine({ mapFromScene(src_pos_), mapFromScene(pos()) });
 
-    painter->setPen(QPen(Qt::darkGray, 1));
+    painter->setPen(QPen(Qt::darkGray, BORDER_WIDTH));
     painter->setBrush(Qt::green);
-    painter->drawEllipse(ellipse_);
+    painter->drawEllipse(ellipse_.adjusted(HALF_WIDTH, HALF_WIDTH, -HALF_WIDTH, -HALF_WIDTH));
 }
 
 } // namespace ceam

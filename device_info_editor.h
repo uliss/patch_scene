@@ -39,6 +39,6 @@ private:
     Ui::DeviceInfoEditor* ui;
     ItemDataInfo data_;
 };
-}
+} // namespace ceam
 
 #endif // DEVICE_INFO_EDITOR_H

@@ -203,6 +203,7 @@ void DeviceItem::createTitle(qreal wd)
         title_->setTextWidth(wd);
         title_->setToolTip(data_->verboseInfo());
         title_->setParentItem(this);
+        title_->setAcceptedMouseButtons(Qt::NoButton);
     }
 }
 

@@ -284,10 +284,6 @@ void TestDeviceData::fromJson()
     j["power"] = 20001;
     QVERIFY(data.setJson(j));
     QCOMPARE(data.power(), 20000);
-
-    j["z"] = 100;
-    QVERIFY(data.setJson(j));
-    QCOMPARE(data.zValue(), 100);
 }
 
 void TestDeviceData::testJson()

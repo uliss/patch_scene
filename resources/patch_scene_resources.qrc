@@ -237,5 +237,21 @@
         <file>icons/event_seat.svg</file>
         <file>icons/table.svg</file>
         <file>devices/midas_mr18.svg</file>
+        <file>devices/chair_4.svg</file>
+        <file>devices/chair_piano.svg</file>
+        <file>devices/lights_3.svg</file>
+        <file>devices/music_stand_low_3.svg</file>
+        <file>devices/tuning_fork.svg</file>
+        <file>devices/bike_1.svg</file>
+        <file>devices/motor_1.svg</file>
+        <file>devices/typewriter_1.svg</file>
+        <file>devices/phone_old_1.svg</file>
+        <file>devices/printer_1.svg</file>
+        <file>devices/candle_1.svg</file>
+        <file>devices/flashlight_1.svg</file>
+        <file>devices/candle_2.svg</file>
+        <file>devices/lute_1.svg</file>
+        <file>devices/light_floor_1.svg</file>
+        <file>devices/human_lute_1.svg</file>
     </qresource>
 </RCC>

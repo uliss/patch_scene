@@ -5,32 +5,45 @@ qt_add_executable(
     test_main.cpp
     ../resources/patch_scene_resources.qrc
     # tests
-    test_connection.h
+    test_comment_item.h
+    test_comment_item.cpp
+    test_common.cpp
+    test_common.h
     test_connection.cpp
-    test_connector_type.h
+    test_connection.h
+    test_connection_database.cpp
+    test_connection_database.h
+    test_connection_view_data.cpp
+    test_connection_view_data.h
     test_connector_type.cpp
-    test_device_library.h
-    test_device_library.cpp
-    test_diagram.h
-    test_diagram.cpp
-    test_scene.h
-    test_scene.cpp
-    test_xlet.h
-    test_xlet.cpp
-    test_scene_connections.h
-    test_scene_connections.cpp
-    test_device_data.h
+    test_connector_type.h
     test_device_data.cpp
-    test_connection_database.h test_connection_database.cpp
-    test_scene_background.h test_scene_background.cpp
-    test_device_xlet_view.h test_device_xlet_view.cpp
-    test_device_item.h test_device_item.cpp
-    test_subcategory.h test_subcategory.cpp
-    test_segment_points.h test_segment_points.cpp
-    test_xlets_user_view.h test_xlets_user_view.cpp
-    test_connection_view_data.h test_connection_view_data.cpp
-    test_common.h test_common.cpp
-    test_comment_item.h test_comment_item.cpp)
+    test_device_data.h
+    test_device_item.cpp
+    test_device_item.h
+    test_device_library.cpp
+    test_device_library.h
+    test_device_xlet_view.cpp
+    test_device_xlet_view.h
+    test_diagram.cpp
+    test_diagram.h
+    test_diagram_scene.cpp
+    test_diagram_scene.h
+    test_scene.cpp
+    test_scene.h
+    test_scene_background.cpp
+    test_scene_background.h
+    test_scene_connections.cpp
+    test_scene_connections.h
+    test_segment_points.cpp
+    test_segment_points.h
+    test_subcategory.cpp
+    test_subcategory.h
+    test_xlet.cpp
+    test_xlet.h
+    test_xlets_user_view.cpp
+    test_xlets_user_view.h
+)
 
 add_custom_target(
     test_src

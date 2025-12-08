@@ -14,6 +14,7 @@
 #include "undo_commands.h"
 #include "device_item.h"
 #include "diagram.h"
+#include "diagram_scene.h"
 #include "diagram_updates_blocker.h"
 #include "logging.hpp"
 
@@ -23,7 +24,7 @@ constexpr int MoveDeviceId = 1000;
 
 using namespace ceam;
 
-CreateDevice::CreateDevice(Diagram* doc, const QPointF& pos)
+CreateDevice::CreateDevice(DiagramScene* doc, const QPointF& pos)
     : doc_(doc)
     , pos_(pos)
 {
@@ -32,7 +33,7 @@ CreateDevice::CreateDevice(Diagram* doc, const QPointF& pos)
 void CreateDevice::undo()
 {
     if (doc_)
-        doc_->removeItem(id_);
+        doc_->removeSceneItem(id_);
 }
 
 void CreateDevice::redo()
@@ -40,14 +41,14 @@ void CreateDevice::redo()
     if (!doc_)
         return;
 
-    auto dev = doc_->addItem(SceneItem::defaultDeviceData());
+    auto dev = doc_->addSceneItem(SceneItem::defaultDeviceData());
     if (dev) {
         dev->setPos(pos_);
         id_ = dev->id();
     }
 }
 
-AddToSelected::AddToSelected(Diagram* doc, const QList<SceneItemId>& ids)
+AddToSelected::AddToSelected(DiagramScene* doc, const QList<SceneItemId>& ids)
     : doc_(doc)
     , ids_(ids)
 {
@@ -56,7 +57,7 @@ AddToSelected::AddToSelected(Diagram* doc, const QList<SceneItemId>& ids)
 void AddToSelected::undo()
 {
     if (doc_) {
-        DiagramUpdatesBlocker ub(doc_);
+        DiagramSceneUpdatesBlocker ub(doc_);
         doc_->itemScene().setSelected(ids_, false);
     }
 }
@@ -64,12 +65,12 @@ void AddToSelected::undo()
 void AddToSelected::redo()
 {
     if (doc_) {
-        DiagramUpdatesBlocker ub(doc_);
+        DiagramSceneUpdatesBlocker ub(doc_);
         doc_->itemScene().setSelected(ids_, true);
     }
 }
 
-ConnectDevices::ConnectDevices(Diagram* doc, const ConnectionId& id)
+ConnectDevices::ConnectDevices(DiagramScene* doc, const ConnectionId& id)
     : doc_(doc)
     , id_(id)
 {
@@ -87,7 +88,7 @@ void ConnectDevices::redo()
         doc_->connectDevices(id_, std::nullopt);
 }
 
-DisconnectXlet::DisconnectXlet(Diagram* doc, const XletInfo& xi)
+DisconnectXlet::DisconnectXlet(DiagramScene* doc, const XletInfo& xi)
     : doc_(doc)
     , id_(0, 0, 0, 0)
 {
@@ -114,7 +115,7 @@ void DisconnectXlet::redo()
         WARN() << "can't disconnect:" << id_;
 }
 
-RemoveItem::RemoveItem(Diagram* doc, const SharedItemData& data)
+RemoveItem::RemoveItem(DiagramScene* doc, const SharedItemData& data)
     : doc_(doc)
     , data_(data)
 {
@@ -125,7 +126,7 @@ RemoveItem::RemoveItem(Diagram* doc, const SharedItemData& data)
 void RemoveItem::undo()
 {
     if (doc_ && data_) {
-        doc_->addItem(data_);
+        doc_->addSceneItem(data_);
 
         // TODO(uliss): device/comment
 
@@ -137,10 +138,10 @@ void RemoveItem::undo()
 void RemoveItem::redo()
 {
     if (doc_ && data_)
-        doc_->removeItem(data_->id());
+        doc_->removeSceneItem(data_->id());
 }
 
-RemoveSelected::RemoveSelected(Diagram* doc)
+RemoveSelected::RemoveSelected(DiagramScene* doc)
     : doc_(doc)
 {
     if (!doc_)
@@ -161,7 +162,7 @@ void RemoveSelected::undo()
         return;
 
     for (const auto& x : data_) {
-        auto dev = doc_->addItem(x);
+        auto dev = doc_->addSceneItem(x);
         if (dev)
             dev->setSelected(true);
     }
@@ -176,7 +177,7 @@ void RemoveSelected::redo()
         return;
 
     for (const auto& data : data_)
-        doc_->removeItem(data->id());
+        doc_->removeSceneItem(data->id());
 
     // only connection is selected
     if (data_.isEmpty()) {
@@ -185,7 +186,7 @@ void RemoveSelected::redo()
     }
 }
 
-DuplicateSelected::DuplicateSelected(Diagram* doc)
+DuplicateSelected::DuplicateSelected(DiagramScene* doc)
     : doc_(doc)
 {
     sel_devs_ = doc_->itemScene().selectedIdList();
@@ -198,9 +199,9 @@ void DuplicateSelected::undo()
 
     {
         // remove duplicated devices
-        DiagramUpdatesBlocker ub(doc_);
+        DiagramSceneUpdatesBlocker ub(doc_);
         for (auto id : new_devs_)
-            doc_->removeItem(id);
+            doc_->removeSceneItem(id);
 
         // restore selection
         for (auto id : sel_devs_) {
@@ -219,18 +220,18 @@ void DuplicateSelected::redo()
         return;
 
     {
-        Diagram::DuplicatePolicy policy;
+        DiagramScene::DuplicatePolicy policy;
         policy.select_new = true;
         policy.unselect_origin = true;
 
-        DiagramUpdatesBlocker ub(doc_);
+        DiagramSceneUpdatesBlocker ub(doc_);
         new_devs_ = doc_->duplicateSelected(policy);
     }
 
     emit doc_->sceneFullUpdate();
 }
 
-DuplicateItem::DuplicateItem(Diagram* doc, const SharedItemData& data)
+DuplicateItem::DuplicateItem(DiagramScene* doc, const SharedItemData& data)
     : doc_(doc)
     , src_data_(data)
     , new_id_(SCENE_ITEM_NULL_ID)
@@ -242,7 +243,7 @@ void DuplicateItem::undo()
     if (!doc_ || new_id_ == SCENE_ITEM_NULL_ID)
         return;
 
-    doc_->removeItem(new_id_);
+    doc_->removeSceneItem(new_id_);
     new_id_ = SCENE_ITEM_NULL_ID;
 }
 
@@ -251,12 +252,12 @@ void DuplicateItem::redo()
     if (!doc_)
         return;
 
-    auto dev = doc_->addItem(src_data_);
+    auto dev = doc_->addSceneItem(src_data_);
     dev->moveBy(20, 20);
     new_id_ = dev->id();
 }
 
-ToggleSelected::ToggleSelected(Diagram* doc, const QList<SceneItemId>& ids)
+ToggleSelected::ToggleSelected(DiagramScene* doc, const QList<SceneItemId>& ids)
     : doc_(doc)
     , ids_(ids)
 {
@@ -274,7 +275,7 @@ void ToggleSelected::redo()
         doc_->itemScene().toggleSelected(ids_);
 }
 
-SetSelected::SetSelected(Diagram* doc, const QSet<SceneItemId>& new_sel)
+SetSelected::SetSelected(DiagramScene* doc, const QSet<SceneItemId>& new_sel)
     : doc_(doc)
     , new_sel_(new_sel)
 {
@@ -288,7 +289,7 @@ SetSelected::SetSelected(Diagram* doc, const QSet<SceneItemId>& new_sel)
 void SetSelected::undo()
 {
     if (doc_) {
-        DiagramUpdatesBlocker ub(doc_);
+        DiagramSceneUpdatesBlocker ub(doc_);
         doc_->itemScene().foreachItem([this](SceneItem* dev) {
             dev->setSelected(prev_sel_.contains(dev->id()));
         });
@@ -298,14 +299,14 @@ void SetSelected::undo()
 void SetSelected::redo()
 {
     if (doc_) {
-        DiagramUpdatesBlocker ub(doc_);
+        DiagramSceneUpdatesBlocker ub(doc_);
         doc_->itemScene().foreachItem([this](SceneItem* dev) {
             dev->setSelected(new_sel_.contains(dev->id()));
         });
     }
 }
 
-MoveSelected::MoveSelected(Diagram* doc, qreal dx, qreal dy)
+MoveSelected::MoveSelected(DiagramScene* doc, qreal dx, qreal dy)
     : doc_(doc)
     , dx_(dx)
     , dy_(dy)
@@ -328,7 +329,7 @@ void MoveSelected::redo()
     doc_->moveSelectedItemsBy(dx_, dy_);
 }
 
-MoveByItems::MoveByItems(Diagram* doc, const QHash<SceneItemId, QPointF>& deltas)
+MoveByItems::MoveByItems(DiagramScene* doc, const QHash<SceneItemId, QPointF>& deltas)
     : doc_(doc)
     , deltas_(deltas)
 {
@@ -455,7 +456,7 @@ void CopySelected::redo()
         doc_->setClipBuffer(data);
 }
 
-UpdateDeviceData::UpdateDeviceData(Diagram* doc, const SharedItemData& data)
+UpdateDeviceData::UpdateDeviceData(DiagramScene* doc, const SharedItemData& data)
     : doc_(doc)
     , new_data_(data)
 {
@@ -475,7 +476,7 @@ void UpdateDeviceData::redo()
         doc_->setItemData(new_data_);
 }
 
-ReconnectDevice::ReconnectDevice(Diagram* doc, const ConnectionInfo& old_conn, const ConnectionInfo& new_conn)
+ReconnectDevice::ReconnectDevice(DiagramScene* doc, const ConnectionInfo& old_conn, const ConnectionInfo& new_conn)
     : doc_(doc)
     , old_conn_(old_conn)
     , new_conn_(new_conn)
@@ -498,7 +499,7 @@ void ReconnectDevice::redo()
     }
 }
 
-LockSelected::LockSelected(Diagram* doc)
+LockSelected::LockSelected(DiagramScene* doc)
     : BaseLockSelected(doc, false)
 {
 }
@@ -513,7 +514,7 @@ void LockSelected::redo()
     setLocked(true);
 }
 
-UnlockSelected::UnlockSelected(Diagram* doc)
+UnlockSelected::UnlockSelected(DiagramScene* doc)
     : BaseLockSelected(doc, true)
 {
 }
@@ -528,7 +529,7 @@ void UnlockSelected::redo()
     setLocked(false);
 }
 
-BaseLockSelected::BaseLockSelected(Diagram* doc, bool lockState)
+BaseLockSelected::BaseLockSelected(DiagramScene* doc, bool lockState)
     : BaseLockItems(doc, {})
 {
     for (const auto& data : doc->itemScene().selectedDataList()) {
@@ -549,13 +550,13 @@ void BaseLockItems::setLocked(bool value)
     }
 }
 
-BaseLockItems::BaseLockItems(Diagram* doc, const QList<SceneItemId>& devs)
+BaseLockItems::BaseLockItems(DiagramScene* doc, const QList<SceneItemId>& devs)
     : doc_(doc)
     , devs_(devs)
 {
 }
 
-LockItems::LockItems(Diagram* doc, const QList<SceneItemId>& devs)
+LockItems::LockItems(DiagramScene* doc, const QList<SceneItemId>& devs)
     : BaseLockItems(doc, devs)
 {
 }
@@ -570,7 +571,7 @@ void LockItems::redo()
     setLocked(true);
 }
 
-UnlockItems::UnlockItems(Diagram* doc, const QList<SceneItemId>& devs)
+UnlockItems::UnlockItems(DiagramScene* doc, const QList<SceneItemId>& devs)
     : BaseLockItems(doc, devs)
 {
 }
@@ -585,7 +586,7 @@ void UnlockItems::redo()
     setLocked(false);
 }
 
-MirrorSelected::MirrorSelected(Diagram* doc, ImageMirrorType type)
+MirrorSelected::MirrorSelected(DiagramScene* doc, ImageMirrorType type)
     : doc_(doc)
     , type_(type)
 {
@@ -610,7 +611,7 @@ void MirrorSelected::redo()
     });
 }
 
-MirrorDevice::MirrorDevice(Diagram* doc, SceneItemId id, ImageMirrorType type)
+MirrorDevice::MirrorDevice(DiagramScene* doc, SceneItemId id, ImageMirrorType type)
     : doc_(doc)
     , id_(id)
     , type_(type)
@@ -668,7 +669,7 @@ void ZoomSelected::redo()
     });
 }
 
-CreateComment::CreateComment(Diagram* doc, const QPointF& pos, const QString& txt)
+CreateComment::CreateComment(DiagramScene* doc, const QPointF& pos, const QString& txt)
     : doc_(doc)
     , pos_(pos)
     , txt_(txt)
@@ -678,7 +679,7 @@ CreateComment::CreateComment(Diagram* doc, const QPointF& pos, const QString& tx
 void CreateComment::undo()
 {
     if (doc_)
-        doc_->removeItem(id_);
+        doc_->removeSceneItem(id_);
 }
 
 void CreateComment::redo()
@@ -686,18 +687,20 @@ void CreateComment::redo()
     if (!doc_)
         return;
 
-    auto comment = doc_->addItem(ItemData::makeComment(txt_));
+    auto comment = doc_->addSceneItem(ItemData::makeComment(txt_));
     if (comment) {
         comment->setPos(pos_);
         id_ = comment->id();
     }
 }
 
-MoveLower::MoveLower(Diagram* doc, SceneItemId id)
+MoveLower::MoveLower(DiagramScene* doc, SceneItemId id)
     : doc_(doc)
     , id_(id)
     , old_z_(0)
 {
+    if (!doc_ || !doc_->itemScene().findFirstLower(id))
+        setObsolete(true);
 }
 
 void MoveLower::undo()
@@ -717,36 +720,32 @@ void MoveLower::redo()
     if (!doc_)
         return;
 
-    auto dev = doc_->itemScene().find(id_);
-    if (!dev) {
-        WARN() << "device not found: " << id_;
+    auto item = doc_->itemScene().find(id_);
+    if (!item) {
+        WARN() << "item not found: " << id_;
+        setObsolete(true);
         return;
     }
 
-    old_z_ = dev->zValue();
+    old_z_ = item->zValue();
+    auto lower = doc_->itemScene().findFirstLower(id_);
 
-    const SceneItem* lower_item = nullptr;
-    for (auto it : dev->collidingItems()) {
-        auto x = qgraphicsitem_cast<const SceneItem*>(it);
-        if (x && x->zValue() <= old_z_)
-            lower_item = x;
-    }
-
-    if (!lower_item) {
+    if (!lower) {
         WARN() << "LOWER NOT FOUND";
-        return;
+        return setObsolete(true);
     }
 
     // TODO(uliss): check this for big reals!
-    auto z = lower_item->zValue() - 1;
-    dev->setZValue(z);
+    item->setZValue(lower->zValue() - 1);
 }
 
-MoveUpper::MoveUpper(Diagram* doc, SceneItemId id)
+MoveUpper::MoveUpper(DiagramScene* doc, SceneItemId id)
     : doc_(doc)
     , id_(id)
     , old_z_(0)
 {
+    if (!doc_ || !doc_->itemScene().findFirstUpper(id))
+        setObsolete(true);
 }
 
 void MoveUpper::undo()
@@ -766,27 +765,21 @@ void MoveUpper::redo()
     if (!doc_)
         return;
 
-    auto dev = doc_->itemScene().find(id_);
-    if (!dev) {
-        WARN() << "device not found: " << id_;
+    auto item = doc_->itemScene().find(id_);
+    if (!item) {
+        WARN() << "item not found: " << id_;
+        setObsolete(true);
         return;
     }
 
-    old_z_ = dev->zValue();
+    old_z_ = item->zValue();
+    auto upper = doc_->itemScene().findFirstUpper(id_);
 
-    const SceneItem* upper_item = nullptr;
-    for (auto it : dev->collidingItems()) {
-        auto x = qgraphicsitem_cast<const SceneItem*>(it);
-        if (x && x->zValue() >= old_z_)
-            upper_item = x;
-    }
-
-    if (!upper_item) {
+    if (!upper) {
         WARN() << "UPPER NOT FOUND";
-        return;
+        return setObsolete(true);
     }
 
     // TODO(uliss): check this for big reals!
-    auto z = upper_item->zValue() + 0.5;
-    dev->setZValue(z);
+    item->setZValue(upper->zValue() + 1);
 }

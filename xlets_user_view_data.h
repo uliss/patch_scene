@@ -35,7 +35,7 @@ public:
     };
 
 public:
-    XletsUserViewData(int row = DEF_ROW_COUNT, int cols = DEF_COL_COUNT);
+    explicit XletsUserViewData(int row = DEF_ROW_COUNT, int cols = DEF_COL_COUNT);
 
     int columnCount() const { return col_count_; }
     int rowCount() const { return row_count_; }

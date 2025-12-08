@@ -23,13 +23,13 @@ namespace ceam {
 class TableCellCheckBox : public QWidget {
     Q_OBJECT
 public:
-    TableCellCheckBox(bool state);
+    explicit TableCellCheckBox(bool state);
 
     bool isChecked() const;
 
 private:
     QCheckBox* chk_;
 };
-}
+} // namespace ceam
 
 #endif // TABLECELLCHECKBOX_H

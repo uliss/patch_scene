@@ -62,6 +62,6 @@ public:
     QJsonValue toJson() const;
     static std::optional<DiagramMeta> fromJson(const QJsonValue& val);
 };
-}
+} // namespace ceam
 
 #endif // DIAGRAM_META_H

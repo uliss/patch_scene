@@ -27,7 +27,7 @@ class DeviceConnectionData;
 class SendItemModel : public QStandardItemModel {
     Q_OBJECT
 public:
-    SendItemModel(QObject* parent);
+    explicit SendItemModel(QObject* parent);
 
     bool addConnection(const DeviceConnectionData& info);
 
@@ -57,6 +57,6 @@ private:
 private:
     QSortFilterProxyModel* proxy_;
 };
-}
+} // namespace ceam
 
 #endif // SEND_ITEM_MODEL_H

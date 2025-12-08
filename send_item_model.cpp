@@ -26,7 +26,7 @@ constexpr int SEND_SORT_ROLE = Qt::UserRole + 1;
 
 class SortProxy : public QSortFilterProxyModel {
 public:
-    SortProxy(QObject* parent)
+    explicit SortProxy(QObject* parent)
         : QSortFilterProxyModel(parent)
     {
         setDynamicSortFilter(true);
@@ -41,7 +41,7 @@ public:
         return QSortFilterProxyModel::lessThan(a, b);
     }
 };
-}
+} // namespace
 
 using namespace ceam;
 

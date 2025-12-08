@@ -257,9 +257,6 @@ public:
     QColor textColor() const { return text_color_; }
     void setTextColor(const QColor& color) { text_color_ = color; }
 
-    qreal zValue() const { return zvalue_; }
-    void setZValue(qreal z) { zvalue_ = z; }
-
 public:
     static QSharedDataPointer<ItemData> makeComment(const QString& txt);
 

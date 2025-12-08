@@ -27,7 +27,7 @@ constexpr const char* JSON_KEY_INFO = "info";
 constexpr const char* JSON_KEY_CREATION_DATE = "creation-date";
 constexpr const char* JSON_KEY_EVENT_DATE = "event-date";
 constexpr const char* JSON_KEY_CONTACTS = "contacts";
-}
+} // namespace
 
 using namespace ceam;
 

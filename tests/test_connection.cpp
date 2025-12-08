@@ -14,10 +14,14 @@
 #include "test_connection.h"
 #include "connection.h"
 #include "device_item.h"
+#include "diagram.h"
+#include "diagram_scene.h"
 
 #include <QGraphicsScene>
+#include <QGraphicsSceneMouseEvent>
 #include <QJsonObject>
 #include <QJsonValue>
+#include <QSignalSpy>
 #include <QTest>
 
 using namespace ceam;
@@ -67,6 +71,35 @@ void TestConnection::testConnection()
 
     QCOMPARE(conn.sourceInfo(), XletInfo(1, 2, XletType::Out));
     QCOMPARE(conn.destinationInfo(), XletInfo(3, 4, XletType::In));
+}
+
+void TestConnection::testRemoveRequested()
+{
+    DiagramScene ds(100, 100);
+    auto d0 = ds.addSceneItem(SharedItemData(new ItemData(1)));
+    auto d0_data = d0->itemData();
+    d0_data->appendOutput({});
+    d0->setItemData(d0_data);
+
+    auto d1 = ds.addSceneItem(SharedItemData(new ItemData(2)));
+    auto d1_data = d1->itemData();
+    d1_data->setPos({ 200, 200 });
+    d1_data->appendInput({});
+    d1->setItemData(d1_data);
+
+    QSignalSpy scene_changed(&ds, &DiagramScene::sceneChanged);
+    QSignalSpy conn_added(&ds, &DiagramScene::connectionAdded);
+    auto res = ds.connectDevices({ 1, 0, 2, 0 }, {});
+
+    QVERIFY(res);
+    QCOMPARE(scene_changed.count(), 1);
+    QCOMPARE(conn_added.count(), 1);
+
+    auto conn = ds.connections()->findById({ 1, 0, 2, 0 });
+    QVERIFY(conn);
+    QCOMPARE(conn->mapRectToScene(conn->boundingRect()).toRect(), QRect(-1, 14, 2, 41));
+
+    // QTest::mousePress(&ds, Qt::LeftButton, {}, ds.mapFromScene(QPoint { 0, 30 }));
 }
 
 void TestConnection::findConnected()

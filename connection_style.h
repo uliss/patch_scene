@@ -35,6 +35,6 @@ public:
     QColor color(ConnectionStyle cat, const QColor& def = {}) const;
 };
 
-}
+} // namespace ceam
 
 #endif // CONNECTION_STYLE_H

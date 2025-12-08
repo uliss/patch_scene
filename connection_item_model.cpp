@@ -25,7 +25,7 @@ enum ConnColumnOrder {
 };
 constexpr int DATA_CONN_NCOLS = 6;
 
-}
+} // namespace
 
 using namespace ceam;
 

@@ -21,7 +21,7 @@ namespace ceam {
 class TableCellConnectorType : public QComboBox {
     Q_OBJECT
 public:
-    TableCellConnectorType(ConnectorType type, QWidget* parent = nullptr);
+    explicit TableCellConnectorType(ConnectorType type, QWidget* parent = nullptr);
 
     ConnectorType connectorType() const;
 };

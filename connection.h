@@ -22,11 +22,6 @@
 
 namespace ceam {
 
-constexpr qreal ZVALUE_CONN = 100;
-constexpr qreal ZVALUE_BACKGROUND = -200;
-constexpr qreal ZVALUE_LIVE_CONN = 16000;
-constexpr qreal ZVALUE_SELECTION = 32000;
-
 class Connection : public QGraphicsObject {
     Q_OBJECT
 

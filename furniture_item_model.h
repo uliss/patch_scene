@@ -43,6 +43,6 @@ private:
     void updateData();
 };
 
-}
+} // namespace ceam
 
 #endif // FURNITURE_ITEM_MODEL_H

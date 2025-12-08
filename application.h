@@ -35,6 +35,6 @@ private:
     MainWindow* window_ { nullptr };
 };
 
-}
+} // namespace ceam
 
 #endif // APPLICATION_H

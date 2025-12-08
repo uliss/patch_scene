@@ -79,14 +79,14 @@ QSizeF doc_page_size(const QTextCursor& cursor)
     auto m = doc->documentMargin();
     return doc->pageSize().shrunkBy({ m, m, m, m });
 }
-}
+} // namespace
 
 void ceam::doc::insert_table(QTextCursor& cursor, const QList<QStringList>& data)
 {
     if (data.isEmpty() || cursor.isNull())
         return;
 
-    auto first_line = data.front();
+    auto& first_line = data.front();
     auto NCOLS = first_line.size();
     auto NROWS = data.size();
 
@@ -149,8 +149,9 @@ void ceam::doc::insert_table(QTextCursor& cursor, const QStandardItemModel* mode
     }
     data.push_back(header_data);
 
+    QStringList data_row;
     for (int row = 0; row < NROWS; ++row) {
-        QStringList data_row;
+        data_row.clear();
         for (int col = 0; col < NCOLS; ++col) {
             auto item = model->item(row, col);
             if (item)

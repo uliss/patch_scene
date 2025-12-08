@@ -14,6 +14,7 @@
 #include "diagram_updates_blocker.h"
 
 #include "diagram.h"
+#include "diagram_scene.h"
 
 namespace ceam {
 
@@ -39,6 +40,25 @@ DiagramUpdatesBlocker::~DiagramUpdatesBlocker()
     diagram_->setViewportUpdateMode(static_cast<QGraphicsView::ViewportUpdateMode>(view_mode_));
     diagram_->setUpdatesEnabled(true);
     diagram_->blockSignals(false);
+}
+
+DiagramSceneUpdatesBlocker::DiagramSceneUpdatesBlocker(DiagramScene* diagram)
+    : diagram_(diagram)
+{
+    if (!diagram_)
+        return;
+
+    diagram_->blockSignals(true);
+    diagram_->itemScene().blockSignals(true);
+}
+
+DiagramSceneUpdatesBlocker::~DiagramSceneUpdatesBlocker()
+{
+    if (!diagram_)
+        return;
+
+    diagram_->blockSignals(false);
+    diagram_->itemScene().blockSignals(false);
 }
 
 } // namespace ceam

@@ -137,7 +137,7 @@ std::optional<ConnectorType> ConnectorType::fromInt(int val)
     return ConnectorType(static_cast<Type>(val));
 }
 
-void ConnectorType::foreachType(const std::function<void(const ConnectorType&)> fn)
+void ConnectorType::foreachType(const std::function<void(const ConnectorType&)>& fn)
 {
     for (int i = SocketMale; i < MaxConnectorType; i++)
         fn(ConnectorType(static_cast<Type>(i)));

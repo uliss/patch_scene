@@ -24,6 +24,6 @@ const char* app_git_version();
 
 int app_file_format_version();
 
-}
+} // namespace ceam
 
 #endif // APP_VERSION_H

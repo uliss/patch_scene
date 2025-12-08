@@ -28,6 +28,6 @@ public:
     ConnectorModel connectorModel() const;
     void setConnectorModel(ConnectorModel model);
 };
-}
+} // namespace ceam
 
 #endif // TABLECELLCONNECTOR_H

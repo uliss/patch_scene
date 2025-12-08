@@ -44,6 +44,6 @@ private:
 private:
     QSortFilterProxyModel* proxy_;
 };
-}
+} // namespace ceam
 
 #endif // RETURN_ITEM_MODEL_H

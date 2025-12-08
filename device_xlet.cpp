@@ -48,7 +48,7 @@ constexpr qreal XLET_H = 20;
 
 constexpr qreal XLET_BOX_W = 8;
 constexpr qreal XLET_BOX_H = 3;
-}
+} // namespace
 
 XletData::XletData(ConnectorModel model)
     : model_(model)

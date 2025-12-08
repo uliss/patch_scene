@@ -14,6 +14,7 @@
 #include "scene_item.h"
 #include "device_editor.h"
 #include "logging.hpp"
+#include "z_values.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
@@ -56,6 +57,30 @@ SharedItemData makeDeviceData()
 #endif
 
     return data;
+}
+
+qreal itemZValue(SceneItemId id, ItemCategory c)
+{
+    const auto qid = static_cast<qreal>(id);
+
+    switch (c) {
+    case ItemCategory::Device:
+        return qid + ZVALUE_DEVICE;
+    case ItemCategory::Send:
+        return qid + ZVALUE_SEND;
+    case ItemCategory::Return:
+        return qid + ZVALUE_RETURN;
+    case ItemCategory::Instrument:
+        return qid + ZVALUE_INSTRUMENT;
+    case ItemCategory::Human:
+        return qid + ZVALUE_HUMAN;
+    case ItemCategory::Furniture:
+        return qid + ZVALUE_FURNITURE;
+    case ItemCategory::Comment:
+        return qid + ZVALUE_COMMENT;
+    default:
+        return qid;
+    }
 }
 
 class DeviceIdFactory {
@@ -158,8 +183,7 @@ SceneItem::SceneItem(const SharedItemData& data)
 
     setPos(data_->pos());
 
-    data_->setZValue(data_->id());
-    setZValue(data->zValue());
+    setZValue(itemZValue(data_->id(), data_->category()));
     setFlag(QGraphicsItem::ItemIsSelectable);
     setCacheMode(DeviceCoordinateCache);
 }
@@ -249,6 +273,8 @@ void SceneItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 {
     if (event->modifiers().testFlag(Qt::ShiftModifier)) {
         showEditDialog();
+        event->accept();
+    } else {
         event->accept();
     }
 }

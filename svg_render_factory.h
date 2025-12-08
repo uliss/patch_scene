@@ -22,6 +22,9 @@ class QSvgRenderer;
 namespace ceam {
 
 class SvgRenderFactory : public QObject {
+    Q_OBJECT
+
+private:
     QHash<QString, QSvgRenderer*> renders_;
 
     SvgRenderFactory();

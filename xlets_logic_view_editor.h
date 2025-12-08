@@ -54,6 +54,6 @@ private:
     void updateButtonState(int currentRow);
 };
 
-}
+} // namespace ceam
 
 #endif // XLETS_LOGIC_VIEW_EDITOR_H

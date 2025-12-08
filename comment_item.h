@@ -40,6 +40,9 @@ signals:
 protected:
     void keyPressEvent(QKeyEvent* event) override;
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
+
+private:
+    bool isLocked() const;
 };
 
 class CommentItem : public SceneItem {
@@ -56,7 +59,7 @@ public:
 
     /**
      * set editable
-     * @emits none
+     * @emits editComment()
      */
     void setEditable(bool value);
 

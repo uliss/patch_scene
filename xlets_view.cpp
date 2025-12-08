@@ -267,4 +267,4 @@ bool XletsLogicView::setData(const SharedItemData& data)
     return true;
 }
 
-}
+} // namespace ceam

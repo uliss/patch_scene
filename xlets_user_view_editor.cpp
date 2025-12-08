@@ -496,4 +496,4 @@ void XletsUserViewCell::hoverCell()
     update();
 }
 
-}
+} // namespace ceam

@@ -14,6 +14,8 @@
 #include "connection.h"
 #include "connection_style.h"
 #include "diagram_scene.h"
+#include "logging.hpp"
+#include "z_values.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneContextMenuEvent>
@@ -86,7 +88,7 @@ void Connection::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
         painter->drawPath(line_);
     } else if (hover_) {
         QColor hover_color = (view_data_.color() == Qt::black)
-            ? QColor(80, 80, 80)
+            ? QColor(90, 90, 90)
             : view_data_.color().lighter(140);
         painter->setBrush(hover_color);
         painter->drawPath(line_);
@@ -158,17 +160,17 @@ void Connection::updateShape()
 
 void Connection::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-    QGraphicsObject::mousePressEvent(event);
-
     if (event->modifiers().testFlag(Qt::ControlModifier)) {
-        emit splited(id_, event->pos());
-        event->accept();
+        if (view_data_.cordType() == ConnectionCordType::Segmented) {
+            emit splited(id_, event->pos());
+        }
     } else if (event->modifiers().testFlag(Qt::AltModifier)) {
-        event->accept();
         emit removeRequested(id_);
     } else {
         toggleSelection();
     }
+
+    event->accept();
 }
 
 void Connection::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
@@ -182,12 +184,14 @@ void Connection::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 {
     hover_ = true;
     update(boundingRect());
+    event->accept();
 }
 
 void Connection::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 {
     hover_ = false;
     update(boundingRect());
+    event->accept();
 }
 
 QRectF Connection::boundingRect() const
@@ -245,7 +249,8 @@ void Connection::setCordType(ConnectionCordType type)
 {
     view_data_.setCordType(type);
     updateShape();
-    emit changed(id_);
+    // emit changed(id_);
+    emit edited(id_, view_data_);
 }
 
 void Connection::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)

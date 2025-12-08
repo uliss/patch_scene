@@ -13,8 +13,8 @@
  *****************************************************************************/
 #include "scene_background.h"
 #include "background_properties_dialog.h"
-#include "connection.h"
 #include "logging.hpp"
+#include "z_values.h"
 
 #include <QAction>
 #include <QBuffer>
@@ -50,7 +50,7 @@ QJsonValue jsonFromPixmap(const QPixmap& p)
     const auto encoded = buffer.data().toBase64();
     return { QLatin1String(encoded) };
 }
-}
+} // namespace
 
 using namespace ceam;
 

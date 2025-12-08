@@ -119,7 +119,7 @@ static const ConnectorModelMap& model_map()
     return map;
 }
 
-}
+} // namespace
 
 const QString& ceam::connectorSvgName(ConnectorModel model)
 {
@@ -202,8 +202,8 @@ std::optional<PowerType> ceam::powerTypeFromString(const QString& str)
 void ceam::foreachPowerType(const std::function<void(PowerType, int)>& fn)
 {
     for (int i = static_cast<int>(PowerType::None);
-         i < static_cast<int>(PowerType::MaxPowerType);
-         i++) {
+        i < static_cast<int>(PowerType::MaxPowerType);
+        i++) {
         fn(static_cast<PowerType>(i), i);
     }
 }

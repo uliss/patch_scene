@@ -61,6 +61,7 @@ MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    QApplication::setDoubleClickInterval(200);
     ui->setupUi(this);
     setStatusBar(new QStatusBar);
 
@@ -1028,7 +1029,7 @@ bool MainWindow::saveDocumentAs()
 
 void MainWindow::duplicateSelection()
 {
-    diagram_->cmdDuplicateSelection();
+    diagram_->cmdDuplicateSelected();
 }
 
 void MainWindow::exportItemData(const SharedItemData& data)
