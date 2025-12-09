@@ -170,7 +170,8 @@ CommentItem::CommentItem(const SharedItemData& data)
 
 QRectF CommentItem::boundingRect() const
 {
-    return rect_;
+    const qreal bw = qMax(0.5, data_->borderWidth() * 0.5);
+    return rect_.adjusted(-bw, -bw, bw, bw);
 }
 
 void CommentItem::setEditable(bool value)
